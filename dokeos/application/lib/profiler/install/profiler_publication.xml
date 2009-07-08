@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <object name="publication">
- <properties>
-  <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="profile" type="integer" unsigned="1" notnull="1"/>
-  <property name="publisher" type="integer" unsigned="1" notnull="1"/>
-  <property name="published" type="integer" unsigned="1" notnull="1"/>
-  <property name="category" type="integer" unsigned="1" notnull="1"/>
- </properties>
- <index name="id" type="primary">
-  <indexproperty name="id"/>
- </index>
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" />
+		<property name="profile" type="integer" unsigned="1" notnull="1" />
+		<property name="publisher" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="published" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="category" type="integer" unsigned="1"
+			notnull="1" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="id" />
+	</index>
 </object>

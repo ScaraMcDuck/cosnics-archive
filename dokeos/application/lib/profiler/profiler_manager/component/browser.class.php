@@ -2,84 +2,84 @@
 /**
  * @package application.lib.profiler.profiler_manager
  */
-require_once dirname(__FILE__).'/../profiler_manager.class.php';
-require_once dirname(__FILE__).'/../profiler_manager_component.class.php';
-require_once dirname(__FILE__).'/profile_publication_browser/profile_publication_browser_table.class.php';
+require_once dirname(__FILE__) . '/../profiler_manager.class.php';
+require_once dirname(__FILE__) . '/../profiler_manager_component.class.php';
+require_once dirname(__FILE__) . '/profile_publication_browser/profile_publication_browser_table.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
-require_once dirname(__FILE__).'/../../profiler_menu.class.php';
+require_once dirname(__FILE__) . '/../../profiler_menu.class.php';
 
 class ProfilerManagerBrowserComponent extends ProfilerManagerComponent
 {
-	private $action_bar;
+    private $action_bar;
 
-	/**
-	 * Runs this component and displays its output.
-	 */
-	function run()
-	{
+    /**
+     * Runs this component and displays its output.
+     */
+    function run()
+    {
         $menu = new ProfilerMenu($this->get_category());
-
-		$this->action_bar = $this->get_action_bar();
-
-		$output = $this->get_publications_html();
-
+        
+        $this->action_bar = $this->get_action_bar();
+        
+        $output = $this->get_publications_html();
+        
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyProfiler')));
         $trail->merge($menu->get_breadcrumbs());
         $trail->add_help('profiler general');
+        
+        $this->display_header($trail);
+        
+        echo $this->action_bar->as_html();
+        echo '<div class="clear"></div>';
+        
+        echo '<div style="width: 12%; overflow: auto; float: left;">';
+        echo $this->get_menu();
+        echo '</div><div style="width: 85%; float: right;">';
+        echo $output;
+        echo '</div>';
+        
+        $this->display_footer();
+    }
 
-		$this->display_header($trail);
+    function get_action_bar()
+    {
+        $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+        
+        $action_bar->set_search_url($this->get_url(array('category' => $this->get_category())));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_profile_creation_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array('category' => $this->get_category())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_profiler_category_manager_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        
+        return $action_bar;
+    }
 
-		echo $this->action_bar->as_html();
-		echo '<div class="clear"></div>';
+    function get_menu()
+    {
+        $menu = new ProfilerMenu($this->get_category());
+        return $menu->render_as_tree();
+    }
 
-		echo '<div style="width: 12%; overflow: auto; float: left;">';
-		echo $this->get_menu();
-		echo '</div><div style="width: 85%; float: right;">';
-		echo $output;
-		echo '</div>';
+    function get_category()
+    {
+        return Request :: get('category') ? Request :: get('category') : 0;
+    }
 
-		$this->display_footer();
-	}
+    private function get_publications_html()
+    {
+        $parameters = $this->get_parameters(true);
+        
+        $table = new ProfilePublicationBrowserTable($this, null, $parameters, $this->get_condition());
+        
+        $html = array();
+        $html[] = $table->as_html();
+        
+        return implode($html, "\n");
+    }
 
-	function get_action_bar()
-	{
-		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-
-		$action_bar->set_search_url($this->get_url(array('category' => $this->get_category())));
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_profile_creation_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array('category' => $this->get_category())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path().'action_category.png', $this->get_profiler_category_manager_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-
-		return $action_bar;
-	}
-
-	function get_menu()
-	{
-		$menu = new ProfilerMenu($this->get_category());
-		return $menu->render_as_tree();
-	}
-
-	function get_category()
-	{
-		return Request :: get('category')?Request :: get('category'):0;
-	}
-
-	private function get_publications_html()
-	{
-		$parameters = $this->get_parameters(true);
-
-		$table = new ProfilePublicationBrowserTable($this, null, $parameters, $this->get_condition());
-
-		$html = array();
-		$html[] = $table->as_html();
-
-		return implode($html, "\n");
-	}
-
-	function get_condition()
-	{
-		/*$search_conditions = $this->get_search_condition();
+    function get_condition()
+    {
+        /*$search_conditions = $this->get_search_condition();
 		//$search_conditions = null;
 		$condition = null;
 		if (isset($this->firstletter))
@@ -103,24 +103,24 @@ class ProfilerManagerBrowserComponent extends ProfilerManagerComponent
 		}
 
 		return $condition;*/
-		$condition = new EqualityCondition(ProfilePublication :: PROPERTY_CATEGORY, $this->get_category());
-		$search = $this->action_bar->get_query();
-
-		if(isset($search) && $search != '')
-		{
-			$conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $search  . '*');
-			$conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $search  . '*');
-			$conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $search  . '*');
-			$or_condition = new OrCondition($conditions);
-
-			$conditions = array();
-			$conditions[] = $condition;
-			$conditions[] = $or_condition;
-
-			$condition = new AndCondition($conditions);
-		}
-
-		return $condition;
-	}
+        $condition = new EqualityCondition(ProfilePublication :: PROPERTY_CATEGORY, $this->get_category());
+        $search = $this->action_bar->get_query();
+        
+        if (isset($search) && $search != '')
+        {
+            $conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $search . '*');
+            $conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $search . '*');
+            $conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $search . '*');
+            $or_condition = new OrCondition($conditions);
+            
+            $conditions = array();
+            $conditions[] = $condition;
+            $conditions[] = $or_condition;
+            
+            $condition = new AndCondition($conditions);
+        }
+        
+        return $condition;
+    }
 }
 ?>
