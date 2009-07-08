@@ -152,6 +152,11 @@ abstract class PortfolioComponent {
 	{
 		return $this->get_parent()->count_portfolio_publications($condition);
 	}
+
+    function count_rdpublications($condition = null)
+	{
+		return $this->get_parent()->count_rdpublications($condition);
+	}
 	
 	/**
 	 * @see PortfolioManager :: retrieve_portfolio_publication()
@@ -159,6 +164,11 @@ abstract class PortfolioComponent {
 	function retrieve_portfolio_publication($id)
 	{
 		return $this->get_parent()->retrieve_portfolio_publication($id);
+	}
+
+    function retrieve_rdpublication($id)
+	{
+		return $this->get_parent()->retrieve_rdpublication($id);
 	}
 	
 	/**
@@ -176,7 +186,17 @@ abstract class PortfolioComponent {
 	{
 		return $this->get_parent()->retrieve_portfolio_publications($condition, $orderBy, $orderDir, $offset, $maxObjects);
 	}
-	
+
+    function retrieve_rdpublications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	{
+		return $this->get_parent()->retrieve_rdpublications($condition, $orderBy, $orderDir, $offset, $maxObjects);
+	}
+
+    function retrieve_publications($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		return $this->get_parent()->retrieve_publications($condition, $offset, $count, $order_property, $order_direction);
+	}
+
 	/**
 	 * @see PortfolioManager :: get_user()
 	 */

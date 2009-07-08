@@ -6,6 +6,7 @@ require_once dirname(__FILE__).'/../myportfolio_manager.class.php';
 require_once dirname(__FILE__).'/../portfolio_component.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object_display.class.php';
+require_once Path :: get_repository_path(). 'lib/learning_object/feedback/feedback_form.class.php';
 
 class PortfolioViewerComponent extends PortfolioComponent
 {	
@@ -17,7 +18,7 @@ class PortfolioViewerComponent extends PortfolioComponent
 	{
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array('portfolio_action' => null, 'item' => null)), Translation :: get('MyPortfolio')));
-		
+		//$trail->add(new Breadcrumb($this->get_url(), ))
 		//$id = Request :: get(MyPortfolioManager :: PARAM_ITEM);
 		$item=$this->get_parent()->get_item_id();
 
@@ -34,6 +35,10 @@ class PortfolioViewerComponent extends PortfolioComponent
 			
 			$publication = $this->publication;
 			$object = $publication->get_publication_object();
+
+            $trail->add(new Breadcrumb($this->get_url(),$object->get_title() ));
+            $this->display_header($trail);
+
 			if ($object->get_owner_id() == $this->get_user_id())
 			{
 				 $components[]= MyPortfolioManager :: ACTION_EDIT;
@@ -51,6 +56,8 @@ class PortfolioViewerComponent extends PortfolioComponent
 
 			$out.= $this->get_publication_as_html();
 
+           // $out.= $this->show_feedback();
+
 			$out .= '</div></div>';
 
 			echo $out;
@@ -67,12 +74,17 @@ class PortfolioViewerComponent extends PortfolioComponent
 	{
 		$publication = $this->publication;
 		$portfolio = $publication->get_publication_object();
-		
 		$display = LearningObjectDisplay :: factory($portfolio);
 		$html = array();
-		$html[] = $display->get_full_html();		
+		$html[] = $display->get_full_html();
 		
 		return implode("\n",$html);
 	}
+
+    function show_feedback(){
+        $fb = new Feedback();
+        $form = FeedbackForm :: factory('create', $fb, 'feedback', null);
+       return  $form->display();
+    }
 }
 ?>

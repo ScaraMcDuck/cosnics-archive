@@ -122,7 +122,8 @@ abstract class PortfolioDataManager
 	 * @return int
 	 */	
     abstract function count_portfolio_publications($condition = null);
-    
+
+
 	/**
 	 * Retrieve a portfolio publication
 	 * @param int $id

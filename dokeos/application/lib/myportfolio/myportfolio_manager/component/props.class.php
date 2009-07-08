@@ -14,7 +14,6 @@ class PortfolioPropsComponent extends PortfolioComponent
 	 */
 	function run()
 	{	
-		
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewPortfolio')));
 

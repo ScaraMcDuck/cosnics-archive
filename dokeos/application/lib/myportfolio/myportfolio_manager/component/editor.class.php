@@ -21,8 +21,8 @@ class PortfolioEditorComponent extends PortfolioComponent
 		
 		if ($item >= -1)
 		{
-			$this->publication = $this->retrieve_portfolio_publication_from_item($item);			
-			
+			$this->publication = $this->retrieve_portfolio_publication_from_item($item);
+			$this->display_header($trail);
 			//$breadcrumbs = array();
 			//$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('ViewPortfolio') . ': ' . $this->publication->get_publication_publisher()->get_username());
 			
@@ -59,7 +59,8 @@ class PortfolioEditorComponent extends PortfolioComponent
 			{
 				$trail->add(new BreadCrumb($this->get_url(array('portfolio_action' => 'pf_item_view')), $this->publication->get_publication_object()->get_title()));
 				$trail->add(new BreadCrumb($this->get_url(), Translation :: get('Edit')));
-				$this->display_header($trail);
+                
+				
 				echo $out;
 				$form->display();
 				//$this->display_footer();
