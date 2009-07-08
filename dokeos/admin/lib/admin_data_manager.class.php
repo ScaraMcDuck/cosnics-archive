@@ -21,81 +21,87 @@ abstract class AdminDataManager
         $this->initialize();
     }
 
-	/**
-	 * Uses a singleton pattern and a factory pattern to return the data
-	 * manager. The configuration determines which data manager class is to
-	 * be instantiated.
-	 * @return AdminDataManager The data manager.
-	 */
-	static function get_instance()
-	{
-		if (!isset (self :: $instance))
-		{
-			$type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
-			require_once dirname(__FILE__).'/data_manager/'.strtolower($type).'.class.php';
-			$class = $type.'AdminDataManager';
-			self :: $instance = new $class ();
-		}
-		return self :: $instance;
-	}
-	
-	abstract function create_storage_unit($name,$properties,$indexes);
-	
-	abstract function get_next_setting_id();
-	
-	abstract function get_next_language_id();
-	
-	abstract function get_next_registration_id();
-	
-	abstract function get_next_system_announcement_publication_id();
-	
-	abstract function create_language($language);
-	
-	abstract function create_registration($registration);
-	
-	abstract function create_setting($setting);
+    /**
+     * Uses a singleton pattern and a factory pattern to return the data
+     * manager. The configuration determines which data manager class is to
+     * be instantiated.
+     * @return AdminDataManager The data manager.
+     */
+    static function get_instance()
+    {
+        if (! isset(self :: $instance))
+        {
+            $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
+            require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '.class.php';
+            $class = $type . 'AdminDataManager';
+            self :: $instance = new $class();
+        }
+        return self :: $instance;
+    }
 
-    abstract function create_feedback($feedback);
-	
-	abstract function create_system_announcement_publication($system_announcement_publication);
+    abstract function create_storage_unit($name, $properties, $indexes);
 
-	abstract function retrieve_languages($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
-	
-	abstract function retrieve_settings($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
-	
-	abstract function retrieve_registrations($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
-	
-	abstract function retrieve_setting_from_variable_name($variable, $application = 'admin');
-	
-	abstract function retrieve_language_from_english_name($english_name);
-	
-	abstract function update_setting($setting);
+    abstract function get_next_setting_id();
 
-    abstract function update_feedback($feedback);
-	
-	abstract function update_registration($registration);
-	
-	abstract function update_system_announcement_publication($system_announcement_publication);
-	
-	abstract function delete_registration($registration);
+    abstract function get_next_language_id();
 
-    abstract function delete_feedback($feeback);
-	
-	abstract function delete_system_announcement_publication($system_announcement_publication);
-	
-	function get_languages()
-	{
-		$options = array();
-		
-		$languages = $this->retrieve_languages();
-		while ($language = $languages->next_result())
-		{
-			$options[$language->get_folder()] = $language->get_original_name();
-		}
-		
-		return $options;
-	}
-	
+    abstract function get_next_registration_id();
+
+    abstract function get_next_system_announcement_publication_id();
+
+    abstract function create_language($language);
+
+    abstract function create_registration($registration);
+
+    abstract function create_setting($setting);
+
+    abstract function create_system_announcement_publication($system_announcement_publication);
+
+    abstract function retrieve_languages($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
+
+    abstract function retrieve_settings($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
+
+    abstract function retrieve_remote_packages($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
+
+    abstract function retrieve_registration($id);
+
+    abstract function retrieve_remote_package($id);
+
+    abstract function retrieve_registrations($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
+
+    abstract function count_remote_packages($condition = null);
+
+    abstract function count_registrations($condition = null);
+
+    abstract function retrieve_setting_from_variable_name($variable, $application = 'admin');
+
+    abstract function retrieve_language_from_english_name($english_name);
+
+    abstract function update_setting($setting);
+
+    abstract function update_registration($registration);
+
+    abstract function update_system_announcement_publication($system_announcement_publication);
+
+    abstract function delete_registration($registration);
+
+    abstract function delete_setting($setting);
+
+    abstract function delete_system_announcement_publication($system_announcement_publication);
+
+    function get_languages()
+    {
+        $options = array();
+
+        $languages = $this->retrieve_languages();
+        while ($language = $languages->next_result())
+        {
+            $options[$language->get_folder()] = $language->get_original_name();
+        }
+
+        return $options;
+    }
+
     /**
      * Count the system announcements
      * @param Condition $condition
@@ -150,5 +156,11 @@ abstract class AdminDataManager
     abstract function delete_learning_object_publications($object_id);
 
     abstract function delete_settings($condition = null);
+
+    abstract function delete_feedback($feeback);
+
+    abstract function update_feedback($feedback);
+
+    abstract function create_feedback($feedback);
 }
 ?>
