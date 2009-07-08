@@ -5,6 +5,7 @@
 require_once dirname(__FILE__).'/../portfolio_manager.class.php';
 require_once dirname(__FILE__).'/../portfolio_manager_component.class.php';
 require_once dirname(__FILE__).'/../../forms/portfolio_publication_form.class.php';
+require_once Path :: get_application_library_path() . 'repo_viewer/repo_viewer.class.php';
 
 /**
  * Component to create a new portfolio_publication object
@@ -19,22 +20,59 @@ class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioMana
 	{
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolio')));
-		$trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE_PORTFOLIO_PUBLICATIONS)), Translation :: get('BrowsePortfolioPublications')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolioPublication')));
+		$trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO)), Translation :: get('ViewPortfolio')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolio')));
 
-		$portfolio_publication = new PortfolioPublication();
-		$form = new PortfolioPublicationForm(PortfolioPublicationForm :: TYPE_CREATE, $portfolio_publication, $this->get_url(), $this->get_user());
+		$object = Request :: get('object');
 
-		if($form->validate())
+		$pub = new RepoViewer($this, 'portfolio', false, RepoViewer :: SELECT_MULTIPLE, array(), true, false);
+
+		if(!isset($object))
 		{
-			$success = $form->create_portfolio_publication();
-			$this->redirect($success ? Translation :: get('PortfolioPublicationCreated') : Translation :: get('PortfolioPublicationNotCreated'), !$success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE_PORTFOLIO_PUBLICATIONS));
+			$this->display_header($trail);
+			echo $pub->as_html();
+			$this->display_footer();
 		}
 		else
 		{
-			$this->display_header($trail);
-			$form->display();
-			$this->display_footer();
+			if(!is_array($object))
+				$object = array($object);
+			
+			$portfolio_publication = new PortfolioPublication();
+				
+			$form = new PortfolioPublicationForm(PortfolioPublicationForm :: TYPE_CREATE, $portfolio_publication, $this->get_url(array('object' => $object)), $this->get_user());
+	
+			if($form->validate())
+			{
+				$success = $form->create_portfolio_publications($object);
+				$this->redirect($success ? Translation :: get('PortfolioCreated') : Translation :: get('PortfolioNotCreated'), !$success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id()));
+			}
+			else
+			{
+				$this->display_header($trail);
+				
+				$condition = new InCondition(LearningObject :: PROPERTY_ID, $object);
+	            $learning_objects = RepositoryDataManager :: get_instance()->retrieve_learning_objects(null, $condition);
+	
+	            $html[] = '<div class="learning_object padding_10">';
+	            $html[] = '<div class="title">' . Translation :: get('SelectedLearningObjects') . '</div>';
+	            $html[] = '<div class="description">';
+	            $html[] = '<ul class="attachments_list">';
+	            
+	            while ($learning_object = $learning_objects->next_result())
+	            {
+	                $html[] = '<li><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $learning_object->get_icon_name() . '.png" alt="' . htmlentities(Translation :: get(LearningObject :: type_to_class($learning_object->get_type()) . 'TypeName')) . '"/> ' . $learning_object->get_title() . '</li>';
+	            }
+	            
+	            $html[] = '</ul>';
+	            $html[] = '</div>';
+	            $html[] = '</div>';
+				
+	            echo implode("\n", $html);
+	            
+				$form->display();
+				$this->display_footer();
+			}
 		}
 	}
 }

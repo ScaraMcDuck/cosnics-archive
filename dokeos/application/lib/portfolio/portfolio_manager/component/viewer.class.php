@@ -21,10 +21,28 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
 
 		$this->display_header($trail);
 
-		echo '<a href="' . $this->get_create_portfolio_publication_url() . '">' . Translation :: get('CreatePortfolioPublication') . '</a>';
-		echo '<br /><br />';
+		$user_id = Request :: get('user_id');
+		
+		if($user_id == $this->get_user_id())
+		{
+			$this->action_bar = $this->get_action_bar();
+			echo $this->action_bar->as_html();
+		}
+		
+		echo '<div id="action_bar_browser">';
+		
+		echo '</div>';
 	
 		$this->display_footer();
+	}
+	
+	function get_action_bar()
+	{
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Create'), Theme :: get_common_image_path().'action_create.png', $this->get_create_portfolio_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+
+		return $action_bar;
 	}
 }
 ?>
