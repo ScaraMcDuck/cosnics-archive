@@ -432,10 +432,10 @@ class Database
         $statement = $this->connection->prepare($query);
 
         $res = $statement->execute($params);
-        
+
         if (is_null($class_name))
         {
-        	$class_name = DokeosUtilities :: underscores_to_camelcase($table_name);
+            $class_name = DokeosUtilities :: underscores_to_camelcase($table_name);
         }
 
         return new ObjectResultSet($this, $res, $class_name);
@@ -536,9 +536,9 @@ class Database
 
         if (is_null($class_name))
         {
-        	$class_name = DokeosUtilities :: underscores_to_camelcase($table_name);
+            $class_name = DokeosUtilities :: underscores_to_camelcase($table_name);
         }
-        
+
         if ($record)
         {
             return self :: record_to_object($record, $class_name);
@@ -621,6 +621,5 @@ class Database
     {
         return false;
     }
-
 }
 ?>
