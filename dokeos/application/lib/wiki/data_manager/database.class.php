@@ -28,6 +28,11 @@ class DatabaseWikiDataManager extends WikiDataManager
 		$this->database->set_prefix('wiki_');
 	}
 
+    function get_database()
+    {
+        return $this->database;
+    }
+
 	function create_storage_unit($name, $properties, $indexes)
 	{
 		return $this->database->create_storage_unit($name, $properties, $indexes);

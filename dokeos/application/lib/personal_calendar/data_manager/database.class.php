@@ -22,6 +22,11 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
         $this->database->set_prefix('personal_calendar_');
     }
 
+    function get_database()
+    {
+        return $this->database;
+    }
+
     function create_storage_unit($name, $properties, $indexes)
     {
         return $this->database->create_storage_unit($name, $properties, $indexes);

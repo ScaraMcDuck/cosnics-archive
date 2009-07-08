@@ -431,6 +431,8 @@ class Database
         $this->connection->setLimit(intval($maxObjects), intval($offset));
         $statement = $this->connection->prepare($query);
 
+        //echo $query . '<br />';
+
         $res = $statement->execute($params);
 
         if (is_null($class_name))

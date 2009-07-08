@@ -23,6 +23,11 @@ class DatabaseAdminDataManager extends AdminDataManager
         $this->database->set_prefix('admin_');
     }
 
+    function get_database()
+    {
+        return $this->database;
+    }
+
     function retrieve_languages($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
     {
         return $this->database->retrieve_objects(Language :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);

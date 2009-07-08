@@ -27,19 +27,17 @@ class DatabaseMenuDataManager extends MenuDataManager
     /**
      * The database connection.
      */
-    private $connection;
-
-    /**
-     * The table name prefix, if any.
-     */
-    private $prefix;
-
     private $database;
 
     function initialize()
     {
         $this->database = new Database();
         $this->database->set_prefix('menu_');
+    }
+
+    function get_database()
+    {
+        return $this->database;
     }
 
     function get_next_navigation_item_id()

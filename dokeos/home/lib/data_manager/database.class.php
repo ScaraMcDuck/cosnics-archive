@@ -39,17 +39,17 @@ class DatabaseHomeDataManager extends HomeDataManager
     /**
      * The database connection.
      */
-    private $connection;
-
-    /**
-     * The table name prefix, if any.
-     */
-    private $prefix;
+    private $database;
 
     function initialize()
     {
         $this->database = new Database();
         $this->database->set_prefix('home_');
+    }
+
+    function get_database()
+    {
+        return $this->database;
     }
 
     private static function is_home_row_column($name)

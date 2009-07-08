@@ -10,11 +10,11 @@ require_once 'MDB2.php';
 
 class DatabaseProfilerDataManager extends ProfilerDataManager
 {
-    
+
     private $prefix;
     private $userDM;
     private $database;
-    
+
     const ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE = 'pmb';
     const ALIAS_LEARNING_OBJECT_TABLE = 'lo';
 
@@ -22,6 +22,11 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
     {
         $this->database = new Database(array('category' => 'cat'));
         $this->database->set_prefix('profiler_');
+    }
+
+    function get_database()
+    {
+        return $this->database;
     }
 
     //Inherited.
@@ -116,7 +121,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
             {
                 $query = 'SELECT ' . self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.*, ' . self :: ALIAS_LEARNING_OBJECT_TABLE . '.' . $this->database->escape_column_name('title') . ' FROM ' . $this->database->escape_table_name('publication') . ' AS ' . self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . ' JOIN ' . RepositoryDataManager :: get_instance()->escape_table_name('learning_object') . ' AS ' . self :: ALIAS_LEARNING_OBJECT_TABLE . ' ON ' . self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.`profile` = ' . self :: ALIAS_LEARNING_OBJECT_TABLE . '.`id`';
                 $query .= ' WHERE ' . self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ProfilePublication :: PROPERTY_PUBLISHER) . '=?';
-                
+
                 $order = array();
                 for($i = 0; $i < count($order_property); $i ++)
                 {
@@ -137,7 +142,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
                 {
                     $query .= ' ORDER BY ' . implode(', ', $order);
                 }
-                
+
                 $statement = $this->database->get_connection()->prepare($query);
                 $param = $user->get_id();
             }
@@ -148,14 +153,14 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
             $statement = $this->database->get_connection()->prepare($query);
             $param = $object_id;
         }
-        
+
         $res = $statement->execute($param);
-        
+
         $publication_attr = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
             $publication = $this->database->record_to_class_object($record, ProfilePublication :: CLASS_NAME);
-            
+
             $info = new LearningObjectPublicationAttributes();
             $info->set_id($publication->get_id());
             $info->set_publisher_user_id($publication->get_publisher());
@@ -165,7 +170,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
             $info->set_location(Translation :: get('List'));
             $info->set_url('index_profiler.php?go=view&profile=' . $publication->get_id());
             $info->set_publication_object_id($publication->get_profile());
-            
+
             $publication_attr[] = $info;
         }
         return $publication_attr;
@@ -175,7 +180,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
     function get_learning_object_publication_attribute($publication_id)
     {
         $publication = $this->retrieve_profile_publication($publication_id);
-        
+
         $info = new LearningObjectPublicationAttributes();
         $info->set_id($publication->get_id());
         $info->set_publisher_user_id($publication->get_publisher());
@@ -185,7 +190,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
         $info->set_location(Translation :: get('List'));
         $info->set_url('index_profiler.php?go=view&profile=' . $publication->get_id());
         $info->set_publication_object_id($publication->get_profile());
-        
+
         return $info;
     }
 
@@ -211,11 +216,11 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
     {
         $condition = new EqualityCondition(ProfilerCategory :: PROPERTY_ID, $category->get_id());
         $succes = $this->database->delete('profiler_category', $condition);
-        
+
         $query = 'UPDATE ' . $this->database->escape_table_name('profiler_category') . ' SET ' . $this->database->escape_column_name(ProfilerCategory :: PROPERTY_DISPLAY_ORDER) . '=' . $this->database->escape_column_name(ProfilerCategory :: PROPERTY_DISPLAY_ORDER) . '-1 WHERE ' . $this->database->escape_column_name(ProfilerCategory :: PROPERTY_DISPLAY_ORDER) . '>? AND ' . $this->database->escape_column_name(ProfilerCategory :: PROPERTY_PARENT) . '=?';
         $statement = $this->database->get_connection()->prepare($query);
         $statement->execute(array($category->get_display_order(), $category->get_parent()));
-        
+
         return $succes;
     }
 
@@ -243,7 +248,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
     function select_next_category_display_order($parent_category_id)
     {
         $query = 'SELECT MAX(' . ProfilerCategory :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . $this->database->escape_table_name('profiler_category');
-        
+
         $condition = new EqualityCondition(ProfilerCategory :: PROPERTY_PARENT, $parent_category_id);
         //print_r($condition);
         $params = array();
@@ -254,12 +259,12 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
             $query .= $translator->render_query();
             $params = $translator->get_parameters();
         }
-        
+
         $sth = $this->database->get_connection()->prepare($query);
         $res = $sth->execute($params);
         $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
         $res->free();
-        
+
         return $record[0] + 1;
     }
 }

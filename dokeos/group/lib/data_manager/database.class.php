@@ -31,6 +31,11 @@ class DatabaseGroupDataManager extends GroupDataManager
 		$this->database->set_prefix('group_');
 	}
 
+    function get_database()
+    {
+        return $this->database;
+    }
+
 	function update_group($group)
 	{
 		$condition = new EqualityCondition(Group :: PROPERTY_ID, $group->get_id());

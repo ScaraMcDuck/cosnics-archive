@@ -26,6 +26,11 @@ class DatabaseForumDataManager extends ForumDataManager
 		$this->database->set_prefix('forum_');
 	}
 
+    function get_database()
+    {
+        return $this->database;
+    }
+
 	function create_storage_unit($name, $properties, $indexes)
 	{
 		return $this->database->create_storage_unit($name, $properties, $indexes);
@@ -82,7 +87,7 @@ class DatabaseForumDataManager extends ForumDataManager
 
             if($index == $newIndex)
                 $pub->set_display_order($index-$places);
-                
+
             $pub->update();
         }
 

@@ -28,6 +28,11 @@ class DatabaseWebconferencingDataManager extends WebconferencingDataManager
 		$this->database->set_prefix('webconferencing_');
 	}
 
+    function get_database()
+    {
+        return $this->database;
+    }
+
 	function create_storage_unit($name, $properties, $indexes)
 	{
 		return $this->database->create_storage_unit($name, $properties, $indexes);
@@ -93,7 +98,7 @@ class DatabaseWebconferencingDataManager extends WebconferencingDataManager
 		$condition = new EqualityCondition(WebconferenceOption :: PROPERTY_ID, $webconference_option->get_id());
 		return $this->database->delete($webconference_option->get_table_name(), $condition);
 	}
-	
+
 	function delete_webconference_options($webconference)
 	{
 		$condition = new EqualityCondition(WebconferenceOption :: PROPERTY_CONF_ID, $webconference->get_id());

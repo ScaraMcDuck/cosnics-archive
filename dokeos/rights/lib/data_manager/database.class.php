@@ -34,7 +34,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 	 * The database connection.
 	 */
 	private $connection;
-	
+
 	private $database;
 
 	/**
@@ -46,14 +46,19 @@ class DatabaseRightsDataManager extends RightsDataManager
 	{
 		$this->database = new Database();
 		$this->database->set_prefix('rights_');
-		
+
 		$this->connection = Connection :: get_instance()->get_connection();
 		$this->connection->setOption('debug_handler', array(get_class($this),'debug'));
-		
+
 		$this->prefix = 'rights_';
 		$this->connection->query('SET NAMES utf8');
 	}
-	
+
+    function get_database()
+    {
+        return $this->database;
+    }
+
 	function debug()
 	{
 		$args = func_get_args();
@@ -65,7 +70,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		 	//echo '</pre>';
 		}
 	}
-	
+
 	/**
 	 * Escapes a column name in accordance with the database type.
 	 * @param string $name The column name.
@@ -88,7 +93,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		{
 			list($table, $column) = explode('.', $name, 2);
 		}
-		
+
 		$prefix = '';
 		if (isset($column))
 		{
@@ -101,7 +106,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		}
 		return $prefix.$this->connection->quoteIdentifier($name);
 	}
-	
+
 	/**
 	 * Expands a table identifier to the real table name. Currently, this
 	 * method prefixes the given table name with the user-defined prefix, if
@@ -126,12 +131,12 @@ class DatabaseRightsDataManager extends RightsDataManager
 		$database_name = $this->connection->quoteIdentifier($dsn['database']);
 		return $database_name.'.'.$this->connection->quoteIdentifier($this->prefix.$name);
 	}
-	
+
 	private static function is_user_column($name)
 	{
 		return User :: is_default_property_name($name); //|| $name == User :: PROPERTY_TYPE || $name == User :: PROPERTY_DISPLAY_ORDER_INDEX || $name == User :: PROPERTY_USER_ID;
 	}
-	
+
 	/**
 	 * Checks whether the given column name is the name of a column that
 	 * contains a date value, and hence should be formatted as such.
@@ -142,7 +147,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 	{
 		return false;
 	}
-	
+
 	function update_rolerightlocation($rolerightlocation)
 	{
 		$where = $this->escape_column_name(RoleRightLocation :: PROPERTY_RIGHT_ID).'='.$rolerightlocation->get_right_id() . ' AND ' . $this->escape_column_name(RoleRightLocation :: PROPERTY_LOCATION_ID).'='.$rolerightlocation->get_location_id() . ' AND ' . $this->escape_column_name(RoleRightLocation :: PROPERTY_ROLE_ID).'='.$rolerightlocation->get_role_id();
@@ -153,16 +158,16 @@ class DatabaseRightsDataManager extends RightsDataManager
 
 		return true;
 	}
-	
+
 	function delete_rolerightlocation($rolerightlocation)
 	{
 		$query = 'DELETE FROM '.$this->escape_table_name('role_right_location').' WHERE '.$this->escape_column_name(RoleRightLocation :: PROPERTY_RIGHT_ID).'=? AND '.$this->escape_column_name(RoleRightLocation :: PROPERTY_ROLE_ID).'=? AND '.$this->escape_column_name(RoleRightLocation :: PROPERTY_LOCATION_ID).'=?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute(array($rolerightlocation->get_right_id(), $rolerightlocation->get_role_id(), $rolerightlocation->get_location_id()));
-		
+
 		return true;
 	}
-	
+
 	function delete_role_right_locations($condition)
 	{
 		$query = 'DELETE FROM '. $this->escape_table_name('role_right_location');
@@ -178,10 +183,10 @@ class DatabaseRightsDataManager extends RightsDataManager
 
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
-		
+
 		return true;
 	}
-	
+
 	//Inherited.
 	function create_location($location)
 	{
@@ -191,7 +196,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 			$props[$this->escape_column_name($key)] = $value;
 		}
 		$props[$this->escape_column_name(Location :: PROPERTY_ID)] = $location->get_id();
-		
+
 		$this->connection->loadModule('Extended');
 		if ($this->connection->extended->autoExecute($this->get_table_name('location'), $props, MDB2_AUTOQUERY_INSERT))
 		{
@@ -202,7 +207,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 			return false;
 		}
 	}
-	
+
 	function create_right($right)
 	{
 		$props = array();
@@ -211,7 +216,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 			$props[$this->escape_column_name($key)] = $value;
 		}
 		$props[$this->escape_column_name(Right :: PROPERTY_ID)] = $right->get_id();
-		
+
 		$this->connection->loadModule('Extended');
 		if ($this->connection->extended->autoExecute($this->get_table_name('right'), $props, MDB2_AUTOQUERY_INSERT))
 		{
@@ -222,7 +227,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 			return false;
 		}
 	}
-	
+
 	function create_role($role)
 	{
 		$props = array();
@@ -231,7 +236,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 			$props[$this->escape_column_name($key)] = $value;
 		}
 		$props[$this->escape_column_name(Role :: PROPERTY_ID)] = $role->get_id();
-		
+
 		$this->connection->loadModule('Extended');
 		if ($this->connection->extended->autoExecute($this->get_table_name('role'), $props, MDB2_AUTOQUERY_INSERT))
 		{
@@ -242,7 +247,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 			return false;
 		}
 	}
-	
+
 	function create_rolerightlocation($rolerightlocation)
 	{
 		$props = array();
@@ -263,25 +268,25 @@ class DatabaseRightsDataManager extends RightsDataManager
 			return false;
 		}
 	}
-	
-	//Inherited.	
+
+	//Inherited.
 	function get_next_role_id()
 	{
 		return $this->connection->nextID($this->get_table_name('role'));
 	}
-	
-	//Inherited.	
+
+	//Inherited.
 	function get_next_right_id()
 	{
 		return $this->connection->nextID($this->get_table_name('right'));
 	}
-	
-	//Inherited.	
+
+	//Inherited.
 	function get_next_location_id()
 	{
 		return $this->connection->nextID($this->get_table_name('location'));
 	}
-	
+
 	function create_storage_unit($name,$properties,$indexes)
 	{
 		$name = $this->get_table_name($name);
@@ -323,7 +328,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Parses a database record fetched as an associative array into a role.
 	 * @param array $record The associative array.
@@ -356,7 +361,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		}
 		return new RoleRightLocation($defaultProp);
 	}
-	
+
 	/**
 	 * Parses a database record fetched as an associative array into a right.
 	 * @param array $record The associative array.
@@ -375,7 +380,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		}
 		return new Right($record[Right :: PROPERTY_ID], $defaultProp);
 	}
-	
+
 	function record_to_location($record)
 	{
 		if (!is_array($record) || !count($record))
@@ -389,7 +394,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		}
 		return new Location($defaultProp);
 	}
-	
+
 	function retrieve_location_id_from_location_string($location)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('location');
@@ -403,11 +408,11 @@ class DatabaseRightsDataManager extends RightsDataManager
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
-		
+
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
-		
+
 		if ($res->numRows() >= 1)
 		{
 			$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
@@ -419,16 +424,16 @@ class DatabaseRightsDataManager extends RightsDataManager
 			throw new Exception(Translation :: get('NoSuchLocation'));
 		}
 	}
-	
+
 	function retrieve_role_right_location($right_id, $role_id, $location_id)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('role_right_location');
 		$conditions = array();
-		
+
 		$conditions[] = new EqualityCondition('right_id', $right_id);
 		$conditions[] = new EqualityCondition('role_id', $role_id);
 		$conditions[] = new EqualityCondition('location_id', $location_id);
-		
+
 		$condition = new AndCondition($conditions);
 
 		$params = array ();
@@ -439,11 +444,11 @@ class DatabaseRightsDataManager extends RightsDataManager
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
-		
+
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
-		
+
 		if ($res->numRows() >= 1)
 		{
 			$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
@@ -453,18 +458,18 @@ class DatabaseRightsDataManager extends RightsDataManager
 		else
 		{
 			$defaultProperties = array();
-			
+
 			$defaultProperties[RoleRightLocation :: PROPERTY_ROLE_ID] = $role_id;
 			$defaultProperties[RoleRightLocation :: PROPERTY_RIGHT_ID] = $right_id;
 			$defaultProperties[RoleRightLocation :: PROPERTY_LOCATION_ID] = $location_id;
 			$defaultProperties[RoleRightLocation :: PROPERTY_VALUE] = 0;
-			
+
 			$rolerightlocation = new RoleRightLocation($defaultProperties);
 			$rolerightlocation->create();
 			return $rolerightlocation;
 		}
 	}
-	
+
 	function retrieve_roles($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('role');
@@ -478,7 +483,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 			$params = $translator->get_parameters();
 		}
 		$order = array ();
-		
+
 		for ($i = 0; $i < count($orderBy); $i ++)
 		{
 			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
@@ -491,13 +496,13 @@ class DatabaseRightsDataManager extends RightsDataManager
 		{
 			$maxObjects = null;
 		}
-		
+
 		$this->connection->setLimit(intval($maxObjects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		return new DatabaseRoleResultSet($this, $res);
 	}
-	
+
 	function retrieve_location($id)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('location') . ' WHERE '.$this->escape_column_name(Location :: PROPERTY_ID).'=?';;
@@ -508,7 +513,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		$res->free();
 		return self :: record_to_location($record);
 	}
-	
+
 	function retrieve_right($id)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('right') . ' WHERE '.$this->escape_column_name(Right :: PROPERTY_ID).'=?';;
@@ -519,7 +524,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		$res->free();
 		return self :: record_to_right($record);
 	}
-	
+
 	function retrieve_role($id)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('role') . ' WHERE '.$this->escape_column_name(Role :: PROPERTY_ID).'=?';;
@@ -530,7 +535,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		$res->free();
 		return self :: record_to_role($record);
 	}
-	
+
 	function retrieve_rights($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('right');
@@ -544,7 +549,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 			$params = $translator->get_parameters();
 		}
 		$order = array ();
-		
+
 		for ($i = 0; $i < count($orderBy); $i ++)
 		{
 			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
@@ -557,13 +562,13 @@ class DatabaseRightsDataManager extends RightsDataManager
 		{
 			$maxObjects = null;
 		}
-		
+
 		$this->connection->setLimit(intval($maxObjects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		return new DatabaseRightResultSet($this, $res);
 	}
-	
+
 	function retrieve_locations($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('location');
@@ -576,11 +581,11 @@ class DatabaseRightsDataManager extends RightsDataManager
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
-		
+
 		$orderBy[] = Location :: PROPERTY_LOCATION;
 		$orderDir[] = SORT_ASC;
 		$order = array ();
-		
+
 		for ($i = 0; $i < count($orderBy); $i ++)
 		{
 			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
@@ -593,19 +598,19 @@ class DatabaseRightsDataManager extends RightsDataManager
 		{
 			$maxObjects = null;
 		}
-		
+
 		$this->connection->setLimit(intval($maxObjects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		return new DatabaseLocationResultSet($this, $res);
 	}
-	
+
 	function count_locations($condition = null)
 	{
 		$query = 'SELECT COUNT(*) FROM '.$this->escape_table_name('location');
-		
+
 		$params = array();
-		
+
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params);
@@ -613,19 +618,19 @@ class DatabaseRightsDataManager extends RightsDataManager
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
-		
+
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		return $record[0];
 	}
-	
+
 	function count_roles($condition = null)
 	{
 		$query = 'SELECT COUNT(*) FROM '.$this->escape_table_name('role');
-		
+
 		$params = array();
-		
+
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params);
@@ -633,13 +638,13 @@ class DatabaseRightsDataManager extends RightsDataManager
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
-		
+
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		return $record[0];
 	}
-	
+
 	function update_location($location)
 	{
 		$where = $this->escape_column_name(Location :: PROPERTY_ID).'='.$location->get_id();
@@ -652,7 +657,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		$this->connection->extended->autoExecute($this->get_table_name('location'), $props, MDB2_AUTOQUERY_UPDATE, $where);
 		return true;
 	}
-	
+
 	function add_nested_values($location, $previous_visited, $number_of_elements = 1)
 	{
 		// Update all necessary left-values
@@ -660,12 +665,12 @@ class DatabaseRightsDataManager extends RightsDataManager
 		$conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $location->get_application());
 		$conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
 		$condition = new AndCondition($conditions);
-		
+
 		$query = 'UPDATE '. $this->escape_table_name('location') .' SET '. $this->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . '=' . $this->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . ' + ?';
 
 		$params = array ();
 		$params[] = $number_of_elements * 2;
-		
+
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, true);
@@ -673,22 +678,22 @@ class DatabaseRightsDataManager extends RightsDataManager
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
-		
+
 		$statement = $this->connection->prepare($query);
 		// TODO: Some error-handling please !
 		$res = $statement->execute($params);
-		
+
 		// Update all necessary right-values
 		$conditions = array();
 		$conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $location->get_application());
 		$conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
 		$condition = new AndCondition($conditions);
-		
+
 		$query = 'UPDATE '. $this->escape_table_name('location') .' SET '. $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . '=' . $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' + ?';
 
 		$params = array ();
 		$params[] = $number_of_elements * 2;
-		
+
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, true);
@@ -696,15 +701,15 @@ class DatabaseRightsDataManager extends RightsDataManager
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
-		
+
 		$statement = $this->connection->prepare($query);
 		// TODO: Some error-handling please !
 		$res = $statement->execute($params);
-		
+
 		// TODO: For now we just return true ...
         return true;
 	}
-	
+
 	function delete_location_nodes($location)
 	{
 		$conditions = array();
@@ -712,11 +717,11 @@ class DatabaseRightsDataManager extends RightsDataManager
 		$conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN_OR_EQUAL, $location->get_left_value());
 		$conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN_OR_EQUAL, $location->get_right_value());
 		$condition = new AndCondition($conditions);
-		
+
 		$query = 'DELETE FROM '. $this->escape_table_name('location');
 
 		$params = array ();
-		
+
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, true);
@@ -724,25 +729,25 @@ class DatabaseRightsDataManager extends RightsDataManager
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
-		
+
 		$statement = $this->connection->prepare($query);
 		// TODO: Some error-handling please !
 		$statement->execute($params);
-		
+
 		// TODO: For now we just return true ...
         return true;
 	}
-	
+
 	function delete_nested_values($location)
 	{
         $delta = $location->get_right_value() - $location->get_left_value() + 1;
-        
+
 		// Update all necessary nested-values
 		$conditions = array();
 		$conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $location->get_application());
 		$conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $location->get_left_value());
 		$condition = new AndCondition($conditions);
-		
+
 		$query  = 'UPDATE '. $this->escape_table_name('location');
 		$query .= ' SET '. $this->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . '=' . $this->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . ' - ?,';
 		$query .= $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . '=' . $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' - ?';
@@ -750,7 +755,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		$params = array ();
 		$params[] = $delta;
 		$params[] = $delta;
-		
+
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, true);
@@ -758,24 +763,24 @@ class DatabaseRightsDataManager extends RightsDataManager
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
-		
+
 		$statement = $this->connection->prepare($query);
 		// TODO: Some error-handling please !
 		$statement->execute($params);
-		
+
 		// Update some more nested-values
 		$conditions = array();
 		$conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $location->get_application());
 		$conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN, $location->get_left_value());
 		$conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $location->get_right_value());
 		$condition = new AndCondition($conditions);
-		
+
 		$query  = 'UPDATE '. $this->escape_table_name('location');
 		$query .= ' SET '. $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . '=' . $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' - ?';
 
 		$params = array ();
 		$params[] = $delta;
-		
+
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, true);
@@ -783,14 +788,14 @@ class DatabaseRightsDataManager extends RightsDataManager
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
-		
+
 		$statement = $this->connection->prepare($query);
 		// TODO: Some error-handling please !
 		$statement->execute($params);
-		
+
         return true;
 	}
-	
+
 	function move_location($location, $new_parent_id, $new_previous_id = 0)
 	{
         // Check some things first to avoid trouble
@@ -802,7 +807,7 @@ class DatabaseRightsDataManager extends RightsDataManager
             {
                 return true;
             }
-            
+
             $new_previous = $this->retrieve_location($new_previous_id);
             // TODO: What if location $new_previous_id doesn't exist ? Return error.
             $new_parent_id = $new_previous->get_parent();
@@ -828,19 +833,19 @@ class DatabaseRightsDataManager extends RightsDataManager
             }
             // Try to retrieve the data of the parent element
             $new_parent = $this->retrieve_location($new_parent_id);
-            // TODO: What if this is an invalid location ? Return error. 
+            // TODO: What if this is an invalid location ? Return error.
         }
 
         $number_of_elements = ($location->get_right_value() - $location->get_left_value() + 1) / 2;
         $previous_visited = $new_previous_id ? $new_previous->get_right_value() : $new_parent->get_left_value();
-        
+
         // Update the nested values so we can actually add the element
         // Return false if this failed
         if (!$this->add_nested_values($location, $previous_visited, $number_of_elements))
         {
         	return false;
         }
-        
+
         // Now we can update the actual parent_id
         // Return false if this failed
         $location = $this->retrieve_location($location->get_id());
@@ -872,21 +877,21 @@ class DatabaseRightsDataManager extends RightsDataManager
 
         // Get the element that is being moved again, since the left and
         // right might have changed by the add-call
-        
+
         $location = $this->retrieve_location($location->get_id());
         // TODO: What if $location doesn't exist ? Return error.
-        
+
         // Calculate the offset of the element to to the spot where it should go
         // correct the offset by one, since it needs to go inbetween!
         $offset = $calculate_width - $location->get_left_value() + 1;
-        
+
         // Do the actual update
 		$conditions = array();
 		$conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $location->get_application());
 		$conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, ($location->get_left_value() - 1));
 		$conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: LESS_THAN, ($location->get_right_value() + 1));
 		$condition = new AndCondition($conditions);
-		
+
 		$query  = 'UPDATE '. $this->escape_table_name('location');
 		$query .= ' SET '. $this->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . '=' . $this->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . ' + ?,';
 		$query .= $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . '=' . $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' + ?';
@@ -894,7 +899,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		$params = array ();
 		$params[] = $offset;
 		$params[] = $offset;
-		
+
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, true);
@@ -902,11 +907,11 @@ class DatabaseRightsDataManager extends RightsDataManager
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
-		
+
 		$statement = $this->connection->prepare($query);
 		// TODO: Some error-handling please !
 		$statement->execute($params);
-		
+
 		// Remove the subtree where the location was before
 		if (!$this->delete_nested_values($location))
 		{
@@ -915,7 +920,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 
         return true;
 	}
-	
+
 	function update_role($role)
 	{
 		$where = $this->escape_column_name(Role :: PROPERTY_ID).'='.$role->get_id();
@@ -928,40 +933,40 @@ class DatabaseRightsDataManager extends RightsDataManager
 		$this->connection->extended->autoExecute($this->get_table_name('role'), $props, MDB2_AUTOQUERY_UPDATE, $where);
 		return true;
 	}
-	
+
 	function delete_role($role)
-	{		
+	{
 		// Delete all role_right_locations for that specific role
 		$condition = new EqualityCondition(RoleRightLocation :: PROPERTY_ROLE_ID, $role->get_id());
 		$this->delete_role_right_locations($condition);
-		
+
 		// Delete all links between this role and users
 		// Code comes here ...
 		$udm = UserDataManager :: get_instance();
-		
+
 		$condition = new EqualityCondition(UserRole :: PROPERTY_ROLE_ID, $role->get_id());
 		$udm->delete_user_roles($condition);
-				
+
 		// Delete all links between this role and groups
 		// Code comes here ...
 		$gdm = GroupDataManager :: get_instance();
-		
+
 		$condition = new EqualityCondition(GroupRole :: PROPERTY_ROLE_ID, $role->get_id());
 		$gdm->delete_group_roles($condition);
-		
+
 		// Delete the actual role
 		$query = 'DELETE FROM '.$this->escape_table_name('role').' WHERE '.$this->escape_column_name(Role :: PROPERTY_ID).'=?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute(array($role->get_id()));
-		
+
 		return true;
 	}
-	
+
     function delete_locations($condition = null)
 	{
 		return $this->database->delete_objects(Location :: get_table_name(), $condition);
 	}
-	
+
 	function delete_orphaned_role_right_locations()
 	{
 		$query = 'DELETE FROM '.$this->escape_table_name('role_right_location').' WHERE ';

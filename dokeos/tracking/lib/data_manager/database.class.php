@@ -27,20 +27,18 @@ class DatabaseTrackingDataManager extends TrackingDataManager
     /**
      * The database connection.
      */
-    private $connection;
-
     private $database;
-
-    /**
-     * Table prefix
-     */
-    private $prefix;
 
     // Inherited.
     function initialize()
     {
         $this->database = new Database();
         $this->database->set_prefix('tracking_');
+    }
+
+    function get_database()
+    {
+        return $this->database;
     }
 
     function create_storage_unit($name, $properties, $indexes)

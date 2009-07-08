@@ -24,7 +24,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 	 * The table name prefix, if any.
 	 */
 	private $prefix;
-	
+
 	private $userDM;
 
     private $database;
@@ -32,10 +32,10 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 	function initialize()
 	{
 		$this->userDM = UserDataManager :: get_instance();
-		
+
 		$this->connection = Connection :: get_instance()->get_connection();
 		$this->connection->setOption('debug_handler', array(get_class($this),'debug'));
-		
+
 		$this->prefix = 'myportfolio_';
 		$this->connection->query('SET NAMES utf8');
 
@@ -43,7 +43,12 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		$this->database->set_prefix('repository_');
 
 	}
-	
+
+    function get_database()
+    {
+        return $this->database;
+    }
+
 	function debug()
 	{
 		$args = func_get_args();
@@ -88,7 +93,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		{
 			list($table, $column) = explode('.', $name, 2);
 		}
-		
+
 		$prefix = '';
 
 		if (isset($column))
@@ -111,7 +116,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('tree_relation').' WHERE '. $this->escape_column_name('treeitem').' ="-1" AND '.$this->escape_column_name('userid').'=?';
 		$res = $this->limitQuery($query, 1,null, array ($user->get_id()));
-		
+
 		if($res->numRows() == 1)
 		{
 			$result=$res->fetchRow(MDB2_FETCHMODE_ASSOC);
@@ -206,7 +211,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		$props['child']=$child;
 		//display_order order moet max+1 worden;
 		$props['display_order']=1;
-		$this->connection->loadModule('Extended');			
+		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->get_table_name('tree_relation'), $props, MDB2_AUTOQUERY_INSERT);
 	}
 
@@ -330,7 +335,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
     function count_rdpublications($user,$condition = null)
     {
         $id = $user->get_id();
-        
+
 		$query = 'SELECT COUNT('.$this->escape_column_name(RdpublicationPublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('rdpublication');
 		$query .= 'JOIN '.'user_user ' . 'ON' . $this->escape_table_name('rdpublication'). '.' . $this->escape_column_name(RdpublicationPublication :: PROPERTY_PUBLISHER) .'='. 'user_user' .'.'. 'user_id';
 		$query .= ' WHERE user_user.user_id = '.$id;
@@ -458,7 +463,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 			//echo $query;
 			$params = $translator->get_parameters();
 		}
-		
+
 		$order = array ();
 
 		for ($i = 0; $i < count($orderBy); $i ++)

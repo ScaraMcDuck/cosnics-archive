@@ -20,6 +20,11 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
         $this->database->set_prefix('personal_messenger_');
 	}
 
+    function get_database()
+    {
+        return $this->database;
+    }
+
 	// Inherited.
 	function get_next_personal_message_publication_id()
 	{
