@@ -87,7 +87,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 			$pfpu = new PortfolioPublicationUser();
 			$pfpu->set_portfolio_publication($portfolio_publication->get_id());
 			$pfpu->set_user($user);
-			$succes &= $pfpg->create();
+			$succes &= $pfpu->create();
 		}
 		
 		return $succes;
