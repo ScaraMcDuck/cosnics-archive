@@ -1,32 +1,27 @@
 <?php
 /**
- * @package common.html.table.common
+ * @package common
+ * @subpackage html
+ * @subpackage table
  */
-/**
- * 
- * TODO: Add comment
- * 
- */
-class ObjectTableColumn
+require_once Path :: get_library_path() . 'html/table/table_column.class.php';
+
+class ObjectTableColumn implements TableColumn
 {
     /**
      * The property of the object which will be displayed in this
      * column.
      */
-    private $object_property;
+    private $property;
     /**
      * The title of the column.
      */
     private $title;
-    /**
-     * Whether or not sorting by this column is allowed.
-     */
-    private $sortable;
 
     /**
      * Constructor. Either defines a column that displays a default property
      * of learning objects, or arbitrary content.
-     * @param string $property_name_or_column_title If the column contains
+     * @param string $property If the column contains
      *                                              arbitrary content, the
      *                                              title of the column. If
      *                                              it displays a learning
@@ -39,24 +34,10 @@ class ObjectTableColumn
      *                                                   object property, false
      *                                                   otherwise.
      */
-    function ObjectTableColumn($property_name_or_column_title, $contains_object_property = false, $is_sortable = true)
+    function ObjectTableColumn($property, $blah = true, $bloh = true)
     {
-        if ($contains_object_property)
-        {
-            $this->object_property = $property_name_or_column_title;
-            $this->title = Translation :: get(DokeosUtilities :: underscores_to_camelcase($this->object_property));
-            $this->sortable = true;
-        }
-        else
-        {
-            $this->title = $property_name_or_column_title;
-            $this->sortable = false;
-        }
-        
-        if (! $is_sortable)
-        {
-            $this->sortable = false;
-        }
+		$this->property = $property;
+		$this->title = Translation :: get(DokeosUtilities :: underscores_to_camelcase($this->property));
     }
 
     /**
@@ -66,7 +47,7 @@ class ObjectTableColumn
      */
     function get_object_property()
     {
-        return $this->object_property;
+        return $this->property;
     }
 
     /**
@@ -85,7 +66,7 @@ class ObjectTableColumn
      */
     function is_sortable()
     {
-        return $this->sortable;
+        return true;
     }
 
     /**
@@ -95,16 +76,6 @@ class ObjectTableColumn
     function set_title($title)
     {
         $this->title = $title;
-    }
-
-    /**
-     * Sets whether or not the table's contents may be sorted by this column.
-     * @param boolean $sortable True if sorting by this column should be
-     *                          allowed, false otherwise.
-     */
-    function set_sortable($sortable)
-    {
-        $this->sortable = $sortable;
     }
 }
 ?>
