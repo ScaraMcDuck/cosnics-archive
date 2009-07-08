@@ -6,269 +6,85 @@
  */
 require_once dirname(__FILE__).'/../personal_messenger_data_manager.class.php';
 require_once dirname(__FILE__).'/../personal_message_publication.class.php';
-require_once dirname(__FILE__).'/database/database_personal_message_publication_result_set.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
 
 require_once 'MDB2.php';
 
 class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager {
 
-	private $prefix;
-
-	const ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE = 'pmb';
-	const ALIAS_LEARNING_OBJECT_TABLE = 'lo';
+	private $database;
 
 	function initialize()
 	{
-		PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array (get_class(), 'handle_error'));
-		
-		$this->connection = Connection :: get_instance()->get_connection();
-		$this->connection->setOption('debug_handler', array(get_class($this),'debug'));
-		
-		if (PEAR::isError($this)) {
-   		 die($this->connection->getMessage());
-		}
-		$this->prefix = 'personal_messenger_';
-		$this->connection->query('SET NAMES utf8');
-	}
-	
-	function debug()
-	{
-		$args = func_get_args();
-		// Do something with the arguments
-		if($args[1] == 'query')
-		{
-			//echo '<pre>';
-		 	//echo($args[2]);
-		 	//echo '</pre>';
-		}
-	}
-
-	/**
-	 * Escapes a column name
-	 * @param string $name
-	 */
-	public function escape_column_name($name)
-	{
-		// Check whether the name contains a seperator, avoids notices.
-		$contains_table_name = strpos($name, '.');
-		if ($contains_table_name === false)
-		{
-			$table = $name;
-			$column = null;
-		}
-		else
-		{
-			list($table, $column) = explode('.', $name, 2);
-		}
-		
-		$prefix = '';
-
-		if (isset($column))
-		{
-			$prefix = $table.'.';
-			$name = $column;
-		}
-		return $prefix.$this->connection->quoteIdentifier($name);
-	}
-
-	static function handle_error($error)
-	{
-		die(__FILE__.':'.__LINE__.': '.$error->getMessage()
-		// For debugging only. May create a security hazard.
-		.' ('.$error->getDebugInfo().')');
-	}
-
-	function escape_table_name($name)
-	{
-		$dsn = $this->connection->getDSN('array');
-		$database_name = $this->connection->quoteIdentifier($dsn['database']);
-		return $database_name.'.'.$this->connection->quoteIdentifier($this->prefix.$name);
-	}
-
-	/**
-	 * Gets the full name of a given table (by adding the database name and a
-	 * prefix if required)
-	 * @param string $name
-	 */
-	private function get_table_name($name)
-	{
-		$dsn = $this->connection->getDSN('array');
-		return $dsn['database'].'.'.$this->prefix.$name;
+        $this->database = new Database(array());
+        $this->database->set_prefix('personal_messenger_');
 	}
 
 	// Inherited.
 	function get_next_personal_message_publication_id()
 	{
-		return $this->connection->nextID($this->get_table_name('publication'));
+		return $this->database->get_next_id(PersonalMessagePublication :: get_table_name());
 	}
 
 	// Inherited.
     function count_personal_message_publications($condition = null)
     {
-		$query = 'SELECT COUNT('.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('publication');
-
-		$params = array ();
-		if (isset ($condition))
-		{
-			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			// TODO: SCARA - Exclude category from learning object count
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
-		}
-
-		$sth = $this->connection->prepare($query);
-		$res = $sth->execute($translator->get_parameters());
-		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
-		$res->free();
-		return $record[0];
+        return $this->database->count_objects(PersonalMessagePublication :: get_table_name(), $condition);
     }
 
     // Inherited.
     function count_unread_personal_message_publications($user)
     {
-		$query = 'SELECT COUNT('.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('publication');
-		$query .= ' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_USER) . '=? AND '. $this->escape_column_name(PersonalMessagePublication :: PROPERTY_STATUS) . '=?';
+        $conditions = array();
+        $conditions[] = new EqualityCondition(PersonalMessagePublication :: PROPERTY_USER, $user);
+        $conditions[] = new EqualityCondition(PersonalMessagePublication :: PROPERTY_STATUS, 1);
+        $condition = new AndCondition($conditions);
 
-		$sth = $this->connection->prepare($query);
-		$res = $sth->execute(array($user->get_id(), 1));
-		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
-		$res->free();
-		return $record[0];
+        return $this->database->count_objects(PersonalMessagePublication :: get_table_name(), $condition);
     }
 
     // Inherited.
     function retrieve_personal_message_publication($id)
 	{
-
-		$query = 'SELECT * FROM '.$this->escape_table_name('publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).'=?';
-
-		$this->connection->setLimit(1);
-		$statement = $this->connection->prepare($query);
-		$res = $statement->execute($id);
-		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-		$res->free();
-		return self :: record_to_personal_message_publication($record);
+	    $condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_ID, $id);
+	    return $this->database->retrieve_object(PersonalMessagePublication :: get_table_name(), $condition, array(), array(), PersonalMessagePublication :: CLASS_NAME);
 	}
 
     // Inherited.
     function retrieve_personal_message_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
-		$query = 'SELECT * FROM ';
-		$query .= $this->escape_table_name('publication');
-
-		$params = array ();
-		if (isset ($condition))
-		{
-			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			// TODO: SCARA - Exclude category from learning object count
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
-		}
-
-		$sth = $this->connection->prepare($query);
-		$res = $sth->execute($translator->get_parameters());
-		
-		/*
-		 * Always respect display order as a last resort.
-		 */
-//		$orderBy[] = LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX;
-//		$orderDir[] = SORT_ASC;
-		$order = array ();
-		/*
-		 * Categories always come first. Does not matter if we're dealing with
-		 * a single type.
-		 */
-		for ($i = 0; $i < count($orderBy); $i ++)
-		{
-			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
-		}
-		if (count($order))
-		{
-			$query .= ' ORDER BY '.implode(', ', $order);
-		}
-		if ($maxObjects < 0)
-		{
-			$maxObjects = null;
-		}
-		$this->connection->setLimit(intval($maxObjects),intval($offset));
-		$statement = $this->connection->prepare($query);
-		$res = $statement->execute($params);
-		return new DatabasePersonalMessagePublicationResultSet($this, $res);
-	}
-
-	// Inherited.
-	function record_to_personal_message_publication($record)
-	{
-		if (!is_array($record) || !count($record))
-		{
-			throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
-		}
-		$defaultProp = array ();
-		foreach (PersonalMessagePublication :: get_default_property_names() as $prop)
-		{
-			$defaultProp[$prop] = $record[$prop];
-		}
-		return new PersonalMessagePublication($record[PersonalMessagePublication :: PROPERTY_ID], $defaultProp);
+	    return $this->database->retrieve_objects(PersonalMessagePublication :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir, PersonalMessagePublication :: CLASS_NAME);
 	}
 
 	// Inherited.
 	function update_personal_message_publication($personal_message_publication)
 	{
-		$where = $this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).'='.$personal_message_publication->get_id();
-		$props = array();
-		foreach ($personal_message_publication->get_default_properties() as $key => $value)
-		{
-			$props[$this->escape_column_name($key)] = $value;
-		}
-		$this->connection->loadModule('Extended');
-		$this->connection->extended->autoExecute($this->get_table_name('publication'), $props, MDB2_AUTOQUERY_UPDATE, $where);
-		return true;
+	    $condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_ID, $personal_message_publication->get_id());
+	    return $this->database->update($personal_message_publication, $condition);
 	}
 
 	// Inherited.
 	function delete_personal_message_publication($personal_message_publication)
 	{
-		$query = 'DELETE FROM '.$this->escape_table_name('publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).'=?';
-		$statement = $this->connection->prepare($query);
-		if ($statement->execute($personal_message_publication->get_id()))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+        $condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_ID, $personal_message_publication->get_id());
+        return $this->database->delete(PersonalMessagePublication :: get_table_name(), $condition);
 	}
 
 	// Inherited.
 	function delete_personal_message_publications($object_id)
 	{
-		$condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE, $object_id);
-		$publications = $this->retrieve_personal_message_publications($condition, null, null, null, null, true, array (), array (), 0, -1, $object_id);
-		while ($publication = $publications->next_result())
-		{
-//			$subject = '['.PlatformSetting :: get('site_name').'] '.$publication->get_learning_object()->get_title();
-//			// TODO: SCARA - Add meaningfull publication removal message
-//			$body = 'message';
-//			$user = $this->userDM->retrieve_user($publication->get_publisher_id());
-//			$mail = Mail :: factory($subject, $body, $user->get_email());
-//			$mail->send();
-			$this->delete_personal_message_publication($publication);
-		}
-		return true;
+        $condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE, $object_id);
+        return $this->database->delete_objects(PersonalMessagePublication :: get_table_name(), $condition);
 	}
 
 	// Inherited.
 	function update_personal_message_publication_id($publication_attr)
 	{
-		$where = $this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).'='.$publication_attr->get_id();
+		$where = $this->database->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).'='.$publication_attr->get_id();
 		$props = array();
-		$props[$this->escape_column_name(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE)] = $publication_attr->get_publication_object_id();
-		$this->connection->loadModule('Extended');
-		if ($this->connection->extended->autoExecute($this->get_table_name('publication'), $props, MDB2_AUTOQUERY_UPDATE, $where))
+		$props[$this->database->escape_column_name(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE)] = $publication_attr->get_publication_object_id();
+		$this->database->get_connection()->loadModule('Extended');
+		if ($this->database->get_connection()->extended->autoExecute($this->database->get_table_name(PersonalMessagePublication :: get_table_name()), $props, MDB2_AUTOQUERY_UPDATE, $where))
 		{
 			return true;
 		}
@@ -278,77 +94,25 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		}
 	}
 
-	static function is_date_column($name)
-	{
-		return ($name == PersonalMessagePublication :: PROPERTY_PUBLISHED);
-	}
+	// Inherited.
+    public function any_learning_object_is_published($object_ids)
+    {
+        $condition = new InCondition(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE, $object_ids);
+        return $this->database->count_objects(PersonalMessagePublication :: get_table_name(), $condition) >= 1;
+    }
+
+    // Inherited.
+    public function learning_object_is_published($object_id)
+    {
+        $condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE, $object_id);
+        return $this->database->count_objects(CalendarEventPublication :: get_table_name(), $condition) >= 1;
+    }
 
 	// Inherited.
-	function any_learning_object_is_published($object_ids)
-	{
-		$query = 'SELECT * FROM '.$this->escape_table_name('publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE).' IN (?'.str_repeat(',?', count($object_ids) - 1).')';
-		$res = $this->limitQuery($query, 1, null,$object_ids);
-		return $res->numRows() == 1;
-	}
-
-	// Inherited.
-	function learning_object_is_published($object_id)
-	{
-		$query = 'SELECT * FROM '.$this->escape_table_name('publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE).'=?';
-		$res = $this->limitQuery($query, 1,null, array ($object_id));
-		return $res->numRows() == 1;
-	}
-
-	private function limitQuery($query,$limit,$offset,$params,$is_manip = false)
-	{
-		$this->connection->setLimit($limit,$offset);
-		$statement = $this->connection->prepare($query,null,($is_manip ? MDB2_PREPARE_MANIP : null));
-		$res = $statement->execute($params);
-		return $res;
-	}
-
-	// Inherited.
-	function create_storage_unit($name,$properties,$indexes)
-	{
-		$name = $this->get_table_name($name);
-		$this->connection->loadModule('Manager');
-		$manager = $this->connection->manager;
-		// If table allready exists -> drop it
-		// @todo This should change: no automatic table drop but warning to user
-		$tables = $manager->listTables();
-		if( in_array($name,$tables))
-		{
-			$manager->dropTable($name);
-		}
-		$options['charset'] = 'utf8';
-		$options['collate'] = 'utf8_unicode_ci';
-		if (!MDB2 :: isError($manager->createTable($name,$properties,$options)))
-		{
-			foreach($indexes as $index_name => $index_info)
-			{
-				if($index_info['type'] == 'primary')
-				{
-					$index_info['primary'] = 1;
-					if (MDB2 :: isError($manager->createConstraint($name,$index_name,$index_info)))
-					{
-						return false;
-					}
-				}
-				else
-				{
-					if (MDB2 :: isError($manager->createIndex($name,$index_name,$index_info)))
-					{
-						return false;
-					}
-				}
-			}
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+    function create_storage_unit($name, $properties, $indexes)
+    {
+        return $this->database->create_storage_unit($name, $properties, $indexes);
+    }
 
 	// Inherited.
 	function get_learning_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
@@ -357,8 +121,8 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		{
 			if ($type == 'user')
 			{
-				$query  = 'SELECT '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE.'.*, '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.'. $this->escape_column_name('title') .' FROM '.$this->escape_table_name('publication').' AS '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .' JOIN '.RepositoryDataManager :: get_instance()->escape_table_name('learning_object').' AS '. self :: ALIAS_LEARNING_OBJECT_TABLE .' ON '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .'.`personal_message` = '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.`id`';
-				$query .= ' WHERE '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE. '.'.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_USER).'=?';
+				$query  = 'SELECT '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE.'.*, '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.'. $this->database->escape_column_name('title') .' FROM '.$this->database->escape_table_name('publication').' AS '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .' JOIN '.RepositoryDataManager :: get_instance()->escape_table_name('learning_object').' AS '. self :: ALIAS_LEARNING_OBJECT_TABLE .' ON '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .'.`personal_message` = '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.`id`';
+				$query .= ' WHERE '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE. '.'.$this->database->escape_column_name(PersonalMessagePublication :: PROPERTY_USER).'=?';
 
 				$order = array ();
 				for ($i = 0; $i < count($order_property); $i ++)
@@ -368,12 +132,12 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 					}
 					elseif($order_property[$i] == 'title')
 					{
-						$order[] = self :: ALIAS_LEARNING_OBJECT_TABLE. '.' .$this->escape_column_name('title').' '. ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+						$order[] = self :: ALIAS_LEARNING_OBJECT_TABLE. '.' .$this->database->escape_column_name('title').' '. ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
 					}
 					else
 					{
-						$order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE. '.' .$this->escape_column_name($order_property[$i], true).' '. ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
-						$order[] = self :: ALIAS_LEARNING_OBJECT_TABLE. '.' .$this->escape_column_name('title').' '. ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+						$order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE. '.' .$this->database->escape_column_name($order_property[$i], true).' '. ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+						$order[] = self :: ALIAS_LEARNING_OBJECT_TABLE. '.' .$this->database->escape_column_name('title').' '. ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
 					}
 				}
 				if (count($order))
@@ -381,14 +145,14 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 					$query .= ' ORDER BY '.implode(', ', $order);
 				}
 
-				$statement = $this->connection->prepare($query);
+				$statement = $this->database->get_connection()->prepare($query);
 				$param = $user->get_id();
 			}
 		}
 		else
 		{
-			$query = 'SELECT * FROM '.$this->escape_table_name('publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE).'=?';
-			$statement = $this->connection->prepare($query);
+			$query = 'SELECT * FROM '.$this->database->escape_table_name('publication').' WHERE '.$this->database->escape_column_name(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE).'=?';
+			$statement = $this->database->get_connection()->prepare($query);
 			$param = $object_id;
 		}
 
@@ -397,7 +161,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		$publication_attr = array();
 		while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$publication = $this->record_to_personal_message_publication($record);
+			$publication = $this->database->record_to_class_object($record, PersonalMessagePublication :: CLASS_NAME);
 
 			$info = new LearningObjectPublicationAttributes();
 			$info->set_id($publication->get_id());
@@ -434,15 +198,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 	// Inherited.
 	function get_learning_object_publication_attribute($publication_id)
 	{
-
-		$query = 'SELECT * FROM '.$this->escape_table_name('publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).'=?';
-		$statement = $this->connection->prepare($query);
-		$this->connection->setLimit(0,1);
-		$res = $statement->execute($publication_id);
-
-		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-
-		$publication = $this->record_to_personal_message_publication($record);
+	    $publication = $this->retrieve_personal_message_publication($publication_id);
 
 		$info = new LearningObjectPublicationAttributes();
 		$info->set_id($publication->get_id());
@@ -477,34 +233,14 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 	// Inherited.
 	function count_publication_attributes($user, $type = null, $condition = null)
 	{
-		$params = array ();
-		$query = 'SELECT COUNT('.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_USER).'=?';;
-
-		$sth = $this->connection->prepare($query);
-		$res = $sth->execute($user->get_id());
-		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
-		return $record[0];
+        $condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_PUBLISHER, Session :: get_user_id());
+        return $this->database->count_objects(PersonalMessagePublication :: get_table_name(), $condition);
 	}
 
 	// Inherited.
 	function create_personal_message_publication($publication)
 	{
-		$props = array();
-		foreach ($publication->get_default_properties() as $key => $value)
-		{
-			$props[$this->escape_column_name($key)] = $value;
-		}
-		$props[$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID)] = $publication->get_id();
-
-		$this->connection->loadModule('Extended');
-		if ($this->connection->extended->autoExecute($this->get_table_name('publication'), $props, MDB2_AUTOQUERY_INSERT))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+	    return $this->database->create($publication);
 	}
 }
 ?>
