@@ -5,7 +5,6 @@
 require_once dirname(__FILE__).'/portfolio_manager_component.class.php';
 require_once dirname(__FILE__).'/../portfolio_data_manager.class.php';
 require_once dirname(__FILE__).'/../../web_application.class.php';
-require_once dirname(__FILE__).'/component/portfolio_publication_browser/portfolio_publication_browser_table.class.php';
 
 /**
  * A portfolio manager
@@ -16,12 +15,13 @@ require_once dirname(__FILE__).'/component/portfolio_publication_browser/portfol
  	const APPLICATION_NAME = 'portfolio';
 
 	const PARAM_PORTFOLIO_PUBLICATION = 'portfolio_publication';
+	const PARAM_USER_ID = 'user_id';
 	const PARAM_DELETE_SELECTED_PORTFOLIO_PUBLICATIONS = 'delete_selected_portfolio_publications';
 
 	const ACTION_DELETE_PORTFOLIO_PUBLICATION = 'delete_portfolio_publication';
 	const ACTION_EDIT_PORTFOLIO_PUBLICATION = 'edit_portfolio_publication';
 	const ACTION_CREATE_PORTFOLIO_PUBLICATION = 'create_portfolio_publication';
-	const ACTION_BROWSE_PORTFOLIO_PUBLICATIONS = 'browse_portfolio_publications';
+	const ACTION_VIEW_PORTFOLIO = 'view_portfolio';
 	const ACTION_BROWSE = 'browse';
 
 	/**
@@ -31,7 +31,6 @@ require_once dirname(__FILE__).'/component/portfolio_publication_browser/portfol
     function PortfolioManager($user = null)
     {
     	parent :: __construct($user);
-    	$this->parse_input_from_table();
     }
 
     /**
@@ -43,8 +42,8 @@ require_once dirname(__FILE__).'/component/portfolio_publication_browser/portfol
 		$component = null;
 		switch ($action)
 		{
-			case self :: ACTION_BROWSE_PORTFOLIO_PUBLICATIONS :
-				$component = PortfolioManagerComponent :: factory('PortfolioPublicationsBrowser', $this);
+			case self :: ACTION_VIEW_PORTFOLIO :
+				$component = PortfolioManagerComponent :: factory('Viewer', $this);
 				break;
 			case self :: ACTION_DELETE_PORTFOLIO_PUBLICATION :
 				$component = PortfolioManagerComponent :: factory('PortfolioPublicationDeleter', $this);
@@ -64,33 +63,6 @@ require_once dirname(__FILE__).'/component/portfolio_publication_browser/portfol
 
 		}
 		$component->run();
-	}
-
-	private function parse_input_from_table()
-	{
-		if (isset ($_POST['action']))
-		{
-			switch ($_POST['action'])
-			{
-				case self :: PARAM_DELETE_SELECTED_PORTFOLIO_PUBLICATIONS :
-
-					$selected_ids = $_POST[PortfolioPublicationBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
-
-					if (empty ($selected_ids))
-					{
-						$selected_ids = array ();
-					}
-					elseif (!is_array($selected_ids))
-					{
-						$selected_ids = array ($selected_ids);
-					}
-
-					$this->set_action(self :: ACTION_DELETE_PORTFOLIO_PUBLICATION);
-					$_GET[self :: PARAM_PORTFOLIO_PUBLICATION] = $selected_ids;
-					break;
-			}
-
-		}
 	}
 
 	function get_application_name()
@@ -164,9 +136,10 @@ require_once dirname(__FILE__).'/component/portfolio_publication_browser/portfol
 								    self :: PARAM_PORTFOLIO_PUBLICATION => $portfolio_publication->get_id()));
 	}
 
-	function get_browse_portfolio_publications_url()
+	function get_view_portfolio_url($user)
 	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PORTFOLIO_PUBLICATIONS));
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PORTFOLIO,
+									self :: PARAM_USER_ID => $user));
 	}
 	
 	function get_browse_url()
