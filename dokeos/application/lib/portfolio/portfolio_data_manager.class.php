@@ -49,20 +49,14 @@ abstract class PortfolioDataManager
 	abstract function retrieve_portfolio_publication($id);
 	abstract function retrieve_portfolio_publications($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
-	abstract function get_next_portfolio_publication_group_id();
 	abstract function create_portfolio_publication_group($portfolio_publication_group);
-	abstract function update_portfolio_publication_group($portfolio_publication_group);
 	abstract function delete_portfolio_publication_group($portfolio_publication_group);
 	abstract function count_portfolio_publication_groups($conditions = null);
-	abstract function retrieve_portfolio_publication_group($id);
 	abstract function retrieve_portfolio_publication_groups($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
-	abstract function get_next_portfolio_publication_user_id();
 	abstract function create_portfolio_publication_user($portfolio_publication_user);
-	abstract function update_portfolio_publication_user($portfolio_publication_user);
 	abstract function delete_portfolio_publication_user($portfolio_publication_user);
 	abstract function count_portfolio_publication_users($conditions = null);
-	abstract function retrieve_portfolio_publication_user($id);
 	abstract function retrieve_portfolio_publication_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
 }

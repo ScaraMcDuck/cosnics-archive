@@ -121,7 +121,6 @@ class PortfolioPublicationUser
 	function create()
 	{
 		$dm = PortfolioDataManager :: get_instance();
-		$this->set_id($dm->get_next_portfolio_publication_user_id());
        	return $dm->create_portfolio_publication_user($this);
 	}
 

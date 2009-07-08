@@ -28,6 +28,9 @@ class PortfolioPublication
 	 */
 	private $defaultProperties;
 
+	private $target_groups;
+	private $target_users;
+	
 	/**
 	 * Creates a new PortfolioPublication object
 	 * @param array $defaultProperties The default properties
@@ -200,6 +203,48 @@ class PortfolioPublication
 	function set_published($published)
 	{
 		$this->set_default_property(self :: PROPERTY_PUBLISHED, $published);
+	}
+	
+	function set_target_groups($target_groups)
+	{
+		$this->target_groups = $target_groups;
+	}
+	
+	function set_target_users($target_users)
+	{
+		$this->target_users = $target_users;
+	}
+	
+	function get_target_groups()
+	{
+		if(!$this->target_groups)
+		{
+			$condition = new EqualityCondition(PortfolioPublicationGroup :: PROPERTY_PORTFOLIO_PUBLICATION, $this->get_id());
+			$groups = PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_groups($condition);
+			
+			while($group = $groups->next_result())
+			{
+				$this->target_groups[] = $group->get_group_id();
+			}
+		}
+		
+		return $this->target_groups;
+	}
+	
+	function get_target_users()
+	{
+		if(!$this->target_users)
+		{
+			$condition = new EqualityCondition(PortfolioPublicationUser :: PROPERTY_PORTFOLIO_PUBLICATION, $this->get_id());
+			$users = PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_users($condition);
+			
+			while($user = $users->next_result())
+			{
+				$this->target_users[] = $user->get_user_id();
+			}
+		}
+		
+		return $this->target_users;
 	}
 
 	function delete()

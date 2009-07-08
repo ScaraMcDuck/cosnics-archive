@@ -121,7 +121,6 @@ class PortfolioPublicationGroup
 	function create()
 	{
 		$dm = PortfolioDataManager :: get_instance();
-		$this->set_id($dm->get_next_portfolio_publication_group_id());
        	return $dm->create_portfolio_publication_group($this);
 	}
 
