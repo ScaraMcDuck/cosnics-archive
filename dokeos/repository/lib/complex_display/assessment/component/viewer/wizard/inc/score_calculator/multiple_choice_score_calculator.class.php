@@ -14,7 +14,7 @@ class MultipleChoiceScoreCalculator extends ScoreCalculator
             $answers = $question->get_options();
             $selected = $answers[$user_answers[0]];
 
-            if ($selected->is_correct())
+            if ($selected && $selected->is_correct())
             {
             	return $this->make_score_relative($selected->get_weight(), $selected->get_weight());
             }
