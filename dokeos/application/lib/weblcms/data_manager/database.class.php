@@ -2378,11 +2378,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this->db, $params, $prefix_properties = false);
+			$translator = new ConditionTranslator($this->db, $params);
 			$translator->translate($condition);
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
-		}
+		} 
 
 		$sth = $this->db->get_connection()->prepare($query);
 		$res = $sth->execute($params);
@@ -2461,7 +2461,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this->db, $params, $prefix_properties = false);
+			$translator = new ConditionTranslator($this->db, $params);
 			$translator->translate($condition);
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
@@ -2530,7 +2530,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this->db, $params, $prefix_properties = false);
+			$translator = new ConditionTranslator($this->db, $params);
 			$translator->translate($condition);
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
@@ -2556,7 +2556,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 				 $this->db->escape_column_name(CourseSection :: PROPERTY_COURSE_CODE) . '=?';
 		$statement = $this->db->get_connection()->prepare($query);
 		$statement->execute(array($course_section->get_display_order(), $course_section->get_course_code()));
-		return true;
+		return $success;
 	}
 
 	function change_module_course_section($module_id, $course_section_id)
