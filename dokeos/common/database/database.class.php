@@ -100,31 +100,39 @@ class Database
      *                                                   to avoid collisions.
      * @return string The escaped column name.
      */
-    function escape_column_name($name, $prefix_properties = null)
+    function escape_column_name($name, $storage_unit = null)
     {
-        // Check whether the name contains a seperator, avoids notices.
-        $contains_table_name = strpos($name, '.');
-        if ($contains_table_name === false)
+        $column_name = '';
+        if (!is_null($storage_unit))
         {
-            $table = $name;
-            $column = null;
-        }
-        else
-        {
-            list($table, $column) = explode('.', $name, 2);
+            $column_name .= $storage_unit . '.';
         }
 
-        $prefix = '';
-        if (isset($column))
-        {
-            $prefix = $table . '.';
-            $name = $column;
-        }
-        elseif ($prefix_properties)
-        {
-            $prefix = $prefix_properties . '.';
-        }
-        return $prefix . $this->connection->quoteIdentifier($name);
+        return $column_name . $this->connection->quoteIdentifier($name);
+
+//        // Check whether the name contains a seperator, avoids notices.
+//        $contains_table_name = strpos($name, '.');
+//        if ($contains_table_name === false)
+//        {
+//            $table = $name;
+//            $column = null;
+//        }
+//        else
+//        {
+//            list($table, $column) = explode('.', $name, 2);
+//        }
+//
+//        $prefix = '';
+//        if (isset($column))
+//        {
+//            $prefix = $table . '.';
+//            $name = $column;
+//        }
+//        elseif ($storage_unit)
+//        {
+//            $prefix = $storage_unit . '.';
+//        }
+//        return $prefix . $this->connection->quoteIdentifier($name);
     }
 
     /**
@@ -431,7 +439,7 @@ class Database
         $this->connection->setLimit(intval($maxObjects), intval($offset));
         $statement = $this->connection->prepare($query);
 
-        //echo $query . '<br />';
+        //dump($query);
 
         $res = $statement->execute($params);
 

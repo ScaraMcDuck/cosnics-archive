@@ -24,7 +24,7 @@ class SubselectCondition implements Condition
     /**
      * Table
      */
-    private $table;
+    private $storage_unit;
 
     /**
      * Condition
@@ -36,11 +36,11 @@ class SubselectCondition implements Condition
      * @param string $name
      * @param array $values
      */
-    function SubselectCondition($name, $value, $table, $condition)
+    function SubselectCondition($name, $value, $storage_unit, $condition)
     {
         $this->name = $name;
         $this->value = $value;
-        $this->table = $table;
+        $this->storage_unit = $storage_unit;
         $this->condition = $condition;
     }
 
@@ -63,16 +63,16 @@ class SubselectCondition implements Condition
     }
 
     /**
-     * Gets the table name for this subselect condition
+     * Gets the storage_unit name for this subselect condition
      * @return string
      */
-    function get_table()
+    function get_storage_unit()
     {
-        return $this->table;
+        return $this->storage_unit;
     }
 
     /**
-     * Gets the condition for the subselected table
+     * Gets the condition for the subselected storage_unit
      */
     function get_condition()
     {
@@ -90,7 +90,7 @@ class SubselectCondition implements Condition
             $where = ' WHERE ' . $this->get_condition();
         }
 
-        return $this->get_name() . ' IN (SELECT ' . $this->get_value() . ' FROM ' . $this->get_table() . $where . ')';
+        return $this->get_name() . ' IN (SELECT ' . $this->get_value() . ' FROM ' . $this->get_storage_unit() . $where . ')';
     }
 }
 ?>
