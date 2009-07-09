@@ -56,12 +56,12 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
 
 		$this->display_header($trail);
 		
+		$actions = array('view', 'feedback');
+		
 		if($user_id == $this->get_user_id())
 		{
 			$this->action_bar = $this->get_action_bar();
 			echo $this->action_bar->as_html();
-			
-			$actions = array('view', 'feedback');
 			
 			if($pid && !$cid)
 			{
@@ -73,15 +73,11 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
 				$actions[] = 'edit';
 			
 		}
-		else 
-		{
-			$actions = array('view');
-		}
 		
 		echo '<div id="action_bar_browser">';
 		
 		echo '<div style="width: 18%; float: left; overflow: auto;">';
-		$menu = new PortfolioMenu($this->get_user(), 'run.php?go=view_portfolio&application=portfolio&user_id=' . $this->get_user_id() . '&pid=%s&cid=%s', $pid, $cid);
+		$menu = new PortfolioMenu($this->get_user(), 'run.php?go=view_portfolio&application=portfolio&user_id=' . $user_id . '&pid=%s&cid=%s', $pid, $cid, $user_id);
 		echo $menu->render_as_tree();
 		echo '</div>';
 		
@@ -114,7 +110,10 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Create'), Theme :: get_common_image_path().'action_create.png', $this->get_create_portfolio_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishNewPortfolio'), Theme :: get_common_image_path().'action_create.png', $this->get_create_portfolio_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		
+		if($this->selected_object && $this->selected_object->get_type() == 'portfolio')
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('AddNewItemToPortfolio'), Theme :: get_common_image_path().'action_create.png', $this->get_create_portfolio_item_url($this->selected_object->get_id()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 		return $action_bar;
 	}

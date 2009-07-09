@@ -15,10 +15,14 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
  	const APPLICATION_NAME = 'portfolio';
 
 	const PARAM_PORTFOLIO_PUBLICATION = 'portfolio_publication';
+	const PARAM_PORTFOLIO_ITEM = 'portfolio_item';
 	const PARAM_USER_ID = 'user_id';
+	const PARAM_PARENT = 'parent';
 
 	const ACTION_DELETE_PORTFOLIO_PUBLICATION = 'delete_portfolio_publication';
+	const ACTION_DELETE_PORTFOLIO_ITEM = 'delete_portfolio_item';
 	const ACTION_CREATE_PORTFOLIO_PUBLICATION = 'create_portfolio_publication';
+	const ACTION_CREATE_PORTFOLIO_ITEM = 'create_portfolio_item';
 	const ACTION_VIEW_PORTFOLIO = 'view_portfolio';
 	const ACTION_BROWSE = 'browse';
 
@@ -46,8 +50,14 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 			case self :: ACTION_DELETE_PORTFOLIO_PUBLICATION :
 				$component = PortfolioManagerComponent :: factory('PortfolioPublicationDeleter', $this);
 				break;
+			case self :: ACTION_DELETE_PORTFOLIO_ITEM :
+				$component = PortfolioManagerComponent :: factory('PortfolioItemDeleter', $this);
+				break;
 			case self :: ACTION_CREATE_PORTFOLIO_PUBLICATION :
 				$component = PortfolioManagerComponent :: factory('PortfolioPublicationCreator', $this);
+				break;
+			case self :: ACTION_CREATE_PORTFOLIO_ITEM:
+				$component = PortfolioManagerComponent :: factory('PortfolioItemCreator', $this);
 				break;
 			case self :: ACTION_BROWSE:
 				$component = PortfolioManagerComponent :: factory('Browser', $this);
@@ -123,6 +133,18 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_PORTFOLIO_PUBLICATION,
 								    self :: PARAM_PORTFOLIO_PUBLICATION => $portfolio_publication->get_id()));
+	}
+	
+ 	function get_create_portfolio_item_url($parent_id)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_PORTFOLIO_ITEM,
+									self :: PARAM_PARENT => $parent_id));
+	}
+
+ 	function get_delete_portfolio_item_url($portfolio_item_cid)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_PORTFOLIO_ITEM,
+								    self :: PARAM_PORTFOLIO_ITEM => $portfolio_item_cid));
 	}
 
 	function get_view_portfolio_url($user)
