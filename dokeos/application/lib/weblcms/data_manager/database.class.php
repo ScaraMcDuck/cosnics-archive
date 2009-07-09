@@ -287,16 +287,22 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		/*
 		 * Always respect display order as a last resort.
 		 */
-		$order_by[] = LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX;
+		$order_by[] = new ObjectTableOrder(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX);
 		$order_dir[] = SORT_ASC;
 		/*
 		 * Add ORDER clause.
 		 */
-		$query .= ' ORDER BY '.$this->escape_column_name($order_by[0]).' '. ($order_dir[0] == SORT_ASC ? 'ASC' : 'DESC');
-		for ($i = 1; $i < count($order_by); $i ++)
-		{
-			$query .= ','.$this->escape_column_name($order_by[$i]).' '. ($order_dir[$i] == SORT_ASC ? 'ASC' : 'DESC');
-		}
+		
+		$orders = array();
+		
+	    foreach($order_by as $order)
+        {
+            $orders[] = $this->escape_column_name($order->get_property()) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+        }
+        if (count($orders))
+        {
+            $query .= ' ORDER BY ' . implode(', ', $orders);
+        }
 		// XXX: Is this necessary?
 		if ($max_objects < 0)
 		{
@@ -1039,18 +1045,20 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 				$params = $translator->get_parameters();
 			}
 
-			$order_by[] = Course :: PROPERTY_NAME;
+			$order_by[] = new ObjectTableOrder(Course :: PROPERTY_NAME);
 			$order_dir[] = SORT_ASC;
-			$order = array ();
-
-			for ($i = 0; $i < count($order_by); $i ++)
-			{
-				$order[] = $this->escape_column_name($order_by[$i], true).' '. ($order_dir[$i] == SORT_DESC ? 'DESC' : 'ASC');
-			}
-			if (count($order))
-			{
-				$query .= ' ORDER BY '.implode(', ', $order);
-			}
+			
+			
+		    $orders = array();
+	        foreach($order_by as $order)
+	        {
+	            $orders[] = $this->escape_column_name($order->get_property()) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+	        }
+	        if (count($orders))
+	        {
+	            $query .= ' ORDER BY ' . implode(', ', $orders);
+	        }
+	        
 			if ($max_objects < 0)
 			{
 				$max_objects = null;
@@ -1127,18 +1135,19 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		/*
 		 * Always respect display order as a last resort.
 		 */
-		$order_by[] = Course :: PROPERTY_NAME;
+		$order_by[] = new ObjectTableOrder(Course :: PROPERTY_NAME);
 		$order_dir[] = SORT_ASC;
-		$order = array ();
-
-		for ($i = 0; $i < count($order_by); $i ++)
-		{
-			$order[] = $this->escape_column_name($order_by[$i], true).' '. ($order_dir[$i] == SORT_DESC ? 'DESC' : 'ASC');
-		}
-		if (count($order))
-		{
-			$query .= ' ORDER BY '.implode(', ', $order);
-		}
+	    
+		$orders = array();
+        foreach($order_by as $order)
+        {
+            $orders[] = $this->escape_column_name($order->get_property()) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+        }
+        if (count($orders))
+        {
+            $query .= ' ORDER BY ' . implode(', ', $orders);
+        }
+		
 		if ($max_objects < 0)
 		{
 			$max_objects = null;
@@ -1639,18 +1648,20 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		/*
 		 * Always respect display order as a last resort.
 		 */
-		$order_by[] = CourseCategory :: PROPERTY_NAME;
+		$order_by[] = new ObjectTableOrder(CourseCategory :: PROPERTY_NAME);
 		$order_dir[] = SORT_ASC;
 		$order = array ();
 
-		for ($i = 0; $i < count($order_by); $i ++)
-		{
-			$order[] = $this->escape_column_name($order_by[$i], true).' '. ($order_dir[$i] == SORT_DESC ? 'DESC' : 'ASC');
-		}
-		if (count($order))
-		{
-			$query .= ' ORDER BY '.implode(', ', $order);
-		}
+	    $orders = array();
+        foreach($order_by as $order)
+        {
+            $orders[] = $this->database->escape_column_name($order->get_property()) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+        }
+        if (count($orders))
+        {
+            $query .= ' ORDER BY ' . implode(', ', $orders);
+        }
+		
 		if ($max_objects < 0)
 		{
 			$max_objects = null;
@@ -1679,19 +1690,20 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		 */
 		if (!count($order_by))
 		{
-			$order_by[] = CourseUserCategory :: PROPERTY_TITLE;
+			$order_by[] = new ObjectTableOrder(CourseUserCategory :: PROPERTY_TITLE);
 			$order_dir[] = SORT_ASC;
 		}
-		$order = array ();
-
-		for ($i = 0; $i < count($order_by); $i ++)
-		{
-			$order[] = $this->escape_column_name($order_by[$i], true).' '. ($order_dir[$i] == SORT_DESC ? 'DESC' : 'ASC');
-		}
-		if (count($order))
-		{
-			$query .= ' ORDER BY '.implode(', ', $order);
-		}
+		
+	    $orders = array();
+        foreach($order_by as $order)
+        {
+            $orders[] = $this->escape_column_name($order->get_property()) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+        }
+        if (count($orders))
+        {
+            $query .= ' ORDER BY ' . implode(', ', $orders);
+        }
+		
 		if ($max_objects < 0)
 		{
 			$max_objects = null;

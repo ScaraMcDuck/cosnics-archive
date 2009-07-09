@@ -205,16 +205,16 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
             $params = $translator->get_parameters();
         }
 
-        $order = array();
+        $orders = array();
+        foreach($order_by as $order)
+        {
+            $orders[] = $this->database->escape_column_name($order->get_property(), ($order->alias_is_set() ? $order->get_alias() : $this->get_alias($table_name))) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+        }
+        if (count($orders))
+        {
+            $query .= ' ORDER BY ' . implode(', ', $orders);
+        }
 
-        for($i = 0; $i < count($order_by); $i ++)
-        {
-            $order[] = $this->database->escape_column_name($order_by[$i], true) . ' ' . ($order_dir[$i] == SORT_DESC ? 'DESC' : 'ASC');
-        }
-        if (count($order))
-        {
-            $query .= ' ORDER BY ' . implode(', ', $order);
-        }
         if ($max_objects < 0)
         {
             $max_objects = null;

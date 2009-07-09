@@ -482,16 +482,17 @@ class DatabaseRightsDataManager extends RightsDataManager
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
-		$order = array ();
-
-		for ($i = 0; $i < count($order_by); $i ++)
-		{
-			$order[] = $this->escape_column_name($order_by[$i], true).' '. ($order_dir[$i] == SORT_DESC ? 'DESC' : 'ASC');
-		}
-		if (count($order))
-		{
-			$query .= ' ORDER BY '.implode(', ', $order);
-		}
+		
+	    $orders = array();
+        foreach($order_by as $order)
+        {
+            $orders[] = $this->escape_column_name($order->get_property()) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+        }
+        if (count($orders))
+        {
+            $query .= ' ORDER BY ' . implode(', ', $orders);
+        }
+        
 		if ($max_objects < 0)
 		{
 			$max_objects = null;
@@ -548,16 +549,17 @@ class DatabaseRightsDataManager extends RightsDataManager
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
-		$order = array ();
-
-		for ($i = 0; $i < count($order_by); $i ++)
-		{
-			$order[] = $this->escape_column_name($order_by[$i], true).' '. ($order_dir[$i] == SORT_DESC ? 'DESC' : 'ASC');
-		}
-		if (count($order))
-		{
-			$query .= ' ORDER BY '.implode(', ', $order);
-		}
+		
+	    $orders = array();
+        foreach($order_by as $order)
+        {
+            $orders[] = $this->escape_column_name($order->get_property()) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+        }
+        if (count($orders))
+        {
+            $query .= ' ORDER BY ' . implode(', ', $orders);
+        }
+		
 		if ($max_objects < 0)
 		{
 			$max_objects = null;
@@ -582,18 +584,19 @@ class DatabaseRightsDataManager extends RightsDataManager
 			$params = $translator->get_parameters();
 		}
 
-		$order_by[] = Location :: PROPERTY_LOCATION;
+		$order_by[] = new ObjectTableOrder(Location :: PROPERTY_LOCATION);
 		$order_dir[] = SORT_ASC;
-		$order = array ();
-
-		for ($i = 0; $i < count($order_by); $i ++)
-		{
-			$order[] = $this->escape_column_name($order_by[$i], true).' '. ($order_dir[$i] == SORT_DESC ? 'DESC' : 'ASC');
-		}
-		if (count($order))
-		{
-			$query .= ' ORDER BY '.implode(', ', $order);
-		}
+		
+	    $orders = array();
+        foreach($order_by as $order)
+        {
+            $orders[] = $this->escape_column_name($order->get_property()) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+        }
+        if (count($orders))
+        {
+            $query .= ' ORDER BY ' . implode(', ', $orders);
+        }
+		
 		if ($max_objects < 0)
 		{
 			$max_objects = null;

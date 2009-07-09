@@ -74,7 +74,7 @@ class CategoryMenu extends HTML_Menu
 	private function get_menu_items($parent_id)
 	{
 		$condition = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $parent_id);
-		$objects = $this->category_manager->retrieve_categories($condition, null, null, array(PlatformCategory :: PROPERTY_DISPLAY_ORDER), array(SORT_ASC));
+		$objects = $this->category_manager->retrieve_categories($condition, null, null, new ObjectTableOrder(PlatformCategory :: PROPERTY_DISPLAY_ORDER));
 		
 		while ($object = $objects->next_result())
 		{

@@ -254,7 +254,7 @@ class BuddyList
 	{
 		$condition = new EqualityCondition(BuddyListCategory :: PROPERTY_USER_ID, $this->user->get_id());
 		$udm = UserDataManager :: get_instance();
-		return $udm->retrieve_buddy_list_categories($condition, null, null, array(BuddyListCategory :: PROPERTY_TITLE), array(SORT_ASC));
+		return $udm->retrieve_buddy_list_categories($condition, null, null, new ObjectTableOrder(BuddyListCategory :: PROPERTY_TITLE));
 	}
 	
 	/**
@@ -265,7 +265,7 @@ class BuddyList
 	{
 		$condition = new EqualityCondition(BuddyListItem :: PROPERTY_USER_ID, $this->user->get_id());
 		$udm = UserDataManager :: get_instance();
-		$items = $udm->retrieve_buddy_list_items($condition, null, null, array(BuddyListItem :: PROPERTY_CATEGORY_ID), array(SORT_ASC));
+		$items = $udm->retrieve_buddy_list_items($condition, null, null, new ObjectTableOrder(BuddyListItem :: PROPERTY_CATEGORY_ID));
 											   
 		while($item = $items->next_result())
 		{

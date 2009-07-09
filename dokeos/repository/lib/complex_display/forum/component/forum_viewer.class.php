@@ -182,7 +182,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
             $title = '<a href="' . $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay::ACTION_VIEW_TOPIC,'pid' => $this->pid, 'cid' => $topic->get_id())) . '">' . $topic->get_ref()->get_title() . '</a>';
 
             $count = $rdm->count_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $topic->get_ref()->get_id()));
-            $last_post = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $topic->get_ref()->get_id()), array(ComplexLearningObjectItem :: PROPERTY_ADD_DATE), array(SORT_DESC), 0, 1 )->next_result();
+            $last_post = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $topic->get_ref()->get_id()), new ObjectTableOrder(ComplexLearningObjectItem :: PROPERTY_ADD_DATE, SORT_DESC), array(), 0, 1 )->next_result();
 
             $src = 'forum/topic_read.png';
             $hover = 'NoNewPosts';

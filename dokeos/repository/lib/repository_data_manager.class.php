@@ -85,8 +85,10 @@ abstract class RepositoryDataManager
 	{
 		$adm = AdminDataManager :: get_instance();
 		$condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_LEARNING_OBJECT);
+		
+		$order = new ObjectTableOrder(Registration :: PROPERTY_NAME, SORT_ASC);
 
-		$learning_objects = $adm->retrieve_registrations($condition, array(Registration :: PROPERTY_NAME), array(SORT_ASC));
+		$learning_objects = $adm->retrieve_registrations($condition, $order);
 		$active_learning_objects = array();
 
 		while ($learning_object = $learning_objects->next_result())

@@ -56,7 +56,7 @@ class NavigationItemMenu extends HTML_Menu
     private function get_navigation_items($extra_items_before, $extra_items_after, $condition)
     {
         $datamanager = MenuDataManager :: get_instance();
-        $objects = $datamanager->retrieve_navigation_items($condition, null, null, array(NavigationItem :: PROPERTY_SORT), array(SORT_ASC));
+        $objects = $datamanager->retrieve_navigation_items($condition, null, null, new ObjectTableOrder(NavigationItem :: PROPERTY_SORT));
         $categories = array();
         while ($category = $objects->next_result())
         {

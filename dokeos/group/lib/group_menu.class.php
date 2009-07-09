@@ -50,7 +50,7 @@ class GroupMenu extends HTML_Menu
 		if ($current_category == '0')
 		{
 			$condition = new EqualityCondition(Group :: PROPERTY_PARENT, 0);
-			$group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, array(Group :: PROPERTY_SORT), array(SORT_ASC))->next_result();
+			$group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, new ObjectTableOrder(Group :: PROPERTY_SORT))->next_result();
 
 			$this->current_category = $group->get_id();
 		}
@@ -70,7 +70,7 @@ class GroupMenu extends HTML_Menu
 		$include_root = $this->include_root;
 
 		$condition = new EqualityCondition(Group :: PROPERTY_PARENT, 0);
-		$group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, array(Group :: PROPERTY_SORT), array(SORT_ASC))->next_result();
+		$group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, new ObjectTableOrder(Group :: PROPERTY_SORT))->next_result();
 
 		if (!$include_root)
 		{
@@ -111,7 +111,7 @@ class GroupMenu extends HTML_Menu
 		$current_category = $this->current_category;
 
 		$condition = new EqualityCondition(Group :: PROPERTY_PARENT, $parent_id);
-		$groups = GroupDataManager :: get_instance()->retrieve_groups($condition, null, null, array(Group :: PROPERTY_SORT), array(SORT_ASC));
+		$groups = GroupDataManager :: get_instance()->retrieve_groups($condition, null, null, new ObjectTableOrder(Group :: PROPERTY_SORT));
 
 		while ($group = $groups->next_result())
 		{

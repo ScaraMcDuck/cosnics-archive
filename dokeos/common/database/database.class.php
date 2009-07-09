@@ -423,7 +423,11 @@ class Database
 
         $orders = array();
 
-        dump($order_by);
+//        echo '<strong>Statement</strong><br />';
+//        echo 'Prefix: ' . $this->prefix . '<br />';
+//        dump($query);
+//        dump($order_by);
+//        echo '<br /><br /><br />';
 
         foreach($order_by as $order)
         {
@@ -440,8 +444,6 @@ class Database
 
         $this->connection->setLimit(intval($max_objects), intval($offset));
         $statement = $this->connection->prepare($query);
-
-        dump($query);
 
         $res = $statement->execute($params);
 

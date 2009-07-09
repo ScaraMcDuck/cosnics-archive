@@ -181,7 +181,7 @@ class NavigationItemForm extends FormValidator
     {
         $condition = new EqualityCondition(NavigationItem :: PROPERTY_CATEGORY, 0);
         
-        $items = MenuDataManager :: get_instance()->retrieve_navigation_items($condition, null, null, array(NavigationItem :: PROPERTY_SORT), array(SORT_ASC));
+        $items = MenuDataManager :: get_instance()->retrieve_navigation_items($condition, null, null, new ObjectTableOrder(NavigationItem :: PROPERTY_SORT));
         $item_options = array();
         $item_options[0] = Translation :: get('Root');
         

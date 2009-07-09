@@ -35,7 +35,10 @@ class RepositoryCategoryManager extends CategoryManager
 		$wdm = RepositoryDataManager :: get_instance();
 		
 		if($condition)
+		{
 			$conditions[] = $condition;
+		}
+		
 		$conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_USER_ID, $this->get_user_id());
 		$condition = new AndCondition($conditions);
 		

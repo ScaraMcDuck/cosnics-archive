@@ -22,7 +22,7 @@ class XmlTreeMenuRenderer
     function get_category()
     {
         $condition = new EqualityCondition(Group :: PROPERTY_PARENT, 0);
-        return GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, array(Group :: PROPERTY_SORT), array(SORT_ASC))->next_result();
+        return GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, new ObjectTableOrder(Group :: PROPERTY_SORT))->next_result();
         
     //return $this->get_menu()->get_current_category();
     }
