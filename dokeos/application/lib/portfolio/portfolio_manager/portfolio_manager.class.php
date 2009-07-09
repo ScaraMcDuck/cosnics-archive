@@ -63,8 +63,17 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 				$component = PortfolioManagerComponent :: factory('Browser', $this);
 				break;
 			default :
-				$this->set_action(self :: ACTION_BROWSE);
-				$component = PortfolioManagerComponent :: factory('Browser', $this);
+				if(PlatformSetting :: get('first_page', 'portfolio') == 0)
+				{
+					$this->set_action(self :: ACTION_BROWSE);
+					$component = PortfolioManagerComponent :: factory('Browser', $this);
+				}
+				else
+				{
+					$this->set_action(self :: ACTION_VIEW_PORTFOLIO);
+					$component = PortfolioManagerComponent :: factory('Viewer', $this);
+					$_GET['user_id'] = $this->get_user_id();
+				}
 
 		}
 		$component->run();
