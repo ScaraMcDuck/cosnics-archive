@@ -2,6 +2,7 @@
 /**
  * @package common.html.table.common
  */
+require_once Path :: get_library_path() . 'html/table/object_table/object_table_order.class.php';
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_column.class.php';
 require_once Path :: get_library_path() . 'html/table/static_table_column.class.php';
 
@@ -104,14 +105,14 @@ class ObjectTableColumnModel
         $this->order_direction = $direction;
     }
 
-    function get_order_column($column_number)
+    function get_order_column($column_number, $order_direction)
     {
         $column = $this->get_column($column_number);
 
         // If it's an ObjectTableColumn AND sorting is allowed for it, then return the property
         if ($column instanceof ObjectTableColumn && $column->is_sortable())
         {
-            return $column->get_property();
+            return new ObjectTableOrder($column->get_property(), $order_direction, $column->get_storage_unit());
         }
         // If not, return the default order property
         else

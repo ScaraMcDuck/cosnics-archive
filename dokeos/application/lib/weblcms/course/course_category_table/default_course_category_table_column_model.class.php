@@ -22,8 +22,8 @@ class DefaultCourseCategoryTableColumnModel extends ObjectTableColumnModel
 	private static function get_default_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(CourseCategory :: PROPERTY_NAME, true);
-		$columns[] = new ObjectTableColumn(CourseCategory :: PROPERTY_CODE, true);
+		$columns[] = new ObjectTableColumn(CourseCategory :: PROPERTY_NAME);
+		$columns[] = new ObjectTableColumn(CourseCategory :: PROPERTY_CODE);
 		return $columns;
 	}
 }

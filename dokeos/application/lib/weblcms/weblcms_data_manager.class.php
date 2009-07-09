@@ -132,16 +132,16 @@ abstract class WeblcmsDataManager
 	 *                                 if it was published for several course_groups
 	 *                                 that the user is a member of. Defaults
 	 *                                 to false.
-	 * @param array $orderBy The properties to order publications by.
-	 * @param array $orderDir An array representing the sorting direction
-	 *                        for the corresponding property of $orderBy.
+	 * @param array $order_by The properties to order publications by.
+	 * @param array $order_dir An array representing the sorting direction
+	 *                        for the corresponding property of $order_by.
 	 *                        Use SORT_ASC for ascending order, SORT_DESC
 	 *                        for descending.
 	 * @param int $offset The index of the first publication to retrieve.
-	 * @param int $maxObjects The maximum number of objects to retrieve.
+	 * @param int $max_objects The maximum number of objects to retrieve.
 	 * @return ResultSet A set of LearningObjectPublications.
 	 */
-	abstract function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $course_groups = null, $condition = null, $allowDuplicates = false, $orderBy = array ('display_order'), $orderDir = array (SORT_ASC), $offset = 0, $maxObjects = -1);
+	abstract function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $course_groups = null, $condition = null, $allowDuplicates = false, $order_by = array ('display_order'), $order_dir = array (SORT_ASC), $offset = 0, $max_objects = -1);
 
 	/**
 	 * Counts learning object publications in persistent storage.
@@ -492,10 +492,10 @@ abstract class WeblcmsDataManager
 	 * @param User $user
 	 * @param string $category
 	 * @param Condition $condition
-	 * @param array $orderBy
-	 * @param array $orderDir
+	 * @param array $order_by
+	 * @param array $order_dir
 	 * @param int $offset
-	 * @param int $maxObjects
+	 * @param int $max_objects
 	 * @return CourseResultSet
 	 */
 	abstract function retrieve_courses($user = null, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
@@ -503,10 +503,10 @@ abstract class WeblcmsDataManager
 	/**
 	 * Retrieve a series of courses for a specific user + the relation
 	 * @param Condition $condition
-	 * @param array $orderBy
-	 * @param array $orderDir
+	 * @param array $order_by
+	 * @param array $order_dir
 	 * @param int $offset
-	 * @param int $maxObjects
+	 * @param int $max_objects
 	 * @return CourseResultSet
 	 */
 	abstract function retrieve_user_courses($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);

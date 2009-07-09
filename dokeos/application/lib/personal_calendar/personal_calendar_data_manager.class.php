@@ -89,13 +89,13 @@ abstract class PersonalCalendarDataManager
     /**
 	 * Retrieve a series of profile publications 
 	 * @param Condition $condition
-	 * @param array $orderBy
-	 * @param array $orderDir
+	 * @param array $order_by
+	 * @param array $order_dir
 	 * @param int $offset
-	 * @param int $maxObjects
+	 * @param int $max_objects
 	 * @return ProfilePublicationResultSet
 	 */	
-    abstract function retrieve_calendar_event_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
+    abstract function retrieve_calendar_event_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1);
     /**
 	 * Update the publication
 	 * @param ProfilePublication $profile_publication

@@ -20,11 +20,11 @@ class DatabaseWikiDataManager extends WikiDataManager
 
 	function initialize()
 	{
-		$aliasses = array();
-		$aliasses[WikiPublication :: get_table_name()] = 'wion';
-        $aliasses[WikiPubFeedback :: get_table_name()] = 'wpf';
+		$aliases = array();
+		$aliases[WikiPublication :: get_table_name()] = 'wion';
+        $aliases[WikiPubFeedback :: get_table_name()] = 'wpf';
 
-		$this->database = new Database($aliasses);
+		$this->database = new Database($aliases);
 		$this->database->set_prefix('wiki_');
 	}
 
@@ -73,9 +73,9 @@ class DatabaseWikiDataManager extends WikiDataManager
         return $object;
 	}
 
-	function retrieve_wiki_publications($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_wiki_publications($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-        return $this->database->retrieve_objects(WikiPublication :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+        return $this->database->retrieve_objects(WikiPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
 	}
 
     function retrieve_wiki_pub_feedback($id)
@@ -84,9 +84,9 @@ class DatabaseWikiDataManager extends WikiDataManager
 		$object = $this->database->retrieve_object(WikiPubFeedback :: get_table_name(), $condition);
     }
 
-    function retrieve_wiki_pub_feedbacks($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+    function retrieve_wiki_pub_feedbacks($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
     {
-        return $this->database->retrieve_objects(WikiPubFeedback :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+        return $this->database->retrieve_objects(WikiPubFeedback :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
     }
 
     function get_next_wiki_pub_feedback_id()

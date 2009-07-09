@@ -173,9 +173,9 @@ class DatabaseUserDataManager extends UserDataManager
 		return $this->database->count_objects(User :: get_table_name(), $condition);
 	}
 
-	function retrieve_users($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_users($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(User :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects(User :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
 	}
 
 	//Inherited.
@@ -217,7 +217,7 @@ class DatabaseUserDataManager extends UserDataManager
 		*/
 	}
 
-	function retrieve_user_roles($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_user_roles($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
 		return $this->database->retrieve_objects(UserRole :: get_table_name(), $condition);
 	}

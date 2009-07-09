@@ -28,19 +28,19 @@ class DefaultWikiPublicationTableColumnModel extends ObjectTableColumnModel
 	{
 		$columns = array();
 
-//		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_ID, true);
-        $columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE, true);
-        $columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION, true);
-//		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_PARENT_ID, true);
-//		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_CATEGORY, true);
-//		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_FROM_DATE, true);
-//		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_TO_DATE, true);
-//		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_HIDDEN, true);
-//		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_PUBLISHER, true);
-//		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_PUBLISHED, true);
-//		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_MODIFIED, true);
-//		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_DISPLAY_ORDER, true);
-//		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_EMAIL_SENT, true);
+//		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_ID);
+        $columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE);
+        $columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION);
+//		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_PARENT_ID);
+//		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_CATEGORY);
+//		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_FROM_DATE);
+//		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_TO_DATE);
+//		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_HIDDEN);
+//		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_PUBLISHER);
+//		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_PUBLISHED);
+//		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_MODIFIED);
+//		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_DISPLAY_ORDER);
+//		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_EMAIL_SENT);
 
 		return $columns;
 	}

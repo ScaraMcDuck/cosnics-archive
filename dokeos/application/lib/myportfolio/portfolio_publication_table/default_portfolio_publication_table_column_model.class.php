@@ -24,10 +24,10 @@ class DefaultPortfolioPublicationTableColumnModel extends ObjectTableColumnModel
 	private static function get_default_columns()
 	{
 		$columns = array();
-//		$columns[] = new ObjectTableColumn(User :: PROPERTY_USERNAME, true);
-		$columns[] = new ObjectTableColumn(User :: PROPERTY_LASTNAME, true);
-		$columns[] = new ObjectTableColumn(User :: PROPERTY_FIRSTNAME, true);
-		$columns[] = new ObjectTableColumn(PortfolioPublication :: PROPERTY_ITEM, true);
+//		$columns[] = new ObjectTableColumn(User :: PROPERTY_USERNAME);
+		$columns[] = new ObjectTableColumn(User :: PROPERTY_LASTNAME);
+		$columns[] = new ObjectTableColumn(User :: PROPERTY_FIRSTNAME);
+		$columns[] = new ObjectTableColumn(PortfolioPublication :: PROPERTY_ITEM);
 		return $columns;
 	}
 }

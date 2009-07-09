@@ -41,7 +41,7 @@ class CategoryBrowserTableColumnModel extends ObjectTableColumnModel
 	{
 		$columns = array();
 		$columns[] = new StaticTableColumn('');
-		$columns[] = new ObjectTableColumn(PlatformCategory :: PROPERTY_NAME, true);
+		$columns[] = new ObjectTableColumn(PlatformCategory :: PROPERTY_NAME);
 		$columns[] = new StaticTableColumn(Translation :: get('Subcategories'));
 		return $columns;
 	}

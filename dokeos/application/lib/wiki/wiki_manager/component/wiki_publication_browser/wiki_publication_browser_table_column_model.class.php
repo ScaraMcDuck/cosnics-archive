@@ -44,8 +44,8 @@ class WikiPublicationBrowserTableColumnModel extends DefaultWikiPublicationTable
     public static function get_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE, true);
-		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION, true);
+		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE);
+		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION);
 		return $columns;
 	}
 }

@@ -397,16 +397,16 @@ class MyPortfolioManager extends WebApplication
 		return $pdm->retrieve_portfolio_publication_from_item($item);
 	}
 
-	function retrieve_portfolio_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	function retrieve_portfolio_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
 	{
 		$pmdm = PortfolioDataManager :: get_instance();
-		return $pmdm->retrieve_portfolio_publications($condition, $orderBy, $orderDir, $offset, $maxObjects);
+		return $pmdm->retrieve_portfolio_publications($condition, $order_by, $order_dir, $offset, $max_objects);
 	}
 
-    function retrieve_rdpublications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+    function retrieve_rdpublications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
 	{
 		$pmdm = PortfolioDataManager :: get_instance();
-		return $pmdm->retrieve_rdpublications($condition, $orderBy, $orderDir, $offset, $maxObjects);
+		return $pmdm->retrieve_rdpublications($condition, $order_by, $order_dir, $offset, $max_objects);
 	}
 
     function retrieve_publications($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)

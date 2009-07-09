@@ -92,9 +92,9 @@ abstract class RepositoryManagerComponent extends CoreApplicationComponent
 	/**
 	 * @see RepositoryManager::retrieve_learning_objects()
 	 */
-	function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false)
+	function retrieve_learning_objects($type = null, $condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false)
 	{
-		return $this->get_parent()->retrieve_learning_objects($type, $condition, $orderBy, $orderDir, $offset, $maxObjects, $state, $different_parent_state);
+		return $this->get_parent()->retrieve_learning_objects($type, $condition, $order_by, $order_dir, $offset, $max_objects, $state, $different_parent_state);
 	}
 
 	/**
@@ -288,9 +288,9 @@ abstract class RepositoryManagerComponent extends CoreApplicationComponent
 		return $this->get_parent()->count_complex_learning_object_items($condition);
 	}
 
-	function retrieve_complex_learning_object_items($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	function retrieve_complex_learning_object_items($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
 	{
-		return $this->get_parent()->retrieve_complex_learning_object_items($condition, $orderBy, $orderDir, $offset, $maxObjects);
+		return $this->get_parent()->retrieve_complex_learning_object_items($condition, $order_by, $order_dir, $offset, $max_objects);
 	}
 
 	function retrieve_complex_learning_object_item($cloi_id)

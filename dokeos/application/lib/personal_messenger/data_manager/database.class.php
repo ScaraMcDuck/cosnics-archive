@@ -56,9 +56,9 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 	}
 
     // Inherited.
-    function retrieve_personal_message_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+    function retrieve_personal_message_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
 	{
-	    return $this->database->retrieve_objects(PersonalMessagePublication :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir, PersonalMessagePublication :: CLASS_NAME);
+	    return $this->database->retrieve_objects(PersonalMessagePublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, PersonalMessagePublication :: CLASS_NAME);
 	}
 
 	// Inherited.

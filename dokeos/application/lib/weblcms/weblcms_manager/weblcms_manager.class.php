@@ -667,9 +667,9 @@ class WeblcmsManager extends WebApplication
 	 * @param string $parent The parent of the course category.
 	 * @return DatabaseCourseCategoryResultSet The resultset of course category.
 	 */
-	function retrieve_course_categories($conditions = null, $offset = null, $count = null, $orderBy = null, $orderDir = null)
+	function retrieve_course_categories($conditions = null, $offset = null, $count = null, $order_by = null, $order_dir = null)
 	{
-		return WeblcmsDataManager :: get_instance()->retrieve_course_categories($conditions, $offset, $count, $orderBy, $orderDir);
+		return WeblcmsDataManager :: get_instance()->retrieve_course_categories($conditions, $offset, $count, $order_by, $order_dir);
 	}
 
 	/**
@@ -761,10 +761,10 @@ class WeblcmsManager extends WebApplication
 	 * @param User $user
 	 * @param string $category
 	 * @param Condition $condition
-	 * @param array $orderBy
-	 * @param array $orderDir
+	 * @param array $order_by
+	 * @param array $order_dir
 	 * @param int $offset
-	 * @param int $maxObjects
+	 * @param int $max_objects
 	 * @return CourseResultSet
 	 */
 	function retrieve_courses($user = null, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
@@ -775,10 +775,10 @@ class WeblcmsManager extends WebApplication
 	/**
 	 * Retrieve a series of courses for a specific user + the relation
 	 * @param Condition $condition
-	 * @param array $orderBy
-	 * @param array $orderDir
+	 * @param array $order_by
+	 * @param array $order_dir
 	 * @param int $offset
-	 * @param int $maxObjects
+	 * @param int $max_objects
 	 * @return CourseResultSet
 	 */
 	function retrieve_user_courses($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)

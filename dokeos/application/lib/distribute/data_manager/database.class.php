@@ -93,9 +93,9 @@ class DatabaseDistributeDataManager extends DistributeDataManager
 		return $this->database->retrieve_object(AnnouncementDistribution :: get_table_name(), $condition);
 	}
 
-	function retrieve_announcement_distributions($condition = null, $offset = null, $maxObjects = null, $orderBy = array(), $orderDir = array())
+	function retrieve_announcement_distributions($condition = null, $offset = null, $max_objects = null, $order_by = array(), $order_dir = array())
 	{
-		return $this->database->retrieve_objects(AnnouncementDistribution :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects(AnnouncementDistribution :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
 	}
 
 	function retrieve_announcement_distribution_target_groups($announcement_distribution)

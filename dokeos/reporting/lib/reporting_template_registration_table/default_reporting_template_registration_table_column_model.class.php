@@ -25,9 +25,9 @@ class DefaultReportingTemplateRegistrationTableColumnModel extends ObjectTableCo
 	private static function get_default_columns()
 	{
 		$columns = array();
-        $columns[] = new ObjectTableColumn(ReportingTemplateRegistration :: PROPERTY_APPLICATION, true);
-		$columns[] = new ObjectTableColumn(ReportingTemplateRegistration :: PROPERTY_TITLE, true);
-		$columns[] = new ObjectTableColumn(ReportingTemplateRegistration :: PROPERTY_DESCRIPTION, true);
+        $columns[] = new ObjectTableColumn(ReportingTemplateRegistration :: PROPERTY_APPLICATION);
+		$columns[] = new ObjectTableColumn(ReportingTemplateRegistration :: PROPERTY_TITLE);
+		$columns[] = new ObjectTableColumn(ReportingTemplateRegistration :: PROPERTY_DESCRIPTION);
 		return $columns;
 	}
 }

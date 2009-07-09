@@ -179,9 +179,9 @@ class DatabaseTrackingDataManager extends TrackingDataManager
         return $trackers;
     }
 
-    function retrieve_event_tracker_relations($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+    function retrieve_event_tracker_relations($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
     {
-        return $this->database->retrieve_objects(EventRelTracker :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+        return $this->database->retrieve_objects(EventRelTracker :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
     }
 
     /**
@@ -217,9 +217,9 @@ class DatabaseTrackingDataManager extends TrackingDataManager
      * Retrieves all events
      * @return array of events
      */
-    function retrieve_events($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+    function retrieve_events($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
     {
-        return $this->database->retrieve_objects(Event :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+        return $this->database->retrieve_objects(Event :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
     }
 
     /**

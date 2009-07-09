@@ -27,9 +27,9 @@ class SurveyUserTableColumnModel extends ObjectTableColumnModel {
 	private static function get_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(SurveyInvitation :: PROPERTY_USER_ID, true);
-		$columns[] = new ObjectTableColumn(SurveyInvitation :: PROPERTY_EMAIL, true);
-		$columns[] = new ObjectTableColumn(SurveyInvitation :: PROPERTY_VALID, true);
+		$columns[] = new ObjectTableColumn(SurveyInvitation :: PROPERTY_USER_ID);
+		$columns[] = new ObjectTableColumn(SurveyInvitation :: PROPERTY_EMAIL);
+		$columns[] = new ObjectTableColumn(SurveyInvitation :: PROPERTY_VALID);
 		$columns[] = self :: get_action_column();
 		return $columns;
 	}

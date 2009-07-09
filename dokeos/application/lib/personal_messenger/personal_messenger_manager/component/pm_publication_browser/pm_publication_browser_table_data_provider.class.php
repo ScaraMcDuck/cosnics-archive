@@ -34,7 +34,7 @@ class PmPublicationBrowserTableDataProvider extends ObjectTableDataProvider
 	function get_objects($offset, $count, $order_property = null, $order_direction = null)
 	{
 		$order_property = $this->get_order_property($order_property);
-		$order_direction = $this->get_order_property($order_direction);
+		$order_direction = $this->get_order_direction($order_direction);
 		return $this->get_browser()->retrieve_personal_message_publications($this->get_condition(), $order_property, $order_direction, $offset, $count);
 	}
 	/**

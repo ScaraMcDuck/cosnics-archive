@@ -193,7 +193,7 @@ class Role
 		return $rdm->create_role($this);
 	}
 
-	function get_users($user_condition, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function get_users($user_condition, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
 		$udm = UserDataManager :: get_instance();
 		$condition = new EqualityCondition(UserRole :: PROPERTY_ROLE_ID, $this->get_id());
@@ -226,7 +226,7 @@ class Role
 				$conditions[] = $user_condition;
 			}
 			$condition = new AndCondition($conditions);
-			return $udm->retrieve_users($condition, $offset , $maxObjects , $orderBy , $orderDir );
+			return $udm->retrieve_users($condition, $offset , $max_objects , $order_by , $order_dir );
 		}
 		else
 		{

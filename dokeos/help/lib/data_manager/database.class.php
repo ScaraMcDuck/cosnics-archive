@@ -47,9 +47,9 @@ class DatabaseHelpDataManager extends HelpDataManager
 		return $this->database->count_objects(HelpItem :: get_table_name(), $condition);
 	}
 
-	function retrieve_help_items($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_help_items($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(HelpItem :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects(HelpItem :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
 	}
 
 	function retrieve_help_item($id)

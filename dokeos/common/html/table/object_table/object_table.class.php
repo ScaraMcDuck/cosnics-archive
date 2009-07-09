@@ -323,7 +323,8 @@ class ObjectTable
      */
     function get_objects($offset, $count, $order_column, $order_direction)
     {
-        $objects = $this->get_data_provider()->get_objects($offset, $count, $this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0)), $order_direction);
+        dump($this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0), $order_direction));
+        $objects = $this->get_data_provider()->get_objects($offset, $count, $this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0), $order_direction));
         $table_data = array();
         $column_count = $this->get_column_model()->get_column_count();
         while ($object = $objects->next_result())

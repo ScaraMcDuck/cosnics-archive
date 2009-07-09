@@ -25,8 +25,8 @@ class DefaultGroupTableColumnModel extends ObjectTableColumnModel
 	private static function get_default_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(Group :: PROPERTY_NAME, true);
-		$columns[] = new ObjectTableColumn(Group :: PROPERTY_DESCRIPTION, true);
+		$columns[] = new ObjectTableColumn(Group :: PROPERTY_NAME);
+		$columns[] = new ObjectTableColumn(Group :: PROPERTY_DESCRIPTION);
 		return $columns;
 	}
 }

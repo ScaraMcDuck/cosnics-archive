@@ -25,8 +25,8 @@ class DefaultWebserviceTableColumnModel extends ObjectTableColumnModel
 	private static function get_default_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(WebserviceRegistration :: PROPERTY_NAME, true);
-		$columns[] = new ObjectTableColumn(WebserviceRegistration :: PROPERTY_DESCRIPTION, true);
+		$columns[] = new ObjectTableColumn(WebserviceRegistration :: PROPERTY_NAME);
+		$columns[] = new ObjectTableColumn(WebserviceRegistration :: PROPERTY_DESCRIPTION);
 		return $columns;
 	}
 }

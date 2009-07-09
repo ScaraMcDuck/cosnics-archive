@@ -107,9 +107,9 @@ class DatabaseHomeDataManager extends HomeDataManager
         return $this->database->count_objects(HomeBlock :: get_table_name(), $condition);
     }
 
-    function retrieve_home_rows($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+    function retrieve_home_rows($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
     {
-        return $this->database->retrieve_objects(HomeRow :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir, HomeRow :: CLASS_NAME);
+        return $this->database->retrieve_objects(HomeRow :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, HomeRow :: CLASS_NAME);
     }
 
     function retrieve_home_row($id)
@@ -118,9 +118,9 @@ class DatabaseHomeDataManager extends HomeDataManager
         return $this->database->retrieve_object(HomeRow :: get_table_name(), $condition, array(), array(), HomeRow :: CLASS_NAME);
     }
 
-    function retrieve_home_tabs($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+    function retrieve_home_tabs($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
     {
-        return $this->database->retrieve_objects(HomeTab :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir, HomeTab :: CLASS_NAME);
+        return $this->database->retrieve_objects(HomeTab :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, HomeTab :: CLASS_NAME);
     }
 
     function retrieve_home_tab($id)
@@ -137,9 +137,9 @@ class DatabaseHomeDataManager extends HomeDataManager
         return new ObjectResultSet($this->database, $res, HomeBlock :: CLASS_NAME);
     }
 
-    function retrieve_home_columns($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+    function retrieve_home_columns($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
     {
-        return $this->database->retrieve_objects(HomeColumn :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir, HomeColumn :: CLASS_NAME);
+        return $this->database->retrieve_objects(HomeColumn :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, HomeColumn :: CLASS_NAME);
     }
 
     function retrieve_home_column($id)
@@ -148,9 +148,9 @@ class DatabaseHomeDataManager extends HomeDataManager
         return $this->database->retrieve_object(HomeColumn :: get_table_name(), $condition, array(), array(), HomeColumn :: CLASS_NAME);
     }
 
-    function retrieve_home_blocks($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+    function retrieve_home_blocks($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
     {
-        return $this->database->retrieve_objects(HomeBlock :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir, HomeBlock :: CLASS_NAME);
+        return $this->database->retrieve_objects(HomeBlock :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, HomeBlock :: CLASS_NAME);
     }
 
     function retrieve_home_block($id)
@@ -466,9 +466,9 @@ class DatabaseHomeDataManager extends HomeDataManager
         return $this->database->delete(HomeBlockConfig :: get_table_name(), $condition);
     }
 
-    function retrieve_home_block_config($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+    function retrieve_home_block_config($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
     {
-        return $this->database->retrieve_objects(HomeBlockConfig :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir, HomeBlockConfig :: CLASS_NAME);
+        return $this->database->retrieve_objects(HomeBlockConfig :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, HomeBlockConfig :: CLASS_NAME);
     }
 
     function count_home_block_config($condition = null)

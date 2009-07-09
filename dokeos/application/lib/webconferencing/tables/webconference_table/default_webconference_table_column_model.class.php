@@ -27,9 +27,9 @@ class DefaultWebconferenceTableColumnModel extends ObjectTableColumnModel
 	private static function get_default_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(Webconference :: PROPERTY_CONFNAME, true);
-		$columns[] = new ObjectTableColumn(Webconference :: PROPERTY_DESCRIPTION, true);
-		$columns[] = new ObjectTableColumn(Webconference :: PROPERTY_DURATION, true);
+		$columns[] = new ObjectTableColumn(Webconference :: PROPERTY_CONFNAME);
+		$columns[] = new ObjectTableColumn(Webconference :: PROPERTY_DESCRIPTION);
+		$columns[] = new ObjectTableColumn(Webconference :: PROPERTY_DURATION);
 
 		return $columns;
 	}

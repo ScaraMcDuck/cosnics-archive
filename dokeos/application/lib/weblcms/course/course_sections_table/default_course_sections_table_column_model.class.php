@@ -22,7 +22,7 @@ class DefaultCourseSectionsTableColumnModel extends ObjectTableColumnModel
 	private static function get_default_columns()
 	{
 		$columns = array();
-		//$columns[] = new ObjectTableColumn(CourseSection :: PROPERTY_ID, true);
+		//$columns[] = new ObjectTableColumn(CourseSection :: PROPERTY_ID);
 		$columns[] = new StaticTableColumn(Translation :: get(DokeosUtilities :: underscores_to_camelcase(CourseSection :: PROPERTY_NAME)));
 		return $columns;
 	}

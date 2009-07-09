@@ -28,8 +28,8 @@ class LearningPathPublicationTableColumnModel extends ObjectTableColumnModel {
 	private static function get_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE, true);
-		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION, true);
+		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE);
+		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION);
 		$columns[] = new StaticTableColumn(Translation :: get('Progress'));
 		$columns[] = self :: get_action_column();
 		return $columns;

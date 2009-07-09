@@ -228,9 +228,9 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
 	/**
 	 * @see WeblcmsManager :: retrieve_course_categories()
 	 */
-	function retrieve_course_categories($conditions = null, $offset = null, $count = null, $orderBy = null, $orderDir = null)
+	function retrieve_course_categories($conditions = null, $offset = null, $count = null, $order_by = null, $order_dir = null)
 	{
-		return $this->get_parent()->retrieve_course_categories($conditions, $offset, $count, $orderBy, $orderDir);
+		return $this->get_parent()->retrieve_course_categories($conditions, $offset, $count, $order_by, $order_dir);
 	}
 
 	/**

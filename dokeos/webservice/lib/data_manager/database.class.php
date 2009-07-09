@@ -89,9 +89,9 @@ class DatabaseWebserviceDataManager extends WebserviceDataManager
 		return $this->database->retrieve_object(WebserviceRegistration:: get_table_name(), $condition);
 	}
 
-	function retrieve_webservices($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_webservices($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(WebserviceRegistration :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects(WebserviceRegistration :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
 	}
 
 	function retrieve_webservice_category($id)
@@ -100,9 +100,9 @@ class DatabaseWebserviceDataManager extends WebserviceDataManager
 		return $this->database->retrieve_object(WebserviceCategory :: get_table_name(), $condition);
 	}
 
-	function retrieve_webservice_categories($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_webservice_categories($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(WebserviceCategory :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects(WebserviceCategory :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
 	}
 
 	function retrieve_webservice_credential_by_hash($hash)

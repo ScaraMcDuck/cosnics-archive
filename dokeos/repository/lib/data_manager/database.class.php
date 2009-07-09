@@ -122,7 +122,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 	// Inherited.
 	// TODO: Extract methods.
-	function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false)
+	function retrieve_learning_objects($type = null, $condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false)
 	{
 		$query = 'SELECT * FROM ';
 		if ($different_parent_state)
@@ -180,8 +180,8 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		/*
 		 * Always respect display order as a last resort.
 		 */
-		$orderBy[] = LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX;
-		$orderDir[] = SORT_ASC;
+		$order_by[] = LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX;
+		$order_dir[] = SORT_ASC;
 		$order = array ();
 		/*
 		 * Categories always come first. Does not matter if we're dealing with
@@ -191,20 +191,20 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			//$order[] = '('.$this->escape_column_name(LearningObject :: PROPERTY_TYPE, true).' = "category") DESC';
 		}
-		for ($i = 0; $i < count($orderBy); $i ++)
+		for ($i = 0; $i < count($order_by); $i ++)
 		{
-			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+			$order[] = $this->escape_column_name($order_by[$i], true).' '. ($order_dir[$i] == SORT_DESC ? 'DESC' : 'ASC');
 		}
 		if (count($order))
 		{
 			$query .= ' ORDER BY '.implode(', ', $order);
 		}
-		if ($maxObjects < 0)
+		if ($max_objects < 0)
 		{
-			$maxObjects = null;
+			$max_objects = null;
 		}
 		//echo $query; dump($params);
-		$this->connection->setLimit(intval($maxObjects),intval($offset));
+		$this->connection->setLimit(intval($max_objects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		return new DatabaseLearningObjectResultSet($this, $res, isset($type));
@@ -1375,7 +1375,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 * Retrieves the complex learning object items with the given condition
 	 * @param Condition
 	 */
-	function retrieve_complex_learning_object_items($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $type = null)
+	function retrieve_complex_learning_object_items($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1, $type = null)
 	{
 		$query = 'SELECT * FROM ' . $this->escape_table_name('complex_learning_object_item') . ' AS ' .
 				 self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE;
@@ -1397,28 +1397,28 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$params = $translator->get_parameters();
 		}
 
-		$orderBy[] = ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER;
-		//$orderDir[] = SORT_ASC;
+		$order_by[] = ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER;
+		//$order_dir[] = SORT_ASC;
 		$order = array ();
 
-		for ($i = 0; $i < count($orderBy); $i ++)
+		for ($i = 0; $i < count($order_by); $i ++)
 		{
-			$order[] = $this->escape_column_name($orderBy[$i], false).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+			$order[] = $this->escape_column_name($order_by[$i], false).' '. ($order_dir[$i] == SORT_DESC ? 'DESC' : 'ASC');
 		}
 		if (count($order))
 		{
 			$query .= ' ORDER BY '.implode(', ', $order);
 		}
-		if ($maxObjects < 0)
+		if ($max_objects < 0)
 		{
-			$maxObjects = null;
+			$max_objects = null;
 		}
-		$this->connection->setLimit(intval($maxObjects),intval($offset));
+		$this->connection->setLimit(intval($max_objects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 
 		return new DatabaseComplexLearningObjectItemResultSet($this, $res, true);
-		//return $this->database->retrieve_objects('complex_learning_object_item', $condition, $offset, $maxObjects, $orderBy, $orderDir, 'DatabaseComplexLearningObjectItemResultSet');
+		//return $this->database->retrieve_objects('complex_learning_object_item', $condition, $offset, $max_objects, $order_by, $order_dir, 'DatabaseComplexLearningObjectItemResultSet');
 	}
 
 	function select_next_display_order($parent_id)

@@ -20,10 +20,10 @@ class WhoisOnlineTableColumnModel extends DefaultUserTableColumnModel
     function WhoisOnlineTableColumnModel()
     {
         parent :: __construct();
-        $this->add_column(new ObjectTableColumn(User :: PROPERTY_EMAIL, true));
-        $this->add_column(new ObjectTableColumn(User :: PROPERTY_STATUS, true));
-        $this->add_column(new ObjectTableColumn(User :: PROPERTY_PICTURE_URI, true));
-        //$this->add_column(new ObjectTableColumn(User :: PROPERTY_PLATFORMADMIN, true));
+        $this->add_column(new ObjectTableColumn(User :: PROPERTY_EMAIL));
+        $this->add_column(new ObjectTableColumn(User :: PROPERTY_STATUS));
+        $this->add_column(new ObjectTableColumn(User :: PROPERTY_PICTURE_URI));
+        //$this->add_column(new ObjectTableColumn(User :: PROPERTY_PLATFORMADMIN));
         $this->set_default_order_column(1);
     }
 }

@@ -104,13 +104,13 @@ abstract class PersonalMessengerDataManager {
 	/**
 	 * Retrieve a series of personal message publications 
 	 * @param Condition $condition
-	 * @param array $orderBy
-	 * @param array $orderDir
+	 * @param array $order_by
+	 * @param array $order_dir
 	 * @param int $offset
-	 * @param int $maxObjects
+	 * @param int $max_objects
 	 * @return PersonalMessagePublicationResultSet
 	 */	
-    abstract function retrieve_personal_message_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
+    abstract function retrieve_personal_message_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1);
     
 	/**
 	 * Update the publication

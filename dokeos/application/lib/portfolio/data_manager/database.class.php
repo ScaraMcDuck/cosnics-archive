@@ -21,12 +21,12 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 
 	function initialize()
 	{
-		$aliasses = array();
-		$aliasses[PortfolioPublication :: get_table_name()] = 'poon';
-		$aliasses[PortfolioPublicationGroup :: get_table_name()] = 'poup';
-		$aliasses[PortfolioPublicationUser :: get_table_name()] = 'poer';
+		$aliases = array();
+		$aliases[PortfolioPublication :: get_table_name()] = 'poon';
+		$aliases[PortfolioPublicationGroup :: get_table_name()] = 'poup';
+		$aliases[PortfolioPublicationUser :: get_table_name()] = 'poer';
 
-		$this->database = new Database($aliasses);
+		$this->database = new Database($aliases);
 		$this->database->set_prefix('portfolio_');
 	}
 
@@ -126,9 +126,9 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		return $this->database->retrieve_object(PortfolioPublication :: get_table_name(), $condition);
 	}
 
-	function retrieve_portfolio_publications($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_portfolio_publications($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(PortfolioPublication :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects(PortfolioPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
 	}
 
 	function create_portfolio_publication_group($portfolio_publication_group)
@@ -147,9 +147,9 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		return $this->database->count_objects(PortfolioPublicationGroup :: get_table_name(), $condition);
 	}
 
-	function retrieve_portfolio_publication_groups($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_portfolio_publication_groups($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(PortfolioPublicationGroup :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects(PortfolioPublicationGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
 	}
 
 	function create_portfolio_publication_user($portfolio_publication_user)
@@ -168,9 +168,9 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		return $this->database->count_objects(PortfolioPublicationUser :: get_table_name(), $condition);
 	}
 
-	function retrieve_portfolio_publication_users($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_portfolio_publication_users($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(PortfolioPublicationUser :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects(PortfolioPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
 	}
 
 }
