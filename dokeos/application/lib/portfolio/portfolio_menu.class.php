@@ -77,7 +77,11 @@ class PortfolioMenu extends HTML_Menu
         $users['title'] = Translation :: get('MyPortfolio');
         $users['url'] = $this->get_root_url();
         $users['class'] = 'home';
-        $users['sub'] = $this->get_publications();
+        $subs = $this->get_publications();
+        
+        if(count($subs) > 0)
+        	$users['sub'] = $subs;
+
         $menu[] = $users;
 
         return $menu;

@@ -56,7 +56,9 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
 
 		$this->display_header($trail);
 		
-		$actions = array('view', 'feedback');
+		$actions = array('view');
+		if($this->selected_object)
+			$actions[] = 'feedback';
 		
 		if($user_id == $this->get_user_id())
 		{
@@ -115,6 +117,20 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
 		if($this->selected_object && $this->selected_object->get_type() == 'portfolio')
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('AddNewItemToPortfolio'), Theme :: get_common_image_path().'action_create.png', $this->get_create_portfolio_item_url($this->selected_object->get_id()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
+		if($this->selected_object)
+		{
+			if(!$this->cid)
+			{
+				$url = $this->get_delete_portfolio_publication_url($this->pid);
+			}
+			else
+			{
+				$url = $this->get_delete_portfolio_item_url($this->cid);
+			}
+			
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', $url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		}
+			
 		return $action_bar;
 	}
 	

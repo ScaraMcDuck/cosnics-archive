@@ -132,7 +132,7 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
  	function get_delete_portfolio_publication_url($portfolio_publication)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_PORTFOLIO_PUBLICATION,
-								    self :: PARAM_PORTFOLIO_PUBLICATION => $portfolio_publication->get_id()));
+								    self :: PARAM_PORTFOLIO_PUBLICATION => $portfolio_publication));
 	}
 	
  	function get_create_portfolio_item_url($parent_id)

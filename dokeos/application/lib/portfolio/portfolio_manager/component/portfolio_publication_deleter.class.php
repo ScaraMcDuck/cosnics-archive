@@ -44,22 +44,22 @@ class PortfolioManagerPortfolioPublicationDeleterComponent extends PortfolioMana
 				}
 				else
 				{
-					$message = 'SelectedPortfolioPublicationDeleted';
+					$message = 'SelectedPortfolioPublicationsDeleted';
 				}
 			}
 			else
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedPortfolioPublicationsDeleted';
+					$message = 'SelectedPortfolioPublicationNotDeleted';
 				}
 				else
 				{
-					$message = 'SelectedPortfolioPublicationsDeleted';
+					$message = 'SelectedPortfolioPublicationsNotDeleted';
 				}
 			}
 
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE_PORTFOLIO_PUBLICATIONS));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id()));
 		}
 		else
 		{
