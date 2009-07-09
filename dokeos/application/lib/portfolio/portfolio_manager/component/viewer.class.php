@@ -79,6 +79,13 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
 		echo '<div id="action_bar_browser">';
 		
 		echo '<div style="width: 18%; float: left; overflow: auto;">';
+
+		$user = UserDataManager :: get_instance()->retrieve_user($user_id);
+		
+		echo '<div style="text-align: center;">';
+		echo '<img src="' . $user->get_full_picture_url() . '" />';
+		echo '</div><br />';
+		
 		$menu = new PortfolioMenu($this->get_user(), 'run.php?go=view_portfolio&application=portfolio&user_id=' . $user_id . '&pid=%s&cid=%s', $pid, $cid, $user_id);
 		echo $menu->render_as_tree();
 		echo '</div>';
