@@ -438,17 +438,17 @@ abstract class RepositoryDataManager
 	 *                             selection, structured as a Condition
 	 *                             object. Please consult the appropriate
 	 *                             documentation.
-	 * @param array $orderBy An array of properties to sort the learning
+	 * @param array $order_by An array of properties to sort the learning
 	 *                       objects on.
-	 * @param array $orderDir An array that indicates the sorting direction
+	 * @param array $order_dir An array that indicates the sorting direction
 	 *                        for the property at the corresponding position
-	 *                        in $orderBy. The PHP constant SORT_DESC sorts
+	 *                        in $order_by. The PHP constant SORT_DESC sorts
 	 *                        the objects in descending order; SORT_ASC is
 	 *                        the default and uses ascending order.
 	 * @param int $offset The index of the first object to return. If
 	 *                    omitted or negative, the result set will start
 	 *                    from the first object.
-	 * @param int $maxObjects The maximum number of objects to return. If
+	 * @param int $max_objects The maximum number of objects to return. If
 	 *                        omitted or non-positive, every object from the
 	 *                        first index will be returned.
 	 * @param int $state The state the learning objects should have. Any of
@@ -466,7 +466,7 @@ abstract class RepositoryDataManager
 	 *                                        tree structures.
 	 * @return ResultSet A set of matching learning objects.
 	 */
-	abstract function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false);
+	abstract function retrieve_learning_objects($type = null, $condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false);
 
 	/**
 	 * Retrieves the additional properties of the given learning object.
@@ -646,7 +646,7 @@ abstract class RepositoryDataManager
 	 * Retrieves the complex learning object items with the given condition
 	 * @param Condition
 	 */
-	abstract function retrieve_complex_learning_object_items($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
+	abstract function retrieve_complex_learning_object_items($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1);
 
 	/**
 	 * Deletes the given learning object version from persistent storage.

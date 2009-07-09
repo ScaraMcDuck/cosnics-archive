@@ -102,14 +102,14 @@ class DatabaseGroupDataManager extends GroupDataManager
 		return $this->database->count_objects(GroupRelUser :: get_table_name(), $condition);
 	}
 
-	function retrieve_groups($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_groups($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(Group :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects(Group :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
 	}
 
-	function retrieve_group_rel_users($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_group_rel_users($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(GroupRelUser :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects(GroupRelUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
 	}
 
 	function retrieve_group_rel_user($user_id, $group_id)
@@ -145,9 +145,9 @@ class DatabaseGroupDataManager extends GroupDataManager
 		return $this->database->create_storage_unit($name, $properties, $indexes);
 	}
 
-	function retrieve_group_roles($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_group_roles($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(GroupRole :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects(GroupRole :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
 	}
 
 	function delete_group_roles($condition)

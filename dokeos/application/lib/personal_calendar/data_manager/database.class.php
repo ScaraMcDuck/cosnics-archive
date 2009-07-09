@@ -185,12 +185,12 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
     }
 
     //Inherited.
-    function retrieve_calendar_event_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+    function retrieve_calendar_event_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
     {
-        return $this->database->retrieve_objects(CalendarEventPublication :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir, CalendarEventPublication :: CLASS_NAME);
+        return $this->database->retrieve_objects(CalendarEventPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, CalendarEventPublication :: CLASS_NAME);
     }
 
-    function retrieve_shared_calendar_event_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+    function retrieve_shared_calendar_event_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
     {
         $query = 'SELECT DISTINCT ' . $this->database->get_alias(CalendarEventPublication :: get_table_name()) . '.* FROM ' . $this->database->escape_table_name(CalendarEventPublication :: get_table_name()) . ' AS ' . $this->database->get_alias(CalendarEventPublication :: get_table_name());
         $query .= ' LEFT JOIN ' . $this->database->escape_table_name('publication_user') . ' ON ' . $this->database->get_alias(CalendarEventPublication :: get_table_name()) . '.id = ' . $this->database->escape_table_name('publication_user') . '.publication';
@@ -207,20 +207,20 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 
         $order = array();
 
-        for($i = 0; $i < count($orderBy); $i ++)
+        for($i = 0; $i < count($order_by); $i ++)
         {
-            $order[] = $this->database->escape_column_name($orderBy[$i], true) . ' ' . ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+            $order[] = $this->database->escape_column_name($order_by[$i], true) . ' ' . ($order_dir[$i] == SORT_DESC ? 'DESC' : 'ASC');
         }
         if (count($order))
         {
             $query .= ' ORDER BY ' . implode(', ', $order);
         }
-        if ($maxObjects < 0)
+        if ($max_objects < 0)
         {
-            $maxObjects = null;
+            $max_objects = null;
         }
 
-        $this->database->get_connection()->setLimit(intval($maxObjects), intval($offset));
+        $this->database->get_connection()->setLimit(intval($max_objects), intval($offset));
         $statement = $this->database->get_connection()->prepare($query);
         $res = $statement->execute($params);
         return new ObjectResultSet($this, $res, CalendarEventPublication :: CLASS_NAME);

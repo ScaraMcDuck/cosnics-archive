@@ -2,8 +2,8 @@
 /**
  * @package application.lib.profiler.data_manager.database
  */
-require_once dirname(__FILE__) . '/../profiler_data_manager.class.php';
-require_once dirname(__FILE__) . '/../profile_publication.class.php';
+require_once Path :: get_application_path() . 'lib/profiler/profiler_data_manager.class.php';
+require_once Path :: get_application_path() . 'lib/profiler/profile_publication.class.php';
 require_once Path :: get_library_path() . 'condition/condition_translator.class.php';
 require_once Path :: get_repository_path() . 'lib/data_manager/database.class.php';
 require_once 'MDB2.php';
@@ -20,7 +20,11 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
 
     function initialize()
     {
-        $this->database = new Database(array('category' => 'cat'));
+        $aliases = array();
+        $aliases['user'] = 'u';
+        $aliases['category'] = 'cat';
+
+        $this->database = new Database($aliases);
         $this->database->set_prefix('profiler_');
     }
 
@@ -49,9 +53,45 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
     }
 
     //Inherited.
-    function retrieve_profile_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+    function retrieve_profile_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
     {
-        return $this->database->retrieve_objects(ProfilePublication :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir, ProfilePublication :: CLASS_NAME);
+        $udm = UserDataManager :: get_instance();
+        $publication_alias = $this->database->get_alias(ProfilePublication :: get_table_name());
+
+        $query  = 'SELECT * FROM ' . $this->database->escape_table_name(ProfilePublication :: get_table_name()) . ' AS ' . $publication_alias;
+        $query .= ' JOIN ' . $udm->get_database()->escape_table_name(User :: get_table_name()) . ' AS ' . $this->database->get_alias(User :: get_table_name());
+        $query .= ' ON ' . $this->database->escape_column_name(ProfilePublication :: PROPERTY_PUBLISHER, $publication_alias) . ' = ';
+        $query .= $udm->get_database()->escape_column_name(User :: PROPERTY_USER_ID, $this->database->get_alias(User :: get_table_name()));
+
+        $params = array();
+        if (isset($condition))
+        {
+            $translator = new ConditionTranslator($this->database, $params, $publication_alias);
+            $translator->translate($condition);
+            $query .= $translator->render_query();
+            $params = $translator->get_parameters();
+        }
+
+        $orders = array();
+
+        foreach($order_by as $order)
+        {
+            $orders[] = $this->database->escape_column_name($order->get_property(), ($order->alias_is_set() ? $order->get_alias() : $publication_alias)) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+        }
+        if (count($orders))
+        {
+            $query .= ' ORDER BY ' . implode(', ', $orders);
+        }
+        if ($max_objects < 0)
+        {
+            $max_objects = null;
+        }
+
+        $this->database->get_connection()->setLimit(intval($max_objects), intval($offset));
+        $statement = $this->database->get_connection()->prepare($query);
+        $res = $statement->execute($params);
+
+        return new ObjectResultSet($this->database, $res, ProfilePublication :: CLASS_NAME);
     }
 
     //Inherited.

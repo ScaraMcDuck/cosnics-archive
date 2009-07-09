@@ -19,10 +19,10 @@ class DatabaseForumDataManager extends ForumDataManager
 
 	function initialize()
 	{
-		$aliasses = array();
-		$aliasses[ForumPublication :: get_table_name()] = 'foon';
+		$aliases = array();
+		$aliases[ForumPublication :: get_table_name()] = 'foon';
 
-		$this->database = new Database($aliasses);
+		$this->database = new Database($aliases);
 		$this->database->set_prefix('forum_');
 	}
 
@@ -69,9 +69,9 @@ class DatabaseForumDataManager extends ForumDataManager
 		return $this->database->retrieve_object(ForumPublication :: get_table_name(), $condition);
 	}
 
-	function retrieve_forum_publications($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_forum_publications($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(ForumPublication :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects(ForumPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
 	}
 
     function move_forum_publication($publication, $places)

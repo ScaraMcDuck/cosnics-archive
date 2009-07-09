@@ -251,7 +251,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $record[0];
 	}
 
-	function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $course_groups = null, $condition = null, $allowDuplicates = false, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $learning_object = null, $search_condition = null)
+	function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $course_groups = null, $condition = null, $allowDuplicates = false, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1, $learning_object = null, $search_condition = null)
 	{
 		if(is_array($course_groups))
 		{
@@ -287,25 +287,25 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		/*
 		 * Always respect display order as a last resort.
 		 */
-		$orderBy[] = LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX;
-		$orderDir[] = SORT_ASC;
+		$order_by[] = LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX;
+		$order_dir[] = SORT_ASC;
 		/*
 		 * Add ORDER clause.
 		 */
-		$query .= ' ORDER BY '.$this->escape_column_name($orderBy[0]).' '. ($orderDir[0] == SORT_ASC ? 'ASC' : 'DESC');
-		for ($i = 1; $i < count($orderBy); $i ++)
+		$query .= ' ORDER BY '.$this->escape_column_name($order_by[0]).' '. ($order_dir[0] == SORT_ASC ? 'ASC' : 'DESC');
+		for ($i = 1; $i < count($order_by); $i ++)
 		{
-			$query .= ','.$this->escape_column_name($orderBy[$i]).' '. ($orderDir[$i] == SORT_ASC ? 'ASC' : 'DESC');
+			$query .= ','.$this->escape_column_name($order_by[$i]).' '. ($order_dir[$i] == SORT_ASC ? 'ASC' : 'DESC');
 		}
 		// XXX: Is this necessary?
-		if ($maxObjects < 0)
+		if ($max_objects < 0)
 		{
-			$maxObjects = null;
+			$max_objects = null;
 		}
 		/*
 		 * Get publications.
 		 */
-		$res = $this->limitQuery($query,intval($maxObjects),intval($offset),$params);
+		$res = $this->limitQuery($query,intval($max_objects),intval($offset),$params);
 		return new DatabaseLearningObjectPublicationResultSet($this, $res);
 	}
 
@@ -1006,7 +1006,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 	// TODO: Change $category from user's personal course list to condition object thus eliminating the need for another parameter
 	// TODO: Maybe also try to eliminate the user ?
-	function retrieve_courses($user = null, $condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_courses($user = null, $condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('course');
 		if (isset($user))
@@ -1039,23 +1039,23 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 				$params = $translator->get_parameters();
 			}
 
-			$orderBy[] = Course :: PROPERTY_NAME;
-			$orderDir[] = SORT_ASC;
+			$order_by[] = Course :: PROPERTY_NAME;
+			$order_dir[] = SORT_ASC;
 			$order = array ();
 
-			for ($i = 0; $i < count($orderBy); $i ++)
+			for ($i = 0; $i < count($order_by); $i ++)
 			{
-				$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+				$order[] = $this->escape_column_name($order_by[$i], true).' '. ($order_dir[$i] == SORT_DESC ? 'DESC' : 'ASC');
 			}
 			if (count($order))
 			{
 				$query .= ' ORDER BY '.implode(', ', $order);
 			}
-			if ($maxObjects < 0)
+			if ($max_objects < 0)
 			{
-				$maxObjects = null;
+				$max_objects = null;
 			}
-			$this->connection->setLimit(intval($maxObjects),intval($offset));
+			$this->connection->setLimit(intval($max_objects),intval($offset));
 		}
 
 		$statement = $this->connection->prepare($query);
@@ -1110,7 +1110,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $this->record_to_course_user_category($record);
 	}
 
-	function retrieve_user_courses($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_user_courses($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('course');
 		$query .= ' JOIN '. $this->escape_table_name(CourseUserRelation :: get_table_name()) .' ON '.$this->escape_table_name('course').'.'.$this->escape_column_name(Course :: PROPERTY_ID).'='.$this->escape_table_name(CourseUserRelation :: get_table_name()).'.'.$this->escape_column_name('course_code');
@@ -1127,23 +1127,23 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		/*
 		 * Always respect display order as a last resort.
 		 */
-		$orderBy[] = Course :: PROPERTY_NAME;
-		$orderDir[] = SORT_ASC;
+		$order_by[] = Course :: PROPERTY_NAME;
+		$order_dir[] = SORT_ASC;
 		$order = array ();
 
-		for ($i = 0; $i < count($orderBy); $i ++)
+		for ($i = 0; $i < count($order_by); $i ++)
 		{
-			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+			$order[] = $this->escape_column_name($order_by[$i], true).' '. ($order_dir[$i] == SORT_DESC ? 'DESC' : 'ASC');
 		}
 		if (count($order))
 		{
 			$query .= ' ORDER BY '.implode(', ', $order);
 		}
-		if ($maxObjects < 0)
+		if ($max_objects < 0)
 		{
-			$maxObjects = null;
+			$max_objects = null;
 		}
-		$this->connection->setLimit(intval($maxObjects),intval($offset));
+		$this->connection->setLimit(intval($max_objects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		return new DatabaseCourseResultSet($this, $res);
@@ -1623,7 +1623,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $this->record_to_course_category($record);
 	}
 
-	function retrieve_course_categories($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_course_categories($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('course_category');
 
@@ -1639,29 +1639,29 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		/*
 		 * Always respect display order as a last resort.
 		 */
-		$orderBy[] = CourseCategory :: PROPERTY_NAME;
-		$orderDir[] = SORT_ASC;
+		$order_by[] = CourseCategory :: PROPERTY_NAME;
+		$order_dir[] = SORT_ASC;
 		$order = array ();
 
-		for ($i = 0; $i < count($orderBy); $i ++)
+		for ($i = 0; $i < count($order_by); $i ++)
 		{
-			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+			$order[] = $this->escape_column_name($order_by[$i], true).' '. ($order_dir[$i] == SORT_DESC ? 'DESC' : 'ASC');
 		}
 		if (count($order))
 		{
 			$query .= ' ORDER BY '.implode(', ', $order);
 		}
-		if ($maxObjects < 0)
+		if ($max_objects < 0)
 		{
-			$maxObjects = null;
+			$max_objects = null;
 		}
-		$this->connection->setLimit(intval($maxObjects),intval($offset));
+		$this->connection->setLimit(intval($max_objects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		return new DatabaseCourseCategoryResultSet($this, $res);
 	}
 
-	function retrieve_course_user_categories ($conditions = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_course_user_categories ($conditions = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('course_user_category');
 
@@ -1677,26 +1677,26 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		/*
 		 * Always respect alphabetical order as a last resort.
 		 */
-		if (!count($orderBy))
+		if (!count($order_by))
 		{
-			$orderBy[] = CourseUserCategory :: PROPERTY_TITLE;
-			$orderDir[] = SORT_ASC;
+			$order_by[] = CourseUserCategory :: PROPERTY_TITLE;
+			$order_dir[] = SORT_ASC;
 		}
 		$order = array ();
 
-		for ($i = 0; $i < count($orderBy); $i ++)
+		for ($i = 0; $i < count($order_by); $i ++)
 		{
-			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+			$order[] = $this->escape_column_name($order_by[$i], true).' '. ($order_dir[$i] == SORT_DESC ? 'DESC' : 'ASC');
 		}
 		if (count($order))
 		{
 			$query .= ' ORDER BY '.implode(', ', $order);
 		}
-		if ($maxObjects < 0)
+		if ($max_objects < 0)
 		{
-			$maxObjects = null;
+			$max_objects = null;
 		}
-		$this->connection->setLimit(intval($maxObjects),intval($offset));
+		$this->connection->setLimit(intval($max_objects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		return new DatabaseCourseUserCategoryResultSet($this, $res);
@@ -2487,9 +2487,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $maxscore;
 	}
 
-	function retrieve_survey_invitations($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_survey_invitations($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->db->retrieve_objects(SurveyInvitation :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->db->retrieve_objects(SurveyInvitation :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
 	}
 
 	function create_survey_invitation($survey_invitation)

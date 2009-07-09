@@ -18,6 +18,8 @@ class ObjectTableColumn implements TableColumn
      */
     private $title;
 
+    private $storage_unit;
+
     private $is_sortable;
 
     /**
@@ -36,11 +38,12 @@ class ObjectTableColumn implements TableColumn
      *                                                   object property, false
      *                                                   otherwise.
      */
-    function ObjectTableColumn($property, $is_sortable = true)
+    function ObjectTableColumn($property, $is_sortable = true, $storage_unit = null)
     {
 		$this->property = $property;
 		$this->title = Translation :: get(DokeosUtilities :: underscores_to_camelcase($this->property));
 		$this->is_sortable = $is_sortable;
+		$this->storage_unit = $storage_unit;
     }
 
     /**
@@ -60,6 +63,11 @@ class ObjectTableColumn implements TableColumn
     function get_title()
     {
         return $this->title;
+    }
+
+    function get_storage_unit()
+    {
+        return $this->storage_unit;
     }
 
     /**

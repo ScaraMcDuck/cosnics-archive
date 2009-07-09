@@ -83,7 +83,7 @@ abstract class GroupDataManager
 	
 	abstract function retrieve_user_groups($user_id);
 	
-	abstract function retrieve_group_roles($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null);
+	abstract function retrieve_group_roles($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null);
 	
 	abstract function delete_group_roles($condition);
 	

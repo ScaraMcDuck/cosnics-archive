@@ -25,9 +25,9 @@ class DefaultHelpItemTableColumnModel extends ObjectTableColumnModel
 	private static function get_default_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(HelpItem :: PROPERTY_NAME, true);
-		$columns[] = new ObjectTableColumn(HelpItem :: PROPERTY_LANGUAGE, true);
-		$columns[] = new ObjectTableColumn(HelpItem :: PROPERTY_URL, true);
+		$columns[] = new ObjectTableColumn(HelpItem :: PROPERTY_NAME);
+		$columns[] = new ObjectTableColumn(HelpItem :: PROPERTY_LANGUAGE);
+		$columns[] = new ObjectTableColumn(HelpItem :: PROPERTY_URL);
 		return $columns;
 	}
 }

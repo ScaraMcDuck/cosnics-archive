@@ -27,10 +27,10 @@ class DefaultRegistrationTableColumnModel extends ObjectTableColumnModel
     private static function get_default_columns()
     {
         $columns = array();
-        $columns[] = new ObjectTableColumn(Registration :: PROPERTY_TYPE, true);
-        $columns[] = new ObjectTableColumn(Registration :: PROPERTY_NAME, true);
-        $columns[] = new ObjectTableColumn(Registration :: PROPERTY_VERSION, true);
-        //$columns[] = new ObjectTableColumn(Registration :: PROPERTY_STATUS, true);
+        $columns[] = new ObjectTableColumn(Registration :: PROPERTY_TYPE);
+        $columns[] = new ObjectTableColumn(Registration :: PROPERTY_NAME);
+        $columns[] = new ObjectTableColumn(Registration :: PROPERTY_VERSION);
+        //$columns[] = new ObjectTableColumn(Registration :: PROPERTY_STATUS);
         return $columns;
     }
 }

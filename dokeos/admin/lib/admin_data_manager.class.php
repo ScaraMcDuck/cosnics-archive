@@ -57,17 +57,17 @@ abstract class AdminDataManager
 
     abstract function create_system_announcement_publication($system_announcement_publication);
 
-    abstract function retrieve_languages($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
+    abstract function retrieve_languages($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1);
 
-    abstract function retrieve_settings($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
+    abstract function retrieve_settings($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1);
 
-    abstract function retrieve_remote_packages($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
+    abstract function retrieve_remote_packages($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1);
 
     abstract function retrieve_registration($id);
 
     abstract function retrieve_remote_package($id);
 
-    abstract function retrieve_registrations($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
+    abstract function retrieve_registrations($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1);
 
     abstract function count_remote_packages($condition = null);
 
@@ -119,13 +119,13 @@ abstract class AdminDataManager
     /**
      * Retrieve a series of system announcements
      * @param Condition $condition
-     * @param array $orderBy
-     * @param array $orderDir
+     * @param array $order_by
+     * @param array $order_dir
      * @param int $offset
-     * @param int $maxObjects
+     * @param int $max_objects
      * @return SystemAnnouncementPublicationResultSet
      */
-    abstract function retrieve_system_announcement_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
+    abstract function retrieve_system_announcement_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1);
 
     abstract function retrieve_system_announcement_publication_target_groups($system_announcement_publication);
 

@@ -21,7 +21,7 @@ class RecycleBinBrowserTableColumnModel extends DefaultLearningObjectTableColumn
 	{
 		parent :: __construct();
 		$this->set_default_order_column(0);
-		$col = new ObjectTableColumn(LearningObject :: PROPERTY_PARENT_ID, true);
+		$col = new ObjectTableColumn(LearningObject :: PROPERTY_PARENT_ID);
 		$col->set_title(Translation :: get('OriginalLocation'));
 		$this->add_column($col);
 		$this->add_column(self :: get_action_column());

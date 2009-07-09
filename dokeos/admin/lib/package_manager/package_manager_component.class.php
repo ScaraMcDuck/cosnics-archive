@@ -9,9 +9,9 @@ class PackageManagerComponent extends SubManagerComponent
         return $this->get_parent()->retrieve_registration($id);
     }
 
-    function retrieve_registrations($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+    function retrieve_registrations($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
     {
-        return $this->get_parent()->retrieve_registrations($condition, $orderBy, $orderDir, $offset, $maxObjects);
+        return $this->get_parent()->retrieve_registrations($condition, $order_by, $order_dir, $offset, $max_objects);
     }
 
     function count_registrations($condition = null)
@@ -58,9 +58,9 @@ class PackageManagerComponent extends SubManagerComponent
     /**
      * @see AdminManager :: retrieve_remote_packages()
      */
-    function retrieve_remote_packages($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+    function retrieve_remote_packages($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
     {
-        return $this->get_parent()->retrieve_remote_packages($condition, $orderBy, $orderDir, $offset, $maxObjects);
+        return $this->get_parent()->retrieve_remote_packages($condition, $order_by, $order_dir, $offset, $max_objects);
     }
 }
 ?>

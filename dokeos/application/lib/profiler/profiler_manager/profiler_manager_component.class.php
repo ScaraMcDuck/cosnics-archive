@@ -36,9 +36,9 @@ abstract class ProfilerManagerComponent extends WebApplicationComponent
     /**
      * @see ProfileManager :: retrieve_profile_publications()
      */
-    function retrieve_profile_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+    function retrieve_profile_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
     {
-        return $this->get_parent()->retrieve_profile_publications($condition, $orderBy, $orderDir, $offset, $maxObjects);
+        return $this->get_parent()->retrieve_profile_publications($condition, $order_by, $order_dir, $offset, $max_objects);
     }
 
     /**

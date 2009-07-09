@@ -511,10 +511,10 @@ class RepositoryManager extends CoreApplication
 	/**
 	 * @see RepositoryDataManager::retrieve_learning_objects()
 	 */
-	function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false)
+	function retrieve_learning_objects($type = null, $condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-		return $rdm->retrieve_learning_objects($type, $condition, $orderBy, $orderDir, $offset, $maxObjects, $state, $different_parent_state);
+		return $rdm->retrieve_learning_objects($type, $condition, $order_by, $order_dir, $offset, $max_objects, $state, $different_parent_state);
 	}
 
 	/**
@@ -974,10 +974,10 @@ class RepositoryManager extends CoreApplication
 		return $rdm->count_complex_learning_object_items($condition);
 	}
 
-	function retrieve_complex_learning_object_items($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	function retrieve_complex_learning_object_items($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-		return $rdm->retrieve_complex_learning_object_items($condition, $orderBy, $orderDir, $offset, $maxObjects);
+		return $rdm->retrieve_complex_learning_object_items($condition, $order_by, $order_dir, $offset, $max_objects);
 	}
 
 	function retrieve_complex_learning_object_item($cloi_id)

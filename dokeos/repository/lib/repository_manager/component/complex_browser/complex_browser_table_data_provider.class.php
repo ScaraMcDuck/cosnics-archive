@@ -32,11 +32,11 @@ class ComplexBrowserTableDataProvider extends ObjectTableDataProvider
     function get_objects($offset, $count, $order_property = null, $order_direction = null)
     {
 		$order_property = $this->get_order_property($order_property);
-		$order_direction = $this->get_order_property($order_direction);
+		$order_direction = $this->get_order_direction($order_direction);
 
       	// We always use title as second sorting parameter
-		$order_property[] = ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER;
-		$order_direction[] = SORT_ASC;
+//		$order_property[] = ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER;
+//		$order_direction[] = SORT_ASC;
 
       return RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($this->get_condition(), $order_property, $order_direction, $offset, $count);
     }

@@ -21,7 +21,7 @@ class PackageManagerInstallerComponent extends PackageManagerComponent
         $trail->add(new Breadcrumb($this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_BROWSE_PACKAGES)), Translation :: get('PackageManager')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PackageInstallation')));
         $trail->add_help('administration install');
-        
+
         if (! AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT, 'root', 'root'))
         {
             $this->display_header($trail);
@@ -29,10 +29,11 @@ class PackageManagerInstallerComponent extends PackageManagerComponent
             $this->display_footer();
             exit();
         }
-        
-        $this->display_header($trail);
+
         $installer = new PackageInstaller();
         $result = $installer->run();
+
+        $this->display_header($trail);
         echo $installer->retrieve_result();
         $this->display_footer();
     }

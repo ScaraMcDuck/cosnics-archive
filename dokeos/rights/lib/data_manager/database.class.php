@@ -470,7 +470,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		}
 	}
 
-	function retrieve_roles($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_roles($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('role');
 
@@ -484,20 +484,20 @@ class DatabaseRightsDataManager extends RightsDataManager
 		}
 		$order = array ();
 
-		for ($i = 0; $i < count($orderBy); $i ++)
+		for ($i = 0; $i < count($order_by); $i ++)
 		{
-			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+			$order[] = $this->escape_column_name($order_by[$i], true).' '. ($order_dir[$i] == SORT_DESC ? 'DESC' : 'ASC');
 		}
 		if (count($order))
 		{
 			$query .= ' ORDER BY '.implode(', ', $order);
 		}
-		if ($maxObjects < 0)
+		if ($max_objects < 0)
 		{
-			$maxObjects = null;
+			$max_objects = null;
 		}
 
-		$this->connection->setLimit(intval($maxObjects),intval($offset));
+		$this->connection->setLimit(intval($max_objects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		return new DatabaseRoleResultSet($this, $res);
@@ -536,7 +536,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		return self :: record_to_role($record);
 	}
 
-	function retrieve_rights($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_rights($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('right');
 
@@ -550,26 +550,26 @@ class DatabaseRightsDataManager extends RightsDataManager
 		}
 		$order = array ();
 
-		for ($i = 0; $i < count($orderBy); $i ++)
+		for ($i = 0; $i < count($order_by); $i ++)
 		{
-			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+			$order[] = $this->escape_column_name($order_by[$i], true).' '. ($order_dir[$i] == SORT_DESC ? 'DESC' : 'ASC');
 		}
 		if (count($order))
 		{
 			$query .= ' ORDER BY '.implode(', ', $order);
 		}
-		if ($maxObjects < 0)
+		if ($max_objects < 0)
 		{
-			$maxObjects = null;
+			$max_objects = null;
 		}
 
-		$this->connection->setLimit(intval($maxObjects),intval($offset));
+		$this->connection->setLimit(intval($max_objects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		return new DatabaseRightResultSet($this, $res);
 	}
 
-	function retrieve_locations($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_locations($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('location');
 
@@ -582,24 +582,24 @@ class DatabaseRightsDataManager extends RightsDataManager
 			$params = $translator->get_parameters();
 		}
 
-		$orderBy[] = Location :: PROPERTY_LOCATION;
-		$orderDir[] = SORT_ASC;
+		$order_by[] = Location :: PROPERTY_LOCATION;
+		$order_dir[] = SORT_ASC;
 		$order = array ();
 
-		for ($i = 0; $i < count($orderBy); $i ++)
+		for ($i = 0; $i < count($order_by); $i ++)
 		{
-			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+			$order[] = $this->escape_column_name($order_by[$i], true).' '. ($order_dir[$i] == SORT_DESC ? 'DESC' : 'ASC');
 		}
 		if (count($order))
 		{
 			$query .= ' ORDER BY '.implode(', ', $order);
 		}
-		if ($maxObjects < 0)
+		if ($max_objects < 0)
 		{
-			$maxObjects = null;
+			$max_objects = null;
 		}
 
-		$this->connection->setLimit(intval($maxObjects),intval($offset));
+		$this->connection->setLimit(intval($max_objects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		return new DatabaseLocationResultSet($this, $res);

@@ -28,9 +28,9 @@ class WikiPageTableColumnModel extends ObjectTableColumnModel {
 	private static function get_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE, true);
-		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION, true);
-        $columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_MODIFICATION_DATE, true);
+		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE);
+		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION);
+        $columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_MODIFICATION_DATE);
         $columns[] = new StaticTableColumn(Translation :: get('Versions'));
 		$columns[] = self :: get_action_column();
 		return $columns;

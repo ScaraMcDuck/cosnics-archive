@@ -34,9 +34,10 @@ class PackageManagerRemoverComponent extends PackageManagerComponent
 
         if ($type)
         {
-            $this->display_header($trail);
             $remover = PackageRemover :: factory($type, $this);
             $result = $remover->run();
+
+            $this->display_header($trail);
             echo $remover->retrieve_result();
             $this->display_footer();
         }

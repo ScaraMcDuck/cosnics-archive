@@ -29,7 +29,7 @@ class Default{OBJECT_CLASS}TableColumnModel extends ObjectTableColumnModel
 		$columns = array();
 		
 		<!-- BEGIN PROPERTIES -->
-		$columns[] = new ObjectTableColumn({OBJECT_CLASS} :: PROPERTY_{PROPERTIES.U_PROPERTY}, true);
+		$columns[] = new ObjectTableColumn({OBJECT_CLASS} :: PROPERTY_{PROPERTIES.U_PROPERTY});
 		<!-- END PROPERTIES -->
 		
 		return $columns;

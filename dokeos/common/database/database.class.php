@@ -403,13 +403,13 @@ class Database
      * @param String $classname The name of the class where the object has to be mapped to
      * @param Condition $condition the condition
      * @param Int $offset the starting offset
-     * @param Int $maxObjects the max amount of objects to be retrieved
-     * @param Array(String) $orderBy the list of column names that the objects have to be ordered by
-     * @param Array(String) $orderDir the list of order directions for the orderBy list
+     * @param Int $max_objects the max amount of objects to be retrieved
+     * @param Array(String) $order_by the list of column names that the objects have to be ordered by
+     * @param Array(String) $order_dir the list of order directions for the orderBy list
      * @param String $resultset - Optional, the resultset to map the items to
      * @return ResultSet
      */
-    function retrieve_objects($table_name, $condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null, $class_name = null)
+    function retrieve_objects($table_name, $condition = null, $offset = null, $max_objects = null, $order_by = array(), $order_dir = array(), $class_name = null)
     {
         $query = 'SELECT * FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
         $params = array();
@@ -421,25 +421,27 @@ class Database
             $params = $translator->get_parameters();
         }
 
-        $order = array();
+        $orders = array();
 
-        for($i = 0; $i < count($orderBy); $i ++)
+        dump($order_by);
+
+        foreach($order_by as $order)
         {
-            $order[] = $this->escape_column_name($orderBy[$i], $this->get_alias($table_name)) . ' ' . ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+            $orders[] = $this->escape_column_name($order->get_property(), ($order->alias_is_set() ? $order->get_alias() : $this->get_alias($table_name))) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
         }
-        if (count($order))
+        if (count($orders))
         {
-            $query .= ' ORDER BY ' . implode(', ', $order);
+            $query .= ' ORDER BY ' . implode(', ', $orders);
         }
-        if ($maxObjects < 0)
+        if ($max_objects < 0)
         {
-            $maxObjects = null;
+            $max_objects = null;
         }
 
-        $this->connection->setLimit(intval($maxObjects), intval($offset));
+        $this->connection->setLimit(intval($max_objects), intval($offset));
         $statement = $this->connection->prepare($query);
 
-        //dump($query);
+        dump($query);
 
         $res = $statement->execute($params);
 
@@ -513,7 +515,7 @@ class Database
         }
     }
 
-    function retrieve_object($table_name, $condition = null, $orderBy = array(), $orderDir = array(), $class_name = null)
+    function retrieve_object($table_name, $condition = null, $order_by = array(), $order_dir = array(), $class_name = null)
     {
         $query = 'SELECT * FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
 
@@ -526,15 +528,15 @@ class Database
             $params = $translator->get_parameters();
         }
 
-        $order = array();
+        $orders = array();
 
-        for($i = 0; $i < count($orderBy); $i ++)
+        foreach($order_by as $order)
         {
-            $order[] = $this->escape_column_name($orderBy[$i], $this->get_alias($table_name)) . ' ' . ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+            $orders[] = $this->escape_column_name($order->get_property(), ($order->alias_is_set() ? $order->get_alias() : $this->get_alias($table_name))) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
         }
-        if (count($order))
+        if (count($orders))
         {
-            $query .= ' ORDER BY ' . implode(', ', $order);
+            $query .= ' ORDER BY ' . implode(', ', $orders);
         }
 
         $this->connection->setLimit(1);

@@ -282,16 +282,16 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 	/**
 	 * Retrieve a series of personal message publications
 	 * @param Condition $condition
-	 * @param array $orderBy
-	 * @param array $orderDir
+	 * @param array $order_by
+	 * @param array $order_dir
 	 * @param int $offset
-	 * @param int $maxObjects
+	 * @param int $max_objects
 	 * @return PersonalMessagePublicationResultSet
 	 */
-	function retrieve_personal_message_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	function retrieve_personal_message_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
 	{
 		$pmdm = PersonalMessengerDataManager :: get_instance();
-		return $pmdm->retrieve_personal_message_publications($condition, $orderBy, $orderDir, $offset, $maxObjects);
+		return $pmdm->retrieve_personal_message_publications($condition, $order_by, $order_dir, $offset, $max_objects);
 	}
 
 	/**

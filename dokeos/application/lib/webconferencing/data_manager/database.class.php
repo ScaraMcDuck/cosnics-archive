@@ -20,11 +20,11 @@ class DatabaseWebconferencingDataManager extends WebconferencingDataManager
 
 	function initialize()
 	{
-		$aliasses = array();
-		$aliasses[Webconference :: get_table_name()] = 'wece';
-		$aliasses[WebconferenceOption :: get_table_name()] = 'weon';
+		$aliases = array();
+		$aliases[Webconference :: get_table_name()] = 'wece';
+		$aliases[WebconferenceOption :: get_table_name()] = 'weon';
 
-		$this->database = new Database($aliasses);
+		$this->database = new Database($aliases);
 		$this->database->set_prefix('webconferencing_');
 	}
 
@@ -72,9 +72,9 @@ class DatabaseWebconferencingDataManager extends WebconferencingDataManager
 		return $this->database->retrieve_object(Webconference :: get_table_name(), $condition);
 	}
 
-	function retrieve_webconferences($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_webconferences($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(Webconference :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects(Webconference :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
 	}
 
 	function get_next_webconference_option_id()
@@ -116,9 +116,9 @@ class DatabaseWebconferencingDataManager extends WebconferencingDataManager
 		return $this->database->retrieve_object(WebconferenceOption :: get_table_name(), $condition);
 	}
 
-	function retrieve_webconference_options($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_webconference_options($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(WebconferenceOption :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects(WebconferenceOption :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
 	}
 
 }

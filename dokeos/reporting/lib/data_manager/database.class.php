@@ -76,9 +76,9 @@ class DatabaseReportingDataManager extends ReportingDataManager
      * Retrieves all reporting blocks
      * @return array of reporting blocks
      */
-    function retrieve_reporting_blocks($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+    function retrieve_reporting_blocks($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
     {
-        return $this->database->retrieve_objects(ReportingBlock :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+        return $this->database->retrieve_objects(ReportingBlock :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
     }
 
     /**
@@ -122,9 +122,9 @@ class DatabaseReportingDataManager extends ReportingDataManager
     //}//retrieve_reporting_template_registration_by_name
 
 
-    function retrieve_reporting_template_registrations($condition = null, $offset = null, $maxObjects = null, $order_property = null, $order_direction = null)
+    function retrieve_reporting_template_registrations($condition = null, $offset = null, $max_objects = null, $order_property = null, $order_direction = null)
     {
-        return $this->database->retrieve_objects(ReportingTemplateRegistration :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+        return $this->database->retrieve_objects(ReportingTemplateRegistration :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
     } //retrieve_reporting_template_registrations
 
 

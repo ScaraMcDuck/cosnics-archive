@@ -444,7 +444,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 	}
 
     //Inherited.
-    function retrieve_portfolio_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+    function retrieve_portfolio_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
 	{
 
 		$query = 'SELECT * FROM '.$this->escape_table_name('publication');
@@ -466,26 +466,26 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 
 		$order = array ();
 
-		for ($i = 0; $i < count($orderBy); $i ++)
+		for ($i = 0; $i < count($order_by); $i ++)
 		{
-			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+			$order[] = $this->escape_column_name($order_by[$i], true).' '. ($order_dir[$i] == SORT_DESC ? 'DESC' : 'ASC');
 		}
 		if (count($order))
 		{
 			$query .= ' ORDER BY '.implode(', ', $order);
 		}
-		if ($maxObjects < 0)
+		if ($max_objects < 0)
 		{
-			$maxObjects = null;
+			$max_objects = null;
 		}
 
-		$this->connection->setLimit(intval($maxObjects),intval($offset));
+		$this->connection->setLimit(intval($max_objects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		return new DatabasePortfolioPublicationResultSet($this, $res);
 	}
 
-    function retrieve_rdpublications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+    function retrieve_rdpublications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
 	{
 
 		$query = 'SELECT * FROM '.$this->escape_table_name('rdpublication');
@@ -502,26 +502,26 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 
 		$order = array ();
 
-		for ($i = 0; $i < count($orderBy); $i ++)
+		for ($i = 0; $i < count($order_by); $i ++)
 		{
-			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+			$order[] = $this->escape_column_name($order_by[$i], true).' '. ($order_dir[$i] == SORT_DESC ? 'DESC' : 'ASC');
 		}
 		if (count($order))
 		{
 			$query .= ' ORDER BY '.implode(', ', $order);
 		}
-		if ($maxObjects < 0)
+		if ($max_objects < 0)
 		{
-			$maxObjects = null;
+			$max_objects = null;
 		}
 
-		$this->connection->setLimit(intval($maxObjects),intval($offset));
+		$this->connection->setLimit(intval($max_objects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		return new DatabaseRdPublicationResultSet($this, $res);
 	}
 
-    function retrieve_rdevents($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+    function retrieve_rdevents($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
 	{
 
 		$query = 'SELECT * FROM '.$this->escape_table_name('rdevent');
@@ -538,20 +538,20 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 
 		$order = array ();
 
-		for ($i = 0; $i < count($orderBy); $i ++)
+		for ($i = 0; $i < count($order_by); $i ++)
 		{
-			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+			$order[] = $this->escape_column_name($order_by[$i], true).' '. ($order_dir[$i] == SORT_DESC ? 'DESC' : 'ASC');
 		}
 		if (count($order))
 		{
 			$query .= ' ORDER BY '.implode(', ', $order);
 		}
-		if ($maxObjects < 0)
+		if ($max_objects < 0)
 		{
-			$maxObjects = null;
+			$max_objects = null;
 		}
 
-		$this->connection->setLimit(intval($maxObjects),intval($offset));
+		$this->connection->setLimit(intval($max_objects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		return new DatabaseRdPublicationResultSet($this, $res);
@@ -659,9 +659,9 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		}
 	}
 
-    function retrieve_publications($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+    function retrieve_publications($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(Rdpublication :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects(Rdpublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
 	}
 
 	//Inherited.

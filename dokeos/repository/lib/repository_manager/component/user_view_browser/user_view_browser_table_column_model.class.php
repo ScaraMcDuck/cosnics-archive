@@ -22,13 +22,13 @@ class UserViewBrowserTableColumnModel extends ObjectTableColumnModel
 	 * @return LearningObjectTableColumn[]
 	 */
 	private static function get_default_columns()
-	{		
+	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(UserView :: PROPERTY_NAME, true);
-		$columns[] = new ObjectTableColumn(UserView :: PROPERTY_DESCRIPTION, true);
+		$columns[] = new ObjectTableColumn(UserView :: PROPERTY_NAME);
+		$columns[] = new ObjectTableColumn(UserView :: PROPERTY_DESCRIPTION);
 		$columns[] = self :: get_modification_column();
 		return $columns;
-	}	
+	}
 
 	/**
 	 * The tables modification column

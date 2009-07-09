@@ -5,9 +5,9 @@
  * @package application.weblcms.tool
  * @subpackage course_group
  */
- 
+
 require_once Path :: get_user_path(). 'lib/user_table/default_user_table_column_model.class.php';
- 
+
 class CourseGroupUnsubscribedUserBrowserTableColumnModel extends DefaultUserTableColumnModel
 {
    	/**
@@ -20,8 +20,8 @@ class CourseGroupUnsubscribedUserBrowserTableColumnModel extends DefaultUserTabl
 	function CourseGroupUnsubscribedUserBrowserTableColumnModel()
 	{
 		parent :: __construct();
-		$this->add_column(new ObjectTableColumn(User :: PROPERTY_USERNAME, true));
-		$this->add_column(new ObjectTableColumn(User :: PROPERTY_EMAIL, true));
+		$this->add_column(new ObjectTableColumn(User :: PROPERTY_USERNAME));
+		$this->add_column(new ObjectTableColumn(User :: PROPERTY_EMAIL));
 		$this->set_default_order_column(1);
 		$this->add_column(self :: get_modification_column());
 	}

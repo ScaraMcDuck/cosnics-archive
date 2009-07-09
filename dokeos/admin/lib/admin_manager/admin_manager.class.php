@@ -271,10 +271,10 @@ class AdminManager extends CoreApplication
         return $adm->retrieve_remote_package($id);
     }
 
-    function retrieve_remote_packages($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+    function retrieve_remote_packages($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
     {
         $adm = AdminDataManager :: get_instance();
-        return $adm->retrieve_remote_packages($condition, $orderBy, $orderDir, $offset, $maxObjects);
+        return $adm->retrieve_remote_packages($condition, $order_by, $order_dir, $offset, $max_objects);
     }
 
     function retrieve_registration($id)
@@ -283,25 +283,25 @@ class AdminManager extends CoreApplication
         return $adm->retrieve_registration($id);
     }
 
-    function retrieve_registrations($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+    function retrieve_registrations($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
     {
         $adm = AdminDataManager :: get_instance();
-        return $adm->retrieve_registrations($condition, $orderBy, $orderDir, $offset, $maxObjects);
+        return $adm->retrieve_registrations($condition, $order_by, $order_dir, $offset, $max_objects);
     }
 
     /**
      * Retrieve a series of system announcements
      * @param Condition $condition
-     * @param array $orderBy
-     * @param array $orderDir
+     * @param array $order_by
+     * @param array $order_dir
      * @param int $offset
-     * @param int $maxObjects
+     * @param int $max_objects
      * @return SystemAnnouncementPublicationResultSet
      */
-    function retrieve_system_announcement_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+    function retrieve_system_announcement_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
     {
         $pmdm = AdminDataManager :: get_instance();
-        return $pmdm->retrieve_system_announcement_publications($condition, $orderBy, $orderDir, $offset, $maxObjects);
+        return $pmdm->retrieve_system_announcement_publications($condition, $order_by, $order_dir, $offset, $max_objects);
     }
 
     function get_system_announcement_publication_deleting_url($system_announcement_publication)

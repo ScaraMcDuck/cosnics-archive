@@ -19,8 +19,8 @@ class SubscribeUserBrowserTableColumnModel extends DefaultUserTableColumnModel
 	function SubscribeUserBrowserTableColumnModel()
 	{
 		parent :: __construct();
-		$this->add_column(new ObjectTableColumn(User :: PROPERTY_USERNAME, true));
-		$this->add_column(new ObjectTableColumn(User :: PROPERTY_EMAIL, true));
+		$this->add_column(new ObjectTableColumn(User :: PROPERTY_USERNAME));
+		$this->add_column(new ObjectTableColumn(User :: PROPERTY_EMAIL));
 		$this->set_default_order_column(1);
 		$this->add_column(self :: get_modification_column());
 	}

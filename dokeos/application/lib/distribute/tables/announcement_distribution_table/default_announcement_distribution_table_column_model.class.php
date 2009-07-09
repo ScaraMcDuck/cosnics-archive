@@ -25,10 +25,10 @@ class DefaultAnnouncementDistributionTableColumnModel extends ObjectTableColumnM
 	private static function get_default_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(AnnouncementDistribution :: PROPERTY_STATUS, true);
-		$columns[] = new ObjectTableColumn(AnnouncementDistribution :: PROPERTY_ANNOUNCEMENT, true);
-		$columns[] = new ObjectTableColumn(AnnouncementDistribution :: PROPERTY_PUBLISHER, true);
-		$columns[] = new ObjectTableColumn(AnnouncementDistribution :: PROPERTY_PUBLISHED, true);
+		$columns[] = new ObjectTableColumn(AnnouncementDistribution :: PROPERTY_STATUS);
+		$columns[] = new ObjectTableColumn(AnnouncementDistribution :: PROPERTY_ANNOUNCEMENT);
+		$columns[] = new ObjectTableColumn(AnnouncementDistribution :: PROPERTY_PUBLISHER);
+		$columns[] = new ObjectTableColumn(AnnouncementDistribution :: PROPERTY_PUBLISHED);
 		return $columns;
 	}
 }

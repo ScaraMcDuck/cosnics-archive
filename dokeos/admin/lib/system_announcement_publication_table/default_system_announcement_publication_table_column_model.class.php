@@ -25,8 +25,8 @@ class DefaultSystemAnnouncementPublicationTableColumnModel extends ObjectTableCo
     private static function get_default_columns()
     {
         $columns = array();
-        $columns[] = new ObjectTableColumn(SystemAnnouncementPublication :: PROPERTY_LEARNING_OBJECT_ID, true);
-        $columns[] = new ObjectTableColumn(SystemAnnouncementPublication :: PROPERTY_PUBLISHED, true);
+        $columns[] = new ObjectTableColumn(SystemAnnouncementPublication :: PROPERTY_LEARNING_OBJECT_ID);
+        $columns[] = new ObjectTableColumn(SystemAnnouncementPublication :: PROPERTY_PUBLISHED);
         return $columns;
     }
 }

@@ -65,9 +65,9 @@ class DatabaseLinkerDataManager extends LinkerDataManager
 		return $this->database->count_objects(Link :: get_table_name(), $condition);
 	}
 
-	function retrieve_links($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_links($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(Link :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects(Link :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
 	}
 
 	function retrieve_link($id)

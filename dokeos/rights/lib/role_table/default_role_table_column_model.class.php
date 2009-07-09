@@ -25,8 +25,8 @@ class DefaultRoleTableColumnModel extends ObjectTableColumnModel
 	private static function get_default_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(Role :: PROPERTY_NAME, true);
-		$columns[] = new ObjectTableColumn(Role :: PROPERTY_DESCRIPTION, true);
+		$columns[] = new ObjectTableColumn(Role :: PROPERTY_NAME);
+		$columns[] = new ObjectTableColumn(Role :: PROPERTY_DESCRIPTION);
 		return $columns;
 	}
 }

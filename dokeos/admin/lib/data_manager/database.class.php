@@ -28,14 +28,14 @@ class DatabaseAdminDataManager extends AdminDataManager
         return $this->database;
     }
 
-    function retrieve_languages($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+    function retrieve_languages($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
     {
-        return $this->database->retrieve_objects(Language :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+        return $this->database->retrieve_objects(Language :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
     }
 
-    function retrieve_settings($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+    function retrieve_settings($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
     {
-        return $this->database->retrieve_objects(Setting :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+        return $this->database->retrieve_objects(Setting :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
     }
 
     function delete_settings($condition = null)
@@ -54,9 +54,9 @@ class DatabaseAdminDataManager extends AdminDataManager
         return $this->database->retrieve_object(Registration :: get_table_name(), $condition);
     }
 
-    function retrieve_registrations($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+    function retrieve_registrations($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
     {
-        return $this->database->retrieve_objects(Registration :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+        return $this->database->retrieve_objects(Registration :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
     }
 
     function retrieve_language_from_english_name($english_name)
@@ -221,9 +221,9 @@ class DatabaseAdminDataManager extends AdminDataManager
         return $this->database->retrieve_object(SystemAnnouncementPublication :: get_table_name(), $condition);
     }
 
-    function retrieve_system_announcement_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+    function retrieve_system_announcement_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
     {
-        return $this->database->retrieve_objects(SystemAnnouncementPublication :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+        return $this->database->retrieve_objects(SystemAnnouncementPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
     }
 
     function retrieve_system_announcement_publication_target_groups($system_announcement_publication)
@@ -443,9 +443,9 @@ class DatabaseAdminDataManager extends AdminDataManager
         return $this->database->retrieve_object(RemotePackage :: get_table_name(), $condition);
     }
 
-    function retrieve_remote_packages($condition = null, $orderBy = array(), $orderDir = array(), $offset = null, $maxObjects = null)
+    function retrieve_remote_packages($condition = null, $order_by = array(), $order_dir = array(), $offset = null, $max_objects = null)
     {
-        return $this->database->retrieve_objects(RemotePackage :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+        return $this->database->retrieve_objects(RemotePackage :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
     }
 
     function update_feedback($feedback)
