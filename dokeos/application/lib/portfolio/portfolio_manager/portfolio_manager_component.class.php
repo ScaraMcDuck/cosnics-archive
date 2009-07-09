@@ -225,6 +225,16 @@ abstract class PortfolioManagerComponent
 	{
 		return $this->get_parent()->get_delete_portfolio_publication_url($portfolio_publication);
 	}
+	
+	function get_create_portfolio_item_url($parent_id)
+	{
+		return $this->get_parent()->get_create_portfolio_item_url($parent_id);
+	}
+
+ 	function get_delete_portfolio_item_url($portfolio_item_cid)
+	{
+		return $this->get_parent()->get_delete_portfolio_item_url($portfolio_item_cid);
+	}
 
 	function get_view_portfolio_url($user)
 	{

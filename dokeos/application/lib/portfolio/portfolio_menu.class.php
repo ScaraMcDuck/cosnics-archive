@@ -23,6 +23,7 @@ class PortfolioMenu extends HTML_Menu
     private $array_renderer;
     
     private $user;
+    private $view_user;
     
     /**
      * Creates a new category navigation menu.
@@ -35,10 +36,11 @@ class PortfolioMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      *                           root.
      */
-    function PortfolioMenu($user, $url_format, $pid, $cid)
+    function PortfolioMenu($user, $url_format, $pid, $cid, $view_user)
     {
         $this->urlFmt = $url_format;
         $this->user = $user;
+        $this->view_user = $view_user;
         
         $menu = $this->get_menu();
         parent :: __construct($menu);
@@ -88,7 +90,8 @@ class PortfolioMenu extends HTML_Menu
     	$pdm = PortfolioDataManager :: get_instance();
     	$rdm = RepositoryDataManager :: get_instance();
     	
-    	$publications = $pdm->retrieve_portfolio_publications();
+    	$condition = new EqualityCondition(PortfolioPublication :: PROPERTY_PUBLISHER, $this->view_user);
+    	$publications = $pdm->retrieve_portfolio_publications($condition);
     	while($publication = $publications->next_result())
     	{
     		if($publication->is_visible_for_target_user($this->user->get_id()))
@@ -126,7 +129,9 @@ class PortfolioMenu extends HTML_Menu
     		}
     		else
     		{
-    			 $item['sub'] = $this->get_portfolio_items($child->get_ref(), $pub_id);
+    			 $items = $this->get_portfolio_items($child->get_ref(), $pub_id);
+    			 if(count($items) > 0)
+    			 	$item['sub'] = $items;
     		}
     		
     		
