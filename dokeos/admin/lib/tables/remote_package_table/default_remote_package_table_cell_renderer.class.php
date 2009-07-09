@@ -27,21 +27,19 @@ class DefaultRemotePackageTableCellRenderer implements ObjectTableCellRenderer
      */
     function render_cell($column, $remote_package)
     {
-        if ($property = $column->get_object_property())
+        switch ($column->get_name())
         {
-            switch ($property)
-            {
-                //				case RemotePackage :: PROPERTY_SECTION :
-                //					return $remote_package->get_section();
-                case RemotePackage :: PROPERTY_NAME :
-                    return $remote_package->get_name();
-                case RemotePackage :: PROPERTY_VERSION :
-                    return $remote_package->get_version();
-                case RemotePackage :: PROPERTY_DESCRIPTION :
-                    return $remote_package->get_description();
-            }
+            //				case RemotePackage :: PROPERTY_SECTION :
+            //					return $remote_package->get_section();
+            case RemotePackage :: PROPERTY_NAME :
+                return $remote_package->get_name();
+            case RemotePackage :: PROPERTY_VERSION :
+                return $remote_package->get_version();
+            case RemotePackage :: PROPERTY_DESCRIPTION :
+                return $remote_package->get_description();
+            default :
+                return '&nbsp;';
         }
-        return '&nbsp;';
     }
 
     function render_id_cell($object)

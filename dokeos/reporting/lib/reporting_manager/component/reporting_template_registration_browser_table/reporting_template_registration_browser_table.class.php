@@ -30,7 +30,7 @@ class ReportingTemplateRegistrationBrowserTable extends ObjectTable
 	
 	function get_objects($offset, $count, $order_column, $order_direction)
 	{
-		$reporting_template_registrations = $this->get_data_provider()->get_objects($offset, $count, $this->get_column_model()->get_column($order_column - ($this->has_form_actions() ? 1 : 0))->get_object_property(), $order_direction);
+		$reporting_template_registrations = $this->get_data_provider()->get_objects($offset, $count, $this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0)), $order_direction);
         $table_data = array ();
 		$column_count = $this->get_column_model()->get_column_count();
 		while ($reporting_template_registration = $reporting_template_registrations->next_result())

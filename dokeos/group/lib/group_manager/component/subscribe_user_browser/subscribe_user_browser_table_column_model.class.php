@@ -32,7 +32,7 @@ class SubscribeUserBrowserTableColumnModel extends DefaultUserTableColumnModel
 	{
 		if (!isset(self :: $modification_column))
 		{
-			self :: $modification_column = new ObjectTableColumn('');
+			self :: $modification_column = new StaticTableColumn('');
 		}
 		return self :: $modification_column;
 	}

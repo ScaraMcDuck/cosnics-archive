@@ -33,7 +33,7 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
 		}
 
 		// Add special features here
-		switch ($column->get_object_property())
+		switch ($column->get_name())
 		{
 			case LearningObjectPublicationAttributes :: PROPERTY_PUBLICATION_DATE:
 				return Text :: format_locale_date(Translation :: get('dateFormatShort').', '.Translation :: get('timeNoSecFormat'),$learning_object->get_publication_date());

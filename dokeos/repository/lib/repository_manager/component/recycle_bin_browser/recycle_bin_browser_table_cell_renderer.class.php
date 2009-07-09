@@ -38,7 +38,7 @@ class RecycleBinBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 		{
 			return $this->get_action_links($learning_object);
 		}
-		switch ($column->get_object_property())
+		switch ($column->get_name())
 		{
 			case LearningObject :: PROPERTY_TITLE :
 				$title = parent :: render_cell($column, $learning_object);

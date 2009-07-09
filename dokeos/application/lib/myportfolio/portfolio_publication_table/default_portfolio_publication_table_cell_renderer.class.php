@@ -25,23 +25,24 @@ class DefaultPortfolioPublicationTableCellRenderer implements ObjectTableCellRen
 	 */
 	function render_cell($column, $portfolio_publication)
 	{
-		if ($property = $column->get_object_property())
+		switch ($column->get_name())
 		{
-			$user = $portfolio_publication->get_publication_publisher();
-			switch ($property)
-			{
-				case PortfolioPublication :: PROPERTY_ITEM :
-					return $portfolio_publication->get_publication_object()->get_title();
-				case User :: PROPERTY_USERNAME :
-					return 'haaloo';//$user->get_username();
-				case User :: PROPERTY_LASTNAME :
-					return $user->get_lastname();
-				case User :: PROPERTY_FIRSTNAME :
-					return $user->get_firstname();
-			}
+			case PortfolioPublication :: PROPERTY_ITEM :
+				return $portfolio_publication->get_publication_object()->get_title();
+			case User :: PROPERTY_USERNAME :
+				return 'haaloo';//$user->get_username();
+			case User :: PROPERTY_LASTNAME :
+				return $user->get_lastname();
+			case User :: PROPERTY_FIRSTNAME :
+				return $user->get_firstname();
+			default :
+			    return '&nbsp;';
 		}
-		return '&nbsp;';
 	}
-    function render_id_cell($object){}
+
+    function render_id_cell($object)
+    {
+
+    }
 }
 ?>

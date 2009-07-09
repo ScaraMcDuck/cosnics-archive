@@ -25,21 +25,19 @@ class DefaultHelpItemTableCellRenderer implements ObjectTableCellRenderer
 	 */
 	function render_cell($column, $help_item)
 	{
-		if ($property = $column->get_object_property())
+		switch ($column->get_name())
 		{
-			switch ($property)
-			{
-				case HelpItem :: PROPERTY_NAME :
-					return $help_item->get_name();
-				case HelpItem :: PROPERTY_LANGUAGE :
-					return $help_item->get_language();
-				case HelpItem :: PROPERTY_URL :
-					return $help_item->get_url();
-			}
+			case HelpItem :: PROPERTY_NAME :
+				return $help_item->get_name();
+			case HelpItem :: PROPERTY_LANGUAGE :
+				return $help_item->get_language();
+			case HelpItem :: PROPERTY_URL :
+				return $help_item->get_url();
+			default :
+			    return '&nbsp;';
 		}
-		return '&nbsp;';
 	}
-	
+
 	function render_id_cell($help_item)
 	{
 		return $help_item->get_id();

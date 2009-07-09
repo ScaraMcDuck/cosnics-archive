@@ -28,21 +28,19 @@ class DefaultWebconferenceTableCellRenderer implements ObjectTableCellRenderer
 	 */
 	function render_cell($column, $webconference)
 	{
-		if ($property = $column->get_object_property())
+		switch ($column->get_name())
 		{
-			switch ($property)
-			{
-				case Webconference :: PROPERTY_ID :
-					return $webconference->get_id();
-				case Webconference :: PROPERTY_CONFNAME :
-					return $webconference->get_confname();
-				case Webconference :: PROPERTY_DESCRIPTION :
-					return $webconference->get_description();
-				case Webconference :: PROPERTY_DURATION :
-					return $webconference->get_duration();
-			}
+			case Webconference :: PROPERTY_ID :
+				return $webconference->get_id();
+			case Webconference :: PROPERTY_CONFNAME :
+				return $webconference->get_confname();
+			case Webconference :: PROPERTY_DESCRIPTION :
+				return $webconference->get_description();
+			case Webconference :: PROPERTY_DURATION :
+				return $webconference->get_duration();
+			default :
+			    return '&nbsp;';
 		}
-		return '&nbsp;';
 	}
 
 	function render_id_cell($object)

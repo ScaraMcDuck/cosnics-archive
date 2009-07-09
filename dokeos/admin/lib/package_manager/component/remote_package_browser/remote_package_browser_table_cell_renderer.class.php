@@ -35,7 +35,7 @@ class RemotePackageBrowserTableCellRenderer extends DefaultRemotePackageTableCel
         }
         
         // Add special features here
-        switch ($column->get_object_property())
+        switch ($column->get_name())
         {
             case RemotePackage :: PROPERTY_DESCRIPTION :
                 $description = strip_tags(parent :: render_cell($column, $remote_package));

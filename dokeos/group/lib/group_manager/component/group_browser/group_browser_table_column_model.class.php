@@ -20,8 +20,8 @@ class GroupBrowserTableColumnModel extends DefaultGroupTableColumnModel
 	{
 		parent :: __construct();
 		$this->set_default_order_column(1);
-		$this->add_column(new ObjectTableColumn(Translation :: get('Users'), false));
-		$this->add_column(new ObjectTableColumn(Translation :: get('Subgroups'), false));
+		$this->add_column(new StaticTableColumn(Translation :: get('Users')));
+		$this->add_column(new StaticTableColumn(Translation :: get('Subgroups')));
 		$this->add_column(self :: get_modification_column());
 	}
 	/**
@@ -32,7 +32,7 @@ class GroupBrowserTableColumnModel extends DefaultGroupTableColumnModel
 	{
 		if (!isset(self :: $modification_column))
 		{
-			self :: $modification_column = new ObjectTableColumn('');
+			self :: $modification_column = new StaticTableColumn('');
 		}
 		return self :: $modification_column;
 	}

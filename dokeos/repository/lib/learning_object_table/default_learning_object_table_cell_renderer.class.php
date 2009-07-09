@@ -50,37 +50,32 @@ class DefaultLearningObjectTableCellRenderer implements ObjectTableCellRenderer
 	 * @return string A HTML representation of the rendered table cell
 	 */
 	function render_cell($column, $learning_object)
-	{        
-		if ($property = $column->get_object_property())
-		{
-            if(isset($learning_object))
-            {
-                switch ($property)
-                {
-                    case LearningObject :: PROPERTY_ID :
-                        return $learning_object->get_id();
-                    case LearningObject :: PROPERTY_TYPE :
-                        $type = $learning_object->get_type();
-                        $icon = $learning_object->get_icon_name();
-                        return '<img src="' . Theme :: get_common_image_path() . 'learning_object/' .$icon.'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($type).'TypeName')).'"/>';
-                    case LearningObject :: PROPERTY_TITLE :
-                        return htmlspecialchars($learning_object->get_title());
-                    case LearningObject :: PROPERTY_DESCRIPTION :
-                        return DokeosUtilities::truncate_string($learning_object->get_description(),50);
-                    case LearningObject :: PROPERTY_CREATION_DATE :
-                        // TODO: i18n
-                        return date('Y-m-d, H:i', $learning_object->get_creation_date());
-                    case LearningObject :: PROPERTY_MODIFICATION_DATE :
-                        // TODO: i18n
-                        return date('Y-m-d, H:i', $learning_object->get_creation_date());
-                    case 'versions' :
-                        return $learning_object->get_version_count();
-                }
-            }
-		}
-		return '&nbsp;';
+	{
+        switch ($column->get_name())
+        {
+            case LearningObject :: PROPERTY_ID :
+                return $learning_object->get_id();
+            case LearningObject :: PROPERTY_TYPE :
+                $type = $learning_object->get_type();
+                $icon = $learning_object->get_icon_name();
+                return '<img src="' . Theme :: get_common_image_path() . 'learning_object/' .$icon.'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($type).'TypeName')).'"/>';
+            case LearningObject :: PROPERTY_TITLE :
+                return htmlspecialchars($learning_object->get_title());
+            case LearningObject :: PROPERTY_DESCRIPTION :
+                return DokeosUtilities::truncate_string($learning_object->get_description(),50);
+            case LearningObject :: PROPERTY_CREATION_DATE :
+                // TODO: i18n
+                return date('Y-m-d, H:i', $learning_object->get_creation_date());
+            case LearningObject :: PROPERTY_MODIFICATION_DATE :
+                // TODO: i18n
+                return date('Y-m-d, H:i', $learning_object->get_creation_date());
+            case Translation :: get('Versions') :
+                return $learning_object->get_version_count();
+            default :
+                return '&nbsp;';
+        }
 	}
-	
+
 	function render_id_cell($object)
 	{
 		return $object->get_id();

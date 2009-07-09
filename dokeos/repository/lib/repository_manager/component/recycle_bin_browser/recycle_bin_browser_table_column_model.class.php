@@ -34,7 +34,7 @@ class RecycleBinBrowserTableColumnModel extends DefaultLearningObjectTableColumn
 	{
 		if (!isset(self :: $action_column))
 		{
-			self :: $action_column = new ObjectTableColumn('');
+			self :: $action_column = new StaticTableColumn('');
 		}
 		return self :: $action_column;
 	}

@@ -199,7 +199,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
         $params = array();
         if (isset($condition))
         {
-            $translator = new ConditionTranslator($this, $params, true);
+            $translator = new ConditionTranslator($this->database, $params);
             $translator->translate($condition);
             $query .= $translator->render_query();
             $params = $translator->get_parameters();

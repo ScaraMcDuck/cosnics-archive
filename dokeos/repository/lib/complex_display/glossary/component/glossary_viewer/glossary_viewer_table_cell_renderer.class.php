@@ -36,12 +36,12 @@ class GlossaryViewerTableCellRenderer extends DefaultLearningObjectTableCellRend
 		if ($column === GlossaryViewerTableColumnModel :: get_action_column())
 		{
 			return $this->get_actions($glossary_item);
-		} 
-		
+		}
+
 		if(!$this->glossary_item || $this->glossary_item->get_id() != $glossary_item->get_ref())
 			$this->glossary_item = $this->dm->retrieve_learning_object($glossary_item->get_ref(), 'glossary_item');
-		
-		switch ($column->get_title())
+
+		switch ($column->get_name())
 		{
 			case Translation :: get(ucfirst(GlossaryItem :: PROPERTY_TITLE)):
 				return $this->glossary_item->get_title();
@@ -49,8 +49,8 @@ class GlossaryViewerTableCellRenderer extends DefaultLearningObjectTableCellRend
 				return strip_tags($this->glossary_item->get_description());
 		}
 	}
-	
-	function get_actions($glossary_item) 
+
+	function get_actions($glossary_item)
 	{
 		if($this->browser->is_allowed(EDIT_RIGHT))
 		{
@@ -60,7 +60,7 @@ class GlossaryViewerTableCellRenderer extends DefaultLearningObjectTableCellRend
 				'img' => Theme :: get_common_image_path().'action_edit.png'
 			);
 		}
-	
+
 		if($this->browser->is_allowed(DELETE_RIGHT))
 		{
 			$actions[] = array(

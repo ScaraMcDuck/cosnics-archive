@@ -28,25 +28,15 @@ class DefaultNavigationItemTableCellRenderer implements ObjectTableCellRenderer
      */
     function render_cell($column, $navigation_item)
     {
-        if ($property = $column->get_object_property())
+        switch ($column->get_name())
         {
-            switch ($property)
-            {
-                case NavigationItem :: PROPERTY_TITLE :
-                    return $navigation_item->get_title();
-            }
+            case NavigationItem :: PROPERTY_TITLE :
+                return $navigation_item->get_title();
+            case Translation :: get(ucfirst(NavigationItem :: PROPERTY_TITLE)) :
+                return $navigation_item->get_title();
+            default :
+                return '&nbsp;';
         }
-        
-        if ($title = $column->get_title())
-        {
-            switch ($title)
-            {
-                case Translation :: get(ucfirst(NavigationItem :: PROPERTY_TITLE)) :
-                    return $navigation_item->get_title();
-            }
-        }
-        
-        return '&nbsp;';
     }
 
     function render_id_cell($object)

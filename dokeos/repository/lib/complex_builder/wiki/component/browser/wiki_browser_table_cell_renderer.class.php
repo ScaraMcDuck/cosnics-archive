@@ -24,18 +24,18 @@ class WikiBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
 		{
 			return $this->get_modification_links($cloi);
 		}
-	
+
 		$learning_object = $this->retrieve_learning_object($cloi->get_ref());
-		
-		switch ($column->get_title())
-		{ 
-			case Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_TITLE)): 
+
+		switch ($column->get_name())
+		{
+			case Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_TITLE)):
 				return $learning_object->get_title() . ($cloi->get_is_homepage() ? '(' . Translation :: get('HomePage') . ')' : '');
 		}
-		
+
 		return parent :: render_cell($column, $cloi);
 	}
-	
+
 	function get_modification_links($cloi)
 	{
 		$toolbar_data = array();
@@ -48,7 +48,7 @@ class WikiBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
 				'confirm' => true
 			);
 		}
-		
+
 		return parent :: get_modification_links($cloi, $toolbar_data);
 	}
 }

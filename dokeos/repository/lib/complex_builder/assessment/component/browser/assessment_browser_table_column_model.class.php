@@ -14,7 +14,7 @@ class AssessmentBrowserTableColumnModel extends ComplexBrowserTableColumnModel
 	 */
 	function AssessmentBrowserTableColumnModel($show_subitems_column)
 	{
-		$columns[] = new ObjectTableColumn(Translation :: get('Weight'), false);
+		$columns[] = new StaticTableColumn(Translation :: get('Weight'));
 		parent :: __construct($show_subitems_column, $columns);
 	}
 }

@@ -15,7 +15,7 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
 	 * The repository browser component
 	 */
 	private $browser;
-	
+
 	/**
 	 * Constructor
 	 * @param RepositoryManagerBrowserComponent $browser
@@ -32,9 +32,9 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
 		{
 			return $this->get_modification_links($group);
 		}
-		
+
 		// Add special features here
-		switch ($column->get_object_property())
+		switch ($column->get_name())
 		{
 			// Exceptions that need post-processing go here ...
 			case Group :: PROPERTY_NAME :
@@ -52,16 +52,12 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
 //					$description = mb_substr($description,0,170).'&hellip;';
 //				}
                 return DokeosUtilities :: truncate_string($description);
-		}
-		
-		switch($column->get_title())
-		{
 			case Translation :: get('Users') :
 				return $group->count_users();
 			case Translation :: get('Subgroups') :
 				return $group->count_subgroups(true);
 		}
-		
+
 		return parent :: render_cell($column, $group);
 	}
 	/**
@@ -73,23 +69,23 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
 	private function get_modification_links($group)
 	{
 		$toolbar_data = array();
-		
+
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_group_editing_url($group),
 			'label' => Translation :: get('Edit'),
 			'img' => Theme :: get_common_image_path().'action_edit.png'
 		);
-		
+
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_group_suscribe_user_browser_url($group),
 			'label' => Translation :: get('AddUsers'),
 			'img' => Theme :: get_common_image_path().'action_subscribe.png',
 		);
-		
+
 		$condition = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $group->get_id());
 		$users = $this->browser->retrieve_group_rel_users($condition);
 		$visible = ($users->size() > 0);
-		
+
 		if($visible)
 		{
 			$toolbar_data[] = array(
@@ -105,25 +101,25 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
 				'img' => Theme :: get_common_image_path().'action_recycle_bin_na.png',
 			);
 		}
-		
+
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_group_delete_url($group),
 			'label' => Translation :: get('Delete'),
 			'img' => Theme :: get_common_image_path().'action_delete.png'
 		);
-		
+
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_move_group_url($group),
 			'label' => Translation :: get('Move'),
 			'img' => Theme :: get_common_image_path().'action_move.png'
 		);
-		
+
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_manage_roles_url($group),
 			'label' => Translation :: get('ManageRoles'),
 			'img' => Theme :: get_common_image_path().'action_rights.png'
 		);
-		
+
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 }

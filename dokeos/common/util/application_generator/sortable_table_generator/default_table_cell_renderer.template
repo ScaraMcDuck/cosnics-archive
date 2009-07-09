@@ -28,17 +28,15 @@ class Default{OBJECT_CLASS}TableCellRenderer implements ObjectTableCellRenderer
 	 */
 	function render_cell($column, ${L_OBJECT_CLASS})
 	{
-		if ($property = $column->get_object_property())
+		switch ($column->get_name())
 		{
-			switch ($property)
-			{
-				<!-- BEGIN PROPERTIES -->
-				case {OBJECT_CLASS} :: PROPERTY_{PROPERTIES.U_PROPERTY} :
-					return ${L_OBJECT_CLASS}->get_{PROPERTIES.L_PROPERTY}();
-				<!-- END PROPERTIES -->
-			}
+			<!-- BEGIN PROPERTIES -->
+			case {OBJECT_CLASS} :: PROPERTY_{PROPERTIES.U_PROPERTY} :
+				return ${L_OBJECT_CLASS}->get_{PROPERTIES.L_PROPERTY}();
+			<!-- END PROPERTIES -->
+			default :
+				return '&nbsp;';
 		}
-		return '&nbsp;';
 	}
 	
 	function render_id_cell($object)

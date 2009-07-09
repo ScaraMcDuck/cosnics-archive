@@ -14,7 +14,7 @@ class SubscribeGroupBrowserTableCellRenderer extends DefaultGroupTableCellRender
 	 * The repository browser component
 	 */
 	private $browser;
-	
+
 	/**
 	 * Constructor
 	 * @param RepositoryManagerBrowserComponent $browser
@@ -31,9 +31,9 @@ class SubscribeGroupBrowserTableCellRenderer extends DefaultGroupTableCellRender
 		{
 			return $this->get_modification_links($group);
 		}
-		
+
 		// Add special features here
-		switch ($column->get_object_property())
+		switch ($column->get_name())
 		{
 			// Exceptions that need post-processing go here ...
 			case Group :: PROPERTY_NAME :
@@ -52,20 +52,16 @@ class SubscribeGroupBrowserTableCellRenderer extends DefaultGroupTableCellRender
 //					$description = mb_substr($description,0,170).'&hellip;';
 //				}
                 return DokeosUtilities::truncate_string($description,175);
-		}
-		
-		switch($column->get_title())
-		{
 			case Translation :: get('Users') :
 				$condition = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID,$group->get_id());
 				$count = GroupDataManager :: get_instance()->count_group_rel_users($condition);
 				return $count;
 			case Translation :: get('Subgroups') :
-				$condition = new EqualityCondition(Group :: PROPERTY_PARENT,$group->get_id()); 
+				$condition = new EqualityCondition(Group :: PROPERTY_PARENT,$group->get_id());
 				$count = GroupDataManager :: get_instance()->count_groups($condition);
-				return $count;	
+				return $count;
 		}
-		
+
 		return parent :: render_cell($column, $group);
 	}
 	/**
@@ -77,16 +73,16 @@ class SubscribeGroupBrowserTableCellRenderer extends DefaultGroupTableCellRender
 	private function get_modification_links($group)
 	{
 		$toolbar_data = array();
-		
+
 		$parameters[Application :: PARAM_ACTION] = WeblcmsManager :: ACTION_SUBSCRIBE_GROUPS;
 		$parameters[WeblcmsManager :: PARAM_USERS] = $group->get_id();
-		
+
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_url($parameters),
 			'label' => Translation :: get('Edit'),
 			'img' => Theme :: get_common_image_path().'action_subscribe.png'
 		);
-		
+
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 }

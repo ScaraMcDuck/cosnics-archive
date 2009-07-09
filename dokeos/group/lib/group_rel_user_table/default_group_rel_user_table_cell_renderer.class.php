@@ -25,17 +25,15 @@ class DefaultGroupRelUserTableCellRenderer implements ObjectTableCellRenderer
 	 */
 	function render_cell($column, $groupreluser)
 	{
-		if ($property = $column->get_object_property())
+		switch ($column->get_name())
 		{
-			switch ($property)
-			{
-				case GroupRelUser :: PROPERTY_USER_ID :
-					return $groupreluser->get_user_id();
-			}
+			case GroupRelUser :: PROPERTY_USER_ID :
+				return $groupreluser->get_user_id();
+			default :
+			    return '&nbsp;';
 		}
-		return '&nbsp;';
 	}
-	
+
 	function render_id_cell($object)
 	{
 		return $object->get_id();

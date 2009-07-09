@@ -25,25 +25,18 @@ class DefaultRoleTableCellRenderer implements ObjectTableCellRenderer
 	 */
 	function render_cell($column, $role)
 	{
-		if ($property = $column->get_object_property())
+		switch ($column->get_name())
 		{
-			switch ($property)
-			{
-				case Role :: PROPERTY_NAME :
-					return $role->get_name();
-				case Role :: PROPERTY_DESCRIPTION :
-//					$description = strip_tags($role->get_description());
-//					if(strlen($description) > 203)
-//					{
-//						mb_internal_encoding("UTF-8");
-//						$description = mb_substr(strip_tags($role->get_description()),0,200).'&hellip;';
-//					}
-					return DokeosUtilities::truncate_string($description,203);
-			}
+			case Role :: PROPERTY_NAME :
+				return $role->get_name();
+			case Role :: PROPERTY_DESCRIPTION :
+				$description = strip_tags($role->get_description());
+				return DokeosUtilities::truncate_string($description,203);
+			default :
+			    return '&nbsp;';
 		}
-		return '&nbsp;';
 	}
-	
+
 	function render_id_cell($object)
 	{
 		return $object->get_id();

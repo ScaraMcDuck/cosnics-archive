@@ -32,7 +32,7 @@ class WikiPublicationBrowserTableCellRenderer extends DefaultWikiPublicationTabl
 	// Inherited
 	function render_cell($column, $wiki_publication)
 	{
-        if ($property = $column->get_object_property())
+        if ($property = $column->get_name())
 		{
 			switch ($property)
 			{

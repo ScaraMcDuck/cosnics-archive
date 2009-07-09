@@ -33,7 +33,7 @@ class AnnouncementDistributionBrowserTableCellRenderer extends DefaultAnnounceme
 		}
 
 		// Add special features here
-		switch ($column->get_object_property())
+		switch ($column->get_name())
 		{
 			case AnnouncementDistribution :: PROPERTY_PUBLISHED:
 				return Text :: format_locale_date(Translation :: get('dateFormatShort').', '.Translation :: get('timeNoSecFormat'), $announcement_distribution->get_published());

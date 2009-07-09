@@ -26,29 +26,27 @@ class DefaultAnnouncementDistributionTableCellRenderer implements ObjectTableCel
 	 */
 	function render_cell($column, $announcement_distribution)
 	{
-		if ($property = $column->get_object_property())
+		switch ($column->get_name())
 		{
-			switch ($property)
-			{
-				case AnnouncementDistribution :: PROPERTY_ANNOUNCEMENT :
-					return $announcement_distribution->get_distribution_object()->get_title();
-				case AnnouncementDistribution :: PROPERTY_PUBLISHER :
-					$user = $announcement_distribution->get_distribution_publisher();
-					if($user)
-					{
-						return $user->get_fullname();
-					}
-					else
-					{
-					    return Translation :: get('DistributorUnknown');
-					}
-				case AnnouncementDistribution :: PROPERTY_PUBLISHED :
-					return $announcement_distribution->get_published();
-				case AnnouncementDistribution :: PROPERTY_STATUS :
-					return $announcement_distribution->get_status();
-			}
+			case AnnouncementDistribution :: PROPERTY_ANNOUNCEMENT :
+				return $announcement_distribution->get_distribution_object()->get_title();
+			case AnnouncementDistribution :: PROPERTY_PUBLISHER :
+				$user = $announcement_distribution->get_distribution_publisher();
+				if($user)
+				{
+					return $user->get_fullname();
+				}
+				else
+				{
+				    return Translation :: get('DistributorUnknown');
+				}
+			case AnnouncementDistribution :: PROPERTY_PUBLISHED :
+				return $announcement_distribution->get_published();
+			case AnnouncementDistribution :: PROPERTY_STATUS :
+				return $announcement_distribution->get_status();
+			default :
+			    return '&nbsp;';
 		}
-		return '&nbsp;';
 	}
 
 	function render_id_cell($object)

@@ -25,21 +25,19 @@ class DefaultGroupTableCellRenderer implements ObjectTableCellRenderer
 	 */
 	function render_cell($column, $group)
 	{
-		if ($property = $column->get_object_property())
+		switch ($column->get_name())
 		{
-			switch ($property)
-			{
-				case Group :: PROPERTY_ID :
-					return $group->get_id();
-				case Group :: PROPERTY_NAME :
-					return $group->get_name();
-				case Group :: PROPERTY_DESCRIPTION :
-					return $group->get_description();
-			}
+			case Group :: PROPERTY_ID :
+				return $group->get_id();
+			case Group :: PROPERTY_NAME :
+				return $group->get_name();
+			case Group :: PROPERTY_DESCRIPTION :
+				return $group->get_description();
+			default :
+			    return '&nbsp;';
 		}
-		return '&nbsp;';
 	}
-	
+
 	function render_id_cell($object)
 	{
 		return $object->get_id();

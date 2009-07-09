@@ -17,9 +17,9 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
 	{
 		parent :: __construct($browser, $condition);
 	}
-	
+
 	private $lpi_ref_object;
-	
+
 	// Inherited
 	function render_cell($column, $cloi)
 	{
@@ -29,32 +29,32 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
 			if(!$this->lpi_ref_object || $this->lpi_ref_object->get_id() != $lo->get_reference())
 			{
 				$ref_lo = RepositoryDataManager :: get_instance()->retrieve_learning_object($lo->get_reference());
-				$this->lpi_ref_object = $ref_lo;	
+				$this->lpi_ref_object = $ref_lo;
 			}
 			else
 			{
 				$ref_lo = $this->lpi_ref_object;
 			}
 		}
-		
-		switch ($column->get_title())
-		{ 
+
+		switch ($column->get_name())
+		{
 			case Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_TITLE)) :
 				$title = htmlspecialchars($ref_lo->get_title());
 				$title_short = $title;
 
                 $title_short = DokeosUtilities::truncate_string($title_short,53,false);
-				
+
 				if($ref_lo->get_type() == 'learning_path')
 				{
 					$title_short = '<a href="' . $this->browser->get_url(
-						array(ComplexBuilder :: PARAM_ROOT_LO => $this->browser->get_root(), 
-							  ComplexBuilder :: PARAM_CLOI_ID => $cloi->get_id(), 'publish' => Request :: get('publish'))) . '">' . $title_short . '</a>'; 
+						array(ComplexBuilder :: PARAM_ROOT_LO => $this->browser->get_root(),
+							  ComplexBuilder :: PARAM_CLOI_ID => $cloi->get_id(), 'publish' => Request :: get('publish'))) . '">' . $title_short . '</a>';
 				}
-				
+
 				return $title_short;
 		}
-		
+
 		return parent :: render_cell($column, $cloi, $ref_lo);
 	}
 

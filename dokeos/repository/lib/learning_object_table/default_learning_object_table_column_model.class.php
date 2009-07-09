@@ -4,7 +4,6 @@
  * @package repository.learningobjecttable
  */
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_column_model.class.php';
-require_once Path :: get_library_path() . 'html/table/object_table/object_table_column.class.php';
 require_once dirname(__FILE__).'/../learning_object.class.php';
 
 /**
@@ -42,11 +41,11 @@ class DefaultLearningObjectTableColumnModel extends ObjectTableColumnModel
 	private static function get_default_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TYPE, true);
-		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE, true);
-		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION, true);
-		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_MODIFICATION_DATE, true);
-		$columns[] = new ObjectTableColumn('versions', true);
+		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TYPE);
+		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE);
+		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION);
+		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_MODIFICATION_DATE);
+		$columns[] = new StaticTableColumn(Translation :: get('Versions'));
 		return $columns;
 	}
 }

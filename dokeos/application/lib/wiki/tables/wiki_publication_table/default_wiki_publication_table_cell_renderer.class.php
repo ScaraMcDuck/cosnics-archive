@@ -29,19 +29,17 @@ class DefaultWikiPublicationTableCellRenderer implements ObjectTableCellRenderer
 	 */
 	function render_cell($column, $wiki_publication)
 	{
-		if ($property = $column->get_object_property())
+		switch ($column->get_name())
 		{
-			switch ($property)
-			{
-                case LearningObject :: PROPERTY_TITLE :
-                    //return $wiki_publication->get_learning_object()->get_title();
-                    $url = $this->browser->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, WikiManager :: PARAM_WIKI_PUBLICATION => $wiki_publication->get_id()));
-                    return '<a href="'.$url.'">' . htmlspecialchars($wiki_publication->get_learning_object()->get_title()) . '</a>';
-                case LearningObject :: PROPERTY_DESCRIPTION:
-                    return $wiki_publication->get_learning_object()->get_description();
-			}
+            case LearningObject :: PROPERTY_TITLE :
+                //return $wiki_publication->get_learning_object()->get_title();
+                $url = $this->browser->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, WikiManager :: PARAM_WIKI_PUBLICATION => $wiki_publication->get_id()));
+                return '<a href="'.$url.'">' . htmlspecialchars($wiki_publication->get_learning_object()->get_title()) . '</a>';
+            case LearningObject :: PROPERTY_DESCRIPTION:
+                return $wiki_publication->get_learning_object()->get_description();
+            default :
+                return '&nbsp;';
 		}
-		return '&nbsp;';
 	}
 
 	function render_id_cell($object)

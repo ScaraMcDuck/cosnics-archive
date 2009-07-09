@@ -34,10 +34,10 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultLearningObj
 		if ($column === AssessmentResultsTableOverviewAdminColumnModel :: get_action_column())
 		{
 			return $this->get_actions($publication);
-		} 
+		}
 		else
 		{
-			switch ($column->get_title())
+			switch ($column->get_name())
 			{
 				case Translation :: get(Assessment :: PROPERTY_TITLE):
 					return $assessment->get_title();
@@ -64,8 +64,8 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultLearningObj
 			}
 		}
 	}
-	
-	function get_actions($publication) 
+
+	function get_actions($publication)
 	{
 		$assessment = $publication->get_learning_object();
 		$actions[] = array(
@@ -73,13 +73,13 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultLearningObj
 			'label' => Translation :: get('ViewResults'),
 			'img' => Theme :: get_common_image_path().'action_view_results.png'
 		);
-		
+
 		$actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_DELETE_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())),
 			'label' => Translation :: get('DeleteAllResults'),
 			'img' => Theme :: get_common_image_path().'action_delete.png'
 		);
-		
+
 		if ($assessment->get_assessment_type() == Assessment :: TYPE_ASSIGNMENT)
 		{
 			$actions[] = array(
@@ -88,10 +88,10 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultLearningObj
 				'img' => Theme :: get_common_image_path().'action_download.png'
 			);
 		}
-		
+
 		return DokeosUtilities :: build_toolbar($actions);
 	}
-	
+
 	/**
 	 * Gets the links to publish or edit and publish a learning object.
 	 * @param LearningObject $learning_object The learning object for which the
@@ -102,13 +102,13 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultLearningObj
 	{
 		$toolbar_data = array();
 		$table_actions = $this->table_actions;
-		
+
 		foreach($table_actions as $table_action)
 		{
 			$table_action['href'] = sprintf($table_action['href'], $learning_object->get_id());
 			$toolbar_data[] = $table_action;
 		}
-		
+
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 }

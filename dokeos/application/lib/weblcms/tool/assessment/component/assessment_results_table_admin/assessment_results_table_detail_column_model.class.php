@@ -29,9 +29,9 @@ class AssessmentResultsTableDetailColumnModel extends ObjectTableColumnModel {
 	private static function get_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(Translation :: get(WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID), false);
-		$columns[] = new ObjectTableColumn(Translation :: get(WeblcmsAssessmentAttemptsTracker :: PROPERTY_DATE), false);
-		$columns[] = new ObjectTableColumn(Translation :: get(WeblcmsAssessmentAttemptsTracker :: PROPERTY_TOTAL_SCORE), false);
+		$columns[] = new StaticTableColumn(Translation :: get(WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID));
+		$columns[] = new StaticTableColumn(Translation :: get(WeblcmsAssessmentAttemptsTracker :: PROPERTY_DATE));
+		$columns[] = new StaticTableColumn(Translation :: get(WeblcmsAssessmentAttemptsTracker :: PROPERTY_TOTAL_SCORE));
 		$columns[] = self :: get_action_column();
 		return $columns;
 	}
@@ -43,7 +43,7 @@ class AssessmentResultsTableDetailColumnModel extends ObjectTableColumnModel {
 	{
 		if (!isset(self :: $action_column))
 		{
-			self :: $action_column = new ObjectTableColumn(Translation :: get('Actions'));
+			self :: $action_column = new StaticTableColumn(Translation :: get('Actions'));
 		}
 		return self :: $action_column;
 	}

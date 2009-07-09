@@ -37,12 +37,12 @@ class PortfolioBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
 				$ref_lo = $this->lpi_ref_object;
 			}
 		}
-		else 
+		else
 		{
 			$ref_lo = $lo;
 		}
 
-		switch ($column->get_title())
+		switch ($column->get_name())
 		{
 			case Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_TITLE)) :
 				$title = htmlspecialchars($ref_lo->get_title());

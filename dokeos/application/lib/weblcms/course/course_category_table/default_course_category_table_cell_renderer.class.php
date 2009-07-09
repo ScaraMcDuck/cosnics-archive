@@ -23,21 +23,19 @@ class DefaultCourseCategoryTableCellRenderer implements ObjectTableCellRenderer
 	 */
 	function render_cell($column, $coursecategory)
 	{
-		if ($property = $column->get_object_property())
+		switch ($column->get_name())
 		{
-			switch ($property)
-			{
-				case CourseCategory :: PROPERTY_ID :
-					return $coursecategory->get_id();
-				case CourseCategory :: PROPERTY_NAME :
-					return $coursecategory->get_name();
-				case CourseCategory :: PROPERTY_CODE :
-					return $coursecategory->get_code();
-			}
+			case CourseCategory :: PROPERTY_ID :
+				return $coursecategory->get_id();
+			case CourseCategory :: PROPERTY_NAME :
+				return $coursecategory->get_name();
+			case CourseCategory :: PROPERTY_CODE :
+				return $coursecategory->get_code();
+			default :
+			    return '&nbsp;';
 		}
-		return '&nbsp;';
 	}
-	
+
 	function render_id_cell($object)
 	{
 		return $object->get_id();

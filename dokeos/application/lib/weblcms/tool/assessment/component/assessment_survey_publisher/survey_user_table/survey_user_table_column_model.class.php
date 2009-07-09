@@ -41,7 +41,7 @@ class SurveyUserTableColumnModel extends ObjectTableColumnModel {
 	{
 		if (!isset(self :: $action_column))
 		{
-			self :: $action_column = new ObjectTableColumn(Translation :: get('Actions'));
+			self :: $action_column = new StaticTableColumn(Translation :: get('Actions'));
 		}
 		return self :: $action_column;
 	}

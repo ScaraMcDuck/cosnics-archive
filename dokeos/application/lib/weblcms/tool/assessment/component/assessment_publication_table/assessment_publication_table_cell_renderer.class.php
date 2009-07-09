@@ -36,7 +36,7 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 		{
 			return $this->get_actions($publication);
 		} 
-		else if ($column->get_object_property() == Assessment :: PROPERTY_ASSESSMENT_TYPE)
+		else if ($column->get_name() == Assessment :: PROPERTY_ASSESSMENT_TYPE)
 		{
 			if ($publication->is_hidden())
 			{
