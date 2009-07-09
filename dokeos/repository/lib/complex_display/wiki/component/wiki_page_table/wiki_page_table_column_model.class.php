@@ -29,9 +29,9 @@ class WikiPageTableColumnModel extends ObjectTableColumnModel {
 	{
 		$columns = array();
 		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE, true);
-		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION, true);        
+		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION, true);
         $columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_MODIFICATION_DATE, true);
-        $columns[] = new ObjectTableColumn('versions', true);
+        $columns[] = new StaticTableColumn(Translation :: get('Versions'));
 		$columns[] = self :: get_action_column();
 		return $columns;
 	}
@@ -43,7 +43,7 @@ class WikiPageTableColumnModel extends ObjectTableColumnModel {
 	{
 		if (!isset(self :: $action_column))
 		{
-			self :: $action_column = new ObjectTableColumn(Translation :: get('Actions'));
+			self :: $action_column = new StaticTableColumn(Translation :: get('Actions'));
 		}
 		return self :: $action_column;
 	}

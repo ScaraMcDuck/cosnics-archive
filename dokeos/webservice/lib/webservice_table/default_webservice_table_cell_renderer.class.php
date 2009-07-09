@@ -24,26 +24,19 @@ class DefaultWebserviceTableCellRenderer implements ObjectTableCellRenderer
 	 * @return string A HTML representation of the rendered table cell
 	 */
 	function render_cell($column, $webservice)
-	{ 
-		if ($property = $column->get_object_property())
-		{ 
-			switch ($property)
-			{
-				case WebserviceRegistration :: PROPERTY_NAME :
-					return $webservice->get_name();
-				case WebserviceRegistration :: PROPERTY_DESCRIPTION :
-					$description = strip_tags($webservice->get_description());
-//					if(strlen($description) > 203)
-//					{
-//						mb_internal_encoding("UTF-8");
-//						$description = mb_substr(strip_tags($role->get_description()),0,200).'&hellip;';
-//					}
-                    return DokeosUtilities::truncate_string($description);
-			}
+	{
+		switch ($column->get_name())
+		{
+			case WebserviceRegistration :: PROPERTY_NAME :
+				return $webservice->get_name();
+			case WebserviceRegistration :: PROPERTY_DESCRIPTION :
+				$description = strip_tags($webservice->get_description());
+                return DokeosUtilities::truncate_string($description);
+			default :
+			    return '&nbsp;';
 		}
-		return '&nbsp;';
 	}
-	
+
 	function render_id_cell($object)
 	{
 		return $object->get_id();

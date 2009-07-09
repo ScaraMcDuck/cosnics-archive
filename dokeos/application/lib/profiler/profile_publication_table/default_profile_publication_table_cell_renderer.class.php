@@ -27,22 +27,20 @@ class DefaultProfilePublicationTableCellRenderer implements ObjectTableCellRende
      */
     function render_cell($column, $profile_publication)
     {
-        if ($property = $column->get_object_property())
+        $user = $profile_publication->get_publication_publisher();
+        switch ($column->get_name())
         {
-            $user = $profile_publication->get_publication_publisher();
-            switch ($property)
-            {
-                case ProfilePublication :: PROPERTY_PROFILE :
-                    return $profile_publication->get_publication_object()->get_title();
-                case User :: PROPERTY_USERNAME :
-                    return $user->get_username();
-                case User :: PROPERTY_LASTNAME :
-                    return $user->get_lastname();
-                case User :: PROPERTY_FIRSTNAME :
-                    return $user->get_firstname();
-            }
+            case ProfilePublication :: PROPERTY_PROFILE :
+                return $profile_publication->get_publication_object()->get_title();
+            case User :: PROPERTY_USERNAME :
+                return $user->get_username();
+            case User :: PROPERTY_LASTNAME :
+                return $user->get_lastname();
+            case User :: PROPERTY_FIRSTNAME :
+                return $user->get_firstname();
+            default :
+                return '&nbsp;';
         }
-        return '&nbsp;';
     }
 
     function render_id_cell($object)

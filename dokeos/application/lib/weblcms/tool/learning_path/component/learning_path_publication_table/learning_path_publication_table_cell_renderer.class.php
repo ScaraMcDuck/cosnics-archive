@@ -37,7 +37,7 @@ class LearningPathPublicationTableCellRenderer extends DefaultLearningObjectTabl
 		}
 		$learning_object = $publication->get_learning_object();
 		
-		if ($property = $column->get_object_property())
+		if ($property = $column->get_name())
 		{
 			switch ($property)
 			{

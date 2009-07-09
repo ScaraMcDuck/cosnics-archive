@@ -38,7 +38,7 @@ class WebconferenceBrowserTableCellRenderer extends DefaultWebconferenceTableCel
 		}
 		
 		//Add special features here
-		switch ($column->get_object_property())
+		switch ($column->get_name())
 		{
 			case Webconference :: PROPERTY_CONFNAME:
 				$confname = parent :: render_cell($column, $webconference);

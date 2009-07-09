@@ -32,17 +32,17 @@ class CategoryBrowserTableColumnModel extends ObjectTableColumnModel
 	{
 		if (!isset(self :: $modification_column))
 		{
-			self :: $modification_column = new ObjectTableColumn('');
+			self :: $modification_column = new StaticTableColumn('');
 		}
 		return self :: $modification_column;
 	}
-	
+
 	private static function get_default_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn('', false);
+		$columns[] = new StaticTableColumn('');
 		$columns[] = new ObjectTableColumn(PlatformCategory :: PROPERTY_NAME, true);
-		$columns[] = new ObjectTableColumn(Translation :: get('Subcategories'), false);
+		$columns[] = new StaticTableColumn(Translation :: get('Subcategories'));
 		return $columns;
 	}
 }

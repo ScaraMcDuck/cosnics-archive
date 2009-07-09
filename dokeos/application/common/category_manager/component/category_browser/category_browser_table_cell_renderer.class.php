@@ -39,7 +39,7 @@ class CategoryBrowserTableCellRenderer implements ObjectTableCellRenderer
 			return $this->get_modification_links($category);
 		}
 		
-		if ($property = $column->get_object_property())
+		if ($property = $column->get_name())
 		{
 			switch ($property)
 			{

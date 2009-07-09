@@ -26,7 +26,7 @@ class StaticTableColumn implements TableColumn
     {
         return $this->title;
     }
-    
+
     /**
      * Sets the title of this column.
      * @param string $title The new title.
@@ -44,6 +44,11 @@ class StaticTableColumn implements TableColumn
     function is_sortable()
     {
         return false;
+    }
+
+    function get_name()
+    {
+        return $this->get_title();
     }
 }
 ?>

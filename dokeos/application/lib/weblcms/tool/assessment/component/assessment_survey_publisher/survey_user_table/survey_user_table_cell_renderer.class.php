@@ -36,7 +36,7 @@ class SurveyUserTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 		} 
 		else
 		{
-			switch ($column->get_object_property())
+			switch ($column->get_name())
 			{
 				case SurveyInvitation :: PROPERTY_USER_ID:
 					$user = UserDataManager :: get_instance()->retrieve_user($survey_invitation->get_user_id());

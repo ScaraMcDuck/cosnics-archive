@@ -25,23 +25,21 @@ class DefaultReportingTemplateRegistrationTableCellRenderer implements ObjectTab
 	 */
 	function render_cell($column, $reporting_template_registration)
 	{
-		if ($property = $column->get_object_property())
+		switch ($column->get_name())
 		{
-			switch ($property)
-			{
-                case ReportingTemplateRegistration :: PROPERTY_APPLICATION:
-                    return Translation :: get(DokeosUtilities::underscores_to_camelcase($reporting_template_registration->get_application()));
-				case ReportingTemplateRegistration :: PROPERTY_TITLE :
-                    return Translation :: get($reporting_template_registration->get_title());
-				case ReportingTemplateRegistration :: PROPERTY_DESCRIPTION :
-					$description = strip_tags($reporting_template_registration->get_description());
-                    $description = DokeosUtilities::truncate_string($description, 50);
-					return Translation :: get($description);
-			}
+            case ReportingTemplateRegistration :: PROPERTY_APPLICATION:
+                return Translation :: get(DokeosUtilities::underscores_to_camelcase($reporting_template_registration->get_application()));
+			case ReportingTemplateRegistration :: PROPERTY_TITLE :
+                return Translation :: get($reporting_template_registration->get_title());
+			case ReportingTemplateRegistration :: PROPERTY_DESCRIPTION :
+				$description = strip_tags($reporting_template_registration->get_description());
+                $description = DokeosUtilities::truncate_string($description, 50);
+				return Translation :: get($description);
+			default :
+			    return '&nbsp;';
 		}
-		return '&nbsp;';
 	}
-	
+
 	function render_id_cell($object)
 	{
 		return $object->get_id();

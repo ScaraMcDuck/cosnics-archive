@@ -41,7 +41,7 @@ class LearningObjectTableColumnModel extends ObjectTableColumnModel {
 	{
 		if (!isset(self :: $action_column))
 		{
-			self :: $action_column = new ObjectTableColumn(Translation :: get('Publish'));
+			self :: $action_column = new StaticTableColumn(Translation :: get('Publish'));
 		}
 		return self :: $action_column;
 	}

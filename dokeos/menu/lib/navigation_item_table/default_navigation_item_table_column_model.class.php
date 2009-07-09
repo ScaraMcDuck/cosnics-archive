@@ -24,7 +24,7 @@ class DefaultNavigationItemTableColumnModel extends ObjectTableColumnModel
     private static function get_default_columns()
     {
         $columns = array();
-        $columns[] = new ObjectTableColumn(Translation :: get(ucfirst(NavigationItem :: PROPERTY_TITLE)), false, false);
+        $columns[] = new StaticTableColumn(Translation :: get(DokeosUtilities :: underscores_to_camelcase(NavigationItem :: PROPERTY_TITLE)));
         return $columns;
     }
 }

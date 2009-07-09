@@ -2,11 +2,9 @@
 /**
  * @package common.html.table.common
  */
-/**
- * 
- * TODO: Add comment
- * 
- */
+require_once Path :: get_library_path() . 'html/table/object_table/object_table_column.class.php';
+require_once Path :: get_library_path() . 'html/table/static_table_column.class.php';
+
 class ObjectTableColumnModel
 {
     /**
@@ -104,6 +102,33 @@ class ObjectTableColumnModel
     function set_default_order_direction($direction)
     {
         $this->order_direction = $direction;
+    }
+
+    function get_order_column($column_number)
+    {
+        $column = $this->get_column($column_number);
+
+        // If it's an ObjectTableColumn AND sorting is allowed for it, then return the property
+        if ($column instanceof ObjectTableColumn && $column->is_sortable())
+        {
+            return $column->get_property();
+        }
+        // If not, return the default order property
+        else
+        {
+            $default_column = $this->get_column($this->get_default_order_column());
+
+            // Make sure the default order column is actually an ObjectTableColumn AND sortabele
+            if ($default_column instanceof ObjectTableColumn && $default_column->is_sortable())
+            {
+                return $default_column->get_property();
+            }
+            // If not, just don't sort (probably a table with display orders)
+            else
+            {
+                return null;
+            }
+        }
     }
 }
 ?>

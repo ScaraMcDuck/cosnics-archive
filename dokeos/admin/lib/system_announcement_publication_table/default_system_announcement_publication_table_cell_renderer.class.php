@@ -5,7 +5,6 @@
 
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/../system_announcement_publication.class.php';
-require_once Path :: get_user_path() . 'lib/user.class.php';
 
 class DefaultSystemAnnouncementPublicationTableCellRenderer implements ObjectTableCellRenderer
 {
@@ -26,16 +25,13 @@ class DefaultSystemAnnouncementPublicationTableCellRenderer implements ObjectTab
      */
     function render_cell($column, $profile_publication)
     {
-        if ($property = $column->get_object_property())
+        switch ($column->get_name())
         {
-            $user = $profile_publication->get_publication_publisher();
-            switch ($property)
-            {
-                case SystemAnnouncementPublication :: PROPERTY_LEARNING_OBJECT_ID :
-                    return $profile_publication->get_publication_object()->get_title();
-            }
+            case SystemAnnouncementPublication :: PROPERTY_LEARNING_OBJECT_ID :
+                return $profile_publication->get_publication_object()->get_title();
+            default :
+                return '&nbsp;';
         }
-        return '&nbsp;';
     }
 
     function render_id_cell($object)

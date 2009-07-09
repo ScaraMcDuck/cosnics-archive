@@ -31,7 +31,7 @@ class UserViewBrowserTableCellRenderer implements ObjectTableCellRenderer
 		{
 			return $this->get_modification_links($user_view);
 		}
-		switch ($column->get_object_property())
+		switch ($column->get_name())
 		{
 			case UserView :: PROPERTY_NAME:
 				return $user_view->get_name();

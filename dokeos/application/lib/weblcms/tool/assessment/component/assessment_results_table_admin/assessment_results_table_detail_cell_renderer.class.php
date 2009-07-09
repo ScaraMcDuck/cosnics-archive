@@ -30,14 +30,14 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultLearningObjectTabl
 	 */
 	function render_cell($column, $user_assessment)
 	{
-		
+
 		if ($column === AssessmentResultsTableDetailColumnModel :: get_action_column())
 		{
 			return $this->get_actions($user_assessment);
-		} 
+		}
 		else
 		{
-			switch ($column->get_title())
+			switch ($column->get_name())
 			{
 				case Translation :: get(WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID):
 					$user_id = $user_assessment->get_user_id();
@@ -59,18 +59,18 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultLearningObjectTabl
 			}
 		}
 	}
-	
-	function get_actions($user_assessment) 
+
+	function get_actions($user_assessment)
 	{
 		$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($user_assessment->get_assessment_id());
 		$assessment = $pub->get_learning_object();
-		
+
 		$actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_DELETE_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
 			'label' => Translation :: get('DeleteResult'),
 			'img' => Theme :: get_common_image_path().'action_delete.png'
 		);
-		
+
 		if ($assessment->get_assessment_type() != 'hotpotatoes')
 		{
 			$actions[] = array(
@@ -78,15 +78,15 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultLearningObjectTabl
 				'label' => Translation :: get('ViewResults'),
 				'img' => Theme :: get_common_image_path().'action_view_results.png'
 			);
-			
+
 			$actions[] = array(
 				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
 				'label' => Translation :: get('ExportResults'),
 				'img' => Theme :: get_common_image_path().'action_export.png'
 			);
 		}
-		
-		
+
+
 		if ($assessment->get_assessment_type() == Assessment :: TYPE_ASSIGNMENT)
 		{
 			$actions[] = array(
@@ -98,7 +98,7 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultLearningObjectTabl
 		if(count($actions) > 0 )
 			return DokeosUtilities :: build_toolbar($actions);
 	}
-	
+
 	/**
 	 * Gets the links to publish or edit and publish a learning object.
 	 * @param LearningObject $learning_object The learning object for which the
@@ -109,13 +109,13 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultLearningObjectTabl
 	{
 		$toolbar_data = array();
 		$table_actions = $this->table_actions;
-		
+
 		foreach($table_actions as $table_action)
 		{
 			$table_action['href'] = sprintf($table_action['href'], $learning_object->get_id());
 			$toolbar_data[] = $table_action;
 		}
-		
+
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 }

@@ -30,24 +30,29 @@ class ComplexBrowserTableColumnModel extends ObjectTableColumnModel
 	{
 		if (!isset(self :: $modification_column))
 		{
-			self :: $modification_column = new ObjectTableColumn('');
+			self :: $modification_column = new StaticTableColumn('');
 		}
 		return self :: $modification_column;
 	}
-	
+
 	private static function get_default_columns($show_subitems_column = true, $additional_columns = array())
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_TYPE)));
-		$columns[] = new ObjectTableColumn(Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_TITLE)));
-		$columns[] = new ObjectTableColumn(Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_DESCRIPTION)));
+		$columns[] = new StaticTableColumn(Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_TYPE)));
+		$columns[] = new StaticTableColumn(Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_TITLE)));
+		$columns[] = new StaticTableColumn(Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_DESCRIPTION)));
 		//$columns[] = new ObjectTableColumn(ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER);
+
 		if($show_subitems_column)
-			$columns[] = new ObjectTableColumn(Translation :: get('Subitems'));
-		
-		foreach($additional_columns as $additional_column)	
+		{
+			$columns[] = new StaticTableColumn(Translation :: get('Subitems'));
+		}
+
+		foreach($additional_columns as $additional_column)
+		{
 			$columns[] = $additional_column;
-			
+		}
+
 		//$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_MODIFICATION_DATE);
 		$columns[] = self :: get_modification_column();
 		return $columns;

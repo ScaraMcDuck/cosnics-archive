@@ -30,11 +30,11 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 		$this->rdm = RepositoryDataManager :: get_instance();
 		$this->condition = $condition;
 	}
-	
+
 	function retrieve_learning_object($lo_id)
 	{
 		if(!$this->learning_object || $this->learning_object->get_id() != $lo_id)
-		{ 
+		{
 			$learning_object = $this->rdm->retrieve_learning_object($lo_id);
 			$this->learning_object = $learning_object;
 		}
@@ -42,10 +42,10 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 		{
 			$learning_object = $this->learning_object;
 		}
-		
+
 		return $learning_object;
 	}
-	
+
 	// Inherited
 	function render_cell($column, $cloi, $learning_object = null)
 	{
@@ -56,9 +56,9 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 
 		if(!$learning_object)
 			$learning_object = $this->retrieve_learning_object($cloi->get_ref());
-		
-		switch ($column->get_title())
-		{ 
+
+		switch ($column->get_name())
+		{
 			case Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_TYPE)) :
 				$type = $learning_object->get_type();
 				$icon = $learning_object->get_icon_name();
@@ -67,19 +67,15 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 			case Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_TITLE)) :
 				$title = htmlspecialchars($learning_object->get_title());
 				$title_short = $title;
-//				if(strlen($title_short) > 53)
-//				{
-//					$title_short = mb_substr($title_short,0,50).'&hellip;';
-//				}
                 $title_short = DokeosUtilities::truncate_string($title_short,53,false);
-				
+
 				if($learning_object->is_complex_learning_object())
 				{
 					$title_short = '<a href="' . $this->browser->get_url(
-						array(ComplexBuilder :: PARAM_ROOT_LO => $this->browser->get_root(), 
-							  ComplexBuilder :: PARAM_CLOI_ID => $cloi->get_id(), 'publish' => Request :: get('publish'))) . '">' . $title_short . '</a>'; 
+						array(ComplexBuilder :: PARAM_ROOT_LO => $this->browser->get_root(),
+							  ComplexBuilder :: PARAM_CLOI_ID => $cloi->get_id(), 'publish' => Request :: get('publish'))) . '">' . $title_short . '</a>';
 				}
-				
+
 				return $title_short; //'<a href="'.htmlentities($this->browser->get_learning_object_viewing_url($learning_object)).'" title="'.$title.'">'.$title_short.'</a>';
 			case Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_DESCRIPTION)) :
 				$description = strip_tags($learning_object->get_description());
@@ -107,7 +103,7 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 	protected function get_modification_links($cloi, $additional_toolbar_items = array(), $no_move = false)
 	{
 		$toolbar_data = array();
-		
+
 		$edit_url = $this->browser->get_complex_learning_object_item_edit_url($cloi, $this->browser->get_root());
 		if($cloi->is_extended() || get_parent_class($this->browser) == 'ComplexBuilder')
 		{
@@ -124,11 +120,11 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 				'img' => Theme :: get_common_image_path().'action_edit_na.png'
 			);
 		}
-		
+
 		$delete_url = $this->browser->get_complex_learning_object_item_delete_url($cloi, $this->browser->get_root());
 		$moveup_url = $this->browser->get_complex_learning_object_item_move_url($cloi, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_UP);
 		$movedown_url = $this->browser->get_complex_learning_object_item_move_url($cloi, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_DOWN);
-		
+
 		$toolbar_data[] = array(
 			'href' => $delete_url,
 			'label' => Translation :: get('Delete'),
@@ -154,9 +150,9 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 					'label' => Translation :: get('MoveUpNA'),
 					'img' => Theme :: get_common_image_path().'action_up_na.png',
 				);
-	
+
 			}
-			
+
 			if($allowed["movedown"])
 			{
 				$toolbar_data[] = array(
@@ -170,20 +166,20 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 				$toolbar_data[] = array(
 					'label' => Translation :: get('MoveDownNA'),
 					'img' => Theme :: get_common_image_path().'action_down_na.png',
-				);	
-			}	
+				);
+			}
 		}
-		
+
 		$toolbar_data = array_merge($toolbar_data, $additional_toolbar_items);
-		
+
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
-	
+
 	protected function check_move_allowed($cloi)
 	{
 		$moveup_allowed = true;
 		$movedown_allowed = true;
-	
+
 		$count = $this->rdm->count_complex_learning_object_items($this->condition);
 		if($count == 1)
 		{
@@ -204,7 +200,7 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 				}
 			}
 		}
-		
+
 		return array('moveup' =>$moveup_allowed, 'movedown' => $movedown_allowed);
 	}
 }

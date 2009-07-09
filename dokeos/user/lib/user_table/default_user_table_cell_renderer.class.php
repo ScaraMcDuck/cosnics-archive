@@ -24,42 +24,40 @@ class DefaultUserTableCellRenderer implements ObjectTableCellRenderer
 	 */
 	function render_cell($column, $user)
 	{
-		if ($property = $column->get_object_property())
+		switch ($column->get_name())
 		{
-			switch ($property)
-			{
-				case User :: PROPERTY_USER_ID :
-					return $user->get_id();
-				case User :: PROPERTY_LASTNAME :
-					return $user->get_lastname();
-				case User :: PROPERTY_FIRSTNAME :
-					return $user->get_firstname();
-				case User :: PROPERTY_USERNAME :
-					return $user->get_username();
-				case User :: PROPERTY_EMAIL :
-					return $user->get_email();
-				case User :: PROPERTY_STATUS :
-					return $user->get_status();
-				case User :: PROPERTY_PLATFORMADMIN :
-					return $user->get_platformadmin();
-				case User :: PROPERTY_OFFICIAL_CODE :
-					return $user->get_official_code();
-				case User :: PROPERTY_LANGUAGE :
-					return $user->get_language();
-				case User :: PROPERTY_VERSION_QUOTA :
-					return $user->get_version_quota();
-				case User :: PROPERTY_PICTURE_URI :
-					return $this->render_picture($user);
-			}
+			case User :: PROPERTY_USER_ID :
+				return $user->get_id();
+			case User :: PROPERTY_LASTNAME :
+				return $user->get_lastname();
+			case User :: PROPERTY_FIRSTNAME :
+				return $user->get_firstname();
+			case User :: PROPERTY_USERNAME :
+				return $user->get_username();
+			case User :: PROPERTY_EMAIL :
+				return $user->get_email();
+			case User :: PROPERTY_STATUS :
+				return $user->get_status();
+			case User :: PROPERTY_PLATFORMADMIN :
+				return $user->get_platformadmin();
+			case User :: PROPERTY_OFFICIAL_CODE :
+				return $user->get_official_code();
+			case User :: PROPERTY_LANGUAGE :
+				return $user->get_language();
+			case User :: PROPERTY_VERSION_QUOTA :
+				return $user->get_version_quota();
+			case User :: PROPERTY_PICTURE_URI :
+				return $this->render_picture($user);
+			default :
+			    return '&nbsp;';
 		}
-		return '&nbsp;';
 	}
-	
+
 	function render_id_cell($object)
 	{
 		return $object->get_id();
 	}
-	
+
 	private function render_picture($user)
 	{
 		if ($user->has_picture())

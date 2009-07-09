@@ -29,10 +29,10 @@ class AssessmentResultsTableOverviewAdminColumnModel extends ObjectTableColumnMo
 	private static function get_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(Translation :: get(Assessment :: PROPERTY_ASSESSMENT_TYPE), false);
-		$columns[] = new ObjectTableColumn(Translation :: get(Assessment :: PROPERTY_TITLE), false);
-		$columns[] = new ObjectTableColumn(Translation :: get(Assessment :: PROPERTY_TIMES_TAKEN), false);
-		$columns[] = new ObjectTableColumn(Translation :: get(Assessment :: PROPERTY_AVERAGE_SCORE), false);
+		$columns[] = new StaticTableColumn(Translation :: get(Assessment :: PROPERTY_ASSESSMENT_TYPE));
+		$columns[] = new StaticTableColumn(Translation :: get(Assessment :: PROPERTY_TITLE));
+		$columns[] = new StaticTableColumn(Translation :: get(Assessment :: PROPERTY_TIMES_TAKEN));
+		$columns[] = new StaticTableColumn(Translation :: get(Assessment :: PROPERTY_AVERAGE_SCORE));
 		$columns[] = self :: get_action_column();
 		return $columns;
 	}
@@ -44,7 +44,7 @@ class AssessmentResultsTableOverviewAdminColumnModel extends ObjectTableColumnMo
 	{
 		if (!isset(self :: $action_column))
 		{
-			self :: $action_column = new ObjectTableColumn(Translation :: get('Actions'));
+			self :: $action_column = new StaticTableColumn(Translation :: get('Actions'));
 		}
 		return self :: $action_column;
 	}

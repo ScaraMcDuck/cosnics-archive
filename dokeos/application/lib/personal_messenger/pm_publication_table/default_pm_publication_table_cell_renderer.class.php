@@ -26,31 +26,29 @@ class DefaultPmPublicationTableCellRenderer implements ObjectTableCellRenderer
 	 */
 	function render_cell($column, $personal_message_publication)
 	{
-		if ($property = $column->get_object_property())
+		switch ($column->get_name())
 		{
-			switch ($property)
-			{
-				case PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE :
-					return $personal_message_publication->get_publication_object()->get_title();
-				case PersonalMessagePublication :: PROPERTY_SENDER :
-					$user = $personal_message_publication->get_publication_sender();
-					if($user)
-						return $user->get_firstname() . '&nbsp;' . $user->get_lastname();
-					return Translation :: get('SenderUnknown');
-				case PersonalMessagePublication :: PROPERTY_RECIPIENT :
-					$user = $personal_message_publication->get_publication_recipient();
-					if($user)
-						return $user->get_firstname() . '&nbsp;' . $user->get_lastname();
-					return Translation :: get('RecipientUnknown');
-				case PersonalMessagePublication :: PROPERTY_PUBLISHED :
-					return $personal_message_publication->get_published();
-				case PersonalMessagePublication :: PROPERTY_STATUS :
-					return $personal_message_publication->get_status();
-			}
+			case PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE :
+				return $personal_message_publication->get_publication_object()->get_title();
+			case PersonalMessagePublication :: PROPERTY_SENDER :
+				$user = $personal_message_publication->get_publication_sender();
+				if($user)
+					return $user->get_firstname() . '&nbsp;' . $user->get_lastname();
+				return Translation :: get('SenderUnknown');
+			case PersonalMessagePublication :: PROPERTY_RECIPIENT :
+				$user = $personal_message_publication->get_publication_recipient();
+				if($user)
+					return $user->get_firstname() . '&nbsp;' . $user->get_lastname();
+				return Translation :: get('RecipientUnknown');
+			case PersonalMessagePublication :: PROPERTY_PUBLISHED :
+				return $personal_message_publication->get_published();
+			case PersonalMessagePublication :: PROPERTY_STATUS :
+				return $personal_message_publication->get_status();
+			default :
+			    return '&nbsp;';
 		}
-		return '&nbsp;';
 	}
-	
+
 	function render_id_cell($object)
 	{
 		return $object->get_id();

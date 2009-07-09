@@ -24,12 +24,13 @@ class AssessmentBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
 		$return = parent :: render_cell($column, $cloi);
 		if($return != '')
 			return $return;
-		
-		switch ($column->get_title())
-		{ 
-			case Translation :: get('Weight'): return $cloi->get_weight();
+
+		switch ($column->get_name())
+		{
+			case Translation :: get('Weight'):
+			     return $cloi->get_weight();
 		}
-		
+
 		return '';
 	}
 }

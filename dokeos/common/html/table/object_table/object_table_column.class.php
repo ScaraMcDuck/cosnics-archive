@@ -18,6 +18,8 @@ class ObjectTableColumn implements TableColumn
      */
     private $title;
 
+    private $is_sortable;
+
     /**
      * Constructor. Either defines a column that displays a default property
      * of learning objects, or arbitrary content.
@@ -34,10 +36,11 @@ class ObjectTableColumn implements TableColumn
      *                                                   object property, false
      *                                                   otherwise.
      */
-    function ObjectTableColumn($property, $blah = true, $bloh = true)
+    function ObjectTableColumn($property, $is_sortable = true)
     {
 		$this->property = $property;
 		$this->title = Translation :: get(DokeosUtilities :: underscores_to_camelcase($this->property));
+		$this->is_sortable = $is_sortable;
     }
 
     /**
@@ -45,7 +48,7 @@ class ObjectTableColumn implements TableColumn
      * @return string The property name, or null if the column contains
      *                arbitrary content.
      */
-    function get_object_property()
+    function get_property()
     {
         return $this->property;
     }
@@ -66,7 +69,7 @@ class ObjectTableColumn implements TableColumn
      */
     function is_sortable()
     {
-        return false;
+        return $this->is_sortable;
     }
 
     /**
@@ -76,6 +79,11 @@ class ObjectTableColumn implements TableColumn
     function set_title($title)
     {
         $this->title = $title;
+    }
+
+    function get_name()
+    {
+        return $this->get_property();
     }
 }
 ?>

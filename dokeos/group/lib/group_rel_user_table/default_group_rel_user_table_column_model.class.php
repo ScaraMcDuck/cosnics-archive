@@ -26,7 +26,6 @@ class DefaultGroupRelUserTableColumnModel extends ObjectTableColumnModel
 	{
 		$columns = array();
 		$columns[] = new ObjectTableColumn(GroupRelUser :: PROPERTY_USER_ID, true, false);
-		//$columns[] = new ObjectTableColumn('Location', true);
 		return $columns;
 	}
 }

@@ -3,7 +3,6 @@
  * @package repository.repositorymanager
  */
 require_once Path :: get_admin_path() . 'lib/tables/registration_table/default_registration_table_column_model.class.php';
-require_once Path :: get_admin_path() . 'lib/registration.class.php';
 /**
  * Table column model for the user browser table
  */
@@ -32,7 +31,7 @@ class RegistrationBrowserTableColumnModel extends DefaultRegistrationTableColumn
     {
         if (! isset(self :: $modification_column))
         {
-            self :: $modification_column = new ObjectTableColumn('');
+            self :: $modification_column = new StaticTableColumn('');
         }
         return self :: $modification_column;
     }

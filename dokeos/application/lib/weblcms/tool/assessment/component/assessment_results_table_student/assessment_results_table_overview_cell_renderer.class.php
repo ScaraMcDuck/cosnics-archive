@@ -37,7 +37,7 @@ class AssessmentResultsTableOverviewStudentCellRenderer extends DefaultLearningO
 		} 
 		else
 		{
-			switch ($column->get_object_property())
+			switch ($column->get_name())
 			{
 				case Assessment :: PROPERTY_TITLE:
 					$pid = $user_assessment->get_assessment_id();

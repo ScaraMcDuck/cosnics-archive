@@ -34,7 +34,7 @@ class SystemAnnouncementPublicationBrowserTableCellRenderer extends DefaultSyste
         }
         
         // Add special features here
-        switch ($column->get_object_property())
+        switch ($column->get_name())
         {
             case SystemAnnouncementPublication :: PROPERTY_PUBLISHED :
                 return Text :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $system_announcement_publication->get_published());

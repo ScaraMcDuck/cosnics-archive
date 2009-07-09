@@ -30,7 +30,7 @@ class WhoisOnlineTableCellRenderer extends DefaultUserTableCellRenderer
     function render_cell($column, $user)
     {
         // Add special features here
-        switch ($column->get_object_property())
+        switch ($column->get_name())
         {
             case User :: PROPERTY_OFFICIAL_CODE :
                 return $user->get_official_code();
