@@ -258,7 +258,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
 
 		$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id());
 
-		$course_categories = $this->retrieve_course_user_categories($condition, null, null, array(CourseUserCategory :: PROPERTY_SORT), array(SORT_ASC));
+		$course_categories = $this->retrieve_course_user_categories($condition, null, null, new ObjectTableOrder(CourseUserCategory :: PROPERTY_SORT));
 
 		$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0);
 

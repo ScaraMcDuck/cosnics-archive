@@ -72,7 +72,10 @@ class LearningObjectPublicationCategoryManager extends CategoryManager
 		$wdm = WeblcmsDataManager :: get_instance();
 		
 		if($condition)
+		{
 			$conditions[] = $condition;
+		}
+		
 		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_COURSE, $this->get_parent()->get_course_id());
 		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_TOOL, $this->get_parent()->get_tool_id());
 		$condition = new AndCondition($conditions);

@@ -28,7 +28,7 @@ class WeblcmsNewAnnouncements extends WeblcmsBlock
 		$dm = WeblcmsDataManager :: get_instance();
 		$weblcms = $this->get_parent();
 		
-		$courses = $weblcms->retrieve_courses($this->get_user_id(), null, null, null, array(Course :: PROPERTY_NAME), array(SORT_ASC));
+		$courses = $weblcms->retrieve_courses($this->get_user_id(), null, null, null, new ObjectTableOrder(Course :: PROPERTY_NAME));
 		
 		$items = array();
 		

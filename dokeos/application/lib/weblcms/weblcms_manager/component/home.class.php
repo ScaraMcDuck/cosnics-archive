@@ -22,7 +22,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 
 		$this->display_header($trail, false, true);
 		echo '<div class="clear"></div>';
-		$course_categories = $this->retrieve_course_user_categories(null, null, null, array(CourseUserCategory :: PROPERTY_SORT), array(SORT_ASC));
+		$course_categories = $this->retrieve_course_user_categories(null, null, null, new ObjectTableOrder(CourseUserCategory :: PROPERTY_SORT));
 
 		echo $this->display_menu();
 

@@ -180,7 +180,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		/*
 		 * Always respect display order as a last resort.
 		 */
-		$order_by[] = LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX;
+		$order_by[] = new ObjectTableOrder(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX);
 		$order_dir[] = SORT_ASC;
 		$order = array ();
 		/*
@@ -191,14 +191,17 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			//$order[] = '('.$this->escape_column_name(LearningObject :: PROPERTY_TYPE, true).' = "category") DESC';
 		}
-		for ($i = 0; $i < count($order_by); $i ++)
-		{
-			$order[] = $this->escape_column_name($order_by[$i], true).' '. ($order_dir[$i] == SORT_DESC ? 'DESC' : 'ASC');
-		}
-		if (count($order))
-		{
-			$query .= ' ORDER BY '.implode(', ', $order);
-		}
+		
+	    $orders = array();
+        foreach($order_by as $order)
+        {
+            $orders[] = $this->escape_column_name($order->get_property()) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+        }
+        if (count($orders))
+        {
+            $query .= ' ORDER BY ' . implode(', ', $orders);
+        }
+		
 		if ($max_objects < 0)
 		{
 			$max_objects = null;
@@ -1397,18 +1400,20 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$params = $translator->get_parameters();
 		}
 
-		$order_by[] = ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER;
+		$order_by[] = new ObjectTableOrder(ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER);
 		//$order_dir[] = SORT_ASC;
 		$order = array ();
 
-		for ($i = 0; $i < count($order_by); $i ++)
-		{
-			$order[] = $this->escape_column_name($order_by[$i], false).' '. ($order_dir[$i] == SORT_DESC ? 'DESC' : 'ASC');
-		}
-		if (count($order))
-		{
-			$query .= ' ORDER BY '.implode(', ', $order);
-		}
+	    $orders = array();
+        foreach($order_by as $order)
+        {
+            $orders[] = $this->escape_column_name($order->get_property()) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+        }
+        if (count($orders))
+        {
+            $query .= ' ORDER BY ' . implode(', ', $orders);
+        }
+		
 		if ($max_objects < 0)
 		{
 			$max_objects = null;
@@ -1494,10 +1499,8 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 	function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		$order_property[] = 'parent';
-		$order_property[] = 'display_order';
-		$order_direction[] = SORT_ASC;
-		$order_direction[] = SORT_ASC;
+		$order_property[] = new ObjectTableOrder('parent');
+		$order_property[] = new ObjectTableOrder('display_order');
 		return $this->database->retrieve_objects('repository_category', $condition, $offset, $count, $order_property, $order_direction);
 	}
 

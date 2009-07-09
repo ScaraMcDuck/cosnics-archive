@@ -39,17 +39,13 @@ class CategoryBrowserTableCellRenderer implements ObjectTableCellRenderer
 			return $this->get_modification_links($category);
 		}
 		
-		if ($property = $column->get_name())
+		switch ($column->get_name())
 		{
-			switch ($property)
-			{
-				case PlatformCategory :: PROPERTY_ID :
-					return $category->get_id();
-				case PlatformCategory :: PROPERTY_NAME : 
-					$url = $this->browser->get_browse_categories_url($category->get_id());
-					return '<a href="' . $url . '" alt="' . $category->get_name() . '">' . $category->get_name() . '</a>';
-			}
-
+			case PlatformCategory :: PROPERTY_ID :
+				return $category->get_id();
+			case PlatformCategory :: PROPERTY_NAME : 
+				$url = $this->browser->get_browse_categories_url($category->get_id());
+				return '<a href="' . $url . '" alt="' . $category->get_name() . '">' . $category->get_name() . '</a>';
 		}
 		
 		$title = $column->get_title();

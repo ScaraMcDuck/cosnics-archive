@@ -41,7 +41,7 @@ if ($user_home_allowed && Authentication :: is_valid())
         {
             $width_total += $col->get_width();
         }
-        $columns = $hdm->retrieve_home_columns($condition, null, null, array(HomeColumn :: PROPERTY_WIDTH), array(SORT_DESC));
+        $columns = $hdm->retrieve_home_columns($condition, null, null, new ObjectTableOrder(HomeColumn :: PROPERTY_WIDTH, SORT_DESC));
         
         // Create the new column + a dummy block for it
         $new_column = new HomeColumn();

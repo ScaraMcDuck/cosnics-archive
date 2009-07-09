@@ -24,8 +24,8 @@ class WeblcmsCourseList extends WeblcmsBlock
 		$html = array();
 		
 		$weblcms = $this->get_parent();
-		$course_categories = $weblcms->retrieve_course_user_categories(null, null, null, array(CourseUserCategory :: PROPERTY_SORT), array(SORT_ASC));
-		$courses = $weblcms->retrieve_courses($this->get_user_id(), null, null, null, array(Course :: PROPERTY_NAME), array(SORT_ASC));
+		$course_categories = $weblcms->retrieve_course_user_categories(null, null, null, new ObjectTableOrder(CourseUserCategory :: PROPERTY_SORT));
+		$courses = $weblcms->retrieve_courses($this->get_user_id(), null, null, null, new ObjectTableOrder(Course :: PROPERTY_NAME));
 
 		$html[] = $this->display_header();
 		$html[] = $this->display_course_digest($courses);

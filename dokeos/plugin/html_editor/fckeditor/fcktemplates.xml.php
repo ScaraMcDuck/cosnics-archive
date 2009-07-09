@@ -38,7 +38,7 @@ if (Authentication :: is_valid())
     	$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_TYPE, 'template');
     	$condition = new AndCondition($conditions);
 
-    	$templates = $rdm->retrieve_learning_objects(null, $condition, array(LearningObject :: PROPERTY_TITLE), array(SORT_ASC));
+    	$templates = $rdm->retrieve_learning_objects(null, $condition, new ObjectTableOrder(LearningObject :: PROPERTY_TITLE));
 
     	$html[] = '<?xml version="1.0" encoding="utf-8" ?>';
     	$html[] = '<Templates>';
