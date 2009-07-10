@@ -71,7 +71,16 @@ class EqualityCondition implements Condition
      */
     function __toString()
     {
-        return $this->get_name() . ' = \'' . $this->get_value() . '\'';
+        $value = $this->get_value();
+
+        if (is_null($value))
+        {
+            return $this->get_name() . ' IS NULL';
+        }
+        else
+        {
+            return $this->get_name() . ' = \'' . $this->get_value() . '\'';
+        }
     }
 }
 ?>

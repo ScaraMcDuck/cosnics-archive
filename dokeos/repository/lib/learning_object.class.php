@@ -72,6 +72,8 @@ require_once Path :: get_rights_path().'lib/location.class.php';
 
 class LearningObject implements AccessibleLearningObject
 {
+    const CLASS_NAME = __CLASS__;
+
 	/**
 	 * Constant to define the normal state of a learning object
 	 */
@@ -671,7 +673,7 @@ class LearningObject implements AccessibleLearningObject
 	 */
 	function create()
 	{
-     
+
 		$dm = RepositoryDataManager :: get_instance();
 		$now = time();
 
@@ -713,7 +715,7 @@ class LearningObject implements AccessibleLearningObject
 
 	function create_all()
 	{
-     
+
 		$this->assign_display_order_index();
 		$dm = RepositoryDataManager :: get_instance();
 		$id = $dm->get_next_learning_object_id();
@@ -1082,6 +1084,11 @@ class LearningObject implements AccessibleLearningObject
 	function is_versioning_required()
 	{
 		return false;
+	}
+
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 }
 ?>

@@ -47,7 +47,7 @@ class ConditionTranslator
         }
         else
         {
-            //print_r($condition);
+            //dump($condition);
             die('Need a Condition instance');
         }
     }
@@ -75,7 +75,9 @@ class ConditionTranslator
                 $cond[] = $this->translate($c);
                 $count ++;
                 if ($count < count($condition->get_conditions()))
+                {
                     $this->strings[] = ' AND ';
+                }
             }
             $this->strings[] = ')';
         }
@@ -90,7 +92,9 @@ class ConditionTranslator
                 $cond[] = $this->translate($c);
                 $count ++;
                 if ($count < count($condition->get_conditions()))
+                {
                     $this->strings[] = ' OR ';
+                }
             }
             $this->strings[] = ')';
         }
@@ -129,16 +133,31 @@ class ConditionTranslator
         if ($condition instanceof InCondition)
         {
             $name = $condition->get_name();
-            $where_clause = $this->data_manager->escape_column_name($name, $storage_unit) . ' IN (';
             $values = $condition->get_values();
-            $placeholders = array();
-            foreach ($values as $value)
+
+            if (!is_array($values))
             {
-                $placeholders[] = '?';
-                $this->parameters[] = $value;
+                $values = array($values);
             }
-            $where_clause .= implode(',', $placeholders) . ')';
-            return $where_clause;
+
+            if (count($values) > 0)
+            {
+                $where_clause = $this->data_manager->escape_column_name($name, $storage_unit) . ' IN (';
+
+                $placeholders = array();
+                foreach ($values as $value)
+                {
+                    $placeholders[] = '?';
+                    $this->parameters[] = $value;
+                }
+
+                $where_clause .= implode(',', $placeholders) . ')';
+                return $where_clause;
+            }
+            else
+            {
+                return '';
+            }
         }
         else
         {
@@ -155,7 +174,8 @@ class ConditionTranslator
             $name = $condition->get_name();
             $value = $condition->get_value();
             $table = $condition->get_storage_unit();
-            $etable = $this->data_manager->escape_table_name($table);
+            //$etable = $this->data_manager->escape_table_name($table);
+            $etable = $table;
             $sub_condition = $condition->get_condition();
 
             $alias = $this->data_manager->get_alias($table);

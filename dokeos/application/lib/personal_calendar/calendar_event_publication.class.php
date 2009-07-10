@@ -20,7 +20,7 @@ class CalendarEventPublication
 {
 	const CLASS_NAME = __CLASS__;
 	const TABLE_NAME = 'publication';
-	
+
 	const PROPERTY_ID = 'id';
 	const PROPERTY_CALENDAR_EVENT = 'calendar_event';
 	const PROPERTY_PUBLISHER = 'publisher';
@@ -60,7 +60,7 @@ class CalendarEventPublication
 	{
 		return $this->defaultProperties;
 	}
-	
+
 	function set_default_properties($defaultProperties)
 	{
 		$this->defaultProperties = $defaultProperties;
@@ -257,7 +257,7 @@ class CalendarEventPublication
 	{
 		$this->target_groups = $target_groups;
 	}
-	
+
 	static function get_table_name()
 	{
 		return self :: TABLE_NAME;
