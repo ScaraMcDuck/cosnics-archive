@@ -33,7 +33,7 @@ class AssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 		echo '<div class="assessment">';
 		echo '<h2>' . $this->parent->get_assessment()->get_title() . '</h2>';
 
-		if($this->parent->get_assessment()->has_description())
+		if($this->parent->get_assessment()->has_description() && $current_page->get_page_number() == 1)
 		{
 			echo '<div class="description">';
 			echo $this->parent->get_assessment()->get_description();
@@ -42,8 +42,16 @@ class AssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 		}
 		echo '</div>';
 
+		echo '<div style="width: 100%; text-align: center;">';
+		echo $current_page->get_page_number() . ' / ' . $this->parent->get_total_pages();
+		echo '</div>';
+		
 		echo '<div>';
 		parent :: _renderForm($current_page);
+		echo '</div>';
+		
+		echo '<div style="width: 100%; text-align: center;">';
+		echo $current_page->get_page_number() . ' / ' . $this->parent->get_total_pages();
 		echo '</div>';
 	}
 }

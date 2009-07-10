@@ -48,5 +48,10 @@ class QuestionsAssessmentViewerWizardPage extends AssessmentViewerWizardPage
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 		$this->setDefaultAction('next');
 	}
+	
+	function get_page_number()
+	{
+		return $this->page_number;
+	}
 }
 ?>
