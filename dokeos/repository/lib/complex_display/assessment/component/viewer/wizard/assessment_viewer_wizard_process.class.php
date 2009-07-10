@@ -14,7 +14,9 @@ class AssessmentViewerWizardProcess extends HTML_QuickForm_Action
 
 	function perform($page, $actionName)
 	{
-		foreach($_POST as $key => $value)
+		$values = $this->parent->exportValues();
+		
+		foreach($values as $key => $value)
 		{
 			$value = Security :: remove_XSS($value);
 			$split_key = split('_', $key);

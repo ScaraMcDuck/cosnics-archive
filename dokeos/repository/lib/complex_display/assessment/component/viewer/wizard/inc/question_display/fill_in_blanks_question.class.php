@@ -47,12 +47,21 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
 		        	$size = strlen($match) - 2;
 		        
 		    	$element = $formvalidator->createElement('text', $name, '', array('size' => $size));
+		    	
 		    }
-			$answer_text = str_replace($match, $element->toHtml(), $answer_text);
+		    
+		    $pos = strpos($answer_text, $match);
+	    	$formvalidator->addElement('html', substr($answer_text, 0, $pos));
+	    	$formvalidator->addElement($element);
+	    	$start = $pos + strlen($match);
+			$answer_text = substr($answer_text, $start, strlen($answer_text) - $start);
+	    	$renderer->setElementTemplate('{element}', $name);
+	    	
+			//$answer_text = str_replace($match, $element->toHtml(), $answer_text);
 		}
 
 		//$formvalidator->addElement('static', 'blanks', null, $answer_text);
-		$formvalidator->addElement('html', $answer_text);
+		//$formvalidator->addElement('html', $answer_text);
 		$renderer->setElementTemplate($element_template, 'blanks');
 	}
 
