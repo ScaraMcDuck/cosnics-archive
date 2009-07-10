@@ -105,9 +105,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$sth = $this->connection->prepare($query);
@@ -379,9 +379,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$sth = $this->connection->prepare($query);
@@ -398,9 +398,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$sth = $this->connection->prepare($query);
@@ -418,9 +418,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$sth = $this->connection->prepare($query);
@@ -437,9 +437,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$sth = $this->connection->prepare($query);
@@ -475,9 +475,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$sth = $this->connection->prepare($query);
@@ -1042,9 +1042,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			if (isset ($condition))
 			{
 				$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-				$translator->translate($condition);
-				$query .= $translator->render_query();
-				$params = $translator->get_parameters();
+	            $cond = $translator->translate($condition);
+	            $query .= $translator->render_query($cond);
+	            $params = $translator->get_parameters();
 			}
 
 			$query .= ' AND '.$this->escape_table_name(CourseUserRelation :: get_table_name()).'.'.$this->escape_column_name('user_id').'=?';
@@ -1059,9 +1059,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			if (isset ($condition))
 			{
 				$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-				$translator->translate($condition);
-				$query .= $translator->render_query();
-				$params = $translator->get_parameters();
+	            $cond = $translator->translate($condition);
+	            $query .= $translator->render_query($cond);
+	            $params = $translator->get_parameters();
 			}
 
 			$order_by[] = new ObjectTableOrder(Course :: PROPERTY_NAME);
@@ -1146,9 +1146,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		/*
@@ -1659,9 +1659,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		/*
@@ -1699,9 +1699,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		/*
@@ -2401,9 +2401,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this->database, $params);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$sth = $this->database->get_connection()->prepare($query);
@@ -2484,9 +2484,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this->database, $params);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$sth = $this->database->get_connection()->prepare($query);
@@ -2553,9 +2553,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this->database, $params);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$sth = $this->database->get_connection()->prepare($query);

@@ -303,9 +303,9 @@ class DatabaseAdminDataManager extends AdminDataManager
         $params = array();
         if (isset($condition))
         {
-            $translator = new ConditionTranslator($this->database, $params, $prefix_properties = false);
-            $translator->translate($condition);
-            $query .= $translator->render_query();
+            $translator = new ConditionTranslator($this, $params, $this->get_alias('admin_category'));
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
             $params = $translator->get_parameters();
         }
 

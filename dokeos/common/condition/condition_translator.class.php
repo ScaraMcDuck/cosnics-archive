@@ -17,8 +17,7 @@ class ConditionTranslator
     private $storage_unit;
     private $parameters;
     private $strings;
-
-    // TODO: Wouldn't it be more logical to use the tostring method of the conditions to do the actual translating ?
+    
     function ConditionTranslator($data_manager, $parameters, $storage_unit = null)
     {
         $this->data_manager = $data_manager;
@@ -31,25 +30,27 @@ class ConditionTranslator
     {
         if ($condition instanceof AggregateCondition)
         {
-            $this->translate_aggregate_condition($condition);
+            $string = $this->translate_aggregate_condition($condition);
         }
         elseif ($condition instanceof InCondition)
         {
-            $this->strings[] = $this->translate_in_condition($condition);
+            $string = $this->translate_in_condition($condition);
         }
         elseif ($condition instanceof SubselectCondition)
         {
-            $this->translate_subselect_condition($condition);
+            $string = $this->translate_subselect_condition($condition);
         }
         elseif ($condition instanceof Condition)
         {
-            $this->strings[] = $this->translate_simple_condition($condition);
+            $string = $this->translate_simple_condition($condition);
         }
         else
         {
             //dump($condition);
             die('Need a Condition instance');
         }
+        
+        return $string;
     }
 
     /**
@@ -69,45 +70,47 @@ class ConditionTranslator
             $cond = array();
             $count = 0;
 
-            $this->strings[] = '(';
+            $string = '(';
             foreach ($condition->get_conditions() as $c)
             {
-                $cond[] = $this->translate($c);
+                $string .= $this->translate($c);
                 $count ++;
                 if ($count < count($condition->get_conditions()))
                 {
-                    $this->strings[] = ' AND ';
+                    $string .= ' AND ';
                 }
             }
-            $this->strings[] = ')';
+             $string .= ')';
         }
         elseif ($condition instanceof OrCondition)
         {
             $cond = array();
             $count = 0;
 
-            $this->strings[] = '(';
+            $string = '(';
             foreach ($condition->get_conditions() as $c)
             {
-                $cond[] = $this->translate($c);
+                 $string .= $this->translate($c);
                 $count ++;
                 if ($count < count($condition->get_conditions()))
                 {
-                    $this->strings[] = ' OR ';
+                     $string .= ' OR ';
                 }
             }
-            $this->strings[] = ')';
+            $string .= ')';
         }
         elseif ($condition instanceof NotCondition)
         {
-            $this->strings[] = 'NOT (';
-            $this->translate($condition->get_condition());
-            $this->strings[] = ')';
+            $string .= 'NOT (';
+            $string .= $this->translate($condition->get_condition());
+            $string .= $this->strings[] = ')';
         }
         else
         {
             die('Cannot translate aggregate condition');
         }
+        
+        return $string;
     }
 
     /**
@@ -181,21 +184,23 @@ class ConditionTranslator
             $alias = $this->data_manager->get_alias($table);
 
             $this->storage_unit = $alias;
-            $this->strings[] = $this->data_manager->escape_column_name($name, $storage_unit) . ' IN ( SELECT ' . $this->data_manager->escape_column_name($value, $alias) . ' FROM ' . $etable . ' AS ' . $alias;
+            $string = $this->data_manager->escape_column_name($name, $storage_unit) . ' IN ( SELECT ' . $this->data_manager->escape_column_name($value, $alias) . ' FROM ' . $etable . ' AS ' . $alias;
 
             if ($sub_condition)
             {
-                $this->strings[] = ' WHERE ';
-                $this->translate($sub_condition);
+                $string .= ' WHERE ';
+                $string .= $this->translate($sub_condition);
             }
 
-            $this->strings[] = ')';
+            $string .= ')';
             $this->storage_unit = $storage_unit;
         }
         else
         {
             die('Cannot translate in condition');
         }
+        
+        return $string;
     }
 
     /**
@@ -314,9 +319,10 @@ class ConditionTranslator
         return preg_replace(array('/([%\'\\\\_])/e', '/(?<!\\\\)\*/', '/(?<!\\\\)\?/'), array("'\\\\\\\\' . '\\1'", '%', '_'), $string);
     }
 
-    function render_query()
+    function render_query($cond)
     {
-        return ' WHERE ' . implode('', $this->strings);
+        //return ' WHERE ' . implode('', $this->strings);
+        return ' WHERE ' . $cond;
     }
 
     function get_parameters()

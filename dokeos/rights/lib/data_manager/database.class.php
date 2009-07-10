@@ -176,9 +176,9 @@ class DatabaseRightsDataManager extends RightsDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$sth = $this->connection->prepare($query);
@@ -404,9 +404,9 @@ class DatabaseRightsDataManager extends RightsDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$this->connection->setLimit(1);
@@ -440,9 +440,9 @@ class DatabaseRightsDataManager extends RightsDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$this->connection->setLimit(1);
@@ -478,9 +478,9 @@ class DatabaseRightsDataManager extends RightsDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 		
 	    $orders = array();
@@ -545,9 +545,9 @@ class DatabaseRightsDataManager extends RightsDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 		
 	    $orders = array();
@@ -579,9 +579,9 @@ class DatabaseRightsDataManager extends RightsDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$order_by[] = new ObjectTableOrder(Location :: PROPERTY_LOCATION);
@@ -617,9 +617,9 @@ class DatabaseRightsDataManager extends RightsDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$sth = $this->connection->prepare($query);
@@ -637,9 +637,9 @@ class DatabaseRightsDataManager extends RightsDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$sth = $this->connection->prepare($query);
@@ -677,9 +677,9 @@ class DatabaseRightsDataManager extends RightsDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$statement = $this->connection->prepare($query);
@@ -700,9 +700,9 @@ class DatabaseRightsDataManager extends RightsDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$statement = $this->connection->prepare($query);
@@ -728,9 +728,9 @@ class DatabaseRightsDataManager extends RightsDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$statement = $this->connection->prepare($query);
@@ -762,9 +762,9 @@ class DatabaseRightsDataManager extends RightsDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$statement = $this->connection->prepare($query);
@@ -787,9 +787,9 @@ class DatabaseRightsDataManager extends RightsDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$statement = $this->connection->prepare($query);
@@ -906,9 +906,9 @@ class DatabaseRightsDataManager extends RightsDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$statement = $this->connection->prepare($query);

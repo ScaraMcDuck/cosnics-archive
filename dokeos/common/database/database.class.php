@@ -333,9 +333,12 @@ class Database
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this, $params, $this->get_alias($table_name));
-            $translator->translate($condition);
-            $query .= $translator->render_query();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
             $params = $translator->get_parameters();
+//            dump($condition);
+//            dump($cond);
+//            echo '<hr />';
         }
 
         $statement = $this->connection->prepare($query);
@@ -386,9 +389,12 @@ class Database
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this, $params, $this->get_alias($table_name));
-            $translator->translate($condition);
-            $query .= $translator->render_query();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
             $params = $translator->get_parameters();
+//            dump($condition);
+//            dump($cond);
+//            echo '<hr />';
         }
 
         $sth = $this->connection->prepare($query);
@@ -421,9 +427,12 @@ class Database
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this, $params, $this->get_alias($table_name));
-            $translator->translate($condition);
-            $query .= $translator->render_query();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
             $params = $translator->get_parameters();
+//            dump($condition);
+//            dump($cond);
+//            echo '<hr />';
         }
 
         $orders = array();
@@ -468,9 +477,12 @@ class Database
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this, $params, $this->get_alias($table_name));
-            $translator->translate($condition);
-            $query .= $translator->render_query();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
             $params = $translator->get_parameters();
+//            dump($condition);
+//            dump($cond);
+//            echo '<hr />';
         }
 
         $sth = $this->connection->prepare($query);
@@ -529,10 +541,13 @@ class Database
         $params = array();
         if (isset($condition))
         {
-            $translator = new ConditionTranslator($this, $params);
-            $translator->translate($condition);
-            $query .= $translator->render_query();
+            $translator = new ConditionTranslator($this, $params, $this->get_alias($table_name));
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
             $params = $translator->get_parameters();
+//            dump($condition);
+//            dump($cond);
+//            echo '<hr />';
         }
 
         $orders = array();
@@ -575,10 +590,13 @@ class Database
         $params = array();
         if (isset($condition))
         {
-            $translator = new ConditionTranslator($this, $params);
-            $translator->translate($condition);
-            $query .= $translator->render_query();
+            $translator = new ConditionTranslator($this, $params, $this->get_alias($table_name));
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
             $params = $translator->get_parameters();
+            dump($condition);
+            dump($cond);
+            echo '<hr />';
         }
 
         $statement = $this->connection->prepare($query);
@@ -601,10 +619,13 @@ class Database
         $params = array();
         if (isset($condition))
         {
-            $translator = new ConditionTranslator($this, $params);
-            $translator->translate($condition);
-            $query .= $translator->render_query();
+            $translator = new ConditionTranslator($this, $params, $this->get_alias($table_name));
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
             $params = $translator->get_parameters();
+//            dump($condition);
+//            dump($cond);
+//            echo '<hr />';
         }
 
         $statement = $this->connection->prepare($query);

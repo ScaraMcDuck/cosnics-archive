@@ -193,15 +193,15 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
     function retrieve_shared_calendar_event_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
     {
         $query = 'SELECT DISTINCT ' . $this->database->get_alias(CalendarEventPublication :: get_table_name()) . '.* FROM ' . $this->database->escape_table_name(CalendarEventPublication :: get_table_name()) . ' AS ' . $this->database->get_alias(CalendarEventPublication :: get_table_name());
-        $query .= ' LEFT JOIN ' . $this->database->escape_table_name('publication_user') . ' ON ' . $this->database->get_alias(CalendarEventPublication :: get_table_name()) . '.id = ' . $this->database->escape_table_name('publication_user') . '.publication';
-        $query .= ' LEFT JOIN ' . $this->database->escape_table_name('publication_group') . ' ON ' . $this->database->get_alias(CalendarEventPublication :: get_table_name()) . '.id = ' . $this->database->escape_table_name('publication_group') . '.publication';
+        $query .= ' LEFT JOIN ' . $this->database->escape_table_name('publication_user') . ' AS ' . $this->database->get_alias('publication_user') . ' ON ' . $this->database->get_alias(CalendarEventPublication :: get_table_name()) . '.id = ' . $this->database->get_alias('publication_user') . '.publication';
+        $query .= ' LEFT JOIN ' . $this->database->escape_table_name('publication_group') . ' AS ' . $this->database->get_alias('publication_group') . ' ON ' . $this->database->get_alias(CalendarEventPublication :: get_table_name()) . '.id = ' . $this->database->get_alias('publication_group') . '.publication';
 
         $params = array();
         if (isset($condition))
         {
-            $translator = new ConditionTranslator($this->database, $params);
-            $translator->translate($condition);
-            $query .= $translator->render_query();
+            $translator = new ConditionTranslator($this->database, $params, $this->database->get_alias($table_name));
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
             $params = $translator->get_parameters();
         }
 
