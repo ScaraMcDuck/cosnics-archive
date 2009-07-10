@@ -10,7 +10,7 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
 
 	function run()
 	{
-		$trail = new BreadcrumbTrail();
+		$trail = new BreadcrumbTrail(false);
 		$trail->add_help('repository builder');
 
 		$object = Request :: get('object');

@@ -79,12 +79,12 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 				return $title_short; //'<a href="'.htmlentities($this->browser->get_learning_object_viewing_url($learning_object)).'" title="'.$title.'">'.$title_short.'</a>';
 			case Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_DESCRIPTION)) :
 				$description = strip_tags($learning_object->get_description());
-				if(strlen($description) > 203)
+				if(strlen($description) > 75)
 				{
 					mb_internal_encoding("UTF-8");
 					$description = mb_substr(strip_tags($learning_object->get_description()),0,200).'&hellip;';
 				}
-                 return DokeosUtilities::truncate_string($description,203);
+                 return DokeosUtilities::truncate_string($description,75);
 			case Translation :: get('Subitems'):
 				if($cloi->is_complex())
 				{
