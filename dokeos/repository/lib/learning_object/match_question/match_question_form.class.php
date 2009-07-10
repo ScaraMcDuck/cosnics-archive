@@ -143,6 +143,11 @@ class MatchQuestionForm extends LearningObjectForm
         $this->addElement('hidden', 'match_answer_type', $_SESSION['match_answer_type'], array('id' => 'match_answer_type'));
         $this->addElement('hidden', 'match_number_of_options', $_SESSION['match_number_of_options'], array('id' => 'match_number_of_options'));
 
+        $buttons = array();
+        //Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
+        $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddItem'), array('class' => 'normal add', 'id' => 'add_option'));
+        $this->addGroup($buttons, 'question_buttons', null, '', false);
+        
         $html_editor_options = array();
         $html_editor_options['width'] = '100%';
         $html_editor_options['height'] = '65';
@@ -176,13 +181,15 @@ class MatchQuestionForm extends LearningObjectForm
             $textarea_width .= 'px';
         }
 
+        $i = 1;
+        
         for($option_number = 0; $option_number < $number_of_options; $option_number ++)
         {
             if (! in_array($option_number, $_SESSION['match_skip_options']))
             {
                 $group = array();
 
-                $group[] = & $this->createElement('static', null, null, $option_number + 1 . '.');
+                $group[] = & $this->createElement('static', null, null, $i . '.');
                 $group[] = $this->createElement('textarea', 'option[' . $option_number . ']', Translation :: get('Answer'), array('style' => 'width: 100%; height:' . $textarea_height));
                 $group[] = $this->create_html_editor('comment[' . $option_number . ']', Translation :: get('Comment'), $html_editor_options);
                 $group[] = & $this->createElement('text', 'option_weight[' . $option_number . ']', Translation :: get('Weight'), 'size="2"  class="input_numeric"');
@@ -200,8 +207,12 @@ class MatchQuestionForm extends LearningObjectForm
 
                 $this->addGroupRule('option_' . $option_number, array('option[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required')), 'option_weight[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required'), array(Translation :: get('ValueShouldBeNumeric'), 'numeric'))));
 
-                $renderer->setElementTemplate('<tr class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'option_' . $option_number);
+                $renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'option_' . $option_number);
                 $renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $option_number);
+                
+                $defaults['option_weight[' . $option_number . ']'] = 1;
+                
+                $i++;
             }
         }
 
@@ -211,6 +222,13 @@ class MatchQuestionForm extends LearningObjectForm
 
         $renderer->setElementTemplate('<div style="margin: 10px 0px 10px 0px;">{element}<div class="clear"></div></div>', 'question_buttons');
         $renderer->setGroupElementTemplate('<div style="float:left; text-align: center; margin-right: 10px;">{element}</div>', 'question_buttons');
+        
+        $buttons = array();
+        //Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
+        $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddItem'), array('class' => 'normal add', 'id' => 'add_option'));
+        $this->addGroup($buttons, 'question_buttons', null, '', false);
+        
+        $this->setDefaults($defaults);
     }
 }
 ?>
