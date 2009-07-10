@@ -41,7 +41,7 @@ $(function ()
 				$('option:last', orderField).remove();
 			}
 			orderFieldName = orderField.attr('name');
-		    id = orderFieldName.substr(12, orderFieldName.length - 13);
+		    id = orderFieldName.substr(13, orderFieldName.length - 14);
 		    appendField = deleteField.replace(/\$option_number/g, id);
 	
 		    $('.remove_option', this).remove();
