@@ -37,7 +37,7 @@ abstract class ScoreCalculator
 	{
 		$relative_weight = $this->weight;
 		
-		if($relative_weight == 0)
+		if($relative_weight == null)
 			return $score;
 		
 		$factor = ($total_weight / $relative_weight);

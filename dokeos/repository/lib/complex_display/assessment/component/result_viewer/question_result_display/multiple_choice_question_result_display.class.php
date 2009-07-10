@@ -26,7 +26,7 @@ class MultipleChoiceQuestionResultDisplay extends QuestionResultDisplay
        		
        		if($type == 'radio')
        		{	
-	      		if(in_array($i + 1, $answers))
+	      		if(in_array($i, $answers))
 	      		{
 	      			$selected = " checked ";
 	      		}
