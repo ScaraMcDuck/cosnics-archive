@@ -37,6 +37,7 @@ class AssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 		{
 			echo '<div class="description">';
 			echo $this->parent->get_assessment()->get_description();
+			echo '<div class="clear"></div>';
 			echo '</div>';
 		}
 		echo '</div>';

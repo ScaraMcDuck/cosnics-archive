@@ -84,6 +84,7 @@ abstract class LearningObjectDisplay
 		$html[] = '<div class="title">'. htmlentities($object->get_title()) .'</div>';
 		$html[] = self::TITLE_MARKER;
 		$html[] = $this->get_description();
+		$html[] = '<div class="clear"></div>';
 		$html[] = self::DESCRIPTION_MARKER;
 		$html[] = $this->get_attached_learning_objects_as_html();
 		$html[] = '</div>';
