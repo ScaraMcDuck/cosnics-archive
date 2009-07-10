@@ -17,7 +17,7 @@ class GlossaryBrowser extends LearningObjectPublicationBrowser
 	function GlossaryBrowser($parent, $types)
 	{
 		parent :: __construct($parent, 'glossary');
-		
+
 //		if(Request :: get('pid'))
 //		{
 //			$this->set_publication_id(Request :: get('pid'));
@@ -28,14 +28,14 @@ class GlossaryBrowser extends LearningObjectPublicationBrowser
 //			$tree_id = 'pcattree';
 //			$value = Request :: get($tree_id)?Request :: get($tree_id):0;
 //			$parent->set_parameter($tree_id, $value);
-//			
+//
 //			$tree = new LearningObjectPublicationCategoryTree($this, $tree_id);
 //			$this->set_publication_category_tree($tree);
 			$renderer = new GlossaryPublicationListRenderer($this);
 
 //		}
 		$this->set_publication_list_renderer($renderer);
-		
+
 	}
 
 	function get_publications($from, $count, $column, $direction)
@@ -51,13 +51,13 @@ class GlossaryBrowser extends LearningObjectPublicationBrowser
 			$user_id = $this->get_user_id();
 			$course_groups = $this->get_course_groups();
 		}
-		
+
 		$conditions[] = new EqualityCondition('type','glossary');
 		if($this->get_parent()->get_condition())
 			$conditions[] = $this->get_parent()->get_condition();
 		$cond = new AndCondition($conditions);
-		
-		$pubs = $dm->retrieve_learning_object_publications($this->get_course_id(), 0, $user_id, $course_groups, $this->get_condition(), false, array (Glossary :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC), 0, -1, null, $cond);
+
+		$pubs = $dm->retrieve_learning_object_publications($this->get_course_id(), 0, $user_id, $course_groups, $this->get_condition(), false, new ObjectTableOrder(Glossary :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC), array (), 0, -1, null, $cond);
 		$data = array ();
 		$renderer = $this->get_publication_list_renderer();
 		$index = 0;
@@ -109,12 +109,12 @@ class GlossaryBrowser extends LearningObjectPublicationBrowser
 		if($this->get_parent()->get_condition())
 			$conditions[] = $this->get_parent()->get_condition();
 		$cond = new AndCondition($conditions);
-		
+
 		return $dm->count_learning_object_publications($this->get_course_id(), $category, $this->get_user_id(), $this->get_course_groups(), $this->get_condition($category), false, null, $cond);
 	}
 
 	function get_condition($category = null)
-	{ 
+	{
 		/*if(is_null($category))
 		{
 			$category = $this->get_publication_category_tree()->get_current_category_id();

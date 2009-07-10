@@ -287,14 +287,24 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		/*
 		 * Always respect display order as a last resort.
 		 */
+		if (is_null($order_by))
+		{
+		    $order_by = array();
+		}
+
+		if (!is_array($order_by))
+		{
+		    $order_by = array($order_by);
+		}
+
 		$order_by[] = new ObjectTableOrder(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX);
 		$order_dir[] = SORT_ASC;
 		/*
 		 * Add ORDER clause.
 		 */
-		
+
 		$orders = array();
-		
+
 	    foreach($order_by as $order)
         {
             $orders[] = $this->escape_column_name($order->get_property()) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
@@ -1047,8 +1057,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 			$order_by[] = new ObjectTableOrder(Course :: PROPERTY_NAME);
 			$order_dir[] = SORT_ASC;
-			
-			
+
+
 		    $orders = array();
 	        foreach($order_by as $order)
 	        {
@@ -1058,7 +1068,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	        {
 	            $query .= ' ORDER BY ' . implode(', ', $orders);
 	        }
-	        
+
 			if ($max_objects < 0)
 			{
 				$max_objects = null;
@@ -1137,7 +1147,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		 */
 		$order_by[] = new ObjectTableOrder(Course :: PROPERTY_NAME);
 		$order_dir[] = SORT_ASC;
-	    
+
 		$orders = array();
         foreach($order_by as $order)
         {
@@ -1147,7 +1157,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         {
             $query .= ' ORDER BY ' . implode(', ', $orders);
         }
-		
+
 		if ($max_objects < 0)
 		{
 			$max_objects = null;
@@ -1661,7 +1671,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         {
             $query .= ' ORDER BY ' . implode(', ', $orders);
         }
-		
+
 		if ($max_objects < 0)
 		{
 			$max_objects = null;
@@ -1693,7 +1703,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$order_by[] = new ObjectTableOrder(CourseUserCategory :: PROPERTY_TITLE);
 			$order_dir[] = SORT_ASC;
 		}
-		
+
 	    $orders = array();
         foreach($order_by as $order)
         {
@@ -1703,7 +1713,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         {
             $query .= ' ORDER BY ' . implode(', ', $orders);
         }
-		
+
 		if ($max_objects < 0)
 		{
 			$max_objects = null;
@@ -2394,7 +2404,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$translator->translate($condition);
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
-		} 
+		}
 
 		$sth = $this->db->get_connection()->prepare($query);
 		$res = $sth->execute($params);
@@ -2599,8 +2609,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 	function retrieve_course_sections($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		$order_property = array(CourseSection :: PROPERTY_DISPLAY_ORDER);
-		$order_direction = array(SORT_ASC);
+		$order_property = array(new ObjectTableOrder(CourseSection :: PROPERTY_DISPLAY_ORDER));
 		return $this->db->retrieve_objects(CourseSection :: get_table_name(), $condition, $offset, $count, $order_property, $order_direction);
 	}
 
