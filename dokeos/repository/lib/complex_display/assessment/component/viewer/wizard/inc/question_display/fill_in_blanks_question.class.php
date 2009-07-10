@@ -10,6 +10,7 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
 		$question = $this->get_question();
 		$formvalidator = $this->get_formvalidator();
 		$renderer = $this->get_renderer();
+		$answsers = $question->get_answers();
 
 		$element_template = array();
 		$element_template[] = '<div><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}';
@@ -39,7 +40,13 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
 		    }
 		    else
 		    {
-		        $element = $formvalidator->createElement('text', $name);
+		        $answer = $answsers[$i];
+		        $size = $answer->get_size();
+		        
+		        if($size == 0)
+		        	$size = strlen($match) - 2;
+		        
+		    	$element = $formvalidator->createElement('text', $name, '', array('size' => $size));
 		    }
 			$answer_text = str_replace($match, $element->toHtml(), $answer_text);
 		}
