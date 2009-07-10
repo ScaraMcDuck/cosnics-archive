@@ -49,8 +49,8 @@ class RatingQuestionForm extends LearningObjectForm
 		parent :: build_creation_form();
 		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
 
-		$elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Percentage'), 1, array ('onclick' => 'javascript:hide_controls(\'buttons\')'));
-		$elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Rating'), 0, array ('onclick' => 'javascript:show_controls(\'buttons\')'));
+		$elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Percentage'), 0, array ('onclick' => 'javascript:hide_controls(\'buttons\')'));
+		$elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Rating'), 1, array ('onclick' => 'javascript:show_controls(\'buttons\')'));
 		$this->addGroup($elem, 'type', Translation :: get('type'), '<br />', false);
 
 		$this->addElement('html', '<div style="margin-left: 25px; display: block;" id="buttons">');
@@ -91,8 +91,8 @@ class RatingQuestionForm extends LearningObjectForm
 		parent :: build_editing_form();
 		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
 
-		$elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Percentage'), 1, array ('onclick' => 'javascript:hide_controls(\'buttons\')', 'id' => 'ratingtype_percentage'));
-		$elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Rating'), 0, array ('onclick' => 'javascript:show_controls(\'buttons\')'));
+		$elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Percentage'), 0, array ('onclick' => 'javascript:hide_controls(\'buttons\')', 'id' => 'ratingtype_percentage'));
+		$elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Rating'), 1, array ('onclick' => 'javascript:show_controls(\'buttons\')'));
 		$this->addGroup($elem,'type',Translation :: get('type'),'<br />',false);
 
 		$this->addElement('html', '<div style="margin-left: 25px; display: block;" id="buttons">');
