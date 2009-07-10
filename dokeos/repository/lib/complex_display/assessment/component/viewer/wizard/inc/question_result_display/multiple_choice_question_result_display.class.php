@@ -20,14 +20,14 @@ class MultipleChoiceQuestionResultDisplay extends QuestionResultDisplay
         $answers = $this->get_answers();
         $options = $this->get_question()->get_options();
         $type = $this->get_question()->get_answer_type();
-        
+       
         foreach($options as $i => $option)
         {
        		$html[] = '<tr class="' . ($i % 2 == 0 ? 'row_even' : 'row_odd') . '">';
        		
        		if($type == 'radio')
        		{	
-	      		if(in_array($i + 1, $answers))
+	      		if(in_array($i, $answers))
 	      		{
 	      			$selected = " checked ";
 	      		}
