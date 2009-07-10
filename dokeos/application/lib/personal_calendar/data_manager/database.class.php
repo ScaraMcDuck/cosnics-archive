@@ -208,7 +208,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
         $orders = array();
         foreach($order_by as $order)
         {
-            $orders[] = $this->database->escape_column_name($order->get_property(), ($order->alias_is_set() ? $order->get_alias() : $this->get_alias($table_name))) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+            $orders[] = $this->database->escape_column_name($order->get_property(), ($order->alias_is_set() ? $order->get_alias() : $this->get_alias(CalendarEventPublication:: get_table_name()))) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
         }
         if (count($orders))
         {

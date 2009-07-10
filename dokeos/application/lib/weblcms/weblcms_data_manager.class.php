@@ -143,6 +143,8 @@ abstract class WeblcmsDataManager
 	 */
 	abstract function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $course_groups = null, $condition = null, $allowDuplicates = false, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1);
 
+	abstract function retrieve_learning_object_publications_new($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
+
 	/**
 	 * Counts learning object publications in persistent storage.
 	 * @param string $course The ID of the course to find publications in, or

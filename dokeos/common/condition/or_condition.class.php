@@ -19,11 +19,19 @@ class OrCondition extends MultipleAggregateCondition
      */
     function __toString()
     {
+        $cond_string = array();
         $conditions = $this->get_conditions();
-        foreach ($conditions as $index => $condition)
+
+        foreach ($conditions as $condition)
         {
-            $cond_string[] = '(' . $condition->__toString() . ')';
+            $condition_string = $condition->__toString();
+
+            if (!empty($condition_string))
+            {
+                $cond_string[] = '(' . $condition_string . ')';
+            }
         }
+
         return implode(' OR ', $cond_string);
     }
 }

@@ -72,7 +72,21 @@ class InCondition implements Condition
      */
     function __toString()
     {
-        return $this->get_name() . ' IN {' . implode(',', $this->get_values()) . '}';
+        $values = $this->get_values();
+
+        if (! is_array($values))
+        {
+            $values = array($values);
+        }
+
+        if (count($values) > 0)
+        {
+            return $this->get_name() . ' IN (' . implode(',', $values) . ')';
+        }
+        else
+        {
+            return '';
+        }
     }
 }
 ?>

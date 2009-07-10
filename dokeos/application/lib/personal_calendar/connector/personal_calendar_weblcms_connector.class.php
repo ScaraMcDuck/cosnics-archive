@@ -17,12 +17,10 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
 	public function get_events($user, $from_date, $to_date)
 	{
 		$dm = WeblcmsDataManager :: get_instance();
-		$course_groups = $dm->retrieve_course_groups_from_user($user)->as_array();
-		$conditions = array();
-		$conditions[] = new EqualityCondition('tool', 'calendar');
-		$conditions[] = new EqualityCondition('hidden',0);
-		$condition = new AndCondition($conditions);
-		$publications = $dm->retrieve_learning_object_publications(null, null, $user->get_id(), $course_groups, $condition, false, array (), array (), 0, -1, null, new EqualityCondition('type', 'calendar_event'));
+		$condition = $this->get_conditions($user);
+
+		$publications = $dm->retrieve_learning_object_publications_new($condition, array(), 0, -1);
+//		$publications = $dm->retrieve_learning_object_publications(null, null, $user->get_id(), $course_groups, $condition, false, array (), array (), 0, -1, null, new EqualityCondition('type', 'calendar_event'));
 		$result = array ();
 		while ($publication = $publications->next_result())
 		{
@@ -59,6 +57,30 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
 			}
 		}
 		return $result;
+	}
+
+	function get_conditions($user)
+	{
+		$dm = WeblcmsDataManager :: get_instance();
+		$course_groups = $dm->retrieve_course_groups_from_user($user)->as_array();
+
+		$conditions = array();
+		$conditions[] = new EqualityCondition('tool', 'calendar');
+		$conditions[] = new EqualityCondition('hidden',0);
+
+		$access = array();
+		$access[] = new InCondition('user', $user->get_id(), $dm->get_database()->get_alias('learning_object_publication_user'));
+		if (count($course_groups))
+		{
+		    $access[] = new InCondition('course_group_id', $course_groups, $dm->get_database()->get_alias('learning_object_publication_course_group'));
+		}
+		$access[] = new AndCondition(array(new EqualityCondition('user', null, $dm->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $dm->get_database()->get_alias('learning_object_publication_course_group'))));
+
+		$conditions[] = new OrCondition($access);
+		$subselect_condition = new EqualityCondition('type', 'calendar_event');
+		$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
+
+		return new AndCondition($conditions);
 	}
 }
 ?>

@@ -38,7 +38,7 @@ class DatabaseLearningObjectPublicationResultSet extends ResultSet
 	{
 		if ($record = $this->handle->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			return $this->data_manager->record_to_publication($record);
+			return $this->data_manager->get_database()->record_to_object($record, LearningObjectPublication :: CLASS_NAME);
 		}
 		return null;
 	}
