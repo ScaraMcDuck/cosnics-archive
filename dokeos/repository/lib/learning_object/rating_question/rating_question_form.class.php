@@ -38,7 +38,7 @@ class RatingQuestionForm extends LearningObjectForm
 		}
 		else
 		{
-			$defaults['ratingtype'] = 1;
+			$defaults['ratingtype'] = 0;
 		}
 
 		parent :: setDefaults($defaults);
@@ -49,7 +49,7 @@ class RatingQuestionForm extends LearningObjectForm
 		parent :: build_creation_form();
 		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
 
-		$elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Percentage'), 0, array ('onclick' => 'javascript:hide_controls(\'buttons\')'));
+		$elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Percentage') . ' (0-100)', 0, array ('onclick' => 'javascript:hide_controls(\'buttons\')'));
 		$elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Rating'), 1, array ('onclick' => 'javascript:show_controls(\'buttons\')'));
 		$this->addGroup($elem, 'type', Translation :: get('type'), '<br />', false);
 
