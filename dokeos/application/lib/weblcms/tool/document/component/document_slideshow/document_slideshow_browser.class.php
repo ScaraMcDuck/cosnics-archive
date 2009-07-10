@@ -38,9 +38,9 @@ class DocumentSlideshowBrowser extends LearningObjectPublicationBrowser
 			$user_id = $this->get_user_id();
 			$course_groups = $this->get_course_groups();
 		}
-		
+
 		$cond = new EqualityCondition('type','document');
-		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), $this->get_category(), $user_id, $course_groups, $this->get_condition($this->get_category()), false, array (Document :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC), 0, -1, null, $cond);
+		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), $this->get_category(), $user_id, $course_groups, $this->get_condition($this->get_category()), false, new ObjectTableOrder(Document :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC), array (), 0, -1, null, $cond);
 		$visible_publications = array ();
 		while ($publication = $publications->next_result())
 		{
@@ -48,7 +48,7 @@ class DocumentSlideshowBrowser extends LearningObjectPublicationBrowser
 			if (!$publication->is_visible_for_target_users() && !($this->is_allowed(DELETE_RIGHT) || $this->is_allowed(EDIT_RIGHT)))
 			{
 				continue;
-			} 
+			}
 			$document = $publication->get_learning_object();
 			if($document->is_image())
 			{
@@ -75,7 +75,7 @@ class DocumentSlideshowBrowser extends LearningObjectPublicationBrowser
 		$category_cond = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID,$category );
 		return new AndCondition($tool_cond, $category_cond);
 	}
-	
+
 	function get_category()
 	{
 		$cat = Request :: get('pcattree');

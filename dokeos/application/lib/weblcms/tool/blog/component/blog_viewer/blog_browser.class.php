@@ -19,7 +19,7 @@ class BlogBrowser extends LearningObjectPublicationBrowser
 	 * @see LearningObjectPublicationBrowser::LearningObjectPublicationBrowser()
 	 */
 	private $publications;
-	
+
 	function BlogBrowser($parent)
 	{
 		parent :: __construct($parent, 'blog');
@@ -30,24 +30,24 @@ class BlogBrowser extends LearningObjectPublicationBrowser
 			$renderer = new LearningObjectPublicationDetailsRenderer($this);
 		}
 		else
-		{ 
+		{
 			$tree_id = 'pcattree';
 			$value = Request :: get($tree_id)?Request :: get($tree_id):0;
 			$parent->set_parameter($tree_id, $value);
-			
+
 			$tree = new LearningObjectPublicationCategoryTree($this, $tree_id);
 			$this->set_publication_category_tree($tree);
-			
+
 			$renderer = new ListLearningObjectPublicationListRenderer($this);
-			$actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected'), 
-						 Tool :: ACTION_HIDE => Translation :: get('Hide'), 
+			$actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected'),
+						 Tool :: ACTION_HIDE => Translation :: get('Hide'),
 						 Tool :: ACTION_SHOW => Translation :: get('Show'),
 						 Tool :: ACTION_MOVE_SELECTED_TO_CATEGORY => Translation :: get('MoveSelected'));
 			$renderer->set_actions($actions);
-			
-			
+
+
 		}
-		
+
 		$this->set_publication_list_renderer($renderer);
 	}
 	/**
@@ -60,7 +60,7 @@ class BlogBrowser extends LearningObjectPublicationBrowser
 		{
 			$tree_id = 'pcattree';
 			$category = Request :: get($tree_id)?Request :: get($tree_id):0;
-			
+
 			$datamanager = WeblcmsDataManager :: get_instance();
 			$condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'blog');
 			if($this->is_allowed(EDIT_RIGHT))
@@ -76,8 +76,8 @@ class BlogBrowser extends LearningObjectPublicationBrowser
 			$conditions[] = new EqualityCondition('type','blog_item');
 			if($this->get_parent()->get_condition())
 				$conditions[] = $this->get_parent()->get_condition();
-			$cond = new AndCondition($conditions); 
-			$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), $category, $user_id, $course_groups, $condition, false, array (LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC), 0, -1, null, $cond);
+			$cond = new AndCondition($conditions);
+			$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), $category, $user_id, $course_groups, $condition, false, new ObjectTableOrder(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC), array (), 0, -1, null, $cond);
 			$visible_publications = array ();
 			while ($publication = $publications->next_result())
 			{
@@ -90,9 +90,9 @@ class BlogBrowser extends LearningObjectPublicationBrowser
 			}
 			$this->publications = $visible_publications;
 		}
-		
+
 		return $this->publications;
-		
+
 	}
 	/**
 	 * Retrieves the number of published annoucements

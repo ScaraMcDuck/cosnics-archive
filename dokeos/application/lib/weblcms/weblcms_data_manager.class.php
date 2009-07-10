@@ -141,7 +141,7 @@ abstract class WeblcmsDataManager
 	 * @param int $max_objects The maximum number of objects to retrieve.
 	 * @return ResultSet A set of LearningObjectPublications.
 	 */
-	abstract function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $course_groups = null, $condition = null, $allowDuplicates = false, $order_by = array ('display_order'), $order_dir = array (SORT_ASC), $offset = 0, $max_objects = -1);
+	abstract function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $course_groups = null, $condition = null, $allowDuplicates = false, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1);
 
 	/**
 	 * Counts learning object publications in persistent storage.

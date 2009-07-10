@@ -27,7 +27,7 @@ class ForumToolBrowserComponent extends ForumToolComponent
 		$this->action_bar = $this->get_action_bar();
 
 		$table = $this->get_table_html();
- 
+
 		$trail = new BreadcrumbTrail();
 		$trail->add_help('courses forum tool');
 		$this->display_header($trail, true);
@@ -110,7 +110,7 @@ class ForumToolBrowserComponent extends ForumToolComponent
 		}
 		$cond = new EqualityCondition('type','forum');
 
-		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), $parent, $user_id, $course_groups, $condition, false, array (Forum :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_ASC), 0, -1, null, $cond);
+		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), $parent, $user_id, $course_groups, $condition, false, new ObjectTableOrder(Forum :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_ASC), array (), 0, -1, null, $cond);
         $rdm = RepositoryDataManager::get_instance();
 
 		$size = $publications->size();

@@ -19,7 +19,7 @@ class NoteBrowser extends LearningObjectPublicationBrowser
 	 * @see LearningObjectPublicationBrowser::LearningObjectPublicationBrowser()
 	 */
 	private $publications;
-	
+
 	function NoteBrowser($parent)
 	{
 		parent :: __construct($parent, 'note');
@@ -30,14 +30,14 @@ class NoteBrowser extends LearningObjectPublicationBrowser
 			$renderer = new LearningObjectPublicationDetailsRenderer($this);
 		}
 		else
-		{ 
+		{
 			$renderer = new ListLearningObjectPublicationListRenderer($this);
-			$actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected'), 
-						 Tool :: ACTION_HIDE => Translation :: get('Hide'), 
+			$actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected'),
+						 Tool :: ACTION_HIDE => Translation :: get('Hide'),
 						 Tool :: ACTION_SHOW => Translation :: get('Show'));
 			$renderer->set_actions($actions);
 		}
-		
+
 		$this->set_publication_list_renderer($renderer);
 	}
 	/**
@@ -64,7 +64,7 @@ class NoteBrowser extends LearningObjectPublicationBrowser
 			if($this->get_parent()->get_condition())
 				$conditions[] = $this->get_parent()->get_condition();
 			$cond = new AndCondition($conditions);
-			$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $course_groups, $condition, false, array (Note :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC), 0, -1, null, $cond);
+			$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $course_groups, $condition, false, new ObjectTableOrder(Note :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC), array (), 0, -1, null, $cond);
 			$visible_publications = array ();
 			while ($publication = $publications->next_result())
 			{
@@ -77,9 +77,9 @@ class NoteBrowser extends LearningObjectPublicationBrowser
 			}
 			$this->publications = $visible_publications;
 		}
-		
+
 		return $this->publications;
-		
+
 	}
 	/**
 	 * Retrieves the number of published annoucements

@@ -32,12 +32,12 @@ class DescriptionBrowser extends LearningObjectPublicationBrowser
 		else
 		{
 			$renderer = new ListLearningObjectPublicationListRenderer($this);
-			$actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected'), 
-							 Tool :: ACTION_HIDE => Translation :: get('Hide'), 
+			$actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected'),
+							 Tool :: ACTION_HIDE => Translation :: get('Hide'),
 							 Tool :: ACTION_SHOW => Translation :: get('Show'));
 			$renderer->set_actions($actions);
 		}
-		
+
 		$this->set_publication_list_renderer($renderer);
 	}
 	/*
@@ -61,9 +61,9 @@ class DescriptionBrowser extends LearningObjectPublicationBrowser
 		$conditions[] = new EqualityCondition('type','description');
 		if($this->get_parent()->get_condition())
 			$conditions[] = $this->get_parent()->get_condition();
-		$cond = new AndCondition($conditions);	
-		
-		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $course_groups, $condition, false, array (LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC), 0, -1, null, $cond);
+		$cond = new AndCondition($conditions);
+
+		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $course_groups, $condition, false, new ObjectTableOrder(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC), array (), 0, -1, null, $cond);
 		$visible_publications = array ();
 		while ($publication = $publications->next_result())
 		{
