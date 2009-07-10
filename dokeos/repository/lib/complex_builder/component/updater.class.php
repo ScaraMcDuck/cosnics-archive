@@ -10,7 +10,7 @@ class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
 {
 	function run()
 	{
-		$trail = new BreadcrumbTrail();
+		$trail = new BreadcrumbTrail(false);
 
 		$root_lo = Request :: get(ComplexBuilder :: PARAM_ROOT_LO);
 		$cloi_id = Request :: get(ComplexBuilder :: PARAM_SELECTED_CLOI_ID);
@@ -70,8 +70,12 @@ class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
 		}
 		else
 		{
-			$trail = new BreadcrumbTrail();
+			$trail = new BreadcrumbTrail(false);
 			$trail->add_help('repository builder');
+			
+			$trail->add(new BreadCrumb($this->get_url(array('builder_action' => null, 'root_lo' => $root_lo, 'cid' => Request :: get('cid'), 'publish' => Request :: get('publish'))), RepositoryDataManager :: get_instance()->retrieve_learning_object($root_lo)->get_title()));
+        	$trail->add(new BreadCrumb($this->get_url(array('builder_action' => 'update_cloi', 'root_lo' => $root_lo, 'selected_cloi' => $cloi_id, 'cid' => Request :: get('cid'), 'publish' => Request :: get('publish'))), Translation :: get('Update')));
+			
 			$this->display_header($trail);
 			echo $lo_form->toHTML();
 			$this->display_footer();

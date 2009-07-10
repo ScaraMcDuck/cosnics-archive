@@ -93,6 +93,7 @@ abstract class QuestionDisplay
 		{
 			$html[] = '<div class="description">';
 			$html[] = $description;
+			$html[] = '<div class="clear">&nbsp;</div>';
 			$html[] = '</div>';
 		}
 
