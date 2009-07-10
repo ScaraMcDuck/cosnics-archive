@@ -455,9 +455,9 @@ class Dokeos185DataManager extends OldMigrationDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 			unset($translator);
 		}
 		

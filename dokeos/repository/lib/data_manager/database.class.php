@@ -172,9 +172,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		/*
@@ -276,9 +276,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$sth = $this->connection->prepare($query);
@@ -1014,10 +1014,10 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			if (isset ($condition))
 			{
 				$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-				$translator->translate($condition);
-				$query .= $translator->render_query();
+	            $cond = $translator->translate($condition);
+	            $query .= $translator->render_query($cond);
+	            $params = $translator->get_parameters();
 			}
-			$params = $translator->get_parameters();
 
 			$sth = $this->connection->prepare($query);
 			$res = $sth->execute($params);
@@ -1198,9 +1198,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		//$this->connection->setLimit(1);
@@ -1218,9 +1218,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			if (isset ($condition))
 			{
 				$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
-				$translator->translate($condition);
-				$query .= $translator->render_query();
-				$params = $translator->get_parameters();
+	            $cond = $translator->translate($condition);
+	            $query .= $translator->render_query($cond);
+	            $params = $translator->get_parameters();
 			}
 
 			//$this->connection->setLimit(1);
@@ -1258,9 +1258,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$this->connection->setLimit(1);
@@ -1319,9 +1319,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			if (isset ($condition))
 			{
 				$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
-				$translator->translate($condition);
-				$query .= $translator->render_query();
-				$params = $translator->get_parameters();
+	            $cond = $translator->translate($condition);
+	            $query .= $translator->render_query($cond);
+	            $params = $translator->get_parameters();
 			}
 
 			$this->connection->setLimit(1);
@@ -1361,9 +1361,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this->database, $params, self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		} dump($query);
 
 		$sth = $this->connection->prepare($query);
@@ -1395,9 +1395,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this->database, $params, null);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$order_by[] = new ObjectTableOrder(ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER);
@@ -1437,9 +1437,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$sth = $this->connection->prepare($query);
@@ -1517,9 +1517,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this->database, $params, $prefix_properties = false);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$sth = $this->database->get_connection()->prepare($query);

@@ -320,9 +320,9 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$sth = $this->connection->prepare($query);
@@ -343,9 +343,9 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$sth = $this->connection->prepare($query);
@@ -366,9 +366,9 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 		$sth = $this->connection->prepare($query);
@@ -458,10 +458,9 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			//echo $query;
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 	    $orders = array();
@@ -494,10 +493,9 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			//echo $query;
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 		
 	    $orders = array();
@@ -530,10 +528,9 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			//echo $query;
-			$params = $translator->get_parameters();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
+            $params = $translator->get_parameters();
 		}
 
 	    $orders = array();

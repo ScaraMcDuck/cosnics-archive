@@ -67,8 +67,8 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this->database, $params, $publication_alias);
-            $translator->translate($condition);
-            $query .= $translator->render_query();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
             $params = $translator->get_parameters();
         }
 
@@ -295,8 +295,8 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this->database, $params, false);
-            $translator->translate($condition);
-            $query .= $translator->render_query();
+            $cond = $translator->translate($condition);
+            $query .= $translator->render_query($cond);
             $params = $translator->get_parameters();
         }
 
