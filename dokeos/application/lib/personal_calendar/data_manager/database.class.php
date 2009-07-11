@@ -200,8 +200,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this->database, $params, $this->database->get_alias($table_name));
-            $cond = $translator->translate($condition);
-            $query .= $translator->render_query($cond);
+            $query .= $translator->render_query($condition);
             $params = $translator->get_parameters();
         }
 
