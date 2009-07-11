@@ -172,8 +172,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-            $cond = $translator->translate($condition);
-            $query .= $translator->render_query($cond);
+            $query .= $translator->render_query($condition);
             $params = $translator->get_parameters();
 		}
 
@@ -276,8 +275,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-            $cond = $translator->translate($condition);
-            $query .= $translator->render_query($cond);
+            $query .= $translator->render_query($condition);
             $params = $translator->get_parameters();
 		}
 
@@ -1014,8 +1012,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			if (isset ($condition))
 			{
 				$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-	            $cond = $translator->translate($condition);
-	            $query .= $translator->render_query($cond);
+	            $query .= $translator->render_query($condition);
 	            $params = $translator->get_parameters();
 			}
 
@@ -1198,8 +1195,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
-            $cond = $translator->translate($condition);
-            $query .= $translator->render_query($cond);
+            $query .= $translator->render_query($condition);
             $params = $translator->get_parameters();
 		}
 
@@ -1218,8 +1214,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			if (isset ($condition))
 			{
 				$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
-	            $cond = $translator->translate($condition);
-	            $query .= $translator->render_query($cond);
+	            $query .= $translator->render_query($condition);
 	            $params = $translator->get_parameters();
 			}
 
@@ -1258,8 +1253,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
-            $cond = $translator->translate($condition);
-            $query .= $translator->render_query($cond);
+            $query .= $translator->render_query($condition);
             $params = $translator->get_parameters();
 		}
 
@@ -1319,8 +1313,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			if (isset ($condition))
 			{
 				$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
-	            $cond = $translator->translate($condition);
-	            $query .= $translator->render_query($cond);
+	            $query .= $translator->render_query($condition);
 	            $params = $translator->get_parameters();
 			}
 
@@ -1361,8 +1354,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this->database, $params, self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE);
-            $cond = $translator->translate($condition);
-            $query .= $translator->render_query($cond);
+            $query .= $translator->render_query($condition);
             $params = $translator->get_parameters();
 		} dump($query);
 
@@ -1395,8 +1387,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this->database, $params, null);
-            $cond = $translator->translate($condition);
-            $query .= $translator->render_query($cond);
+            $query .= $translator->render_query($condition);
             $params = $translator->get_parameters();
 		}
 
@@ -1437,8 +1428,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
-            $cond = $translator->translate($condition);
-            $query .= $translator->render_query($cond);
+            $query .= $translator->render_query($condition);
             $params = $translator->get_parameters();
 		}
 
@@ -1517,8 +1507,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this->database, $params, $prefix_properties = false);
-            $cond = $translator->translate($condition);
-            $query .= $translator->render_query($cond);
+            $query .= $translator->render_query($condition);
             $params = $translator->get_parameters();
 		}
 
