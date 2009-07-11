@@ -70,10 +70,10 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
 
 		$access = array();
 		$access[] = new InCondition('user', $user->get_id(), $dm->get_database()->get_alias('learning_object_publication_user'));
-		if (count($course_groups))
-		{
+//		if (count($course_groups))
+//		{
 		    $access[] = new InCondition('course_group_id', $course_groups, $dm->get_database()->get_alias('learning_object_publication_course_group'));
-		}
+//		}
 		$access[] = new AndCondition(array(new EqualityCondition('user', null, $dm->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $dm->get_database()->get_alias('learning_object_publication_course_group'))));
 
 		$conditions[] = new OrCondition($access);

@@ -195,34 +195,8 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
         $query = 'SELECT DISTINCT ' . $this->database->get_alias(CalendarEventPublication :: get_table_name()) . '.* FROM ' . $this->database->escape_table_name(CalendarEventPublication :: get_table_name()) . ' AS ' . $this->database->get_alias(CalendarEventPublication :: get_table_name());
         $query .= ' LEFT JOIN ' . $this->database->escape_table_name('publication_user') . ' AS ' . $this->database->get_alias('publication_user') . ' ON ' . $this->database->get_alias(CalendarEventPublication :: get_table_name()) . '.id = ' . $this->database->get_alias('publication_user') . '.publication';
         $query .= ' LEFT JOIN ' . $this->database->escape_table_name('publication_group') . ' AS ' . $this->database->get_alias('publication_group') . ' ON ' . $this->database->get_alias(CalendarEventPublication :: get_table_name()) . '.id = ' . $this->database->get_alias('publication_group') . '.publication';
-
-        $params = array();
-        if (isset($condition))
-        {
-            $translator = new ConditionTranslator($this->database, $params, $this->database->get_alias($table_name));
-            $query .= $translator->render_query($condition);
-            $params = $translator->get_parameters();
-        }
-
-        $orders = array();
-        foreach($order_by as $order)
-        {
-            $orders[] = $this->database->escape_column_name($order->get_property(), ($order->alias_is_set() ? $order->get_alias() : $this->get_alias(CalendarEventPublication:: get_table_name()))) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
-        }
-        if (count($orders))
-        {
-            $query .= ' ORDER BY ' . implode(', ', $orders);
-        }
-
-        if ($max_objects < 0)
-        {
-            $max_objects = null;
-        }
-
-        $this->database->get_connection()->setLimit(intval($max_objects), intval($offset));
-        $statement = $this->database->get_connection()->prepare($query);
-        $res = $statement->execute($params);
-        return new ObjectResultSet($this, $res, CalendarEventPublication :: CLASS_NAME);
+        
+        return $this->database->retrieve_result_set($query, CalendarEventPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, CalendarEventPublication :: CLASS_NAME);
     }
 
     //Inherited.

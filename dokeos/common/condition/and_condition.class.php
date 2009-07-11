@@ -10,6 +10,7 @@ require_once dirname(__FILE__) . '/multiple_aggregate_condition.class.php';
  */
 class AndCondition extends MultipleAggregateCondition
 {
+	const OPERATOR = ' AND ';
 
     /**
      * Gets a string representation of this condition
@@ -22,7 +23,12 @@ class AndCondition extends MultipleAggregateCondition
         {
             $cond_string[] = '(' . $condition->__toString() . ')';
         }
-        return implode(' AND ', $cond_string);
+        return implode($this->get_operator(), $cond_string);
+    }
+    
+    function get_operator()
+    {
+    	return self :: OPERATOR; 
     }
 }
 ?>

@@ -12,6 +12,7 @@ require_once dirname(__FILE__) . '/multiple_aggregate_condition.class.php';
  */
 class OrCondition extends MultipleAggregateCondition
 {
+	const OPERATOR = ' OR ';
 
     /**
      * Gets a string representation of this condition
@@ -32,7 +33,12 @@ class OrCondition extends MultipleAggregateCondition
             }
         }
 
-        return implode(' OR ', $cond_string);
+        return implode($this->get_operator(), $cond_string);
+    }
+    
+    function get_operator()
+    {
+    	return self :: OPERATOR; 
     }
 }
 ?>
