@@ -237,8 +237,13 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 	function display_introduction_text()
 	{
 		$html = array();
+		
+		$conditions = array();
+		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
+		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'introduction');
+		$condition = new AndCondition($conditions);
 
-		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), null, null, null, new EqualityCondition('tool','introduction'));
+		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications_new($condition);
 		$introduction_text = $publications->next_result();
 
 		if($introduction_text)

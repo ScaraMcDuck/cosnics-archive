@@ -328,6 +328,7 @@ class LearningObjectPublicationForm extends FormValidator
     	// TODO: Seems like the modified date isn't being written to the DB
     	// TODO: Hidden is not being used correctly
 		$values = $this->exportValues();
+
 		if ($values[self :: PARAM_FOREVER] != 0)
 		{
 			$from = $to = 0;
@@ -337,31 +338,37 @@ class LearningObjectPublicationForm extends FormValidator
 			$from = DokeosUtilities :: time_from_datepicker($values[self :: PARAM_FROM_DATE]);
 			$to = DokeosUtilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]);
 		}
-		$hidden = ($values[self :: PARAM_HIDDEN] ? 1 : 0);
-		$category = $values[self :: PARAM_CATEGORY_ID];
-
-		$users = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
-		$course_groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
-
+		
 		$course = $this->course->get_id();
 		$tool = $this->repo_viewer->get_tool()->get_tool_id();
+		$tool = (is_null($tool) ? 'introduction' : $tool);
+		$category = $values[self :: PARAM_CATEGORY_ID];
 
-		if($tool == null)
-		{
-			$tool = 'introduction';
-		}
-
-		$dm = WeblcmsDataManager :: get_instance();
-		$displayOrder = $dm->get_next_learning_object_publication_display_order_index($course,$tool,$category);
-		$repo_viewer = $this->user->get_id();
-		$modifiedDate = time();
-		$publicationDate = time();
-		$show_on_homepage = ($values[LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE] ? 1 : 0);
-		$pub = new LearningObjectPublication(null, $this->learning_object, $course, $tool, $category, $users, $course_groups, $from, $to, $repo_viewer, $publicationDate, $modifiedDate, $hidden, $displayOrder, false, $show_on_homepage);
+		$wdm = WeblcmsDataManager :: get_instance();
+		$index = $wdm->get_next_learning_object_publication_display_order_index($course, $tool, $category);
+		
+		$pub = new LearningObjectPublication();
+		$pub->set_learning_object_id($this->learning_object->get_id());
+		$pub->set_course_id($course);
+		$pub->set_tool($tool);
+		$pub->set_category_id($category);
+		$pub->set_target_users($values[self :: PARAM_TARGET_ELEMENTS]['user']);
+		$pub->set_target_course_groups($values[self :: PARAM_TARGET_ELEMENTS]['group']);
+		$pub->set_from_date($from);
+		$pub->set_to_date($to);
+		$pub->set_publisher_id($this->user->get_id());
+		$pub->set_publication_date(time());
+		$pub->set_modified_date(time());
+		$pub->set_hidden($values[self :: PARAM_HIDDEN] ? 1 : 0);
+		$pub->set_display_order_index($index);
+		$pub->set_email_sent(false);
+		$pub->set_show_on_homepage($values[LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE] ? 1 : 0);
+		
 		if (!$pub->create())
 		{
 			return false;
 		}
+		
 		if($this->email_option && $values[self::PARAM_EMAIL])
 		{
 			$learning_object = $this->learning_object;
@@ -408,32 +415,38 @@ class LearningObjectPublicationForm extends FormValidator
 				$from = DokeosUtilities :: time_from_datepicker($values[self :: PARAM_FROM_DATE]);
 				$to = DokeosUtilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]);
 			}
-			$hidden = ($values[self :: PARAM_HIDDEN] ? 1 : 0);
-			$category = $values[self :: PARAM_CATEGORY_ID];
-
-			$users = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
-			$course_groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
-
+			
 			$course = $this->course->get_id();
 			$tool = $this->repo_viewer->get_tool()->get_tool_id();
+			$tool = (is_null($tool) ? 'introduction' : $tool);
+			$category = $values[self :: PARAM_CATEGORY_ID];
 
-			if($tool == null)
-			{
-				$tool = 'introduction';
-			}
-
-			$dm = WeblcmsDataManager :: get_instance();
-			$displayOrder = $dm->get_next_learning_object_publication_display_order_index($course,$tool,$category);
-			$repo_viewer = $this->user->get_id();
-			$modifiedDate = time();
-			$publicationDate = time();
-			$show_on_homepage = ($values[LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE] ? 1 : 0);
-			$pub = new LearningObjectPublication(null, $learning_object, $course, $tool, $category, $users, $course_groups, $from, $to, $repo_viewer, $publicationDate, $modifiedDate, $hidden, $displayOrder, false, $show_on_homepage);
+			$wdm = WeblcmsDataManager :: get_instance();
+			$index = $wdm->get_next_learning_object_publication_display_order_index($course, $tool, $category);
+			
+			$pub = new LearningObjectPublication();
+			$pub->set_learning_object_id($id);
+			$pub->set_course_id($course);
+			$pub->set_tool($tool);
+			$pub->set_category_id($category);
+			$pub->set_target_users($values[self :: PARAM_TARGET_ELEMENTS]['user']);
+			$pub->set_target_course_groups($values[self :: PARAM_TARGET_ELEMENTS]['group']);
+			$pub->set_from_date($from);
+			$pub->set_to_date($to);
+			$pub->set_publisher_id($this->user->get_id());
+			$pub->set_publication_date(time());
+			$pub->set_modified_date(time());
+			$pub->set_hidden($values[self :: PARAM_HIDDEN] ? 1 : 0);
+			$pub->set_display_order_index($index);
+			$pub->set_email_sent(false);
+			$pub->set_show_on_homepage($values[LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE] ? 1 : 0);
+			
 			if (!$pub->create())
 			{
 				return false;
 			}
-			if($this->email_option && $values[self::PARAM_EMAIL])
+			
+			if($this->email_option && $values[self :: PARAM_EMAIL])
 			{
 				$display = LearningObjectDisplay::factory($learning_object);
 

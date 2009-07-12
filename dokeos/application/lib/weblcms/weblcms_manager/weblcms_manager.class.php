@@ -830,13 +830,16 @@ class WeblcmsManager extends WebApplication
 	{
 		$class = Tool :: type_to_class($tool);
 		$tool_object = new $class ($this);
-		if(is_subclass_of($tool_object,'Tool'))
+		if(is_subclass_of($tool_object, 'Tool'))
 		{
 			$last_visit_date = $this->get_last_visit_date($tool);
 			$wdm = WeblcmsDataManager :: get_instance();
+			$course_groups = $wdm->retrieve_course_groups_from_user($this->get_user(), $this->get_course())->as_array();
+			
 			$conditions = array();
-			$conditions[] = new EqualityCondition('tool',$tool);
-			$conditions[] = new InequalityCondition('modified',InequalityCondition::GREATER_THAN,$last_visit_date);
+			$conditions[] = new EqualityCondition('tool', $tool);
+			$conditions[] = new InequalityCondition('modified', InequalityCondition :: GREATER_THAN, $last_visit_date);
+			
 			if ((!$this->get_course()->is_course_admin($this->get_user()) && !$this->get_user()->is_platform_admin()))
 			{
 				// Only select visible publications
@@ -844,18 +847,32 @@ class WeblcmsManager extends WebApplication
 				// Only select publications which are published forever OR
 				// of which the current time is in the publication period and the last visit date is before the from_date.
 				$conditions_publication_period = array();
-				$conditions_publication_period[] = new InequalityCondition('from_date',InequalityCondition::LESS_THAN_OR_EQUAL,time());
-				$conditions_publication_period[] = new InequalityCondition('to_date',InequalityCondition::GREATER_THAN_OR_EQUAL,time());
-				$conditions_publication_period[] = new InequalityCondition('from_date',InequalityCondition::GREATER_THAN_OR_EQUAL,$last_visit_date);
+				$conditions_publication_period[] = new InequalityCondition('from_date', InequalityCondition :: LESS_THAN_OR_EQUAL, time());
+				$conditions_publication_period[] = new InequalityCondition('to_date', InequalityCondition :: GREATER_THAN_OR_EQUAL, time());
+				$conditions_publication_period[] = new InequalityCondition('from_date', InequalityCondition :: GREATER_THAN_OR_EQUAL, $last_visit_date);
 				$condition_publication_period = new AndCondition($conditions_publication_period);
-				$condition_publication_forever = new EqualityCondition('from_date',0);
-				$conditions[] = new OrCondition($condition_publication_forever,$condition_publication_period);
+				$condition_publication_forever = new EqualityCondition('from_date', 0);
+				$conditions[] = new OrCondition($condition_publication_forever, $condition_publication_period);
 			}
-			$course_groups = $wdm->retrieve_course_groups_from_user($this->get_user(),$this->get_course())->as_array();
+			
+			$user_id = $this->get_user_id();
+	
+			$access = array();
+			$access[] = new InCondition('user', $user_id, $wdm->get_database()->get_alias('learning_object_publication_user'));
+			$access[] = new InCondition('course_group_id', $course_groups, $wdm->get_database()->get_alias('learning_object_publication_course_group'));
+			if (!empty($user_id) || !empty($course_groups))
+			{
+				$access[] = new AndCondition(array(new EqualityCondition('user', null, $wdm->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $wdm->get_database()->get_alias('learning_object_publication_course_group'))));
+			}
+	
+			$conditions[] = new OrCondition($access);
 			$condition = new AndCondition($conditions);
-			$new_items = $wdm->count_learning_object_publications($this->get_course_id(),null,$this->get_user_id(),$course_groups,$condition);
+			
+			$new_items = $wdm->count_learning_object_publications_new($condition);
+			
 			return $new_items > 0;
 		}
+		
 		return false;
 	}
 

@@ -114,17 +114,6 @@ abstract class WeblcmsDataManager
 
 	/**
 	 * Retrieves learning object publications from persistent storage.
-	 * @param string $course The ID of the course to find publications in, or
-	 *                       null if none.
-	 * @param mixed $categories The IDs of the category that publications must
-	 *                          located in, or null if none.
-	 * @param mixed $users The IDs of the users who should have access to the
-	 *                     publications, or null if any. An empty array means
-	 *                     the publication should be accessible to all users.
-	 * @param mixed $course_groups The IDs of the course_groups that should have access to
-	 *                      the publications, or null if any. An empty array
-	 *                      means the publication should be accessible to all
-	 *                      course_groups.
 	 * @param Condition $condition A Condition for publication selection. See
 	 *                             the Conditions framework.
 	 * @param boolean $allowDuplicates Whether or not to allow the same
@@ -141,30 +130,9 @@ abstract class WeblcmsDataManager
 	 * @param int $max_objects The maximum number of objects to retrieve.
 	 * @return ResultSet A set of LearningObjectPublications.
 	 */
-	abstract function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $course_groups = null, $condition = null, $allowDuplicates = false, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1);
-
 	abstract function retrieve_learning_object_publications_new($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
 
-	/**
-	 * Counts learning object publications in persistent storage.
-	 * @param string $course The ID of the course to find publications in, or
-	 *                       null if none.
-	 * @param mixed $categories The IDs of the category that publications must
-	 *                          located in, or null if none.
-	 * @param mixed $users The IDs of the user who should have access to the
-	 *                     publications, or null if none.
-	 * @param mixed $course_groups The IDs of the course_groups who should have access to
-	 *                      the publications, or null if none.
-	 * @param Condition $condition A Condition for publication selection. See
-	 *                             the Conditions framework.
-	 * @param boolean $allowDuplicates Whether or not to allow the same
-	 *                                 publication to be returned twice, e.g.
-	 *                                 if it was published for several course_groups
-	 *                                 that the user is a member of. Defaults
-	 *                                 to false.
-	 * @return int The number of matching learning object publications.
-	 */
-	abstract function count_learning_object_publications($course = null, $categories = null, $users = null, $course_groups = null, $condition = null, $allowDuplicates = false);
+	abstract function count_learning_object_publications_new($condition);
 
 	/**
 	 * Count the number of courses
@@ -726,7 +694,6 @@ abstract class WeblcmsDataManager
 	abstract function is_course_group_member($course_group,$user);
 
 	abstract function get_next_category_id();
-	abstract function select_next_display_order($parent_category_id);
 	abstract function delete_category($category);
 	abstract function update_category($category);
 	abstract function create_category($category);
@@ -734,7 +701,6 @@ abstract class WeblcmsDataManager
 	abstract function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
 	abstract function get_next_learning_object_publication_category_id();
-	abstract function select_next_learning_object_publication_category_display_order($parent_learning_object_publication_category_id);
 	abstract function delete_learning_object_publication_category($learning_object_publication_category);
 	abstract function update_learning_object_publication_category($learning_object_publication_category);
 	abstract function create_learning_object_publication_category($learning_object_publication_category);
@@ -742,7 +708,6 @@ abstract class WeblcmsDataManager
 	abstract function retrieve_learning_object_publication_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
 	abstract function get_next_course_section_id();
-	abstract function select_next_course_section_display_order($course_section);
 	abstract function delete_course_section($course_section);
 	abstract function update_course_section($course_section);
 	abstract function create_course_section($course_section);

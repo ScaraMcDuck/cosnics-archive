@@ -31,11 +31,12 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 
 		$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0);
 		$courses = $this->retrieve_courses($this->get_user_id(), $condition);
-
+		
 		echo $this->display_course_digest($courses);
-
+exit;
 		while ($course_category = $course_categories->next_result())
 		{
+			exit;
 			$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $course_category->get_id());
 			$courses = $this->retrieve_courses($this->get_user_id(), $condition);
 			echo $this->display_course_digest($courses, $course_category);
@@ -45,48 +46,6 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 
 		$this->display_footer();
 	}
-
-	/*function display_menu()
-	{
-		$html = array();
-		$html[] = '<div class="menu">';
-
-		if ($this->get_user()->is_platform_admin())
-		{
-			$html[] = '<div class="menusection">';
-			$html[] = '<span class="menusectioncaption">'.Translation :: get('CourseManagement').'</span>';
-			$html[] = '<ul class="menulist">';
-			$html[] = $this->display_platform_admin_course_list_links();
-			$html[] = '</ul>';
-			$html[] = '</div>';
-		}
-		else
-		{
-			$display_add_course_link = $this->get_user()->is_teacher() && ($_SESSION["studentview"] != "studentenview");
-			if ($display_add_course_link)
-			{
-				$html[] = '<div class="menusection">';
-				$html[] = '<span class="menusectioncaption">'.Translation :: get('MenuUser').'</span>';
-				$html[] = '<ul class="menulist">';
-				$html[] = $this->display_create_course_link();
-				$html[] = '</ul>';
-				$html[] = '</div>';
-			}
-		}
-
-		$html[] = '<div class="menusection">';
-		$html[] = '<span class="menusectioncaption">'.Translation :: get('UserCourseManagement').'</span>';
-		$html[] = '<ul class="menulist">';
-
-		$html[] = $this->display_edit_course_list_links();
-
-		$html[] = '</ul>';
-		$html[] = '</div>';
-
-		$html[] = '</div>';
-
-		return implode($html, "\n");
-	}*/
 
 	function display_menu()
 	{
@@ -182,10 +141,12 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 			$html[] = '<ul style="margin-left: -20px;">';
 			while ($course = $courses->next_result())
 			{
+				
 				$weblcms = $this->get_parent();
 				$weblcms->set_course($course);
 				$weblcms->load_tools();
 				$tools = $weblcms->get_registered_tools();
+				
 				$html[] = '<li style="list-style: none; margin-bottom: 5px; list-style-image: url(' . Theme :: get_common_image_path() . 'action_home.png);"><a style="top: -2px; position: relative;" href="'. $this->get_course_viewing_url($course) .'">'.$course->get_name().'</a>';
 				/*$html[] = '<br />'. $course->get_id();
 
