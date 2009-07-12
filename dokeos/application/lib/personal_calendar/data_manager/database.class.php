@@ -154,24 +154,6 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
         return $this->database->get_connection()->extended->autoExecute($this->database->get_table_name('publication'), $props, MDB2_AUTOQUERY_UPDATE, $where);
     }
 
-    /**
-     * Executes a query
-     * @param string $query The query (which will be used in a prepare-
-     * statement)
-     * @param int $limit The number of rows
-     * @param int $offset The offset
-     * @param array $params The parameters to replace the placeholders in the
-     * query
-     * @param boolean $is_manip Is the query a manipulation query
-     */
-    private function limitQuery($query, $limit, $offset, $params, $is_manip = false)
-    {
-        $this->database->get_connection()->setLimit($limit, $offset);
-        $statement = $this->database->get_connection()->prepare($query, null, ($is_manip ? MDB2_PREPARE_MANIP : null));
-        $res = $statement->execute($params);
-        return $res;
-    }
-
     function get_next_calendar_event_publication_id()
     {
         return $this->database->get_next_id(CalendarEventPublication :: get_table_name());
