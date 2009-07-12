@@ -36,7 +36,13 @@ class LearningObjectPublicationCategoryManager extends CategoryManager
 				return false;
 		}
 		
-		$count = $wdm->count_learning_object_publications($this->get_parent()->get_course_id(), array($category_id), null, null, new EqualityCondition('tool', $this->get_parent()->get_tool_id()));
+		$conditions = array();
+		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_parent()->get_course_id());
+		$conditions[] = new InCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $category_id);
+		$conditions[] = new EqualityCondition('tool', $this->get_parent()->get_tool_id());
+		$condition = new AndCondition($conditions);
+		
+		$count = $wdm->count_learning_object_publications_new($condition);
 		return ($count == 0);
 	}
 	

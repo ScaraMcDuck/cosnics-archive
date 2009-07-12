@@ -16,6 +16,8 @@ require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
  */
 class CourseGroup
 {
+	const CLASS_NAME = __CLASS__;
+	
 	const PROPERTY_ID = 'id';
 	const PROPERTY_COURSE_CODE = 'course_code';
 	const PROPERTY_NAME = 'name';
@@ -23,14 +25,7 @@ class CourseGroup
 	const PROPERTY_DESCRIPTION = 'description';
 	const PROPERTY_SELF_UNREG = 'self_unreg_allowed';
 	const PROPERTY_SELF_REG = 'self_reg_allowed';
-	/**
-	 * The id of this course_group
-	 */
-	private $id;
-	/**
-	 * The code of the course in which this course_group was created
-	 */
-	private $course_code;
+
 	/**
 	 * The default property values
 	 */
@@ -45,11 +40,9 @@ class CourseGroup
 	 * @param array $defaultProperties The default properties of the course_group
 	 * object. Associative array.
 	 */
-	function CourseGroup($id = null, $course_code , $defaultProperties = array ())
+	function CourseGroup($defaultProperties = array ())
 	{
 		$this->defaultProperties = $defaultProperties;
-		$this->set_id($id);
-		$this->set_course_code($course_code);
 	}
     /**
 	 * Gets a default property of this course_group object by name.
@@ -287,5 +280,10 @@ class CourseGroup
 		}
 		return true;
 	}
+	
+    static function get_table_name()
+    {
+        return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    }
 }
 ?>

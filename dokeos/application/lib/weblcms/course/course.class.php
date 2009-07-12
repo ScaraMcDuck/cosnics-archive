@@ -30,9 +30,9 @@ require_once Path :: get_application_path() . 'lib/weblcms/course_group/course_g
  *
  */
 
-class Course {
-
-    const CLASS_NAME				= __CLASS__;
+class Course
+{
+    const CLASS_NAME = __CLASS__;
 
 	const PROPERTY_ID = 'id';
 	const PROPERTY_VISUAL = 'visual_code';
@@ -124,9 +124,8 @@ class Course {
 	 * @param array $defaultProperties The default properties of the course
 	 *                object. Associative array.
 	 */
-    function Course($id = null, $defaultProperties = array ())
+    function Course($defaultProperties = array ())
     {
-    	$this->id = $id;
 		$this->defaultProperties = $defaultProperties;
 	}
 
@@ -185,7 +184,7 @@ class Course {
 	 */
 	function get_id()
     {
-    	return $this->id;
+    	return $this->get_default_property(self :: PROPERTY_ID);
     }
 
 	/**
@@ -312,7 +311,7 @@ class Course {
      */
     function set_id($id)
 	{
-		$this->id = $id;
+		$this->set_default_property(self :: PROPERTY_ID, $id);
 	}
 
 	/**
