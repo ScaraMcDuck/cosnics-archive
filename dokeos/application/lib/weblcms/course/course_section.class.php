@@ -123,7 +123,11 @@ class CourseSection
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
 		$this->set_id($wdm->get_next_course_section_id());
-		$this->set_display_order($wdm->select_next_course_section_display_order($this));
+		
+        $condition = new EqualityCondition(self :: PROPERTY_COURSE_CODE, $this->get_course_code());
+        $sort = $wdm->retrieve_max_sort_value(self :: get_table_name(), self :: PROPERTY_DISPLAY_ORDER, $condition);
+        $this->set_display_order($sort + 1);		
+		
 		return $wdm->create_course_section($this);
 	}
 	

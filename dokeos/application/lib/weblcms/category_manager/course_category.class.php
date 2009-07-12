@@ -12,11 +12,16 @@ require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 
 class CourseCategory extends PlatformCategory
 {
+	const CLASS_NAME = __CLASS__;
+	
 	function create()
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
 		$this->set_id($wdm->get_next_category_id());
-		$this->set_display_order($wdm->select_next_display_order($this->get_parent()));
+		
+        $condition = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $this->get_parent());
+        $sort = $wdm->retrieve_max_sort_value(self :: get_table_name(), PlatformCategory :: PROPERTY_DISPLAY_ORDER, $condition);
+        $this->set_display_order($sort + 1);
 		
 		if(!$wdm->create_category($this))
 		{
@@ -49,6 +54,6 @@ class CourseCategory extends PlatformCategory
 	
 	static function get_table_name()
 	{
-		return DokeosUtilities :: camelcase_to_underscores('CourseCategory');
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 }

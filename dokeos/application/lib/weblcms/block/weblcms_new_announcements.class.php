@@ -36,9 +36,14 @@ class WeblcmsNewAnnouncements extends WeblcmsBlock
 		{
 			$last_visit_date = $dm->get_last_visit_date($course->get_id(),$this->get_user_id(),'announcement',0);
 
-			$condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'announcement');
-			$type_condition = new EqualityCondition('type','announcement');
-			$publications = $dm->retrieve_learning_object_publications($course->get_id(), null, null, null, $condition, false, new ObjectTableOrder(Announcement :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC), array (), 0, -1, null, $type_condition);
+			$conditions = array();
+			$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
+			$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'announcement');
+			$subselect_condition = new EqualityCondition('type', 'announcement');
+			$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
+			$condition = new AndCondition($conditions);
+			
+			$publications = $dm->retrieve_learning_object_publications_new($condition, new ObjectTableOrder(Announcement :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC));
 
 			while($publication = $publications->next_result())
 			{

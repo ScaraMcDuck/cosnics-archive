@@ -36,8 +36,21 @@ class ReportingWeblcms {
         $wdm = WeblcmsDataManager::get_instance();
         $course_id = $params[ReportingManager :: PARAM_COURSE_ID];
         $user_id = $params[ReportingManager :: PARAM_USER_ID];
-        $series = $wdm->count_learning_object_publications($course_id, null, $user_id);
-        $lops = $wdm->retrieve_learning_object_publications($course_id, null, $user_id);
+        
+		$conditions = array();
+		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course_id);
+		$access = array();
+		$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
+		$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('learning_object_publication_course_group'));
+		if (!empty($user_id))
+		{
+			$access[] = new EqualityCondition('user', null, $datamanager->get_database()->get_alias('learning_object_publication_user'));
+		}
+		$conditions[] = new OrCondition($access);
+		$condition = new AndCondition($conditions);
+        
+        $series = $wdm->count_learning_object_publications_new($condition);
+        $lops = $wdm->retrieve_learning_object_publications_new($condition);
     }
 
     /**
@@ -300,9 +313,10 @@ class ReportingWeblcms {
         while($course = $courses->next_result())
         {
             $lastpublication = 0;
-
-            $condition = new EqualityCondition(LearningObjectPublication::PROPERTY_COURSE_ID,$course->get_id());
-            $publications = $wdm->retrieve_learning_object_publications(null, null, null, null, $condition);
+            
+			$condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
+			$publications = $datamanager->retrieve_learning_object_publications_new($condition);
+			
             while($publication = $publications->next_result())
             {
                 $lastpublication = $publication->get_modified_date();
@@ -361,8 +375,9 @@ class ReportingWeblcms {
                 $lastaccess = $value->get_leave_date();
             }
 
-            $condition = new EqualityCondition(LearningObjectPublication::PROPERTY_COURSE_ID,$course->get_id());
-            $publications = $wdm->retrieve_learning_object_publications(null, null, null, null, $condition);
+			$condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
+			$publications = $datamanager->retrieve_learning_object_publications_new($condition);
+			
             while($publication = $publications->next_result())
             {
                 $lastpublication = $publication->get_modified_date();
@@ -391,7 +406,7 @@ class ReportingWeblcms {
         }
 
         $wdm = WeblcmsDataManager :: get_instance();
-        $learning_objects = $wdm->retrieve_learning_object_publications();
+        $learning_objects = $wdm->retrieve_learning_object_publications_new();
         while($learning_object = $learning_objects->next_result())
         {
             //dump($learning_object);
@@ -439,9 +454,11 @@ class ReportingWeblcms {
     {
         $course_id = $params[ReportingManager::PARAM_COURSE_ID];
         $wdm = WeblcmsDataManager::get_instance();
-        //$lops = $wdm->retrieve_learning_object_publications($course_id);
-        $condition = new EqualityCondition(LearningObjectPublication::PROPERTY_TOOL,'learning_path');
-        $lops = $wdm->retrieve_learning_object_publications($course_id, null, null, null, $condition);
+        
+        $conditions = array();
+		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
+		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'learning_path');
+		$lops = $datamanager->retrieve_learning_object_publications_new($condition);
 
         while($lop = $lops->next_result())
         {
@@ -614,8 +631,20 @@ class ReportingWeblcms {
 
         $tracker = new VisitTracker();
         $wdm = WeblcmsDataManager::get_instance();
-        $condition = new EqualityCondition(WeblcmsManager :: PARAM_TOOL,$tool);
-        $lops = $wdm->retrieve_learning_object_publications($course_id, null, $user_id, null, $condition);
+        
+        $conditions = array();
+		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course_id);
+		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, $tool);
+		
+		$access = array();
+		$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
+		if (!empty($user_id))
+		{
+			$access[] = new EqualityCondition('user', null, $datamanager->get_database()->get_alias('learning_object_publication_user'));
+		}
+		$conditions[] = new OrCondition($access);
+		
+		$lops = $wdm->retrieve_learning_object_publications_new($condition);
 
         while($lop = $lops->next_result())
         {
@@ -672,7 +701,6 @@ class ReportingWeblcms {
             $id = $pid;
             $descr = $lop->get_learning_object()->get_description();
         }
-        //$lops = $wdm->retrieve_learning_object_publications($course_id, null, $user_id, null, $condition);
 
         $condition = new PatternMatchCondition(VisitTracker::PROPERTY_LOCATION,'*pid='.$pid.'*');
         $trackerdata = $tracker->retrieve_tracker_items($condition);

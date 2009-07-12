@@ -12,6 +12,8 @@ require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 
 class LearningObjectPublicationCategory extends PlatformCategory
 {
+	const CLASS_NAME = __CLASS__;
+	
 	const PROPERTY_COURSE = 'course';
 	const PROPERTY_TOOL = 'tool';
 	const PROPERTY_ALLOW_CHANGE = 'allow_change'; 
@@ -20,7 +22,11 @@ class LearningObjectPublicationCategory extends PlatformCategory
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
 		$this->set_id($wdm->get_next_learning_object_publication_category_id());
-		$this->set_display_order($wdm->select_next_learning_object_publication_category_display_order($this));
+		
+        $condition = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $this->get_parent());
+        $sort = $wdm->retrieve_max_sort_value(self :: get_table_name(), PlatformCategory :: PROPERTY_DISPLAY_ORDER, $condition);
+        $this->set_display_order($sort + 1);
+		
 		return $wdm->create_learning_object_publication_category($this);
 	}
 	
@@ -43,11 +49,6 @@ class LearningObjectPublicationCategory extends PlatformCategory
 	function delete()
 	{
 		return WeblcmsDataManager :: get_instance()->delete_learning_object_publication_category($this);
-	}
-	
-	static function get_table_name()
-	{
-		return DokeosUtilities :: camelcase_to_underscores('LearningObjectPublicationCategory');
 	}
 	
 	static function get_default_property_names()
@@ -85,5 +86,10 @@ class LearningObjectPublicationCategory extends PlatformCategory
 	function set_allow_change($allow_change)
 	{
 		$this->set_default_property(self :: PROPERTY_ALLOW_CHANGE, $allow_change);
-	}	
+	}
+	
+    static function get_table_name()
+    {
+        return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    }
 }

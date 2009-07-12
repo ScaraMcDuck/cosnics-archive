@@ -122,9 +122,13 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 	private function show_links($section)
 	{
 		$parent = $this->get_parent();
-
-		$condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE, 1);
-		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($parent->get_course_id(), null, null, null, $condition);
+		
+		$conditions = array();
+		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $parent->get_course_id());
+		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE, 1);
+		$condition = new AndCondition($conditions);
+		
+		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications_new($condition);
 
 		if($publications->size() > 0)
 		{
