@@ -40,7 +40,20 @@ class SearchToolSearcherComponent extends SearchToolComponent
 			$datamanager = WeblcmsDataManager :: get_instance();
 			$user_id = $this->get_user_id();
 			$course_groups = $this->get_course_groups();
-			$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $course_groups);
+			
+			$conditions = array();
+			$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
+			
+			$access = array();
+			$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
+			$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('learning_object_publication_course_group'));
+			if (!empty($user_id) || !empty($course_groups))
+			{
+				$access[] = new AndCondition(array(new EqualityCondition('user', null, $datamanager->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('learning_object_publication_course_group'))));
+			}
+			$conditions[] = new OrCondition($access);
+			
+			$publications = $datamanager->retrieve_learning_object_publications_new($condition);
 			$tools = array();
 
 			while($publication = $publications->next_result())

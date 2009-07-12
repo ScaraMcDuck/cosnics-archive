@@ -23,8 +23,16 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
 			Display :: not_allowed();
 			return;
 		}
-
-		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), null, null, null, new EqualityCondition('tool','assessment'),false, null, null, 0, -1, null, new EqualityCondition('type','introduction'));
+		
+		$conditions = array();
+		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
+		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'assessment');
+		
+		$subselect_condition = new EqualityCondition('type', 'introduction');
+		$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
+		$condition = new AndCondition($conditions);
+		
+		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications_new($condition);
 		$this->introduction_text = $publications->next_result();
 
 		$tree_id = WeblcmsManager :: PARAM_CATEGORY;

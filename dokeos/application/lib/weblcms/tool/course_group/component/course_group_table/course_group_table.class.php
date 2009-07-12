@@ -259,7 +259,7 @@ class CourseGroupTable
 	 */
 	function get_course_groups($offset, $count, $order_column, $order_direction)
 	{
-		$course_groups = $this->get_data_provider()->get_course_groups($offset, $count, $this->get_column_model()->get_column($order_column - ($this->has_form_actions() ? 1 : 0))->get_course_group_property(), $order_direction);
+		$course_groups = $this->get_data_provider()->get_course_groups($offset, $count, $this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0), $order_direction));
 		if(is_null($course_groups))
 		{
 			return array();

@@ -32,7 +32,7 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
 			$category_id = 0;
 		}
 		$category_folder_mapping = $this->create_folder_structure($category_id);
-		$dm = WeblcmsDataManager :: get_instance();
+		$datamanager = WeblcmsDataManager :: get_instance();
 		if($this->is_allowed(EDIT_RIGHT))
 		{
 			$user_id = null;
@@ -46,10 +46,25 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
 		$target_path = current($category_folder_mapping);
 		foreach($category_folder_mapping as $category_id => $dir)
 		{
-			$condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'document');
-			$cond = new EqualityCondition('type','document');
-
-			$publications = $dm->retrieve_learning_object_publications($this->get_course_id(), $category_id, $user_id, $course_groups, $condition, false, array (), array (), 0, -1, null, $cond);
+			$conditions = array();
+			$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
+			$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'document');
+			$conditions[] = new InCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $category_id);
+			
+			$access = array();
+			$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
+			$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('learning_object_publication_course_group'));
+			if (!empty($user_id) || !empty($course_groups))
+			{
+				$access[] = new AndCondition(array(new EqualityCondition('user', null, $datamanager->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('learning_object_publication_course_group'))));
+			}
+			$conditions[] = new OrCondition($access);
+			
+			$subselect_condition = new EqualityCondition('type', 'document');
+			$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
+			$condition = new AndCondition($conditions);
+			
+			$publications = $datamanager->retrieve_learning_object_publications_new($condition);
 			while($publication = $publications->next_result())
 			{
 				$document = $publication->get_learning_object();

@@ -55,13 +55,10 @@ class AssessmentPublicationTableDataProvider extends ObjectTableDataProvider
     function get_publications($from, $count, $column, $direction)
     {
     	$datamanager = WeblcmsDataManager :: get_instance();
-		$tool_condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'assessment');
-		$condition = $tool_condition;
-		$lo_condition = $this->get_condition();
 		if($this->parent->is_allowed(EDIT_RIGHT))
 		{
-			$user_id = null;
-			$course_groups = null;
+			$user_id = array();
+			$course_groups = array();
 		}
 		else
 		{
@@ -69,7 +66,32 @@ class AssessmentPublicationTableDataProvider extends ObjectTableDataProvider
 			$course_groups = $this->parent->get_course_groups();
 		}
 		$course = $this->parent->get_course_id();
-    	$publications = $datamanager->retrieve_learning_object_publications($course, null, $owner, $course_groups, $condition, false, array(), array(), 0, -1, null, $lo_condition);
+		
+		$conditions = array();
+		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course);
+		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'assessment');
+		
+		$access = array();
+		$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
+		$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('learning_object_publication_course_group'));
+		if (!empty($user_id) || !empty($course_groups))
+		{
+			$access[] = new AndCondition(array(new EqualityCondition('user', null, $datamanager->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('learning_object_publication_course_group'))));
+		}
+		$conditions[] = new OrCondition($access);
+		
+		$subselect_conditions = array();
+		$subselect_conditions[] = $this->get_condition();
+		if($this->get_parent()->get_condition())
+		{
+			$subselect_conditions[] = $this->get_parent()->get_condition();
+		}
+		$subselect_condition = new AndCondition($subselect_conditions);
+		
+		$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
+		$condition = new AndCondition($conditions);
+		
+		$publications = $datamanager->retrieve_learning_object_publications_new($condition);
 		$visible_publications = array ();
 		while ($publication = $publications->next_result())
 		{

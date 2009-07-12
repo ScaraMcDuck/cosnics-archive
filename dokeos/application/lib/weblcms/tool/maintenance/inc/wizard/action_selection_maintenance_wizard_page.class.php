@@ -56,13 +56,15 @@ class ActionSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 		{
 			case self::ACTION_BACKUP:
 			case self::ACTION_EMPTY:
-				if($dm->count_learning_object_publications($this->get_parent()->get_course_id()) == 0)
+				$condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_parent()->get_course_id());				
+				if($dm->count_learning_object_publications_new($condition) == 0)
 				{
 					return false;
 				}
 				return true;
 			case self::ACTION_COPY:
-				if($dm->count_learning_object_publications($this->get_parent()->get_course_id()) == 0)
+				$condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_parent()->get_course_id());
+				if($dm->count_learning_object_publications_new($condition) == 0)
 				{
 					return false;
 				}

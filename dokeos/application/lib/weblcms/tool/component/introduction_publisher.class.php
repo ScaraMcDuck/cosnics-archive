@@ -40,7 +40,24 @@ class ToolIntroductionPublisherComponent extends ToolComponent
 
 			$obj = new LearningObject();
 			$obj->set_id($object);
-			$pub = new LearningObjectPublication(null, $obj, $this->get_course_id(), $this->get_tool_id(), 0, array(), array(), 0, 0, Session :: get_user_id(), time(), time(), 0, $do, false, 0);
+			
+			$pub = new LearningObjectPublication();
+			$pub->set_learning_object_id($object);
+			$pub->set_course_id($this->get_course_id());
+			$pub->set_tool($this->get_tool_id());
+			$pub->set_category_id(0);
+			$pub->set_target_users(array());
+			$pub->set_target_course_groups(array());
+			$pub->set_from_date(0);
+			$pub->set_to_date(0);
+			$pub->set_publisher_id(Session :: get_user_id());
+			$pub->set_publication_date(time());
+			$pub->set_modified_date(time());
+			$pub->set_hidden(0);
+			$pub->set_display_order_index($do);
+			$pub->set_email_sent(false);
+			$pub->set_show_on_homepage(0);
+			
 			$pub->create();
 
 			$parameters = $this->get_parameters();
