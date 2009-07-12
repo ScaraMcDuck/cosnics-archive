@@ -382,6 +382,12 @@ class Database
         $params = array();
         $query = 'SELECT COUNT(*) FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
 
+        return $this->count_result_set($query, $table_name, $condition);
+    }
+    
+    function count_result_set($query, $table_name, $condition = null)
+    {
+    	$params = array();
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this, $params, $this->get_alias($table_name));
@@ -390,6 +396,7 @@ class Database
         }
 
         $sth = $this->connection->prepare($query);
+        
         $res = $sth->execute($params);
         $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
         return $record[0];
@@ -426,6 +433,7 @@ class Database
         $orders = array();
 
 //        dump('<strong>Statement</strong><br />' . $query . '<br /><br /><br />');
+//        dump($params);
 
         foreach($order_by as $order)
         {
@@ -477,6 +485,11 @@ class Database
         {
             return 0;
         }
+    }
+    
+    function retrieve_next_sort_value($table_name, $column, $condition = null)
+    {
+    	return $this->retrieve_max_sort_value($table_name, $column, $condition) + 1;
     }
 
     function truncate_storage_unit($table_name, $optimize = true)

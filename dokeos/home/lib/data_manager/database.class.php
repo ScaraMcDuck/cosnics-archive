@@ -3,11 +3,6 @@
  * @package users
  * @subpackage datamanager
  */
-require_once dirname(__FILE__) . '/database/database_home_tab_result_set.class.php';
-require_once dirname(__FILE__) . '/database/database_home_row_result_set.class.php';
-require_once dirname(__FILE__) . '/database/database_home_column_result_set.class.php';
-require_once dirname(__FILE__) . '/database/database_home_block_result_set.class.php';
-require_once dirname(__FILE__) . '/database/database_home_block_config_result_set.class.php';
 require_once dirname(__FILE__) . '/../home_data_manager.class.php';
 require_once dirname(__FILE__) . '/../home_tab.class.php';
 require_once dirname(__FILE__) . '/../home_row.class.php';

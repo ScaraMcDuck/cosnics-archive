@@ -66,15 +66,17 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
 
 		$conditions = array();
 		$conditions[] = new EqualityCondition('tool', 'calendar');
-		$conditions[] = new EqualityCondition('hidden',0);
+		$conditions[] = new EqualityCondition('hidden', 0);
+		
+		$user_id = $user->get_id();
 
 		$access = array();
-		$access[] = new InCondition('user', $user->get_id(), $dm->get_database()->get_alias('learning_object_publication_user'));
-//		if (count($course_groups))
-//		{
-		    $access[] = new InCondition('course_group_id', $course_groups, $dm->get_database()->get_alias('learning_object_publication_course_group'));
-//		}
-		$access[] = new AndCondition(array(new EqualityCondition('user', null, $dm->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $dm->get_database()->get_alias('learning_object_publication_course_group'))));
+		$access[] = new InCondition('user', $user_id, $dm->get_database()->get_alias('learning_object_publication_user'));
+		$access[] = new InCondition('course_group_id', $course_groups, $dm->get_database()->get_alias('learning_object_publication_course_group'));
+		if (!empty($user_id) || !empty($course_groups))
+		{
+			$access[] = new AndCondition(array(new EqualityCondition('user', null, $dm->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $dm->get_database()->get_alias('learning_object_publication_course_group'))));
+		}
 
 		$conditions[] = new OrCondition($access);
 		$subselect_condition = new EqualityCondition('type', 'calendar_event');

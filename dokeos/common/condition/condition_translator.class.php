@@ -44,7 +44,7 @@ class ConditionTranslator
 		}
 		else
 		{
-			//dump($condition);
+//			dump($condition);
 			die('Need a Condition instance');
 		}
 
