@@ -40,24 +40,44 @@ class GlossaryBrowser extends LearningObjectPublicationBrowser
 
 	function get_publications($from, $count, $column, $direction)
 	{
-		$dm = WeblcmsDataManager :: get_instance();
+		$datamanager = WeblcmsDataManager :: get_instance();
 		if($this->is_allowed(EDIT_RIGHT))
 		{
-			$user_id = null;
-			$course_groups = null;
+			$user_id = array();
+			$course_groups = array();
 		}
 		else
 		{
 			$user_id = $this->get_user_id();
 			$course_groups = $this->get_course_groups();
 		}
-
-		$conditions[] = new EqualityCondition('type','glossary');
+		
+		$conditions = array();
+		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
+		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'glossary');
+		$conditions[] = new InCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, 0);
+		
+		$access = array();
+		$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
+		$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('learning_object_publication_course_group'));
+		if (!empty($user_id) || !empty($course_groups))
+		{
+			$access[] = new AndCondition(array(new EqualityCondition('user', null, $datamanager->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('learning_object_publication_course_group'))));
+		}
+		$conditions[] = new OrCondition($access);
+		
+		$subselect_conditions = array();
+		$subselect_conditions[] = new EqualityCondition('type', 'glossary');
 		if($this->get_parent()->get_condition())
-			$conditions[] = $this->get_parent()->get_condition();
-		$cond = new AndCondition($conditions);
+		{
+			$subselect_conditions[] = $this->get_parent()->get_condition();
+		}
+		$subselect_condition = new AndCondition($subselect_conditions);
+		$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
+		$condition = new AndCondition($conditions);
+		
+		$pubs = $datamanager->retrieve_learning_object_publications_new($condition, new ObjectTableOrder(Glossary :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC));
 
-		$pubs = $dm->retrieve_learning_object_publications($this->get_course_id(), 0, $user_id, $course_groups, $this->get_condition(), false, new ObjectTableOrder(Glossary :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC), array (), 0, -1, null, $cond);
 		$data = array ();
 		$renderer = $this->get_publication_list_renderer();
 		$index = 0;
@@ -103,14 +123,39 @@ class GlossaryBrowser extends LearningObjectPublicationBrowser
 		{
 			$category = $this->get_category();
 		}
-		$category = 0;
+		$category = 0;		
+		
 		$dm = WeblcmsDataManager :: get_instance();
-		$conditions[] = new EqualityCondition('type','glossary');
-		if($this->get_parent()->get_condition())
-			$conditions[] = $this->get_parent()->get_condition();
-		$cond = new AndCondition($conditions);
 
-		return $dm->count_learning_object_publications($this->get_course_id(), $category, $this->get_user_id(), $this->get_course_groups(), $this->get_condition($category), false, null, $cond);
+		$conditions = array();		
+		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
+		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'glossary');
+
+		$user_id = $this->get_user_id();
+		$course_groups = $this->get_course_groups();
+
+		$access = array();
+		$access[] = new InCondition('user', $user_id, $dm->get_database()->get_alias('learning_object_publication_user'));
+		$access[] = new InCondition('course_group_id', $course_groups, $dm->get_database()->get_alias('learning_object_publication_course_group'));
+		if (!empty($user_id) || !empty($course_groups))
+		{
+			$access[] = new AndCondition(array(new EqualityCondition('user', null, $dm->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $dm->get_database()->get_alias('learning_object_publication_course_group'))));
+		}
+
+		$conditions[] = new OrCondition($access);
+		
+		$subselect_conditions = array();
+		$subselect_conditions[] = new EqualityCondition('type', 'glossary');
+		if($this->get_parent()->get_condition())
+		{
+			$subselect_conditions[] = $this->get_parent()->get_condition();
+		}
+		$subselect_condition = new AndCondition($subselect_conditions);
+		$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
+		
+		$condition = new AndCondition($conditions);
+
+		return $dm->count_learning_object_publications_new($condition);
 	}
 
 	function get_condition($category = null)

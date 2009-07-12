@@ -103,5 +103,11 @@ class CourseGroupTableColumnModel
 	{
 		$this->order_direction = $direction;
 	}
+	
+    function get_order_column($column_number, $order_direction)
+    {
+        $column = $this->get_column($column_number);
+        return new ObjectTableOrder($column->get_course_group_property(), $order_direction);
+    }
 }
 ?>

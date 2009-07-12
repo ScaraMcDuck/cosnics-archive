@@ -20,10 +20,7 @@ class ForumToolBrowserComponent extends ForumToolComponent
 			Display :: not_allowed();
 			return;
 		}
-
-        $publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), null, null, null, new EqualityCondition('tool','forum'));
-		//$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), null, null, null, new EqualityCondition('tool','forum'),false, null, null, 0, -1, null, new EqualityCondition('type','introduction'));
-		//$this->introduction_text = $publications->next_result();
+		
 		$this->action_bar = $this->get_action_bar();
 
 		$table = $this->get_table_html();
@@ -31,11 +28,6 @@ class ForumToolBrowserComponent extends ForumToolComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add_help('courses forum tool');
 		$this->display_header($trail, true);
-
-//		if(PlatformSetting :: get('enable_introduction', 'weblcms'))
-//		{
-//			echo $this->display_introduction_text($this->introduction_text);
-//		}
 
 		echo $this->action_bar->as_html();
 		echo $table->toHtml();
@@ -97,20 +89,38 @@ class ForumToolBrowserComponent extends ForumToolComponent
 
 	function create_table_forums($table, &$row, $parent)
 	{
-		$condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'forum');
 		if($this->is_allowed(EDIT_RIGHT))
 		{
-			$user_id = null;
-			$course_groups = null;
+			$user_id = array();
+			$course_groups = array();
 		}
 		else
 		{
 			$user_id = $this->get_user_id();
 			$course_groups = $this->get_course_groups();
 		}
-		$cond = new EqualityCondition('type','forum');
-
-		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), $parent, $user_id, $course_groups, $condition, false, new ObjectTableOrder(Forum :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_ASC), array (), 0, -1, null, $cond);
+		
+		$datamanager = WeblcmsDataManager :: get_instance();
+		
+		$conditions = array();
+		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
+		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'forum');
+		$conditions[] = new InCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $parent);
+		
+		$access = array();
+		$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
+		$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('learning_object_publication_course_group'));
+		if (!empty($user_id) || !empty($course_groups))
+		{
+			$access[] = new AndCondition(array(new EqualityCondition('user', null, $datamanager->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('learning_object_publication_course_group'))));
+		}
+		$conditions[] = new OrCondition($access);
+		
+		$subselect_condition = new EqualityCondition('type', 'forum');
+		$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
+		$condition = new AndCondition($conditions);
+		
+		$publications = $datamanager->retrieve_learning_object_publications_new($condition, new ObjectTableOrder(Forum :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC));
         $rdm = RepositoryDataManager::get_instance();
 
 		$size = $publications->size();

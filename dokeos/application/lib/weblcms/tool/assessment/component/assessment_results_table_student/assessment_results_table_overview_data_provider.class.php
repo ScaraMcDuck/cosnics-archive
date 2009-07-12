@@ -109,7 +109,33 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
 			$course_groups = $this->parent->get_course_groups();
 		}
 		$course = $this->parent->get_course_id();
-    	$publications = $datamanager->retrieve_learning_object_publications($course, null, $owner, $course_groups, $condition, false, array(), array(), 0, -1, null, $lo_condition);
+
+		$conditions = array();
+		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course);
+		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'assessment');
+		
+		$access = array();
+		$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
+		$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('learning_object_publication_course_group'));
+		if (!empty($user_id) || !empty($course_groups))
+		{
+			$access[] = new AndCondition(array(new EqualityCondition('user', null, $datamanager->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('learning_object_publication_course_group'))));
+		}
+		$conditions[] = new OrCondition($access);
+		
+		$subselect_conditions = array();
+		$subselect_conditions[] = $this->get_condition();
+		if($this->get_parent()->get_condition())
+		{
+			$subselect_conditions[] = $this->get_parent()->get_condition();
+		}
+		$subselect_condition = new AndCondition($subselect_conditions);
+		
+		$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
+		$condition = new AndCondition($conditions);
+		
+		$publications = $datamanager->retrieve_learning_object_publications_new($condition);
+		
 		while ($publication = $publications->next_result())
 		{
 			// If the results is hidden and the user is not allowed to DELETE or EDIT, don't show this results

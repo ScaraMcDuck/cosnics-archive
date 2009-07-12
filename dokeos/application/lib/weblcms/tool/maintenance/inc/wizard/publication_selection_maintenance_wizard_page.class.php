@@ -14,7 +14,8 @@ class PublicationSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 	function buildForm()
 	{
 		$datamanager = WeblcmsDataManager :: get_instance();
-		$publications_set = $datamanager->retrieve_learning_object_publications($this->get_parent()->get_course_id());
+		$condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_parent()->get_course_id());
+		$publications_set = $datamanager->retrieve_learning_object_publications_new($condition, new ObjectTableOrder(Announcement :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC));
 		while ($publication = $publications_set->next_result())
 		{
 			$publications[$publication->get_tool()][] = $publication;
