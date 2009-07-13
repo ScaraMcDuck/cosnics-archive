@@ -190,7 +190,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			//$order[] = '('.$this->escape_column_name(LearningObject :: PROPERTY_TYPE, true).' = "category") DESC';
 		}
-		
+
 	    $orders = array();
         foreach($order_by as $order)
         {
@@ -200,7 +200,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
         {
             $query .= ' ORDER BY ' . implode(', ', $orders);
         }
-		
+
 		if ($max_objects < 0)
 		{
 			$max_objects = null;
@@ -1404,7 +1404,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
         {
             $query .= ' ORDER BY ' . implode(', ', $orders);
         }
-		
+
 		if ($max_objects < 0)
 		{
 			$max_objects = null;

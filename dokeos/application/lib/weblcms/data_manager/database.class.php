@@ -11,6 +11,8 @@ require_once dirname(__FILE__) . '/../course/course.class.php';
 require_once dirname(__FILE__) . '/../course/course_section.class.php';
 require_once dirname(__FILE__) . '/../course/course_user_category.class.php';
 require_once dirname(__FILE__) . '/../course/course_user_relation.class.php';
+require_once dirname(__FILE__) . '/../course_group/course_group.class.php';
+require_once dirname(__FILE__) . '/../course_group/course_group_user_relation.class.php';
 require_once dirname(__FILE__) . '/../../../../repository/lib/data_manager/database.class.php';
 require_once Path :: get_library_path() . 'condition/condition_translator.class.php';
 require_once dirname(__FILE__) . '/../category_manager/course_category.class.php';
@@ -1471,7 +1473,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     // Inherited
     function retrieve_course_group_user_ids($course_group)
     {
-        $query = 'SELECT user_id FROM ' . $this->database->escape_table_name('course_group_rel_user');
+        $query = 'SELECT user_id FROM ' . $this->database->escape_table_name(CourseGroupUserRelation :: get_table_name());
         $query .= ' WHERE ' . $this->database->escape_column_name('course_group_id') . '=?';
         $params[] = $course_group->get_id();
         $statement = $this->database->get_connection()->prepare($query);
@@ -1489,14 +1491,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     {
         if (! is_null($course))
         {
-            $query = 'SELECT g.* FROM ' . $this->database->escape_table_name('course_group') . ' g, ' . $this->database->escape_table_name('course_group_rel_user') . ' u';
+            $query = 'SELECT g.* FROM ' . $this->database->escape_table_name('course_group') . ' g, ' . $this->database->escape_table_name(CourseGroupUserRelation :: get_table_name()) . ' u';
             $query .= ' WHERE g.id = u.course_group_id AND g.' . $this->database->escape_column_name('course_code') . '=? AND u.user_id = ?';
             $params[] = $course->get_id();
             $params[] = $user->get_id();
         }
         else
         {
-            $query = 'SELECT g.* FROM ' . $this->database->escape_table_name('course_group') . ' g, ' . $this->database->escape_table_name('course_group_rel_user') . ' u';
+            $query = 'SELECT g.* FROM ' . $this->database->escape_table_name('course_group') . ' g, ' . $this->database->escape_table_name(CourseGroupUserRelation :: get_table_name()) . ' u';
             $query .= ' WHERE g.id = u.course_group_id AND u.user_id = ?';
             $params[] = $user->get_id();
         }
@@ -1644,45 +1646,36 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
             {
                 $props['course_group_id'] = $course_group->get_id();
                 $this->database->get_connection()->loadModule('Extended');
-                $this->database->get_connection()->extended->autoExecute($this->database->get_table_name('course_group_rel_user'), $props, MDB2_AUTOQUERY_INSERT);
+                $this->database->get_connection()->extended->autoExecute($this->database->get_table_name(CourseGroupUserRelation :: get_table_name()), $props, MDB2_AUTOQUERY_INSERT);
             }
         }
     }
 
     // Inherited
-    function unsubscribe_users_from_course_groups($users, $course_groups)
+    function unsubscribe_users_from_course_groups($users, $course_group)
     {
         if (! is_array($users))
         {
             $users = array($users);
         }
-        if (! is_array($course_groups))
-        {
-            $course_groups = array($course_groups);
-        }
-        foreach ($users as $index => $user)
-        {
-            foreach ($course_groups as $index => $course_group)
-            {
-                $sql = 'DELETE FROM ' . $this->database->escape_table_name('course_group_rel_user') . ' WHERE course_group_id = ? AND user_id = ?';
-                $statement = $this->database->get_connection()->prepare($sql);
 
-                if (get_class($user) == 'User')
-                    $statement->execute(array($course_group->get_id(), $user->get_id()));
-                else
-                    $statement->execute(array($course_group->get_id(), $user));
+        $conditions = array();
+        $conditions[] = new EqualityCondition(CourseGroupUserRelation :: PROPERTY_COURSE_GROUP, $course_group->get_id());
+        $conditions[] = new InCondition(CourseGroupUserRelation :: PROPERTY_USER, $users);
+        $condition = new AndCondition($conditions);
 
-            }
-        }
+        return $this->database->delete_objects(CourseGroupUserRelation :: get_table_name(), $condition);
     }
 
     //Inherited
     function is_course_group_member($course_group, $user)
     {
-        $sql = 'SELECT * FROM ' . $this->database->escape_table_name('course_group_rel_user') . ' WHERE course_group_id = ? AND user_id = ?';
-        $statement = $this->database->get_connection()->prepare($sql);
-        $res = $statement->execute(array($course_group->get_id(), $user->get_id()));
-        return $res->numRows() > 0;
+        $conditions = array();
+        $conditions[] = new EqualityCondition(CourseGroupUserRelation :: PROPERTY_COURSE_GROUP, $course_group);
+        $conditions[] = new EqualityCondition(CourseGroupUserRelation :: PROPERTY_USER, $user);
+        $condition = new AndCondition($conditions);
+
+        return $this->database->count_objects(CourseGroupUserRelation :: get_table_name(), $condition) > 0;
     }
 
     function create_storage_unit($name, $properties, $indexes)
@@ -1702,7 +1695,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
     function get_next_category_id()
     {
-        return $this->database->get_next_id('course_category');
+        return $this->database->get_next_id(CourseCategory :: get_table_name());
     }
 
     function get_next_course_module_id()
@@ -1713,9 +1706,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     function delete_category($category)
     {
         $condition = new EqualityCondition(CourseCategory :: PROPERTY_ID, $category->get_id());
-        $succes = $this->database->delete('course_category', $condition);
+        $succes = $this->database->delete(CourseCategory :: get_table_name(), $condition);
 
-        $query = 'UPDATE ' . $this->database->escape_table_name('course_category') . ' SET ' . $this->database->escape_column_name(CourseCategory :: PROPERTY_DISPLAY_ORDER) . '=' . $this->database->escape_column_name(CourseCategory :: PROPERTY_DISPLAY_ORDER) . '-1 WHERE ' . $this->database->escape_column_name(CourseCategory :: PROPERTY_DISPLAY_ORDER) . '>? AND ' . $this->database->escape_column_name(CourseCategory :: PROPERTY_PARENT) . '=?';
+        $query = 'UPDATE ' . $this->database->escape_table_name(CourseCategory :: get_table_name()) . ' SET ' . $this->database->escape_column_name(CourseCategory :: PROPERTY_DISPLAY_ORDER) . '=' . $this->database->escape_column_name(CourseCategory :: PROPERTY_DISPLAY_ORDER) . '-1 WHERE ' . $this->database->escape_column_name(CourseCategory :: PROPERTY_DISPLAY_ORDER) . '>? AND ' . $this->database->escape_column_name(CourseCategory :: PROPERTY_PARENT) . '=?';
         $statement = $this->database->get_connection()->prepare($query);
         $statement->execute(array($category->get_display_order(), $category->get_parent()));
 
@@ -1745,15 +1738,15 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
     function get_next_learning_object_publication_category_id()
     {
-        return $this->database->get_next_id('learning_object_publication_category');
+        return $this->database->get_next_id(LearningObjectPublicationCategory :: get_table_name());
     }
 
     function delete_learning_object_publication_category($learning_object_publication_category)
     {
         $condition = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_ID, $learning_object_publication_category->get_id());
-        $succes = $this->database->delete('learning_object_publication_category', $condition);
+        $succes = $this->database->delete(LearningObjectPublicationCategory :: get_table_name(), $condition);
 
-        $query = 'UPDATE ' . $this->database->escape_table_name('learning_object_publication_category') . ' SET ' . $this->database->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_DISPLAY_ORDER) . '=' . $this->database->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_DISPLAY_ORDER) . '-1 WHERE ' . $this->database->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_DISPLAY_ORDER) . '>? AND ' . $this->database->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_PARENT) . '=?';
+        $query = 'UPDATE ' . $this->database->escape_table_name(LearningObjectPublicationCategory :: get_table_name()) . ' SET ' . $this->database->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_DISPLAY_ORDER) . '=' . $this->database->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_DISPLAY_ORDER) . '-1 WHERE ' . $this->database->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_DISPLAY_ORDER) . '>? AND ' . $this->database->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_PARENT) . '=?';
         $statement = $this->database->get_connection()->prepare($query);
         $statement->execute(array($learning_object_publication_category->get_display_order(), $learning_object_publication_category->get_parent()));
 

@@ -25,7 +25,7 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupToolComponen
 		{
 			$udm = UserDataManager :: get_instance();
 			$user = $udm->retrieve_user(Request :: get(WeblcmsManager :: PARAM_USERS));
-			$course_group->unsubscribe_users($user);
+			$course_group->unsubscribe_users($user->get_id());
 			$html[] = Display :: normal_message(Translation :: get('UserUnsubscribed'),true);
 		}
 
