@@ -685,9 +685,9 @@ class WeblcmsManager extends WebApplication
 	 * Retrieves a personal course category for the user.
 	 * @return CourseUserCategory The course user category.
 	 */
-	function retrieve_course_user_category($course_user_category_id, $user_id = null)
+	function retrieve_course_user_category($condition = null)
 	{
-		return WeblcmsDataManager :: get_instance()->retrieve_course_user_category($course_user_category_id, $user_id);
+		return WeblcmsDataManager :: get_instance()->retrieve_course_user_category($condition);
 	}
 
 	/**
@@ -835,11 +835,11 @@ class WeblcmsManager extends WebApplication
 			$last_visit_date = $this->get_last_visit_date($tool);
 			$wdm = WeblcmsDataManager :: get_instance();
 			$course_groups = $wdm->retrieve_course_groups_from_user($this->get_user(), $this->get_course())->as_array();
-			
+
 			$conditions = array();
 			$conditions[] = new EqualityCondition('tool', $tool);
 			$conditions[] = new InequalityCondition('modified', InequalityCondition :: GREATER_THAN, $last_visit_date);
-			
+
 			if ((!$this->get_course()->is_course_admin($this->get_user()) && !$this->get_user()->is_platform_admin()))
 			{
 				// Only select visible publications
@@ -854,9 +854,9 @@ class WeblcmsManager extends WebApplication
 				$condition_publication_forever = new EqualityCondition('from_date', 0);
 				$conditions[] = new OrCondition($condition_publication_forever, $condition_publication_period);
 			}
-			
+
 			$user_id = $this->get_user_id();
-	
+
 			$access = array();
 			$access[] = new InCondition('user', $user_id, $wdm->get_database()->get_alias('learning_object_publication_user'));
 			$access[] = new InCondition('course_group_id', $course_groups, $wdm->get_database()->get_alias('learning_object_publication_course_group'));
@@ -864,15 +864,15 @@ class WeblcmsManager extends WebApplication
 			{
 				$access[] = new AndCondition(array(new EqualityCondition('user', null, $wdm->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $wdm->get_database()->get_alias('learning_object_publication_course_group'))));
 			}
-	
+
 			$conditions[] = new OrCondition($access);
 			$condition = new AndCondition($conditions);
-			
+
 			$new_items = $wdm->count_learning_object_publications_new($condition);
-			
+
 			return $new_items > 0;
 		}
-		
+
 		return false;
 	}
 
