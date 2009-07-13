@@ -62,5 +62,10 @@ class AssessmentDisplay extends ComplexDisplay
 	{
 		return $this->get_parent()->change_total_score($total_score);
 	}
+	
+	function get_current_attempt_id()
+	{
+		return $this->get_parent()->get_current_attempt_id();
+	}
 }
 ?>

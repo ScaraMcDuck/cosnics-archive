@@ -10,6 +10,16 @@ function handle_timer()
 	var max_time = $('#max_time').val();
 	max_time = parseInt(max_time);
 	
+	var text = max_time - value;
+	
+	if(max_time - value < 10)
+		text = '<span style="color: red;">' + text + '</span>';
+		
+	$('.time').html(text);
+	
+	if(max_time == 0)
+		return;
+	
 	if(value >= max_time)
 	{
 		alert(getTranslation('TimesUp', 'repository'));

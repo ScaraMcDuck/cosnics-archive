@@ -73,6 +73,11 @@ class LearningPathToolAssessmentCloViewerComponent extends LearningPathToolCompo
 		$lpi_tracker->set_status('completed');
 		$lpi_tracker->update();
 	}
+	
+	function get_current_attempt_id()
+	{
+		return $this->lpi_attempt_id;
+	}
 
 }
 ?>
