@@ -35,7 +35,7 @@ class HotspotScoreCalculator extends ScoreCalculator
                     break;
             }
             
-            $total_weight = $answer->get_weight();
+            $total_weight += $answer->get_weight();
         }
 
         return $this->make_score_relative($score, $total_weight);
