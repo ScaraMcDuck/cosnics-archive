@@ -115,7 +115,7 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 		$source = str_replace($linefeeds, ' ', $source);
 
         $matches = array();
-        preg_match_all('/\[[a-zA-Z0-9_\s\-]*\]/', $source, $matches, PREG_OFFSET_CAPTURE);
+        preg_match_all('/\[[a-zA-Z0-9_éèà\s\-]*\]/', $source, $matches, PREG_OFFSET_CAPTURE);
 
         $results = array();
 
