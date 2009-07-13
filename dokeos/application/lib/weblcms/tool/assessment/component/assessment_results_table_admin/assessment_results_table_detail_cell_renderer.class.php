@@ -47,11 +47,12 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultLearningObjectTabl
 						return 'Anonymous';
 				case Translation :: get(WeblcmsAssessmentAttemptsTracker :: PROPERTY_TOTAL_SCORE):
 					$total = $user_assessment->get_total_score();
-					$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($user_assessment->get_assessment_id());
-					$assessment = $pub->get_learning_object();
-					$max = $assessment->get_maximum_score();
-					$pct = round(($total / $max) * 100, 2);
-					return $total.'/'.$max.' ('.$pct.'%)';
+					//$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($user_assessment->get_assessment_id());
+					//$assessment = $pub->get_learning_object();
+					//$max = $assessment->get_maximum_score();
+					//$pct = round(($total / $max) * 100, 2);
+					//return $total.'/'.$max.' ('.$pct.'%)';
+					return $total . '%';
 				case Translation :: get(WeblcmsAssessmentAttemptsTracker :: PROPERTY_DATE):
 					return $user_assessment->get_date();
 				default:

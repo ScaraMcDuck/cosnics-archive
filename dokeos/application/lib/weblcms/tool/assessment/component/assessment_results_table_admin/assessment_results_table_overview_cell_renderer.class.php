@@ -52,9 +52,7 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultLearningObj
 					}
 					else
 					{
-						$max = $assessment->get_maximum_score();
-						$pct = round(($avg / $max) * 100, 2);
-						return $avg.'/'.$max.' ('.$pct.'%)';
+						return $avg . '%';
 					}
 				case Translation :: get(Assessment :: PROPERTY_TIMES_TAKEN):
 					$track = new WeblcmsAssessmentAttemptsTracker();
