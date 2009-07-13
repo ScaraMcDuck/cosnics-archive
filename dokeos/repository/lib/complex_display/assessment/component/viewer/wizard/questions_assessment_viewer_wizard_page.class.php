@@ -34,6 +34,9 @@ class QuestionsAssessmentViewerWizardPage extends AssessmentViewerWizardPage
 		$defaults['max_time'] = ($assessment->get_maximum_time() * 60);
 		$this->setConstants($defaults);
 		
+		if($defaults['max_time'] > 0)
+			$this->addElement('html', Translation :: get('TimeLeft') . ' <div class="time">' . $defaults['max_time'] . '</div>');
+		
 		// Add buttons
 		if($this->page_number > 1)
 			$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Back'), array('class' => 'previous'));
