@@ -26,6 +26,11 @@ class AssessmentDisplayComponent extends ComplexDisplayComponent
 	{
 		return $this->get_parent()->change_answer_data($complex_question_id, $score, $feedback);
 	}
+	
+	function change_total_score($total_score)
+	{
+		return $this->get_parent()->change_total_score($total_score);
+	}
 }
 
 ?>
