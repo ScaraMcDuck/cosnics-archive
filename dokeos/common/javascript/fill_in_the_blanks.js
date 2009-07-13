@@ -139,7 +139,7 @@ function utf8_encode ( argString ) {
 	function answerChanged(ev, ui) 
 	{   
 		var value = $(".answer").attr('value');
-	    var pattern = /\[[a-zA-Z0-9_\s\-]*\]/g;
+	    var pattern = /\[[a-zA-Z0-9_éèà\s\-]*\]/g;
 	    var result = value.match(pattern);
 	    var data = $("input[name=answer_data]");
 	    
