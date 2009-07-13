@@ -175,7 +175,9 @@ class Course
 				      self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED,
 				      self :: PROPERTY_UNSUBSCRIBE_ALLOWED, self :: PROPERTY_THEME,
 				      self :: PROPERTY_TOOL_SHORTCUT, self :: PROPERTY_MENU, self :: PROPERTY_BREADCRUMB,
-				      self :: PROPERTY_ALLOW_FEEDBACK, self :: PROPERTY_DISK_QUOTA);
+				      self :: PROPERTY_ALLOW_FEEDBACK, self :: PROPERTY_DISK_QUOTA,
+				      self :: PROPERTY_CREATION_DATE, self :: PROPERTY_EXPIRATION_DATE,
+				      self :: PROPERTY_LAST_EDIT, self :: PROPERTY_LAST_VISIT);
 	}
 
 	/**
@@ -303,6 +305,26 @@ class Course
     function get_theme()
     {
     	return $this->get_default_property(self :: PROPERTY_THEME);
+    }
+
+    function get_creation_date()
+    {
+    	return $this->get_default_property(self :: PROPERTY_CREATION_DATE);
+    }
+
+    function get_expiration_date()
+    {
+    	return $this->get_default_property(self :: PROPERTY_EXPIRATION_DATE);
+    }
+
+    function get_last_edit()
+    {
+    	return $this->get_default_property(self :: PROPERTY_LAST_EDIT);
+    }
+
+    function get_last_visit()
+    {
+    	return $this->get_default_property(self :: PROPERTY_LAST_VISIT);
     }
 
     /**
@@ -473,6 +495,26 @@ class Course
 	{
 		$this->set_default_property(self :: PROPERTY_THEME, $theme);
 	}
+
+    function set_creation_date($creation_date)
+    {
+    	$this->set_default_property(self :: PROPERTY_CREATION_DATE, $creation_date);
+    }
+
+    function set_expiration_date($expiration_date)
+    {
+    	$this->set_default_property(self :: PROPERTY_EXPIRATION_DATE, $expiration_date);
+    }
+
+    function set_last_edit($last_edit)
+    {
+    	$this->set_default_property(self :: PROPERTY_LAST_EDIT, $last_edit);
+    }
+
+    function set_last_visit($last_visit)
+    {
+    	$this->set_default_property(self :: PROPERTY_LAST_VISIT, $last_visit);
+    }
 
 	/**
 	 * Deletes the course object from persistent storage
