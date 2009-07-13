@@ -16,7 +16,7 @@ class CourseGroupToolSelfUnsubscriberComponent extends CourseGroupToolComponent
 		}
 
 		$course_group = $this->get_course_group();
-		$course_group->unsubscribe_users($this->get_user());
+		$course_group->unsubscribe_users($this->get_user_id());
 		$this->redirect(Translation :: get('UserUnsubscribed'));
 	}
 

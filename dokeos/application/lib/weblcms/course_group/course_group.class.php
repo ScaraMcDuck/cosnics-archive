@@ -17,7 +17,7 @@ require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
 class CourseGroup
 {
 	const CLASS_NAME = __CLASS__;
-	
+
 	const PROPERTY_ID = 'id';
 	const PROPERTY_COURSE_CODE = 'course_code';
 	const PROPERTY_NAME = 'name';
@@ -92,12 +92,12 @@ class CourseGroup
 	{
 		return $this->get_default_property(self::PROPERTY_ID);
 	}
-	
+
 	function set_id($id)
 	{
 		return $this->set_default_property(self::PROPERTY_ID,$id);
 	}
-	
+
 	/**
 	 * Gets the course code of the course in which this course_group was created
 	 * @return string
@@ -106,7 +106,7 @@ class CourseGroup
 	{
 		return $this->get_default_property(self::PROPERTY_COURSE_CODE);
 	}
-	
+
 	function set_course_code($code)
 	{
 		$this->set_default_property(self::PROPERTY_COURSE_CODE,$code);
@@ -243,7 +243,7 @@ class CourseGroup
 	function unsubscribe_users($users)
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
-		return $wdm->unsubscribe_users_from_course_groups($users,$this);
+		return $wdm->unsubscribe_users_from_course_groups($users, $this);
 	}
 	/**
 	 * Deletes the course_group object from persistent storage
@@ -260,7 +260,7 @@ class CourseGroup
 	 * @return boolean
 	 */
 	function create()
-	{ 
+	{
 		$wdm = WeblcmsDataManager :: get_instance();
 		$this->set_id($wdm->get_next_course_group_id());
 		return $wdm->create_course_group($this);
@@ -280,7 +280,7 @@ class CourseGroup
 		}
 		return true;
 	}
-	
+
     static function get_table_name()
     {
         return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);

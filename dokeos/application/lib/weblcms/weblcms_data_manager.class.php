@@ -538,7 +538,7 @@ abstract class WeblcmsDataManager
 	 * @param string $category The numerical identifier of the course category.
 	 * @return CourseCategory The course category.
 	 */
-	abstract function retrieve_course_category($category = null);
+	abstract function retrieve_course_category($category);
 
 	/**
 	 * Retrieves a single course user relation from persistent storage.

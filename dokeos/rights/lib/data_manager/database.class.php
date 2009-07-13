@@ -402,7 +402,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator = new ConditionTranslator($this, $params);
             $query .= $translator->render_query($condition);
             $params = $translator->get_parameters();
 		}
@@ -437,7 +437,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator = new ConditionTranslator($this, $params);
             $query .= $translator->render_query($condition);
             $params = $translator->get_parameters();
 		}
@@ -474,11 +474,11 @@ class DatabaseRightsDataManager extends RightsDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator = new ConditionTranslator($this, $params);
             $query .= $translator->render_query($condition);
             $params = $translator->get_parameters();
 		}
-		
+
 	    $orders = array();
         foreach($order_by as $order)
         {
@@ -488,7 +488,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         {
             $query .= ' ORDER BY ' . implode(', ', $orders);
         }
-        
+
 		if ($max_objects < 0)
 		{
 			$max_objects = null;
@@ -540,11 +540,11 @@ class DatabaseRightsDataManager extends RightsDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator = new ConditionTranslator($this, $params);
             $query .= $translator->render_query($condition);
             $params = $translator->get_parameters();
 		}
-		
+
 	    $orders = array();
         foreach($order_by as $order)
         {
@@ -554,7 +554,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         {
             $query .= ' ORDER BY ' . implode(', ', $orders);
         }
-		
+
 		if ($max_objects < 0)
 		{
 			$max_objects = null;
@@ -580,7 +580,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 
 		$order_by[] = new ObjectTableOrder(Location :: PROPERTY_LOCATION);
 		$order_dir[] = SORT_ASC;
-		
+
 	    $orders = array();
         foreach($order_by as $order)
         {
@@ -590,7 +590,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         {
             $query .= ' ORDER BY ' . implode(', ', $orders);
         }
-		
+
 		if ($max_objects < 0)
 		{
 			$max_objects = null;
@@ -670,7 +670,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		{
 			$translator = new ConditionTranslator($this, $params, true);
             $query .= $translator->render_query($condition);
-            $params = $translator->get_parameters();
+            $params = array_merge($params, $translator->get_parameters());
 		}
 
 		$statement = $this->connection->prepare($query);
@@ -692,7 +692,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		{
 			$translator = new ConditionTranslator($this, $params, true);
             $query .= $translator->render_query($condition);
-            $params = $translator->get_parameters();
+            $params = array_merge($params, $translator->get_parameters());
 		}
 
 		$statement = $this->connection->prepare($query);
@@ -752,7 +752,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		{
 			$translator = new ConditionTranslator($this, $params, true);
             $query .= $translator->render_query($condition);
-            $params = $translator->get_parameters();
+            $params = array_merge($params, $translator->get_parameters());
 		}
 
 		$statement = $this->connection->prepare($query);
@@ -776,7 +776,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		{
 			$translator = new ConditionTranslator($this, $params, true);
             $query .= $translator->render_query($condition);
-            $params = $translator->get_parameters();
+            $params = array_merge($params, $translator->get_parameters());
 		}
 
 		$statement = $this->connection->prepare($query);
@@ -894,7 +894,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		{
 			$translator = new ConditionTranslator($this, $params, true);
             $query .= $translator->render_query($condition);
-            $params = $translator->get_parameters();
+            $params = array_merge($params, $translator->get_parameters());
 		}
 
 		$statement = $this->connection->prepare($query);
