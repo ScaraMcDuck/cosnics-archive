@@ -74,6 +74,7 @@ abstract class Tool
 		$this->properties = $parent->get_tool_properties($this->get_tool_id());
 		$this->load_rights();
 		$this->set_action(isset($_POST[self :: PARAM_ACTION]) ? $_POST[self :: PARAM_ACTION] : Request :: get(self :: PARAM_ACTION));
+		$this->set_parameter(self :: PARAM_ACTION, $this->get_action());
 		$this->parse_input_from_table();
 	}
 
