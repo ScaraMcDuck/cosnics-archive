@@ -15,17 +15,17 @@ class WeblcmsCourseList extends WeblcmsBlock
 	{
 		return $this->as_html();
 	}
-	
+
 	/*
 	 * Inherited
 	 */
 	function as_html()
 	{
 		$html = array();
-		
+
 		$weblcms = $this->get_parent();
-		$course_categories = $weblcms->retrieve_course_user_categories(null, null, null, new ObjectTableOrder(CourseUserCategory :: PROPERTY_SORT));
-		$courses = $weblcms->retrieve_courses($this->get_user_id(), null, null, null, new ObjectTableOrder(Course :: PROPERTY_NAME));
+		$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
+		$courses = $weblcms->retrieve_user_courses($condition);
 
 		$html[] = $this->display_header();
 		$html[] = $this->display_course_digest($courses);
@@ -33,12 +33,12 @@ class WeblcmsCourseList extends WeblcmsBlock
 
 		return implode("\n", $html);
 	}
-	
+
 	function display_course_digest($courses)
 	{
 		$html = array();
 		$wdm = WeblcmsDataManager :: get_instance();
-		
+
 		if($courses->size() > 0)
 		{
 			$html[] = '<ul style="padding: 0px; margin: 0px 0px 0px 15px;">';
@@ -49,29 +49,29 @@ class WeblcmsCourseList extends WeblcmsBlock
 				$weblcms->set_course($course);
 				$html[] = '<li><a href="'. $weblcms->get_course_viewing_link($course, true) .'">'.$course->get_name().'</a>';
 				//$html[] = '<br />'. $course->get_id() .' - '. $course->get_titular();
-		
+
 				foreach($tools as $index => $tool)
-				{					  
+				{
 					require_once dirname(__FILE__).'/../tool/'.$tool->name.'/'.$tool->name.'_tool.class.php';
-					
+
 					if($tool->visible && $weblcms->tool_has_new_publications($tool->name))
 					{
 						$params[WeblcmsManager :: PARAM_TOOL] = $tool->name;
 						$params[WeblcmsManager :: PARAM_COURSE] = $course->get_id();
 						$params[Application :: PARAM_ACTION] = WeblcmsManager :: ACTION_VIEW_COURSE;
 						$url = 'run.php?application=weblcms';
-						
+
 						foreach($params as $key => $param)
 						{
 							$url .= '&' . $key . '=' . $param;
 						}
-						
+
 						$html[] = '<a href="'.$url.'"><img src="'. Theme :: get_image_path('weblcms'). 'tool_' . $tool->name.'_new.png" alt="'.Translation :: get('New').'"/></a>';
 					}
 				}
-				
+
 				$html[] = '</li>';
-				
+
 			}
 			$html[] = '</ul>';
 		}

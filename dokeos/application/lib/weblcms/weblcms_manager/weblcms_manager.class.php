@@ -468,7 +468,12 @@ class WeblcmsManager extends WebApplication
 		if(!is_null($this->get_course_id()))
 		{
 			$wdm = WeblcmsDataManager :: get_instance();
-			$this->sections = $wdm->get_course_sections($this->get_course_id());
+			$condition = new EqualityCondition(CourseSection :: PROPERTY_COURSE_CODE, $this->get_course_id());
+			$sections = $wdm->retrieve_course_sections($condition);
+			while($section = $sections->next_result())
+			{
+			    $this->sections[$section->type][] = $section;
+			}
 		}
 	}
 

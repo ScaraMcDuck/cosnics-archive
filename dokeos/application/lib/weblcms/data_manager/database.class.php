@@ -158,7 +158,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
     function get_learning_object_publication_attribute($publication_id)
     {
-
         $query = 'SELECT * FROM ' . $this->database->escape_table_name('learning_object_publication') . ' WHERE ' . $this->database->escape_column_name(LearningObjectPublication :: PROPERTY_ID) . '=?';
         $statement = $this->database->get_connection()->prepare($query);
         $this->database->get_connection()->setLimit(0, 1);
@@ -220,57 +219,23 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
     function count_course_categories($condition = null)
     {
-        $query = 'SELECT COUNT(' . $this->database->escape_column_name(CourseCategory :: PROPERTY_ID) . ') FROM ' . $this->database->escape_table_name('course_category');
-
-        $params = array();
-        if (isset($condition))
-        {
-            $translator = new ConditionTranslator($this->database, $params, CourseCategory :: get_table_name());
-            $query .= $translator->render_query($condition);
-            $params = $translator->get_parameters();
-        }
-
-        $sth = $this->database->get_connection()->prepare($query);
-        $res = $sth->execute($params);
-        $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
-        return $record[0];
+        return $this->database->count_objects(CourseCategory :: get_table_name(), $condition);
     }
 
     function count_user_courses($condition = null)
     {
-        $query = 'SELECT COUNT(' . $this->database->escape_table_name('course') . '.' . $this->database->escape_column_name(Course :: PROPERTY_ID) . ') FROM ' . $this->database->escape_table_name('course');
-        $query .= 'JOIN ' . $this->database->escape_table_name(CourseUserRelation :: get_table_name()) . ' ON ' . $this->database->escape_table_name('course') . '.' . $this->database->escape_column_name(Course :: PROPERTY_ID) . '=' . $this->database->escape_table_name(CourseUserRelation :: get_table_name()) . '.' . $this->database->escape_column_name('course_code');
+        $course_alias = $this->database->get_alias(Course :: get_table_name());
+        $course_relation_alias = $this->database->get_alias(CourseUserRelation :: get_table_name());
 
-        $params = array();
-        if (isset($condition))
-        {
-            $translator = new ConditionTranslator($this->database, $params, Course :: get_table_name());
-            $query .= $translator->render_query($condition);
-            $params = $translator->get_parameters();
-        }
+        $query = 'SELECT COUNT(*) FROM ' . $this->database->escape_table_name(Course :: get_table_name()) . ' AS ' . $course_alias;
+        $query .= 'JOIN ' . $this->database->escape_table_name(CourseUserRelation :: get_table_name()) . ' ON ' . $this->database->escape_column_name(Course :: PROPERTY_ID, $course_alias) . '=' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_COURSE, $course_relation_alias);
 
-        $sth = $this->database->get_connection()->prepare($query);
-        $res = $sth->execute($params);
-        $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
-        return $record[0];
+        return $this->database->count_result_set($query, Course :: get_table_name(), $condition);
     }
 
-    function count_course_user_categories($conditions = null)
+    function count_course_user_categories($condition = null)
     {
-        $query = 'SELECT COUNT(' . $this->database->escape_column_name(CourseUserCategory :: PROPERTY_ID) . ') FROM ' . $this->database->escape_table_name('course_user_category');
-
-        $params = array();
-        if (isset($condition))
-        {
-            $translator = new ConditionTranslator($this->database, $params, 'count_user_category');
-            $query .= $translator->render_query($condition);
-            $params = $translator->get_parameters();
-        }
-
-        $sth = $this->database->get_connection()->prepare($query);
-        $res = $sth->execute($params);
-        $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
-        return $record[0];
+        return $this->database->count_objects(CourseUserCategory :: get_table_name(), $condition);
     }
 
     function retrieve_course_list_of_user_as_course_admin($user_id)
@@ -285,30 +250,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
     function count_distinct_course_user_relations()
     {
-        $query = 'SELECT COUNT(DISTINCT' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_USER) . ') FROM ' . $this->database->escape_table_name(CourseUserRelation :: get_table_name());
-
-        $sth = $this->database->get_connection()->prepare($query);
-        $res = $sth->execute();
-        $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
-        return $record[0];
+        return $this->database->count_distinct(CourseUserRelation :: get_table_name(), CourseUserRelation :: PROPERTY_USER);
     }
 
-    function count_course_user_relations($conditions = null)
+    function count_course_user_relations($condition = null)
     {
-        $query = 'SELECT COUNT(' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_COURSE) . ') FROM ' . $this->database->escape_table_name(CourseUserRelation :: get_table_name());
-
-        $params = array();
-        if (isset($condition))
-        {
-            $translator = new ConditionTranslator($this->database, $params, CourseUserRelation :: get_table_name());
-            $query .= $translator->render_query($condition);
-            $params = $translator->get_parameters();
-        }
-
-        $sth = $this->database->get_connection()->prepare($query);
-        $res = $sth->execute($params);
-        $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
-        return $record[0];
+        return $this->database->count_objects(CourseUserRelation :: get_table_name(), $condition);
     }
 
     function get_next_learning_object_publication_id()
@@ -537,7 +484,13 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
     function get_course_modules($course_code, $auto_added = false)
     {
-        $sections = $this->get_course_sections($course_code);
+        $condition = new EqualityCondition(CourseSection :: PROPERTY_COURSE_CODE, $course_code);
+        $sections_set = $this->retrieve_course_sections($condition);
+        $sections = array();
+		while($section = $sections_set->next_result())
+		{
+		    $sections[$section->type][] = $section;
+		}
 
         $query = 'SELECT * FROM ' . $this->database->escape_table_name('course_module') . ' WHERE course_code = ?';
         $statement = $this->database->get_connection()->prepare($query);
@@ -595,38 +548,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         return $modules;
     }
 
-    function get_course_sections($course_code, $auto_added = false)
-    {
-        $query = 'SELECT * FROM ' . $this->database->escape_table_name('course_section') . ' WHERE course_code = ? ORDER BY display_order';
-        $statement = $this->database->get_connection()->prepare($query);
-        $res = $statement->execute($course_code);
-        // If no modules are defined for this course -> insert them in database
-        // @todo This is not the right place to do this, should happen upon course creation
-        if ($res->numRows() == 0 && ! $auto_added)
-        {
-            $sections = array();
-            $sections[] = array('name' => Translation :: get('Tools'), 'type' => 1, 'order' => 1);
-            $sections[] = array('name' => Translation :: get('Links'), 'type' => 2, 'order' => 2);
-            $sections[] = array('name' => Translation :: get('Disabled'), 'type' => 0, 'order' => 3);
-            $sections[] = array('name' => Translation :: get('CourseAdministration'), 'type' => 3, 'order' => 4);
-            //$sections[] = array('name' => Translation :: get('Disabled'), 'type' => 4, 'order' => 4);
-
-
-            foreach ($sections as $section)
-            {
-                $this->add_course_section($course_code, $section, true);
-            }
-            return $this->get_course_sections($course_code, true);
-        }
-        $sections = array();
-        $section = null;
-        while ($section = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
-        {
-            $sections[$section->type][] = $section;
-        }
-        return $sections;
-    }
-
     function get_all_course_modules()
     {
         $query = 'SELECT DISTINCT NAME FROM ' . $this->database->escape_table_name('course_module');
@@ -634,7 +555,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $res = $statement->execute();
 
         $modules = array();
-        $module = null;
         while ($module = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
         {
             $modules[$module->name] = $module;
@@ -648,62 +568,10 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         return $this->database->retrieve_object(Course :: get_table_name(), $condition);
     }
 
-    // TODO: Change $category from user's personal course list to condition object thus eliminating the need for another parameter
-    // TODO: Maybe also try to eliminate the user ?
-    function retrieve_courses($user = null, $condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+    function retrieve_courses($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        $query = 'SELECT * FROM ' . $this->database->escape_table_name('course');
-        if (isset($user))
-        {
-            $query .= ' JOIN ' . $this->database->escape_table_name(CourseUserRelation :: get_table_name()) . ' ON ' . $this->database->escape_table_name('course') . '.' . $this->database->escape_column_name(Course :: PROPERTY_ID) . '=' . $this->database->escape_table_name(CourseUserRelation :: get_table_name()) . '.' . $this->database->escape_column_name('course_code');
-
-            $params = array();
-            if (isset($condition))
-            {
-                $translator = new ConditionTranslator($this->database, $params);
-                $query .= $translator->render_query($condition);
-                $params = $translator->get_parameters();
-            }
-
-            $query .= ' AND ' . $this->database->escape_table_name(CourseUserRelation :: get_table_name()) . '.' . $this->database->escape_column_name('user_id') . '=?';
-            //$query .= ' AND '.$this->database->escape_table_name(CourseUserRelation :: get_table_name()).'.'.$this->database->escape_column_name('user_course_cat').'=?';
-            $query .= ' ORDER BY ' . $this->database->escape_table_name(CourseUserRelation :: get_table_name()) . '.' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_SORT);
-            $params[] = $user;
-
-        }
-        elseif (! isset($user))
-        {
-            $params = array();
-            if (isset($condition))
-            {
-                $translator = new ConditionTranslator($this->database, $params, Course :: get_table_name());
-                $query .= $translator->render_query($condition);
-                $params = $translator->get_parameters();
-            }
-
-            $order_by[] = new ObjectTableOrder(Course :: PROPERTY_NAME);
-            $order_dir[] = SORT_ASC;
-
-            $orders = array();
-            foreach ($order_by as $order)
-            {
-                $orders[] = $this->database->escape_column_name($order->get_property()) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
-            }
-            if (count($orders))
-            {
-                $query .= ' ORDER BY ' . implode(', ', $orders);
-            }
-
-            if ($max_objects < 0)
-            {
-                $max_objects = null;
-            }
-            $this->database->get_connection()->setLimit(intval($max_objects), intval($offset));
-        }
-
-        $statement = $this->database->get_connection()->prepare($query);
-        $res = $statement->execute($params);
-        return new ObjectResultSet($this->database, $res, Course :: CLASS_NAME);
+        $order_by[] = new ObjectTableOrder(Course :: PROPERTY_NAME);
+        return $this->database->retrieve_objects(Course :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
     function retrieve_course_user_relation($course_code, $user_id)
@@ -765,43 +633,17 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         return $this->database->retrieve_object(CourseUserCategory :: get_table_name(), $condition, array(CourseUserCategory :: PROPERTY_SORT), $order_direction);
     }
 
-    function retrieve_user_courses($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+    function retrieve_user_courses($condition = null, $offset = 0, $max_objects = -1, $order_by = null)
     {
-        $query = 'SELECT * FROM ' . $this->database->escape_table_name('course');
-        $query .= ' JOIN ' . $this->database->escape_table_name(CourseUserRelation :: get_table_name()) . ' ON ' . $this->database->escape_table_name('course') . '.' . $this->database->escape_column_name(Course :: PROPERTY_ID) . '=' . $this->database->escape_table_name(CourseUserRelation :: get_table_name()) . '.' . $this->database->escape_column_name('course_code');
+        $course_alias = $this->database->get_alias(Course :: get_table_name());
+        $course_relation_alias = $this->database->get_alias(CourseUserRelation :: get_table_name());
 
-        $params = array();
-        if (isset($condition))
-        {
-            $translator = new ConditionTranslator($this->database, $params, Course :: get_table_name());
-            $query .= $translator->render_query($condition);
-            $params = $translator->get_parameters();
-        }
+        $query = 'SELECT '. $course_alias .'.* FROM ' . $this->database->escape_table_name(Course :: get_table_name()) . ' AS ' . $course_alias;
+        $query .= ' JOIN ' . $this->database->escape_table_name(CourseUserRelation :: get_table_name()) . ' AS ' . $course_relation_alias . ' ON ' . $this->database->escape_column_name(Course :: PROPERTY_ID, $course_alias) .' = ' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_COURSE, $course_relation_alias);
 
-        /*
-		 * Always respect display order as a last resort.
-		 */
         $order_by[] = new ObjectTableOrder(Course :: PROPERTY_NAME);
-        $order_dir[] = SORT_ASC;
 
-        $orders = array();
-        foreach ($order_by as $order)
-        {
-            $orders[] = $this->database->escape_column_name($order->get_property()) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
-        }
-        if (count($orders))
-        {
-            $query .= ' ORDER BY ' . implode(', ', $orders);
-        }
-
-        if ($max_objects < 0)
-        {
-            $max_objects = null;
-        }
-        $this->database->get_connection()->setLimit(intval($max_objects), intval($offset));
-        $statement = $this->database->get_connection()->prepare($query);
-        $res = $statement->execute($params);
-        return new ObjectResultSet($this->database, $res, Course :: CLASS_NAME);
+        return $this->database->retrieve_result_set($query, Course :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
     function create_course($course)
@@ -817,90 +659,38 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
     function create_course_all($course)
     {
-        $props = array();
-        foreach ($course->get_default_properties() as $key => $value)
-        {
-            $props[$this->database->escape_column_name($key)] = $value;
-        }
-        $props[Course :: PROPERTY_ID] = $course->get_id();
-        $this->database->get_connection()->loadModule('Extended');
-        if ($this->database->get_connection()->extended->autoExecute($this->database->get_table_name('course'), $props, MDB2_AUTOQUERY_INSERT))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return $this->database->create($course);
     }
 
     function is_subscribed($course, $user_id)
     {
-        $query = 'SELECT COUNT(' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_COURSE) . ') FROM ' . $this->database->escape_table_name(CourseUserRelation :: get_table_name()) . ' WHERE ' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_USER) . '=? AND ' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_COURSE) . '=?';
-        $params = array($user_id, $course->get_id());
-        $sth = $this->database->get_connection()->prepare($query);
-        $res = $sth->execute($params);
-        $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
-        $res->free();
-        if ($record[0] > 0)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        $conditions = array();
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user_id);
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course);
+        $condition = new AndCondition($conditions);
+        return $this->database->count_objects(CourseUserRelation :: get_table_name(), $condition) > 0;
     }
 
     function is_course_category($category)
     {
-        $query = 'SELECT COUNT(' . $this->database->escape_column_name(CourseCategory :: PROPERTY_CODE) . ') FROM ' . $this->database->escape_table_name('course_category') . ' WHERE ' . $this->database->escape_column_name(CourseCategory :: PROPERTY_ID) . '=?';
-        $sth = $this->database->get_connection()->prepare($query);
-        $res = $sth->execute($category);
-        $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
-        $res->free();
-        if ($record[0] = 1)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        $condition = new EqualityCondition(CourseCategory :: PROPERTY_ID, $category);
+        return $this->database->count_objects(CourseCategory :: get_table_name(), $condition) > 0;
     }
 
     function is_course($course_code)
     {
-        $query = 'SELECT COUNT(' . $this->database->escape_column_name(Course :: PROPERTY_ID) . ') FROM ' . $this->database->escape_table_name('course') . ' WHERE ' . $this->database->escape_column_name(Course :: PROPERTY_ID) . '=?';
-        $sth = $this->database->get_connection()->prepare($query);
-        $res = $sth->execute($course_code);
-        $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
-        $res->free();
-        if ($record[0] == 1)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        $condition = new EqualityCondition(Course :: PROPERTY_ID, $course_code);
+        return $this->database->count_objects(Course :: get_table_name(), $condition) > 0;
     }
 
     function is_course_admin($course, $user_id)
     {
-        $query = 'SELECT ' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_STATUS) . ' FROM ' . $this->database->escape_table_name(CourseUserRelation :: get_table_name()) . ' WHERE ' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_COURSE) . '=? AND ' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_USER) . '=?';
-        $sth = $this->database->get_connection()->prepare($query);
-        $res = $sth->execute(array($course->get_id(), $user_id));
-        $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
-        $res->free();
-        if ($record[0] == 1)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        $conditions = array();
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course->get_id());
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user_id);
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_STATUS, 1);
+        $condition = new AndCondition($conditions);
+        return $this->database->count_objects(CourseUserRelation :: get_table_name(), $condition) > 0;
     }
 
     function subscribe_user_to_course($course, $status, $tutor_id, $user_id)
@@ -914,16 +704,16 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
         $sort = $this->retrieve_max_sort_value(CourseUserRelation :: get_table_name(), CourseUserRelation :: PROPERTY_SORT, $condition);
 
-        $courseuserrelation = new CourseUserRelation();
-        $courseuserrelation->set_course($course->get_id());
-        $courseuserrelation->set_user($user_id);
-        $courseuserrelation->set_status($status);
-        $courseuserrelation->set_role(null);
-        $courseuserrelation->set_tutor($tutor_id);
-        $courseuserrelation->set_sort($sort + 1);
-        $courseuserrelation->set_category(0);
+        $course_user_relation = new CourseUserRelation();
+        $course_user_relation->set_course($course->get_id());
+        $course_user_relation->set_user($user_id);
+        $course_user_relation->set_status($status);
+        $course_user_relation->set_role(null);
+        $course_user_relation->set_tutor($tutor_id);
+        $course_user_relation->set_sort($sort + 1);
+        $course_user_relation->set_category(0);
 
-        if ($this->create_course_user_relation($courseuserrelation))
+        if ($course_user_relation->create())
         {
             // TODO: New Roles & Rights system
             //			$role_id = ($status == COURSEMANAGER) ? COURSE_ADMIN : NORMAL_COURSE_MEMBER;
@@ -970,28 +760,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
     function unsubscribe_user_from_course($course, $user_id)
     {
-        $sql = 'DELETE FROM ' . $this->database->escape_table_name(CourseUserRelation :: get_table_name()) . ' WHERE ' . $this->database->escape_column_name('course_code') . '=? AND' . $this->database->escape_column_name('user_id') . '=?';
-        $statement = $this->database->get_connection()->prepare($sql);
-        if ($statement->execute(array($course->get_id(), $user_id)))
-        {
-            // TODO: New Roles & Rights system
-            //			$location_id = RolesRights::get_course_location_id($course->get_id());
-            //
-            //			$sql = 'DELETE FROM '.Database :: get_main_table(MAIN_USER_ROLE_TABLE).' WHERE '. $this->database->escape_column_name('user_id') .'=? AND'. $this->database->escape_column_name('location_id') .'=?';
-            //			$statement = $this->database->get_connection()->prepare($sql);
-            //			if ($statement->execute(array($user_id, $location_id)))
-            //			{
-            return true;
-            //			}
-        //			else
-        //			{
-        //				return false;
-        //			}
-        }
-        else
-        {
-            return false;
-        }
+        $conditions = array();
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE_GROUP, $course->get_id());
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user_id);
+        $condition = new AndCondition($conditions);
+
+        return $this->database->delete_objects(CourseUserRelation :: get_table_name(), $condition);
     }
 
     function create_course_category($coursecategory)
@@ -1050,9 +824,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
     function delete_course_user_category($courseusercategory)
     {
-        $query = 'DELETE FROM ' . $this->database->escape_table_name('course_user_category') . ' WHERE ' . $this->database->escape_column_name(CourseUserCategory :: PROPERTY_ID) . '=?';
-        $statement = $this->database->get_connection()->prepare($query);
-        if ($statement->execute($courseusercategory->get_id()))
+        $condition = new EqualityCondition(CourseUserCategory :: PROPERTY_ID, $courseusercategory->get_id());
+
+        if ($this->database->delete_objects(CourseUserCategory :: get_table_name(), $condition))
         {
             $query = 'UPDATE ' . $this->database->escape_table_name(CourseUserRelation :: get_table_name()) . ' SET ' . $this->database->escape_column_name('user_course_cat') . '=0 WHERE ' . $this->database->escape_column_name('user_course_cat') . '=? AND ' . $this->database->escape_column_name('user_id') . '=?';
             $statement = $this->database->get_connection()->prepare($query);
@@ -1073,16 +847,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
     function delete_course_user($courseuser)
     {
-        $query = 'DELETE FROM ' . $this->database->escape_table_name(CourseUserRelation :: get_table_name()) . ' WHERE ' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_COURSE) . '=? AND ' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_USER) . '=?';
-        $statement = $this->database->get_connection()->prepare($query);
-        if ($statement->execute(array($courseuser->get_course(), $courseuser->get_user())))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        $conditions = array();
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $courseuser->get_course());
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $courseuser->get_user());
+        $condition = new AndCondition($conditions);
+
+        return $this->database->delete_objects(CourseUserRelation :: get_table_name(), $condition);
     }
 
     function delete_course_category($coursecategory)
@@ -1319,7 +1089,16 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
     function get_next_learning_object_publication_display_order_index($course, $tool, $category)
     {
-        $query = 'SELECT MAX(' . $this->database->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX) . ') AS h FROM ' . $this->database->escape_table_name('learning_object_publication') . ' WHERE ' . $this->database->escape_column_name(LearningObjectPublication :: PROPERTY_COURSE_ID) . '=? AND ' . $this->database->escape_column_name(LearningObjectPublication :: PROPERTY_TOOL) . '=? AND ' . $this->database->escape_column_name(LearningObjectPublication :: PROPERTY_CATEGORY_ID) . '=?';
+        $conditions = array();
+        $conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course);
+        $conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, $tool);
+        $conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $category);
+        $condition = new AndCondition($conditions);
+
+        $query = 'SELECT MAX(' . $this->database->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX) . ') AS h FROM ' . $this->database->escape_table_name('learning_object_publication') . ' WHERE '
+         . $this->database->escape_column_name(LearningObjectPublication :: PROPERTY_COURSE_ID) . '=? AND '
+          . $this->database->escape_column_name(LearningObjectPublication :: PROPERTY_TOOL) . '=? AND '
+          . $this->database->escape_column_name(LearningObjectPublication :: PROPERTY_CATEGORY_ID) . '=?';
         $statement = $this->database->get_connection()->prepare($query);
         $res = $statement->execute(array($course, $tool, $category));
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
@@ -1378,59 +1157,26 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     {
         // TODO: Delete subscription of users in this course_group
         // TODO: Delete other course_group stuff
-        // Delete course_group
-        $sql = 'DELETE FROM ' . $this->database->escape_table_name('course_group') . ' WHERE id = ?';
-        $statement = $this->database->get_connection()->prepare($sql);
-        $statement->execute($id);
-        if (mysql_affected_rows() == 1)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        $condition = new EqualityCondition(CourseGroup :: PROPERTY_ID, $id);
+        return $this->database->delete(CourseGroup :: get_table_name(), $condition);
     }
 
     // Inherited
     function create_course_group($course_group)
     {
-        $props = array();
-        $props[CourseGroup :: PROPERTY_ID] = $course_group->get_id();
-        $props[CourseGroup :: PROPERTY_COURSE_CODE] = $course_group->get_course_code();
-        $props[CourseGroup :: PROPERTY_NAME] = $course_group->get_name();
-        $props[CourseGroup :: PROPERTY_DESCRIPTION] = $course_group->get_description();
-        $props[CourseGroup :: PROPERTY_MAX_NUMBER_OF_MEMBERS] = $course_group->get_max_number_of_members();
-        $props[CourseGroup :: PROPERTY_SELF_REG] = $course_group->is_self_registration_allowed();
-        $props[CourseGroup :: PROPERTY_SELF_UNREG] = $course_group->is_self_unregistration_allowed();
-        $this->database->get_connection()->loadModule('Extended');
-        if ($this->database->get_connection()->extended->autoExecute($this->database->get_table_name('course_group'), $props, MDB2_AUTOQUERY_INSERT))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return $this->database->create($course_group);
     }
 
     function get_next_course_group_id()
     {
-        return $this->database->get_connection()->nextID($this->database->get_table_name('course_group'));
+        return $this->database->get_next_id(CourseGroup :: get_table_name());
     }
 
     // Inherited
     function update_course_group($course_group)
     {
-        $where = $this->database->escape_column_name(CourseGroup :: PROPERTY_ID) . '="' . $course_group->get_id() . '"';
-        $props = array();
-        foreach ($course_group->get_default_properties() as $key => $value)
-        {
-            $props[$this->database->escape_column_name($key)] = $value;
-        }
-        $this->database->get_connection()->loadModule('Extended');
-        $this->database->get_connection()->extended->autoExecute($this->database->escape_table_name('course_group'), $props, MDB2_AUTOQUERY_UPDATE, $where);
-        return true;
+        $condition = new EqualityCondition(CourseGroup :: PROPERTY_ID, $course_group->get_id());
+        return $this->database->update($course_group, $condition);
     }
 
     // Inherited
@@ -1460,39 +1206,37 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     // Inherited
     function retrieve_course_group_user_ids($course_group)
     {
-        $query = 'SELECT user_id FROM ' . $this->database->escape_table_name(CourseGroupUserRelation :: get_table_name());
-        $query .= ' WHERE ' . $this->database->escape_column_name('course_group_id') . '=?';
-        $params[] = $course_group->get_id();
-        $statement = $this->database->get_connection()->prepare($query);
-        $res = $statement->execute($params);
+        $condition = new EqualityCondition(CourseGroupUserRelation :: PROPERTY_COURSE_GROUP, $course_group->get_id());
+        $relations = $this->database->retrieve_objects(CourseGroupUserRelation :: get_table_name(), $condition);
         $user_ids = array();
-        while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+
+        while ($relation = $relations->next_result())
         {
-            $user_ids[] = $record['user_id'];
+            $user_ids[] = $relation->get_user();
         }
+
         return $user_ids;
     }
 
     // Inherited
     function retrieve_course_groups_from_user($user, $course = null)
     {
+        $group_alias = $this->database->get_alias(CourseGroup :: get_table_name());
+        $group_relation_alias = $this->database->get_alias(CourseGroupUserRelation :: get_table_name());
+
+        $query = 'SELECT '. $group_alias .'.* FROM ' . $this->database->escape_table_name(CourseGroup :: get_table_name()) . ' AS ' . $group_alias;
+        $query .= ' JOIN ' . $this->database->escape_table_name(CourseGroupUserRelation :: get_table_name()) . ' AS ' . $group_relation_alias . ' ON ' . $this->database->escape_column_name(CourseGroup :: PROPERTY_ID, $group_alias) .' = ' . $this->database->escape_column_name(CourseGroupUserRelation :: PROPERTY_COURSE_GROUP, $group_relation_alias);
+
+        $conditions = array();
+        $conditions[] = new EqualityCondition(CourseGroupUserRelation :: PROPERTY_USER, $user->get_id(), $group_relation_alias);
         if (! is_null($course))
         {
-            $query = 'SELECT g.* FROM ' . $this->database->escape_table_name('course_group') . ' g, ' . $this->database->escape_table_name(CourseGroupUserRelation :: get_table_name()) . ' u';
-            $query .= ' WHERE g.id = u.course_group_id AND g.' . $this->database->escape_column_name('course_code') . '=? AND u.user_id = ?';
-            $params[] = $course->get_id();
-            $params[] = $user->get_id();
-        }
-        else
-        {
-            $query = 'SELECT g.* FROM ' . $this->database->escape_table_name('course_group') . ' g, ' . $this->database->escape_table_name(CourseGroupUserRelation :: get_table_name()) . ' u';
-            $query .= ' WHERE g.id = u.course_group_id AND u.user_id = ?';
-            $params[] = $user->get_id();
+            $conditions[] = new EqualityCondition(CourseGroup :: PROPERTY_COURSE_CODE, $course->get_id());
         }
 
-        $statement = $this->database->get_connection()->prepare($query);
-        $res = $statement->execute($params);
-        return new ObjectResultSet($this->database, $res, CourseGroup :: get_table_name());
+        $condition = new AndCondition($conditions);
+
+        return $this->database->retrieve_result_set($query, CourseGroup :: get_table_name(), $condition);
     }
 
     // Inherited
@@ -1610,32 +1354,26 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     }
 
     // Inherited
-    function subscribe_users_to_course_groups($users, $course_groups)
+    function subscribe_users_to_course_groups($users, $course_group)
     {
         if (! is_array($users))
         {
             $users = array($users);
         }
-        if (! is_array($course_groups))
-        {
-            $course_groups = array($course_groups);
-        }
-        foreach ($users as $index => $user)
-        {
-            $props = array();
 
-            if (get_class($user) == 'User')
-                $props[User :: PROPERTY_USER_ID] = $user->get_id();
-            else
-                $props[User :: PROPERTY_USER_ID] = $user;
+        foreach ($users as $user)
+        {
+            $course_group_user_relation = new CourseGroupUserRelation();
+            $course_group_user_relation->set_course_group($course_group->get_id());
+            $course_group_user_relation->set_user($user);
 
-            foreach ($course_groups as $index => $course_group)
+            if (!$course_group_user_relation->create())
             {
-                $props['course_group_id'] = $course_group->get_id();
-                $this->database->get_connection()->loadModule('Extended');
-                $this->database->get_connection()->extended->autoExecute($this->database->get_table_name(CourseGroupUserRelation :: get_table_name()), $props, MDB2_AUTOQUERY_INSERT);
+                return false;
             }
         }
+
+        return true;
     }
 
     // Inherited

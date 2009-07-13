@@ -36,7 +36,7 @@ class ReportingWeblcms {
         $wdm = WeblcmsDataManager::get_instance();
         $course_id = $params[ReportingManager :: PARAM_COURSE_ID];
         $user_id = $params[ReportingManager :: PARAM_USER_ID];
-        
+
 		$conditions = array();
 		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course_id);
 		$access = array();
@@ -48,7 +48,7 @@ class ReportingWeblcms {
 		}
 		$conditions[] = new OrCondition($access);
 		$condition = new AndCondition($conditions);
-        
+
         $series = $wdm->count_learning_object_publications_new($condition);
         $lops = $wdm->retrieve_learning_object_publications_new($condition);
     }
@@ -313,10 +313,10 @@ class ReportingWeblcms {
         while($course = $courses->next_result())
         {
             $lastpublication = 0;
-            
+
 			$condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
 			$publications = $datamanager->retrieve_learning_object_publications_new($condition);
-			
+
             while($publication = $publications->next_result())
             {
                 $lastpublication = $publication->get_modified_date();
@@ -377,7 +377,7 @@ class ReportingWeblcms {
 
 			$condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
 			$publications = $datamanager->retrieve_learning_object_publications_new($condition);
-			
+
             while($publication = $publications->next_result())
             {
                 $lastpublication = $publication->get_modified_date();
@@ -454,7 +454,7 @@ class ReportingWeblcms {
     {
         $course_id = $params[ReportingManager::PARAM_COURSE_ID];
         $wdm = WeblcmsDataManager::get_instance();
-        
+
         $conditions = array();
 		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
 		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'learning_path');
@@ -538,7 +538,7 @@ class ReportingWeblcms {
         }
         else
         $parameter = 'pid';
-        
+
         $condition = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*display_action=view_item*&'.$parameter.'='.$params['pid'].'*');
         $items = $tdm->retrieve_tracker_items('visit', 'VisitTracker', $condition);
         if(empty($items))
@@ -587,7 +587,7 @@ class ReportingWeblcms {
                     break;
                 }
             }
-            
+
         }
         return Reporting::getSerieArray($arr);
     }
@@ -597,7 +597,7 @@ class ReportingWeblcms {
         require_once Path :: get_repository_path().'lib/repository_data_manager.class.php';
         require_once Path :: get_application_path().'lib/weblcms/data_manager/database.class.php';
         $wiki = RepositoryDataManager :: get_instance()->retrieve_learning_object($params['pid']);
-        
+
         $clois = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition(ComplexlearningObjectItem :: PROPERTY_PARENT, $wiki->get_id()))->as_array();
 
         if(empty($clois))
@@ -631,11 +631,11 @@ class ReportingWeblcms {
 
         $tracker = new VisitTracker();
         $wdm = WeblcmsDataManager::get_instance();
-        
+
         $conditions = array();
 		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course_id);
 		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, $tool);
-		
+
 		$access = array();
 		$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
 		if (!empty($user_id))
@@ -643,7 +643,7 @@ class ReportingWeblcms {
 			$access[] = new EqualityCondition('user', null, $datamanager->get_database()->get_alias('learning_object_publication_user'));
 		}
 		$conditions[] = new OrCondition($access);
-		
+
 		$lops = $wdm->retrieve_learning_object_publications_new($condition);
 
         while($lop = $lops->next_result())
@@ -719,7 +719,7 @@ class ReportingWeblcms {
         $arr[Translation :: get('TotalTimesAccessed')][] = count($trackerdata);
 
         //$description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
-      
+
         return Reporting :: getSerieArray($arr,$description);
     }
 
@@ -818,7 +818,7 @@ class ReportingWeblcms {
         {
             $arr[$category->get_name()][0] = 0;
             $condition = new EqualityCondition(WeblcmsManager :: PARAM_COURSE_CATEGORY_ID,$category->get_id());
-            $courses = $wdm->retrieve_courses(null, $condition);
+            $courses = $wdm->retrieve_courses($condition);
             while($course = $courses->next_result())
             {
                 $arr[$category->get_name()][0]++;
@@ -836,7 +836,7 @@ class ReportingWeblcms {
 	    $cid = $params['cid'];
 	    $url = $params['url'];
 	    $total = 0;
-	    
+
     	if($cid)
     	{
     		$object = $objects[$cid];
@@ -848,26 +848,26 @@ class ReportingWeblcms {
     			{
     				$data[' '][] = '<a href="' . $url . '&cid=' . $cid . '&details=' . $tracker->get_id() . '">' . Theme :: get_common_image('action_view_results') . '</a>';
     			}
-    				
+
     			$data[Translation :: get('LastStartTime')][] = DokeosUtilities :: to_db_date($tracker->get_start_time());
     			$data[Translation :: get('Status')][] = Translation :: get($tracker->get_status() == 'completed'?'Completed':'Incomplete');
 	    		$data[Translation :: get('Score')][] = $tracker->get_score() . '%';
 	    		$data[Translation :: get('Time')][] = DokeosUtilities :: format_seconds_to_hours($tracker->get_total_time());
 	    		$total += $tracker->get_total_time();
-	    		
+
 	    		if($params['delete'])
 	    			$data['  '][] = Text :: create_link($params['url'] . '&stats_action=delete_lpi_attempt&delete_id=' . $tracker->get_id(), Theme :: get_common_image('action_delete'));
     		}
     	}
-    	else 
+    	else
     	{
 	    	foreach($objects as $wrapper_id => $object)
 	    	{
 	    		$tracker_data = $attempt_data[$wrapper_id];
-	    		
+
 	    		$data[' '][] = $object->get_icon();
 	    		$data[Translation :: get('Title')][] = '<a href="' . $url . '&cid=' . $wrapper_id . '">' . $object->get_title() . '</a>';
-	    		
+
 	    		if($tracker_data)
 	    		{
 	    			$data[Translation :: get('Status')][] = Translation :: get($tracker_data['completed']?'Completed':'Incomplete');
@@ -881,7 +881,7 @@ class ReportingWeblcms {
 	    			$data[Translation :: get('Score')][] = '0%';
 	    			$data[Translation :: get('Time')][] = '0:00:00';
 	    		}
-	    		
+
 	    		if($params['delete'])
 	    			$data['  '][] = Text :: create_link($params['url'] . '&stats_action=delete_lpi_attempts&item_id=' . $wrapper_id, Theme :: get_common_image('action_delete'));
 	    	}
@@ -889,37 +889,37 @@ class ReportingWeblcms {
 
     	$data[Translation :: get('Status')][] = '<span style="font-weight: bold;">' . Translation :: get('TotalTime') . '</span>';
     	$data[Translation :: get('Time')][] = '<span style="font-weight: bold;">' . DokeosUtilities :: format_seconds_to_hours($total) . '</span>';
-    	
+
         $description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
 
         return Reporting :: getSerieArray($data, $description);
     }
-    
+
     public static function getLearningPathAttempts($params)
     {
     	$data = array();
-    	
+
     	$conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_COURSE_ID, $params['course']);
     	$conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_LP_ID, $params['publication']->get_id());
 		$condition = new AndCondition($conditions);
-		
+
 		$udm = UserDataManager :: get_instance();
-		
+
 		$dummy = new WeblcmsLpAttemptTracker();
 		$trackers = $dummy->retrieve_tracker_items($condition);
 		foreach($trackers as $tracker)
 		{
 			$url = $params['url'] . '&attempt_id=' . $tracker->get_id();
 			$delete_url = $url . '&stats_action=delete_lp_attempt';
-			
+
 			$user = $udm->retrieve_user($tracker->get_user_id());
 			$data[Translation :: get('User')][] = $user->get_fullname();
 			$data[Translation :: get('Progress')][] = $tracker->get_progress() . '%';
 			//$data[Translation :: get('Details')][] = '<a href="' . $url . '">' . Theme :: get_common_image('action_reporting') . '</a>';
-			$data[' '][] = Text :: create_link($url, Theme :: get_common_image('action_reporting')) . ' ' . 
+			$data[' '][] = Text :: create_link($url, Theme :: get_common_image('action_reporting')) . ' ' .
 						  Text :: create_link($delete_url, Theme :: get_common_image('action_delete'));
 		}
-		
+
 		$description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
         return Reporting :: getSerieArray($data, $description);
     }

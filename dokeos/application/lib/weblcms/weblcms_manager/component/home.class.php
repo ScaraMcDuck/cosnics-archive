@@ -29,16 +29,22 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 		//echo '<div class="maincontent">';
 		echo '<div id="tool_browser_right">';
 
-		$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0);
-		$courses = $this->retrieve_courses($this->get_user_id(), $condition);
-		
+		$conditions = array();
+		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0);
+		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
+		$condition = new AndCondition($conditions);
+		$courses = $this->retrieve_user_courses($condition);
+
 		echo $this->display_course_digest($courses);
-exit;
+
 		while ($course_category = $course_categories->next_result())
 		{
-			exit;
-			$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $course_category->get_id());
-			$courses = $this->retrieve_courses($this->get_user_id(), $condition);
+			$conditions = array();
+    		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $course_category->get_id(), CourseUserRelation :: get_table_name());
+    		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
+    		$condition = new AndCondition($conditions);
+    		$courses = $this->retrieve_user_courses($condition);
+
 			echo $this->display_course_digest($courses, $course_category);
 		}
 
@@ -141,12 +147,12 @@ exit;
 			$html[] = '<ul style="margin-left: -20px;">';
 			while ($course = $courses->next_result())
 			{
-				
+
 				$weblcms = $this->get_parent();
 				$weblcms->set_course($course);
 				$weblcms->load_tools();
 				$tools = $weblcms->get_registered_tools();
-				
+
 				$html[] = '<li style="list-style: none; margin-bottom: 5px; list-style-image: url(' . Theme :: get_common_image_path() . 'action_home.png);"><a style="top: -2px; position: relative;" href="'. $this->get_course_viewing_url($course) .'">'.$course->get_name().'</a>';
 				/*$html[] = '<br />'. $course->get_id();
 
