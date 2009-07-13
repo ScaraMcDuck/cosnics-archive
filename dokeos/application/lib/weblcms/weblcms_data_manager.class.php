@@ -442,8 +442,6 @@ abstract class WeblcmsDataManager
 	 */
 	abstract function get_course_modules($course_code);
 
-	abstract function get_course_sections($course_code);
-
     /**
      * Gets all course modules
      * @return array The list of available course modules
@@ -468,7 +466,7 @@ abstract class WeblcmsDataManager
 	 * @param int $max_objects
 	 * @return CourseResultSet
 	 */
-	abstract function retrieve_courses($user = null, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_courses($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
 	/**
 	 * Retrieve a series of courses for a specific user + the relation

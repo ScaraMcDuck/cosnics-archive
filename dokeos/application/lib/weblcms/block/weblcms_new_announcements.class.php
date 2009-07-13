@@ -28,7 +28,8 @@ class WeblcmsNewAnnouncements extends WeblcmsBlock
 		$dm = WeblcmsDataManager :: get_instance();
 		$weblcms = $this->get_parent();
 
-		$courses = $weblcms->retrieve_courses($this->get_user_id(), null, null, null, new ObjectTableOrder(Course :: PROPERTY_NAME));
+		$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
+		$courses = $weblcms->retrieve_user_courses($condition);
 
 		$items = array();
 
@@ -42,7 +43,7 @@ class WeblcmsNewAnnouncements extends WeblcmsBlock
 			$subselect_condition = new EqualityCondition('type', 'announcement');
 			$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
 			$condition = new AndCondition($conditions);
-			
+
 			$publications = $dm->retrieve_learning_object_publications_new($condition, new ObjectTableOrder(Announcement :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC));
 
 			while($publication = $publications->next_result())

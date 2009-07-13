@@ -234,7 +234,7 @@ class CourseGroup
 	function subscribe_users($users)
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
-		return $wdm->subscribe_users_to_course_groups($users,$this);
+		return $wdm->subscribe_users_to_course_groups($users, $this);
 	}
 	/**
 	 * Unsubscribes users from this course_group
