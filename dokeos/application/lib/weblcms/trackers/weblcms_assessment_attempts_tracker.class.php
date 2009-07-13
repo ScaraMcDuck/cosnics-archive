@@ -16,6 +16,7 @@ class WeblcmsAssessmentAttemptsTracker extends MainTracker
 	const PROPERTY_ASSESSMENT_ID = 'assessment_id';
 	const PROPERTY_DATE = 'date';
 	const PROPERTY_TOTAL_SCORE = 'total_score';
+	const PROPERTY_STATUS = 'status';
 
 	/**
 	 * Constructor sets the default values
@@ -35,17 +36,21 @@ class WeblcmsAssessmentAttemptsTracker extends MainTracker
     	$course = $parameters['course_id'];
     	$assessment = $parameters['assessment_id'];
     	$total_score = $parameters['total_score'];
+    	$status = $parameters['status'];
 
     	$this->set_user_id($user);
     	$this->set_course_id($course);
     	$this->set_assessment_id($assessment);
+    	
+    	if($status)
+    		$this->set_status($status);
 
     	$this->set_date(DatabaseRepositoryDataManager :: to_db_date(time()));
     	$this->set_total_score($total_score);
 
     	$this->create();
 
-    	return $this->get_id();
+    	return $this;
     }
 
     /**
@@ -63,7 +68,7 @@ class WeblcmsAssessmentAttemptsTracker extends MainTracker
     function get_default_property_names()
     {
     	return array_merge(parent :: get_default_property_names(), array(self :: PROPERTY_USER_ID, self :: PROPERTY_COURSE_ID,
-    		self :: PROPERTY_ASSESSMENT_ID, self :: PROPERTY_DATE, self :: PROPERTY_TOTAL_SCORE));
+    		self :: PROPERTY_ASSESSMENT_ID, self :: PROPERTY_DATE, self :: PROPERTY_TOTAL_SCORE, self :: PROPERTY_STATUS));
     }
 
     function get_user_id()
@@ -116,6 +121,16 @@ class WeblcmsAssessmentAttemptsTracker extends MainTracker
     	$this->set_property(self :: PROPERTY_TOTAL_SCORE, $total_score);
     }
 
+ 	function get_status()
+    {
+    	return $this->get_property(self :: PROPERTY_STATUS);
+    }
+
+    function set_status($status)
+    {
+    	$this->set_property(self :: PROPERTY_STATUS, $status);
+    }
+    
     function empty_tracker($event)
     {
     	$this->remove();
@@ -124,20 +139,13 @@ class WeblcmsAssessmentAttemptsTracker extends MainTracker
 	function get_times_taken($publication)
 	{
 		$condition = new EqualityCondition(self :: PROPERTY_ASSESSMENT_ID, $publication->get_id());
-		//$track = new WeblcmsAssessmentAttemptsTracker();
 		$trackers = $this->retrieve_tracker_items($condition);
 		return count($trackers);
-		/*$query = 'SELECT COUNT('.$this->escape_column_name(UserAssessment :: PROPERTY_ID).') FROM '.$this->escape_table_name(UserAssessment :: get_table_name()).' WHERE '.$this->escape_column_name(UserAssessment :: PROPERTY_ASSESSMENT_ID).'='.$assessment->get_id();
-		$sth = $this->connection->prepare($query);
-		$res = $sth->execute();
-		$row = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
-		return $row[0];*/
 	}
 
 	function get_average_score($publication)
 	{
 		$condition = new EqualityCondition(self :: PROPERTY_ASSESSMENT_ID, $publication->get_id());
-		//$track = new WeblcmsAssessmentAttemptsTracker();
 		$trackers = $this->retrieve_tracker_items($condition);
 		$num = count($trackers);
 
@@ -148,12 +156,7 @@ class WeblcmsAssessmentAttemptsTracker extends MainTracker
 
 		$total_score = round($total_score / $num, 2);
 		return $total_score;
-		/*$query = 'SELECT ROUND(AVG('.$this->escape_column_name(UserAssessment :: PROPERTY_TOTAL_SCORE).'), 2) FROM '.$this->escape_table_name(UserAssessment :: get_table_name()).' WHERE '.$this->escape_column_name(UserAssessment :: PROPERTY_ASSESSMENT_ID).'='.$assessment->get_id();
-		$sth = $this->connection->prepare($query);
-		$res = $sth->execute();
-		$row = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
-		$avg = $row[0];
-		return $row[0];*/
+
 	}
 
 	static function get_table_name()
