@@ -17,6 +17,8 @@ class WeblcmsAssessmentAttemptsTracker extends MainTracker
 	const PROPERTY_DATE = 'date';
 	const PROPERTY_TOTAL_SCORE = 'total_score';
 	const PROPERTY_STATUS = 'status';
+	const PROPERTY_START_TIME = 'start_time';
+	const PROPERTY_TOTAL_TIME = 'total_time';
 
 	/**
 	 * Constructor sets the default values
@@ -41,6 +43,7 @@ class WeblcmsAssessmentAttemptsTracker extends MainTracker
     	$this->set_user_id($user);
     	$this->set_course_id($course);
     	$this->set_assessment_id($assessment);
+    	$this->set_start_time(time());
     	
     	if($status)
     		$this->set_status($status);
@@ -68,7 +71,8 @@ class WeblcmsAssessmentAttemptsTracker extends MainTracker
     function get_default_property_names()
     {
     	return array_merge(parent :: get_default_property_names(), array(self :: PROPERTY_USER_ID, self :: PROPERTY_COURSE_ID,
-    		self :: PROPERTY_ASSESSMENT_ID, self :: PROPERTY_DATE, self :: PROPERTY_TOTAL_SCORE, self :: PROPERTY_STATUS));
+    		self :: PROPERTY_ASSESSMENT_ID, self :: PROPERTY_DATE, self :: PROPERTY_TOTAL_SCORE, self :: PROPERTY_STATUS, self :: PROPERTY_START_TIME,
+    		self :: PROPERTY_TOTAL_TIME));
     }
 
     function get_user_id()
@@ -129,6 +133,26 @@ class WeblcmsAssessmentAttemptsTracker extends MainTracker
     function set_status($status)
     {
     	$this->set_property(self :: PROPERTY_STATUS, $status);
+    }
+    
+	function get_start_time()
+    {
+    	return $this->get_property(self :: PROPERTY_START_TIME);
+    }
+
+    function set_start_time($start_time)
+    {
+    	$this->set_property(self :: PROPERTY_START_TIME, $start_time);
+    }
+    
+	function get_total_time()
+    {
+    	return $this->get_property(self :: PROPERTY_TOTAL_TIME);
+    }
+
+    function set_total_time($total_time)
+    {
+    	$this->set_property(self :: PROPERTY_TOTAL_TIME, $total_time);
     }
     
     function empty_tracker($event)

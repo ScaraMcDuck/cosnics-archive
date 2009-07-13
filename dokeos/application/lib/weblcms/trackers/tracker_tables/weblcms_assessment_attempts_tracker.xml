@@ -8,6 +8,8 @@
   <property name="date" type="timestamp" notnull="1" />
   <property name="total_score" type="integer" />
   <property name="status" type="text" length="50" notnull="1" default="not attempted" />
+  <property name="start_time" type="integer" unsigned="1" notnull="1" />
+  <property name="total_time" type="integer" unsigned="1" notnull="1" />
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>

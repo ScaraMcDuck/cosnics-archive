@@ -105,9 +105,9 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			'total_score' => 0
 		);
 	
-		$tracker_id = Events :: trigger_event('attempt_assessment', 'weblcms', $args);
+		$tracker = Events :: trigger_event('attempt_assessment', 'weblcms', $args);
 		
-		return $tracker_id;
+		return $tracker[0];
 	}
 
 	function get_user_id()
@@ -136,7 +136,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 	{
 		$tracker = $this->active_tracker;
 		
-		$tracker->set_score($total_score);
+		$tracker->set_total_score($total_score);
 		$tracker->set_total_time($tracker->get_total_time() + (time() - $tracker->get_start_time()));
 		$tracker->set_status('completed');
 		$tracker->update();
