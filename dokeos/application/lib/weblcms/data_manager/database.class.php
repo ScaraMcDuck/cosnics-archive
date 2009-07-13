@@ -807,25 +807,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     function create_course($course)
     {
         $now = time();
-        $props = array();
-        foreach ($course->get_default_properties() as $key => $value)
-        {
-            $props[$this->database->escape_column_name($key)] = $value;
-        }
-        $props[Course :: PROPERTY_ID] = $course->get_id();
-        $props[Course :: PROPERTY_LAST_VISIT] = self :: to_db_date($now);
-        $props[Course :: PROPERTY_LAST_EDIT] = self :: to_db_date($now);
-        $props[Course :: PROPERTY_CREATION_DATE] = self :: to_db_date($now);
-        $props[Course :: PROPERTY_EXPIRATION_DATE] = self :: to_db_date($now);
-        $this->database->get_connection()->loadModule('Extended');
-        if ($this->database->get_connection()->extended->autoExecute($this->database->get_table_name('course'), $props, MDB2_AUTOQUERY_INSERT))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        $course->set_last_visit(self :: to_db_date($now));
+        $course->set_last_edit(self :: to_db_date($now));
+        $course->set_creation_date(self :: to_db_date($now));
+        $course->set_expiration_date(self :: to_db_date($now));
+
+        return $this->database->create($course);
     }
 
     function create_course_all($course)

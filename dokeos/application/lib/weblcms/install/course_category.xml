@@ -3,7 +3,6 @@
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
   <property name="name" type="text" length="100" notnull="1" default=""/>
-  <property name="code" type="text" length="40" notnull="1" default=""/>
   <property name="parent" type="integer" notnull="1" default="0"/>
   <property name="display_order" type="integer" unsigned="1" notnull="1"/>
   <property name="tree_pos" type="integer" unsigned="1"/>
@@ -14,9 +13,6 @@
  <index name="id" type="primary">
  <indexproperty name="id"/>
  </index> 
- <index name="code" type="unique">
-  <indexproperty name="code"/>
- </index>
  <index name="parent">
   <indexproperty name="parent"/>
  </index>
