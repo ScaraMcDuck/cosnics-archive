@@ -47,6 +47,36 @@ class AssessmentDisplayAssessmentResultViewerComponent extends AssessmentDisplay
 			
 		}
 		
+		if($form->validate())
+		{
+			$values = $form->exportValues();
+			
+			$question_forms = array();
+			foreach($values as $key => $value)
+			{
+				$split = split('_', $key);
+				if(is_numeric($split[0]))
+				{
+					$question_forms[$split[0]][$split[1]] = $value;
+				}
+			}
+			
+			$total_score = 0;
+			
+			foreach($question_forms as $question_id => $question_form)
+			{
+				$score = $question_form['score'];
+				$feedback = $question_form['feedback'];
+				
+				$this->change_answer_data($question_id, $score, $feedback);
+				
+				$total_score += $score;
+			}
+
+			$percent = round(($total_score / $total_weight) * 100 );
+			$this->change_total_score($percent);
+		}
+		
 		$html[] = '<div class="question">';
 		$html[] = '<div class="title">';
 		$html[] = '<div class="text">';
@@ -54,6 +84,9 @@ class AssessmentDisplayAssessmentResultViewerComponent extends AssessmentDisplay
 		$html[] = Translation :: get('TotalScore');
 		$html[] = '</div>';
 		$html[] = '<div class="bevel" style="text-align: right;">';
+		
+		if($total_score < 0) 
+			$total_score = 0;
 		
 		$percent = round(($total_score / $total_weight) * 100 );
 		 
@@ -70,34 +103,8 @@ class AssessmentDisplayAssessmentResultViewerComponent extends AssessmentDisplay
 
 		if($this->get_parent()->get_parent()->can_change_answer_data())
 			$form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-		
-		if($form->validate())
-		{
-			$values = $form->exportValues();
 			
-			$question_forms = array();
-			foreach($values as $key => $value)
-			{
-				$split = split('_', $key);
-				if(is_numeric($split[0]))
-				{
-					$question_forms[$split[0]][$split[1]] = $value;
-				}
-			}
-			
-			foreach($question_forms as $question_id => $question_form)
-			{
-				$score = $question_form['score'];
-				$feedback = $question_form['feedback'];
-				
-				$this->change_answer_data($question_id, $score, $feedback);
-			}
-			$form->display();
-		}
-		else
-		{
-			$form->display();
-		}
+		$form->display();
 	}	
 }
 ?>

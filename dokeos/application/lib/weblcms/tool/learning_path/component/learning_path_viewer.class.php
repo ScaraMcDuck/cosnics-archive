@@ -438,20 +438,6 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		return $results;
 	}
 	
-	function change_answer_data($question_cid, $score, $feedback)
-	{
-		$conditions[] = new EqualityCondition(WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_LPI_ATTEMPT_ID, Request :: get('details'));
-		$conditions[] = new EqualityCondition(WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_QUESTION_CID, $question_cid);
-		$condition = new AndCondition($conditions);
-
-		$dummy = new WeblcmsLearningPathQuestionAttemptsTracker();
-		$trackers = $dummy->retrieve_tracker_items($condition);
-		$tracker = $trackers[0];
-		$tracker->set_score($score);
-		$tracker->set_feedback($feedback);
-		$tracker->update();
-	}
-	
 	function can_change_answer_data()
 	{
 		return false;

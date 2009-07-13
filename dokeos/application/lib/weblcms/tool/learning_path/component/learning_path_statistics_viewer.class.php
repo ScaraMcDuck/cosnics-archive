@@ -257,5 +257,17 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
 		$tracker->update();
 	}
 	
+	function change_total_score($total_score)
+	{
+		$condition = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_ID, Request :: get('details'));
+
+		$dummy = new WeblcmsLpiAttemptTracker();
+		$trackers = $dummy->retrieve_tracker_items($condition);
+		$lpi_tracker = $trackers[0];
+		
+		$lpi_tracker->set_score($total_score);
+		$lpi_tracker->update();
+	}
+	
 }
 ?>

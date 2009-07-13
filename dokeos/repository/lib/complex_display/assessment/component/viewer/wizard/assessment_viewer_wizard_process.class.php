@@ -68,6 +68,9 @@ class AssessmentViewerWizardProcess extends HTML_QuickForm_Action
 		$html[] = '</div>';
 		$html[] = '<div class="bevel" style="text-align: right;">';
 		
+		if($total_score < 0) 
+			$total_score = 0;
+		
 		$percent = round(($total_score / $total_weight) * 100 );
 		 
 		$html[] =  $total_score . ' / ' . $total_weight . ' (' . $percent . '%)';
