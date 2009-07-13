@@ -436,12 +436,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
     function retrieve_learning_object_publication_category($id)
     {
-        $query = 'SELECT * FROM ' . $this->database->escape_table_name('learning_object_publication_category') . ' WHERE ' . $this->database->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_ID) . '=?';
-        $this->database->get_connection()->setLimit(0, 1);
-        $statement = $this->database->get_connection()->prepare($query);
-        $res = $statement->execute($id);
-        $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-        return $this->record_to_publication_category($record);
+        $condition = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_ID, $id);
+        return $this->database->retrieve_object(LearningObjectPublicationCategory :: get_table_name(), $condition);
     }
 
     function move_learning_object_publication($publication, $places)
@@ -726,18 +722,24 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
     function retrieve_course_user_relation_at_sort($user_id, $category_id, $sort, $direction)
     {
-        $query = 'SELECT * FROM ' . $this->database->escape_table_name(CourseUserRelation :: get_table_name()) . ' WHERE ' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_USER) . '=? AND ' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_CATEGORY) . '=?';
+        $conditions = array();
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user_id);
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $category_id);
+
         if ($direction == 'up')
         {
-            $query .= ' AND ' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_SORT) . '<? ORDER BY ' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_SORT) . 'DESC';
+            $conditions[] = new InequalityCondition(CourseUserRelation :: PROPERTY_SORT, InequalityCondition :: LESS_THAN, $sort);
+            $order_direction = array(SORT_DESC);
         }
         elseif ($direction == 'down')
         {
-            $query .= ' AND ' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_SORT) . '>? ORDER BY ' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_SORT) . 'ASC';
+            $conditions[] = new InequalityCondition(CourseUserRelation :: PROPERTY_SORT, InequalityCondition :: GREATER_THAN, $sort);
+            $order_direction = array(SORT_ASC);
         }
-        $res = $this->limitQuery($query, 1, null, array($user_id, $category_id, $sort));
-        $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-        return $this->record_to_course_user_relation($record);
+
+        $condition = new AndCondition($conditions);
+
+        return $this->database->retrieve_object(CourseUserRelation :: get_table_name(), $condition, array(CourseUserCategory :: PROPERTY_SORT), $order_direction);
     }
 
     function retrieve_course_user_category_at_sort($user_id, $sort, $direction)
@@ -798,36 +800,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $statement = $this->database->get_connection()->prepare($query);
         $res = $statement->execute($params);
         return new ObjectResultSet($this->database, $res, Course :: CLASS_NAME);
-    }
-
-    function record_to_course($record)
-    {
-        if (! is_array($record) || ! count($record))
-        {
-            throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
-        }
-        $defaultProp = array();
-        foreach (Course :: get_default_property_names() as $prop)
-        {
-            $defaultProp[$prop] = $record[$prop];
-        }
-
-        return new Course($record[Course :: PROPERTY_ID], $defaultProp);
-    }
-
-    function record_to_course_user_relation($record)
-    {
-        if (! is_array($record) || ! count($record))
-        {
-            throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
-        }
-        $defaultProp = array();
-        foreach (CourseUserRelation :: get_default_property_names() as $prop)
-        {
-            $defaultProp[$prop] = $record[$prop];
-        }
-
-        return new CourseUserRelation($record[CourseUserRelation :: PROPERTY_COURSE], $record[CourseUserRelation :: PROPERTY_USER], $defaultProp);
     }
 
     function create_course($course)
@@ -1258,20 +1230,10 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         return true;
     }
 
-    function retrieve_course_category($category = null)
+    function retrieve_course_category($category)
     {
-        $query = 'SELECT * FROM ' . $this->database->escape_table_name('course_category');
-        if (isset($category))
-        {
-            $query .= ' WHERE ' . $this->database->escape_column_name(CourseCategory :: PROPERTY_ID) . '=?';
-            $res = $this->limitQuery($query, 1, null, array($category));
-        }
-        else
-        {
-            $res = $this->limitQuery($query, 1, null);
-        }
-        $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-        return $this->record_to_course_category($record);
+        $condition = new EqualityCondition(CourseCategory :: PROPERTY_ID, $category);
+        return $this->database->retrieve_object(CourseCategory :: get_table_name(), $condition);
     }
 
     function retrieve_course_categories($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
@@ -1290,34 +1252,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     function retrieve_course_user_category($condition = null)
     {
         return $this->database->retrieve_object(CourseUserCategory :: get_table_name(), $condition);
-    }
-
-    function record_to_course_category($record)
-    {
-        if (! is_array($record) || ! count($record))
-        {
-            throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
-        }
-        $defaultProp = array();
-        foreach (CourseCategory :: get_default_property_names() as $prop)
-        {
-            $defaultProp[$prop] = $record[$prop];
-        }
-        return new CourseCategory($defaultProp);
-    }
-
-    function record_to_course_user_category($record)
-    {
-        if (! is_array($record) || ! count($record))
-        {
-            throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
-        }
-        $defaultProp = array();
-        foreach (CourseUserCategory :: get_default_property_names() as $prop)
-        {
-            $defaultProp[$prop] = $record[$prop];
-        }
-        return new CourseUserCategory($record[CourseUserCategory :: PROPERTY_ID], $defaultProp);
     }
 
     function set_module_visible($course_code, $module, $visible)
@@ -1422,13 +1356,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         return $subtree;
     }
 
-    function record_to_publication_category($record)
-    {
-        $o = new LearningObjectPublicationCategory();
-        $o->set_default_properties($record);
-        return $o;
-    }
-
     function retrieve_learning_object_publication_target_users($learning_object_publication)
     {
         $query = 'SELECT * FROM ' . $this->database->escape_table_name('learning_object_publication_user') . ' WHERE publication = ?';
@@ -1455,21 +1382,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         }
 
         return $target_course_groups;
-    }
-
-    function record_to_course_group($record)
-    {
-        if (! is_array($record) || ! count($record))
-        {
-            throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
-        }
-        $defaultProp = array();
-        foreach (CourseGroup :: get_default_property_names() as $prop)
-        {
-            $defaultProp[$prop] = $record[$prop];
-        }
-
-        return new CourseGroup($record[CourseGroup :: PROPERTY_ID], $record[CourseGroup :: PROPERTY_COURSE_CODE], $defaultProp);
     }
 
     // Inherited
@@ -1773,11 +1685,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         return $res->numRows() > 0;
     }
 
-    function ExecuteQuery($sql)
-    {
-        $this->database->get_connection()->query($sql);
-    }
-
     function create_storage_unit($name, $properties, $indexes)
     {
         return $this->database->create_storage_unit($name, $properties, $indexes);
@@ -1791,42 +1698,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     private static function to_db_date($date)
     {
         return DatabaseRepositoryDataManager :: to_db_date($date);
-    }
-
-    /**
-     * Checks whether the given column name is the name of a column that
-     * contains a date value, and hence should be formatted as such.
-     * @param string $name The column name.
-     * @return boolean True if the column is a date column, false otherwise.
-     */
-    static function is_date_column($name)
-    {
-        // TODO: Temporary bugfix, publication dates were recognized as LO-dates and wrongfully converted
-        return false;
-        //return ($name == LearningObject :: PROPERTY_CREATION_DATE || $name == LearningObject :: PROPERTY_MODIFICATION_DATE);
-    }
-
-    function record_to_learning_object_publication_feedback($record)
-    {
-        $obj = RepositoryDataManager :: get_instance()->retrieve_learning_object($record[LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID]);
-        $query = 'SELECT * FROM ' . $this->database->escape_table_name('learning_object_publication_course_group') . ' WHERE publication = ?';
-        $sth = $this->database->get_connection()->prepare($query);
-        $res = $sth->execute($record[LearningObjectPublication :: PROPERTY_ID]);
-        $target_course_groups = array();
-        while ($target_course_group = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
-        {
-            $target_course_groups[] = $target_course_group['course_group_id'];
-        }
-        $query = 'SELECT * FROM ' . $this->database->escape_table_name('learning_object_publication_user') . ' WHERE publication = ?';
-        $sth = $this->database->get_connection()->prepare($query);
-        $res = $sth->execute($record[LearningObjectPublication :: PROPERTY_ID]);
-        $target_users = array();
-        while ($target_user = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
-        {
-            $target_users[] = $target_user['user'];
-        }
-
-        return new LearningObjectPublicationFeedback($record[LearningObjectPublication :: PROPERTY_ID], $obj, $record[LearningObjectPublication :: PROPERTY_COURSE_ID], $record[LearningObjectPublication :: PROPERTY_TOOL], $record[LearningObjectPublication :: PROPERTY_PARENT_ID], $record[LearningObjectPublication :: PROPERTY_PUBLISHER_ID], $record[LearningObjectPublication :: PROPERTY_PUBLICATION_DATE], $record[LearningObjectPublication :: PROPERTY_HIDDEN] != 0, $record[LearningObjectPublication :: PROPERTY_EMAIL_SENT]);
     }
 
     function get_next_category_id()
