@@ -222,17 +222,21 @@ class AssessmentForm extends LearningObjectForm
 	{
 		$object = $this->get_learning_object();
 		$values = $this->exportValues();
-		$object->set_maximum_attempts($values[Assessment :: PROPERTY_MAXIMUM_ATTEMPTS]);
-		if ($object->get_maximum_attempts() == null)
+		
+		if ($values[self :: UNLIMITED_ATTEMPTS] == 0)
 			$object->set_maximum_attempts(0);
+		else 
+			$object->set_maximum_attempts($values[Assessment :: PROPERTY_MAXIMUM_ATTEMPTS]);
 
-		$object->set_questions_per_page($values[Assessment :: PROPERTY_QUESTIONS_PER_PAGE]);
-		if ($object->get_questions_per_page() == null)
+		if ($values[self :: ALL_QUESTIONS] == 0)
 			$object->set_questions_per_page(0);
+		else 
+			$object->set_questions_per_page($values[Assessment :: PROPERTY_QUESTIONS_PER_PAGE]);
 
-		$object->set_maximum_time($values[Assessment :: PROPERTY_MAXIMUM_TIME]);
-		if ($object->get_maximum_time() == null)
+		if ($values[self :: UNLIMITED_TIME] == 0)
 			$object->set_maximum_time(0);
+		else 
+			$object->set_maximum_time($values[Assessment :: PROPERTY_MAXIMUM_TIME]);
 
 		$ass_types = $object->get_types();
 		$object->set_assessment_type($ass_types[$values[Assessment :: PROPERTY_ASSESSMENT_TYPE]]);
