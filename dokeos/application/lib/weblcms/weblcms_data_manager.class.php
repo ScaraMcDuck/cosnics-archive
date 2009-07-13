@@ -591,7 +591,7 @@ abstract class WeblcmsDataManager
 	 * Retrieves a personal course category for the user.
 	 * @return CourseUserCategory The course user category.
 	 */
-	abstract function retrieve_course_user_category($course_user_category_id, $user_id = null);
+	abstract function retrieve_course_user_category($condition = null);
 
 	/**
 	 * Retrieves a personal course category for the user according to

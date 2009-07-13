@@ -22,7 +22,9 @@ require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
  *
  */
 
-class CourseUserCategory {
+class CourseUserCategory
+{
+    const CLASS_NAME = __CLASS__;
 
 	const PROPERTY_ID = 'id';
 	const PROPERTY_USER = 'user_id';
@@ -38,10 +40,9 @@ class CourseUserCategory {
 	 * @param array $defaultProperties The default properties of the course user category
 	 *                object. Associative array.
 	 */
-    function CourseUserCategory($id = null, $defaultProperties = array ())
+    function CourseUserCategory($defaultProperties = array ())
     {
 		$this->defaultProperties = $defaultProperties;
-		$this->set_id($id);
     }
 
     /**
@@ -200,6 +201,11 @@ class CourseUserCategory {
 		}
 
 		return true;
+	}
+
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 }
 ?>

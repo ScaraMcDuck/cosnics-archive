@@ -132,7 +132,11 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
 
 	function move_category($courseusercategory, $direction)
 	{
-		$move_category = $this->retrieve_course_user_category($courseusercategory, $this->get_user_id());
+	    $conditions = array();
+	    $conditions[] = new EqualityCondition(CourseUserCategory :: PROPERTY_ID, $courseusercategory);
+	    $conditions[] = new EqualityCondition(CourseUserCategory :: PROPERTY_USER, $this->get_user_id());
+	    $condition = new AndCondition($conditions);
+		$move_category = $this->retrieve_course_user_category($condition);
 		$sort = $move_category->get_sort();
 		$next_category = $this->retrieve_course_user_category_at_sort($this->get_user_id(), $sort, $direction);
 
@@ -180,8 +184,9 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
 
 	function edit_course_user_category()
 	{
-		$course_user_category_id = Request :: get(WeblcmsManager :: PARAM_COURSE_USER_CATEGORY_ID);
-		$courseusercategory = $this->retrieve_course_user_category($course_user_category_id);
+	    $course_user_category_id = Request :: get(WeblcmsManager :: PARAM_COURSE_USER_CATEGORY_ID);
+	    $condition = new EqualityCondition(CourseUserCategory :: PROPERTY_ID, $course_user_category_id);
+		$courseusercategory = $this->retrieve_course_user_category($condition);
 
 		$form = new CourseUserCategoryForm(CourseUserCategoryForm :: TYPE_EDIT, $courseusercategory, $this->get_user(), $this->get_url(array(WeblcmsManager :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category_id)));
 
@@ -203,7 +208,8 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
 	function delete_course_user_category()
 	{
 		$course_user_category_id = Request :: get(WeblcmsManager :: PARAM_COURSE_USER_CATEGORY_ID);
-		$courseusercategory = $this->retrieve_course_user_category($course_user_category_id);
+		$condition = new EqualityCondition(CourseUserCategory :: PROPERTY_ID, $course_user_category_id);
+		$courseusercategory = $this->retrieve_course_user_category($condition);
 
 		$relation_conditions = array();
 		$relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id());
