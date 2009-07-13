@@ -56,9 +56,10 @@ class AssessmentResultsTableOverviewStudentCellRenderer extends DefaultLearningO
 					$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid);
 					$assessment = $pub->get_learning_object();
 					$avg = $user_assessment->get_total_score();
-					$max = $assessment->get_maximum_score();
-					$pct = round(($avg / $max) * 100, 2);
-					return $avg.'/'.$max.' ('.$pct.'%)';
+					//$max = $assessment->get_maximum_score();
+					//$pct = round(($avg / $max) * 100, 2);
+					//return $avg.'/'.$max.' ('.$pct.'%)';
+					return $avg . '%';
 				case Assessment :: PROPERTY_AVERAGE_SCORE:
 					$pid = $user_assessment->get_assessment_id();
 					$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid);
