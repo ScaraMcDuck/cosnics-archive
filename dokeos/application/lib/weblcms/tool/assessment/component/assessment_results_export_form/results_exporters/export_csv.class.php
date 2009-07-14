@@ -12,6 +12,7 @@ class ResultsCsvExport extends ResultsExport
  	const PROPERTY_DATE_TIME_TAKEN = 'date_time_taken';
  	const PROPERTY_QUESTION_TITLE = 'question_title';
  	const PROPERTY_QUESTION_DESCRIPTION = 'question_description';
+ 	const PROPERTY_QUESTION_TYPE = 'question_type';
  	const PROPERTY_WEIGHT = 'weight';
  	const PROPERTY_ANSWER = 'answer';
  	const PROPERTY_SCORE = 'score';
@@ -58,11 +59,13 @@ class ResultsCsvExport extends ResultsExport
 		 	self :: PROPERTY_DATE_TIME_TAKEN,
 	 		self :: PROPERTY_QUESTION_TITLE,
 	 		self :: PROPERTY_QUESTION_DESCRIPTION,
+	 		self :: PROPERTY_QUESTION_TYPE,
 	 		self :: PROPERTY_WEIGHT,
-	 		self :: PROPERTY_FEEDBACK_TITLE,
-	 		self :: PROPERTY_FEEDBACK_DESCRIPTION,
+	 		//self :: PROPERTY_FEEDBACK_TITLE,
+	 		//self :: PROPERTY_FEEDBACK_DESCRIPTION,
 	 		self :: PROPERTY_ANSWER,
-	 		self :: PROPERTY_SCORE
+	 		self :: PROPERTY_SCORE,
+	 		'feedback'
 		);
 		$this->data[] = $this->currentrow;
 		$this->currentrow = array();
@@ -107,7 +110,11 @@ class ResultsCsvExport extends ResultsExport
 	{
 		$question = $this->rdm->retrieve_learning_object($clo_question->get_ref());
 		$this->currentrow[self :: PROPERTY_QUESTION_TITLE] = $question->get_title();
-		$this->currentrow[self :: PROPERTY_QUESTION_DESCRIPTION] = strip_tags($question->get_description());
+		
+		$description = trim(htmlspecialchars(strip_tags($question->get_description())));
+		
+		$this->currentrow[self :: PROPERTY_QUESTION_DESCRIPTION] = $description;
+		$this->currentrow[self :: PROPERTY_QUESTION_TYPE] = $question->get_type();
 		$this->currentrow[self :: PROPERTY_WEIGHT] = $clo_question->get_weight();
 		 
 		$track = new WeblcmsQuestionAttemptsTracker();
@@ -115,21 +122,32 @@ class ResultsCsvExport extends ResultsExport
 		$condition_a = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $user_assessment->get_id());
 		$condition = new AndCondition(array($condition_q, $condition_a));
 		$user_answers = $track->retrieve_tracker_items($condition);
-		if ($user_answer[0] != null)
+		$user_answer = $user_answers[0];
+		
+		if ($user_answer->get_feedback() != null && $user_answer->get_feedback() > 0)
+			$data['feedback'] = $this->export_feedback($user_answer->get_feedback());
+		
+		$answers = unserialize($user_answer->get_answer());
+		$answer_data = array();
+		foreach($answers as $answer)
 		{
-			if ($user_answer[0]->get_feedback() != null && $user_answer[0]->get_feedback() > 0)
-				$this->export_feedback($user_answer[0]->get_feedback());
+			if($question->get_type() == 'hotspot_question')
+			{
+				$coordinates = unserialize($answer);
+				$data['x'] = $coordinates[0];
+				$data['y'] = $coordinates[1];
+				$answer_data[] = implode(", ", $data);
+			}
+			else 
+			{
+				$answer_data[] = htmlspecialchars(strip_tags($answer));
+			}
 		}
-		else
-		{
-			$this->currentrow[self :: PROPERTY_FEEDBACK_TITLE] = ' ';
-			$this->currentrow[self :: PROPERTY_FEEDBACK_DESCRIPTION] = ' ';
-		}
-			
-		foreach($user_answers as $user_answer)
-		{
-			$this->export_answer($user_answer);
-		}
+		
+		$this->currentrow[self :: PROPERTY_ANSWER] = implode(" / ", $answer_data);
+		$this->currentrow[self :: PROPERTY_SCORE] = $user_answer->get_score();
+		$this->currentrow['feedback'] = htmlspecialchars($user_answer->get_feedback());
+		$this->data[] = $this->currentrow;
 	}
 	
 	function export_feedback($feedback_id)
@@ -139,11 +157,5 @@ class ResultsCsvExport extends ResultsExport
 		$this->currentrow[self :: PROPERTY_FEEDBACK_DESCRIPTION] = strip_tags($feedback->get_description());
 	}
 	
-	function export_answer($user_answer)
-	{
-		$this->currentrow[self :: PROPERTY_ANSWER] = $user_answer->get_answer();
-		$this->currentrow[self :: PROPERTY_SCORE] = $user_answer->get_score();
-		$this->data[] = $this->currentrow;
-	}
  }
 ?>
