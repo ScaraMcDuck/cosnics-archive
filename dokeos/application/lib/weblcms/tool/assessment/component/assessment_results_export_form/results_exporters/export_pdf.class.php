@@ -16,6 +16,7 @@ class ResultsPdfExport extends ResultsExport
  	const PROPERTY_SCORE = 'Score';
  	const PROPERTY_FEEDBACK_TITLE = 'FeedbackTitle';
  	const PROPERTY_FEEDBACK_DESCRIPTION = 'FeedbackDescription';
+ 	const PROPERTY_QUESTION_TYPE = 'Type';
  	
  	function export_publication_id($id)
 	{
@@ -84,21 +85,42 @@ class ResultsPdfExport extends ResultsExport
 	function export_question($clo_question, $user_assessment)
 	{
 		$question = $this->rdm->retrieve_learning_object($clo_question->get_ref());
-		$data[self :: PROPERTY_QUESTION_TITLE] = $question->get_title();
-		$data[self :: PROPERTY_QUESTION_DESCRIPTION] = strip_tags($question->get_description());
-		$data[self :: PROPERTY_WEIGHT] = strip_tags($clo_question->get_weight());
-		$this->data[] = array('key' => 'Question', 'data' => array($data));
-		 
+		
 		$track = new WeblcmsQuestionAttemptsTracker();
 		$condition_q = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_CID, $clo_question->get_id());
 		$condition_a = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $user_assessment->get_id());
 		$condition = new AndCondition(array($condition_q, $condition_a));
 		$user_answers = $track->retrieve_tracker_items($condition);
-		foreach ($user_answers as $user_answer)
+		$user_answer = $user_answers[0];
+		
+		$data[self :: PROPERTY_QUESTION_TITLE] = $question->get_title();
+		$data[self :: PROPERTY_QUESTION_TYPE] = $question->get_type();
+		$data[self :: PROPERTY_QUESTION_DESCRIPTION] = strip_tags($question->get_description());
+		$data[self :: PROPERTY_WEIGHT] = strip_tags($clo_question->get_weight());
+		$data['score'] = $user_answer->get_score();
+		$data['feedback'] = htmlspecialchars($user_answer->get_feedback());
+		$this->data[] = array('key' => 'Question', 'data' => array($data));
+		 
+		$data = array();
+		$answers = unserialize($user_answer->get_answer());
+		foreach($answers as $answer)
 		{
-			$question_data[] = $this->export_answer($user_answer);
+			if($question->get_type() == 'hotspot_question')
+			{
+				$coordinates = unserialize($answer);
+				$answer_data['x'] = $coordinates[0];
+				$answer_data['y'] = $coordinates[1];
+				$data[] = $answer_data;
+			}
+			else 
+			{
+				$data['Answers'][] = htmlspecialchars($answer);
+			}
+			
 		}
-		$this->data[] = array('key' => 'Answers', 'data' => $question_data);
+		
+		$this->data[] = array('key' => 'Answers', 'data' => $data);
+		
 	}
 	
 	function export_feedback($feedback_id)
