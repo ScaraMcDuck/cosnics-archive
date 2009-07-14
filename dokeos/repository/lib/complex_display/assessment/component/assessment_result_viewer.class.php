@@ -17,6 +17,12 @@ class AssessmentDisplayAssessmentResultViewerComponent extends AssessmentDisplay
 		$results = $this->get_parent()->get_parent()->retrieve_assessment_results();
 		$question_cids = array_keys($results);
 		
+		if(count($question_cids) <= 0)
+		{
+			echo '<div class="error-message">' . Translation :: get('AttemptNotYetFinished') . '</div>';
+			return;
+		}
+		
 		$condition = new InCondition(ComplexLearningObjectItem :: PROPERTY_ID, $question_cids);
 		$questions_cloi = $rdm->retrieve_complex_learning_object_items($condition);
 

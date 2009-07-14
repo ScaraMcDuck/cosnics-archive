@@ -39,20 +39,23 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		$conditions[] = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID, $this->get_user_id());
 		$condition = new AndCondition($conditions);
 		$trackers = $track->retrieve_tracker_items($condition);
-
-		if ($this->assessment->get_maximum_attempts() != 0 && count($trackers) >= $this->assessment->get_maximum_attempts())
-		{
-			Display :: not_allowed();
-			return;
-		}
+		
+		$count = count($trackers);
 		
 		foreach($trackers as $tracker)
 		{
 			if($tracker->get_status() == 'not attempted')
 			{
 				$this->active_tracker = $tracker;
+				$count--;
 				break;
 			}
+		}
+		
+		if ($this->assessment->get_maximum_attempts() != 0 && $count >= $this->assessment->get_maximum_attempts())
+		{
+			Display :: not_allowed();
+			return;
 		}
 		
 		if(!$this->active_tracker)
