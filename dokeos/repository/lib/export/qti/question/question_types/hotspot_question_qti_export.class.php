@@ -63,14 +63,29 @@ class HotspotQuestionQtiExport extends QuestionQtiExport
 		copy(Path :: get(SYS_FILE_PATH).'repository/'.$image ,$temp_dir);
 
 		$interaction_xml[] = '<object type="image/'.$extension.'" width="'.$size[0].'" height="'.$size[1].'" data="images/'.$imagename.'"></object>';
+		
+		$firstcoords = null;
+		
 		foreach ($answers as $i => $answer)
-		{
-			$coords = $answer->get_hotspot_coordinates();
-			$type = $answer->get_hotspot_type();
-			$export_type = $this->export_type($type);
-			$export_coords = $this->transform_coords($coords, $export_type);
+		{ 
+			$coords = unserialize($answer->get_hotspot_coordinates());
+			$firstcoords = $coords[0];
+			
+			$export_coords = array();
+				
+			foreach($coords as $coord)
+			{
+				$export_coords[] = implode(", ", $coord);
+			}
 
-			$interaction_xml[] = '<hotspotChoice shape="'.$export_type.'" coords="'.$export_coords.'" identifier="A'.$i.'" />';
+			$export_coords[] = implode(", ", $firstcoords);
+			$export_coords = implode(", ", $export_coords);
+			
+			//$type = $answer->get_hotspot_type();
+			//$export_type = $this->export_type($type);
+			//$export_coords = $this->transform_coords($coords, $export_type);
+
+			$interaction_xml[] = '<hotspotChoice shape="poly" coords="'.$export_coords.'" identifier="A'.$i.'" />';
 		}
 		$interaction_xml[] = '</graphicOrderInteraction>';
 
