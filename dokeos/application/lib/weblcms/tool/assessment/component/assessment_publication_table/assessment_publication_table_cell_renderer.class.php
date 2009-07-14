@@ -67,7 +67,19 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 		$condition = new AndCondition(array($condition_t, $condition_u));
 		$trackers = $track->retrieve_tracker_items($condition);
 		
-		if ($assessment->get_maximum_attempts() == 0 || count($trackers) < $assessment->get_maximum_attempts())
+		$count = count($trackers);
+		
+		foreach($trackers as $tracker)
+		{
+			if($tracker->get_status() == 'not attempted')
+			{
+				$this->active_tracker = $tracker;
+				$count--;
+				break;
+			}
+		}
+
+		if ($assessment->get_maximum_attempts() == 0 || $count < $assessment->get_maximum_attempts())
 		{
 			$actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
