@@ -24,20 +24,14 @@ class AssessmentTool extends Tool
 	const ACTION_EXPORT_RESULTS = 'export_results';
 	const ACTION_PUBLISH_SURVEY = 'publish_survey';
 	const ACTION_VIEW = 'view';
-	const ACTION_REPOVIEWER = 'repoview';
-	const ACTION_DELETE_QUESTION_FEEDBACK = 'delete_qfeedback';
-	const ACTION_EDIT_QUESTION_FEEDBACK = 'edit_qfeedback';
 	const ACTION_DELETE_RESULTS = 'delete_results';
 	
 	const PARAM_USER_ASSESSMENT = 'uaid';
 	const PARAM_QUESTION_ATTEMPT = 'qaid';
 	const PARAM_ASSESSMENT = 'aid';
-	const PARAM_ADD_FEEDBACK = 'feedback';
 	const PARAM_ANONYMOUS = 'anonymous';
 	const PARAM_INVITATION_ID = 'invitation_id';
 	const PARAM_PUBLICATION_ACTION = 'publication_action';
-	const PARAM_REPO_TYPES = 'types';
-	const PARAM_ASSESSMENT_PAGE = 'assessment_page';
 	/*
 	 * Inherited.
 	 */
@@ -77,15 +71,6 @@ class AssessmentTool extends Tool
 				break;
 			case self :: ACTION_PUBLISH_SURVEY:
 				$component = AssessmentToolComponent :: factory('SurveyPublisher', $this);
-				break;
-			case self :: ACTION_REPOVIEWER:
-				$component = AssessmentToolComponent :: factory('Repoviewer', $this);
-				break;
-			case self :: ACTION_DELETE_QUESTION_FEEDBACK:
-				$component = AssessmentToolComponent :: factory('QuestionFeedbackDeleter', $this);
-				break;
-			case self :: ACTION_EDIT_QUESTION_FEEDBACK:
-				$component = AssessmentToolComponent :: factory('QuestionFeedbackEditor', $this);
 				break;
 			case self :: ACTION_DELETE_RESULTS:
 				$component = AssessmentToolComponent :: Factory('ResultsDeleter', $this);

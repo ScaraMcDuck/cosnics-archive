@@ -1,5 +1,4 @@
 <?php
-require_once dirname(__FILE__).'/assessment_results_viewer/results_viewer.class.php';
 require_once dirname(__FILE__).'/assessment_results_table_admin/assessment_results_table_overview.class.php';
 require_once dirname(__FILE__).'/assessment_results_table_admin/assessment_results_table_detail.class.php';
 require_once dirname(__FILE__).'/assessment_results_table_student/assessment_results_table_overview.class.php';
