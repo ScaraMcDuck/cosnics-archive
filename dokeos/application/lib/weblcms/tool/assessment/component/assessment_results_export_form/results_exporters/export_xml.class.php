@@ -75,6 +75,8 @@ require_once dirname(__FILE__).'/../../../../../trackers/weblcms_question_attemp
 		$question = $this->rdm->retrieve_learning_object($clo_question->get_ref());
 		$data['id'] = $question->get_id();
 		$data['title'] = $question->get_title();
+		$data['description'] = htmlspecialchars($question->get_description());
+		$data['type'] = htmlspecialchars($question->get_type());
 		$data['weight'] = $clo_question->get_weight();
 
 		$track = new WeblcmsQuestionAttemptsTracker();
@@ -82,15 +84,29 @@ require_once dirname(__FILE__).'/../../../../../trackers/weblcms_question_attemp
 		$condition_a = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $user_assessment->get_id());
 		$condition = new AndCondition(array($condition_q, $condition_a));
 		$user_answers = $track->retrieve_tracker_items($condition);
+		$user_answer = $user_answers[0];
 		
-		foreach ($user_answers as $user_answer)
+		if ($user_answer->get_feedback() != null && $user_answer->get_feedback() > 0)
+			$data['feedback'] = $this->export_feedback($user_answer->get_feedback());
+		
+		$answers = unserialize($user_answer->get_answer());
+		foreach($answers as $answer)
 		{
-			if ($user_answer->get_feedback() != null && $user_answer->get_feedback() > 0)
-				$data['feedback'] = $this->export_feedback($user_answer->get_feedback());
-				
-			$answer_data[] = $this->export_answer($user_answer);
+			if($data['type'] == 'hotspot_question')
+			{
+				$coordinates = unserialize($answer);
+				$answer_data['x'] = $coordinates[0];
+				$answer_data['y'] = $coordinates[1];
+				$data['answers'][] = $answer_data;
+			}
+			else 
+			{
+				$data['answers'][] = htmlspecialchars($answer);
+			}
 		}
-		$data['answers'] = $answer_data;
+		
+		$data['feedback'] = htmlspecialchars($user_answer->get_feedback());
+		$data['score'] = $user_answer->get_score();
 		return $data;
 	}
 	
@@ -100,13 +116,6 @@ require_once dirname(__FILE__).'/../../../../../trackers/weblcms_question_attemp
 		$data['id'] = $feedback->get_id();
 		$data['title'] = htmlspecialchars($feedback->get_title());
 		$data['description'] = htmlspecialchars($feedback->get_description());
-		return $data;
-	}
-	
-	function export_answer($user_answer)
-	{
-		$data['score'] = $user_answer->get_score();
-		$data['answer'] = htmlspecialchars(unserialize($user_answer->get_answer()));
 		return $data;
 	}
  }
