@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/../question_qti_export.class.php';
 
-class ScoreQuestionQtiExport extends QuestionQtiExport
+class RatingQuestionQtiExport extends QuestionQtiExport
 {
 	
 	function export_learning_object()
