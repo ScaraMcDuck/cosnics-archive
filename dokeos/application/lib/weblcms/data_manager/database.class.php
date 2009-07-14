@@ -1167,6 +1167,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         return $this->database->create($course_group);
     }
 
+    // Inherited
+    function create_course_group_user_relation($course_group_user_relation)
+    {
+        return $this->database->create($course_group_user_relation);
+    }
+
     function get_next_course_group_id()
     {
         return $this->database->get_next_id(CourseGroup :: get_table_name());
@@ -1295,14 +1301,16 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     // Inherited
     function retrieve_possible_course_group_users($course_group, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
     {
-        $udm = UserDataManager :: get_instance();
-        $query = 'SELECT user_id FROM ' . $this->database->escape_table_name(CourseUserRelation :: get_table_name()) . ' WHERE ' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_COURSE) . '=?';
-        $statement = $this->database->get_connection()->prepare($query);
-        $res = $statement->execute($course_group->get_course_code());
-        while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+        $ccondition = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course_group->get_course_code());
+        $course_users = $this->database->retrieve_objects(CourseUserRelation :: get_table_name(), $ccondition, $offset, $count, $order_property);
+        $course_user_ids = array();
+
+        while($course_user = $course_users->next_result())
         {
-            $course_user_ids[] = $record[User :: PROPERTY_USER_ID];
+            $course_user_ids[] = $course_user->get_user();
         }
+
+        $udm = UserDataManager :: get_instance();
         if (! is_null($condition))
         {
             $condition = new AndCondition($condition, new InCondition(User :: PROPERTY_USER_ID, $course_user_ids));
