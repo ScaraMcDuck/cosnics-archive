@@ -78,7 +78,7 @@ require_once dirname(__FILE__).'/../../../../../trackers/weblcms_question_attemp
 		$data['weight'] = $clo_question->get_weight();
 
 		$track = new WeblcmsQuestionAttemptsTracker();
-		$condition_q = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $question->get_id());
+		$condition_q = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_CID, $clo_question->get_id());
 		$condition_a = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $user_assessment->get_id());
 		$condition = new AndCondition(array($condition_q, $condition_a));
 		$user_answers = $track->retrieve_tracker_items($condition);
@@ -106,8 +106,7 @@ require_once dirname(__FILE__).'/../../../../../trackers/weblcms_question_attemp
 	function export_answer($user_answer)
 	{
 		$data['score'] = $user_answer->get_score();
-		$data['answer'] = htmlspecialchars($user_answer->get_answer());
-		$data['date'] = $user_answer->get_date();
+		$data['answer'] = htmlspecialchars(unserialize($user_answer->get_answer()));
 		return $data;
 	}
  }

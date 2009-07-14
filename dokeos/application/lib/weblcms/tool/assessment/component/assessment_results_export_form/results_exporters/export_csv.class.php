@@ -111,7 +111,7 @@ class ResultsCsvExport extends ResultsExport
 		$this->currentrow[self :: PROPERTY_WEIGHT] = $clo_question->get_weight();
 		 
 		$track = new WeblcmsQuestionAttemptsTracker();
-		$condition_q = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $question->get_id());
+		$condition_q = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_CID, $clo_question->get_id());
 		$condition_a = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $user_assessment->get_id());
 		$condition = new AndCondition(array($condition_q, $condition_a));
 		$user_answers = $track->retrieve_tracker_items($condition);
