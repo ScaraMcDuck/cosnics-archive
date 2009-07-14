@@ -108,10 +108,15 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 	function view_single_result()
 	{
 		$uaid = Request :: get(AssessmentTool :: PARAM_USER_ASSESSMENT);
+		
 		$track = new WeblcmsAssessmentAttemptsTracker();
 		$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ID, $uaid);
 		$user_assessments = $track->retrieve_tracker_items($condition);
 		$this->user_assessment = $user_assessments[0];
+		
+		$crumbs[] = new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS)), Translation :: get('ViewResults')); 
+		$crumbs[] = new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $this->user_assessment->get_assessment_id())), Translation :: get('AssessmentResults'));	
+		$crumbs[] = new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $uaid)), Translation :: get('Details'));
 		
 		$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($this->user_assessment->get_assessment_id());
 		$object = $publication->get_learning_object();
@@ -123,7 +128,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		$display = ComplexDisplay :: factory($this, $object->get_type());
       	$display->set_root_lo($object);		
       	
-      	$this->display_header(new BreadcrumbTrail());
+      	$this->display_header($crumbs);
       	$display->run();
       	$this->display_footer();
 	}
