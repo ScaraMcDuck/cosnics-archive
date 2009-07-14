@@ -30,7 +30,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 		echo '<div id="tool_browser_right">';
 
 		$conditions = array();
-		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0);
+		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0, CourseUserRelation :: get_table_name());
 		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
 		$condition = new AndCondition($conditions);
 		$courses = $this->retrieve_user_courses($condition);

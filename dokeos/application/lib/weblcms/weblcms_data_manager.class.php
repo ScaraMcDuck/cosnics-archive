@@ -190,6 +190,8 @@ abstract class WeblcmsDataManager
 	 */
 	abstract function create_course($course);
 
+	abstract function create_course_group_user_relation($course_group_user_relation);
+
 	/**
 	 * Creates a course category object in persistent storage.
 	 * @param CourseCategory $coursecategory The course category to make persistent.
@@ -466,7 +468,7 @@ abstract class WeblcmsDataManager
 	 * @param int $max_objects
 	 * @return CourseResultSet
 	 */
-	abstract function retrieve_courses($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_courses($condition = null, $offset = null, $count = null, $order_property = null);
 
 	/**
 	 * Retrieve a series of courses for a specific user + the relation
@@ -477,7 +479,7 @@ abstract class WeblcmsDataManager
 	 * @param int $max_objects
 	 * @return CourseResultSet
 	 */
-	abstract function retrieve_user_courses($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_user_courses($condition = null, $offset = null, $count = null, $order_property = null);
 
 	/**
 	 * Updates the specified course in persistent storage,
