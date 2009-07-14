@@ -192,26 +192,29 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		parent :: display_header($trail);
 		
 		$this->action_bar = $this->get_toolbar();
-		echo $this->action_bar->as_html();
+		if($this->action_bar)
+			echo $this->action_bar->as_html();
 		
 		return true;
 	}
 	
 	function get_toolbar()
 	{
-		$action_bar = parent :: get_toolbar();
-		
 		if (Request :: get(AssessmentTool :: PARAM_ASSESSMENT) && $this->is_allowed(EDIT_RIGHT))
 		{
+			$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+			
 			$aid = Request :: get(AssessmentTool :: PARAM_ASSESSMENT);
-			$action_bar->add_tool_action(new ToolbarItem(
+			$action_bar->add_common_action(new ToolbarItem(
 				Translation :: get('DownloadDocuments'),
 				Theme :: get_common_image_path().'action_save.png',
 				$this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_SAVE_DOCUMENTS, AssessmentTool :: PARAM_ASSESSMENT => $aid)),
 				ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			));
+			
+			return $action_bar;
 		}
-		return $action_bar;
+		
 	}
 }
 ?>
