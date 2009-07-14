@@ -556,15 +556,24 @@ class Course
 		//echo 'parent : ' . $parent;
 
 		if($parent)
+		{
 			$location->set_parent($parent);
+		}
 		else
+		{
 			$location->set_parent(0);
+		}
 
 		if (!$location->create())
 		{
 			return false;
 		}
-
+		
+		if (!$this->initialize_course_sections())
+		{
+			return false;
+		}
+		
 		return true;
 	}
 
@@ -661,6 +670,30 @@ class Course
     static function get_table_name()
 	{
 		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
+	
+	function initialize_course_sections()
+	{
+	    $sections = array();
+		$sections[] = array('name' => Translation :: get('Tools'), 'type' => 1, 'order' => 1);
+		$sections[] = array('name' => Translation :: get('Links'), 'type' => 2, 'order' => 2);
+		$sections[] = array('name' => Translation :: get('Disabled'), 'type' => 0, 'order' => 3);
+		$sections[] = array('name' => Translation :: get('CourseAdministration'), 'type' => 3, 'order' => 4);
+
+		foreach($sections as $section)
+		{
+			$course_section = new CourseSection();
+			$course_section->set_course_code($this->get_id());
+			$course_section->set_name($section['name']);
+			$course_section->set_type($section['type']);
+			$course_section->set_visible(true);
+			if (!$course_section->create())
+			{
+				return false;
+			}
+		}
+		
+		return true;
 	}
 
 }

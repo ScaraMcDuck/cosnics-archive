@@ -489,7 +489,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $sections = array();
 		while($section = $sections_set->next_result())
 		{
-		    $sections[$section->type][] = $section;
+		    $sections[$section->get_type()][] = $section;
 		}
 
         $query = 'SELECT * FROM ' . $this->database->escape_table_name('course_module') . ' WHERE course_code = ?';
@@ -525,10 +525,10 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
                             switch ($section)
                             {
                                 case 'basic' :
-                                    $section_id = $sections[CourseSection :: TYPE_TOOL][0]->id;
+                                    $section_id = $sections[CourseSection :: TYPE_TOOL][0]->get_id();
                                     break;
                                 case 'course_admin' :
-                                    $section_id = $sections[CourseSection :: TYPE_ADMIN][0]->id;
+                                    $section_id = $sections[CourseSection :: TYPE_ADMIN][0]->get_id();
                                     break;
                             }
                             $this->add_course_module($course_code, $file, $section_id, $visible);
@@ -1038,19 +1038,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
         $this->database->get_connection()->loadModule('Extended');
         $this->database->get_connection()->extended->autoExecute($this->database->get_table_name('course_module'), $props, MDB2_AUTOQUERY_INSERT);
-    }
-
-    function add_course_section($course_code, $section, $visible = true)
-    {
-        $props = array();
-        $props[$this->database->escape_column_name('id')] = $this->get_next_course_section_id();
-        $props[$this->database->escape_column_name('course_code')] = $course_code;
-        $props[$this->database->escape_column_name('name')] = $section['name'];
-        $props[$this->database->escape_column_name('type')] = $section['type'];
-        $props[$this->database->escape_column_name('display_order')] = $section['order'];
-        $props[$this->database->escape_column_name('visible')] = $visible;
-        $this->database->get_connection()->loadModule('Extended');
-        $this->database->get_connection()->extended->autoExecute($this->database->get_table_name('course_section'), $props, MDB2_AUTOQUERY_INSERT);
     }
 
     /**
