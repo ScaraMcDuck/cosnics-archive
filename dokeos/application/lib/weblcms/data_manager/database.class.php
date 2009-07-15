@@ -267,16 +267,10 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     {
         return $this->database->get_next_id(Course :: get_table_name());
     }
-
-    function create_learning_object_publication($publication)
+    
+    function create_learning_object_publication_users($publication)
     {
-        if (! $this->database->create($publication))
-        {
-            return false;
-        }
-
         $users = $publication->get_target_users();
-        $course_groups = $publication->get_target_course_groups();
 
         foreach ($users as $index => $user_id)
         {
@@ -285,14 +279,42 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
             $props[$this->database->escape_column_name('user')] = $user_id;
             $this->database->get_connection()->extended->autoExecute($this->database->get_table_name('learning_object_publication_user'), $props, MDB2_AUTOQUERY_INSERT);
         }
-
-        foreach ($course_groups as $index => $course_group_id)
+        
+        return true;
+    }
+    
+    function create_learning_object_publication_course_groups($publication)
+    {
+    	$course_groups = $publication->get_target_course_groups();
+    	
+    	foreach ($course_groups as $index => $course_group_id)
         {
             $props = array();
             $props[$this->database->escape_column_name('publication')] = $publication->get_id();
             $props[$this->database->escape_column_name('course_group_id')] = $course_group_id;
             $this->database->get_connection()->extended->autoExecute($this->database->get_table_name('learning_object_publication_course_group'), $props, MDB2_AUTOQUERY_INSERT);
         }
+        
+        return true;
+    }
+
+    function create_learning_object_publication($publication)
+    {
+        if (! $this->database->create($publication))
+        {
+            return false;
+        }
+        
+        if(!$this->create_learning_object_publication_users($publication))
+        {
+        	return false;
+        }
+        
+        if(!$this->create_learning_object_publication_course_groups($publication))
+        {
+        	return false;
+        }
+        
         return true;
     }
 
@@ -308,20 +330,15 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $course_groups = $publication->get_target_course_groups();
 
         $this->database->get_connection()->loadModule('Extended');
-        foreach ($users as $index => $user_id)
+        
+        if(!$this->create_learning_object_publication_users($publication))
         {
-            $props = array();
-            $props[$this->database->escape_column_name('publication')] = $publication->get_id();
-            $props[$this->database->escape_column_name('user')] = $user_id;
-            $this->database->get_connection()->extended->autoExecute($this->database->get_table_name('learning_object_publication_user'), $props, MDB2_AUTOQUERY_INSERT);
+        	return false;
         }
-
-        foreach ($course_groups as $index => $course_group_id)
+        
+        if(!$this->create_learning_object_publication_course_groups($publication))
         {
-            $props = array();
-            $props[$this->database->escape_column_name('publication')] = $publication->get_id();
-            $props[$this->database->escape_column_name('course_group_id')] = $course_group_id;
-            $this->database->get_connection()->extended->autoExecute($this->database->get_table_name('learning_object_publication_course_group'), $props, MDB2_AUTOQUERY_INSERT);
+        	return false;
         }
 
         // Update publication properties
