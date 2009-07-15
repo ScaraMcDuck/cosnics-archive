@@ -40,7 +40,7 @@ class OpenQuestionQtiExport extends QuestionQtiExport
 	function get_open_interaction_xml()
 	{
 		$interaction_xml[] = '<itemBody>';
-		$interaction_xml[] = '<extendedTextInteraction responseIdentifier="RESPONSE" expectedLength="250">';
+		$interaction_xml[] = '<extendedTextInteraction responseIdentifier="RESPONSE" expectedLength="500">';
 		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_learning_object()->get_description()).'</prompt>';
 
 		$interaction_xml[] = '</extendedTextInteraction>';
