@@ -52,17 +52,17 @@ class HotspotQuestionQtiExport extends QuestionQtiExport
 		$interaction_xml[] = '</prompt>';
 		
 		$image = $this->get_learning_object()->get_image();
-		$parts = split('/', $image);
-		$imagename = $parts[count($parts)-1];
-		$parts = split('\.', $image);
-		$extension = strtolower($parts[count($parts)-1]);
-		$size = getimagesize(Path :: get(SYS_FILE_PATH).'repository/'.$image);
+		$image_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($image);
 		
-		$temp_dir = Path :: get(SYS_TEMP_PATH). $this->get_learning_object()->get_owner_id() . '/export_qti/images/'.$imagename;
+		$temp_dir = Path :: get(SYS_TEMP_PATH). $this->get_learning_object()->get_owner_id() . '/export_qti/images/'.$image_object->get_filename();
 		mkdir(Path :: get(SYS_TEMP_PATH). $this->get_learning_object()->get_owner_id() . '/export_qti/images/', null, true);
-		copy(Path :: get(SYS_FILE_PATH).'repository/'.$image ,$temp_dir);
+		copy(Path :: get(SYS_FILE_PATH).'repository/'.$image_object->get_path() ,$temp_dir);
 
-		$interaction_xml[] = '<object type="image/'.$extension.'" width="'.$size[0].'" height="'.$size[1].'" data="images/'.$imagename.'"></object>';
+		$extension = split('.', $image_object->get_filename());
+		$extension = $extension[0];
+		
+		//$interaction_xml[] = '<object type="image/'.$extension.'" width="'.$size[0].'" height="'.$size[1].'" data="images/'.$image_object->get_filename().'"></object>';
+		$interaction_xml[] = '<object type="image/'.$extension.'" data="images/'.$image_object->get_filename().'"></object>';
 		
 		$firstcoords = null;
 		
