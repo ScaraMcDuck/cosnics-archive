@@ -8,6 +8,7 @@ require_once dirname(__FILE__).'/../portfolio_manager_component.class.php';
 require_once dirname(__FILE__).'/../../portfolio_menu.class.php';
 require_once dirname(__FILE__).'/../../forms/portfolio_publication_form.class.php';
 require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
+require_once Path :: get_application_path().'/common/feedback_manager/feedback_manager.class.php';
 
 /**
  * portfolio component which allows the user to browse his portfolio_publications
@@ -163,10 +164,11 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
 	
 	function display_feedback_page()
 	{
+       
 		$html = array();
+       $fbm = new FeedbackManager($this,PortfolioManager::APPLICATION_NAME);
+            $fbm->run();
 
-		echo('Pieter you have to do your feedback list here');
-		
 		return implode("\n", $html);
 	}
 	
@@ -196,7 +198,7 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
 					$this->portfolio_item->update();
 				}
 			}
-		
+            
 			$this->redirect($success ? Translation :: get('PortfolioUpdated') : Translation :: get('PortfolioNotUpdated'), !$success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid));
 		}
 		else
@@ -210,7 +212,7 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
 	function display_properties_page()
 	{
 		$html = array();
-
+        
 		$form = new PortfolioPublicationForm(PortfolioPublicationForm :: TYPE_EDIT, $this->publication, $this->get_url(array('user_id' => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid, 'action' => 'properties')), $this->get_user());
 		
 		if($form->validate())
@@ -225,5 +227,7 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
 		
 		return implode("\n", $html);
 	}
+
+    
 }
 ?>
