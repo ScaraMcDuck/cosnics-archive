@@ -15,10 +15,12 @@ class OrderingQuestion extends LearningObject
 		$options[] = $option;
 		return $this->set_additional_property(self :: PROPERTY_OPTIONS, serialize($options));
 	}
+	
 	public function set_options($options)
 	{
 		return $this->set_additional_property(self :: PROPERTY_OPTIONS, serialize($options));
 	}
+	
 	public function get_options()
 	{
 		if($result = unserialize($this->get_additional_property(self :: PROPERTY_OPTIONS)))
@@ -27,6 +29,7 @@ class OrderingQuestion extends LearningObject
 		}
 		return array();
 	}
+	
 	public function get_number_of_options()
 	{
 		return count($this->get_options());
