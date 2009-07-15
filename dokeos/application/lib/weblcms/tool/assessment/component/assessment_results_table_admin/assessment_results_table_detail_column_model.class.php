@@ -14,12 +14,14 @@ class AssessmentResultsTableDetailColumnModel extends ObjectTableColumnModel {
 	 * The column with the action buttons.
 	 */
 	private static $action_column;
+        private static $user_assessment;
 	/**
 	 * Constructor.
 	 */
-	function AssessmentResultsTableDetailColumnModel()
+	function AssessmentResultsTableDetailColumnModel($user_assessment)
 	{
-		parent :: __construct(self :: get_columns(), 1, SORT_ASC);
+                self :: $user_assessment = $user_assessment;
+		parent :: __construct(self :: get_columns(), 1, SORT_ASC);     
 	}
 	/**
 	 * Gets the columns of this table.
@@ -31,7 +33,10 @@ class AssessmentResultsTableDetailColumnModel extends ObjectTableColumnModel {
 		$columns = array();
 		$columns[] = new StaticTableColumn(Translation :: get(WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID));
 		$columns[] = new StaticTableColumn(Translation :: get(WeblcmsAssessmentAttemptsTracker :: PROPERTY_DATE));
-		$columns[] = new StaticTableColumn(Translation :: get(WeblcmsAssessmentAttemptsTracker :: PROPERTY_TOTAL_SCORE));
+                $pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication(self :: $user_assessment);
+		$assessment = $pub->get_learning_object();
+                if($assessment->get_type() != 'survey')
+                    $columns[] = new StaticTableColumn(Translation :: get(WeblcmsAssessmentAttemptsTracker :: PROPERTY_TOTAL_SCORE));
 		$columns[] = self :: get_action_column();
 		return $columns;
 	}

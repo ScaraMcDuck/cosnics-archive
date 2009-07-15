@@ -1,10 +1,10 @@
 <?php
 
-require_once dirname(__FILE__).'/../assessment_display.class.php';
-require_once dirname(__FILE__).'/../assessment_display_component.class.php';
+require_once dirname(__FILE__).'/../survey_display.class.php';
+require_once dirname(__FILE__).'/../survey_display_component.class.php';
 require_once dirname(__FILE__).'/result_viewer/question_result_display.class.php';
 
-class AssessmentDisplayAssessmentResultViewerComponent extends AssessmentDisplayComponent 
+class SurveyDisplaySurveyResultViewerComponent extends SurveyDisplayComponent
 {
 	/**
 	 * Runs this component and displays its output.
@@ -47,20 +47,20 @@ class AssessmentDisplayAssessmentResultViewerComponent extends AssessmentDisplay
 			
 		}
 		
-		$html[] = '<div class="question">';
-		$html[] = '<div class="title">';
-		$html[] = '<div class="text">';
-		$html[] = '<div class="bevel" style="float: left;">';
-		$html[] = Translation :: get('TotalScore');
-		$html[] = '</div>';
-		$html[] = '<div class="bevel" style="text-align: right;">';
-		
-		$percent = round(($total_score / $total_weight) * 100 );
-		 
-		$html[] =  $total_score . ' / ' . $total_weight . ' (' . $percent . '%)';
-		$html[] = '</div>';
-
-		$html[] = '</div></div></div>';
+//		$html[] = '<div class="question">';
+//		$html[] = '<div class="title">';
+//		$html[] = '<div class="text">';
+//		$html[] = '<div class="bevel" style="float: left;">';
+//		$html[] = Translation :: get('TotalScore');
+//		$html[] = '</div>';
+//		$html[] = '<div class="bevel" style="text-align: right;">';
+//
+//		$percent = round(($total_score / $total_weight) * 100 );
+//
+//		$html[] =  $total_score . ' / ' . $total_weight . ' (' . $percent . '%)';
+//		$html[] = '</div>';
+//
+//		$html[] = '</div></div></div>';
 		$html[] = '<div class="clear"></div>';
 		
 		$form->addElement('html', implode("\n", $html));
