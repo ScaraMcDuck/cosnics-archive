@@ -40,7 +40,7 @@ class SurveyViewerWizardProcess extends HTML_QuickForm_Action
 			$this->parent->get_parent()->save_answer($question_cloi->get_id(), serialize($answers));
 		}
 		
-		echo $this->parent->get_survey()->get_finishing_text();
+		echo $this->parent->get_survey()->get_finish_text();
 
 	}
 }
