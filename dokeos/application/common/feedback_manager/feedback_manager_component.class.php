@@ -36,7 +36,7 @@ class FeedbackManagerComponent {
 	/**
 	 * @see ObjectPublisher::get_user_id()
 	 */
-	protected function get_user_id()
+	 function get_user_id()
 	{
 		return $this->parent->get_user_id();
 	}
@@ -61,8 +61,10 @@ class FeedbackManagerComponent {
 	 */
 	function get_url($parameters = array(), $encode = false)
 	{
+        
 		return $this->parent->get_url($parameters, $encode);
 	}
+
 
 	/**
 	 * @see ObjectPublisher::get_parameters()
@@ -122,91 +124,34 @@ class FeedbackManagerComponent {
 		$this->parent->set_extra_parameters($parameters);
 	}
 
-	/*function count_categories($condition)
-	{
-		return $this->parent->count_categories($condition);
-	}
+    function retrieve_feedback_publications($pid,$cid,$application){
+        return $this->parent->retrieve_feedback_publications($pid,$cid,$application);
+        
+    }
+    function retrieve_feedback_publication($id)
+    {
+        return $this->parent->retrieve_feedback_publication($id);
+    }
 
-	function retrieve_categories($condition, $offset, $count, $order_property, $order_direction)
-	{
-		return $this->parent->retrieve_categories($condition, $offset, $count, $order_property, $order_direction);
-	}
-
-	function get_next_category_display_order($parent_id)
-	{
-		return $this->parent->get_next_category_display_order($parent_id);
-	}
-
-	function get_browse_categories_url($category_id = 0)
-	{
-		return $this->get_parent()->get_browse_categories_url($category_id);
-	}
-
-	function get_create_category_url($category_id)
-	{
-		return $this->get_parent()->get_create_category_url($category_id);
-	}
-
-	function get_update_category_url($category_id)
-	{
-		return $this->get_parent()->get_update_category_url($category_id);
-	}
-
-	function get_delete_category_url($category_id)
-	{
-		return $this->get_parent()->get_delete_category_url($category_id);
-	}
-
-	function get_move_category_url($category_id, $direction = 1)
-	{
-		return $this->get_parent()->get_move_category_url($category_id, $direction);
-	}
-
-	function get_copy_general_categories_url()
-	{
-		return $this->get_parent()->get_copy_general_categories_url();
-	}
-
-	function get_change_category_parent_url($category_id)
-	{
-		return $this->get_parent()->get_change_category_parent_url($category_id);
-	}
-	*/
+	
 	function get_feedback()
 	{
 		return $this->get_parent()->get_feedback();
 	}
 
-	/*function get_category_form()
-	{
-		return $this->get_parent()->get_category_form();
-	}
-
-	function allowed_to_delete_category($category_id)
-	{
-		return $this->get_parent()->allowed_to_delete_category($category_id);
-	}
-
-	function allowed_to_edit_category($category_id)
-	{
-		return $this->get_parent()->allowed_to_edit_category($category_id);
-	}
-	*/
-	function get_breadcrumb_trail()
-	{
-		return $this->get_parent()->get_breadcrumb_trail();
-	}
+	
 
 	static function factory($type, $parent)
 	{
-       
+        
 		$filename = dirname(__FILE__).'/component/'.DokeosUtilities :: camelcase_to_underscores($type).'.class.php';
 		if (!file_exists($filename) || !is_file($filename))
 		{
 			die('Failed to load "'.$type.'" component');
 		}
 		$class = 'FeedbackManager'.$type.'Component';
-		require_once $filename;
+        require_once $filename;
+       
 		return new $class($parent);
 	}
 }

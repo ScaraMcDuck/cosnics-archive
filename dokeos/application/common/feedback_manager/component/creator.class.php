@@ -1,53 +1,64 @@
 <?php
-/*
+/* 
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
 /**
- * Description of creatorclass
+ * Description of updaterclass
  *
  * @author pieter
  */
+
+require_once Path :: get_application_library_path(). 'repo_viewer/repo_viewer.class.php';
+
 class FeedbackManagerCreatorComponent extends FeedbackManagerComponent {
+
     function run()
-	{
+    {
 
-        echo "wij runnen hier de creator van feedback";
-       /* $trail = $this->get_breadcrumb_trail();
+        $pid = Request :: get('pid');
+        $user_id =Request :: get('user_id');
+        $cid = Request :: get('cid');
+        $action = Request :: get ('action');
+        $application = $this->get_parent()->get_application();
+        $object = Request :: get('object');
 
-        if(Request :: get(CategoryManager :: PARAM_CATEGORY_ID))
+        $pub = new RepoViewer($this, 'feedback', true);
+
+        $actions = array('pid'=>$pid , 'cid' =>$cid , 'user_id' => $user_id , 'action' => 'feedback' ,FeedbackManager::PARAM_ACTION => FeedbackManager::ACTION_CREATE_FEEDBACK);
+       
+            foreach($actions as $type => $actie)
+            {
+                $pub->set_parameter($type, $actie);
+            }
+       
+
+        if(!isset($object))
         {
-            require_once dirname(__FILE__).'/../category_menu.class.php';
-            $menu = new CategoryMenu(Request :: get(CategoryManager :: PARAM_CATEGORY_ID), $this->get_parent());
-            $trail->merge($menu->get_breadcrumbs());
+            $html[] =  $pub->as_html();
+            
         }
-        $trail->add(new Breadcrumb($this->get_url(),Translation :: get('AddCategory')));
+        else
+        {
+           
+            $fb = new FeedbackPublication();
+            $fb->set_application($application);
+            $fb->set_cid($cid);
+            $fid = $object;//$this->adm->get_next_feedback_id();
+            $fb->set_fid($fid);
+            $fb->set_pid($pid);
+            $fb->create();
 
-		$category_id = $_GET[CategoryManager :: PARAM_CATEGORY_ID];
-		$user = $this->get_user();
+            $message = 'FeedbackCreated';
+            echo $action;
+            $this->redirect(Translation :: get($message), false, array(Application :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO,'pid' => $pid, 'cid' => $cid , 'user_id' => $user_id, 'action' => $action ));
+          
+        }
 
-		$category = $this->get_category();
-		$category->set_parent(isset($category_id)?$category_id:0);
 
-		$form = new CategoryForm(CategoryForm :: TYPE_CREATE, $this->get_url(array(CategoryManager :: PARAM_CATEGORY_ID => $category_id)), $category, $user, $this);
+        echo implode("\n",$html);
 
-		if($form->validate())
-		{
-			$success = $form->create_category();
-			if(get_class($this->get_parent()) == 'RepositoryCategoryManager')
-				$this->repository_redirect(RepositoryManager :: ACTION_MANAGE_CATEGORIES, Translation :: get($success ? 'CategoryCreated' : 'CategoryNotCreated'), 0, ($success ? false : true), array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES, CategoryManager :: PARAM_CATEGORY_ID => $category->get_id()));
-			else
-				//$this->redirect(Translation :: get($success ? 'CategoryCreated' : 'CategoryNotCreated'), ($success ? false : true), array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES, CategoryManager :: PARAM_CATEGORY_ID => $category->get_id()));
-				$this->redirect(Translation :: get($success ? 'CategoryCreated' : 'CategoryNotCreated'), ($success ? false : true), array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES, CategoryManager :: PARAM_CATEGORY_ID => 0));
-		}
-		else
-		{
-			$this->display_header($trail);
-			echo '<br />';
-			$form->display();
-			$this->display_footer();
-		}*/
-	}
+    }
 }
 ?>
