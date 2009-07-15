@@ -12,14 +12,16 @@
 
 require_once dirname(__FILE__).'/admin_data_manager.class.php';
 
-class Feedback {
+class FeedbackPublication
+{
     const CLASS_NAME				= __CLASS__;
 
 	const PROPERTY_ID				= 'id';
 	const PROPERTY_APPLICATION		= 'application';
 	const PROPERTY_PID              = 'pid';
 	const PROPERTY_CID              = 'cid';
-    const PRPOPERTY_FID             = 'fid';
+    const PROPERTY_FID              = 'fid';
+    const PROPERTY_TEXT              = 'text';
 
 	private $id;
 	private $defaultProperties;
@@ -31,7 +33,7 @@ class Feedback {
 	 * @param array $defaultProperties The default properties of the feedback
 	 *                                 object. Associative array.
 	 */
-	function Feedback($id = 0, $defaultProperties = array ())
+	function FeedbackPublication($id = 0, $defaultProperties = array ())
 	{
 		$this->set_id($id);
 		$this->defaultProperties = $defaultProperties;
@@ -66,7 +68,7 @@ class Feedback {
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_APPLICATION, self :: PROPERTY_VARIABLE, self :: PROPERTY_VALUE);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_APPLICATION, self :: PROPERTY_PID, self :: PROPERTY_CID, self :: PROPERTY_FID);
 	}
 
 	/**
@@ -160,7 +162,7 @@ class Feedback {
 	 */
 	function set_pid($pid)
 	{
-		$this->set_default_property(self :: PROPERTY_VARIABLE, $pid);
+		$this->set_default_property(self :: PROPERTY_PID, $pid);
 	}
 
 	/**
@@ -169,7 +171,7 @@ class Feedback {
 	 */
 	function set_cid($cid)
 	{
-		$this->set_default_property(self :: PROPERTY_VALUE, $cid);
+		$this->set_default_property(self :: PROPERTY_CID, $cid);
 	}
 
     /**
@@ -178,8 +180,9 @@ class Feedback {
 	 */
     function set_fid($fid)
     {
-        $this->set_default_property(self :: PROPERTY_VALUE, $fid);
+        $this->set_default_property(self :: PROPERTY_FID, $fid);
     }
+
 
 	/**
 	 * Instructs the data manager to create the feedback, making it

@@ -7,6 +7,7 @@ require_once Path :: get_admin_path() . 'lib/admin_data_manager.class.php';
 require_once Path :: get_admin_path() . 'lib/language.class.php';
 require_once Path :: get_admin_path() . 'lib/registration.class.php';
 require_once Path :: get_admin_path() . 'lib/setting.class.php';
+require_once Path :: get_admin_path() . 'lib/feedback_publication.class.php';
 require_once Path :: get_admin_path() . 'lib/category_manager/admin_category.class.php';
 require_once Path :: get_admin_path() . 'lib/system_announcement_publication.class.php';
 require_once Path :: get_library_path() . 'condition/condition_translator.class.php';
@@ -52,6 +53,7 @@ class DatabaseAdminDataManager extends AdminDataManager
     {
         $condition = new EqualityCondition(Registration :: PROPERTY_ID, $id);
         return $this->database->retrieve_object(Registration :: get_table_name(), $condition);
+
     }
 
     function retrieve_registrations($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
@@ -142,6 +144,12 @@ class DatabaseAdminDataManager extends AdminDataManager
     function get_next_language_id()
     {
         return $this->database->get_next_id(Language :: get_table_name());
+    }
+
+    // inherted
+    function get_next_feedback_id()
+    {
+        return $this->database->get_next_id(FeedbackPublication :: get_table_name());
     }
 
     // Inherited.
@@ -447,6 +455,27 @@ class DatabaseAdminDataManager extends AdminDataManager
         return $this->database->retrieve_objects(RemotePackage :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
     }
 
+    function retrieve_feedback_publications($pid,$cid,$application)
+    {
+        
+        $conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_PID, $pid);
+        $conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_CID, $cid);
+        $conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_APPLICATION, $application);
+        $condition = new AndCondition($conditions);
+        $order_by[] = new ObjectTableOrder(FeedbackPublication::PROPERTY_ID,SORT_DESC);
+		
+
+        return $this->database->retrieve_objects(FeedbackPublication :: get_table_name(),$condition,null,null,$order_by);
+    }
+
+     function retrieve_feedback_publication($id)
+    {
+
+        $condition = new EqualityCondition(FeedbackPublication :: PROPERTY_ID, $id);
+        return $this->database->retrieve_object(FeedbackPublication :: get_table_name(),$condition);
+
+    }
+
     function update_feedback($feedback)
     {
         $condition = new EqualityCondition(Feedback :: PROPERTY_ID, $feedback->get_id());
@@ -455,7 +484,7 @@ class DatabaseAdminDataManager extends AdminDataManager
 
     function delete_feedback($feedback)
     {
-        $condition = new EqualityCondition(Feedback :: PROPERTY_ID, $feedback->get_id());
+        $condition = new EqualityCondition(FeedbackPublication :: PROPERTY_ID, $feedback->get_id());
         return $this->database->delete($feedback->get_table_name(), $condition);
     }
 

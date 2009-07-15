@@ -47,6 +47,8 @@ abstract class AdminDataManager
 
     abstract function get_next_registration_id();
 
+    abstract function get_next_feedback_id();
+
     abstract function get_next_system_announcement_publication_id();
 
     abstract function create_language($language);
@@ -76,6 +78,10 @@ abstract class AdminDataManager
     abstract function retrieve_setting_from_variable_name($variable, $application = 'admin');
 
     abstract function retrieve_language_from_english_name($english_name);
+
+    abstract function retrieve_feedback_publications($pid,$cid,$application);
+
+    abstract function retrieve_feedback_publication($id);
 
     abstract function update_setting($setting);
 
