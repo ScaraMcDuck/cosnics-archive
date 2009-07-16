@@ -31,6 +31,17 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			$this->assessment = $this->pub->get_learning_object();
 			$this->set_parameter('pid', $this->pid);
 		}
+		
+		if (Request :: get(AssessmentTool :: PARAM_INVITATION_ID))
+		{
+			$this->iid = Request :: get(AssessmentTool :: PARAM_INVITATION_ID);
+			$condition = new EqualityCondition(SurveyInvitation :: PROPERTY_INVITATION_CODE, $this->iid);
+			$this->invitation = $this->datamanager->retrieve_survey_invitations($condition)->next_result();
+			$this->pub = $this->datamanager->retrieve_learning_object_publication($this->invitation->get_survey_id());
+			$this->pid = $this->pub->get_id();
+			$this->assessment = $this->pub->get_learning_object(); 
+			$this->set_parameter(AssessmentTool :: PARAM_INVITATION_ID, $this->iid);
+		}
 
 		// Checking statistics
 		
@@ -39,7 +50,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		$conditions[] = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID, $this->get_user_id());
 		$condition = new AndCondition($conditions);
 		$trackers = $track->retrieve_tracker_items($condition);
-		
+	
 		$count = count($trackers);
 		
 		foreach($trackers as $tracker)
@@ -82,20 +93,11 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		{
 			$display = ComplexDisplay :: factory($this, $this->assessment->get_type());
 	        $display->set_root_lo($this->assessment);
-	        
+	        	
 			$this->display_header(new BreadcrumbTrail());
 			$display->run();
 			$this->display_footer();
 		}
-
-		/*if (Request :: get(AssessmentTool :: PARAM_INVITATION_ID))
-		{
-			$this->iid = Request :: get(AssessmentTool :: PARAM_INVITATION_ID);
-			$condition = new EqualityCondition(SurveyInvitation :: PROPERTY_INVITATION_CODE, $this->iid);
-			$this->invitation = $this->datamanager->retrieve_survey_invitations($condition)->next_result();
-			$this->assessment = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->invitation->get_survey_id());
-			$url = $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, AssessmentTool :: PARAM_INVITATION_ID => $this->iid));
-		}*/
 
 	}
 
@@ -107,9 +109,9 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			'course_id' => $this->get_course_id(),
 			'total_score' => 0
 		);
-	
+
 		$tracker = Events :: trigger_event('attempt_assessment', 'weblcms', $args);
-		
+
 		return $tracker[0];
 	}
 
