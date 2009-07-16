@@ -49,6 +49,8 @@ abstract class AdminDataManager
 
     abstract function get_next_feedback_id();
 
+    abstract function get_next_validation_id();
+
     abstract function get_next_system_announcement_publication_id();
 
     abstract function create_language($language);
@@ -82,6 +84,10 @@ abstract class AdminDataManager
     abstract function retrieve_feedback_publications($pid,$cid,$application);
 
     abstract function retrieve_feedback_publication($id);
+
+    abstract function retrieve_validations($pid,$cid,$application);
+
+    abstract function retrieve_validation($id);
 
     abstract function update_setting($setting);
 
@@ -162,6 +168,12 @@ abstract class AdminDataManager
     abstract function delete_learning_object_publications($object_id);
 
     abstract function delete_settings($condition = null);
+
+    abstract function delete_validation($validation);
+
+    abstract function update_validation($validation);
+
+    abstract function create_validation($validation);
 
     abstract function delete_feedback($feeback);
 
