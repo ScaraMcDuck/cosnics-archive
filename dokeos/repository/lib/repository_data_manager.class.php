@@ -288,37 +288,27 @@ abstract class RepositoryDataManager
 			$versions = $this->get_version_ids($object);
 			$forbidden = array_merge($children, $versions);
 		}
-//		if($object->is_complex_learning_object())
-//		{
-//			//return $this->complex_learning_object_removal_allowed($object, $object);
-//		}
 
+		
+		$count_wrapper_items = $this->count_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $object->get_id()));
+		if($count_wrapper_items > 0)
+			return false;
+		
+		$count_portfolio_wrapper_items = $this->count_learning_objects('portfolio_item', new EqualityCondition(PortfolioItem :: PROPERTY_REFERENCE, $object->get_id()));
+		if($count_portfolio_wrapper_items > 0)
+			return false;
+		
+		$count_learning_path_wrapper_items = $this->count_learning_objects('learning_path_item', new EqualityCondition(LearningPathItem :: PROPERTY_REFERENCE, $object->get_id()));
+		if($count_learning_path_wrapper_items > 0)
+			return false;
+	
+		$count_children = $this->count_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $object->get_id()));
+		if($count_children > 0)
+			return false;
+			
 		return !$this->any_learning_object_is_published($forbidden);
 	}
 
-	function complex_learning_object_removal_allowed($clo, $root_clo)
-	{
-		if($this->learning_object_is_published($clo))
-			return false;
-
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $clo->get_id());
-		$items = $this->retrieve_complex_learning_object_items($condition);
-		if($items->size() > 1)
-			return false;
-		if($items->size() == 1)
-			if($clo->get_id() == $root_clo->get_id())
-				return false;
-			else
-			{
-				$parent = $this->retrieve_learning_object($items->next_result()->get_parent());
-				return $this->complex_learning_object_removal_allowed($parent, $root_clo);
-			}
-		if($items->size() == 0)
-			if($clo->get_id() == $root_clo->get_id())
-				return true;
-			else
-				return false;
-	}
 
 	/**
 	 * Copies a complex learning object
