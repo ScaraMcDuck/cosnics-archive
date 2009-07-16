@@ -68,17 +68,26 @@ class RepositoryFilterForm extends FormValidator
 		$this->addElement('select', self :: FILTER_TYPE, null, $filters, array('class' => 'postback'));
 		$this->addElement('style_submit_button', 'submit', Translation :: get('Filter'), array('class' => 'normal filter'));
 		
-		$this->setDefaults(array(self :: FILTER_TYPE => 0, 'published' => 1));
+		$session_filter = Session :: retrieve('filter');
+		$this->setDefaults(array(self :: FILTER_TYPE => $session_filter, 'published' => 1));
 		
 		$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/postback.js'));
 	}
 	
 	function get_filter_conditions()
 	{ 
-		if($this->validate())
+		$session_filter = Session :: retrieve('filter');
+		if($this->validate() || isset($session_filter))
 		{ 
 			$values = $this->exportValues();
-			$filter_type = $values[self :: FILTER_TYPE];
+			$filter = $values[self :: FILTER_TYPE];
+			
+			if($this->validate())
+			{
+				Session :: register('filter', $filter);
+			}
+			
+			$filter_type =  !is_null($filter) ? $filter : $session_filter;
 			
 			if (is_numeric($filter_type))
 			{
