@@ -4,10 +4,9 @@
   <property name="id" type="integer" unsigned="1" notnull="1"/>
   <property name="application" type="text" length="30"/>
   <property name="pid" type="integer" length="10" unsigned="1"/>
-  <property name="validated" type="date" unsigned="1"/>
-  <property name="userid" type="integer" length="10" unsigned="1" notnull="1"/>
-  <property name="username" type="text" length="100"/>
-  <property name="email" type="text" length="100"/>
+  <property name="cid" type="integer" length="10" unsigned="1"/>
+  <property name="validated" type="timestamp" unsigned="1" notnull="1"/>
+  <property name="owner" type="integer" unsigned="1" notnull="1" />
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>

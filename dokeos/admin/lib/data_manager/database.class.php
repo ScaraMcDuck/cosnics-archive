@@ -8,6 +8,7 @@ require_once Path :: get_admin_path() . 'lib/language.class.php';
 require_once Path :: get_admin_path() . 'lib/registration.class.php';
 require_once Path :: get_admin_path() . 'lib/setting.class.php';
 require_once Path :: get_admin_path() . 'lib/feedback_publication.class.php';
+require_once Path :: get_admin_path() . 'lib/validation.class.php';
 require_once Path :: get_admin_path() . 'lib/category_manager/admin_category.class.php';
 require_once Path :: get_admin_path() . 'lib/system_announcement_publication.class.php';
 require_once Path :: get_library_path() . 'condition/condition_translator.class.php';
@@ -150,6 +151,12 @@ class DatabaseAdminDataManager extends AdminDataManager
     function get_next_feedback_id()
     {
         return $this->database->get_next_id(FeedbackPublication :: get_table_name());
+    }
+
+    // inherted
+    function get_next_validation_id()
+    {
+        return $this->database->get_next_id(Validation :: get_table_name());
     }
 
     // Inherited.
@@ -477,11 +484,31 @@ class DatabaseAdminDataManager extends AdminDataManager
         return $this->database->retrieve_objects(FeedbackPublication :: get_table_name(),$condition,null,null,$order_by);
     }
 
+    function retrieve_validations($pid,$cid,$application)
+    {
+
+        $conditions[] = new EqualityCondition(Validation :: PROPERTY_PID, $pid);
+        $conditions[] = new EqualityCondition(Validation :: PROPERTY_CID, $cid);
+        $conditions[] = new EqualityCondition(Validation :: PROPERTY_APPLICATION, $application);
+        $condition = new AndCondition($conditions);
+        //$order_by[] = new ObjectTableOrder(FeedbackPublication::PROPERTY_ID,SORT_DESC);
+
+        return $this->database->retrieve_objects(Validation :: get_table_name(),$condition);
+    }
+
      function retrieve_feedback_publication($id)
     {
 
         $condition = new EqualityCondition(FeedbackPublication :: PROPERTY_ID, $id);
         return $this->database->retrieve_object(FeedbackPublication :: get_table_name(),$condition);
+
+    }
+
+     function retrieve_validation($id)
+    {
+
+        $condition = new EqualityCondition(Validation :: PROPERTY_ID, $id);
+        return $this->database->retrieve_object(Validation :: get_table_name(),$condition);
 
     }
 
@@ -491,15 +518,32 @@ class DatabaseAdminDataManager extends AdminDataManager
         return $this->database->update($feedback, $condition);
     }
 
+    function update_validation($validation)
+    {
+        $condition = new EqualityCondition(Validation :: PROPERTY_ID, $validation->get_id());
+        return $this->database->update($validation, $condition);
+    }
+
     function delete_feedback($feedback)
     {
         $condition = new EqualityCondition(FeedbackPublication :: PROPERTY_ID, $feedback->get_id());
         return $this->database->delete($feedback->get_table_name(), $condition);
     }
 
+    function delete_validation($validation)
+    {
+        $condition = new EqualityCondition(FeedbackPublication :: PROPERTY_ID, $validation->get_id());
+        return $this->database->delete($validation->get_table_name(), $condition);
+    }
+
     function create_feedback($feedback)
     {
         return $this->database->create($feedback);
+    }
+
+    function create_validation($validation)
+    {
+        return $this->database->create($validation);
     }
 }
 ?>
