@@ -106,12 +106,19 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
 			{
 				echo ' class="current"';
 			}
-			echo ' href="'.$this->get_url(array('pid' => $pid, 'cid' => $cid, 'user_id' => $user_id, 'action' => $action)).'">'.htmlentities(Translation :: get(ucfirst($action).'Title')).'</a></li>';
+            
+			echo ' href="'.$this->get_url(array('pid' => $pid, 'cid' => $cid, 'user_id' => $user_id, 'action' => $action)).'">'.htmlentities(Translation :: get(ucfirst($action).'Title'));
+            if ( $action == 'feedback')
+            {
+               echo '['.AdminDataManager::get_instance()->count_feedback_publications($pid, $cid, 'portfolio').']';
+            }
+            echo '</a></li>';
+            
 		}
+        
 		echo '</ul><div class="tabbed-pane-content">';
-	
+        
 		echo call_user_func(array($this, 'display_' . $current_action . '_page'));
-		
 		echo '</div></div>';
 		echo '</div>';
 		echo '</div>';
@@ -164,7 +171,7 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
 	
 	function display_feedback_page()
 	{
-       
+        
 		$html = array();
        $fbm = new FeedbackManager($this,PortfolioManager::APPLICATION_NAME);
             $fbm->run();
