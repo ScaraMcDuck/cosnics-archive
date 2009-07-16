@@ -85,7 +85,9 @@ class HotspotQuestionQtiExport extends QuestionQtiExport
 			//$export_type = $this->export_type($type);
 			//$export_coords = $this->transform_coords($coords, $export_type);
 
-			$interaction_xml[] = '<hotspotChoice shape="poly" coords="'.$export_coords.'" identifier="A'.$i.'" />';
+			$interaction_xml[] = '<hotspotChoice shape="poly" coords="'.$export_coords.'" identifier="A'.$i.'">';
+			$interaction_xml[] = '<feedbackInline outcomeIdentifier="FEEDBACK'.$i.'" identifier="INCORRECT" showHide="hide">'.$this->include_question_images($answer->get_comment()).'</feedbackInline>';
+			$interaction_xml[] = '</hotspotChoice>';
 		}
 		$interaction_xml[] = '</graphicOrderInteraction>';
 

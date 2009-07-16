@@ -60,6 +60,10 @@ class MatchQuestionQtiExport extends QuestionQtiExport
 		$interaction_xml[] = '<itemBody>';
 		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_learning_object()->get_description()).'</prompt>';
 		$interaction_xml[] = '<textEntryInteraction responseIdentifier="RESPONSE" expectedLength="50" />';
+		/*foreach($answers as $i => $answer)
+		{
+			$interaction_xml[] = '<feedbackInline outcomeIdentifier="FEEDBACK'.$i.'" identifier="INCORRECT" showHide="hide">'.$this->include_question_images($answer->get_comment()).'</feedbackInline>';
+		}*/
 		$interaction_xml[] = '</itemBody>';
 		return implode('', $interaction_xml);
 	}

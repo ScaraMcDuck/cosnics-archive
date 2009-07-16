@@ -14,7 +14,7 @@ class MatchingQuestionQtiExport extends QuestionQtiExport
 		foreach($q_answers as $q_answer)
 		{
 			$match = $q_matches[$q_answer->get_match()]; 
-			$answers[] = array('answer' => $q_answer->get_value(), 'matchnum' => $q_answer->get_match(), 'match' => $match, 'score' => $q_answer->get_weight());
+			$answers[] = array('comment' => $q_answer->get_comment(), 'answer' => $q_answer->get_value(), 'matchnum' => $q_answer->get_match(), 'match' => $match, 'score' => $q_answer->get_weight());
 		}
 		
 		$item_xml[] = '<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1    http://www.imsglobal.org/xsd/imsqti_v2p1.xsd" identifier="q'.$question->get_id().'" title="'.$question->get_title().'" adaptive="false" timeDependent="false">';
@@ -56,7 +56,9 @@ class MatchingQuestionQtiExport extends QuestionQtiExport
 		$interaction_xml[] = '<simpleMatchSet>';
 		foreach ($answers as $i => $answer)
 		{
-			$interaction_xml[] = '<simpleAssociableChoice identifier="c'.$i.'" matchMax="1">'.$this->include_question_images($answer['answer']).'</simpleAssociableChoice>';
+			$interaction_xml[] = '<simpleAssociableChoice identifier="c'.$i.'" matchMax="1">'.$this->include_question_images($answer['answer']);
+			$interaction_xml[] = '<feedbackInline outcomeIdentifier="FEEDBACK'.$i.'" identifier="INCORRECT" showHide="hide">'.$this->include_question_images($answer['comment']).'</feedbackInline>';
+			$interaction_xml[] = '</simpleAssociableChoice>';
 		}
 		$interaction_xml[] = '</simpleMatchSet>';
 		$interaction_xml[] = '<simpleMatchSet>';
