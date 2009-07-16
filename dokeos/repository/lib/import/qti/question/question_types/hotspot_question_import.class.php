@@ -32,9 +32,25 @@ class HotspotQuestionQtiImport extends QuestionQtiImport
 		$question->set_description($description);
 		$image = $interaction['object']['data'];
 		$parts = split('/', $image);
-		$imagename = '/'.$parts[count($parts)-1];
+		$imagename = $parts[count($parts)-1];
 		
-		$question->set_image($imagename);
+		$new_dir = Path :: get(SYS_PATH).'files/repository/'. $this->get_user()->get_id();
+		$orig_path = dirname($this->get_learning_object_file()) . '/' . $image;
+		$new_filename = FileSystem :: create_unique_name($new_dir, $imagename);
+
+		copy($orig_path, $new_dir . '/' . $new_filename);
+		
+		$object = new Document();
+		$object->set_title($new_filename);
+		$object->set_description($new_filename);
+		$object->set_path($this->get_user()->get_id() . '/' . $new_filename);
+		$object->set_filename($new_filename);
+		$object->set_filesize(Filesystem::get_disk_space($new_dir . '/' . $new_filename));
+		$object->set_owner_id($this->get_user()->get_id());
+		$object->set_parent_id(0);
+		$object->create();
+		
+		$question->set_image($object->get_id());
 		
 		$this->create_answers($question, $interaction['hotspotChoice']);
 		parent :: create_question($question);
@@ -51,10 +67,11 @@ class HotspotQuestionQtiImport extends QuestionQtiImport
 				continue;
 			
 			$coords = $answer['coords'];
+			$answer_text = 'import' . $i;
 			
 			$hotspot_type = $this->convert_type($type);
 			$hotspot_coords = $this->convert_coords($hotspot_type, $coords);
-			$hotspot_answer = new HotspotQuestionAnswer('import'.$i, '', 1, $hotspot_coords, $hotspot_type);
+			$hotspot_answer = new HotspotQuestionAnswer($answer_text, '', 1, serialize($hotspot_coords));
 			$question->add_answer($hotspot_answer);
 		}
 	}
@@ -95,11 +112,11 @@ class HotspotQuestionQtiImport extends QuestionQtiImport
 				return $hotspot_coords;
 			case 'poly':
 				$points = split(',', $coords);
-				for ($i = 0; $i < count($points) - 2; $i += 2)
+				$hotspot_coords = array();
+				for ($i = 0; $i < count($points); $i += 2)
 				{
-					$hotspot_coords .= $points[$i].';'.$points[$i+1].'|';
+					$hotspot_coords[] = array(trim($points[$i]),trim($points[$i+1]));
 				}
-				$hotspot_coords = substr($hotspot_coords, 0, strlen($hotspot_coords)-1);
 				return $hotspot_coords;
 			default:
 				return '';
