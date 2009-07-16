@@ -75,7 +75,9 @@ class MatrixQuestionQtiExport extends QuestionQtiExport
 		
 		foreach($answers as $i => $answer)
 		{
-			$interaction_xml[] = '<simpleAssociableChoice identifier="o' . $i . '" matchMax="0">' . $answer->get_value() . '</simpleAssociableChoice>';
+			$interaction_xml[] = '<simpleAssociableChoice identifier="o' . $i . '" matchMax="0">' . $answer->get_value();
+			$interaction_xml[] = '<feedbackInline outcomeIdentifier="FEEDBACK'.$i.'" identifier="INCORRECT" showHide="hide">'.$this->include_question_images($answer->get_comment()).'</feedbackInline>'; 
+			$interaction_xml[] = '</simpleAssociableChoice>';
 		}
 		
 		$interaction_xml[] = '</simpleMatchSet>';
