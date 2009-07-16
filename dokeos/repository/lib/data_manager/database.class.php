@@ -1489,10 +1489,10 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 	function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		if (!is_array($order_property))
+		/*if (!is_array($order_property))
 		{
 			$order_property = array($order_property);
-		}
+		}*/
 		
 		$order_property[] = new ObjectTableOrder('parent');
 		$order_property[] = new ObjectTableOrder('display_order');
