@@ -49,12 +49,12 @@ class QtiImport extends LearningObjectImport
 		}
 	}
 	
-	function get_file_content_array()
+	function get_file_content_array($substring)
 	{
 		$file = parent :: get_learning_object_file();
 		$result = array();
 		
-		if (file_exists($file))
+		if (file_exists($file) || !is_null($substring))
 		{			
 			$unserializer = &new XML_Unserializer();
 			$unserializer->setOption(XML_UNSERIALIZER_OPTION_COMPLEXTYPE, 'array');
@@ -64,7 +64,12 @@ class QtiImport extends LearningObjectImport
 			$unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array('location'));
 			
 			// userialize the document
-			$status = $unserializer->unserialize($file, true);    
+			
+			if($substring)
+				$unserializer->unserialize($substring);
+			else
+				$status = $unserializer->unserialize($file, true);
+			    
 			if (PEAR::isError($status))
 			{
 				echo 'Error: ' . $status->getMessage();

@@ -71,12 +71,13 @@ class MatchingQuestionQtiImport extends QuestionQtiImport
 	function check_match($question, $match)
 	{
 		$matches = $question->get_matches();
+		$found = false;
 		foreach($matches as $i => $qmatch)
 		{
 			if ($match == $qmatch)
 			{
-				return $i;
 				$found = true;
+				return $i;
 			}
 		}
 		if (!$found)

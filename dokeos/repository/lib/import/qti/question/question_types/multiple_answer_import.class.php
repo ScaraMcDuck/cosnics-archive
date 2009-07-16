@@ -13,7 +13,7 @@ class MultipleAnswerQuestionQtiImport extends QuestionQtiImport
 		$title = $data['title'];
 		//$descr = $data['itemBody']['choiceInteraction']['prompt'];
 		$descr = parent :: get_tag_content('prompt');
-		$descr = parent :: import_images($description);
+		$descr = parent :: import_images($descr);
 		
 		$question->set_title($title);
 		$question->set_description($descr);
