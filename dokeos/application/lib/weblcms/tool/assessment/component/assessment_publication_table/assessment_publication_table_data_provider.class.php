@@ -67,9 +67,15 @@ class AssessmentPublicationTableDataProvider extends ObjectTableDataProvider
 		}
 		$course = $this->parent->get_course_id();
 		
+		if ($this->parent->get_parameter(WeblcmsManager :: PARAM_CATEGORY))
+    		$category = $this->parent->get_parameter(WeblcmsManager :: PARAM_CATEGORY);
+    	else
+    		$category = 0;
+		
 		$conditions = array();
 		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course);
 		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'assessment');
+		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $category);
 		
 		$access = array();
 		$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
@@ -82,9 +88,9 @@ class AssessmentPublicationTableDataProvider extends ObjectTableDataProvider
 		
 		$subselect_conditions = array();
 		$subselect_conditions[] = $this->get_condition();
-		if($this->get_parent()->get_condition())
+		if($this->parent->get_condition())
 		{
-			$subselect_conditions[] = $this->get_parent()->get_condition();
+			$subselect_conditions[] = $this->parent->get_condition();
 		}
 		$subselect_condition = new AndCondition($subselect_conditions);
 		
@@ -125,7 +131,7 @@ class AssessmentPublicationTableDataProvider extends ObjectTableDataProvider
     		$category = $parent->get_parameter(WeblcmsManager :: PARAM_CATEGORY);
     	else
     		$category = 0;
-    	$conds[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $category);
+    	//$conds[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $category);
     	
     	$type_cond = array();
     	$types = $this->types;
