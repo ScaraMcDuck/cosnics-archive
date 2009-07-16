@@ -39,19 +39,19 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Search')));
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('SearchResultsFor').': '.$query));
         }
-
-        $array = $this->form->getSubmitValues();
-
-        if(!$array['filter_type'] == 0)
+		
+        $session_filter = Session :: retrieve('filter');
+        
+        if($session_filter != null && !$session_filter == 0)
         {
-            if(is_numeric($array['filter_type']))
+            if(is_numeric($session_filter))
             {
-                $condition = new EqualityCondition(UserView :: PROPERTY_ID, $array['filter_type']);
+                $condition = new EqualityCondition(UserView :: PROPERTY_ID, $session_filter);
                 $user_view = RepositoryDataManager::get_instance()->retrieve_user_views($condition)->next_result();
                 $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Filter') . ': ' . $user_view->get_name()));
             }
             else
-                $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Filter') . ': ' . ucfirst($array['filter_type'])));
+                $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Filter') . ': ' . DokeosUtilities :: underscores_to_camelcase(($session_filter))));
         }
 
 
