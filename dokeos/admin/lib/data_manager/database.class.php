@@ -297,6 +297,15 @@ class DatabaseAdminDataManager extends AdminDataManager
         return $this->database->count_objects('admin_category', $conditions);
     }
 
+    function count_feedback_publications($pid,$cid,$application){
+         $conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_PID, $pid);
+        $conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_CID, $cid);
+        $conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_APPLICATION, $application);
+        $condition = new AndCondition($conditions);
+        
+        return $this->database->count_objects('feedback_publication', $condition);
+    }
+
     function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
     {
         return $this->database->retrieve_objects('admin_category', $condition, $offset, $count, $order_property, $order_direction);
