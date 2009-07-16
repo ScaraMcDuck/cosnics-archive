@@ -7,27 +7,14 @@ class HotspotQuestionQtiImport extends QuestionQtiImport
 	function import_learning_object()
 	{
 		$data = $this->get_file_content_array();
-	
+
 		$question = new HotspotQuestion();
 		$title = $data['title'];
 		
 		$interaction = $data['itemBody']['graphicOrderInteraction'];
-		//$prompt = $interaction['prompt'];
 		$description = parent :: get_tag_content('prompt');
 		$description = parent :: import_images($description);
-		
-		//dump($prompt);
-		/*if (is_array($prompt))
-		{
-			foreach ($prompt as $tag => $element)
-			{
-				$description .= $element;
-			}
-		}
-		else
-			$description = $prompt;*/
-		
-		
+
 		$question->set_title($title);
 		$question->set_description($description);
 		$image = $interaction['object']['data'];
@@ -113,9 +100,9 @@ class HotspotQuestionQtiImport extends QuestionQtiImport
 			case 'poly':
 				$points = split(',', $coords);
 				$hotspot_coords = array();
-				for ($i = 0; $i < count($points); $i += 2)
+				for ($i = 0; $i < count($points) - 2; $i += 2)
 				{
-					$hotspot_coords[] = array(trim($points[$i]),trim($points[$i+1]));
+					$hotspot_coords[] = array(intval(trim($points[$i])),intval(trim($points[$i+1])));
 				}
 				return $hotspot_coords;
 			default:
