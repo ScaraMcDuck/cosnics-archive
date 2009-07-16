@@ -8,7 +8,10 @@ require_once dirname(__FILE__).'/question_types/multiple_choice_import.class.php
 require_once dirname(__FILE__).'/question_types/open_question_import.class.php';
 require_once dirname(__FILE__).'/question_types/hotspot_question_import.class.php';
 require_once dirname(__FILE__).'/question_types/open_question_with_document_import.class.php';
-require_once dirname(__FILE__).'/question_types/score_import.class.php';
+require_once dirname(__FILE__).'/question_types/rating_import.class.php';
+require_once dirname(__FILE__).'/question_types/match_import.class.php';
+require_once dirname(__FILE__).'/question_types/matrix_import.class.php';
+require_once dirname(__FILE__).'/question_types/ordering_import.class.php';
 
 class QuestionQtiImport extends QtiImport
 {
@@ -21,7 +24,7 @@ class QuestionQtiImport extends QtiImport
 	
 	function factory_qti_question($lo_file, $user, $category)
 	{
-		$data = $this->get_file_content_array();
+		$data = $this->get_file_content_array(); 
 		$itembody = $data['itemBody'];
 		foreach ($itembody as $key => $itemdata)
 		{
@@ -55,13 +58,15 @@ class QuestionQtiImport extends QtiImport
 				else
 					return new MultipleAnswerQuestionQtiImport($lo_file, $user, $category);
 			case 'sliderInteraction':
-				return new ScoreQuestionQtiImport($lo_file, $user, $category);
+				return new RatingQuestionQtiImport($lo_file, $user, $category);
 			case 'textEntryInteraction':
 				return new FillInBlanksQuestionQtiImport($lo_file, $user, $category);
 			case 'matchInteraction': 
 				return new MatchingQuestionQtiImport($lo_file, $user, $category);
 			case 'graphicOrderInteraction':
 				return new HotspotQuestionQtiImport($lo_file, $user, $category);
+			case 'orderInteraction':
+				return new OrderingQuestionQtiImport($lo_file, $user, $category);
 			default:
 				return null;
 		}
