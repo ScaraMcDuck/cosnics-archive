@@ -61,7 +61,7 @@ class QtiImport extends LearningObjectImport
 			$unserializer->setOption(XML_UNSERIALIZER_OPTION_ATTRIBUTES_PARSE, true);
 			$unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);
 			$unserializer->setOption(XML_UNSERIALIZER_OPTION_GUESS_TYPES, true);
-			$unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array('location'));
+			$unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array('hotspotChoice'));
 			
 			// userialize the document
 			
