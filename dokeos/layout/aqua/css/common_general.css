@@ -610,6 +610,14 @@ div.learning_object div.publication_info
 	margin: 1em 0;
 }
 
+div.learning_object span.publication_info
+{
+	font-weight: normal;
+	font-style: italic;
+	text-align: right;
+}
+
+
 div.learning_object div.publication_actions
 {
 	text-align: right;
