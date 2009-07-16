@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<object name="treeitem">
-	<properties>
-		<property name="treeitem" type="integer" length="10" notnull="1" autoincrement="1"/>
-		<property name="userid" type="integer" length="10" notnull="1"/>
-	</properties>
-</object>
