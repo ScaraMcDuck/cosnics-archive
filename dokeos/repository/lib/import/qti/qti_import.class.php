@@ -52,11 +52,10 @@ class QtiImport extends LearningObjectImport
 	function get_file_content_array($substring)
 	{
 		$file = parent :: get_learning_object_file();
-		$result = array();
 		
 		if (file_exists($file) || !is_null($substring))
 		{			
-			$unserializer = &new XML_Unserializer();
+			$unserializer = new XML_Unserializer();
 			$unserializer->setOption(XML_UNSERIALIZER_OPTION_COMPLEXTYPE, 'array');
 			$unserializer->setOption(XML_UNSERIALIZER_OPTION_ATTRIBUTES_PARSE, true);
 			$unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);
