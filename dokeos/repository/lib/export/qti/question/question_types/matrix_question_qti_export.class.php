@@ -14,9 +14,9 @@ class MatrixQuestionQtiExport extends QuestionQtiExport
 		$item_xml[] = '<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1    http://www.imsglobal.org/xsd/imsqti_v2p1.xsd" identifier="q'.$question->get_id().'" title="'.$question->get_title().'" adaptive="false" timeDependent="false">';
 		$item_xml[] = '<responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="directPair">';
 		$item_xml[] = $this->get_response_xml($options); 
+		$item_xml[] = '</responseDeclaration>';
 		$item_xml[] = $this->get_outcome_xml();
 		$item_xml[] = $this->get_interaction_xml($options, $matches);
-		$item_xml[] = '</responseDeclaration>';
 		$item_xml[] = '<responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct" />';
 		$item_xml[] = '</assessmentItem>';
 		

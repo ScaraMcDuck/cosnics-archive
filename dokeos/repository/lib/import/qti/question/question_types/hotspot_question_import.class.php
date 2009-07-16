@@ -46,6 +46,10 @@ class HotspotQuestionQtiImport extends QuestionQtiImport
 		foreach ($answers as $i => $answer)
 		{
 			$type = $answer['shape'];
+			
+			if($type != 'poly')
+				continue;
+			
 			$coords = $answer['coords'];
 			
 			$hotspot_type = $this->convert_type($type);
