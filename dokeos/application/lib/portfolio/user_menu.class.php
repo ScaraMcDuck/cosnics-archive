@@ -51,6 +51,7 @@ class UserMenu extends HTML_Menu
      */
     private function get_menu()
     {
+        
         $menu = array();
 
         $users = array ();
