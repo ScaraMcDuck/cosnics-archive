@@ -48,16 +48,32 @@ class FeedbackManagerBrowserComponent extends FeedbackManagerComponent {
             echo $this->render_create_action();
 
             $feedbackpublications = $this->retrieve_feedback_publications($this->pid,$this->cid,$application);
+           
+            $nofeedbacks = AdminDataManager::get_instance()->count_feedback_publications($this->pid, $this->cid, $application);
+           //
 
-            while($feedback = $feedbackpublications->next_result())
+          // $counter = 0;
+           while($feedback = $feedbackpublications->next_result())
             {
-
+                $counter= $counter +1;
+                if ($counter==4){
+                     echo '<br /><a href="#" id="showfeedback" style="display:none; float:left;">'.Translation::get('ShowAllFeedback').'['.($nofeedbacks-3).']</a><br><br>';
+                     echo '<a href="#" id="hidefeedback" style="display:none; font-size: 80%; font-weight: normal;">('.Translation::get('HideAllFeedback').')</a>';
+                     echo '<div id="feedbacklist">';
+                }
                 echo $this->render_feedback($feedback);
 
             }
 
             // form to enter feedbacK
-            $form->display();
+           
+          if ( $counter >3)
+          {
+              echo '</div>';
+          }
+           $form->display();
+
+           echo '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/feedback_list.js' .'"></script>';
         }
     }
 
@@ -66,21 +82,24 @@ class FeedbackManagerBrowserComponent extends FeedbackManagerComponent {
 
         $id = $object->get_fid();
         $feedback = RepositoryDataManager :: get_instance()->retrieve_learning_object($id);
-        
-            $html = array();
-            $html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path() . 'learning_object/' .$feedback->get_icon_name().($feedback->is_latest_version() ? '' : '_na').'.png);">';
-            $html[] = '<div class="title">'. htmlentities($feedback->get_title()) .'</div>';
-            $html[] = self::TITLE_MARKER;
-            $html[] = $this->get_description($feedback);
-            if ($this->get_user()->get_id() == $feedback->get_owner_id())
-            {
-                $html[] = '<div class="publication_actions">';
-                $html[] = $this->render_delete_action($object);
-                $html[] = $this->render_update_action($feedback);
-                $html[] = '</div>';
-            }
+        $html = array();
+        $html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path() . 'learning_object/' .$feedback->get_icon_name().($feedback->is_latest_version() ? '' : '_na').'.png);">';
+        $html[] = '<div class="title">'. htmlentities($feedback->get_title()) ;
+        $html[] = '<span class="publication_info">';
+        $html[] = $this->render_publication_information($feedback);
+        $html[] = '</span>';
+        $html[] ='</div>';
+        $html[] = self::TITLE_MARKER;
+        $html[] = $this->get_description($feedback);
+        if ($this->get_user()->get_id() == $feedback->get_owner_id())
+        {
+            $html[] = '<div class="publication_actions">';
+            $html[] = $this->render_delete_action($object);
+            $html[] = $this->render_update_action($feedback);
             $html[] = '</div>';
-        
+        }
+        $html[] = '</div>';
+
 
         return implode("\n", $html);
 
@@ -116,6 +135,24 @@ class FeedbackManagerBrowserComponent extends FeedbackManagerComponent {
         return $create_link;
     }
 
+    function render_publication_information($feedback)
+    {
+        $user = UserManager::retrieve_user($feedback->get_owner_id());
+        $html = array();
+        $html[] = '(';
+        $html[] = $user->get_username();;
+        $html[] = $user->get_firstname();;
+        $html[] = ' - ';
+        $html[] = $this->format_date($feedback->get_creation_date());
+        $html[] = ')';
+        return implode("\n", $html);
+    }
+
+    function format_date($date)
+	{
+		$date_format = '%B %d, %Y at %I:%M %p';//Translation :: get('dateTimeFormatLong');
+		return Text :: format_locale_date($date_format,$date);
+	}
 
 }
 ?>
