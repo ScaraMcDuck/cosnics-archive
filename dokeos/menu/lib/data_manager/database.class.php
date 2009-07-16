@@ -75,17 +75,18 @@ class DatabaseMenuDataManager extends MenuDataManager
         if ($direction == 'up')
         {
             $conditions[] = new InequalityCondition(NavigationItem :: PROPERTY_SORT, InequalityCondition :: LESS_THAN, $sort);
-            $order_direction = array(SORT_DESC);
+            $order_direction = SORT_DESC;
         }
         elseif ($direction == 'down')
         {
             $conditions[] = new InequalityCondition(NavigationItem :: PROPERTY_SORT, InequalityCondition :: GREATER_THAN, $sort);
-            $order_direction = array(SORT_ASC);
+            $order_direction = SORT_ASC;
         }
 
         $condition = new AndCondition($conditions);
-
-        return $this->database->retrieve_object(NavigationItem :: get_table_name(), $condition, array(NavigationItem :: PROPERTY_SORT), $order_direction);
+		$order[] = new ObjectTableOrder(NavigationItem :: PROPERTY_SORT , $order_direction);
+        
+        return $this->database->retrieve_object(NavigationItem :: get_table_name(), $condition, $order);
     }
 
     function update_navigation_item($navigation_item)
