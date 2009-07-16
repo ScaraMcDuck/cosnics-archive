@@ -111,7 +111,7 @@ class MenuManagerSorterComponent extends MenuManagerComponent
             $move_category = $this->retrieve_navigation_item($category);
             $sort = $move_category->get_sort();
             $next_category = $this->retrieve_navigation_item_at_sort($move_category->get_category(), $sort, $direction);
-            
+
             if ($direction == 'up')
             {
                 $move_category->set_sort($sort - 1);

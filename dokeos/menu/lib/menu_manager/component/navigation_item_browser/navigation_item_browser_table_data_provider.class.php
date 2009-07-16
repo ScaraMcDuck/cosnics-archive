@@ -40,6 +40,7 @@ class NavigationItemBrowserTableDataProvider extends ObjectTableDataProvider
 //        $order_property = array(NavigationItem :: PROPERTY_SORT);
 //        $order_direction = array(SORT_ASC);
 
+        $order_property[] = new ObjectTableOrder(NavigationItem :: PROPERTY_SORT);
         return $this->get_browser()->retrieve_navigation_items($this->get_condition(), $offset, $count, $order_property, $order_direction);
     }
 
