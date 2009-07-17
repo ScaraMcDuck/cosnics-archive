@@ -64,7 +64,7 @@ class ForumBuilderBrowserComponent extends ForumBuilderComponent
 		$conditions = array();
 		$conditions[] = $this->get_clo_table_condition();
 		$subcondition = new EqualityCondition(LearningObject :: PROPERTY_TYPE, 'forum');
-		$conditions[] = new SubSelectcondition(ComplexLearningObjectItem :: PROPERTY_REF, LearningObject :: PROPERTY_ID, 'learning_object', $subcondition);
+		$conditions[] = new SubSelectcondition(ComplexLearningObjectItem :: PROPERTY_REF, LearningObject :: PROPERTY_ID, 'repository_learning_object', $subcondition);
 		$condition = new AndCondition($conditions);
 
 		$html[] = '<h3>' . Translation :: get('Forums') . '</h3>';
@@ -74,7 +74,7 @@ class ForumBuilderBrowserComponent extends ForumBuilderComponent
 		$conditions = array();
 		$conditions[] = $this->get_clo_table_condition();
 		$subcondition = new EqualityCondition(LearningObject :: PROPERTY_TYPE, 'forum_topic');
-		$conditions[] = new SubSelectcondition(ComplexLearningObjectItem :: PROPERTY_REF, LearningObject :: PROPERTY_ID, 'learning_object', $subcondition);
+		$conditions[] = new SubSelectcondition(ComplexLearningObjectItem :: PROPERTY_REF, LearningObject :: PROPERTY_ID, 'repository_learning_object', $subcondition);
 		$condition = new AndCondition($conditions);
 
 		$html[] = '<br /><h3>' . Translation :: get('ForumTopics') . '</h3>';
