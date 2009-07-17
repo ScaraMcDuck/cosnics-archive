@@ -223,4 +223,8 @@ $lang['common']['Browse'] = 'Browse';
 $lang['common']['HotspotTableTitle'] = 'Hotspot(s)';
 $lang['common']['PutAnswersCorrectOrder'] = 'Put the answers in the correct order';
 $lang['common']['ConfirmHotspotSelection'] = 'Confirm selection';
+$lang['common']['Tools'] = 'Tools';
+$lang['common']['Links'] = 'Links';
+$lang['common']['Disabled'] = 'Disabled';
+$lang['common']['CourseAdministration'] = 'Course Administration';
 ?>

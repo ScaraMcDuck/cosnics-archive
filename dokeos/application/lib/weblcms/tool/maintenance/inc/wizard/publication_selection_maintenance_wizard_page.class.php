@@ -15,11 +15,14 @@ class PublicationSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 	{
 		$datamanager = WeblcmsDataManager :: get_instance();
 		$condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_parent()->get_course_id());
-		$publications_set = $datamanager->retrieve_learning_object_publications_new($condition, new ObjectTableOrder(Announcement :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC));
+		$publications_set = $datamanager->retrieve_learning_object_publications_new($condition, new ObjectTableOrder(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC));
 		while ($publication = $publications_set->next_result())
 		{
 			$publications[$publication->get_tool()][] = $publication;
 		}
+		
+		$this->addElement('html', '<h3>' . Translation :: get('Publications') . '</h3>');
+		
 		foreach ($publications as $tool => $tool_publications)
 		{
 			foreach ($tool_publications as $index => $publication)
@@ -29,7 +32,26 @@ class PublicationSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 				$this->addElement('checkbox', 'publications['.$publication->get_id().']', $label, $learning_object->get_title());
 			}
 		}
+		
 		$this->addFormRule(array('PublicationSelectionMaintenanceWizardPage','count_selected_publications'));
+		
+		$this->addElement('html', '<h3>' . Translation :: get('CourseSections') . '</h3>');
+		
+		$condition = new EqualityCondition(CourseSection :: PROPERTY_COURSE_CODE, $this->get_parent()->get_course_id());
+		$course_sections = $datamanager->retrieve_course_sections($condition);
+		
+		$common_sections = array(Translation :: get('Disabled'), Translation :: get('CourseAdministration'), Translation :: get('Links'), Translation :: get('Tools'));
+		
+		while($course_section = $course_sections->next_result())
+		{
+			$label = $course_section->get_name();
+			if(!in_array($label, $common_sections))
+				$this->addElement('checkbox', 'course_sections['.$course_section->get_id().']', $label);
+		}
+		
+		$this->addElement('html', '<h3>' . Translation :: get('Other') . '</h3>');
+		$this->addElement('checkbox', 'learning_object_categories', Translation :: get('PublicationCategories'));
+		
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'));
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
@@ -42,7 +64,7 @@ class PublicationSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 	 */
 	function count_selected_publications($values)
 	{
-		if(isset($values['publications']))
+		if(isset($values['publications']) || isset($values['course_sections']))
 		{
 			return true;
 		}

@@ -35,7 +35,7 @@ class MaintenanceWizardProcess extends HTML_QuickForm_Action
 				$dm = WeblcmsDataManager :: get_instance();
 				$number_of_publications_to_delete = count($publication_ids);
 				$number_of_deleted_publications = 0;
-				foreach ($publication_ids as $index => $id)
+				foreach ($publication_ids as $id)
 				{
 					$publication = $dm->retrieve_learning_object_publication($id);
 					if ($dm->delete_learning_object_publication($publication))
@@ -53,37 +53,76 @@ class MaintenanceWizardProcess extends HTML_QuickForm_Action
 				}
 				break;
 			case ActionSelectionMaintenanceWizardPage :: ACTION_COPY :
-				$publication_ids = array_keys($values['publications']);
+				
 				$dm = WeblcmsDataManager :: get_instance();
-				$number_of_publications_to_copy = count($publication_ids);
-				$number_of_copied_publications = 0;
-				foreach ($publication_ids as $index => $id)
+				
+				$course_section_ids = array_keys($values['course_sections']);
+				$condition = new InCondition(CourseSection :: PROPERTY_ID, $course_section_ids);
+				$course_sections = $dm->retrieve_course_sections($condition);
+				while($course_section = $course_sections->next_result())
+				{
+					$courses = $values['course'];
+					foreach($courses as $course_code)
+					{
+						$course_section->set_id(null);
+						$course_section->set_course_code($course_code);
+						$course_section->create();
+					}
+				}
+				
+				$category_ids = array();
+				
+				if($values['learning_object_categories'] == 1)
+				{
+					$condition = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_COURSE, $this->parent->get_course_id());
+					$categories = $dm->retrieve_learning_object_publication_categories($condition);
+					while($category = $categories->next_result())
+					{
+						if(!$category->get_allow_change())
+							continue;
+							
+						$courses = $values['course'];
+						$parent = $category->get_parent(); 
+						$id = $category->get_id();
+						
+						foreach($courses as $course_code)
+						{
+							
+							$category->set_id(null);
+							$category->set_course($course_code);
+							
+							if($parent != 0)
+							{
+								$category->set_parent($category_ids[$parent]['course_code']);
+							}
+							
+							$category->create();
+							$category_ids[$id]['course_code'] = $category->get_id();
+						}
+					}
+				}
+				
+				$publication_ids = array_keys($values['publications']);
+				foreach ($publication_ids as $id)
 				{
 					$publication = $dm->retrieve_learning_object_publication($id);
 					$courses = $values['course'];
-					foreach($courses as $index => $course_code)
+					$parent = $publication->get_category_id();
+					
+					foreach($courses as $course_code)
 					{
-						$pub = new LearningObjectPublication(
-							null,
-							$publication->get_learning_object(),
-							$course_code,
-							$publication->get_tool(),
-							0,
-							null,
-							null,
-							$publication->get_from_date(),
-							$publication->get_to_date(),
-							$publication->get_publisher_id(),
-							time(),
-							time(),
-							$publication->is_hidden(),
-							$dm->get_next_learning_object_publication_display_order_index($course_code,$publication->get_tool(),0),
-							false,
-							$publication->get_show_on_homepage()
-						);
-						$pub->create();
+						$publication->set_id(null);
+						$publication->set_course_id($course_code);
+						
+						if($parent != 0)
+						{
+							$publication->set_category_id($category_ids[$parent]['course_code']);
+						}
+						
+						$publication->create();
 					}
 				}
+				
 				$_SESSION['maintenance_message'] = Translation :: get('CopyFinished');
 				break;
 			case ActionSelectionMaintenanceWizardPage :: ACTION_BACKUP :
@@ -92,7 +131,6 @@ class MaintenanceWizardProcess extends HTML_QuickForm_Action
 			case ActionSelectionMaintenanceWizardPage :: ACTION_DELETE :
 				$dm = WeblcmsDatamanager::get_instance();
 				$dm->delete_course($this->parent->get_course_id());
-				// TODO: Is this the correct redirect ? And why not use that available function ?
 				header('Location: '.$this->parent->get_path(WEB_PATH).'run.php?application=weblcms');
 				exit;
 				break;
