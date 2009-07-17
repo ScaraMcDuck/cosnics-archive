@@ -79,6 +79,8 @@ class LearningObjectPublisher
 				$parameters['go'] = WeblcmsManager :: ACTION_VIEW_COURSE;
 			}*/
 			
+			$parameters['tool_action'] = null;
+			
 			$this->parent->redirect($message, (!$publication ? true : false), $parameters);
 		}
 		else

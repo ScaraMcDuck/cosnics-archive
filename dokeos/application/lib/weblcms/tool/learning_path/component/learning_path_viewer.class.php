@@ -140,12 +140,12 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 
 		$this->display_header($trail, true);
 		//echo '<br />';
-		echo '<div style="width: 18%; overflow: auto; float: left;">';
+		echo '<div style="width: 17%; overflow: auto; float: left;">';
 		echo $menu->render_as_tree(). '<br /><br />';
 		echo $this->get_progress_bar($menu->get_progress());
 		echo $navigation . '<br /><br />';
 		echo '</div>';
-		echo '<div style="width: 80%; float: right; padding-left: 10px; min-height: 500px;">';
+		echo '<div style="width: 82%; float: right; padding-left: 10px; min-height: 500px;">';
 		
 		if(get_class($display) == 'AssessmentDisplay')
 		{
