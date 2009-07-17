@@ -1321,8 +1321,10 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     // Inherited
     function retrieve_possible_course_group_users($course_group, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
     {
-        $ccondition = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course_group->get_course_code());
-        $course_users = $this->database->retrieve_objects(CourseUserRelation :: get_table_name(), $ccondition, $offset, $count, $order_property);
+        $course_condition = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course_group->get_course_code());
+        $course_users = $this->retrieve_course_user_relations($course_condition);
+        $group_user_ids = $this->retrieve_course_group_user_ids($course_group);
+
         $course_user_ids = array();
 
         while($course_user = $course_users->next_result())
@@ -1330,28 +1332,13 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
             $course_user_ids[] = $course_user->get_user();
         }
 
+        $conditions = array();
+        $conditions[] = $condition;
+        $conditions[] = new InCondition(User :: PROPERTY_USER_ID, $course_user_ids);
+        $conditions[] = new NotCondition(new InCondition(User :: PROPERTY_USER_ID, $group_user_ids));
+        $condition = new AndCondition($conditions);
+
         $udm = UserDataManager :: get_instance();
-        if (! is_null($condition))
-        {
-            $condition = new AndCondition($condition, new InCondition(User :: PROPERTY_USER_ID, $course_user_ids));
-        }
-        else
-        {
-            $condition = new InCondition(User :: PROPERTY_USER_ID, $course_user_ids);
-        }
-        $user_ids = $this->retrieve_course_group_user_ids($course_group);
-        if (count($user_ids) > 0)
-        {
-            $user_condition = new NotCondition(new InCondition('user_id', $user_ids));
-            if (is_null($condition))
-            {
-                $condition = $user_condition;
-            }
-            else
-            {
-                $condition = new AndCondition($condition, $user_condition);
-            }
-        }
         return $udm->retrieve_users($condition, $offset, $count, $order_property, $order_direction);
     }
 

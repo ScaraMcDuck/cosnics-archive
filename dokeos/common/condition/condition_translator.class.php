@@ -64,28 +64,28 @@ class ConditionTranslator
 	function translate_aggregate_condition($condition)
 	{
 		$string = '';
-		
+
 		if ($condition instanceof AndCondition || $condition instanceof OrCondition)
 		{
 			$cond = array();
 			$count = 0;
-			
+
 			foreach ($condition->get_conditions() as $c)
 			{
 				$count ++;
 				$translation = $this->translate($c);
-				
+
 				if (!empty($translation))
 				{
 					$string .= $translation;
-					
+
 					if ($count < count($condition->get_conditions()))
 					{
 						$string .= $condition->get_operator();
 					}
 				}
 			}
-			
+
 			if (!empty($string))
 			{
 				$string = '(' . $string . ')';
@@ -226,12 +226,12 @@ class ConditionTranslator
 			{
 				$value = self :: to_db_date($value);
 			}
-			
+
 			if (is_null($value))
 			{
 				return $this->data_manager->escape_column_name($name, $storage_unit) . ' IS NULL';
 			}
-			
+
 			$this->parameters[] = $value;
 			return $this->data_manager->escape_column_name($name, $storage_unit) . ' = ?';
 		}
@@ -243,7 +243,7 @@ class ConditionTranslator
 			{
 				$value = self :: to_db_date($value);
 			}
-			
+
 			$this->parameters[] = $value;
 
 			switch ($condition->get_operator())

@@ -433,6 +433,7 @@ class Database
 
 //        dump('<strong>Statement</strong><br />' . $query . '<br /><br /><br />');
 //        dump($params);
+//        dump($order_by);
 
         foreach($order_by as $order)
         {
@@ -573,7 +574,7 @@ class Database
 
     function retrieve_distinct($table_name, $column_name, $condition = null)
     {
-        $query = 'SELECT DISTINCT(' . $this->escape_column_name($column_name) . ') FROM ' . $this->escape_table_name($table_name);
+        $query = 'SELECT DISTINCT(' . $this->escape_column_name($column_name) . ') FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);;
 
         $params = array();
         if (isset($condition))
@@ -598,7 +599,7 @@ class Database
 
     function count_distinct($table_name, $column_name, $condition = null)
     {
-        $query = 'SELECT COUNT(DISTINCT(' . $this->escape_column_name($column_name) . ')) FROM ' . $this->escape_table_name($table_name);
+        $query = 'SELECT COUNT(DISTINCT(' . $this->escape_column_name($column_name) . ')) FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);;
 
         $params = array();
         if (isset($condition))
