@@ -94,7 +94,8 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
     {
         $rdm = RepositoryDataManager :: get_instance();
 
-        $children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $current_forum->get_id()), array('add_date'), array(SORT_ASC) );
+        $order_property[]=new ObjectTableOrder('add_date');
+        $children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $current_forum->get_id()), $order_property);
         while($child = $children->next_result())
         {
             $lo = $rdm->retrieve_learning_object($child->get_ref());
@@ -182,7 +183,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
             $title = '<a href="' . $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay::ACTION_VIEW_TOPIC,'pid' => $this->pid, 'cid' => $topic->get_id())) . '">' . $topic->get_ref()->get_title() . '</a>';
 
             $count = $rdm->count_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $topic->get_ref()->get_id()));
-            $last_post = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $topic->get_ref()->get_id()), new ObjectTableOrder(ComplexLearningObjectItem :: PROPERTY_ADD_DATE, SORT_DESC), array(), 0, 1 )->next_result();
+            $last_post = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $topic->get_ref()->get_id()), array(new ObjectTableOrder(ComplexLearningObjectItem :: PROPERTY_ADD_DATE, SORT_DESC)), array(), 0, 1 )->next_result();
 
             $src = 'forum/topic_read.png';
             $hover = 'NoNewPosts';
@@ -211,7 +212,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
             $conditions[] = new EqualityCondition('forum_topic_id',$topic->get_id());
             $condition = new AndCondition($conditions);
 
-            $views = TrackingDataManager :: get_instance()->count_tracker_items('weblcms_forum_topic_views', $condition);
+            $views = TrackingDataManager :: get_instance()->count_tracker_items('weblcms_forum_topic_views_tracker', $condition);
 
             $table->setCellContents($row, 4, $views);
             $table->setCellAttributes($row, 4, array('align' => 'center', 'class' => 'row2'));
@@ -282,6 +283,8 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
     {
         foreach($this->forums as $forum)
         {
+            $last_post = RepositoryDataManager::get_instance()->retrieve_complex_learning_object_item($forum->get_ref()->get_last_post());
+            $udm = UserDataManager::get_instance();
             $title = '<a href="' . $this->get_url(array('pid' => $this->pid, 'forum' => $forum->get_id())) . '">' . $forum->get_ref()->get_title() . '</a><br />' . strip_tags($forum->get_ref()->get_description());
 
             $table->setCellContents($row, 0, '<img title="' . Translation :: get('NoNewPosts') . '" src="' . Theme :: get_image_path() . 'forum/forum_read.png" />');
@@ -292,7 +295,17 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
             $table->setCellAttributes($row, 2, array('class' => 'row2', 'align' => 'center'));
             $table->setCellContents($row, 3, $forum->get_ref()->get_total_posts());
             $table->setCellAttributes($row, 3, array('class' => 'row2', 'align' => 'center'));
-            $table->setCellContents($row, 4, '');
+             if($last_post)
+            {
+                //$link = $this->get_url(array(ComplexDisplay::PARAM_DISPLAY_ACTION => ForumDisplay::ACTION_VIEW_TOPIC,'pid' => $this->pid, 'cid' => $topic->get_id())) . '#post_' . $last_post->get_id();
+                $table->setCellContents($row, 4, $last_post->get_add_date() . '<br />' . $udm->retrieve_user($last_post->get_user_id())->get_fullname() .
+                                                 ' <a href="' . $link . '"><img title="' . Translation :: get('ViewLastPost') .
+                                                 '" src="' . Theme :: get_image_path() . 'forum/icon_topic_latest.gif" /></a>');
+            }
+            else
+            {
+                $table->setCellContents($row, 4, '-');
+            }
             $table->setCellAttributes($row, 4, array('class' => 'row2'));
             $table->setCellContents($row, 5, $this->get_forum_actions($forum, true, true));
             $table->setCellAttributes($row, 5, array('class' => 'row2'));

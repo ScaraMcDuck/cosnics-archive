@@ -30,9 +30,9 @@ class ComplexForumPost extends ComplexLearningObjectItem
 		
 		$parent = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->get_parent());
 		$parent->add_post();
+                $parent->add_last_post($this->get_id());
 		
 		return true;
-		//$parent->add_last_post($this->get_id());
 	}
 	
 	function delete()

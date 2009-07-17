@@ -40,7 +40,8 @@ if (Authentication :: is_valid())
 	$condition = new AndCondition($conditions);
 
 	$dm = RepositoryDataManager :: get_instance();
-	$objects = $dm->retrieve_learning_objects(null, $condition, array (LearningObject :: PROPERTY_TITLE), array (SORT_ASC));
+        $order_property[] = new ObjectTableOrder(LearningObject::PROPERTY_TITLE);
+	$objects = $dm->retrieve_learning_objects(null, $condition, $order_property);
 
 	while ($lo = $objects->next_result())
 	{
