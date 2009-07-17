@@ -1,4 +1,4 @@
-<?php 
+<?php
 $this_section = 'home';
 
 include_once ('common/global.inc.php');
