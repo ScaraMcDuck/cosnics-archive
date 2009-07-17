@@ -175,30 +175,136 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 
 	function learning_object_is_published($object_id)
 	{
+		return $this->any_learning_object_is_published(array($object_id));
 	}
 
 	function any_learning_object_is_published($object_ids)
 	{
+		$condition = new InCondition(PortfolioPublication :: PROPERTY_LEARNING_OBJECT, $object_ids);
+        return $this->database->count_objects(PortfolioPublication :: get_table_name(), $condition) >= 1;
 	}
 
 	function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
+		if (isset($type))
+        {
+            if ($type == 'user')
+            {
+                $query = 'SELECT ' . $this->database->get_alias('portfolio_publication') . '.*, lo.' . $this->database->escape_column_name('title') . ' FROM ' . $this->database->escape_table_name('portfolio_publication') . ' AS ' . $this->database->get_alias('portfolio_publication') . ' JOIN ' . RepositoryDataManager :: get_instance()->escape_table_name('learning_object') . ' AS lo ON ' . $this->database->get_alias('portfolio_publication') . '.`learning_object` = lo.`id`';
+                $query .= ' WHERE ' . $this->database->get_alias('portfolio_publication') . '.' . $this->database->escape_column_name(PortfolioPublication :: PROPERTY_PUBLISHER) . '=?';
+
+                $order = array();
+                for($i = 0; $i < count($order_property); $i ++)
+                {
+                    if ($order_property[$i] == 'application')
+                    {
+                    }
+                    elseif ($order_property[$i] == 'location')
+                    {
+                        //$order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(LearningObjectPublication :: PROPERTY_COURSE_ID) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                        //$order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(LearningObjectPublication :: PROPERTY_TOOL) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                    }
+                    elseif ($order_property[$i] == 'title')
+                    {
+                        $order[] = 'lo.' . $this->database->escape_column_name('title') . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                    }
+                    else
+                    {
+                      //  $order[] = $this->database->get_alias('portfolio_publication') . '.' . $this->database->escape_column_name($order_property[$i], true) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                        $order[] = 'lo.' . $this->database->escape_column_name('title') . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                    }
+                }
+                if (count($order))
+                {
+                    $query .= ' ORDER BY ' . implode(', ', $order);
+                }
+                $statement = $this->database->get_connection()->prepare($query);
+                $param = Session :: get_user_id();
+            }
+        }
+        else
+        {
+            $query = 'SELECT * FROM ' . $this->database->escape_table_name('portfolio_publication') . ' WHERE ' . $this->database->escape_column_name(PortfolioPublication :: PROPERTY_LEARNING_OBJECT) . '=?';
+            $statement = $this->database->get_connection()->prepare($query);
+            $param = $object_id;
+        }
+        $res = $statement->execute($param);
+        $publication_attr = array();
+        while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+        {
+            $info = new LearningObjectPublicationAttributes();
+            $info->set_id($record[PortfolioPublication :: PROPERTY_ID]);
+            $info->set_publisher_user_id($record[PortfolioPublication :: PROPERTY_PUBLISHER]);
+            $info->set_publication_date($record[PortfolioPublication :: PROPERTY_PUBLISHED]);
+            $info->set_application('portfolio');
+            //TODO: i8n location string
+            $info->set_location(Translation :: get('MyPortfolio'));
+            $info->set_url('run.php?application=portfolio&go=view_portfolio&user_id=' . Session :: get_user_id() . '&pid=' . $record[PortfolioPublication :: PROPERTY_ID]);
+            $info->set_publication_object_id($record[PortfolioPublication :: PROPERTY_LEARNING_OBJECT]);
+
+            $publication_attr[] = $info;
+        }
+        return $publication_attr;
 	}
 
-	function get_learning_object_publication_attribute($object_id)
+	function get_learning_object_publication_attribute($publication_id)
 	{
+		$query = 'SELECT * FROM ' . $this->database->escape_table_name('portfolio_publication') . ' WHERE ' . $this->database->escape_column_name(PortfolioPublication :: PROPERTY_ID) . '=?';
+        $statement = $this->database->get_connection()->prepare($query);
+        $this->database->get_connection()->setLimit(0, 1);
+        $res = $statement->execute($publication_id);
+
+        $publication_attr = array();
+        $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+
+        $publication_attr = new LearningObjectPublicationAttributes();
+        $publication_attr->set_id($record[PortfolioPublication :: PROPERTY_ID]);
+        $publication_attr->set_publisher_user_id($record[PortfolioPublication :: PROPERTY_PUBLISHER]);
+        $publication_attr->set_publication_date($record[PortfolioPublication :: PROPERTY_PUBLISHED]);
+        $publication_attr->set_application('portfolio');
+        //TODO: i8n location string
+        $publication_attr->set_location(Translation :: get('MyPortfolio'));
+        $publication_attr->set_url('run.php?application=portfolio&go=view_portfolio&user_id=' . Session :: get_user_id() . '&pid=' . $record[PortfolioPublication :: PROPERTY_ID]);
+        $publication_attr->set_publication_object_id($record[PortfolioPublication :: PROPERTY_LEARNING_OBJECT]);
+
+        return $publication_attr;
 	}
 
 	function count_publication_attributes($type = null, $condition = null)
 	{
+		$condition = new EqualityCondition(PortfolioPublication :: PROPERTY_PUBLISHER, Session :: get_user_id());
+        return $this->database->count_objects(PortfolioPublication :: get_table_name(), $condition);
 	}
 
 	function delete_learning_object_publications($object_id)
 	{
+		$condition = new EqualityCondition(PortfolioPublication :: PROPERTY_LEARNING_OBJECT, $object_id);
+        $publications = $this->retrieve_portfolio_publications($condition);
+        
+        $succes = true;
+        
+        while($publication = $publications->next_result())
+        {
+        	$succes &= $publication->delete();
+        }
+        
+        return $succes;
 	}
 
 	function update_learning_object_publication_id($publication_attr)
 	{
+	 	$where = $this->database->escape_column_name(PortfolioPublication :: PROPERTY_ID) . '=' . $publication_attr->get_id();
+        $props = array();
+        $props[$this->database->escape_column_name(PortfolioPublication :: PROPERTY_LEARNING_OBJECT)] = $publication_attr->get_publication_object_id();
+        $this->database->get_connection()->loadModule('Extended');
+        if ($this->database->get_connection()->extended->autoExecute($this->database->get_table_name('portfolio_publication'), $props, MDB2_AUTOQUERY_UPDATE, $where))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
 	}
 	
 }

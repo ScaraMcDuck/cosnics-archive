@@ -14,6 +14,9 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 
 	private $database;
 
+	const ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE = 'lop';
+	const ALIAS_LEARNING_OBJECT_TABLE = 'lo';
+	
 	function initialize()
 	{
         $this->database = new Database(array());
@@ -142,7 +145,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 					}
 					else
 					{
-						$order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE. '.' .$this->database->escape_column_name($order_property[$i], true).' '. ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+						//$order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE. '.' .$this->database->escape_column_name($order_property[$i], true).' '. ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
 						$order[] = self :: ALIAS_LEARNING_OBJECT_TABLE. '.' .$this->database->escape_column_name('title').' '. ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
 					}
 				}
@@ -239,7 +242,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 	// Inherited.
 	function count_publication_attributes($user, $type = null, $condition = null)
 	{
-        $condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_PUBLISHER, Session :: get_user_id());
+        $condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_USER, Session :: get_user_id());
         return $this->database->count_objects(PersonalMessagePublication :: get_table_name(), $condition);
 	}
 
