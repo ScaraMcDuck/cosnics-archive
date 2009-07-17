@@ -179,17 +179,17 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 
 	function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return PortfolioDataManager :: get_instance()->get_learning_object_publication_attributes($this->get_user(), $object_id, $type, $offset, $count, $order_property, $order_direction);
+		return PortfolioDataManager :: get_instance()->get_learning_object_publication_attributes($object_id, $type, $offset, $count, $order_property, $order_direction);
 	}
 
-	function get_learning_object_publication_attribute($object_id)
+	function get_learning_object_publication_attribute($publication_id)
 	{
-		return PortfolioDataManager :: get_instance()->get_learning_object_publication_attribute($object_id);
+		return PortfolioDataManager :: get_instance()->get_learning_object_publication_attribute($publication_id);
 	}
 
 	function count_publication_attributes($type = null, $condition = null)
 	{
-		return PortfolioDataManager :: get_instance()->count_publication_attributes($this->get_user(), $type, $condition);
+		return PortfolioDataManager :: get_instance()->count_publication_attributes($type, $condition);
 	}
 
 	function delete_learning_object_publications($object_id)

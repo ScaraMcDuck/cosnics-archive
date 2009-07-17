@@ -118,7 +118,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
                     }
                     else
                     {
-                        $order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name($order_property[$i], true) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                        //$order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name($order_property[$i], true) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
                         $order[] = self :: ALIAS_LEARNING_OBJECT_TABLE . '.' . $this->database->escape_column_name('title') . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
                     }
                 }
