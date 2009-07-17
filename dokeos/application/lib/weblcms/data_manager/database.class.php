@@ -979,10 +979,26 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $sql = 'DELETE FROM ' . $this->database->escape_table_name('learning_object_publication_category') . ' WHERE course = ?';
         $statement = $this->database->get_connection()->prepare($sql);
         $statement->execute($course_code);
+        
+        // Delete survey invitations
+         $sql = 'DELETE FROM ' . $this->database->escape_table_name('survey_invitation') . '
+				WHERE survey IN (
+					SELECT id FROM ' . $this->database->escape_table_name('learning_object_publication') . '
+					WHERE course = ?
+				)';
+        $statement = $this->database->get_connection()->prepare($sql);
+        $statement->execute($course_code);
+        
         // Delete publications
         $sql = 'DELETE FROM ' . $this->database->escape_table_name('learning_object_publication') . ' WHERE course = ?';
         $statement = $this->database->get_connection()->prepare($sql);
         $statement->execute($course_code);
+        
+        // Delete course sections
+        $sql = 'DELETE FROM ' . $this->database->escape_table_name('course_section') . ' WHERE course_code = ?';
+        $statement = $this->database->get_connection()->prepare($sql);
+        $statement->execute($course_code);
+        
         // Delete modules
         $sql = 'DELETE FROM ' . $this->database->escape_table_name('course_module') . ' WHERE course_code = ?';
         $statement = $this->database->get_connection()->prepare($sql);
