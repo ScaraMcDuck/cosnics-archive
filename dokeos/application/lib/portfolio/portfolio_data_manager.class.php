@@ -59,5 +59,13 @@ abstract class PortfolioDataManager
 	abstract function count_portfolio_publication_users($conditions = null);
 	abstract function retrieve_portfolio_publication_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
+	abstract function learning_object_is_published($object_id);
+	abstract function any_learning_object_is_published($object_ids);
+	abstract function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function get_learning_object_publication_attribute($object_id);
+	abstract function count_publication_attributes($type = null, $condition = null);
+	abstract function delete_learning_object_publications($object_id);
+	abstract function update_learning_object_publication_id($publication_attr);
+	
 }
 ?>

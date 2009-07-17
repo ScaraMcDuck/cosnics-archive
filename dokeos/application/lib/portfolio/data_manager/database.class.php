@@ -173,5 +173,33 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		return $this->database->retrieve_objects(PortfolioPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
 	}
 
+	function learning_object_is_published($object_id)
+	{
+	}
+
+	function any_learning_object_is_published($object_ids)
+	{
+	}
+
+	function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+	}
+
+	function get_learning_object_publication_attribute($object_id)
+	{
+	}
+
+	function count_publication_attributes($type = null, $condition = null)
+	{
+	}
+
+	function delete_learning_object_publications($object_id)
+	{
+	}
+
+	function update_learning_object_publication_id($publication_attr)
+	{
+	}
+	
 }
 ?>
