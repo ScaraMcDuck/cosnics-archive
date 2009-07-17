@@ -5,10 +5,13 @@
  * @package application.weblcms.tool
  * @subpackage maintenance
  */
+
+require_once Path :: get_common_path() . 'html/formvalidator/form_validator_page.class.php';
+
 /**
  * This abstract class defines a page which is used in a maintenance wizard.
  */
-abstract class MaintenanceWizardPage extends HTML_QuickForm_Page
+abstract class MaintenanceWizardPage extends FormValidatorPage
 {
 	/**
 	 * The repository tool in which the wizard runs.
@@ -23,7 +26,7 @@ abstract class MaintenanceWizardPage extends HTML_QuickForm_Page
 	public function MaintenanceWizardPage($name,$parent)
 	{
 		$this->parent = $parent;
-		parent::HTML_QuickForm_Page($name,'post');
+		parent :: __construct($name,'post');
 		$this->updateAttributes(array('action'=>$parent->get_url()));
 	}
 	/**
