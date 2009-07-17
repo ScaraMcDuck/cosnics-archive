@@ -95,7 +95,7 @@ class RepoViewerCreatorComponent extends RepoViewerComponent
 		$def = $this->get_creation_defaults();
 		if($def)
 			$form->setParentDefaults($def);
-			
+
 		return $this->handle_form($form, 0);
 	}
 	

@@ -76,11 +76,12 @@ class Forum extends LearningObject
 		$rdm = RepositoryDataManager :: get_instance();
 		
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->get_id());
-		$children = $rdm->retrieve_complex_learning_object_items($condition, array('add_date'), array(SORT_DESC), 0, 1);
+                $order_property[] = new ObjectTableOrder('add_date',SORT_DESC);
+		$children = $rdm->retrieve_complex_learning_object_items($condition, $order_property,array(), 0, 1);
 		$lp = $children->next_result();
 		
 		$id = ($lp)?$lp->get_id():0;
-		
+                
 		if($this->get_last_post() != $id)
 		{
 			$this->set_last_post($id);
