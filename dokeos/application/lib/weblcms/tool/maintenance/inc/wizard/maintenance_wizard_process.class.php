@@ -33,23 +33,51 @@ class MaintenanceWizardProcess extends HTML_QuickForm_Action
 			case ActionSelectionMaintenanceWizardPage :: ACTION_EMPTY :
 				$publication_ids = array_keys($values['publications']);
 				$dm = WeblcmsDataManager :: get_instance();
-				$number_of_publications_to_delete = count($publication_ids);
-				$number_of_deleted_publications = 0;
+				$succes = true;
+				
 				foreach ($publication_ids as $id)
 				{
 					$publication = $dm->retrieve_learning_object_publication($id);
-					if ($dm->delete_learning_object_publication($publication))
+					if (!$dm->delete_learning_object_publication($publication))
 					{
-						$number_of_deleted_publications ++;
+						$succes = false;
 					}
 				}
-				if ($number_of_deleted_publications == $number_of_publications_to_delete)
+				
+				$course_section_ids = array_keys($values['course_sections']);
+				$condition = new InCondition(CourseSection :: PROPERTY_ID, $course_section_ids);
+				$course_sections = $dm->retrieve_course_sections($condition);
+				while($course_section = $course_sections->next_result())
 				{
-					$_SESSION['maintenance_message'] = Translation :: get('AllSelectedPublicationsRemoved');
+					if(!$course_section->delete())
+					{
+						$succes = false;
+					}
+				}
+				
+				if($values['learning_object_categories'] == 1)
+				{
+					$condition = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_COURSE, $this->parent->get_course_id());
+					$categories = $dm->retrieve_learning_object_publication_categories($condition);
+					while($category = $categories->next_result())
+					{
+						if(!$category->get_allow_change())
+							continue;
+							
+						if(!$category->delete())
+						{
+							$succes = false;
+						}
+					}
+				}
+				
+				if ($succes)
+				{
+					$_SESSION['maintenance_message'] = Translation :: get('AllSelectedObjectsRemoved');
 				}
 				else
 				{
-					$_SESSION['maintenance_error_message'] = Translation :: get('NotAllSelectedPublicationsRemoved');
+					$_SESSION['maintenance_error_message'] = Translation :: get('NotAllSelectedObjectsRemoved');
 				}
 				break;
 			case ActionSelectionMaintenanceWizardPage :: ACTION_COPY :
