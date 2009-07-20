@@ -35,7 +35,7 @@ if (version_compare(PHP_VERSION,'5','>=')) {
 /**
  * phpCAS version. accessible for the user by phpCAS::getVersion().
  */
-define('PHPCAS_VERSION','1.0.2-EhB');
+define('PHPCAS_VERSION','${phpcas.version}');
 
 // ------------------------------------------------------------------------
 //  CAS VERSIONS
@@ -53,13 +53,63 @@ define("CAS_VERSION_1_0",'1.0');
  * CAS version 2.0
  */
 define("CAS_VERSION_2_0",'2.0');
-/*!
- * CAS version 3.0
- *
- * Ghent University addition to work with CAS 3.0 and SAML
- *
+
+// ------------------------------------------------------------------------
+//  SAML defines
+// ------------------------------------------------------------------------
+
+/**
+ * SAML protocol
  */
-define("CAS_VERSION_3_0",'3.0');
+define("SAML_VERSION_1_1", 'S1');
+
+/**
+ * XML header for SAML POST
+ */
+define("SAML_XML_HEADER", '<?xml version="1.0" encoding="UTF-8"?>');
+
+/**
+ * SOAP envelope for SAML POST
+ */
+define ("SAML_SOAP_ENV", '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/>');
+
+/**
+ * SOAP body for SAML POST
+ */
+define ("SAML_SOAP_BODY", '<SOAP-ENV:Body>');
+
+/**
+ * SAMLP request
+ */
+define ("SAMLP_REQUEST", '<samlp:Request xmlns:samlp="urn:oasis:names:tc:SAML:1.0:protocol"  MajorVersion="1" MinorVersion="1" RequestID="_192.168.16.51.1024506224022" IssueInstant="2002-06-19T17:03:44.022Z">');
+define ("SAMLP_REQUEST_CLOSE", '</samlp:Request>');
+
+/**
+ * SAMLP artifact tag (for the ticket)
+ */
+define ("SAML_ASSERTION_ARTIFACT", '<samlp:AssertionArtifact>');
+
+/**
+ * SAMLP close
+ */
+define ("SAML_ASSERTION_ARTIFACT_CLOSE", '</samlp:AssertionArtifact>');
+
+/**
+ * SOAP body close
+ */
+define ("SAML_SOAP_BODY_CLOSE", '</SOAP-ENV:Body>');
+
+/**
+ * SOAP envelope close
+ */
+define ("SAML_SOAP_ENV_CLOSE", '</SOAP-ENV:Envelope>');
+
+/**
+ * SAML Attributes
+ */
+define("SAML_ATTRIBUTES", 'SAMLATTRIBS');
+
+
 
 /** @} */
  /**
@@ -233,22 +283,6 @@ $GLOBALS['PHPCAS_DEBUG']  = array('filename' => FALSE,
 	'indent' => 0,
 	'unique_id' => '');
 
-/**
- * available protocols
- * 
- * Ghent University addition to work with CAS 3.0 and SAML
- * 
- */
-$GLOBALS['PHPCAS_3_0_PROTOCOLS'] = array('service', 'proxy', 'saml');
-
-/**
- * user attribute
- * 
- * Ghent University addition to work with CAS 3.0 and SAML
- * 
- */
-$GLOBALS['PHPCAS_SAML_USER_ATTRIBUTE'] = 'uid';
-
 /** @} */
 
 // ########################################################################
@@ -306,9 +340,7 @@ class phpCAS
 					$server_hostname,
 					$server_port,
 					$server_uri,
-					$start_session = true,
-					// Ghent University addition to work with CAS 3.0 and SAML
-					$protocol = '')
+					$start_session = true)
 		{
 		global $PHPCAS_CLIENT, $PHPCAS_INIT_CALL;
 		
@@ -337,7 +369,7 @@ class phpCAS
 			'method' => __CLASS__.'::'.__FUNCTION__);
 		
 		// initialize the global object $PHPCAS_CLIENT
-		$PHPCAS_CLIENT = new CASClient($server_version,FALSE/*proxy*/,$server_hostname,$server_port,$server_uri,$start_session, $protocol);
+		$PHPCAS_CLIENT = new CASClient($server_version,FALSE/*proxy*/,$server_hostname,$server_port,$server_uri,$start_session);
 		phpCAS::traceEnd();
 		}
 	
@@ -919,7 +951,7 @@ class phpCAS
 		phpCAS::traceEnd($auth);
 		return $auth; 
 		}
-	
+
 	/**
 	 * This method is called to force authentication if the user was not already 
 	 * authenticated. If the user is not authenticated, halt by redirecting to 
@@ -1047,16 +1079,13 @@ class phpCAS
 		}
 		return $PHPCAS_CLIENT->getUser();
 		}
-		
+	
 	/**
-	 * 
-	 * // Ghent University addition to work with CAS 3.0 and SAML
-	 * 
-	 * This method returns the CAS user's attributes
+	 * This method returns the CAS user's login name.
 	 * @warning should not be called only after phpCAS::forceAuthentication()
 	 * or phpCAS::checkAuthentication().
 	 *
-	 * @return array the attributes of the authenticated user
+	 * @return the login name of the authenticated user
 	 */
 	function getAttributes()
 		{
@@ -1072,7 +1101,6 @@ class phpCAS
 		}
 		return $PHPCAS_CLIENT->getAttributes();
 		}
-	
     /**
      * Handle logout requests.
      */

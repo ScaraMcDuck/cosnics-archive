@@ -133,6 +133,11 @@
 			<setting name="cas_port" field="text" default="" />
 			<setting name="cas_uri" field="text" default="" />
 			<setting name="cas_certificate" field="text" default="" />
+			<setting name="cas_enable_log" field="checkbox">
+				<options type="static">
+					<option name="cas_enable_log" value="1" />
+				</options>
+			</setting>
 			<setting name="cas_log" field="text" default="" />
 		</category>
 	</settings>

@@ -23,8 +23,11 @@ class CasAuthentication extends Authentication
             $settings = $this->get_configuration();
             
             // initialize phpCAS
-            phpCAS :: setDebug(Path :: get(SYS_PATH) . 'log.log');
-            phpCAS :: client(CAS_VERSION_3_0, $settings['host'], (int) $settings['port'], '', true, 'saml');
+            if ($settings['enable_log'])
+            {
+            	phpCAS :: setDebug($settings['log']);
+            }
+            phpCAS :: client(SAML_VERSION_1_1, $settings['host'], (int) $settings['port'], '', true);
             
             // SSL validation for the CAS server
             $crt_path = $settings['certificate'];
@@ -37,6 +40,12 @@ class CasAuthentication extends Authentication
             phpCAS :: forceAuthentication();
             
             $user_id = phpCAS :: getUser();
+            
+            $user_attributes = phpCAS :: getAttributes();
+            
+            dump($user_id);
+            dump($user_attributes);
+            exit;
             
             $udm = UserDataManager :: get_instance();
             if (! $udm->is_username_available($user_id))
@@ -136,11 +145,19 @@ class CasAuthentication extends Authentication
             $settings = $this->get_configuration();
             
             // initialize phpCAS
-            phpCAS :: client(CAS_VERSION_2_0, $settings['host'], (int) $settings['port'], '');
+            if ($settings['enable_log'])
+            {
+            	phpCAS :: setDebug($settings['log']);
+            }
+            phpCAS :: client(SAML_VERSION_1_1, $settings['host'], (int) $settings['port'], '', true);
             
-            // no SSL validation for the CAS server
-            phpCAS :: setNoCasServerValidation();
+            // SSL validation for the CAS server
+            $crt_path = $settings['certificate'];
+            phpCAS :: setExtraCurlOption(CURLOPT_SSLVERSION, 3);
+            phpCAS :: setCasServerCACert($crt_path);
+            //phpCAS :: setNoCasServerValidation();
             
+
             // force CAS authentication
             phpCAS :: forceAuthentication();
             
@@ -160,6 +177,8 @@ class CasAuthentication extends Authentication
             $cas['port'] = PlatformSetting :: get('cas_port');
             $cas['uri'] = PlatformSetting :: get('cas_uri');
             $cas['certificate'] = PlatformSetting :: get('cas_certificate');
+            $cas['log'] = PlatformSetting :: get('cas_log');
+            $cas['enable_log'] = PlatformSetting :: get('cas_enable_log');
             
             $this->cas_settings = $cas;
         }
@@ -173,7 +192,7 @@ class CasAuthentication extends Authentication
         
         foreach ($settings as $setting => $value)
         {
-            if ((empty($value) || ! isset($value)) && $setting != 'uri')
+            if ((empty($value) || ! isset($value)) && !in_array($setting, array('uri', 'certificate', 'log', 'enable_log')))
             {
                 return false;
             }
