@@ -305,11 +305,11 @@ class DatabaseAdminDataManager extends AdminDataManager
     }
 
     function count_feedback_publications($pid,$cid,$application){
-         $conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_PID, $pid);
+        $conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_PID, $pid);
         $conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_CID, $cid);
         $conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_APPLICATION, $application);
         $condition = new AndCondition($conditions);
-        
+
         return $this->database->count_objects('feedback_publication', $condition);
     }
 
@@ -473,18 +473,18 @@ class DatabaseAdminDataManager extends AdminDataManager
 
     function retrieve_feedback_publications($pid,$cid,$application)
     {
-        
+
         $conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_PID, $pid);
         $conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_CID, $cid);
         $conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_APPLICATION, $application);
         $condition = new AndCondition($conditions);
         $order_by[] = new ObjectTableOrder(FeedbackPublication::PROPERTY_ID,SORT_DESC);
-		
+
 
         return $this->database->retrieve_objects(FeedbackPublication :: get_table_name(),$condition,null,null,$order_by);
     }
 
-    function retrieve_validations($pid,$cid,$application)
+   /* function retrieve_validations($pid,$cid,$application)
     {
 
         $conditions[] = new EqualityCondition(Validation :: PROPERTY_PID, $pid);
@@ -494,9 +494,9 @@ class DatabaseAdminDataManager extends AdminDataManager
         //$order_by[] = new ObjectTableOrder(FeedbackPublication::PROPERTY_ID,SORT_DESC);
 
         return $this->database->retrieve_objects(Validation :: get_table_name(),$condition);
-    }
+    }*/
 
-     function retrieve_feedback_publication($id)
+    function retrieve_feedback_publication($id)
     {
 
         $condition = new EqualityCondition(FeedbackPublication :: PROPERTY_ID, $id);
@@ -504,7 +504,7 @@ class DatabaseAdminDataManager extends AdminDataManager
 
     }
 
-     function retrieve_validation($id)
+    function retrieve_validation($id)
     {
 
         $condition = new EqualityCondition(Validation :: PROPERTY_ID, $id);
@@ -543,7 +543,20 @@ class DatabaseAdminDataManager extends AdminDataManager
 
     function create_validation($validation)
     {
+
         return $this->database->create($validation);
     }
+
+    function retrieve_validations($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1){
+
+        return $this->database->retrieve_objects(Validation :: get_table_name(),$condition, $order_by, $order_dir, $offset, $max_objects);
+
+    }
+
+    function count_validations($condition =null){
+    
+        return $this->database->count_objects(Validation :: get_table_name(), $condition);
+    }
+
 }
 ?>
