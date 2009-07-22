@@ -31,8 +31,9 @@ class FeedbackManagerBrowserComponent extends FeedbackManagerComponent {
         $this->cid = Request :: get('cid');
         $this->action = Request :: get ('action');
         $application = $this->get_parent()->get_application();
+        
 
-        $url = $this->get_url(array('pid' => $this->pid, 'cid' => $this->cid , 'user_id' => $this->user_id , 'action' => $this->action));
+            $url = $this->get_url(array('pid' => $this->pid, 'cid' => $this->cid , 'user_id' => $this->user_id , 'action' => $this->action));
         $form = new FeedbackForm($url);
 
         if($form->validate())
@@ -140,7 +141,7 @@ class FeedbackManagerBrowserComponent extends FeedbackManagerComponent {
         $user = UserManager::retrieve_user($feedback->get_owner_id());
         $html = array();
         $html[] = '(';
-        $html[] = $user->get_username();;
+        $html[] = $user->get_lastname();;
         $html[] = $user->get_firstname();;
         $html[] = ' - ';
         $html[] = $this->format_date($feedback->get_creation_date());

@@ -186,6 +186,6 @@ require_once PATH :: get_admin_path().'/lib/admin_data_manager.class.php';
         return $adm->retrieve_feedback_publication($id);
     }
 
-	
+   
 }
 ?>
