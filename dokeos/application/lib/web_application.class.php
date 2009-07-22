@@ -17,7 +17,10 @@ abstract class WebApplication extends Application
      * @return boolean True if the object is currently published, false
      *                 otherwise.
      */
-    abstract function learning_object_is_published($object_id);
+    function learning_object_is_published($object_id)
+    {
+    	return false;
+    }
 
     /**
      * Determines whether any of the given learning objects has been published
@@ -26,7 +29,10 @@ abstract class WebApplication extends Application
      * @return boolean True if at least one of the given objects is published in
      * this application, false otherwise
      */
-    abstract function any_learning_object_is_published($object_ids);
+    function any_learning_object_is_published($object_ids)
+    {
+    	return false;
+    }
 
     /**
      * Determines where in this application the given learning object has been
@@ -35,7 +41,10 @@ abstract class WebApplication extends Application
      * @return array An array of LearningObjectPublicationAttributes objects;
      *               empty if the object has not been published anywhere.
      */
-    abstract function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+    function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    {
+    	return array();
+    }
 
     /**
      * Determines where in this application the given learning object
@@ -43,7 +52,10 @@ abstract class WebApplication extends Application
      * @param int $publication_id The ID of the learning object publication.
      * @return LearningObjectPublicationAttributes
      */
-    abstract function get_learning_object_publication_attribute($publication_id);
+    function get_learning_object_publication_attribute($publication_id)
+    {
+    	return null;
+    }
 
     /**
      * Counts the number of publications
@@ -51,22 +63,37 @@ abstract class WebApplication extends Application
      * @param Condition $condition
      * @return int
      */
-    abstract function count_publication_attributes($type = null, $condition = null);
+    function count_publication_attributes($type = null, $condition = null)
+    {
+    	return 0;
+    }
 
     /**
      * Deletes all publications of a given learning object
      * @param int $object_id The id of the learning object
      */
-    abstract function delete_learning_object_publications($object_id);
+    function delete_learning_object_publications($object_id)
+    {
+    	return true;
+    }
 
-    abstract function get_learning_object_publication_locations($learning_object);
+    function get_learning_object_publication_locations($learning_object)
+    {
+    	return array();
+    }
 
-    abstract function publish_learning_object($learning_object, $location);
+    function publish_learning_object($learning_object, $location)
+    {
+    	return null;
+    }
 
     /**
      *
      */
-    abstract function update_learning_object_publication_id($publication_attr);
+    function update_learning_object_publication_id($publication_attr)
+    {
+    	return true;
+    }
 
     /**
      * Loads the applications installed on the system. Applications are classes
