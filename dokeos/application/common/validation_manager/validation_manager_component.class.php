@@ -124,10 +124,20 @@ class ValidationManagerComponent {
 		$this->parent->set_extra_parameters($parameters);
 	}
 
-    function retrieve_validations($pid,$cid,$application){
+    /*function retrieve_validations($pid,$cid,$application){
         return $this->parent->retrieve_validations($pid,$cid,$application);
         
+    }*/
+
+    function retrieve_validations($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1){
+        return $this->parent->retrieve_validations($condition, $order_by, $order_dir, $offset, $max_objects);
+
     }
+
+    function count_validations($condition =null){
+        return $this->parent->count_validations($condition);
+    }
+
     function retrieve_validation($id)
     {
         return $this->parent->retrieve_validation($id);
