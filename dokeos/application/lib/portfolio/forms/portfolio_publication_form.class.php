@@ -37,7 +37,7 @@ class PortfolioPublicationForm extends FormValidator
     function build_basic_form()
     {
 		$attributes = array();
-		$attributes['search_url'] = Path :: get(WEB_PATH).'application/lib/portfolio/xml_feeds/xml_user_group_feed.php';
+		$attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
 		$locale = array ();
 		$locale['Display'] = Translation :: get('SelectRecipients');
 		$locale['Searching'] = Translation :: get('Searching');

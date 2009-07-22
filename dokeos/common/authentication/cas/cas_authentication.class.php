@@ -41,11 +41,11 @@ class CasAuthentication extends Authentication
             
             $user_id = phpCAS :: getUser();
             
-            $user_attributes = phpCAS :: getAttributes();
-            
-            dump($user_id);
-            dump($user_attributes);
-            exit;
+//            $user_attributes = phpCAS :: getAttributes();
+//            
+//            dump($user_id);
+//            dump($user_attributes);
+//            exit;
             
             $udm = UserDataManager :: get_instance();
             if (! $udm->is_username_available($user_id))
