@@ -129,6 +129,7 @@ class Validation
 		return $this->get_default_property(self :: PROPERTY_CID);
 	}
 
+  
     /**
 	  * Returns validation id
 	  * @return integer the fid
@@ -178,6 +179,7 @@ class Validation
 	{
 		$this->set_default_property(self :: PROPERTY_CID, $cid);
 	}
+
 
     /**
 	 * Sets the validated of this validation.
@@ -230,5 +232,11 @@ class Validation
 	{
 		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
+
+    function get_validation_publisher()
+    {
+        $udm = UserDataManager :: get_instance();
+        return $udm->retrieve_user($this->get_owner());
+    }
 }
 ?>

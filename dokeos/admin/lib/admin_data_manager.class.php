@@ -85,7 +85,7 @@ abstract class AdminDataManager
 
     abstract function retrieve_feedback_publication($id);
 
-    abstract function retrieve_validations($pid,$cid,$application);
+    //abstract function retrieve_validations($pid,$cid,$application);
 
     abstract function retrieve_validation($id);
 
@@ -180,5 +180,9 @@ abstract class AdminDataManager
     abstract function update_feedback($feedback);
 
     abstract function create_feedback($feedback);
+
+    abstract function retrieve_validations($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1);
+
+    abstract function count_validations($condition =null);
 }
 ?>
