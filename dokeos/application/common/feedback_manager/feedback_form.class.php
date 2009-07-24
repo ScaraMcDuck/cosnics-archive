@@ -43,7 +43,7 @@ class FeedbackForm extends FormValidator {
         $feedback->set_id($fid);
         $description = $this->exportValues(FeedbackPublication :: PROPERTY_TEXT);
         $feedback->set_description($description[FeedbackPublication :: PROPERTY_TEXT]);
-        $feedback->set_title('Fast feedback');
+        $feedback->set_title(' ');
         $feedback->set_owner_id($owner);
 
       //  $feedback->set_owner_id(1);
