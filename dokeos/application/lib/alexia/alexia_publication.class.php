@@ -165,6 +165,15 @@ class AlexiaPublication
 	{
 		return $this->get_default_property(self :: PROPERTY_HIDDEN);
 	}
+	
+    /**
+     * Determines whether this publication is hidden or not
+     * @return boolean True if the publication is hidden.
+     */
+    function is_hidden()
+    {
+        return $this->get_default_property(self :: PROPERTY_HIDDEN);
+    }
 
 	/**
 	 * Sets the hidden of this AlexiaPublication.

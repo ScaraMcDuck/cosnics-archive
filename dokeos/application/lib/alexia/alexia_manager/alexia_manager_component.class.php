@@ -1,6 +1,6 @@
 <?php
 /**
- * @package application.lib.calendar.calendar_manager
+ * @package application.alexia
  */
 require_once Path :: get_application_path() . 'lib/web_application_component.class.php';
 
@@ -42,6 +42,16 @@ abstract class AlexiaManagerComponent extends WebApplicationComponent
     function get_publication_viewing_url($alexia_publication)
     {
         return $this->get_parent()->get_publication_viewing_url($alexia_publication);
+    }
+    
+    function get_publication_editing_url($alexia_publication)
+    {
+        return $this->get_parent()->get_publication_editing_url($alexia_publication);
+    }
+    
+    function get_publication_deleting_url($alexia_publication)
+    {
+        return $this->get_parent()->get_publication_deleting_url($alexia_publication);
     }
 }
 ?>

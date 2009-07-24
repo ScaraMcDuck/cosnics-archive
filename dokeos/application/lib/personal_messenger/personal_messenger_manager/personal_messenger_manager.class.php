@@ -23,9 +23,8 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
  * A personal messenger manager allows a user to send/receive personal messages.
  * For each functionality a component is available.
  */
- class PersonalMessengerManager extends WebApplication
- {
-
+class PersonalMessengerManager extends WebApplication
+{
  	const APPLICATION_NAME = 'personal_messenger';
 
 	const PARAM_DELETE_SELECTED = 'delete_selected';

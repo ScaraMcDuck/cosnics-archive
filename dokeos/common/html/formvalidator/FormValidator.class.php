@@ -300,7 +300,11 @@ EOT;
         $this->addElement('html', '</div>');
         $this->addElement('html', "<script type=\"text/javascript\">
 					/* <![CDATA[ */
-					timewindow_hide('forever_timewindow');
+					var expiration = document.getElementById('forever');
+					if (expiration.checked)
+					{
+						timewindow_hide('forever_timewindow');
+					}
 					function timewindow_show(item) {
 						el = document.getElementById(item);
 						el.style.display='';
