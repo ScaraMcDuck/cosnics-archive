@@ -27,6 +27,7 @@ class ValidationBrowserTableCellRend extends DefaultValidationTableCellRend
     // Inherited
     function render_cell($column, $validation)
     {
+        $user = $validation->get_validation_publisher();
 
         if ($column === ValidationBrowserTableColumnMod :: get_modification_column())
         {
@@ -39,6 +40,8 @@ class ValidationBrowserTableCellRend extends DefaultValidationTableCellRend
            /* case ProfilePublication :: PROPERTY_PUBLISHED :
                 return Text :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $profile->get_published());
                 break;*/
+            case User :: PROPERTY_USERNAME :
+                return '<a href ="'.$this->browser->get_url(array('user_id' => $user->get_id())).'">'.$user->get_username().'</a>';
             case Validation :: PROPERTY_VALIDATED :
               /*  $title = parent :: render_cell($column, $validation);
                 $title_short = $title;

@@ -22,7 +22,7 @@ class ValidationBrowserTab extends ObjectTable
         $data_provider = new ValidationBrowserTableDataProvid($browser, $condition);
         parent :: __construct($data_provider, ValidationBrowserTab :: DEFAULT_NAME, $model, $renderer);
        /* $actions = array();
-        $actions[ProfilerManager :: PARAM_DELETE_SELECTED] = Translation :: get('RemoveSelected');
+        $actions[Profile $user->get_username();rManager :: PARAM_DELETE_SELECTED] = Translation :: get('RemoveSelected');
         if ($browser->get_user()->is_platform_admin())
         {
             $this->set_form_actions($actions);
