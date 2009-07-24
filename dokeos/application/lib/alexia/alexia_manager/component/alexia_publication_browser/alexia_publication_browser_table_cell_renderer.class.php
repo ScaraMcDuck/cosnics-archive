@@ -27,7 +27,7 @@ class AlexiaPublicationBrowserTableCellRenderer extends DefaultAlexiaPublication
 
     // Inherited
     function render_cell($column, $alexia_publication)
-    {
+    {    	
         if ($column === AlexiaPublicationBrowserTableColumnModel :: get_modification_column())
         {
             return $this->get_modification_links($alexia_publication);
@@ -51,7 +51,7 @@ class AlexiaPublicationBrowserTableCellRenderer extends DefaultAlexiaPublication
      * @return string A HTML representation of the action links
      */
     private function get_modification_links($alexia_publication)
-    {
+    {    	
         $toolbar_data = array();
         
 		$viewing_url = $this->browser->get_publication_viewing_url($alexia_publication);
@@ -59,12 +59,10 @@ class AlexiaPublicationBrowserTableCellRenderer extends DefaultAlexiaPublication
         
         if ($this->browser->get_user()->is_platform_admin() || $alexia_publication->get_publisher() == $this->browser->get_user()->get_id())
         {
-//            $edit_url = $this->browser->get_publication_editing_url($alexia_publication);
-			$edit_url = ''; 
+            $edit_url = $this->browser->get_publication_editing_url($alexia_publication);
             $toolbar_data[] = array('href' => $edit_url, 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
             
-//            $delete_url = $this->browser->get_publication_deleting_url($alexia_publication);
-            $delete_url = '';
+            $delete_url = $this->browser->get_publication_deleting_url($alexia_publication);
             $toolbar_data[] = array('href' => $delete_url, 'label' => Translation :: get('Delete'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_delete.png');
         }
         

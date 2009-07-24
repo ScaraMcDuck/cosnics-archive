@@ -65,6 +65,11 @@ class ObjectResultSet extends ResultSet
     {
         return $this->handle->numRows();
     }
+    
+    function is_empty()
+    {
+    	return $this->size() == 0;
+    }
 
     /*
 	 * Inherited

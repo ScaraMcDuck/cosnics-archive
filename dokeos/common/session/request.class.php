@@ -26,9 +26,16 @@ class Request
 
     function post($variable)
     {
-        $value = $_POST[$variable];
-        // TODO: Add the necessary security filters if and where necessary
-        return $value;
+    	if (isset($_POST[$variable]))
+        {
+	        $value = $_POST[$variable];
+	        // TODO: Add the necessary security filters if and where necessary
+	        return $value;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     function server($variable)
