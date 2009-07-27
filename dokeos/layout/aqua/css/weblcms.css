@@ -176,9 +176,16 @@ div.tool_menu ul
 
 div.tool_menu ul li.tool_list_menu
 {
-	padding: 0px 0px 2px 0px;
+	padding: 2px 0px 4px 22px;
 	margin: 0px;
 	list-style: none;
+	background-repeat: no-repeat;
+}
+
+div.tool_menu ul li.title
+{
+	padding: 0px 0px 0px 0px;
+	font-weight: bold;
 }
 
 div.feedback_block
