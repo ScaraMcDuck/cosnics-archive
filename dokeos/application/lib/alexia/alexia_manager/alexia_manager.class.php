@@ -27,6 +27,7 @@ class AlexiaManager extends WebApplication
 	const ACTION_EDIT_PUBLICATION = 'edit';
 	const ACTION_DELETE_PUBLICATION = 'delete';
 	const ACTION_PUBLISH_INTRODUCTION = 'intro';
+	const ACTION_EDIT_INTRODUCTION = 'reintro';
 
 	/**
 	 * Constructor
@@ -65,6 +66,9 @@ class AlexiaManager extends WebApplication
 			case self :: ACTION_PUBLISH_INTRODUCTION :
 				$component = AlexiaManagerComponent :: factory('Introducer', $this);
 				break;
+			case self :: ACTION_EDIT_INTRODUCTION :
+				$component = AlexiaManagerComponent :: factory('Reintroducer', $this);
+				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_PUBLICATIONS);
 				$component = AlexiaManagerComponent :: factory('Browser', $this);
@@ -85,6 +89,11 @@ class AlexiaManager extends WebApplication
     function get_publication_editing_url($alexia_publication)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_PUBLICATION, self :: PARAM_ALEXIA_ID => $alexia_publication->get_id()));
+    }
+    
+    function get_introduction_editing_url($introduction)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_INTRODUCTION, self :: PARAM_ALEXIA_ID => $introduction->get_id()));
     }
     
     function get_publication_deleting_url($alexia_publication)

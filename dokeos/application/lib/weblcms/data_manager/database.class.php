@@ -343,7 +343,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
         // Update publication properties
         $condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_ID, $publication->get_id());
-        return $this->database->update($publication);
+        return $this->database->update($publication, $condition);
     }
 
     function update_learning_object_publication_id($publication_attr)
