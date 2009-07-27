@@ -1,14 +1,7 @@
-$(document).ready(function()
+$(function ()
 {
 	var tool = $("#tool_bar").attr('class');
-
-	$("#tool_bar_hide_container").toggle();
-	
-	$("#tool_bar_hide").bind("click", hideBlockScreen);
-	$("#tool_bar_show").bind("click", showBlockScreen);
-
-	if(hide == 'true')
-		hideBlockScreen();
+	var originalWidth = $("#tool_bar").outerWidth();
 	
 	function toggleButtons()
 	{
@@ -23,20 +16,24 @@ $(document).ready(function()
 		switch(tool)
 		{
 			case 'tool_bar tool_bar_left':
-				$("div.tool_bar_left").animate({left: "-181px"}, 300, toggleButtons);
-				$("#tool_browser_left").animate({marginLeft: "10px"}, 300);
+				$("div.tool_bar_left").animate({left: "-" + originalWidth + "px"}, 300, function(){
+					$("#tool_browser_left").animate({marginLeft: "0px"}, 300, toggleButtons);
+				});
 				break;
 			case 'tool_bar tool_bar_icon_left':
-				$("div.tool_bar_icon_left").animate({left: "-55px"}, 300, toggleButtons);
-				$("#tool_browser_icon_left").animate({marginLeft: "0px"}, 300);
+				$("div.tool_bar_icon_left").animate({left: "-" + originalWidth + "px"}, 300, function(){
+					$("#tool_browser_icon_left").animate({marginLeft: "0px"}, 300, toggleButtons);
+				});
 				break;
 			case 'tool_bar tool_bar_right':
-				$("div.tool_bar_right").animate({right: "-181px"}, 300, toggleButtons);
-				$("#tool_browser_right").animate({marginRight: "10px"}, 300);
+				$("div.tool_bar_right").animate({right: "-" + originalWidth + "px"}, 300, function(){
+					$("#tool_browser_right").animate({marginRight: "0px"}, 300, toggleButtons);
+				});
 				break;
 			case 'tool_bar tool_bar_icon_right':
-				$("div.tool_bar_icon_right").animate({right: "-55px"}, 300, toggleButtons);
-				$("#tool_browser_icon_right").animate({marginRight: "0px"}, 300);
+				$("div.tool_bar_icon_right").animate({right: "-" + originalWidth + "px"}, 300, function(){
+					$("#tool_browser_icon_right").animate({marginRight: "0px"}, 300, toggleButtons);
+				});
 				break;
 		}
 		
@@ -46,8 +43,6 @@ $(document).ready(function()
 			data: { state: 'hide'},
 			async: false
 		})
-		
-		return false;
 	}
 	
 	function showBlockScreen()
@@ -57,20 +52,24 @@ $(document).ready(function()
 		switch(tool)
 		{
 			case 'tool_bar tool_bar_left':
-				$("div.tool_bar_left").animate({left: "0px"}, 300, toggleButtons);
-				$("#tool_browser_left").animate({marginLeft: "180px"}, 300);
+				$("#tool_browser_left").animate({marginLeft: originalWidth + "px"}, 300, function(){
+					$("div.tool_bar_left").animate({left: "0px"}, 300, toggleButtons);
+				});
 				break;
 			case 'tool_bar tool_bar_icon_left':
-				$("div.tool_bar_icon_left").animate({left: "0px"}, 300, toggleButtons);
-				$("#tool_browser_icon_left").animate({marginLeft: "54px"}, 300);
+				$("#tool_browser_icon_left").animate({marginLeft: originalWidth + "px"}, 300, function(){
+					$("div.tool_bar_icon_left").animate({left: "0px"}, 300, toggleButtons);
+				});
 				break;
 			case 'tool_bar tool_bar_right':
-				$("div.tool_bar_right").animate({right: "0px"}, 300, toggleButtons);			
-				$("#tool_browser_right").animate({marginRight: "180px"}, 300);
+				$("#tool_browser_right").animate({marginRight: originalWidth + "px"}, 300, function(){
+					$("div.tool_bar_right").animate({right: "0px"}, 300, toggleButtons);
+				});
 				break;
 			case 'tool_bar tool_bar_icon_right':
-				$("div.tool_bar_icon_right").animate({right: "0px"}, 300, toggleButtons);
-				$("#tool_browser_icon_right").animate({marginRight: "54px"}, 300);
+				$("#tool_browser_right").animate({marginRight: originalWidth + "px"}, 300, function(){
+					$("div.tool_bar_icon_right").animate({right: "0px"}, 300, toggleButtons);
+				});
 				break;
 		}
 		
@@ -80,7 +79,39 @@ $(document).ready(function()
 			data: { state: 'show'},
 			async: false
 		})
-		
-		return false;
 	}
+	
+	function setBrowserWidth()
+	{
+		switch(tool)
+		{
+			case 'tool_bar tool_bar_left': 
+				$("#tool_browser_left").css('margin-left', originalWidth + "px");
+				break;
+			case 'tool_bar tool_bar_icon_left':
+				$("#tool_browser_icon_left").css('margin-left', originalWidth + "px");
+				break;
+			case 'tool_bar tool_bar_right':
+				$("#tool_browser_right").css('margin-right', originalWidth + "px");
+				break;
+			case 'tool_bar tool_bar_icon_right':
+				$("#tool_browser_icon_right").css('margin-right', originalWidth + "px");
+				break;
+		}
+	}
+	
+	$(document).ready(function ()
+	{
+		setBrowserWidth();
+		$("#tool_bar_hide_container").toggle();
+		
+		$("#tool_bar_hide").bind("click", hideBlockScreen);
+		$("#tool_bar_show").bind("click", showBlockScreen);
+
+		if(hide == 'true')
+		{
+			hideBlockScreen();
+		}
+	});
+
 });

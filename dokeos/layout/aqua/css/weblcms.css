@@ -28,8 +28,8 @@
 
 div.tool_bar
 {
-	background-color: #E5EDF9; 
-	border: 1px solid #4271B5;
+	background-color: #eef5fa; 
+	border: 1px solid #b5cae7;
 	padding: 10px;
 	
 	position: fixed;
@@ -78,6 +78,7 @@ div.tool_bar #tool_bar_hide_container
 div.tool_bar_left
 {
 	width: 160px;
+	padding-right: 20px;
 	border-left: 0px;
 	left: 0px;
 	-moz-border-radius-bottomright: 10px;
@@ -88,7 +89,7 @@ div.tool_bar_left
 
 #tool_browser_left
 {
-	margin-left: 180px;
+	margin-left: 190px;
 }
 
 /* TOOL MENU in RIGHT MODUS */
