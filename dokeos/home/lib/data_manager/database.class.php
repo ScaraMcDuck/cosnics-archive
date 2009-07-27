@@ -144,7 +144,7 @@ class DatabaseHomeDataManager extends HomeDataManager
     }
 
     function retrieve_home_blocks($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
-    {
+    {    	
         return $this->database->retrieve_objects(HomeBlock :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, HomeBlock :: CLASS_NAME);
     }
 

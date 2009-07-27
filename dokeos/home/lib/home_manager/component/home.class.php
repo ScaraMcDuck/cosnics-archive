@@ -43,7 +43,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
         }
 
         $tabs_condition = new EqualityCondition(HomeTab :: PROPERTY_USER, $user_id);
-        $tabs = $this->retrieve_home_tabs($tabs_condition);
+        $tabs = $this->retrieve_home_tabs($tabs_condition, null, null, new ObjectTableOrder(HomeTab :: PROPERTY_SORT));
 
         // If the homepage can be personalised but we have no rows, get the
         // default (to prevent lockouts) and display a warning / notification
@@ -53,7 +53,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
             $this->create_user_home();
 
             $tabs_condition = new EqualityCondition(HomeTab :: PROPERTY_USER, $user->get_id());
-            $tabs = $this->retrieve_home_tabs($tabs_condition);
+            $tabs = $this->retrieve_home_tabs($tabs_condition, null, null, new ObjectTableOrder(HomeTab :: PROPERTY_SORT));
         }
 
         //if ($tabs->size() > 1)
@@ -91,7 +91,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
         //}
 
 
-        $tabs = $this->retrieve_home_tabs($tabs_condition);
+        $tabs = $this->retrieve_home_tabs($tabs_condition, null, null, new ObjectTableOrder(HomeTab :: PROPERTY_SORT));
 
         while ($tab = $tabs->next_result())
         {
@@ -101,7 +101,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
             $rows_conditions[] = new EqualityCondition(HomeRow :: PROPERTY_TAB, $tab->get_id());
             $rows_conditions[] = new EqualityCondition(HomeRow :: PROPERTY_USER, $user_id);
             $rows_condition = new AndCondition($rows_conditions);
-            $rows = $this->retrieve_home_rows($rows_condition);
+            $rows = $this->retrieve_home_rows($rows_condition, null, null, new ObjectTableOrder(HomeRow :: PROPERTY_SORT));
 
             while ($row = $rows->next_result())
             {
@@ -114,7 +114,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
                 $condition = new AndCondition($conditions);
 
                 // Get the user or platform columns
-                $columns = $this->retrieve_home_columns($condition);
+                $columns = $this->retrieve_home_columns($condition, null, null, new ObjectTableOrder(HomeColumn :: PROPERTY_SORT));
 
                 while ($column = $columns->next_result())
                 {
@@ -127,7 +127,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
                     $conditions[] = new EqualityCondition(HomeBlock :: PROPERTY_USER, $user_id);
                     $condition = new AndCondition($conditions);
 
-                    $blocks = $this->retrieve_home_blocks($condition);
+                    $blocks = $this->retrieve_home_blocks($condition, null, null, new ObjectTableOrder(HomeBlock :: PROPERTY_SORT));
 
                     $path = Path :: get_application_path() . 'lib';
 
