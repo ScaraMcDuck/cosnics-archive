@@ -14,6 +14,7 @@ require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.c
 class AlexiaManagerBrowserComponent extends AlexiaManagerComponent
 {
 	private $introduction;
+	private $action_bar;
 	
 	/**
 	 * Runs this component and displays its output.
@@ -25,11 +26,12 @@ class AlexiaManagerBrowserComponent extends AlexiaManagerComponent
 		$trail->add_help('alexia general');
 		
 		$this->get_introduction();
+		$this->action_bar = $this->get_action_bar();
 		
 		$this->display_header($trail);
 		echo '<a name="top"></a>';
 		echo $this->get_introduction_html();
-		echo $this->get_action_bar_html() . '';
+		echo $this->action_bar->as_html();
 		echo '<div id="action_bar_browser">';
 		echo $this->get_publications_html();
 		echo '</div>';
@@ -50,7 +52,20 @@ class AlexiaManagerBrowserComponent extends AlexiaManagerComponent
     
     function get_condition()
     {
-		$subselect_condition = new EqualityCondition(LearningObject :: PROPERTY_TYPE, 'link');
+    	$subselect_conditions = array();
+		$subselect_conditions[] = new EqualityCondition(LearningObject :: PROPERTY_TYPE, 'link');
+		
+		$query = $this->action_bar->get_query();
+		
+		if(isset($query) && $query != '')
+		{
+			$search_conditions = array();
+			$search_conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);
+			$search_conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query);
+			$subselect_conditions[] = new OrCondition($search_conditions);
+		}
+		
+		$subselect_condition = new AndCondition($subselect_conditions);
 		$condition = new SubselectCondition(AlexiaPublication :: PROPERTY_LEARNING_OBJECT, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
     	
     	return $condition;
@@ -68,7 +83,7 @@ class AlexiaManagerBrowserComponent extends AlexiaManagerComponent
 		}
     }
 
-	function get_action_bar_html()
+	function get_action_bar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(Application :: PARAM_ACTION => AlexiaManager :: ACTION_CREATE_PUBLICATION))));
@@ -78,7 +93,7 @@ class AlexiaManagerBrowserComponent extends AlexiaManagerComponent
 		}
 		$action_bar->set_search_url($this->get_url());
 //		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ListView'), Theme :: get_image_path().'tool_calendar_down.png', $this->get_url(array (Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => 'list'))));
-		return $action_bar->as_html();
+		return $action_bar;
 	}
 	
 	function get_introduction_html()

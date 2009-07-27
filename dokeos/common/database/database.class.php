@@ -434,6 +434,15 @@ class Database
 //        dump('<strong>Statement</strong><br />' . $query . '<br /><br /><br />');
 //        dump($params);
 //        dump($order_by);
+        
+        if (is_null($order_by))
+        {
+            $order_by = array();
+        }
+        elseif (! is_array($order_by))
+        {
+            $order_by = array($order_by);
+        }
 
         foreach($order_by as $order)
         {

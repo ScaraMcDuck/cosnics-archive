@@ -41,77 +41,77 @@ class SortableTable extends HTML_Table
     /**
      * A name for this table
      */
-    var $table_name;
+    private $table_name;
     /**
      * The page to display
      */
-    var $page_nr;
+    private $page_nr;
     /**
      * The column to sort the data
      */
-    var $column;
+    private $column;
     /**
      * The sorting direction (SORT_ASC or SORT_DESC)
      */
-    var $direction;
+    private $direction;
     /**
      * Number of items to display per page
      */
-    var $per_page;
+    private $per_page;
     /**
      * The default number of items to display per page
      */
-    var $default_items_per_page;
+    private $default_items_per_page;
     /**
      * A prefix for the URL-parameters, can be used on pages with multiple
      * SortableTables
      */
-    var $param_prefix;
+    private $param_prefix;
     /**
      * The pager object to split the data in several pages
      */
-    var $pager;
+    private $pager;
     /**
      * The total number of items in the table
      */
-    var $total_number_of_items;
+    private $total_number_of_items;
     /**
      * The function to get the total number of items
      */
-    var $get_total_number_function;
+    private $get_total_number_function;
     /**
      * The function to the the data to display
      */
-    var $get_data_function;
+    private $get_data_function;
     /**
      * An array with defined column-filters
      */
-    var $column_filters;
+    private $column_filters;
     /**
      * A list of actions which will be available through a select list
      */
-    var $form_actions;
+    private $form_actions;
     /**
      * Additional parameters to pass in the URL
      */
-    var $additional_parameters;
+    private $additional_parameters;
     /**
      * Additional attributes for the th-tags
      */
-    var $th_attributes;
+    private $th_attributes;
     /**
      * Additional attributes for the td-tags
      */
-    var $td_attributes;
+    private $td_attributes;
     /**
      * Additional attributes for the tr-tags
      */
-    var $tr_attributes;
+    private $tr_attributes;
     /**
      * Array with names of the other tables defined on the same page of this
      * table
      */
-    var $other_tables;
+    private $other_tables;
 
     /**
      * Create a new SortableTable
@@ -739,7 +739,7 @@ class SortableTableFromArray extends SortableTable
     /**
      * The array containing all data for this table
      */
-    var $table_data;
+    private $table_data;
 
     /**
      * Constructor
