@@ -158,7 +158,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 				//Display shortcut icons
 				if($this->get_course()->get_tool_shortcut() == Course :: TOOL_SHORTCUT_ON)
 				{
-					$renderer = ToolListRenderer::factory('Shortcut',$this);
+					$renderer = ToolListRenderer::factory('Shortcut', $this);
 					echo '<div style="width: 100%; text-align: right;">';
 					$renderer->display();
 					echo '</div>';
@@ -170,7 +170,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 				$menu_style = $this->get_course()->get_menu();
 				if($menu_style != Course :: MENU_OFF)
 				{
-					$renderer = ToolListRenderer::factory('Menu',$this);
+					$renderer = ToolListRenderer :: factory('Menu', $this);
 					$renderer->display();
 					echo '<div id="tool_browser_'. ($renderer->display_menu_icons() && !$renderer->display_menu_text() ? 'icon_' : '') . $renderer->get_menu_style() .'">';
 				}
