@@ -104,13 +104,13 @@ class AlexiaManagerBrowserComponent extends AlexiaManagerComponent
 		if(isset($introduction))
 		{
 
-//			$tb_data[] = array(
-//				'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $introduction->get_id())),
-//				'label' => Translation :: get('Edit'),
-//				'img' => Theme :: get_common_image_path() . 'action_edit.png',
-//				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
-//			);
-//
+			$tb_data[] = array(
+				'href' => $this->get_introduction_editing_url($introduction),
+				'label' => Translation :: get('Edit'),
+				'img' => Theme :: get_common_image_path() . 'action_edit.png',
+				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
+			);
+
 			$tb_data[] = array(
 				'href' => $this->get_publication_deleting_url($introduction),
 				'label' => Translation :: get('Delete'),

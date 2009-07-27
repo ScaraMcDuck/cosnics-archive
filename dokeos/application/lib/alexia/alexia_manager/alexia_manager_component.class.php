@@ -49,6 +49,11 @@ abstract class AlexiaManagerComponent extends WebApplicationComponent
         return $this->get_parent()->get_publication_editing_url($alexia_publication);
     }
     
+    function get_introduction_editing_url($introduction)
+    {
+        return $this->get_parent()->get_introduction_editing_url($introduction);
+    }
+    
     function get_publication_deleting_url($alexia_publication)
     {
         return $this->get_parent()->get_publication_deleting_url($alexia_publication);
