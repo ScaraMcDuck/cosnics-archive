@@ -35,6 +35,7 @@ class AssessmentPublicationTable extends ObjectTable
 		parent :: __construct($data_provider, AssessmentPublicationTable :: DEFAULT_NAME, $column_model, $cell_renderer);
 		$actions = array();
 		$actions[Tool :: ACTION_DELETE] = Translation :: get('RemoveSelected');
+		$actions[Tool :: ACTION_MOVE_SELECTED_TO_CATEGORY] = Translation :: get('MoveSelected');
 		$this->set_form_actions($actions);
 	}
 	
