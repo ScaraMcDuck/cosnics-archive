@@ -10,6 +10,13 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
 		if($this->is_allowed(EDIT_RIGHT))
 		{
 			$form = $this->build_move_to_category_form();
+			if(!$form)
+			{
+				$this->display_header(new BreadcrumbTrail());
+				$this->display_error_message('CategoryFormCouldNotBeBuild');
+				$this->display_footer();
+			}
+				
 			$publication_ids = Request :: get('pid');
 			if (!is_array($publication_ids))
 			{
@@ -35,7 +42,7 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
 				{
 					$message = Translation :: get('LearningObjectPublicationsMoved');
 				}
-				$this->redirect($message, false, array('pid' => null));
+				$this->redirect($message, false, array('tool_action' => null, 'pid' => null));
 			}
 			else
 			{

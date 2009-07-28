@@ -125,6 +125,12 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 			'img' => Theme :: get_common_image_path().'action_export.png'
 			);
 			
+			$actions[] = array(
+			'href' => $this->browser->get_url(array(AssessmentTool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
+			'label' => Translation :: get('Move'), 
+			'img' => Theme :: get_common_image_path().'action_move.png'
+			);
+			
 			if ($assessment->get_assessment_type() == Survey :: TYPE_SURVEY)
 			{
 				$actions[] = array(
