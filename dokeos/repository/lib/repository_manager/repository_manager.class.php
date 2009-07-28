@@ -74,6 +74,7 @@ class RepositoryManager extends CoreApplication
     * Constant defining an action of the repository manager.
  	*/
 	const ACTION_BROWSE_LEARNING_OBJECTS = 'browse';
+	const ACTION_BROWSE_SHARED_LEARNING_OBJECTS = 'browse_shared';
 	const ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS = 'recycler';
 	const ACTION_VIEW_LEARNING_OBJECTS = 'view';
 	const ACTION_CREATE_LEARNING_OBJECTS = 'create';
@@ -258,6 +259,9 @@ class RepositoryManager extends CoreApplication
 				break;
 			case self :: ACTION_VIEW_REPO :
 				$component = RepositoryManagerComponent :: factory('RepoViewer', $this);
+				break;
+			case self :: ACTION_BROWSE_SHARED_LEARNING_OBJECTS :
+				$component = RepositoryManagerComponent :: factory('SharedLearningObjectsBrowser', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_LEARNING_OBJECTS);
@@ -906,6 +910,12 @@ class RepositoryManager extends CoreApplication
 			$uv['url'] = $this->get_browse_user_views_url();
 			$uv['class'] = 'userview';
 
+			$shared = array();
+			$shared['title'] = Translation :: get('SharedLearningObjects');
+			$shared['url'] = $this->get_shared_learning_objects_url();
+			$shared['class'] = 'category';
+			
+			$extra_items[] = $shared;
 			$extra_items[] = $pub;
 			$extra_items[] = $trash;
 			$extra_items[] = $create;
@@ -1076,6 +1086,11 @@ class RepositoryManager extends CoreApplication
 	function get_browse_user_views_url()
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_USER_VIEWS));
+	}
+	
+	function get_shared_learning_objects_url()
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_SHARED_LEARNING_OBJECTS));
 	}
 
 	function create_user_view_url()
