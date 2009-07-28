@@ -168,7 +168,7 @@ class FillInBlanksQuestionForm extends LearningObjectForm
         $renderer = $this->defaultRenderer();
 
         $matches = array();
-        preg_match_all('/\[[a-zA-Z0-9_\s\-]*\]/', $values['answer'], $matches, PREG_OFFSET_CAPTURE);
+        preg_match_all('/\[[a-zA-Z0-9_êëûüôöîïéèà\s\-]*\]/', $values['answer'], $matches, PREG_OFFSET_CAPTURE);
         $matches = $matches[0];
 
         $buttons = array();
