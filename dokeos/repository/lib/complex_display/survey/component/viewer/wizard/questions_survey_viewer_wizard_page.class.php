@@ -46,6 +46,9 @@ class QuestionsSurveyViewerWizardPage extends SurveyViewerWizardPage
 		
 		// Add buttons
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+		$renderer = $this->defaultRenderer();
+		$renderer->setElementTemplate('<div style="float: right;">{element}</div><br /><br />', 'buttons');
+		$renderer->setGroupElementTemplate('{element}', 'buttons');
 		$this->setDefaultAction('next');
 	}
 	
