@@ -27,7 +27,7 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
 		$answer_options = $this->get_possible_answers();
 
 		$matches = array();
-		preg_match_all('/\[[a-zA-Z0-9_-\s]*\]/', $answer_text, $matches);
+		preg_match_all('/\[[a-zA-Z0-9_êëûüôöîïéèà\s\-]*\]/', $answer_text, $matches);
 		$matches = $matches[0];
 		foreach($matches as $i => $match)
 		{
