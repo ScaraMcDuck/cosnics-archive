@@ -1621,5 +1621,14 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$statement = $this->database->get_connection()->prepare($query);
 		return $statement->execute(array($user_view->get_id()));
 	}
+
+        function retrieve_last_post($forum_id,$child_id)
+        {
+            $query = 'SELECT * from '.$this->database->escape_table_name('complex_learning_object_item').
+                     ' WHERE parent=? ORDER BY '.$this->database->escape_column_name('add_date').' DESC LIMIT 1';
+            $statement = $this->database->get_connection()->prepare($query);
+            $res = $statement->execute($child_id);
+            return new DatabaseComplexLearningObjectItemResultSet($this, $res, true);
+        }
 }
 ?>
