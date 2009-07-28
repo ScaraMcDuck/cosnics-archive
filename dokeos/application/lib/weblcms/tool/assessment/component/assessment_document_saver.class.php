@@ -73,11 +73,11 @@ class AssessmentToolDocumentSaverComponent extends AssessmentToolComponent
 			$clo_question = $c_questions[$i];
 			$track = new WeblcmsQuestionAttemptsTracker();
 			$conditiona = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $user_assessment->get_id());
-			$conditionq = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $clo_question->get_id());
+			$conditionq = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_CID, $clo_question->get_id());
 			$condition = new AndCondition(array($conditiona, $conditionq));
-			$user_questions = $track->retrieve_tracker_items($condition);
+			$user_questions = $track->retrieve_tracker_items($condition); 
 			//print_r($condition);
-			//dump($user_questions);
+			//dump($user_questions); 
 			if ($question->get_question_type() == OpenQuestion :: TYPE_DOCUMENT)
 			{
 				$user_question = $user_questions[0];
@@ -89,7 +89,8 @@ class AssessmentToolDocumentSaverComponent extends AssessmentToolComponent
 			
 			if ($user_question != null)
 			{
-				$document = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_question->get_answer(), 'document');
+				$answer = unserialize($user_question->get_answer());
+				$document = RepositoryDataManager :: get_instance()->retrieve_learning_object($answer[2], 'document');
 				$filenames[] = Path :: get(SYS_REPO_PATH).$document->get_path();
 			}
 		}

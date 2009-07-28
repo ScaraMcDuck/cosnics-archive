@@ -264,7 +264,7 @@ abstract class Tool
 		}
 
 		$trail->add(new Breadcrumb($this->get_url(array('go' => null, 'tool' => null, 'course' => null)), Translation :: get('MyCourses')));
-		$trail->add(new Breadcrumb($this->get_url(array('tool' => null)), $title));
+		$trail->add(new Breadcrumb($this->get_url(array('tool' => null, 'tool_action' => null, 'pid' => null)), $title));
 
 		// TODO: do this by overriding display_header in the course_group tool
 
