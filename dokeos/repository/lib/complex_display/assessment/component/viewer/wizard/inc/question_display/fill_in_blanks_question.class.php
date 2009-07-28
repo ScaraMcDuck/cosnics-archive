@@ -59,6 +59,8 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
 	    	
 			//$answer_text = str_replace($match, $element->toHtml(), $answer_text);
 		}
+		
+		$formvalidator->addElement('html', $answer_text);
 
 		//$formvalidator->addElement('static', 'blanks', null, $answer_text);
 		//$formvalidator->addElement('html', $answer_text);
