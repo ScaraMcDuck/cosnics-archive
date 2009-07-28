@@ -30,15 +30,25 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
 //		HTML_QuickForm :: setRequiredNote('<font color="red">*</font> <small>'.Translation :: get('ThisFieldIsRequired').'</small>');
 //		$current_page->accept($renderer);
 
-		echo '<div class="survey">';
+		echo '<div class="assessment">';
 		echo '<h2>' . $this->parent->get_survey()->get_title() . '</h2>';
 
-		if($this->parent->get_survey()->has_description())
+		if($this->parent->get_survey()->has_description() && $current_page->get_page_number() == 1)
 		{
 			echo '<div class="description">';
 			echo $this->parent->get_survey()->get_description();
 			echo '</div>';
 		}
+		
+		echo '<br />';
+		
+		if(strlen($this->parent->get_survey()->get_introduction_text()) > 0 && $current_page->get_page_number() == 1)
+		{
+			echo '<div class="description">';
+			echo $this->parent->get_survey()->get_introduction_text();
+			echo '</div>';
+		}
+		
 		echo '</div>';
 
 		echo '<div>';
