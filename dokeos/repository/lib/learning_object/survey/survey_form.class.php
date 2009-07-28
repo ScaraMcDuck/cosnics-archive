@@ -28,6 +28,8 @@ class SurveyForm extends LearningObjectForm
 			$defaults[Survey :: PROPERTY_MAXIMUM_ATTEMPTS] = $object->get_maximum_attempts();
 			$defaults[Survey :: PROPERTY_ANONYMOUS] = $object->get_anonymous();
 			$defaults[Survey :: PROPERTY_QUESTIONS_PER_PAGE] = $object->get_questions_per_page();
+			$defaults[Survey :: PROPERTY_INTRODUCTION_TEXT] = $object->get_introduction_text();
+			$defaults[Survey :: PROPERTY_FINISH_TEXT] = $object->get_finish_text();
 		}
 			
 		parent :: setDefaults($defaults);
