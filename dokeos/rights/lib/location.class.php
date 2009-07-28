@@ -379,8 +379,7 @@ class Location
 		$parent_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->get_application());
 		
 		$parent_condition = new AndCondition($parent_conditions);
-		$order = array(Location :: PROPERTY_LEFT_VALUE);
-		$order_direction = array(SORT_DESC);
+		$order[] = new ObjectTableOrder(Location :: PROPERTY_LEFT_VALUE);
 			
 		return $rdm->retrieve_locations($parent_condition, null, null, $order, $order_direction);
 	}
@@ -403,8 +402,7 @@ class Location
 		$locked_parent_conditions[] = new EqualityCondition(Location :: PROPERTY_LOCKED, true);
 		
 		$locked_parent_condition = new AndCondition($locked_parent_conditions);
-		$order = array(Location :: PROPERTY_LEFT_VALUE);
-		$order_direction = array(SORT_ASC);
+		$order[] = new ObjectTableOrder(Location :: PROPERTY_LEFT_VALUE);
 		
 		$locked_parents = $rdm->retrieve_locations($locked_parent_condition, null, 1, $order, $order_direction);
 		
