@@ -4,10 +4,13 @@ require_once Path :: get_repository_path() . 'lib/repository_manager/repository_
 
 class RepositoryRights
 {
-	const VIEW_RIGHT	= '1';
-	const ADD_RIGHT		= '2';
-	const EDIT_RIGHT	= '3';
-	const DELETE_RIGHT	= '4';
+	const ADD_RIGHT		= '1';
+	const EDIT_RIGHT	= '2';
+	const DELETE_RIGHT	= '3';
+	const VIEW_RIGHT	= '4';
+	const SEARCH_RIGHT 	= '5';
+	const USE_RIGHT 	= '6';
+	const REUSE_RIGHT   = '7';
 	
 	function get_available_rights()
 	{
