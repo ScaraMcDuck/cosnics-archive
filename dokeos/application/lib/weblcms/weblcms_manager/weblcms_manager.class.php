@@ -580,7 +580,8 @@ class WeblcmsManager extends WebApplication
 
 		$type = $learning_object->get_type();
 
-		$courses = $this->retrieve_courses($user->get_id());
+		//$courses = $this->retrieve_courses($user->get_id());
+		$courses = $this->retrieve_user_courses(new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user->get_id(), CourseUserRelation :: get_table_name()));
 		while($course = $courses->next_result())
 			$c[] = $course;
 
