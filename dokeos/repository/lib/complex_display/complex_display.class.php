@@ -48,7 +48,7 @@ abstract class ComplexDisplay
 		$root_id = Request :: get(self :: PARAM_ROOT_LO);
 		$cloi_id = Request :: get(self :: PARAM_CLOI_ID);
 
-		if(get_class($this) == 'WikiDisplay') return;
+		if(get_class($this) == 'WikiDisplay' || get_class($this) == 'SurveyDisplay') return;
 		
         if($root_id)
 		{
