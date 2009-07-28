@@ -48,7 +48,6 @@ class QuestionsAssessmentViewerWizardPage extends AssessmentViewerWizardPage
 		}
 		
 		$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('submit'), Translation :: get('Submit'), array('class' => 'positive finish', 'style' => $style));
-			
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 		
 		// Add question forms
@@ -63,6 +62,9 @@ class QuestionsAssessmentViewerWizardPage extends AssessmentViewerWizardPage
 		
 		// Add buttons
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+		$renderer = $this->defaultRenderer();
+		$renderer->setElementTemplate('<div style="float: right;">{element}</div><br /><br />', 'buttons');
+		$renderer->setGroupElementTemplate('{element}', 'buttons');
 		$this->setDefaultAction('next');
 	}
 	
