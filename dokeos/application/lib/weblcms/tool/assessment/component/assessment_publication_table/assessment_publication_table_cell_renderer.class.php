@@ -87,6 +87,14 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 			'img' => Theme :: get_common_image_path().'action_right.png'
 			);
 		}
+		else 
+		{
+			$actions[] = array(
+			//'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+			'label' => Translation :: get('TakeAssessment'),
+			'img' => Theme :: get_common_image_path().'action_right_na.png'
+			);
+		}
 			
 		if ($this->browser->is_allowed(EDIT_RIGHT)) 
 		{
