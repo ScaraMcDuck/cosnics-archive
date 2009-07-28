@@ -47,13 +47,14 @@ class ToolToggleVisibilityComponent extends ToolComponent
 			}
 
 			$params = array();
+			$params['tool_action'] = null;
 			if(Request :: get('details') == 1)
 			{
 				$params['pid'] = $pid;
 				$params['tool_action'] = 'view';
 			}
 
-			$this->redirect($message, '', $params);
+			//$this->redirect($message, '', $params);
 
 			$this->redirect($message, false, $params);
 		}
