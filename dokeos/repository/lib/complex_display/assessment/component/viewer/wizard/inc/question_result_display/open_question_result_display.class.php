@@ -53,6 +53,12 @@ class OpenQuestionResultDisplay extends QuestionResultDisplay
 	
 	function display_document_box(&$html, $answer, $with_open = false)
 	{
+		if(!$answer)
+		{
+			$html[] = Translation :: get('NoDocument') . '<div class="clear"></div><br />';
+			return;
+		}
+			
 		$document = RepositoryDataManager :: get_instance()->retrieve_learning_object($answer, 'document');
 		
 		if($with_open)

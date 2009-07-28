@@ -82,7 +82,8 @@ class AssessmentViewerWizardProcess extends HTML_QuickForm_Action
 		echo implode("\n", $html);
 		
 		$this->parent->get_parent()->finish_assessment($percent);
-
+		
+		echo '<a href="' . $this->parent->get_parent()->get_url(array('tool_action' => null, 'pid' => null)) . '">' . Translation :: get('GoBack') . '</a>';
 	}
 }
 ?>

@@ -45,7 +45,7 @@ class SurveyViewerWizardProcess extends HTML_QuickForm_Action
 		echo $this->parent->get_survey()->get_finish_text();
 		echo '</div></div>';
 		
-		echo '<a href="' . $this->parent->get_parent()->get_url(array('tool_action' => null, 'pid' => null)) . '">' . Translation :: get('GoBackToAssessmentTool') . '</a>';
+		echo '<a href="' . $this->parent->get_parent()->get_url(array('tool_action' => null, 'pid' => null)) . '">' . Translation :: get('GoBack') . '</a>';
 
 	}
 }
