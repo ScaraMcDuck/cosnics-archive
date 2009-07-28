@@ -1,8 +1,5 @@
 <?php
 
-require_once dirname(__FILE__) . '/inc/score_calculator.class.php';
-require_once dirname(__FILE__) . '/inc/question_result_display.class.php';
-
 class SurveyViewerWizardProcess extends HTML_QuickForm_Action
 {
 	private $parent;

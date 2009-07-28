@@ -10,7 +10,7 @@ class FillInBlanksQuestionResultDisplay extends QuestionResultDisplay
 		$answer_text = nl2br($answer_text);
 		
 		$matches = array();
-		preg_match_all('/\[[a-zA-Z0-9_-\s]*\]/', $answer_text, $matches);
+		preg_match_all('/\[[a-zA-Z0-9_êëûüôöîïéèà\s\-]*\]/', $answer_text, $matches);
 		$matches = $matches[0];
 		$answers = $this->get_answers();
 		
