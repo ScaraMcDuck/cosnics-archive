@@ -695,4 +695,7 @@ $lang['repository']['AddMultipleChoiceOption'] = 'Add an option';
 $lang['repository']['MultipleChoiceQuestionCreationFormTitle'] = 'Create a multiple choice question';
 $lang['repository']['AllQuestionsOnOnePage'] = 'All';
 $lang['repository']['LimitedQuestionsOnOnePage'] = 'Limited amount';
+$lang['repository']['SearchRight'] = 'Search';
+$lang['repository']['UseRight'] = 'Use';
+$lang['repository']['ReuseRight'] = 'Reuse';
 ?>

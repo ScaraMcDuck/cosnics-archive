@@ -66,6 +66,9 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManagerComponent
 
 		foreach($rights as $right_name => $right_id)
 		{
+			if($right_name == 'ADD_RIGHT' || $right_name == 'EDIT_RIGHT' || $right_name == 'DELETE_RIGHT')
+				continue;
+				
 			$real_right_name = DokeosUtilities :: underscores_to_camelcase(strtolower($right_name));
 			$html[] = '<div style="float: left; width: 24%; text-align: center;">'. Translation :: get($real_right_name) .'</div>';
 			$rights_array[$right_id] = $right_name;
