@@ -34,7 +34,7 @@ class ComplexForumTopic extends ComplexLearningObjectItem
 		$parent = $rdm->retrieve_learning_object($this->get_parent());
 		$parent->add_topic();
 		$parent->add_post($lo->get_total_posts());
-		$parent->recalculate_last_post();
+		$parent->recalculate_last_post($this->get_ref());
 		
 		return true;
 	}

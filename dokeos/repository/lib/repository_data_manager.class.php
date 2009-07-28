@@ -904,5 +904,7 @@ abstract class RepositoryDataManager
 		return $this->number_of_categories{$user_id};
 
 	}
+
+        abstract function retrieve_last_post($forum_id,$child_id);
 }
 ?>
