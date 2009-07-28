@@ -120,7 +120,8 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 			else
 			{
 				$trail = new BreadcrumbTrail();
-
+				$this->set_parameter('pid', null);
+				$this->set_parameter('tool_action', null);
 				switch($this->get_course()->get_breadcrumb())
 				{
 					case Course :: BREADCRUMB_TITLE : $title = $this->get_course()->get_name(); break;
