@@ -99,25 +99,26 @@ class AssessmentResultsTableOverviewAdminDataProvider extends ObjectTableDataPro
 		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'assessment');
 		
 		$access = array();
-		$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
-		$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('learning_object_publication_course_group'));
 		if (!empty($user_id) || !empty($course_groups))
 		{
+			$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
+			$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('learning_object_publication_course_group'));
 			$access[] = new AndCondition(array(new EqualityCondition('user', null, $datamanager->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('learning_object_publication_course_group'))));
+			$conditions[] = new OrCondition($access);
 		}
-		$conditions[] = new OrCondition($access);
+		
 		
 		$subselect_conditions = array();
 		$subselect_conditions[] = $this->get_condition();
-		if($this->get_parent()->get_condition())
+		/*if($this->parent->get_condition())
 		{
-			$subselect_conditions[] = $this->get_parent()->get_condition();
-		}
+			$subselect_conditions[] = $this->parent->get_condition();
+		}*/
 		$subselect_condition = new AndCondition($subselect_conditions);
 		
 		$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
 		$condition = new AndCondition($conditions);
-		
+	
 		$publications = $datamanager->retrieve_learning_object_publications_new($condition);
 		while ($publication = $publications->next_result())
 		{
@@ -149,7 +150,8 @@ class AssessmentResultsTableOverviewAdminDataProvider extends ObjectTableDataPro
     	$conds = array();
     	$parent = $this->parent;
     	$category = $parent->get_parameter(WeblcmsManager :: PARAM_CATEGORY);
-    	$conds[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $category);
+    	$category = $category ? $category : 0;
+    	$conds[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $category, LearningObjectPublication :: get_table_name());
     	
     	$type_cond = array();
     	$types = array('assessment', 'survey', 'hotpotatoes');
