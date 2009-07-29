@@ -65,27 +65,27 @@ class WikiPublicationTableCellRenderer extends DefaultLearningObjectTableCellRen
 	
 	function get_actions($publication) 
 	{
-        $actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
-			'label' => Translation :: get('Delete'), 
-			'img' => Theme :: get_common_image_path().'action_delete.png',
-            'confirm' => true
-			);
-
-        $actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
-			'label' => Translation :: get('Edit'), 
-			'img' => Theme :: get_common_image_path().'action_edit.png'
-			);
-
-            $actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
-			'label' => Translation :: get('Visible'),
-			'img' => $publication->is_hidden()? Theme :: get_common_image_path().'action_visible_na.png' : Theme :: get_common_image_path().'action_visible.png'
-			);
-		
-        
-		
+        if($this->browser->is_allowed(EDIT_RIGHT))
+        {
+			$actions[] = array(
+				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
+				'label' => Translation :: get('Delete'), 
+				'img' => Theme :: get_common_image_path().'action_delete.png',
+	            'confirm' => true
+				);
+	
+	        $actions[] = array(
+				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
+				'label' => Translation :: get('Edit'), 
+				'img' => Theme :: get_common_image_path().'action_edit.png'
+				);
+	
+	            $actions[] = array(
+				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+				'label' => Translation :: get('Visible'),
+				'img' => $publication->is_hidden()? Theme :: get_common_image_path().'action_visible_na.png' : Theme :: get_common_image_path().'action_visible.png'
+				);
+        }
 		
         /*if(!WikiTool :: is_wiki_locked($publication->get_learning_object()->get_id()))
         {
@@ -104,7 +104,8 @@ class WikiPublicationTableCellRenderer extends DefaultLearningObjectTableCellRen
 			);
         }*/
 		
-		return DokeosUtilities :: build_toolbar($actions);
+        if(count($actions) > 0)
+			return DokeosUtilities :: build_toolbar($actions);
 	}
 	
 	/**

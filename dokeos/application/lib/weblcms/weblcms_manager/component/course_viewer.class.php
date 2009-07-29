@@ -186,7 +186,6 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 				{
 					echo '<div id="tool_browser">';
 				}
-
 				if(PlatformSetting :: get('enable_introduction', 'weblcms'))
 				{
 					echo $this->display_introduction_text();
@@ -253,7 +252,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 
 		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications_new($condition);
 		$introduction_text = $publications->next_result();
-
+	
 		if($introduction_text)
 		{
 

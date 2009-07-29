@@ -143,17 +143,23 @@ class WikiDisplay extends ComplexDisplay
 
         if(!empty($selected_cloi))
         {
-            $action_bar->add_common_action(
-                new ToolbarItem(
-                    Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $parent->get_url(array(/*Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI*/ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_UPDATE, 'pid' => $pid, 'selected_cloi' => $selected_cloi)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-                )
-            );
+           //if($this->get_parent()->get_parent()->is_allowed(EDIT_RIGHT))
+           {
+	        	$action_bar->add_common_action(
+	                new ToolbarItem(
+	                    Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $parent->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_UPDATE, 'pid' => $pid, 'selected_cloi' => $selected_cloi)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+	               )
+	            );
+			}
 
-            $action_bar->add_common_action(
-                new ToolbarItem(
-                    Translation :: get('Delete'),Theme :: get_common_image_path().'action_delete.png', $parent->get_url(array(/*WikiTool :: PARAM_ACTION => Tool:: ACTION_DELETE_CLOI*/ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_DELETE, 'pid' => $pid,'selected_cloi' => $selected_cloi)), ToolbarItem :: DISPLAY_ICON_AND_LABEL,true
-                )
-            );
+			//if($this->get_parent()->get_parent()->is_allowed(DELETE_RIGHT))
+           	{
+	            $action_bar->add_common_action(
+	                new ToolbarItem(
+	                    Translation :: get('Delete'),Theme :: get_common_image_path().'action_delete.png', $parent->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_DELETE, 'pid' => $pid,'selected_cloi' => $selected_cloi)), ToolbarItem :: DISPLAY_ICON_AND_LABEL,true
+	              )
+	            );
+           	}
 
             if(Request :: get('display_action') == 'discuss')
             {
@@ -183,15 +189,18 @@ class WikiDisplay extends ComplexDisplay
                 )
             );
 
-            $action_bar->add_tool_action(
-			new ToolbarItem(
-				Translation :: get('Statistics'), Theme :: get_common_image_path().'action_reporting.png', $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay ::ACTION_PAGE_STATISTICS, 'pid' => $pid, 'selected_cloi' => $selected_cloi)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-			)
-            );
+            if($this->get_parent()->get_parent()->is_allowed(EDIT_RIGHT))
+            {
+	            $action_bar->add_tool_action(
+				new ToolbarItem(
+					Translation :: get('Statistics'), Theme :: get_common_image_path().'action_reporting.png', $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay ::ACTION_PAGE_STATISTICS, 'pid' => $pid, 'selected_cloi' => $selected_cloi)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				)
+	            );
+            }
         }
         else
         {
-            $action_bar->add_common_action(
+          /*  $action_bar->add_common_action(
 			new ToolbarItem(
 				Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_UPDATE_LO, 'pid' => $pid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
@@ -203,14 +212,14 @@ class WikiDisplay extends ComplexDisplay
                 new ToolbarItem(
                     Translation :: get('Delete'),Theme :: get_common_image_path().'action_delete.png', $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_DELETE, 'pid' => $pid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL,true
                 )
-            );
+            );*/
 
 //            $action_bar->add_common_action(
 //            new ToolbarItem(
 //                    Translation :: get('BrowseWikis'), Theme :: get_common_image_path().'action_browser.png', $parent->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS, WikiDisplay :: PARAM_DISPLAY_ACTION => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 //                ));
 //
-            }
+//            }
 
 
             //INFORMATION
@@ -220,11 +229,14 @@ class WikiDisplay extends ComplexDisplay
                 )
             );
 
-            $action_bar->add_tool_action(
-                new ToolbarItem(
-                    Translation :: get('AccessDetails'), Theme :: get_common_image_path().'action_reporting.png', $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_ACCESS_DETAILS, 'pid' => $pid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-                )
-            );
+            if($this->get_parent()->get_parent()->is_allowed(EDIT_RIGHT))
+            {
+	            $action_bar->add_tool_action(
+	                new ToolbarItem(
+	                    Translation :: get('AccessDetails'), Theme :: get_common_image_path().'action_reporting.png', $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_ACCESS_DETAILS, 'pid' => $pid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+	                )
+	            );
+            }
             //$action_bar->add_tool_action($parent->get_parent()->get_parent()->get_access_details_toolbar_item($parent));
         }
 

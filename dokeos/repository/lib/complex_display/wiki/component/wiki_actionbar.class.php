@@ -83,7 +83,7 @@ class WikiActionbar
 
         if ($action_bar_has_tool_actions)
 		{
-            $html[] = 'Information'.Translation :: get('Information');
+            $html[] = Translation :: get('Information');
 			$html[] = '<div class="clear"></div>';
 
 			$toolbar = new Toolbar();
