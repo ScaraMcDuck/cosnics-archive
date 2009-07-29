@@ -154,7 +154,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplayComponent
             $table->setCellContents($row, 0, $info);
             $table->setCellAttributes($row, 0, array('class' => $class, 'align' => 'center', 'valign' => 'top', 'height' => 150));
             $table->setCellContents($row, 1, $message);
-            $table->setCellAttributes($row, 1, array('class' => $class, 'valign' => 'top', 'style' => 'padding: 10px; padding-top: 0px;'));
+            $table->setCellAttributes($row, 1, array('class' => $class, 'valign' => 'top', 'style' => 'padding: 10px; padding-top: 10px;'));
 
             $row++;
 

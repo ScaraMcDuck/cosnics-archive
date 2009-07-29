@@ -21,6 +21,8 @@ class ForumToolBrowserComponent extends ForumToolComponent
 			return;
 		}
 		
+		$this->size = 0;
+		$this->allowed = $this->is_allowed(DELETE_RIGHT) || $this->is_allowed(EDIT_RIGHT);
 		$this->action_bar = $this->get_action_bar();
 
 		$table = $this->get_table_html();
@@ -53,7 +55,14 @@ class ForumToolBrowserComponent extends ForumToolComponent
 	function create_table_header($table)
 	{
 		$table->setCellContents(0, 0, '');
-		$table->setCellAttributes(0, 0, array('colspan' => 6, 'class' => 'category'));
+		if($this->allowed)
+		{
+			$table->setCellAttributes(0, 0, array('colspan' => 6, 'class' => 'category'));
+		}
+		else
+		{
+			$table->setCellAttributes(0, 0, array('colspan' => 5, 'class' => 'category'));
+		}
 
 		$table->setHeaderContents(1, 0, Translation :: get('Forum'));
 		$table->setCellAttributes(1, 0, array('colspan' => 2));
@@ -63,8 +72,12 @@ class ForumToolBrowserComponent extends ForumToolComponent
 		$table->setCellAttributes(1, 3, array('width' => 50));
 		$table->setHeaderContents(1, 4, Translation :: get('LastPost'));
 		$table->setCellAttributes(1, 4, array('width' => 130));
-		$table->setHeaderContents(1, 5, '');
-		$table->setCellAttributes(1, 5, array('width' => 125));
+		
+		if($this->allowed)
+		{
+			$table->setHeaderContents(1, 5, '');
+			$table->setCellAttributes(1, 5, array('width' => 125));
+		}
 	}
 
 	function create_table_categories($table, &$row)
@@ -73,14 +86,23 @@ class ForumToolBrowserComponent extends ForumToolComponent
 		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_TOOL, $this->get_parent()->get_tool_id());
 		$condition = new AndCondition($conditions);
 
-		$categories = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_categories($condition, $offset, $count, $order_property, $order_direction);
-
+		$categories = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_categories($condition);
+	
 		while($category = $categories->next_result())
 		{
 			$table->setCellContents($row, 0, '<a href="javascript:void();">' . $category->get_name() . '</a>');
 			$table->setCellAttributes($row, 0, array('colspan' => 2, 'class' => 'category'));
 			$table->setCellContents($row, 2, '');
-			$table->setCellAttributes($row, 2, array('colspan' => 4, 'class' => 'category_right'));
+			
+			if($this->allowed)
+			{
+				$table->setCellAttributes($row, 2, array('colspan' => 4, 'class' => 'category_right'));
+			}
+			else
+			{
+				$table->setCellAttributes($row, 2, array('colspan' => 3, 'class' => 'category_right'));
+			}
+			
 			$row++;
 			$this->create_table_forums($table, $row, $category->get_id());
 		}
@@ -121,10 +143,9 @@ class ForumToolBrowserComponent extends ForumToolComponent
 		$condition = new AndCondition($conditions);
 		
 		$publications = $datamanager->retrieve_learning_object_publications_new($condition, new ObjectTableOrder(Forum :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC));
-        $rdm = RepositoryDataManager::get_instance();
 
 		$size = $publications->size();
-		$this->size = $size;
+		$this->size += $size;
 
 		$counter = 0;
 		while($publication = $publications->next_result())
@@ -151,8 +172,13 @@ class ForumToolBrowserComponent extends ForumToolComponent
 			$table->setCellAttributes($row, 3, array('class' => 'row2', 'align' => 'center'));
 			$table->setCellContents($row, 4, '');
 			$table->setCellAttributes($row, 4, array('class' => 'row2'));
-			$table->setCellContents($row, 5, $this->get_forum_actions($publication, $first, $last));
-			$table->setCellAttributes($row, 5, array('class' => 'row2'));
+			
+			if($this->allowed)
+			{
+				$table->setCellContents($row, 5, $this->get_forum_actions($publication, $first, $last));
+				$table->setCellAttributes($row, 5, array('class' => 'row2'));
+			}
+			
 			$row++;
 			$counter++;
 		}
@@ -243,9 +269,16 @@ class ForumToolBrowserComponent extends ForumToolComponent
 	function get_action_bar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => AnnouncementTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path().'action_category.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		
+		if($this->is_allowed(ADD_RIGHT))
+		{
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => AnnouncementTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		}
+		
+		if($this->is_allowed(EDIT_RIGHT))
+		{
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path().'action_category.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		}
 
 //		if(!$this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms'))
 //		{
