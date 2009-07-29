@@ -175,7 +175,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 	
 	function can_change_answer_data()
 	{
-		return true;
+		return $this->is_allowed(EDIT_RIGHT);
 	}
 	
 	function display_header($breadcrumbs = array())

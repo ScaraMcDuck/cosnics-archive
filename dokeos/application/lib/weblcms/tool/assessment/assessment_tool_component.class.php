@@ -31,6 +31,10 @@ class AssessmentToolComponent extends ToolComponent
 		if ($search)
 		{
 			$action_bar->set_search_url($this->get_url());
+		}
+		
+		if ($this->is_allowed(ADD_RIGHT))
+		{
 			$action_bar->add_common_action(
 				new ToolbarItem(
 					Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
