@@ -7,6 +7,8 @@ require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once dirname(__FILE__).'/learning_object_publication_attributes.class.php';
 require_once dirname(__FILE__).'/learning_object.class.php';
 require_once dirname(__FILE__).'/complex_learning_object_item.class.php';
+require_once dirname(__FILE__).'/learning_object_metadata.class.php';
+require_once dirname(__FILE__).'/learning_object_metadata_catalog.class.php';
 require_once dirname(__FILE__).'/data_manager/database/database_learning_object_result_set.class.php';
 require_once Path :: get_application_path() . 'lib/web_application.class.php';
 require_once Path :: get_home_path() . 'lib/home_data_manager.class.php';
@@ -905,6 +907,14 @@ abstract class RepositoryDataManager
 
 	}
 
-        abstract function retrieve_last_post($forum_id,$child_id);
+    abstract function retrieve_last_post($forum_id,$child_id);
+    
+    abstract function create_learning_object_metadata($learning_object_metadata);
+    abstract function delete_learning_object_metadata($learning_object_metadata);
+    abstract function update_learning_object_metadata($learning_object_metadata);
+    abstract function retrieve_learning_object_metadata($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null);
+    abstract function get_next_learning_object_metadata_id();
+    
+    abstract function retrieve_learning_object_metadata_catalog($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null);
 }
 ?>

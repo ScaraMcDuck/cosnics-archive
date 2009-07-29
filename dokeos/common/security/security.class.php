@@ -42,7 +42,7 @@ class Security
         foreach ($array as $key => $value)
         {
             $key2 = self :: remove_XSS($key);
-            $value2 = (is_array($value)) ? $this->remove_XSS_recursive($value) : self :: remove_XSS($value);
+            $value2 = (is_array($value)) ? self :: remove_XSS_recursive($value) : self :: remove_XSS($value);
             
             unset($array[$key]);
             $array[$key2] = $value2;

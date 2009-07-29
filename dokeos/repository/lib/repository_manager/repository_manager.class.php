@@ -84,7 +84,8 @@ class RepositoryManager extends CoreApplication
 	const ACTION_DELETE_LEARNING_OBJECT_PUBLICATIONS = 'deletepublications';
 	const ACTION_RESTORE_LEARNING_OBJECTS = 'restore';
 	const ACTION_MOVE_LEARNING_OBJECTS = 'move';
-	const ACTION_EDIT_LEARNING_OBJECT_METADATA = 'metadata';
+	const ACTION_EDIT_LEARNING_OBJECT_METADATA = 'metadata_edit';
+	const ACTION_VIEW_LEARNING_OBJECT_METADATA = 'metadata_view';
 	const ACTION_EDIT_LEARNING_OBJECT_RIGHTS = 'rights';
 	const ACTION_VIEW_MY_PUBLICATIONS = 'publicationbrowser';
 	const ACTION_VIEW_QUOTA = 'quota';
@@ -201,6 +202,9 @@ class RepositoryManager extends CoreApplication
 				break;
 			case self :: ACTION_EDIT_LEARNING_OBJECT_METADATA :
 				$component = RepositoryManagerComponent :: factory('MetadataEditor', $this);
+				break;
+			case self :: ACTION_VIEW_LEARNING_OBJECT_METADATA :
+				$component = RepositoryManagerComponent :: factory('MetadataViewer', $this);	
 				break;
 			case self :: ACTION_EDIT_LEARNING_OBJECT_RIGHTS :
 				$component = RepositoryManagerComponent :: factory('RightsEditor', $this);
@@ -1074,6 +1078,18 @@ class RepositoryManager extends CoreApplication
 		return $rdm->retrieve_user_views($condition, $offset, $count, $order_property, $order_direction);
 	}
 
+	function retrieve_learning_object_metadata($condition = null, $offset = null, $max_objects = null, $order_property = null, $order_direction = null)
+	{
+		$rdm = RepositoryDataManager :: get_instance();
+		return $rdm->retrieve_learning_object_metadata($condition, $offset, $max_objects, $order_property, $order_direction);
+	}
+	
+	function retrieve_learning_object_metadata_catalog($condition = null, $offset = null, $max_objects = null, $order_property = null, $order_direction = null)
+	{
+	    $rdm = RepositoryDataManager :: get_instance();
+		return $rdm->retrieve_learning_object_metadata_catalog($condition, $offset, $max_objects, $order_property, $order_direction);
+	}
+	
     /**
 	 * Renders the users block and returns it.
 	 */
