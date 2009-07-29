@@ -128,6 +128,7 @@ class WeblcmsManager extends WebApplication
 		$this->load_sections();
 		$this->tools = array ();
 		$this->load_tools();
+		$this->load_rights();
 	}
 
 	/*
@@ -1281,5 +1282,41 @@ class WeblcmsManager extends WebApplication
 	{
 		return self :: APPLICATION_NAME;
 	}
+	
+	function is_allowed($right)
+	{
+		return $this->rights[$right];
+	}
+
+	/**
+	 * Load the rights for the current user in this tool
+	 */
+	private function load_rights()
+	{
+		$this->rights[VIEW_RIGHT] = false;
+		$this->rights[EDIT_RIGHT] = false;
+		$this->rights[ADD_RIGHT] = false;
+		$this->rights[DELETE_RIGHT] = false;
+		$user = $this->get_user();
+		$course = $this->get_course();
+		if ($user != null && $course != null)
+		{
+			$relation = $this->retrieve_course_user_relation($course->get_id(),$user->get_id());
+
+			if($relation && $relation->get_status() == 5 && $this->properties->visible == 1)
+			{
+				$this->rights[VIEW_RIGHT] = true;
+			}
+			if(($relation && $relation->get_status() == 1) || $user->is_platform_admin())
+			{
+				$this->rights[VIEW_RIGHT] = true;
+				$this->rights[EDIT_RIGHT] = true;
+				$this->rights[ADD_RIGHT] = true;
+				$this->rights[DELETE_RIGHT] = true;
+			}
+		}
+		return;
+	}
+	
 }
 ?>

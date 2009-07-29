@@ -280,12 +280,15 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 		}
 		else
 		{
-			$tb_data[] = array(
-				'href' => $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_PUBLISH_INTRODUCTION)),
-				'label' => Translation :: get('PublishIntroductionText'),
-				'img' => Theme :: get_common_image_path() . 'action_introduce.png',
-				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-			);
+			if($this->is_allowed(EDIT_RIGHT))
+			{
+				$tb_data[] = array(
+					'href' => $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_PUBLISH_INTRODUCTION)),
+					'label' => Translation :: get('PublishIntroductionText'),
+					'img' => Theme :: get_common_image_path() . 'action_introduce.png',
+					'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+				);
+			}
 
 			$html[] = DokeosUtilities :: build_toolbar($tb_data) . '<div class="clear"></div>';
 		}

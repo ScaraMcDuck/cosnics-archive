@@ -498,5 +498,10 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     {
     	return $this->get_parent()->display_header($breadcrumbtrail, $display_search, $display_title, $help_item);
     }
+    
+    function is_allowed($right)
+    {
+    	return $this->get_parent()->is_allowed($right);
+    }
 }
 ?>
