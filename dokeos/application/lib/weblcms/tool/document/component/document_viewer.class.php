@@ -54,7 +54,9 @@ class DocumentToolViewerComponent extends DocumentToolComponent
         //dump($browser->get_publication_category_tree()->get_breadcrumbs());
         //dump(Tool ::get_pcattree_parents(Request :: get('pcattree')));
         if(Request :: get('pid') != null)
-        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => DocumentTool ::ACTION_VIEW_DOCUMENTS, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
+        {
+        	$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => DocumentTool ::ACTION_VIEW_DOCUMENTS, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
+        }
         $trail->add_help('courses document tool');
 		$this->display_header($trail, true);
 
@@ -80,18 +82,24 @@ class DocumentToolViewerComponent extends DocumentToolComponent
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
+		$cat_id = Request :: get('pcattree');
+		$category = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_category($cat_id);
+		
 		if(!Request :: get('pid'))
 		{
 			$action_bar->set_search_url($this->get_url());
-			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+			if($this->is_allowed(ADD_RIGHT) || ($category && $category->get_name() == Translation :: get('Dropbox')))
+			{
+				$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+			}
 		}
 
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-		if(!Request :: get('pid'))
+		if(!Request :: get('pid') && $this->is_allowed(EDIT_RIGHT))
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path().'action_category.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-		if(!$this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms'))
+		if(!$this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms') && $this->is_allowed(EDIT_RIGHT))
 		{
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path().'action_introduce.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
@@ -102,7 +110,10 @@ class DocumentToolViewerComponent extends DocumentToolComponent
 			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Slideshow'), Theme :: get_common_image_path().'action_slideshow.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_SLIDESHOW)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
 
-        $action_bar->add_tool_action($this->get_access_details_toolbar_item($this));
+		if($this->is_allowed(EDIT_RIGHT))
+		{
+        	$action_bar->add_tool_action($this->get_access_details_toolbar_item($this));
+		}
 
 		return $action_bar;
 	}
