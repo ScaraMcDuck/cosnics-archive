@@ -577,20 +577,22 @@ abstract class Tool
 
 		if($introduction_text)
 		{
-
-			$tb_data[] = array(
-				'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
-				'label' => Translation :: get('Edit'),
-				'img' => Theme :: get_common_image_path() . 'action_edit.png',
-				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
-			);
-
-			$tb_data[] = array(
-				'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
-				'label' => Translation :: get('Delete'),
-				'img' => Theme :: get_common_image_path() . 'action_delete.png',
-				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
-			);
+			if($this->is_allowed(EDIT_RIGHT))
+			{
+				$tb_data[] = array(
+					'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
+					'label' => Translation :: get('Edit'),
+					'img' => Theme :: get_common_image_path() . 'action_edit.png',
+					'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
+				);
+	
+				$tb_data[] = array(
+					'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
+					'label' => Translation :: get('Delete'),
+					'img' => Theme :: get_common_image_path() . 'action_delete.png',
+					'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
+				);
+			}
 
 			$html[] = '<div class="announcements level_1">';
 			$html[] = '<div class="title">';
