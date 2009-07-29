@@ -81,8 +81,10 @@ class ActionBarSearchForm extends FormValidator
     private function build_simple_search_form()
     {
         $this->renderer->setElementTemplate('<div style="vertical-align: middle; float: left;">{element}</div>');
-        $this->frozen_elements[] = $this->addElement('text', self :: PARAM_SIMPLE_SEARCH_QUERY, Translation :: get('Find'), 'size="20" class="search_query" style="border: 1px solid grey; height: 18px; background-color: white;"');
-        $this->addElement('submit', 'search', Translation :: get('Ok'), 'style="border: 1px solid grey; height: 20px; padding-bottom: 3px;"');
+        $this->frozen_elements[] = $this->addElement('text', self :: PARAM_SIMPLE_SEARCH_QUERY, Translation :: get('Find'), 'size="20" class="search_query"');
+//        <button class="normal mini" type="submit" value="' . Translation :: get('Ok') . '">' . Translation :: get('Ok') . '</button>
+        $this->addElement('style_submit_button', 'submit', Theme :: get_common_image('action_search'), array('class' => 'search'));
+//        $this->addElement('submit', 'search', Translation :: get('Ok'), 'style="border: 1px solid grey; height: 20px; padding-bottom: 3px; border-left: 0px solid white; background-color: white;"');
     }
 
     /**

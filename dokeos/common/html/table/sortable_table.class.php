@@ -285,6 +285,7 @@ class SortableTable extends HTML_Table
             {
                 $html[] = '<div class="sortable_table_selection_controls">';
                 $html[] = '<a href="?' . $params . '&amp;' . $this->param_prefix . 'selectall=1" onclick="setCheckbox(\'form_' . $this->table_name . '\', true); return false;">' . Translation :: get('SelectAll') . '</a>';
+                $html[] = '&nbsp;-&nbsp;';
                 $html[] = '<a href="?' . $params . '"  onclick="setCheckbox(\'form_' . $this->table_name . '\', false); return false;">' . Translation :: get('UnSelectAll') . '</a> ';
                 $html[] = '<select name="' . $this->form_actions_select_name . '">';
                 foreach ($this->form_actions as $action => $label)
@@ -292,7 +293,8 @@ class SortableTable extends HTML_Table
                     $html[] = '<option value="' . $action . '">' . $label . '</option>';
                 }
                 $html[] = '</select>';
-                $html[] = ' <input type="submit" value="' . Translation :: get('Ok') . '"/>';
+                $html[] = '<button class="normal" type="submit" value="' . Translation :: get('Ok') . '">' . Translation :: get('Ok') . '</button>';
+//                $html[] = ' <input type="submit" value="' . Translation :: get('Ok') . '"/>';
                 $html[] = '</div>';
             }
             else
@@ -418,7 +420,7 @@ class SortableTable extends HTML_Table
         }
         $result[] = '</select>';
         $result[] = '<noscript>';
-        $result[] = '<input type="submit" value="ok"/>';
+        $result[] = '<button class="normal" type="submit" value="' . Translation :: get('Ok') . '">' . Translation :: get('Ok') . '</button>';
         $result[] = '</noscript>';
         $result[] = '</form>';
         $result = implode("\n", $result);

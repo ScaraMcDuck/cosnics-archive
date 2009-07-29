@@ -1133,8 +1133,12 @@ div.survey-categories-header, div.survey-outline-header, div.survey-result-heade
 	margin: 0.1em 0 0.1em 0;
 }
 
-.sortable_table_selection_controls a {
-	margin-right: 1ex;
+.sortable_table_selection_controls
+{
+}
+
+.sortable_table_selection_controls select {
+	margin-left: 10px;
 }
 
 /*****************************************************

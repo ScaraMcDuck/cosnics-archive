@@ -235,6 +235,8 @@ button, a.button
 {
     margin:0 7px 0 0;
     background-color:#f5f5f5;
+	background-repeat: no-repeat;
+	background-position: 10px center;
     border:1px solid #dedede;
     border-top:1px solid #eeeeee;
     border-left:1px solid #eeeeee;
@@ -255,8 +257,6 @@ button, a.button
 button.positive, a.positive_button
 {
 	background-image: url(../img/common/buttons/button_confirm.png);
-	background-repeat: no-repeat;
-	background-position: 10px center;
 	color: #529214;
 }
 
@@ -274,8 +274,6 @@ button.positive:active, a.positive_button:active{
 button.negative, a.negative_button
 {
 	background-image: url(../img/common/buttons/button_cancel.png);
-	background-repeat: no-repeat;
-	background-position: 10px center;
 	color: #d12f19;
 }
 
@@ -293,8 +291,6 @@ button.negative:active, a.negative_button:active{
 button.normal, a.normal_button
 {
 	background-image: url(../img/common/buttons/button_next.png);
-	background-repeat: no-repeat;
-	background-position: 10px center;
 }
 
 button.next, a.next_button
@@ -673,4 +669,42 @@ input.link_alike:hover
 form br
 {
 	clear: both;
+}
+
+/**************************
+ * ACTION BAR SEARCH FORM *
+ **************************/
+
+div.search_form
+{
+	background-color: white;
+	border: 1px solid grey;
+	height: 18px;
+	overflow: hidden;
+}
+
+
+div.search_form input.search_query
+{
+	border: 0px solid white;
+	background-image: none;
+	padding: 0px 2px 0px 2px;
+	height: 18px;
+}
+
+div.search_form button.search
+{
+	background-color: white;
+	border: 0px solid white;
+	background-image: none;
+	padding: 0px;
+	margin: 0px;
+	vertical-align: middle;
+	text-align: center;
+}
+
+div.search_form button.search img
+{
+	padding: 0px;
+	margin: 1px 2px 0px 2px;
 }
