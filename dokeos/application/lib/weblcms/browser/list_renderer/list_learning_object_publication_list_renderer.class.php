@@ -21,7 +21,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 		{
 			$html[] = Display :: normal_message(Translation :: get('NoPublicationsAvailable'),true);
 		}
-		if($this->get_actions())
+		if($this->get_actions() && $this->is_allowed(EDIT_RIGHT))
 			$html[] = '<form name="publication_list" action="' . $this->get_url() . '" method="GET" >';
 		$i = 0;
 
@@ -33,7 +33,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 			$i++;
 		}
 
-		if($this->get_actions() && count($publications) > 0)
+		if($this->get_actions() && count($publications) > 0 && $this->is_allowed(EDIT_RIGHT))
 		{
 			foreach($_GET as $parameter => $value)
 			{
@@ -120,7 +120,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 		$html[] = '</div>';
 		$html[] = '<div class="publication_actions">';
 		$html[] = $this->render_publication_actions($publication,$first,$last);
-		if($this->get_actions())
+		if($this->get_actions() && $this->is_allowed(EDIT_RIGHT))
 			$html[] = '<input type="checkbox" name="pid[]" value="' . $publication->get_id() . '"/>';
 		$html[] = '</div>';
 		$html[] = '</div><br />';
