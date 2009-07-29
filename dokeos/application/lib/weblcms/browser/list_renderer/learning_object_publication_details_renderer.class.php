@@ -51,17 +51,6 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		$html[] = '<h3>' . Translation :: get('LearningObjectPublicationDetails') . '</h3>';
 		$html[] = $this->render_publication($publication);
 		//dump($this->browser->get_parent()->get_course());
-		if($this->browser->get_parent()->get_course()->get_allow_feedback())
-		{
-			//$html[] = '<a href="' . $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_FEEDBACK)) . '">' . Translation :: get('AddFeedback') . '</a><br />';
-			/*$html[] = '<div id="feedbackform">';
-			$html[] = '<h3>' . '<div class="title">'.Translation :: get('LearningObjectPublicationAddFeedback') . ' <a href="#" id="hidefeedbackform" style="display:none; font-size: 80%; font-weight: normal;">(' . Translation :: get('Hide') . ')</a></div></h3>';
-			$html[] = '<div class="feedback_block">';
-			$html[] = $form->toHtml();
-			$html[] = '</div></div><br />';*/
-			$html[] = $this->render_publication_feedback($publication);
-			$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/feedback_list.js' .'"></script>';
-		}
                 
 		//$html[] = $pub->as_html();
 		return implode("\n", $html);
@@ -119,30 +108,6 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		$html[] = '</div>';
 
 		return implode("\n", $html);
-	}
-
-	/**
-	 * Renders a list of all LearningObjects of the type 'feedback' attached to this LearningObject
-	 * @param  LearningObjectPublication $publication The publication.
-	 * @return string The rendered HTML.
-	 */
-	function render_publication_feedback($publication){
-                $fbm = new FeedbackManager($this->browser->get_parent());
-                $fbm->run();
-//		$html = array();
-//		$publication_feedback_array = array();
-//		$publication_feedback_array = $publication->retrieve_feedback();
-//
-//		if(count($publication_feedback_array) > 0)
-//		{
-//			$html[] = '<br /><a href="#" id="showfeedback" style="display:none; float:left;">' . Translation :: get('ShowFeedback') . '</a>';
-//			$html[] = '<div id="feedbacklist">';
-//			$html[] = '<h3>' . Translation :: get('LearningObjectPublicationListFeedback') .  ' <a href="#" id="hidefeedback" style="display:none; font-size: 80%; font-weight: normal;">(' . Translation :: get('Hide') . ')</a></h3>';
-//			$renderer = new ListPublicationFeedbackListRenderer($this->browser,$publication_feedback_array);
-//			$html[] = $renderer->as_html();
-//			$html[] = '</div>';
-//		}
-//		return implode("\n", $html);
 	}
 
 	function render_publication_actions($publication,$first,$last)

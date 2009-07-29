@@ -460,6 +460,15 @@ abstract class LearningObjectPublicationListRenderer
 	 */
 	abstract function as_html();
 
+        function get_feedback()
+        {
+            	if($this->browser->get_parent()->get_course()->get_allow_feedback())
+		{
+                    $fbm = new FeedbackManager($this->browser->get_parent());
+                    $fbm->run();
+		}
+        }
+
 	/**
 	 * @see LearningObjectPublicationBrowser :: get_url()
 	 */
