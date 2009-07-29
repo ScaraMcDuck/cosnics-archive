@@ -118,7 +118,8 @@ class BrowsersTracker extends UserTracker
 
 	static function get_table_name()
 	{
-		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+		//return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+		return parent :: get_table_name();
 	}
 }
 ?>

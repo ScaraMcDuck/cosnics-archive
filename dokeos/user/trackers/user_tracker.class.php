@@ -22,7 +22,7 @@ abstract class UserTracker extends MainTracker
 	 */
     function UserTracker()
     {
-    	parent :: MainTracker('user');
+    	parent :: MainTracker('user_tracker');
     }
 
     /**

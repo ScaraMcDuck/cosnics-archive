@@ -22,7 +22,7 @@ class VisitTracker extends MainTracker
 	 */
     function VisitTracker()
     {
-    	parent :: MainTracker('visit');
+    	parent :: MainTracker('visit_tracker');
     }
 
     /**

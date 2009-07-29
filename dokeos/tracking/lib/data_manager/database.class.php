@@ -262,7 +262,8 @@ class DatabaseTrackingDataManager extends TrackingDataManager
      */
     function retrieve_tracker_items($table_name, $classname, $condition)
     {
-        $items = $this->database->retrieve_objects($table_name, $condition);
+        //$items = $this->database->retrieve_objects($table_name, $condition);
+        $items = $this->database->retrieve_objects($table_name, $condition, null, null, array(), array(), $classname);
         return $items->as_array();
     }
 

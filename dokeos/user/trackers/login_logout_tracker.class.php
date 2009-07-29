@@ -23,7 +23,7 @@ class LoginLogoutTracker extends DefaultTracker
 	 */
     function LoginLogoutTracker()
     {
-    	parent :: MainTracker('login');
+    	parent :: MainTracker('login_tracker');
     }
 
     /**

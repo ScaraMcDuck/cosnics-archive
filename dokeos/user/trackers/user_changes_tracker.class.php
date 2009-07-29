@@ -18,7 +18,7 @@ class UserChangesTracker extends DefaultTracker
 	 */
     function UserChangesTracker()
     {
-    	parent :: MainTracker('user_changes');
+    	parent :: MainTracker('user_changes_tracker');
     }
 
     /**
