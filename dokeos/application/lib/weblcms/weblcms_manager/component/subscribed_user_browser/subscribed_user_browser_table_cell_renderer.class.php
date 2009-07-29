@@ -105,7 +105,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 				'img' => Theme :: get_common_image_path().'action_details.png'
 			);
 			
-			if($user->get_id() != $this->browser->get_user()->get_id())
+			if($user->get_id() != $this->browser->get_user()->get_id() && $this->browser->is_allowed(DELETE_RIGHT))
 			{
 				$parameters = array();
 				$parameters[Application :: PARAM_ACTION] = WeblcmsManager :: ACTION_UNSUBSCRIBE;
@@ -118,21 +118,24 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 				);
 			}
 
-            //@todo check rights ?
-			//$parameters[WeblcmsManager :: PARAM_TOOL_ACTION] = UserTool::ACTION_USER_DETAILS;
-			//$parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
-            $params = array();
-            //$params[ReportingManager :: PARAM_APPLICATION] = "weblcms";
-            $params[ReportingManager :: PARAM_COURSE_ID] = $this->browser->get_course_id();
-            $params[ReportingManager :: PARAM_USER_ID] = $user->get_id();
-            $unsubscribe_url = ReportingManager :: get_reporting_template_registration_url_content($this->browser,'CourseStudentTrackerDetailReportingTemplate',$params);
-			$unsubscribe_url = str_replace('go=reporting', 'go=courseviewer', $unsubscribe_url).'&tool_action=view_reporting_template';
-            //$unsubscribe_url = $this->browser->get_url($parameters);
-			$toolbar_data[] = array(
-				'href' => $unsubscribe_url,
-				'label' => Translation :: get('Report'),
-				'img' => Theme :: get_common_image_path().'action_reporting.png'
-			);
+			if($this->browser->is_allowed(EDIT_RIGHT))
+			{
+	            //@todo check rights ?
+				//$parameters[WeblcmsManager :: PARAM_TOOL_ACTION] = UserTool::ACTION_USER_DETAILS;
+				//$parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
+	            $params = array();
+	            //$params[ReportingManager :: PARAM_APPLICATION] = "weblcms";
+	            $params[ReportingManager :: PARAM_COURSE_ID] = $this->browser->get_course_id();
+	            $params[ReportingManager :: PARAM_USER_ID] = $user->get_id();
+	            $unsubscribe_url = ReportingManager :: get_reporting_template_registration_url_content($this->browser,'CourseStudentTrackerDetailReportingTemplate',$params);
+				$unsubscribe_url = str_replace('go=reporting', 'go=courseviewer', $unsubscribe_url).'&tool_action=view_reporting_template';
+	            //$unsubscribe_url = $this->browser->get_url($parameters);
+				$toolbar_data[] = array(
+					'href' => $unsubscribe_url,
+					'label' => Translation :: get('Report'),
+					'img' => Theme :: get_common_image_path().'action_reporting.png'
+				);
+			}
 		}
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
