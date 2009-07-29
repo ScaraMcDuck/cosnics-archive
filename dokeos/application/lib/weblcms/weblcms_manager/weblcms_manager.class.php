@@ -410,6 +410,12 @@ class WeblcmsManager extends WebApplication
 				$this->display_error_message($msg);
 			}
 		}
+		
+		if($this->is_teacher())
+		{
+			echo Translation :: get('StudentView');
+		}
+		
 		//echo 'Last visit: '.date('r',$this->get_last_visit_date());
 	}
 
@@ -1293,29 +1299,45 @@ class WeblcmsManager extends WebApplication
 	 */
 	private function load_rights()
 	{
-		$this->rights[VIEW_RIGHT] = false;
+		$this->rights[VIEW_RIGHT] = true;
 		$this->rights[EDIT_RIGHT] = false;
 		$this->rights[ADD_RIGHT] = false;
 		$this->rights[DELETE_RIGHT] = false;
-		$user = $this->get_user();
-		$course = $this->get_course();
-		if ($user != null && $course != null)
+			
+		if($this->is_teacher())
 		{
-			$relation = $this->retrieve_course_user_relation($course->get_id(),$user->get_id());
-
-			if($relation && $relation->get_status() == 5 && $this->properties->visible == 1)
-			{
-				$this->rights[VIEW_RIGHT] = true;
-			}
-			if(($relation && $relation->get_status() == 1) || $user->is_platform_admin())
-			{
-				$this->rights[VIEW_RIGHT] = true;
-				$this->rights[EDIT_RIGHT] = true;
-				$this->rights[ADD_RIGHT] = true;
-				$this->rights[DELETE_RIGHT] = true;
-			}
+			$this->rights[EDIT_RIGHT] = true;
+			$this->rights[ADD_RIGHT] = true;
+			$this->rights[DELETE_RIGHT] = true;
 		}
+		
 		return;
+	}
+	
+	private $is_teacher;
+	
+	private function is_teacher()
+	{
+		if(is_null($this->is_teacher))
+		{
+			$user = $this->get_user();
+			$course = $this->get_course();
+			
+			if ($user != null && $course != null)
+			{
+				$relation = $this->retrieve_course_user_relation($course->get_id(),$user->get_id());
+		
+				if(($relation && $relation->get_status() == 1) || $user->is_platform_admin())
+				{
+					$this->is_teacher = true;
+					return $this->is_teacher;
+				}
+			}
+			
+			$this->is_teacher = false;
+		}
+
+		return $this->is_teacher;
 	}
 	
 }

@@ -255,20 +255,25 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 	
 		if($introduction_text)
 		{
-
-			$tb_data[] = array(
-				'href' => $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_EDIT_INTRODUCTION)),
-				'label' => Translation :: get('Edit'),
-				'img' => Theme :: get_common_image_path() . 'action_edit.png',
-				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
-			);
-
-			$tb_data[] = array(
-				'href' => $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_DELETE_INTRODUCTION)),
-				'label' => Translation :: get('Delete'),
-				'img' => Theme :: get_common_image_path() . 'action_delete.png',
-				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
-			);
+			if($this->is_allowed(EDIT_RIGHT))
+			{
+				$tb_data[] = array(
+					'href' => $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_EDIT_INTRODUCTION)),
+					'label' => Translation :: get('Edit'),
+					'img' => Theme :: get_common_image_path() . 'action_edit.png',
+					'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
+				);
+			}
+			
+			if($this->is_allowed(DELETE_RIGHT))
+			{
+				$tb_data[] = array(
+					'href' => $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_DELETE_INTRODUCTION)),
+					'label' => Translation :: get('Delete'),
+					'img' => Theme :: get_common_image_path() . 'action_delete.png',
+					'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
+				);
+			}
 
 			$html = array();
 
