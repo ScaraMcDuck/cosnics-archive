@@ -858,6 +858,9 @@ class ReportingWeblcms {
 	    		if($params['delete'])
 	    			$data['  '][] = Text :: create_link($params['url'] . '&stats_action=delete_lpi_attempt&delete_id=' . $tracker->get_id(), Theme :: get_common_image('action_delete'));
     		}
+    		
+    		$data[Translation :: get('LastStartTime')][] = '';
+    		
     	}
     	else
     	{
@@ -885,9 +888,13 @@ class ReportingWeblcms {
 	    		if($params['delete'])
 	    			$data['  '][] = Text :: create_link($params['url'] . '&stats_action=delete_lpi_attempts&item_id=' . $wrapper_id, Theme :: get_common_image('action_delete'));
 	    	}
+	    	
+	    	$data[Translation :: get('Title')][] = '';
     	}
 
+    	$data[' '][] = '';
     	$data[Translation :: get('Status')][] = '<span style="font-weight: bold;">' . Translation :: get('TotalTime') . '</span>';
+    	$data[Translation :: get('Score')][] = '';
     	$data[Translation :: get('Time')][] = '<span style="font-weight: bold;">' . DokeosUtilities :: format_seconds_to_hours($total) . '</span>';
 
         $description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
