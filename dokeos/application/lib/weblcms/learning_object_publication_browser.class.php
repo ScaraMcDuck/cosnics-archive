@@ -65,7 +65,7 @@ abstract class LearningObjectPublicationBrowser
 		{
                     return $this->listRenderer->as_html()
                         . '<div class="clear">&nbsp;</div>'
-                        . '<div style="float: bottom; width: 80%; position: fixed;">'
+                        . '<div style="float: bottom; width: 80%; position: fixed; height: 100px;">'
                         . $this->listRenderer->get_feedback()
                         . '</div>'
 			. '<div class="clear">&nbsp;</div>';

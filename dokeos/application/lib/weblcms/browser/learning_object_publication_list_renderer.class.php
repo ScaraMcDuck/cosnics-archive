@@ -465,7 +465,7 @@ abstract class LearningObjectPublicationListRenderer
             	if($this->browser->get_parent()->get_course()->get_allow_feedback())
 		{
                     $fbm = new FeedbackManager($this->browser->get_parent());
-                    $fbm->run();
+                    return $fbm->as_html();
 		}
         }
 
