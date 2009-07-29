@@ -32,12 +32,16 @@ class WikiPublicationTable extends ObjectTable
 		$model = new WikiPublicationTableColumnModel();
 		$renderer = new WikiPublicationTableCellRenderer($parent);
         $data_provider = new WikiPublicationTableDataProvider($parent, $owner, $types, $query);
-		parent :: __construct($data_provider, WikiPublicationTable :: DEFAULT_NAME, $model, $renderer);		
-		$actions = array();
-		$actions[Tool :: ACTION_DELETE] = Translation :: get('RemoveSelected');
-        $actions[Tool :: ACTION_HIDE] = Translation :: get('Hide');
-        $actions[Tool :: ACTION_SHOW] = Translation :: get('Show');
-        $this->set_form_actions($actions);
+		parent :: __construct($data_provider, WikiPublicationTable :: DEFAULT_NAME, $model, $renderer);
+
+		if($parent->is_allowed(EDIT_RIGHT))
+        {
+			$actions = array();
+			$actions[Tool :: ACTION_DELETE] = Translation :: get('RemoveSelected');
+        	$actions[Tool :: ACTION_HIDE] = Translation :: get('Hide');
+        	$actions[Tool :: ACTION_SHOW] = Translation :: get('Show');
+        	$this->set_form_actions($actions);
+        }
 	}
 	
 	

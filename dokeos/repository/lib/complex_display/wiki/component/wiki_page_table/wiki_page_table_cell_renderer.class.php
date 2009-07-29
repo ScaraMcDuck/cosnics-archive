@@ -81,14 +81,19 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 	function get_actions($publication)
 	{   
 		//if(!WikiTool ::is_wiki_locked($publication->get_parent()))
-        {
+		
+		if($this->browser->get_parent()->get_parent()->is_allowed(DELETE_RIGHT))
+		{
 			$actions[] = array(
 			'href' => $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DELETE, 'selected_cloi' => $publication->get_id(), Tool :: PARAM_PUBLICATION_ID => $this->pid)),
 			'label' => Translation :: get('Delete'),
 			'img' => Theme :: get_common_image_path().'action_delete.png',
             'confirm' => true
 			);
-
+		}
+		
+		if($this->browser->get_parent()->get_parent()->is_allowed(EDIT_RIGHT))
+        {
 			$actions[] = array(
 			'href' => $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_UPDATE, 'selected_cloi' => $publication->get_id(), Tool :: PARAM_PUBLICATION_ID => $this->pid)),
 			'label' => Translation :: get('Edit'),
@@ -133,9 +138,8 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
             );
         }*/
 
-		
-
-		return DokeosUtilities :: build_toolbar($actions);
+		if(count($actions) > 0)
+			return DokeosUtilities :: build_toolbar($actions);
 	}
 
 	/**

@@ -94,11 +94,16 @@ class WikiToolBrowserComponent extends WikiToolComponent
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 		$action_bar->set_search_url($this->get_url());
-            $action_bar->add_common_action(
-                new ToolbarItem(
-                    Translation :: get('CreateWiki'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-                )
-            );
+		
+		if($this->is_allowed(ADD_RIGHT))
+		{
+			
+	            $action_bar->add_common_action(
+	                new ToolbarItem(
+	                    Translation :: get('CreateWiki'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+	                )
+	            );
+		}
 
 
 		/*$action_bar->add_common_action(
@@ -107,7 +112,7 @@ class WikiToolBrowserComponent extends WikiToolComponent
 			)
 		);*/
 
-		if(!$this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms'))
+		if(!$this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms') && $this->is_allowed(EDIT_RIGHT))
 		{
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path().'action_introduce.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
