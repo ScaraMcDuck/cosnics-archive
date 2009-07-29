@@ -28,43 +28,24 @@ class AssessmentResultsTableOverviewStudentCellRenderer extends DefaultLearningO
 	/*
 	 * Inherited
 	 */
-	function render_cell($column, $user_assessment)
+	function render_cell($column, $publication)
 	{
-		
+		$assessment = $publication->get_learning_object();
 		if ($column === AssessmentResultsTableOverviewStudentColumnModel :: get_action_column())
 		{
-			return $this->get_actions($user_assessment);
-		} 
+			return $this->get_actions($publication);
+		}
 		else
 		{
 			switch ($column->get_name())
 			{
-				case Assessment :: PROPERTY_TITLE:
-					$pid = $user_assessment->get_assessment_id();
-					$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid);
-					$assessment = $pub->get_learning_object();
+				case Translation :: get(Assessment :: PROPERTY_TITLE):
 					return $assessment->get_title();
-				case Assessment :: PROPERTY_ASSESSMENT_TYPE:
-					$pid = $user_assessment->get_assessment_id();
-					$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid);
-					$assessment = $pub->get_learning_object();
+				case Translation :: get(Assessment :: PROPERTY_ASSESSMENT_TYPE):
 					return $assessment->get_assessment_type();
-				case WeblcmsAssessmentAttemptsTracker :: PROPERTY_DATE:
-					return $user_assessment->get_date();
-				case WeblcmsAssessmentAttemptsTracker :: PROPERTY_TOTAL_SCORE:
-					$pid = $user_assessment->get_assessment_id();
-					$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid);
-					$assessment = $pub->get_learning_object();
-					$avg = $user_assessment->get_total_score();
-					//$max = $assessment->get_maximum_score();
-					//$pct = round(($avg / $max) * 100, 2);
-					//return $avg.'/'.$max.' ('.$pct.'%)';
-					return $avg . '%';
-				case Assessment :: PROPERTY_AVERAGE_SCORE:
-					$pid = $user_assessment->get_assessment_id();
-					$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid);
+				case Translation :: get(Assessment :: PROPERTY_AVERAGE_SCORE):
 					$track = new WeblcmsAssessmentAttemptsTracker();
-					$avg = $track->get_average_score($pub);
+					$avg = $track->get_average_score($publication, $this->browser->get_user_id());
 					if (!isset($avg))
 					{
 						return 'No results';
@@ -73,16 +54,19 @@ class AssessmentResultsTableOverviewStudentCellRenderer extends DefaultLearningO
 					{
 						return $avg . '%';
 					}
+				case Translation :: get(Assessment :: PROPERTY_TIMES_TAKEN):
+					$track = new WeblcmsAssessmentAttemptsTracker();
+					return $track->get_times_taken($publication, $this->browser->get_user_id());
 				default:
 					return '';
 			}
 		}
 	}
 	
-	function get_actions($user_assessment) 
+	function get_actions($publication) 
 	{
 		$execute = array(
-		'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
+		'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())),
 		'label' => Translation :: get('ViewResults'),
 		'img' => Theme :: get_common_image_path().'action_view_results.png'
 		);
@@ -90,10 +74,6 @@ class AssessmentResultsTableOverviewStudentCellRenderer extends DefaultLearningO
 		$actions[] = $execute;
 
 		return DokeosUtilities :: build_toolbar($actions);
-		
-		//return array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected'), 
-		//				 Tool :: ACTION_HIDE => Translation :: get('Hide'), 
-		//				 Tool :: ACTION_SHOW => Translation :: get('Show'));
 	}
 	
 	/**

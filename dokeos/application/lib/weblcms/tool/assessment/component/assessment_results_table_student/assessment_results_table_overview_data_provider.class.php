@@ -61,24 +61,9 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
     	{
     		$publications = $this->get_publication($this->pid);
     	}
-    	return $this->get_user_assessments($publications);
-    }
-    
-    function get_user_assessments($publications) 
-    {
-    	foreach ($publications as $publication)
-    	{
-    		$track = new WeblcmsAssessmentAttemptsTracker();
-    		$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $publication->get_id());
-    		$user_assessments = $track->retrieve_tracker_items($condition);
-    		$user_id = $this->parent->get_user_id();
-    		foreach ($user_assessments as $user_assessment)
-    		{
-    			if ($user_assessment->get_user_id() == $user_id)
-    				$all_assessments[] = $user_assessment;
-    		}
-    	}
-    	return $all_assessments;
+    	//return $this->get_user_assessments($publications);
+    	
+    	return $publications;
     }
     
     function get_publication($pid) 

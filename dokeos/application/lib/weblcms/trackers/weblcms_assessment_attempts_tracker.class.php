@@ -160,16 +160,34 @@ class WeblcmsAssessmentAttemptsTracker extends MainTracker
     	$this->remove();
     }
 
-	function get_times_taken($publication)
+	function get_times_taken($publication, $user_id = null)
 	{
 		$condition = new EqualityCondition(self :: PROPERTY_ASSESSMENT_ID, $publication->get_id());
+
+		if($user_id)
+		{
+			$conditions = array();
+			$conditions[] = $condition;
+			$conditions[] = new EqualityCondition(self :: PROPERTY_USER_ID, $user_id);
+			$condition = new AndCondition($conditions);
+		}
+		
 		$trackers = $this->retrieve_tracker_items($condition);
 		return count($trackers);
 	}
 
-	function get_average_score($publication)
+	function get_average_score($publication, $user_id = null)
 	{
 		$condition = new EqualityCondition(self :: PROPERTY_ASSESSMENT_ID, $publication->get_id());
+		
+		if($user_id)
+		{
+			$conditions = array();
+			$conditions[] = $condition;
+			$conditions[] = new EqualityCondition(self :: PROPERTY_USER_ID, $user_id);
+			$condition = new AndCondition($conditions);
+		}
+		
 		$trackers = $this->retrieve_tracker_items($condition);
 		$num = count($trackers);
 
