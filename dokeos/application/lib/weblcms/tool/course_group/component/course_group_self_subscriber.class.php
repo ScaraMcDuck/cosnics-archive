@@ -17,7 +17,7 @@ class CourseGroupToolSelfSubscriberComponent extends CourseGroupToolComponent
 
 		$course_group = $this->get_course_group();
 		$course_group->subscribe_users($this->get_user_id());
-		$this->redirect(Translation :: get('UserSubscribed'));
+		$this->redirect(Translation :: get('UserSubscribed'), false, array('tool_action' => null));
 	}
 
 }

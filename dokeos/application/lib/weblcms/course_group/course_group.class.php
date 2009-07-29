@@ -213,6 +213,12 @@ class CourseGroup
 		$result = $wdm->retrieve_course_group_users($this);
 		return $result;
 	}
+	
+	/**
+	 * Checks if a user is a member of this group
+	 * @param User $user
+	 * @return boolean
+	 */
 	function is_member($user)
 	{
 		$wdm = WeblcmsDataManager::get_instance();

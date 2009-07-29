@@ -68,13 +68,17 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupToolComponen
 		$parameters = array ();
 		$parameters[WeblcmsManager :: PARAM_COURSE_GROUP] = $course_group->get_id();
 
-		if(!$user->is_platform_admin() && $course_group->is_self_registration_allowed() && !$course_group->is_member($this->course_group_tool->get_user()))
+		if(!$user->is_platform_admin() && $course_group->is_self_registration_allowed())
 		{
-
-			$parameters = array ();
-			$parameters[WeblcmsManager :: PARAM_COURSE_GROUP] = $course_group->get_id();
-			$parameters[CourseGroupTool::PARAM_COURSE_GROUP_ACTION] = CourseGroupTool::ACTION_USER_SELF_SUBSCRIBE;
-			$subscribe_url = $this->get_url($parameters);
+			if(!$course_group->is_member($user))
+			{
+				$parameters = array ();
+				$parameters[WeblcmsManager :: PARAM_COURSE_GROUP] = $course_group->get_id();
+				$parameters[CourseGroupTool::PARAM_COURSE_GROUP_ACTION] = CourseGroupTool::ACTION_USER_SELF_SUBSCRIBE;
+				$subscribe_url = $this->get_url($parameters);
+				
+				$action_bar->add_common_action(new ToolbarItem(Translation :: get('SubscribeToGroup'), Theme :: get_common_image_path().'action_subscribe.png', $subscribe_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+			}
 		}
 		else
 		{
@@ -82,9 +86,9 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupToolComponen
 			$parameters[WeblcmsManager :: PARAM_COURSE_GROUP] = $course_group->get_id();
 			$parameters[CourseGroupTool::PARAM_COURSE_GROUP_ACTION] = CourseGroupTool::ACTION_MANAGE_SUBSCRIPTIONS;
 			$subscribe_url = $this->get_url($parameters);
+			
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('SubscribeUsers'), Theme :: get_common_image_path().'action_subscribe.png', $subscribe_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
-
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('SubscribeUsers'), Theme :: get_common_image_path().'action_subscribe.png', $subscribe_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 		//$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(CourseGroupTool :: PARAM_ACTION => CourseGroupTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		//$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
