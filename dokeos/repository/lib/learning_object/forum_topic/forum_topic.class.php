@@ -111,7 +111,7 @@ class ForumTopic extends LearningObject
 		$rdm = RepositoryDataManager :: get_instance();
 		
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->get_id());
-		$children = $rdm->retrieve_complex_learning_object_items($condition, array('add_date'), array(SORT_DESC), 0, 1);
+		$children = $rdm->retrieve_complex_learning_object_items($condition, array(new ObjectTableOrder('add_date')), array(SORT_DESC), 0, 1);
 		$lp = $children->next_result();
 		
 		$id = ($lp)?$lp->get_id():0;

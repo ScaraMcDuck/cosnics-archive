@@ -8,7 +8,7 @@ class ForumDisplayForumTopicCreatorComponent extends ForumDisplayComponent
 {
     function run()
     {
-        if($this->get_parent()->get_parent()->is_allowed(ADD_RIGHT))
+        //if($this->get_parent()->get_parent()->is_allowed(ADD_RIGHT))
         {
             $pid = Request :: get('pid');
             $forum = Request :: get('forum');
