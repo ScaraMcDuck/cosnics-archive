@@ -19,7 +19,7 @@ class CalendarListRenderer extends ListLearningObjectPublicationListRenderer
 			$html[] = Display :: normal_message(Translation :: get('NoPublicationsAvailable'),true);
 		}
 		
-		if($this->get_actions())
+		if($this->get_actions() && $this->is_allowed(EDIT_RIGHT))
 			$html[] = '<form name="publication_list" action="' . $this->get_url(array('view' => Request :: get('view'))) . '" method="GET" >';
 		
 		foreach ($publications as $index => $publication)
@@ -60,7 +60,7 @@ class CalendarListRenderer extends ListLearningObjectPublicationListRenderer
 			$html[] = implode("\n",$rendered_publication_start_time);
 		}
 		
-		if($this->get_actions() && count($publications) > 0)
+		if($this->get_actions() && count($publications) > 0 && $this->is_allowed(EDIT_RIGHT))
 		{
 			foreach($_GET as $parameter => $value)
 			{
