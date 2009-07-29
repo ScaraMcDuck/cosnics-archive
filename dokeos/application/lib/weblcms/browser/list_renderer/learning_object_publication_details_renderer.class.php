@@ -7,6 +7,7 @@ require_once dirname(__FILE__).'/../learning_object_publication_list_renderer.cl
 require_once dirname(__FILE__).'/list_publication_feedback_list_renderer.class.php';
 require_once dirname(__FILE__).'../../../learning_object_repo_viewer.class.php';
 require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
+require_once Path :: get_application_path().'common/feedback_manager/feedback_manager.class.php';
 /**
  * Renderer to display all details of learning object publication
  */
@@ -17,8 +18,8 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		parent :: LearningObjectPublicationListRenderer($browser, $parameters = array (), $actions);
 		if($browser->get_parent()->get_course()->get_allow_feedback())
 		{
-			$item = new ToolbarItem(Translation :: get('AddFeedback'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_FEEDBACK, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
-			$browser->get_parent()->add_actionbar_item($item);
+			//$item = new ToolbarItem(Translation :: get('AddFeedback'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_FEEDBACK, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
+			//$browser->get_parent()->add_actionbar_item($item);
 		}
 	}
 
@@ -61,6 +62,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 			$html[] = $this->render_publication_feedback($publication);
 			$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/feedback_list.js' .'"></script>';
 		}
+                
 		//$html[] = $pub->as_html();
 		return implode("\n", $html);
 	}
@@ -125,20 +127,22 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 	 * @return string The rendered HTML.
 	 */
 	function render_publication_feedback($publication){
-		$html = array();
-		$publication_feedback_array = array();
-		$publication_feedback_array = $publication->retrieve_feedback();
-
-		if(count($publication_feedback_array) > 0)
-		{
-			$html[] = '<br /><a href="#" id="showfeedback" style="display:none; float:left;">' . Translation :: get('ShowFeedback') . '</a>';
-			$html[] = '<div id="feedbacklist">';
-			$html[] = '<h3>' . Translation :: get('LearningObjectPublicationListFeedback') .  ' <a href="#" id="hidefeedback" style="display:none; font-size: 80%; font-weight: normal;">(' . Translation :: get('Hide') . ')</a></h3>';
-			$renderer = new ListPublicationFeedbackListRenderer($this->browser,$publication_feedback_array);
-			$html[] = $renderer->as_html();
-			$html[] = '</div>';
-		}
-		return implode("\n", $html);
+                $fbm = new FeedbackManager($this->browser->get_parent());
+                $fbm->run();
+//		$html = array();
+//		$publication_feedback_array = array();
+//		$publication_feedback_array = $publication->retrieve_feedback();
+//
+//		if(count($publication_feedback_array) > 0)
+//		{
+//			$html[] = '<br /><a href="#" id="showfeedback" style="display:none; float:left;">' . Translation :: get('ShowFeedback') . '</a>';
+//			$html[] = '<div id="feedbacklist">';
+//			$html[] = '<h3>' . Translation :: get('LearningObjectPublicationListFeedback') .  ' <a href="#" id="hidefeedback" style="display:none; font-size: 80%; font-weight: normal;">(' . Translation :: get('Hide') . ')</a></h3>';
+//			$renderer = new ListPublicationFeedbackListRenderer($this->browser,$publication_feedback_array);
+//			$html[] = $renderer->as_html();
+//			$html[] = '</div>';
+//		}
+//		return implode("\n", $html);
 	}
 
 	function render_publication_actions($publication,$first,$last)
