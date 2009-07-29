@@ -67,7 +67,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		$crumbs[] = new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $pid)), Translation :: get('AssessmentResults'));	
 		
 		$visible = $this->display_header($crumbs);
-		if (!$visible || !$this->is_allowed(EDIT_RIGHT))
+		if (!$visible)
 		{
 			return;
 		}
@@ -84,7 +84,13 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		echo Translation :: get('Statistics');
 		echo '</div>';
 		$track = new WeblcmsAssessmentAttemptsTracker();
-		$avg = $track->get_average_score($publication);
+		
+		if(!$this->is_allowed(EDIT_RIGHT))
+    	{
+			$usr = $this->get_user_id();
+    	}
+    	
+    	$avg = $track->get_average_score($publication, $usr);
 		if (!isset($avg))
 		{
 			$avg_line = 'No results';
@@ -94,7 +100,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 			$avg_line = $avg . '%';
 		}
 		echo Translation :: get('AverageScore').': '.$avg_line;
-		echo '<br/>'.Translation :: get('TimesTaken').': '.$track->get_times_taken($publication);
+		echo '<br/>'.Translation :: get('TimesTaken').': '.$track->get_times_taken($publication, $usr);
 		echo '</div>';
 		$table = new AssessmentResultsTableDetail($this, $this->get_user(), Request :: get(AssessmentTool :: PARAM_ASSESSMENT));
 		echo $table->as_html();

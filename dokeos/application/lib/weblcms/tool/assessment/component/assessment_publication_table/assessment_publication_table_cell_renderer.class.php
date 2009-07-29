@@ -154,7 +154,7 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 			/*$conditionuser = new EqualityCondition(UserAssessment :: PROPERTY_USER_ID, $this->browser->get_user_id());
 			$conditionass = new EqualityCondition(UserAssessment :: PROPERTY_ASSESSMENT_ID, $publication->get_learning_object()->get_id());
 			$user_assessments = WeblcmsDataManager :: get_instance()->retrieve_user_assessments(new AndCondition(array($conditionuser, $conditionass)));
-			$user_assessment = $user_assessments->next_result();*/
+			$user_assessment = $user_assessments->next_result();
 			
 			$conditions[] = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID, $this->browser->get_user_id());
 			$conditions[] = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $publication->get_learning_object()->get_id());
@@ -178,7 +178,13 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 					'label' => Translation :: get('ViewResultsNA'), 
 					'img' => Theme :: get_common_image_path().'action_view_results_na.png'
 				);
-			}
+			}*/
+			
+			$actions[] = array(
+				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), 
+				'label' => Translation :: get('ViewResults'), 
+				'img' => Theme :: get_common_image_path().'action_view_results.png'
+			);
 		}
 		
 		return DokeosUtilities :: build_toolbar($actions);

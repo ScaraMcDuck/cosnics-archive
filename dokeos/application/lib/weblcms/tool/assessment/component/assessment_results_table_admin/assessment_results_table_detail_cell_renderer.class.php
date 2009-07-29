@@ -66,12 +66,6 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultLearningObjectTabl
 		$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($user_assessment->get_assessment_id());
 		$assessment = $pub->get_learning_object();
 
-		$actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_DELETE_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
-			'label' => Translation :: get('DeleteResult'),
-			'img' => Theme :: get_common_image_path().'action_delete.png'
-		);
-
 		if ($assessment->get_assessment_type() != 'hotpotatoes')
 		{
 			$actions[] = array(
@@ -86,15 +80,40 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultLearningObjectTabl
 				'img' => Theme :: get_common_image_path().'action_export.png'
 			);
 		}
-
-
-		if ($assessment->get_assessment_type() == Assessment :: TYPE_ASSIGNMENT)
+		else 
 		{
 			$actions[] = array(
-				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_SAVE_DOCUMENTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
-				'label' => Translation :: get('DownloadDocuments'),
-				'img' => Theme :: get_common_image_path().'action_download.png'
+				//'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
+				'label' => Translation :: get('ViewResultsNA'),
+				'img' => Theme :: get_common_image_path().'action_view_results_na.png'
 			);
+
+			$actions[] = array(
+				//'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
+				'label' => Translation :: get('ExportResultsNA'),
+				'img' => Theme :: get_common_image_path().'action_export_na.png'
+			);
+		}
+		
+		if($this->browser->is_allowed(DELETE_RIGHT))
+		{
+			$actions[] = array(
+				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_DELETE_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
+				'label' => Translation :: get('DeleteResult'),
+				'img' => Theme :: get_common_image_path().'action_delete.png'
+			);
+		}
+		
+		if($this->browser->is_allowed(EDIT_RIGHT))
+		{
+			if ($assessment->get_assessment_type() == Assessment :: TYPE_ASSIGNMENT)
+			{
+				$actions[] = array(
+					'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_SAVE_DOCUMENTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
+					'label' => Translation :: get('DownloadDocuments'),
+					'img' => Theme :: get_common_image_path().'action_download.png'
+				);
+			}
 		}
 		if(count($actions) > 0 )
 			return DokeosUtilities :: build_toolbar($actions);

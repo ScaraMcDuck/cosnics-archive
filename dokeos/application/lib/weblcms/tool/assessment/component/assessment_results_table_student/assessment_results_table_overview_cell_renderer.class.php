@@ -66,9 +66,9 @@ class AssessmentResultsTableOverviewStudentCellRenderer extends DefaultLearningO
 	function get_actions($publication) 
 	{
 		$execute = array(
-		'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())),
-		'label' => Translation :: get('ViewResults'),
-		'img' => Theme :: get_common_image_path().'action_view_results.png'
+			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())),
+			'label' => Translation :: get('ViewResults'),
+			'img' => Theme :: get_common_image_path().'action_view_results.png'
 		);
 		
 		$actions[] = $execute;
