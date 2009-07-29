@@ -67,12 +67,16 @@ class NoteToolViewerComponent extends NoteToolComponent
 		if(!Request :: get('pid'))
 		{
 			$action_bar->set_search_url($this->get_url());
-			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(NoteTool :: PARAM_ACTION => NoteTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+			
+			if($this->is_allowed(ADD_RIGHT))
+			{
+				$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(NoteTool :: PARAM_ACTION => NoteTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+			}
 		}
 
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-		if(!$this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms'))
+		if(!$this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms') && $this->is_allowed(EDIT_RIGHT))
 		{
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path().'action_introduce.png', $this->get_url(array(NoteTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
@@ -80,7 +84,10 @@ class NoteToolViewerComponent extends NoteToolComponent
 		//$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(NoteTool :: PARAM_ACTION => NoteTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		//$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-        $action_bar->add_tool_action($this->get_access_details_toolbar_item($this));
+		if($this->is_allowed(EDIT_RIGHT))
+		{
+        	$action_bar->add_tool_action($this->get_access_details_toolbar_item($this));
+		}
 
 		return $action_bar;
 	}
