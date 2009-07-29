@@ -68,12 +68,70 @@ class RepositoryInstaller extends Installer
 			}
 		}
 		
+		if(!$this->add_metadata_catalogs())
+		{
+		    return false;
+		}
+		
 		return true;
 	}
 	
 	function get_path()
 	{
 		return dirname(__FILE__);
+	}
+	
+	function add_metadata_catalogs()
+	{
+	    /** LANGUAGES **/
+	    $languages = array(array('name' => 'Dutsch', 'value' => 'nl'),
+	                       array('name' => 'English', 'value' => 'en'),
+	                       array('name' => 'French', 'value' => 'fr'),
+	                       array('name' => 'Italian', 'value' => 'it'),
+	                       array('name' => 'Spanish', 'value' => 'es'));
+	    
+        $this->add_metadata_catalog_type(LearningObjectMetadataCatalog :: CATALOG_LANGUAGE, $languages);
+      
+        /** ROLES **/
+	    $roles = array( array('name' => 'author',                 'value' => 'author'),
+	                    array('name' => 'validator',              'value' => 'validator'),
+                        array('name' => 'unknown',                'value' => 'unknown'),
+                        array('name' => 'initiator',              'value' => 'initiator'),
+                        array('name' => 'terminator',             'value' => 'terminator'),
+                        array('name' => 'publisher',              'value' => 'publisher'),
+                        array('name' => 'editor',                 'value' => 'editor'),
+                        array('name' => 'graphical_designer', 	  'value' => 'graphical_designer'),
+                        array('name' => 'technical_implementer',  'value' => 'technical_implementer'),
+                        array('name' => 'content_provider', 	  'value' => 'content_provider'),
+                        array('name' => 'technical_validator', 	  'value' => 'technical_validator'),
+                        array('name' => 'educational_validator',  'value' => 'educational_validator'),
+                        array('name' => 'script_writer',          'value' => 'script_writer'),
+                        array('name' => 'instructional_designer', 'value' => 'instructional_designer'),
+                        array('name' => 'subject_matter_expert',  'value' => 'subject_matter_expert'));
+	                   
+        $this->add_metadata_catalog_type(LearningObjectMetadataCatalog :: CATALOG_ROLE, $roles);
+        
+	    $this->add_message(self :: TYPE_NORMAL, Translation :: translate('MetadataCatalogCreated'));
+	    
+	    return true;
+	}
+	
+	function add_metadata_catalog_type($type, $data_array)
+	{
+	    foreach ($data_array as $index => $data) 
+        {
+            $catalogItem = new LearningObjectMetadataCatalog();
+            $catalogItem->set_type($type);
+            $catalogItem->set_name($data['name']);
+            $catalogItem->set_value($data['value']);
+            $catalogItem->set_sort($index * 10);
+            
+            if(!$catalogItem->save())
+            {
+                $this->add_message(self :: TYPE_ERROR, Translation :: translate('MetadataUnableToAddCatalogItem'));
+                return false;
+            }
+        }
 	}
 }
 ?>

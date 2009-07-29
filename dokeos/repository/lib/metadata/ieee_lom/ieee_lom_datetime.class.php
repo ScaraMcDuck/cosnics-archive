@@ -13,19 +13,23 @@ class IeeeLomDateTime {
 	 * The date & time value
 	 */
 	private $datetime;
+	
 	/**
 	 * The description
 	 */
 	private $description;
+	
 	/**
 	 * Constructor
 	 * @param string|null $datetime
 	 * @param LangString|null $description
 	 */
-    function IeeeLomDateTime($datetime = null,$description = null) {
+    function IeeeLomDateTime($datetime = null, $description = null) 
+    {
     	$this->datetime = $datetime;
     	$this->description = $description;
     }
+    
     /**
      * Gets the date & time value
      * @return string|null
@@ -34,6 +38,7 @@ class IeeeLomDateTime {
     {
     	return $this->datetime;
     }
+    
     /**
      * Gets the description
      * @return LangString|null
@@ -42,5 +47,6 @@ class IeeeLomDateTime {
     {
     	return $this->description;
     }
+    
 }
 ?>

@@ -1622,13 +1622,93 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		return $statement->execute(array($user_view->get_id()));
 	}
 
-        function retrieve_last_post($forum_id,$child_id)
-        {
-            $query = 'SELECT * from '.$this->database->escape_table_name('complex_learning_object_item').
-                     ' WHERE parent=? ORDER BY '.$this->database->escape_column_name('add_date').' DESC LIMIT 1';
-            $statement = $this->database->get_connection()->prepare($query);
-            $res = $statement->execute($child_id);
-            return new DatabaseComplexLearningObjectItemResultSet($this, $res, true);
-        }
+    function retrieve_last_post($forum_id,$child_id)
+    {
+        $query = 'SELECT * from '.$this->database->escape_table_name('complex_learning_object_item').
+                 ' WHERE parent=? ORDER BY '.$this->database->escape_column_name('add_date').' DESC LIMIT 1';
+        $statement = $this->database->get_connection()->prepare($query);
+        $res = $statement->execute($child_id);
+        return new DatabaseComplexLearningObjectItemResultSet($this, $res, true);
+    }
+    
+    function create_learning_object_metadata($learning_object_metadata)
+	{
+	    $created = $learning_object_metadata->get_creation_date();
+	    if(is_numeric($created))
+	    {
+	        $learning_object_metadata->set_creation_date(self :: to_db_date($learning_object_metadata->get_creation_date()));
+	    }
+	    
+		return $this->database->create($learning_object_metadata);
+	}
+	
+	function update_learning_object_metadata($learning_object_metadata)
+	{
+	    $condition = new EqualityCondition(LearningObjectMetadata :: PROPERTY_ID, $learning_object_metadata->get_id());
+
+	    $date = $learning_object_metadata->get_modification_date();
+	    if(is_numeric($date))
+	    {
+	        $learning_object_metadata->set_modification_date(self :: to_db_date($learning_object_metadata->get_modification_date()));
+	    }
+	    
+		return $this->database->update($learning_object_metadata, $condition);
+	}
+	
+	function delete_learning_object_metadata($learning_object_metadata)
+	{
+	    $condition = new EqualityCondition(LearningObjectMetadata :: PROPERTY_ID, $learning_object_metadata->get_id());
+		return $this->database->delete($learning_object_metadata->get_table_name(), $condition);
+	}
+	
+	function retrieve_learning_object_metadata($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+	{
+		return $this->database->retrieve_objects(LearningObjectMetadata :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+	}
+	
+	function get_next_learning_object_metadata_id()
+	{
+	    return $this->connection->nextID($this->get_table_name('learning_object_metadata'));
+	}
+	
+	function retrieve_learning_object_metadata_catalog($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+	{
+		return $this->database->retrieve_objects(LearningObjectMetadataCatalog :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+	}
+	
+	function get_next_learning_object_metadata_catalog_id()
+	{
+	    return $this->connection->nextID($this->get_table_name('learning_object_metadata_catalog'));
+	}
+	
+	function create_learning_object_metadata_catalog($learning_object_metadata_catalog)
+	{
+	    $created = $learning_object_metadata_catalog->get_creation_date();
+	    if(is_numeric($created))
+	    {
+	        $learning_object_metadata_catalog->set_creation_date(self :: to_db_date($learning_object_metadata_catalog->get_creation_date()));
+	    }
+	    
+		return $this->database->create($learning_object_metadata_catalog);
+	}
+	
+	function update_learning_object_metadata_catalog($learning_object_metadata_catalog)
+	{
+	    $condition = new EqualityCondition(LearningObjectMetadata :: PROPERTY_ID, $learning_object_metadata_catalog->get_id());
+
+	    $date = $learning_object_metadata_catalog->get_modification_date();
+	    if(is_numeric($date))
+	    {
+	        $learning_object_metadata_catalog->set_modification_date(self :: to_db_date($learning_object_metadata_catalog->get_modification_date()));
+	    }
+	    
+		return $this->database->update($learning_object_metadata_catalog, $condition);
+	}
+	
+	function delete_learning_object_metadata_catalog($learning_object_metadata_catalog)
+	{
+	    $condition = new EqualityCondition(LearningObjectMetadata :: PROPERTY_ID, $learning_object_metadata_catalog->get_id());
+		return $this->database->delete($learning_object_metadata_catalog->get_table_name(), $condition);
+	}
 }
 ?>

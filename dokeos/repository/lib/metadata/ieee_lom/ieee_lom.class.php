@@ -17,6 +17,12 @@ require_once ('File/Contact_Vcard_Build.php');
  */
 class IeeeLom
 {
+    const VERSION     = 'LOMV1.0';
+    
+    const NO_LANGUAGE = 'x-none';
+    const CATALOG     = 'catalog';
+    const ENTRY       = 'entry';
+    
 	/**
 	 * The DOMDocument containing the metadata
 	 */
@@ -24,13 +30,20 @@ class IeeeLom
 	/**
 	 * Constructor
 	 */
-	function IeeeLom()
+	function IeeeLom($dom_document = null)
 	{
-		$dom = new DOMDocument('1.0', 'UTF-8');
-		$dom->preserveWhiteSpace = false;
-		$dom->appendChild(new DOMElement('lom'));
-		$dom->formatOutput = true;
-		$this->dom = $dom;
+	    if(!isset($dom_document))
+	    {
+    		$dom = new DOMDocument('1.0', 'UTF-8');
+    		$dom->preserveWhiteSpace = false;
+    		$dom->appendChild(new DOMElement('lom'));
+    		$dom->formatOutput = true;
+    		$this->dom = $dom;
+	    }
+	    else
+	    {
+	        $this->dom = $dom_document;
+	    }
 	}
 	/**
 	 * Gets the first node from the resultset that is a result of the given
@@ -156,8 +169,19 @@ class IeeeLom
 			$this->append_langstring_nodes($parent_node, $langstring);
 			$node = $this->get_node($path);
 			$node->appendChild($parent_node);
+			
+			return $parent_node;
 		}
 	}
+	
+	private function get_langstring_nodes($path)
+	{
+	    $langstrings = $this->get_nodes($path);
+	    
+	    return $langstrings;
+	    
+	}
+	
 	/**
 	 * Appends a vocabulary node to a give node
 	 * @param DOMNode $parent_node
@@ -180,7 +204,7 @@ class IeeeLom
 	 * Appends a datetime node to a give node
 	 * @param DOMNode $parent_node
 	 * @param string $node_name
-	 * @param Datetime $datetime
+	 * @param IeeeLomDateTime $datetime
 	 */
 	private function append_datetime_node($parent_node, $node_name, $datetime)
 	{
@@ -218,6 +242,11 @@ class IeeeLom
 		echo htmlspecialchars($this->dom->saveXML());
 	}
 
+	function get_dom()
+	{
+	    return $this->dom;
+	}
+	
 	/**#@+
 		 * Implementation of IEEE LOM standard
 		 */
@@ -235,6 +264,7 @@ class IeeeLom
 		{
 			$this->create_nodes_from_path('/lom/general');
 			$identifier_node = $this->dom->createElement('identifier');
+			
 			if (!is_null($catalog))
 			{
 				$catalog_node = $this->dom->createElement('catalog', htmlspecialchars($catalog));
@@ -245,18 +275,83 @@ class IeeeLom
 				$entry_node = $this->dom->createElement('entry', htmlspecialchars($entry));
 				$identifier_node->appendChild($entry_node);
 			}
+			
 			$general_node = $this->get_node('/lom/general');
 			$general_node->appendChild($identifier_node);
+			
+			return $identifier_node;
 		}
 	}
+	
+	function get_identifier()
+	{
+	     $identifiers = $this->get_langstring_nodes('/lom/general/identifier');
+	     //debug($identifiers);   
+	    
+	     return $identifiers;
+	}
+	
+	
 	/**
 	 * 1.2 Title
 	 * @param LangString $langstring
 	 */
 	function add_title($langstring)
 	{
-		$this->add_langstring_nodes('/lom/general', 'title', $langstring);
+		return $this->add_langstring_nodes('/lom/general', 'title', $langstring);
 	}
+	
+	function get_titles()
+	{
+	    $titles = $this->get_langstring_nodes('/lom/general/title/string');
+	    
+	    //debug($titles);   
+	    return $titles;
+	}
+	
+	/**
+	 * return the titles of the LOM document
+	 */
+	function get_title_langstrings()
+	{
+	    $titles = $this->get_langstring_nodes('/lom/general/title/string');
+	    
+	    //debug($titles);
+	    
+	    $langstrings = new LangString();
+	    
+	    foreach ($titles as $title) 
+	    {
+	        if($title->hasAttribute('language'))
+	        {
+	            $langstrings->add_string($title->nodeValue, $title->getAttribute('language'));
+	        }
+	        else
+	        {
+	            $langstrings->add_string($title->nodeValue, null);
+	        }
+	    }
+	    
+	    return $langstrings;
+	}
+	
+	function remove_title_by_index($position)
+	{
+	    $node = $this->get_node('/lom/general/title[' . $position . ']');
+
+	    //debug($node);
+	    
+	    if(isset($node))
+	    {
+	        $node->parentNode->removeChild($node);
+	        return true;
+	    }
+	    else
+	    {
+	        return false;
+	    }
+	}
+	
 	/**
 	 * 1.3  Language
 	 * @param string $language
@@ -359,6 +454,13 @@ class IeeeLom
 		$parent = $this->get_node('/lom/lifeCycle');
 		$parent->appendChild($contribute_node);
 	}
+	
+	function get_contribute()
+	{
+	     $contributes = $this->get_langstring_nodes('/lom/lifeCycle/contribute');
+	     return $contributes;
+	}
+	
 	//=============================================
 	// 3 META-METADATA
 	//=============================================
