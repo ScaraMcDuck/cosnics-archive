@@ -135,13 +135,14 @@ class LearningObjectPublicationForm extends FormValidator
 		$this->addElement('hidden','action');
 		$defaults['action'] = 'edit';
 		$defaults['pid'] = $publication->get_id();
-		$defaults['from_date'] = $publication->get_from_date();
-		$defaults['to_date'] = $publication->get_to_date();
-		if($defaults['from_date'] != 0)
+		$defaults[LearningObjectPublication :: PROPERTY_FROM_DATE] = $publication->get_from_date();
+		$defaults[LearningObjectPublication :: PROPERTY_TO_DATE] = $publication->get_to_date();
+		if($defaults[LearningObjectPublication :: PROPERTY_FROM_DATE] != 0)
 		{
-			$defaults['forever'] = 0;
+			$defaults[self :: PARAM_FOREVER] = 0;
 		}
-		$defaults['hidden'] = $publication->is_hidden();
+		$defaults[LearningObjectPublication :: PROPERTY_HIDDEN] = $publication->is_hidden();
+		$defaults[LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE] = $publication->get_show_on_homepage();
 
 		$udm = UserDataManager :: get_instance();
 		$wdm = WeblcmsDataManager :: get_instance();
