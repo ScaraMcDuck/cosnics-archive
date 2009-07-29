@@ -1411,8 +1411,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     function is_course_group_member($course_group, $user)
     {
         $conditions = array();
-        $conditions[] = new EqualityCondition(CourseGroupUserRelation :: PROPERTY_COURSE_GROUP, $course_group);
-        $conditions[] = new EqualityCondition(CourseGroupUserRelation :: PROPERTY_USER, $user);
+        $conditions[] = new EqualityCondition(CourseGroupUserRelation :: PROPERTY_COURSE_GROUP, $course_group->get_id());
+        $conditions[] = new EqualityCondition(CourseGroupUserRelation :: PROPERTY_USER, $user->get_id());
         $condition = new AndCondition($conditions);
 
         return $this->database->count_objects(CourseGroupUserRelation :: get_table_name(), $condition) > 0;
