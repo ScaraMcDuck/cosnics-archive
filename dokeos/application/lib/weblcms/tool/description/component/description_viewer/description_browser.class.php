@@ -61,7 +61,7 @@ class DescriptionBrowser extends LearningObjectPublicationBrowser
 		$conditions = array();
 		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
 		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'description');
-		$conditions[] = new InCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $category);
+		//$conditions[] = new InCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $category);
 		
 		$access = array();
 		$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));

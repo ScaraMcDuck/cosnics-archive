@@ -110,6 +110,11 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 			}
 			if ($tool && !$component_action)
 			{
+				if($tool != 'course_group')
+				{
+					$this->set_parameter('course_group', null);
+				}
+				
 				$wdm = WeblcmsDataManager :: get_instance();
 				$class = Tool :: type_to_class($tool);
 				$toolObj = new $class ($this->get_parent());
@@ -122,6 +127,8 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 				$trail = new BreadcrumbTrail();
 				$this->set_parameter('pid', null);
 				$this->set_parameter('tool_action', null);
+				$this->set_parameter('course_group', null);
+				
 				switch($this->get_course()->get_breadcrumb())
 				{
 					case Course :: BREADCRUMB_TITLE : $title = $this->get_course()->get_name(); break;
