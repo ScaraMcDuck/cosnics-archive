@@ -166,9 +166,17 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 			if (count($user_assessments) > 0) 
 			{
 				$actions[] = array(
-				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())), 
-				'label' => Translation :: get('ViewResults'), 
-				'img' => Theme :: get_common_image_path().'action_view_results.png'
+					'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())), 
+					'label' => Translation :: get('ViewResults'), 
+					'img' => Theme :: get_common_image_path().'action_view_results.png'
+				);
+			}
+			else 
+			{
+				$actions[] = array(
+					//'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())), 
+					'label' => Translation :: get('ViewResultsNA'), 
+					'img' => Theme :: get_common_image_path().'action_view_results_na.png'
 				);
 			}
 		}
