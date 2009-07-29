@@ -136,7 +136,8 @@ class LearningPathPublicationTableCellRenderer extends DefaultLearningObjectTabl
 			);
 		}
 		
-		return DokeosUtilities :: build_toolbar($actions);
+		if(count($actions) > 0)
+			return DokeosUtilities :: build_toolbar($actions);
 	}
 	
 	/**
