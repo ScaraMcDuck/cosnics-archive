@@ -29,11 +29,10 @@ class AssessmentResultsTableOverviewStudentColumnModel extends ObjectTableColumn
 	private static function get_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(Assessment :: PROPERTY_ASSESSMENT_TYPE);
-		$columns[] = new ObjectTableColumn(Assessment :: PROPERTY_TITLE);
-		$columns[] = new ObjectTableColumn(WeblcmsAssessmentAttemptsTracker :: PROPERTY_DATE);
-		$columns[] = new ObjectTableColumn(WeblcmsAssessmentAttemptsTracker :: PROPERTY_TOTAL_SCORE);
-		$columns[] = new ObjectTableColumn(Assessment :: PROPERTY_AVERAGE_SCORE);
+		$columns[] = new StaticTableColumn(Translation :: get(Assessment :: PROPERTY_ASSESSMENT_TYPE));
+		$columns[] = new StaticTableColumn(Translation :: get(Assessment :: PROPERTY_TITLE));
+		$columns[] = new StaticTableColumn(Translation :: get(Assessment :: PROPERTY_TIMES_TAKEN));
+		$columns[] = new StaticTableColumn(Translation :: get(Assessment :: PROPERTY_AVERAGE_SCORE));
 		$columns[] = self :: get_action_column();
 		return $columns;
 	}
