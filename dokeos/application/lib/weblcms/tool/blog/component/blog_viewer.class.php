@@ -28,7 +28,7 @@ class BlogToolViewerComponent extends BlogToolComponent
 		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications_new($condition);
 		$this->introduction_text = $publications->next_result();
 
-		$this->action_bar = $this->get_action_bar();
+		$this->action_bar = $this->get_action_bar(Request :: get('pid'));
 
 		$browser = new BlogBrowser($this);
         $trail = new BreadcrumbTrail();
@@ -100,7 +100,10 @@ class BlogToolViewerComponent extends BlogToolComponent
 		//$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => AnnouncementTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		//$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-        $action_bar->add_tool_action($this->get_access_details_toolbar_item($this));
+		if($this->is_allowed(EDIT_RIGHT))
+		{
+        	$action_bar->add_tool_action($this->get_access_details_toolbar_item($this));
+		}
 
 		return $action_bar;
 	}
