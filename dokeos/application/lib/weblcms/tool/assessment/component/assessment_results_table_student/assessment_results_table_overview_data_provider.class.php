@@ -97,7 +97,7 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
     	$datamanager = WeblcmsDataManager :: get_instance();
 		$tool_condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'assessment');
 		$condition = $tool_condition;
-		$lo_condition = $this->get_condition();
+
 		if($this->parent->is_allowed(EDIT_RIGHT))
 		{
 			$user_id = null;
@@ -114,24 +114,28 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
 		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course);
 		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'assessment');
 		
-		$access = array();
-		$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
-		$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('learning_object_publication_course_group'));
-		if (!empty($user_id) || !empty($course_groups))
+		/*$access = array();
+		if (!empty($user_id))
 		{
-			$access[] = new AndCondition(array(new EqualityCondition('user', null, $datamanager->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('learning_object_publication_course_group'))));
+			$access[] = new EqualityCondition('user', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
 		}
-		$conditions[] = new OrCondition($access);
 		
-		$subselect_conditions = array();
-		$subselect_conditions[] = $this->get_condition();
-		/*if($this->get_parent()->get_condition())
+		if(count($course_groups) > 0)
 		{
-			$subselect_conditions[] = $this->parent()->get_condition();
-		}*/
-		$subselect_condition = new AndCondition($subselect_conditions);
+			$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('learning_object_publication_course_group'));
+		}
+		
+		$conditions[] = new OrCondition($access);*/
+		
+		$subselect_condition = $this->get_condition();
 		
 		$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
+		
+		$parent = $this->parent;
+    	$category = $parent->get_parameter(WeblcmsManager :: PARAM_CATEGORY);
+    	$category = $category ? $category : 0;
+    	$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $category, LearningObjectPublication :: get_table_name());
+    	
 		$condition = new AndCondition($conditions);
 		
 		$publications = $datamanager->retrieve_learning_object_publications_new($condition);
@@ -139,7 +143,7 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
 		while ($publication = $publications->next_result())
 		{
 			// If the results is hidden and the user is not allowed to DELETE or EDIT, don't show this results
-			if (!$publication->is_visible_for_target_users() && !($this->parent->is_allowed(DELETE_RIGHT) || $this->parent->is_allowed(EDIT_RIGHT)))
+			if (!$publication->is_visible_for_target_users())
 			{
 				continue;
 			}
@@ -161,12 +165,7 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
 	 */
     function get_condition()
     {
-    	$owner = $this->owner;
-    	
     	$conds = array();
-    	$parent = $this->parent;
-    	$category = $parent->get_parameter(WeblcmsManager :: PARAM_CATEGORY);
-    	$conds[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $category, LearningObjectPublication :: get_table_name());
     	
     	$type_cond = array();
     	$types = array('assessment', 'survey');
