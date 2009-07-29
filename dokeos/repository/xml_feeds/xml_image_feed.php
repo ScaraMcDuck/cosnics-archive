@@ -51,7 +51,7 @@ if (Authentication :: is_valid())
 	$condition = new AndCondition($conditions);
 
 	$dm = RepositoryDataManager :: get_instance();
-	$objects = $dm->retrieve_learning_objects('document', $condition, array (LearningObject :: PROPERTY_TITLE), array (SORT_ASC));
+	$objects = $dm->retrieve_learning_objects('document', $condition, array(new ObjectTableOrder(LearningObject :: PROPERTY_TITLE)), array (SORT_ASC));
 
 	while ($lo = $objects->next_result())
 	{

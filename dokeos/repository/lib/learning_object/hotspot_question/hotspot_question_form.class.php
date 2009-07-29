@@ -151,14 +151,14 @@ class HotspotQuestionForm extends LearningObjectForm
         }
     }
 
-    function validate()
-    {
-        if (isset($_POST['add']) || isset($_POST['remove']) || isset($_POST['fileupload']))
-        {
-            return false;
-        }
-        return parent :: validate();
-    }
+//    function validate()
+//    {
+//        if (isset($_POST['add']) || isset($_POST['remove']) || isset($_POST['fileupload']))
+//        {
+//            return false;
+//        }
+//        return parent :: validate();
+//    }
 
     function set_session_answers($defaults = array())
     {
