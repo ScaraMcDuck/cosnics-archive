@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<object name="user">
+<object name="user_tracker">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1" />
   <property name="type" type="text" length="50" notnull="1" />

@@ -151,11 +151,19 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 		else
 		{
 
-			$conditionuser = new EqualityCondition(UserAssessment :: PROPERTY_USER_ID, $this->browser->get_user_id());
+			/*$conditionuser = new EqualityCondition(UserAssessment :: PROPERTY_USER_ID, $this->browser->get_user_id());
 			$conditionass = new EqualityCondition(UserAssessment :: PROPERTY_ASSESSMENT_ID, $publication->get_learning_object()->get_id());
 			$user_assessments = WeblcmsDataManager :: get_instance()->retrieve_user_assessments(new AndCondition(array($conditionuser, $conditionass)));
-			$user_assessment = $user_assessments->next_result();
-			if ($user_assessment != null) 
+			$user_assessment = $user_assessments->next_result();*/
+			
+			$conditions[] = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID, $this->browser->get_user_id());
+			$conditions[] = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $publication->get_learning_object()->get_id());
+			$condition = new AndCondition($conditions);
+			$dummy = new WeblcmsAssessmentAttemptsTracker();
+			$user_assessments = $dummy->retrieve_tracker_items($condition);
+			$user_assessment = $user_assessments[0];
+			
+			if (count($user_assessments) > 0) 
 			{
 				$actions[] = array(
 				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())), 
