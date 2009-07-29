@@ -125,10 +125,10 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
 		
 		$subselect_conditions = array();
 		$subselect_conditions[] = $this->get_condition();
-		if($this->get_parent()->get_condition())
+		/*if($this->get_parent()->get_condition())
 		{
-			$subselect_conditions[] = $this->get_parent()->get_condition();
-		}
+			$subselect_conditions[] = $this->parent()->get_condition();
+		}*/
 		$subselect_condition = new AndCondition($subselect_conditions);
 		
 		$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
@@ -166,7 +166,7 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
     	$conds = array();
     	$parent = $this->parent;
     	$category = $parent->get_parameter(WeblcmsManager :: PARAM_CATEGORY);
-    	$conds[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $category);
+    	$conds[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $category, LearningObjectPublication :: get_table_name());
     	
     	$type_cond = array();
     	$types = array('assessment', 'survey');
