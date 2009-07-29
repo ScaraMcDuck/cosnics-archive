@@ -58,6 +58,15 @@ class AssessmentResultsTableDetailDataProvider extends ObjectTableDataProvider
     function get_user_assessments($pub) 
     {
     	$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $pub->get_id());
+    	
+    	if(!$this->parent->is_allowed(EDIT_RIGHT))
+    	{
+    		$conditions = array();
+			$conditions[] = $condition;
+			$conditions[] = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID, $this->parent->get_user_id());
+			$condition = new AndCondition($conditions);
+    	}
+    	
     	$track = new WeblcmsAssessmentAttemptsTracker();
     	$user_assessments = $track->retrieve_tracker_items($condition);
     	foreach($user_assessments as $user_assessment)
