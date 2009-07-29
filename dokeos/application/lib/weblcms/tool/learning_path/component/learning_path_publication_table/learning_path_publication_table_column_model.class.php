@@ -13,6 +13,7 @@ class LearningPathPublicationTableColumnModel extends ObjectTableColumnModel {
 	 * The column with the action buttons.
 	 */
 	private static $action_column;
+	
 	/**
 	 * Constructor.
 	 */
@@ -38,7 +39,7 @@ class LearningPathPublicationTableColumnModel extends ObjectTableColumnModel {
 	 * Gets the column wich contains the action buttons.
 	 * @return LearningObjectTableColumn The action column.
 	 */
-	static function get_action_column()
+	static function get_action_column($browser)
 	{
 		if (!isset(self :: $action_column))
 		{

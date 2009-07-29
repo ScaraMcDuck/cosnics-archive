@@ -30,12 +30,15 @@ class LearningPathPublicationTable extends ObjectTable
 	function LearningPathPublicationTable($parent, $owner, $types, $query)
 	{
 		$data_provider = new LearningPathPublicationTableDataProvider($parent, $owner, $types, $query);
-		$column_model = new LearningPathPublicationTableColumnModel();
+		$column_model = new LearningPathPublicationTableColumnModel($parent);
 		$cell_renderer = new LearningPathPublicationTableCellRenderer($parent);
 		parent :: __construct($data_provider, LearningPathPublicationTable :: DEFAULT_NAME, $column_model, $cell_renderer);
 		
-		$actions = array();
-		$actions[Tool :: ACTION_DELETE] = Translation :: get('RemoveSelected');
+		if($parent->is_allowed(EDIT_RIGHT))
+		{
+			$actions = array();
+			$actions[Tool :: ACTION_DELETE] = Translation :: get('RemoveSelected');
+		}
 		$this->set_form_actions($actions);
 	}
 	
