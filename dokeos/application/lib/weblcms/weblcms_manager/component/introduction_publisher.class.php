@@ -34,9 +34,15 @@ class WeblcmsManagerIntroductionPublisherComponent extends WeblcmsManagerCompone
 			$dm = WeblcmsDataManager :: get_instance();
 			$do = $dm->get_next_learning_object_publication_display_order_index($this->get_course_id(),$this->get_tool_id(),0);
 
-			$obj = new LearningObject();
-			$obj->set_id($object);
-			$pub = new LearningObjectPublication(null, $obj, $this->get_course_id(), 'introduction', 0, array(), array(), 0, 0, Session :: get_user_id(), time(), time(), 0, $do, false, 0);
+			$pub = new LearningObjectPublication();
+			$pub->set_learning_object_id($object);
+			$pub->set_course_id($this->get_course_id());
+			$pub->set_tool('introduction'); 
+			$pub->set_publisher_id(Session :: get_user_id());
+			$pub->set_publication_date(time());
+			$pub->set_modified_date(time());
+			$pub->set_hidden(false);
+			$pub->set_display_order_index($do);
 			$pub->create();
 
 			$parameters = $this->get_parameters();
