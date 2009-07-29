@@ -67,6 +67,31 @@ require_once PATH :: get_admin_path().'/lib/admin_data_manager.class.php';
 
 	}
 
+        function as_html()
+        {
+            		$action = $this->get_action();
+		$component = null;
+		switch ($action)
+		{
+			case self :: ACTION_BROWSE_FEEDBACK :
+				$component = FeedbackManagerComponent :: factory('Browser', $this);
+				break;
+			case self :: ACTION_CREATE_FEEDBACK :
+
+				$component = FeedbackManagerComponent :: factory('Creator', $this);
+				break;
+			case self :: ACTION_UPDATE_FEEDBACK :
+				$component = FeedbackManagerComponent :: factory('Updater', $this);
+				break;
+			case self :: ACTION_DELETE_FEEDBACK :
+				$component = FeedbackManagerComponent :: factory('Deleter', $this);
+				break;
+			default :
+				$component = FeedbackManagerComponent :: factory('Browser', $this);
+		}
+                return $component->as_html();
+        }
+
 	/**
 	 * Returns the tool which created this publisher.
 	 * @return Tool The tool.

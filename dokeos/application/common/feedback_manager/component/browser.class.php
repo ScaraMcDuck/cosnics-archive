@@ -22,6 +22,7 @@ class FeedbackManagerBrowserComponent extends FeedbackManagerComponent {
     private $cid;
     private $user_id;
     private $action;
+    private $html;
 
 
     function run (){
@@ -31,6 +32,8 @@ class FeedbackManagerBrowserComponent extends FeedbackManagerComponent {
         $this->cid = Request :: get('cid');
         $this->action = Request :: get ('action');
         $application = $this->get_parent()->get_application();
+
+        $html = array();
         
 
             $url = $this->get_url(array('pid' => $this->pid, 'cid' => $this->cid , 'user_id' => $this->user_id , 'action' => $this->action));
@@ -46,7 +49,8 @@ class FeedbackManagerBrowserComponent extends FeedbackManagerComponent {
         else
         {
 
-            echo $this->render_create_action();
+            //echo $this->render_create_action();
+            $html[] = $this->render_create_action();
 
             $feedbackpublications = $this->retrieve_feedback_publications($this->pid,$this->cid,$application);
            
@@ -58,11 +62,11 @@ class FeedbackManagerBrowserComponent extends FeedbackManagerComponent {
             {
                 $counter= $counter +1;
                 if ($counter==4){
-                     echo '<br /><a href="#" id="showfeedback" style="display:none; float:left;">'.Translation::get('ShowAllFeedback').'['.($nofeedbacks-3).']</a><br><br>';
-                     echo '<a href="#" id="hidefeedback" style="display:none; font-size: 80%; font-weight: normal;">('.Translation::get('HideAllFeedback').')</a>';
-                     echo '<div id="feedbacklist">';
+                    $html[] = '<br /><a href="#" id="showfeedback" style="display:none; float:left;">'.Translation::get('ShowAllFeedback').'['.($nofeedbacks-3).']</a><br><br>';
+                    $html[] = '<a href="#" id="hidefeedback" style="display:none; font-size: 80%; font-weight: normal;">('.Translation::get('HideAllFeedback').')</a>';
+                    $html[] = '<div id="feedbacklist">';
                 }
-                echo $this->render_feedback($feedback);
+                $html[] = $this->render_feedback($feedback);
 
             }
 
@@ -70,12 +74,22 @@ class FeedbackManagerBrowserComponent extends FeedbackManagerComponent {
            
           if ( $counter >3)
           {
-              echo '</div>';
+              $html[] = '</div>';
           }
            $form->display();
 
-           echo '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/feedback_list.js' .'"></script>';
+           $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/feedback_list.js' .'"></script>';
         }
+
+        $this->html = $html;
+
+        echo implode("\n", $html);
+    }
+
+    function as_html()
+    {
+        $this->run();
+        return implode("\n", $this->html);
     }
 
     function render_feedback($object)
