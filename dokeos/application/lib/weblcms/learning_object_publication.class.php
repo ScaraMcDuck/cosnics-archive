@@ -217,6 +217,11 @@ class LearningObjectPublication
 
 		return $this->learning_object;
 	}
+	
+	function set_learning_object($learning_object)
+	{
+		$this->learning_object = $learning_object;
+	}
 
 	function get_publication_publisher()
 	{
