@@ -19,7 +19,8 @@ class QuestionQtiImport extends QtiImport
 	function import_learning_object()
 	{
 		$importer = $this->factory_qti_question($this->get_learning_object_file(), $this->get_user(), $this->get_category());
-		return $importer->import_learning_object();
+		if($importer)
+			return $importer->import_learning_object();
 	}
 	
 	function factory_qti_question($lo_file, $user, $category)
@@ -127,11 +128,14 @@ class QuestionQtiImport extends QtiImport
 			}
 		}
 		
-		$tag = $xmltag->C14N();
-		$index = stripos($tag, '>');
-		$tag = substr($tag, $index+1);
-		$tag = substr($tag, 0, strlen($tag) - strlen('</'.$tagname.'>'));
-		return $tag;
+		if($xmltag)
+		{
+			$tag = $xmltag->C14N();
+			$index = stripos($tag, '>');
+			$tag = substr($tag, $index+1);
+			$tag = substr($tag, 0, strlen($tag) - strlen('</'.$tagname.'>'));
+			return $tag;
+		}
 	}
 	
 	function create_question($question)

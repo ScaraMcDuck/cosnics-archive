@@ -29,12 +29,20 @@ class FillInBlanksQuestionQtiImport extends QuestionQtiImport
 		
 		$answer_text = substr($answer_text, $pos, strlen($answer_text) - $pos);
 		$answers = $data['responseDeclaration'];
+		dump($answers);
 		
 		foreach($answers as $answer)
 		{
-			$value = '[' . $answer['correctResponse']['value'] . ']';
+			if(!is_array($answer))
+				continue;
+			
+			$value = $answer['correctResponse']['value'];
+			$value = '[' . $value  . ']';
 			$answer_text = preg_replace('/\<textentryinteraction(.*)textentryinteraction\>/i', $value, $answer_text, 1);
 		}
+		
+		if(is_null($answer_text))
+			$answer_text = '';
 		
 		$question->set_answer_text($answer_text);
 		$question->set_question_type(0);
@@ -50,6 +58,9 @@ class FillInBlanksQuestionQtiImport extends QuestionQtiImport
 		
 		foreach ($answers as $i => $answer)
 		{
+			if(!is_array($answer))
+				continue;
+				
 			//$answer_list[$answer['identifier']] = $answer['correctResponse']['value'];
 			$value = $answer['correctResponse']['value'];
 			$weight = $answer['correctResponse']['mapping']['mapEntry']['mappedValue'];
