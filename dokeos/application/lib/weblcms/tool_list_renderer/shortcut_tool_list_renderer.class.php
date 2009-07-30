@@ -21,7 +21,7 @@ class ShortcutToolListRenderer extends ToolListRenderer
 	function MenuToolListRenderer($parent)
 	{
 		parent::ToolListRenderer($parent);
-		$this->is_course_admin = $this->get_parent()->get_course()->is_course_admin($this->get_parent()->get_user());
+		$this->is_course_admin = $this->get_parent()->is_allowed(EDIT_RIGHT);
 	}
 	/**
 	 * Sets the type of this navigation menu renderer

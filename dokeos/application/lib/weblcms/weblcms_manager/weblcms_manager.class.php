@@ -344,6 +344,30 @@ class WeblcmsManager extends WebApplication
 		}
 		Display :: header($breadcrumbtrail);
 
+		if($this->is_teacher())
+		{
+			echo '<div style="float: right;">';
+			$studentview = Request :: get('studentview');
+			
+			if(is_null($studentview))
+				$studentview = Session :: retrieve('studentview');
+			
+			if($studentview == 1)
+			{
+				Session :: register('studentview', 1);
+				$this->set_rights_for_student();
+				echo '<a href="' . $this->get_url(array('studentview' => '0')) . '">' . Translation :: get('TeacherView') . '</a>';
+			}
+			else 
+			{
+				Session :: unregister('studentview');
+				$this->set_rights_for_teacher();
+				echo '<a href="' . $this->get_url(array('studentview' => '1')) . '">' . Translation :: get('StudentView') . '</a>';
+			}
+
+			echo '</div>';
+		}
+		
 		if (isset ($this->tool_class))
 		{
 			/*echo '<div style="float: right; margin: 0 0 0.5em 0.5em; padding: 0.5em; border: 1px solid #DDD; background: #FAFAFA;">';
@@ -409,11 +433,6 @@ class WeblcmsManager extends WebApplication
 				echo '<br />';
 				$this->display_error_message($msg);
 			}
-		}
-		
-		if($this->is_teacher())
-		{
-			echo Translation :: get('StudentView');
 		}
 		
 		//echo 'Last visit: '.date('r',$this->get_last_visit_date());
@@ -1298,20 +1317,35 @@ class WeblcmsManager extends WebApplication
 	 * Load the rights for the current user in this tool
 	 */
 	private function load_rights()
-	{
+	{			
 		$this->rights[VIEW_RIGHT] = true;
-		$this->rights[EDIT_RIGHT] = false;
-		$this->rights[ADD_RIGHT] = false;
-		$this->rights[DELETE_RIGHT] = false;
-			
-		if($this->is_teacher())
+		
+		$studentview = Session :: retrieve('studentview');
+		
+		if($this->is_teacher() && $studentview != '1')
 		{
-			$this->rights[EDIT_RIGHT] = true;
-			$this->rights[ADD_RIGHT] = true;
-			$this->rights[DELETE_RIGHT] = true;
+			$this->set_rights_for_teacher();	
+		}
+		else 
+		{
+			$this->set_rights_for_student();
 		}
 		
 		return;
+	}
+	
+	private function set_rights_for_teacher()
+	{
+		$this->rights[EDIT_RIGHT] = true;
+		$this->rights[ADD_RIGHT] = true;
+		$this->rights[DELETE_RIGHT] = true;
+	}
+	
+	private function set_rights_for_student()
+	{
+		$this->rights[EDIT_RIGHT] = false;
+		$this->rights[ADD_RIGHT] = false;
+		$this->rights[DELETE_RIGHT] = false;
 	}
 	
 	private $is_teacher;

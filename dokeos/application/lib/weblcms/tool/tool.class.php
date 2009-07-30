@@ -72,7 +72,6 @@ abstract class Tool
 	{
 		$this->parent = $parent;
 		$this->properties = $parent->get_tool_properties($this->get_tool_id());
-		$this->load_rights();
 		$this->set_action(isset($_POST[self :: PARAM_ACTION]) ? $_POST[self :: PARAM_ACTION] : Request :: get(self :: PARAM_ACTION));
 		$this->set_parameter(self :: PARAM_ACTION, $this->get_action());
 		$this->parse_input_from_table();
@@ -452,53 +451,7 @@ abstract class Tool
 	 */
 	function is_allowed($right)
 	{
-		return $this->rights[$right];
-	}
-
-	/**
-	 * Load the rights for the current user in this tool
-	 */
-	private function load_rights()
-	{
-		/**
-		 * Here we set the rights depending on the user status in the course.
-		 * This completely ignores the roles-rights library.
-		 * TODO: WORK NEEDED FOR PROPPER ROLES-RIGHTS LIBRARY
-		 */
-
-		$this->rights[VIEW_RIGHT] = false;
-		$this->rights[EDIT_RIGHT] = false;
-		$this->rights[ADD_RIGHT] = false;
-		$this->rights[DELETE_RIGHT] = false;
-		$user = $this->get_user();
-		$course = $this->get_course();
-		if ($user != null && $course != null)
-		{
-			$relation = $this->parent->retrieve_course_user_relation($course->get_id(),$user->get_id());
-
-			if($relation && $relation->get_status() == 5 && $this->properties->visible == 1)
-			{
-				$this->rights[VIEW_RIGHT] = true;
-			}
-			if(($relation && $relation->get_status() == 1) || $user->is_platform_admin())
-			{
-				$this->rights[VIEW_RIGHT] = true;
-				$this->rights[EDIT_RIGHT] = true;
-				$this->rights[ADD_RIGHT] = true;
-				$this->rights[DELETE_RIGHT] = true;
-			}
-		}
-		return;
-		//$tool_id = $this->get_tool_id();
-
-		// Roles and rights system
-		//$user_id = $this->get_user_id();
-		//$course_id = $this->get_course_id();
-
-		// TODO: New Roles & Rights system
-//		$role_id = RolesRights::get_local_user_role_id($user_id, $course_id);
-//		$location_id = RolesRights::get_course_tool_location_id($course_id, $tool_id);
-//		$this->rights = RolesRights::is_allowed_which_rights($role_id, $location_id);
+		return $this->get_parent()->is_allowed($right);
 	}
 
 	/**

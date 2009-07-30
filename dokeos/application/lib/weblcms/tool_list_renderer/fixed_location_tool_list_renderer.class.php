@@ -27,7 +27,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		$this->course = $course;
 		$this->number_of_columns = ($course->get_layout() % 2 == 0)?3:2;
 		$this->group_inactive = ($course->get_layout() > 2);
-		$this->is_course_admin = $this->get_parent()->get_course()->is_course_admin($this->get_parent()->get_user());
+		$this->is_course_admin = $this->get_parent()->is_allowed(EDIT_RIGHT);
 	}
 
 	// Inherited
@@ -161,10 +161,10 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			$row = $count/$this->number_of_columns;
 			$col = $count%$this->number_of_columns;
 			$html = array();
-			if($this->is_course_admin || $publication->is_visible_for_target_users())
+			if($parent->is_allowed(EDIT_RIGHT) || $publication->is_visible_for_target_users())
 			{
 				// Show visibility-icon
-				if ($this->is_course_admin )
+				if ($parent->is_allowed(EDIT_RIGHT))
 				{
 					$html[] = '<a href="'.$parent->get_url(array(WeblcmsManager :: PARAM_COMPONENT_ACTION=>$lcms_action,'pid' => $publication->get_id(), 'tool_action' => null)).'"><img src="'.Theme :: get_common_image_path().$visible_image.'" style="vertical-align: middle;" alt=""/></a>';
 					$html[] = '<a href="'.$parent->get_url(array(WeblcmsManager :: PARAM_COMPONENT_ACTION=>'delete_publication','pid' => $publication->get_id(), 'tool_action' => null)).'"><img src="'.Theme :: get_common_image_path().'action_delete.png" style="vertical-align: middle;" alt=""/></a>';
