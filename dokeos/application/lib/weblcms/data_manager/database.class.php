@@ -5,6 +5,8 @@
  */
 require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 require_once dirname(__FILE__) . '/../learning_object_publication.class.php';
+require_once dirname(__FILE__) . '/../learning_object_publication_user.class.php';
+require_once dirname(__FILE__) . '/../learning_object_publication_course_group.class.php';
 require_once dirname(__FILE__) . '/../category_manager/learning_object_publication_category.class.php';
 require_once dirname(__FILE__) . '/../learning_object_publication_feedback.class.php';
 require_once dirname(__FILE__) . '/../course/course.class.php';
@@ -268,19 +270,33 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         return $this->database->get_next_id(Course :: get_table_name());
     }
     
+    function create_learning_object_publication_user($publication_user)
+    {
+        return $this->database->create($publication_user);
+    }
+    
     function create_learning_object_publication_users($publication)
     {
         $users = $publication->get_target_users();
 
         foreach ($users as $index => $user_id)
         {
-            $props = array();
-            $props[$this->database->escape_column_name('publication')] = $publication->get_id();
-            $props[$this->database->escape_column_name('user')] = $user_id;
-            $this->database->get_connection()->extended->autoExecute($this->database->get_table_name('learning_object_publication_user'), $props, MDB2_AUTOQUERY_INSERT);
+        	$publication_user = new LearningObjectPublicationUser();
+        	$publication_user->set_publication($publication->get_id());
+        	$publication_user->set_user($user_id);
+        	
+        	if (!$publication_user->create())
+        	{
+        		return false;
+        	}
         }
         
         return true;
+    }
+    
+    function create_learning_object_publication_course_group($publication_course_group)
+    {
+        return $this->database->create($publication_course_group);
     }
     
     function create_learning_object_publication_course_groups($publication)
@@ -289,10 +305,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     	
     	foreach ($course_groups as $index => $course_group_id)
         {
-            $props = array();
-            $props[$this->database->escape_column_name('publication')] = $publication->get_id();
-            $props[$this->database->escape_column_name('course_group_id')] = $course_group_id;
-            $this->database->get_connection()->extended->autoExecute($this->database->get_table_name('learning_object_publication_course_group'), $props, MDB2_AUTOQUERY_INSERT);
+            $publication_course_group = new LearningObjectPublicationCourseGroup();
+        	$publication_course_group->set_publication($publication->get_id());
+        	$publication_course_group->set_course_group_id($course_group_id);
+        	
+        	if (!$publication_course_group->create())
+        	{
+        		return false;
+        	}
         }
         
         return true;

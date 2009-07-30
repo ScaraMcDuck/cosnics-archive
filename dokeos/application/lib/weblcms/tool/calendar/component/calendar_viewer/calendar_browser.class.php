@@ -153,7 +153,7 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 				foreach($repeats as $repeat)
 				{
 					$the_publication = clone $publication;
-					$the_publication->set_learning_object_id($repeat);
+					$the_publication->set_learning_object($repeat);
 					
 					$events[] = $the_publication;
 				}

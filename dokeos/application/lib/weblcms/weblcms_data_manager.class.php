@@ -331,6 +331,10 @@ abstract class WeblcmsDataManager
 	 * @return boolean True if creation succceeded, false otherwise.
 	 */
 	abstract function create_learning_object_publication($publication);
+	
+	abstract function create_learning_object_publication_user($publication_user);
+	
+	abstract function create_learning_object_publication_course_group($publication_course_group);
 
 	/**
 	 * Updates a learning object publication in persistent storage.
