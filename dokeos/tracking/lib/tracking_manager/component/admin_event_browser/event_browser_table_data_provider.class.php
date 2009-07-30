@@ -42,8 +42,8 @@ class EventBrowserTableDataProvider implements EventTableDataProvider
     function get_events($offset, $count, $order_property, $order_direction)
     {
         // We always use title as second sorting parameter
-        $order_property = array($order_property);
-        $order_direction = array($order_direction);
+       // $order_property = array($order_property);
+        //$order_direction = array($order_direction);
         
         return $this->get_browser()->retrieve_events($this->get_condition(), $offset, $count, $order_property, $order_direction);
     }

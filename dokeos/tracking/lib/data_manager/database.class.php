@@ -26,6 +26,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 
     /**
      * The database connection.
+     * @var Database
      */
     private $database;
 
@@ -219,7 +220,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
      */
     function retrieve_events($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
     {
-        return $this->database->retrieve_objects(Event :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+    	return $this->database->retrieve_objects(Event :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
     }
 
     /**
