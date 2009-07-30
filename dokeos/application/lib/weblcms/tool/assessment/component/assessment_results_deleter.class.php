@@ -29,6 +29,7 @@ class AssessmentToolResultsDeleterComponent extends AssessmentToolComponent
 		if (Request :: get(AssessmentTool :: PARAM_ASSESSMENT))
 		{
 			$aid = Request :: get(AssessmentTool :: PARAM_ASSESSMENT);
+			$redirect_aid = $aid;
 			$this->delete_assessment_results($aid);
 		}
 		
