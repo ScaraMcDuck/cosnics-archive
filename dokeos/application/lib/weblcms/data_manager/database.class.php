@@ -490,6 +490,23 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     {
     	$this->database->create($coursemodule_last_accces);
     }
+    
+    /**
+     * Creates a course module last acces in the database
+     *
+     * @param CourseModuleLastAccess $coursemodule_last_accces
+     */
+ 	function update_course_module_last_access($coursemodule_last_accces)
+    {
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_COURSE_CODE, $coursemodule_last_accces->get_course_code());
+    	$conditions[] = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_MODULE_NAME, $coursemodule_last_accces->get_module_name());
+    	$conditions[] = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_USER_ID, $coursemodule_last_accces->get_user_id());
+    	$conditions[] = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_CATEGORY_ID, $coursemodule_last_accces->get_category_id());
+    	$condition = new AndCondition($conditions);
+    	
+    	$this->database->update($coursemodule_last_accces, $condition);
+    }
 
     /**
      * Returns the last visit date per course and module
@@ -962,7 +979,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     }
 
     function delete_course($course_code)
-    {
+    { 
         // Delete target users
         $sql = 'DELETE FROM ' . $this->database->escape_table_name('learning_object_publication_user') . '
 				WHERE publication IN (
@@ -986,13 +1003,13 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         
         // Delete survey invitations
          $sql = 'DELETE FROM ' . $this->database->escape_table_name('survey_invitation') . '
-				WHERE survey IN (
+				WHERE survey_id IN (
 					SELECT id FROM ' . $this->database->escape_table_name('learning_object_publication') . '
 					WHERE course = ?
 				)';
         $statement = $this->database->get_connection()->prepare($sql);
         $statement->execute($course_code);
-        
+
         // Delete publications
         $sql = 'DELETE FROM ' . $this->database->escape_table_name('learning_object_publication') . ' WHERE course = ?';
         $statement = $this->database->get_connection()->prepare($sql);
