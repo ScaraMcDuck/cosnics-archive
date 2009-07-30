@@ -199,7 +199,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $publication_user_alias = $this->database->get_alias('learning_object_publication_user');
         $publication_group_alias = $this->database->get_alias('learning_object_publication_course_group');
 
-        $query = 'SELECT ' . $publication_alias . '.* FROM ' . $this->database->escape_table_name(LearningObjectPublication :: get_table_name()) . ' AS ' . $publication_alias;
+        $query = 'SELECT DISTINCT ' . $publication_alias . '.* FROM ' . $this->database->escape_table_name(LearningObjectPublication :: get_table_name()) . ' AS ' . $publication_alias;
         $query .= ' LEFT JOIN ' . $this->database->escape_table_name('learning_object_publication_user') . ' AS ' . $publication_user_alias . ' ON ' . $publication_alias . '.id = ' . $publication_user_alias . '.publication';
         $query .= ' LEFT JOIN ' . $this->database->escape_table_name('learning_object_publication_course_group') . ' AS ' . $publication_group_alias . ' ON ' . $publication_alias . '.id = ' . $publication_group_alias . '.publication';
 
