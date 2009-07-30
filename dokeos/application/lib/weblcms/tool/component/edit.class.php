@@ -12,11 +12,11 @@ class ToolEditComponent extends ToolComponent
 			$pid = Request :: get(Tool :: PARAM_PUBLICATION_ID) ? Request :: get(Tool :: PARAM_PUBLICATION_ID) : $_POST[Tool :: PARAM_PUBLICATION_ID];
 
 			$datamanager = WeblcmsDataManager :: get_instance();
-			if(Request :: get('tool') == 'learning_path')
+			/*if(Request :: get('tool') == 'learning_path')
 			{
 				$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($pid);
 			}
-			else
+			else*/
 			{
 				$publication = $datamanager->retrieve_learning_object_publication($pid);
 				$learning_object = $publication->get_learning_object(); //RepositoryDataManager :: get_instance()->retrieve_learning_object($publication->get_learning_object()->get_id());
@@ -77,7 +77,7 @@ class ToolEditComponent extends ToolComponent
 
 					if($tool == 'learning_path')
 					{
-						$params['tool_action'] = 'view_clo';
+						$params['tool_action'] = null;
 						$params['display_action'] = 'view';
 						$params['pid'] = Request :: get('pid');
 					}
