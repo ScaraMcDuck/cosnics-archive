@@ -213,7 +213,7 @@ abstract class UserDataManager
 
         //A check to not delete a user when he's an active teacher
         {
-            $courses = WebLcmsDataManager :: get_instance()->retrieve_courses(null, new EqualityCondition(Course :: PROPERTY_TITULAR,$user->get_id()))->size();
+            $courses = WebLcmsDataManager :: get_instance()->retrieve_courses(new EqualityCondition(Course :: PROPERTY_TITULAR,$user->get_id()))->size();
             if($courses>0)
             return false;
         }
