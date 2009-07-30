@@ -45,7 +45,7 @@ class HomeManagerBuilderComponent extends HomeManagerComponent
             $this->build_user_id = '0';
         }
         
-        $bw = new BuildWizard($this);
+        $bw = new BuildWizard($this, $trail);
         $bw->run();
     }
 

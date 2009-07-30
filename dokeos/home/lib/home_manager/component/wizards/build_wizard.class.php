@@ -33,7 +33,7 @@ class BuildWizard extends HTML_QuickForm_Controller
      * @param Tool $parent The repository tool in which this wizard
      * runs.
      */
-    function BuildWizard($parent)
+    function BuildWizard($parent, $trail)
     {
         $this->parent = $parent;
         parent :: HTML_QuickForm_Controller('BuildWizard', true);
@@ -47,7 +47,7 @@ class BuildWizard extends HTML_QuickForm_Controller
         $this->addPage(new ConfirmationBuildWizardPage('confirmation', $this->parent, Translation :: get('BuildConfirmationQuestion'), $values));
         
         $this->addAction('process', new BuildWizardProcess($this->parent));
-        $this->addAction('display', new BuildWizardDisplay($this->parent));
+        $this->addAction('display', new BuildWizardDisplay($this->parent, $trail));
     }
 }
 ?>

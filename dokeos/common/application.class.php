@@ -179,7 +179,7 @@ abstract class Application
 
     /**
      * Displays the header.
-     * @param array $breadcrumbtrail The breadcrumbtrail to show in the header.
+     * @param BreadcrumbTrail $breadcrumbtrail The breadcrumbtrail to show in the header.
      */
     function display_header($breadcrumbtrail = null, $display_title = true)
     {
@@ -197,7 +197,7 @@ abstract class Application
                 $breadcrumbtrail->add(new Breadcrumb($category['url'], $category['title']));
             }
         }
-        
+
         $title = $breadcrumbtrail->get_last()->get_name();
         Display :: header($breadcrumbtrail);
         

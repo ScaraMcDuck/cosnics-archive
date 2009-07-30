@@ -13,12 +13,17 @@ class BuildWizardDisplay extends HTML_QuickForm_Action_Display
      */
     private $parent;
 
+	/**
+	 * @var BreadcrumbTrail;
+	 */
+    private $breadcrumbtrail;
+    
     /**
      * Constructor
      * @param Tool $parent The repository tool in which the wizard
      * runs
      */
-    public function BuildWizardDisplay($parent)
+    public function BuildWizardDisplay($parent, $trail)
     {
         $this->parent = $parent;
     }
@@ -29,11 +34,11 @@ class BuildWizardDisplay extends HTML_QuickForm_Action_Display
      */
     function _renderForm($current_page)
     {
-        $breadcrumbs = array();
+       /* $breadcrumbs = array();
         $breadcrumbs[] = array('url' => $this->parent->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), 'name' => Translation :: get('Home'));
-        $breadcrumbs[] = array('url' => $this->parent->get_url(), 'name' => Translation :: get('BuildHome'));
+        $breadcrumbs[] = array('url' => $this->parent->get_url(), 'name' => Translation :: get('BuildHome'));*/
         
-        $this->parent->display_header($breadcrumbs, false, 'home build');
+        $this->parent->display_header($this->breadcrumbtrail, false, 'home build');
         if (isset($_SESSION['build_message']))
         {
             Display :: normal_message($_SESSION['build_message']);
