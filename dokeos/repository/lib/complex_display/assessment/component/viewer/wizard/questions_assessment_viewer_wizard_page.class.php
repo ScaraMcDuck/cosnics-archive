@@ -19,7 +19,7 @@ class QuestionsAssessmentViewerWizardPage extends AssessmentViewerWizardPage
 	}
 
 	function buildForm()
-	{
+	{ 
 		$this->_formBuilt = true;
 		$this->questions = $this->get_parent()->get_questions($this->page_number);
 		$assessment = $this->get_parent()->get_assessment();
@@ -47,7 +47,7 @@ class QuestionsAssessmentViewerWizardPage extends AssessmentViewerWizardPage
 			$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'next'));
 		}
 		
-		$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('submit'), Translation :: get('Submit'), array('class' => 'positive finish', 'style' => $style));
+		$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('process'), Translation :: get('Submit'), array('class' => 'positive finish', 'style' => $style));
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 		
 		// Add question forms
