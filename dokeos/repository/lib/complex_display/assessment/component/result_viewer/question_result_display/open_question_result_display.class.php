@@ -41,7 +41,12 @@ class OpenQuestionResultDisplay extends QuestionResultDisplay
 		$html[] = '</div>';
 		
 		$html[] = '<br />';
-		$html[] = $answer;
+		
+		if($answer && $answer != '')
+			$html[] = $answer;
+		else 
+			$html[] = Translation :: get('NoAnswer');
+		
 		$html[] = '<br />';
 	}
 	

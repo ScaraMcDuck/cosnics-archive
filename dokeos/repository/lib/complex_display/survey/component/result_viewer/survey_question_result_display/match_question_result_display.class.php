@@ -12,7 +12,12 @@ class MatchQuestionResultDisplay extends QuestionResultDisplay
 		
 		$html[] = '<div style="padding: 10px; border-left: 1px solid #B5CAE7; border-right: 1px solid #B5CAE7;">';
 		$user_answer = $this->get_answers();
-		$html[] = $user_answer[0];
+		
+		if($user_answer[0] && $user_answer[0] != '')
+			$html[] = $user_answer[0];
+		else 
+			$html[] = Translation :: get('NoAnswer');
+		
 		$html[] = '</div>';
 		
 		$html[] = '<table class="data_table take_assessment" style="border-top: 1px solid #B5CAE7;">';
