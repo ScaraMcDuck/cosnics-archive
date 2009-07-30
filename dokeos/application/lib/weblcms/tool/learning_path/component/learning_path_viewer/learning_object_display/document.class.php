@@ -21,6 +21,7 @@ class DocumentDisplay extends LearningPathLearningObjectDisplay
 			$info = sprintf(Translation :: get('LPDownloadDocument'), $document->get_filename(), $document->get_filesize());
 			$info .= '<br /><a target="about:blank" href="' . $document->get_url() . '">' . Translation :: get('Download') . '</a>';
 			
+			$html[] = '<h3>' . $document->get_title() . '</h3>';
 			$html[] = $this->display_box($info);
 		}
 			
