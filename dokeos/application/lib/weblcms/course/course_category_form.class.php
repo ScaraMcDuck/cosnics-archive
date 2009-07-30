@@ -5,7 +5,7 @@
  * @author Dieter De Neef
  */
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
-require_once dirname(__FILE__).'/course_category.class.php';
+require_once dirname(__FILE__).'/../category_manager/course_category.class.php';
 
 class CourseCategoryForm extends FormValidator {
 	
