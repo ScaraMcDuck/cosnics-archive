@@ -148,9 +148,8 @@ class ReportingWeblcms {
 
         $tools = $wdm->get_all_course_modules();
 
-        foreach($tools as $key => $value)
+        foreach($tools as $name)
         {
-            $name = $value->name;
             $link = '<img src="'.Theme :: get_image_path('weblcms').'tool_'.$name.'.png" style="vertical-align: middle;" /> '.Translation :: get(DokeosUtilities::underscores_to_camelcase($name));
             $condition = new PatternMatchCondition(VisitTracker::PROPERTY_LOCATION,'*tool='.$name.'*');
 
