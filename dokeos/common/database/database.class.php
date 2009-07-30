@@ -298,6 +298,64 @@ class Database
 
         return true;
     }
+    
+    function update_objects($table_name, $properties = array(), $condition, $offset = null, $max_objects = null, $order_by = array())
+    {
+    	if (count($properties) > 0)
+    	{
+    		$query = 'UPDATE ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name) . ' SET ';
+    		
+    		$updates = array();
+    		foreach($properties as $column => $property)
+    		{
+    			$updates[] = $this->escape_column_name($column) . '="' . $property;
+    		}
+    		
+    		$query .= implode(", ", $updates);
+    		
+    	    $params = array();
+	        if (isset($condition))
+	        {
+	            $translator = new ConditionTranslator($this, $params, $this->get_alias($table_name));
+	            $query .= $translator->render_query($condition);
+	            $params = $translator->get_parameters();
+	        }
+	        
+			$orders = array();
+	        
+	        if (is_null($order_by))
+	        {
+	            $order_by = array();
+	        }
+	        elseif (! is_array($order_by))
+	        {
+	            $order_by = array($order_by);
+	        }
+	
+	        foreach($order_by as $order)
+	        {
+	            $orders[] = $this->escape_column_name($order->get_property(), ($order->alias_is_set() ? $order->get_alias() : $this->get_alias($table_name))) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+	        }
+	        if (count($orders))
+	        {
+	            $query .= ' ORDER BY ' . implode(', ', $orders);
+	        }
+	        
+	        if ($max_objects < 0)
+	        {
+            	$max_objects = null;
+        	}
+
+        	$this->connection->setLimit(intval($max_objects), intval($offset));
+    		$statement = $this->connection->prepare($query);
+    		$statement->execute($params);
+    		return true;
+    	}
+    	else
+    	{
+    		return true;
+    	}
+    }
 
     /**
      * Deletes an object from a table with a given condition
