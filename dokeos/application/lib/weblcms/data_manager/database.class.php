@@ -26,6 +26,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     const ALIAS_LEARNING_OBJECT_TABLE = 'lo';
     const ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE = 'lop';
 
+    /**
+     * @var Database
+     */
     private $database;
 
     function initialize()
@@ -476,6 +479,16 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     		$course_module_last_access->set_access_date(time());
     		return $course_module_last_access->update();
     	}
+    }
+    
+    /**
+     * Creates a course module last acces in the database
+     *
+     * @param CourseModuleLastAccess $coursemodule_last_accces
+     */
+    function create_course_module_last_access($coursemodule_last_accces)
+    {
+    	$this->database->create($coursemodule_last_accces);
     }
 
     /**
