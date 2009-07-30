@@ -32,7 +32,7 @@ class FeedbackManagerBrowserComponent extends FeedbackManagerComponent {
 
     function as_html()
     {
-                $this->pid = Request :: get('pid');
+        $this->pid = Request :: get('pid');
         $this->user_id =Request :: get('user_id');
         $this->cid = Request :: get('cid');
         $this->action = Request :: get ('action');
@@ -46,7 +46,6 @@ class FeedbackManagerBrowserComponent extends FeedbackManagerComponent {
 
         if($form->validate())
         {
-
             $success = $form->create_feedback($this->get_user()->get_id(),$this->pid,$this->cid,$application);
             $this->redirect($success?"":Translation::get('FeedbackNotCreated'), $success?null:true, array('pid' => $this->pid, 'cid' => $this->cid , 'user_id' => $this->user_id , 'action' => $this->action));
 
@@ -144,6 +143,7 @@ class FeedbackManagerBrowserComponent extends FeedbackManagerComponent {
 
     function render_create_action()
     {
+        //dit aanpassen naar action bar
         $create_url = $this->get_url(array(FeedbackManager::PARAM_ACTION => FeedbackManager::ACTION_CREATE_FEEDBACK,'pid' => $this->pid, 'cid' => $this->cid , 'user_id' => $this->user_id , 'action' => $this->action));
         $create_link = '<a style="float: right" href="'.$create_url.'"><img src="'.Theme :: get_common_image_path().'action_create.png"  alt=""/>'.Translation::get('CreateFeedback').'</a><br><br>';
         return $create_link;
