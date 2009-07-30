@@ -53,6 +53,11 @@ class CourseUserCategory
 	{
 		return $this->defaultProperties[$name];
 	}
+	
+	function set_default_properties($defaultProperties)
+	{
+		$this->defaultProperties = $defaultProperties;
+	}
 
 	/**
 	 * Gets the default properties of this course user category object.

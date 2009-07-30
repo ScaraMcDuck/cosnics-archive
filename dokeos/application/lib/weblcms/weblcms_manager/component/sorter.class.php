@@ -266,16 +266,23 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
 
 		$course_categories = $this->retrieve_course_user_categories($condition, null, null, new ObjectTableOrder(CourseUserCategory :: PROPERTY_SORT));
 
-		$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0);
+		$conditions = array();
+		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0, CourseUserRelation :: get_table_name());
+		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
+		$condition = new AndCondition($conditions);
+		$courses = $this->retrieve_user_courses($condition);
 
-		$courses = $this->retrieve_courses($this->get_user_id(), $condition);
 		echo $this->display_course_digest($courses);
 
 		$cat_key = 0;
 		while ($course_category = $course_categories->next_result())
 		{
-			$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $course_category->get_id());
-			$courses = $this->retrieve_courses($this->get_user_id(), $condition);
+			$conditions = array();
+			$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $course_category->get_id(), CourseUserRelation :: get_table_name());
+			$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
+			$condition = new AndCondition($conditions);
+			$courses = $this->retrieve_user_courses($condition);
+		
 			echo $this->display_course_digest($courses, $course_category, $cat_key, $course_categories->size());
 			$cat_key++;
 		}
