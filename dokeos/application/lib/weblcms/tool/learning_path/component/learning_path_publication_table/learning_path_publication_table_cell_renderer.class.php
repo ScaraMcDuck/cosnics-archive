@@ -45,7 +45,7 @@ class LearningPathPublicationTableCellRenderer extends DefaultLearningObjectTabl
 					$title = '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, Tool :: PARAM_PUBLICATION_ID => $publication->get_id() )) . '">' . htmlspecialchars($learning_object->get_title()) . '</a>';
 					if($publication->is_hidden())
 					{
-						return '<span style="color: gray">'. $title .'</span>';
+						return '<span style="color: #999999;">'. $title .'</span>';
 					}
 					return $title;
 			}
@@ -80,7 +80,7 @@ class LearningPathPublicationTableCellRenderer extends DefaultLearningObjectTabl
 		$info = parent :: render_cell($column, $publication->get_learning_object());
 		if($publication->is_hidden())
 		{
-			return '<span style="color: gray">'. $info .'</span>';
+			return '<span style="color: #999999;">'. $info .'</span>';
 		}
 		
 		return $info;
