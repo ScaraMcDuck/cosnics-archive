@@ -139,6 +139,11 @@ class FeedbackManagerComponent {
 		return $this->get_parent()->get_feedback();
 	}
 
+    function add_actionbar_item($link)
+    {
+        $this->parent->add_to_action_bar($link);
+    }
+
 	
 
 	static function factory($type, $parent)

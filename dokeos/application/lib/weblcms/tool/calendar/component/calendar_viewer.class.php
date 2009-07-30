@@ -67,9 +67,10 @@ class CalendarToolViewerComponent extends CalendarToolComponent
 				echo $this->display_introduction_text($this->introduction_text);
 			}
 		}
-		echo $this->action_bar->as_html() . '<br />';
+        $html = $browser->as_html();
+		echo $this->action_bar->as_html();
 		echo '<div id="action_bar_browser">';
-		echo $browser->as_html();
+		echo $html;
 		echo '</div>';
 
 		$this->display_footer();

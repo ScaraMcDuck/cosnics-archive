@@ -53,8 +53,8 @@ class FeedbackManagerBrowserComponent extends FeedbackManagerComponent {
         else
         {
 
-            //echo $this->render_create_action();
-            $html[] = $this->render_create_action();
+            $html[] = '<h3>'.Translation :: get('PublicationFeedback').'</h3>';
+            $this->render_create_action();
 
             $feedbackpublications = $this->retrieve_feedback_publications($this->pid,$this->cid,$application);
 
@@ -143,10 +143,12 @@ class FeedbackManagerBrowserComponent extends FeedbackManagerComponent {
 
     function render_create_action()
     {
-        //dit aanpassen naar action bar
+        //aanpassen
         $create_url = $this->get_url(array(FeedbackManager::PARAM_ACTION => FeedbackManager::ACTION_CREATE_FEEDBACK,'pid' => $this->pid, 'cid' => $this->cid , 'user_id' => $this->user_id , 'action' => $this->action));
-        $create_link = '<a style="float: right" href="'.$create_url.'"><img src="'.Theme :: get_common_image_path().'action_create.png"  alt=""/>'.Translation::get('CreateFeedback').'</a><br><br>';
-        return $create_link;
+       // $create_link = '<a style="float: right" href="'.$create_url.'"><img src="'.Theme :: get_common_image_path().'action_create.png"  alt=""/>'.Translation::get('CreateFeedback').'</a><br><br>';
+        $item = new ToolbarItem(Translation :: get('CreateFeedback'), Theme :: get_common_image_path().'action_create.png', $create_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL);
+        $this->get_parent()->add_actionbar_item($item);
+        //return $create_link;
     }
 
     function render_publication_information($feedback)

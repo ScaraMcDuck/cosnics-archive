@@ -210,6 +210,11 @@ class FeedbackManager {
                 return $adm->retrieve_feedback_publication($id);
             }
 
+            function add_actionbar_item($link)
+            {
+                $this->parent->add_actionbar_item($link);
+            }
+
 
         }
         ?>
