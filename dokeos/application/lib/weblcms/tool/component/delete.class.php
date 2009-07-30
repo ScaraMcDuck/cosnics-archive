@@ -32,7 +32,7 @@ class ToolDeleteComponent extends ToolComponent
 				$message = htmlentities(Translation :: get('LearningObjectPublicationDeleted'));
 			}
 
-			$this->redirect($message, '', array('pid' => null));
+			$this->redirect($message, '', array('pid' => null, 'tool_action' => null));
 		}
 	}
 
