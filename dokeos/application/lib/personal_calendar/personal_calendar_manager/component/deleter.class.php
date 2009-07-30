@@ -25,6 +25,14 @@ class PersonalCalendarManagerDeleterComponent extends PersonalCalendarManagerCom
 			foreach ($ids as $id)
 			{
 				$publication = $this->get_parent()->retrieve_calendar_event_publication($id);
+				
+				if (!$this->get_user()->is_platform_admin() && $publication->get_publisher() != $this->get_user_id())
+	        	{
+	            	$this->display_header($trail);
+	            	$this->display_error_message(Translation :: get('NotAllowed'));
+	            	$this->display_footer();
+	            	exit;
+	        	}
 
 				if (!$publication->delete())
 				{

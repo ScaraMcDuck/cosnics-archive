@@ -21,17 +21,19 @@ class PersonalCalendarManagerEditorComponent extends PersonalCalendarManagerComp
 
         $user = $this->get_user();
 
-        if (!$user->is_platform_admin())
-        {
-            Display :: not_allowed();
-            exit;
-        }
-
         $id = Request :: get(PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID);
 
         if ($id)
         {
             $calendar_event_publication = $this->retrieve_calendar_event_publication($id);
+            
+            if (!$user->is_platform_admin() && $calendar_event_publication->get_publisher() != $user->get_id())
+        	{
+            	$this->display_header($trail);
+            	$this->display_error_message(Translation :: get('NotAllowed'));
+            	$this->display_footer();
+            	exit;
+        	}
 
             $learning_object = $calendar_event_publication->get_publication_object();
 

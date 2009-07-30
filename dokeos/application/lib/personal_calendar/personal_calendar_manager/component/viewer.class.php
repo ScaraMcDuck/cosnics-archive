@@ -20,13 +20,22 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManagerComp
     function run()
     {
         $id = Request :: get(PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID);
+        
+        $trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR)), Translation :: get('PersonalCalendar')));
 
         if ($id)
         {
             $this->event = $this->retrieve_calendar_event_publication($id);
-
-            $trail = new BreadcrumbTrail();
-            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR)), Translation :: get('PersonalCalendar')));
+            
+            if (!$this->can_view())
+            {
+            	$this->display_header($trail);
+            	$this->display_error_message(Translation :: get('NotAllowed'));
+            	$this->display_footer();
+            	exit;
+            }
+            
             $trail->add(new Breadcrumb($this->get_url(array(PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID => $id)), $this->event->get_publication_object()->get_title()));
             $trail->add_help('personal calender general');
 
@@ -46,6 +55,25 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManagerComp
         {
             $this->display_error_page(htmlentities(Translation :: get('NoProfileSelected')));
         }
+    }
+    
+    function can_view()
+    {
+    	$event = $this->event;
+    	$user = $this->get_user();
+    	
+    	$is_target = $event->is_target($user);
+    	$is_publisher = ($event->get_publisher() == $user->get_id());
+    	$is_platform_admin = $user->is_platform_admin();
+    	
+    	if (!$is_target && !$is_publisher && !$is_platform_admin)
+    	{
+    		return false;
+    	}
+    	else
+    	{
+    		return true;
+    	}
     }
 
     function get_publication_as_html()
@@ -81,8 +109,14 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManagerComp
         $delete_url = $this->get_publication_deleting_url($event);
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Back'), Theme :: get_common_image_path().'action_prev.png', $back));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $edit_url));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', $delete_url));
+        
+    	$user = $this->get_user();
+    	
+    	if ($user->is_platform_admin() || $event->get_publisher() == $user->get_id())
+    	{
+        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $edit_url));
+        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', $delete_url));
+    	}
 
         $html[] =   '</div>';
 
@@ -105,9 +139,9 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManagerComp
     {
     	$event = $this->event;
     	
-        if ($event->is_for_everybody())
+        if ($event->is_for_nobody())
         {
-            return htmlentities(Translation :: get('Everybody'));
+            return htmlentities(Translation :: get('Nobody'));
         }
         else
         {

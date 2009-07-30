@@ -258,9 +258,57 @@ class CalendarEventPublication
 		$this->target_groups = $target_groups;
 	}
 	
-    function is_for_everybody()
+    function is_for_nobody()
     {
         return (count($this->get_target_users()) == 0 && count($this->get_target_groups()) == 0);
+    }
+    
+    function is_target($user)
+    {
+    	if ($this->is_for_nobody())
+    	{
+    		return false;
+    	}
+    	
+    	$user_id = $user->get_id();
+    	
+    	$target_users = $this->get_target_users();
+    	$target_groups = $this->get_target_groups();
+    	
+    	$user_groups = array();
+    	$groups = $user->get_user_groups();
+    	
+    	while ($group = $groups->next_result())
+    	{
+    		$user_groups[] = $group->get_id();
+    		$subgroups = $group->get_parents(false);
+    		
+    		while ($subgroup = $subgroups->next_result())
+    		{
+    			$subgroup_id = $subgroup->get_id();
+    			if (!in_array($subgroup_id, $user_groups))
+    			{
+    				$user_groups[] = $subgroup_id;
+    			}
+    		}
+    	}
+    	
+    	if (in_array($user_id, $target_users))
+    	{
+    		return true;
+    	}
+    	else
+    	{
+    		foreach($user_groups as $user_group)
+    		{
+    			if (in_array($user_group, $target_groups))
+    			{
+    				return true;
+    			}
+    		}
+    	}
+    	
+    	return false;
     }
 
 	static function get_table_name()
