@@ -26,7 +26,7 @@ class CourseGroupToolCreatorComponent extends CourseGroupToolComponent
 		if ($form->validate())
 		{
 			$form->create_course_group();
-			$this->get_parent()->redirect(Translation :: get('CourseGroupCreated'));
+			$this->get_parent()->redirect(Translation :: get('CourseGroupCreated'), false, array('tool_action' => null));
 		}
 		else
 		{
