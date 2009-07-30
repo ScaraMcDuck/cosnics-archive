@@ -30,7 +30,7 @@ class UserManagerDeleterComponent extends UserManagerComponent
 			}
 
             if(UserDataManager :: get_instance()->user_deletion_allowed($user))
-			$success = $user->delete();
+				$success = $user->delete();
 
 			if($success)
     			Events :: trigger_event('delete', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->get_user()->get_id()));
