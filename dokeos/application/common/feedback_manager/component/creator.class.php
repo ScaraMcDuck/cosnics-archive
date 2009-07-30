@@ -16,6 +16,11 @@ class FeedbackManagerCreatorComponent extends FeedbackManagerComponent {
 
     function run()
     {
+        echo $this->as_html();
+    }
+
+    function as_html()
+    {
 
         $pid = Request :: get('pid');
         $user_id =Request :: get('user_id');
@@ -27,21 +32,21 @@ class FeedbackManagerCreatorComponent extends FeedbackManagerComponent {
         $pub = new RepoViewer($this, 'feedback', true);
 
         $actions = array('pid'=>$pid , 'cid' =>$cid , 'user_id' => $user_id , 'action' => 'feedback' ,FeedbackManager::PARAM_ACTION => FeedbackManager::ACTION_CREATE_FEEDBACK);
-       
-            foreach($actions as $type => $actie)
-            {
-                $pub->set_parameter($type, $actie);
-            }
-       
+
+        foreach($actions as $type => $actie)
+        {
+            $pub->set_parameter($type, $actie);
+        }
+
 
         if(!isset($object))
         {
             $html[] =  $pub->as_html();
-            
+
         }
         else
         {
-           
+
             $fb = new FeedbackPublication();
             $fb->set_application($application);
             $fb->set_cid($cid);
@@ -51,14 +56,15 @@ class FeedbackManagerCreatorComponent extends FeedbackManagerComponent {
             $fb->create();
 
             $message = 'FeedbackCreated';
-            echo $action;
+            $html[] = $action;
             $this->redirect(Translation :: get($message), false, array(Application :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO,'pid' => $pid, 'cid' => $cid , 'user_id' => $user_id, 'action' => $action ));
-          
+
         }
 
 
-        echo implode("\n",$html);
+        $html[] = implode("\n",$html);
 
+        return implode('\n',$html);
     }
 }
 ?>

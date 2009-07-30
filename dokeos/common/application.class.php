@@ -112,7 +112,7 @@ abstract class Application
         {
             $parameters[self :: PARAM_ERROR_MESSAGE] = $message;
         }
-        
+
         $this->simple_redirect($parameters, $filter, $encode_entities, $redirect_type, $application_type);
     }
 

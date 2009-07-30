@@ -46,8 +46,6 @@ class FeedbackManagerDeleterComponent extends FeedbackManagerComponent{
             $succes =false;
         }
          $this->redirect(Translation :: get($message), succes?false:true, array(Application :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO,'pid' => $pid, 'cid' => $cid , 'user_id' => $user_id , 'action' => $action ));
-
-
     }
 }
 ?>
