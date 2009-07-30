@@ -15,7 +15,7 @@ class AssessmentViewerWizardProcess extends HTML_QuickForm_Action
 	function perform($page, $actionName)
 	{
 		echo '<div class="assessment">';
-		echo '<h2>' . $this->parent->get_assessment()->get_title() . '</h2>';
+		echo '<h2>' . Translation :: get('ResultsFor') . ': ' . $this->parent->get_assessment()->get_title() . '</h2>';
 
 		if($this->parent->get_assessment()->has_description())
 		{
