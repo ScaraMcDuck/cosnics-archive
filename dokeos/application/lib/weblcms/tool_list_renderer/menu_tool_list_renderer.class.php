@@ -23,7 +23,7 @@ class MenuToolListRenderer extends ToolListRenderer
 	function MenuToolListRenderer($parent)
 	{
 		parent::ToolListRenderer($parent);
-		$this->is_course_admin = $this->get_parent()->get_course()->is_course_admin($this->get_parent()->get_user());
+		$this->is_course_admin = $this->get_parent()->is_allowed(EDIT_RIGHT);
 		$this->menu_properties = $this->retrieve_menu_properties();
 	}
 	/**
