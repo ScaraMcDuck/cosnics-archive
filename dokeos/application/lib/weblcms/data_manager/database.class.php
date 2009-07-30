@@ -235,8 +235,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $course_relation_alias = $this->database->get_alias(CourseUserRelation :: get_table_name());
 
         $query = 'SELECT COUNT(*) FROM ' . $this->database->escape_table_name(Course :: get_table_name()) . ' AS ' . $course_alias;
-        $query .= 'JOIN ' . $this->database->escape_table_name(CourseUserRelation :: get_table_name()) . ' ON ' . $this->database->escape_column_name(Course :: PROPERTY_ID, $course_alias) . '=' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_COURSE, $course_relation_alias);
-
+        $query .= ' JOIN ' . $this->database->escape_table_name(CourseUserRelation :: get_table_name()) . ' AS ' . $course_relation_alias . ' ON ' . $this->database->escape_column_name(Course :: PROPERTY_ID, $course_alias) . '=' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_COURSE, $course_relation_alias);
+;
         return $this->database->count_result_set($query, Course :: get_table_name(), $condition);
     }
 
