@@ -112,7 +112,12 @@ require_once Path :: get_library_path() . 'core_application.class.php';
 
     public function get_manage_roles_cat_url($webserviceCategory)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGE_ROLES, self :: PARAM_WEBSERVICE_CATEGORY_ID => $webserviceCategory->get_id()));
+		if(!$webserviceCategory)
+			$webserviceCategory = 0;
+		else
+			$webserviceCategory = $webserviceCategory->get_id();
+			
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGE_ROLES, self :: PARAM_WEBSERVICE_CATEGORY_ID => $webserviceCategory));
 	}
 
     public static function get_tool_bar_item($id)
