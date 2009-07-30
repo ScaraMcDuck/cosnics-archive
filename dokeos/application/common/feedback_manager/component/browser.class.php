@@ -143,12 +143,9 @@ class FeedbackManagerBrowserComponent extends FeedbackManagerComponent {
 
     function render_create_action()
     {
-        //aanpassen
         $create_url = $this->get_url(array(FeedbackManager::PARAM_ACTION => FeedbackManager::ACTION_CREATE_FEEDBACK,'pid' => $this->pid, 'cid' => $this->cid , 'user_id' => $this->user_id , 'action' => $this->action));
-       // $create_link = '<a style="float: right" href="'.$create_url.'"><img src="'.Theme :: get_common_image_path().'action_create.png"  alt=""/>'.Translation::get('CreateFeedback').'</a><br><br>';
         $item = new ToolbarItem(Translation :: get('CreateFeedback'), Theme :: get_common_image_path().'action_create.png', $create_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL);
         $this->get_parent()->add_actionbar_item($item);
-        //return $create_link;
     }
 
     function render_publication_information($feedback)
