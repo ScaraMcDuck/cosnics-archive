@@ -7,7 +7,7 @@
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once Path :: get_library_path().'import/import.class.php';
 require_once dirname(__FILE__).'/course.class.php';
-require_once dirname(__FILE__).'/course_category.class.php';
+require_once dirname(__FILE__).'/../category_manager/course_category.class.php';
 require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 
 ini_set("max_execution_time", -1);
