@@ -8,15 +8,16 @@
  *
  * @author Hans De Bisschop
  */
-class LearningObjectPublicationCourseGroup
+class CalendarEventPublicationGroup
 {
 	const CLASS_NAME = __CLASS__;
+	const TABLE_NAME = 'publication_group';
 
 	/**
 	 * LearningObjectPublicationCourseGroup properties
 	 */
 	const PROPERTY_PUBLICATION = 'publication';
-	const PROPERTY_COURSE_GROUP_ID = 'course_group_id';
+	const PROPERTY_GROUP_ID = 'group_id';
 
 	/**
 	 * Default properties stored in an associative array.
@@ -27,7 +28,7 @@ class LearningObjectPublicationCourseGroup
 	 * Creates a new LearningObjectPublicationCourseGroup object
 	 * @param array $defaultProperties The default properties
 	 */
-	function LearningObjectPublicationCourseGroup($defaultProperties = array ())
+	function CalendarEventPublicationGroup($defaultProperties = array ())
 	{
 		$this->defaultProperties = $defaultProperties;
 	}
@@ -56,7 +57,7 @@ class LearningObjectPublicationCourseGroup
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_PUBLICATION, self :: PROPERTY_COURSE_GROUP_ID);
+		return array (self :: PROPERTY_PUBLICATION, self :: PROPERTY_GROUP_ID);
 	}
 
 	/**
@@ -98,41 +99,41 @@ class LearningObjectPublicationCourseGroup
 	 * Returns the course_group_id of this LearningObjectPublicationCourseGroup.
 	 * @return the course_group_id.
 	 */
-	function get_course_group_id()
+	function get_group_id()
 	{
-		return $this->get_default_property(self :: PROPERTY_COURSE_GROUP_ID);
+		return $this->get_default_property(self :: PROPERTY_GROUP_ID);
 	}
 
 	/**
 	 * Sets the course_group_id of this LearningObjectPublicationCourseGroup.
 	 * @param course_group_id
 	 */
-	function set_course_group_id($course_group_id)
+	function set_group_id($group_id)
 	{
-		$this->set_default_property(self :: PROPERTY_COURSE_GROUP_ID, $course_group_id);
+		$this->set_default_property(self :: PROPERTY_GROUP_ID, $group_id);
 	}
 
 	function delete()
 	{
-		$dm = WeblcmsDataManager :: get_instance();
-		return $dm->delete_learning_object_publication_course_group($this);
+		$dm = PersonalCalendarDataManager :: get_instance();
+		return $dm->delete_calendar_event_publication_group($this);
 	}
 
 	function create()
 	{
-		$dm = WeblcmsDataManager :: get_instance();
-       	return $dm->create_learning_object_publication_course_group($this);
+		$dm = PersonalCalendarDataManager :: get_instance();
+       	return $dm->create_calendar_event_publication_group($this);
 	}
 
 	function update()
 	{
-		$dm = WeblcmsDataManager :: get_instance();
-		return $dm->update_learning_object_publication_course_group($this);
+		$dm = PersonalCalendarDataManager :: get_instance();
+		return $dm->update_calendar_event_publication_group($this);
 	}
 
 	static function get_table_name()
 	{
-		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+		return self :: TABLE_NAME;
 	}
 }
 

@@ -33,6 +33,11 @@ class CalendarEventPublicationForm extends FormValidator
 	 * The publication that will be changed (when using this form to edit a
 	 * publication)
 	 */
+	private $publication;
+	/**
+	 * The publication that will be changed (when using this form to edit a
+	 * publication)
+	 */
 	private $form_user;
 
 	private $form_type;
@@ -94,19 +99,6 @@ class CalendarEventPublicationForm extends FormValidator
     function build_form()
     {
     	$shares = array ();
-    	// TODO: Make publications editable
-//    	if ($publication)
-//    	{
-//			$publication = $this->publication;
-//			$recip = $publication->get_publication_sender();
-//			$recipient = array ();
-//			$recipient['id'] = $recip->get_id();
-//			$recipient['class'] = 'type type_user';
-//			$recipient['title'] = $recip->get_username();
-//			$recipient['description'] = $recip->get_lastname() . ' ' . $recip->get_firstname();
-//			$recipients[$recipient['id']] = $recipient;
-//    	}
-
 		$attributes = array();
 		$attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
 		$locale = array ();
@@ -118,7 +110,7 @@ class CalendarEventPublicationForm extends FormValidator
 		$attributes['exclude'] = array('user_' . $this->form_user->get_id());
 		$attributes['defaults'] = array();
 
-		$this->add_receivers(self :: PARAM_SHARE, Translation :: get('ShareWith'), $attributes);
+		$this->add_receivers(self :: PARAM_SHARE, Translation :: get('ShareWith'), $attributes, 'Nobody');
     }
 
     function add_footer()
@@ -137,7 +129,7 @@ class CalendarEventPublicationForm extends FormValidator
     function create_learning_object_publication()
     {
 		$values = $this->exportValues();
-		$shares = $values['share'];
+		$shares = $values[self :: PARAM_SHARE_ELEMENTS];
 
 		$pub = new CalendarEventPublication();
 		$pub->set_calendar_event($this->learning_object->get_id());
@@ -179,6 +171,71 @@ class CalendarEventPublicationForm extends FormValidator
 			}
     	}
     	return true;
+    }
+    
+    function set_publication($publication)
+    {
+    	$this->publication = $publication;
+		$this->addElement('hidden','pid');
+		$this->addElement('hidden','action');
+		$defaults['action'] = 'edit';
+		$defaults['pid'] = $publication->get_id();
+		
+		$udm = UserDataManager :: get_instance();
+		$gdm = GroupDataManager :: get_instance();
+
+		$target_groups = $this->publication->get_target_groups();
+		$target_users = $this->publication->get_target_users();
+
+		$defaults[self :: PARAM_SHARE_ELEMENTS] = array();
+		foreach($target_groups as $target_group)
+		{
+		    $group = $gdm->retrieve_group($target_group);
+
+		    $selected_group = array ();
+            $selected_group['id'] = 'group_' . $group->get_id();
+            $selected_group['classes'] = 'type type_group';
+            $selected_group['title'] = $group->get_name();
+            $selected_group['description'] = $group->get_description();
+
+            $defaults[self :: PARAM_SHARE_ELEMENTS][$selected_group['id']] = $selected_group;
+		}
+    	foreach($target_users as $target_user)
+		{
+		    $user = $udm->retrieve_user($target_user);
+
+		    $selected_user = array ();
+            $selected_user['id'] = 'user_' . $user->get_id();
+            $selected_user['classes'] = 'type type_user';
+            $selected_user['title'] = $user->get_fullname();
+            $selected_user['description'] = $user->get_username();
+
+            $defaults[self :: PARAM_SHARE_ELEMENTS][$selected_user['id']] = $selected_user;
+		}
+
+		if (count($defaults[self :: PARAM_SHARE_ELEMENTS]) > 0)
+		{
+            $defaults[self :: PARAM_SHARE_OPTION] = '1';
+		}
+
+		$active = $this->getElement(self :: PARAM_SHARE_ELEMENTS);
+		$active->_elements[0]->setValue(serialize($defaults[self :: PARAM_SHARE_ELEMENTS]));
+
+		parent::setDefaults($defaults);
+    }
+    
+    function update_calendar_event_publication()
+    {
+		$values = $this->exportValues();
+
+		$users = $values[self :: PARAM_SHARE_ELEMENTS]['user'];
+		$groups = $values[self :: PARAM_SHARE_ELEMENTS]['group'];
+
+		$pub = $this->publication;
+		$pub->set_target_users($users);
+		$pub->set_target_groups($groups);
+		$pub->update();
+		return $pub;
     }
 }
 ?>

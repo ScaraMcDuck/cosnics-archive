@@ -5,6 +5,8 @@
  */
 require_once dirname(__FILE__) . '/../personal_calendar_data_manager.class.php';
 require_once dirname(__FILE__) . '/../calendar_event_publication.class.php';
+require_once dirname(__FILE__) . '/../calendar_event_publication_user.class.php';
+require_once dirname(__FILE__) . '/../calendar_event_publication_group.class.php';
 require_once Path :: get_library_path() . 'condition/condition_translator.class.php';
 require_once Path :: get_library_path() . 'database/database.class.php';
 require_once 'MDB2.php';
@@ -184,6 +186,22 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
     //Inherited.
     function update_calendar_event_publication($calendar_event_publication)
     {
+        // Delete target users and groups
+        $condition = new EqualityCondition('publication', $calendar_event_publication->get_id());
+        $this->database->delete_objects(CalendarEventPublicationUser :: get_table_name(), $condition);
+        $this->database->delete_objects(CalendarEventPublicationGroup :: get_table_name(), $condition);
+
+        // Add updated target users and groups        
+        if(!$this->create_calendar_event_publication_users($calendar_event_publication))
+        {
+        	return false;
+        }
+        
+        if(!$this->create_calendar_event_publication_groups($calendar_event_publication))
+        {
+        	return false;
+        }
+    	
         $condition = new EqualityCondition(CalendarEventPublication :: PROPERTY_ID, $calendar_event_publication->get_id());
         return $this->database->update($calendar_event_publication, $condition);
     }
@@ -221,43 +239,98 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 
     function create_calendar_event_publication($publication)
     {
-        if ($this->database->create($publication))
-        {
-            $users = $publication->get_target_users();
-            foreach ($users as $user_id)
-            {
-                $props = array();
-                $props[$this->escape_column_name('publication')] = $publication->get_id();
-                $props[$this->escape_column_name('user')] = $user_id;
-                $this->database->get_connection()->extended->autoExecute($this->database->get_table_name('publication_user'), $props, MDB2_AUTOQUERY_INSERT);
-            }
-            $groups = $publication->get_target_groups();
-            foreach ($groups as $group_id)
-            {
-                $props = array();
-                $props[$this->escape_column_name('publication')] = $publication->get_id();
-                $props[$this->escape_column_name('group_id')] = $group_id;
-                $this->database->get_connection()->extended->autoExecute($this->database->get_table_name('publication_group'), $props, MDB2_AUTOQUERY_INSERT);
-            }
-
-            return true;
-        }
-        else
+        if (! $this->database->create($publication))
         {
             return false;
         }
+        
+        if(!$this->create_calendar_event_publication_users($publication))
+        {
+        	return false;
+        }
+        
+        if(!$this->create_calendar_event_publication_groups($publication))
+        {
+        	return false;
+        }
+        
+        return true;
+    }
+    
+    function create_calendar_event_publication_user($publication_user)
+    {
+        return $this->database->create($publication_user);
+    }
+    
+    function create_calendar_event_publication_users($publication)
+    {
+        $users = $publication->get_target_users();
+
+        foreach ($users as $index => $user_id)
+        {
+        	$publication_user = new CalendarEventPublicationUser();
+        	$publication_user->set_publication($publication->get_id());
+        	$publication_user->set_user($user_id);
+        	
+        	if (!$publication_user->create())
+        	{
+        		return false;
+        	}
+        }
+        
+        return true;
+    }
+    
+    function create_calendar_event_publication_group($publication_group)
+    {
+        return $this->database->create($publication_group);
+    }
+    
+    function create_calendar_event_publication_groups($publication)
+    {
+    	$groups = $publication->get_target_groups();
+    	
+    	foreach ($groups as $index => $group_id)
+        {
+            $publication_group = new CalendarEventPublicationGroup();
+        	$publication_group->set_publication($publication->get_id());
+        	$publication_group->set_group_id($group_id);
+        	
+        	if (!$publication_group->create())
+        	{
+        		return false;
+        	}
+        }
+        
+        return true;
     }
 
     function retrieve_calendar_event_publication_target_groups($calendar_event_publication)
     {
-        dump($calendar_event_publication);
-        return array();
+    	$condition = new EqualityCondition(CalendarEventPublicationGroup :: PROPERTY_PUBLICATION, $calendar_event_publication->get_id());
+    	$groups = $this->database->retrieve_objects(CalendarEventPublicationGroup :: get_table_name(), $condition, null, null, array(), array(), CalendarEventPublicationGroup :: CLASS_NAME);
+    	
+        $target_groups = array();
+        while ($group = $groups->next_result())
+        {
+            $target_groups[] = $group->get_group_id();
+        }
+
+        return $target_groups;
     }
 
     function retrieve_calendar_event_publication_target_users($calendar_event_publication)
     {
-        dump($calendar_event_publication);
-        return array();
+    	$condition = new EqualityCondition(CalendarEventPublicationUser :: PROPERTY_PUBLICATION, $calendar_event_publication->get_id());
+    	$users = $this->database->retrieve_objects(CalendarEventPublicationUser :: get_table_name(), $condition, null, null, array(), array(), CalendarEventPublicationUser :: CLASS_NAME);
+    	
+        $target_users = array();
+        while ($user = $users->next_result())
+        {
+            $target_users[] = $user->get_user();
+        }
+
+        return $target_users;
     }
 }
 ?>

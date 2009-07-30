@@ -348,5 +348,10 @@ class PersonalCalendarManager extends WebApplication
 
 		return $this->get_link($parameters);
 	}
+	
+	function get_user_info($user_id)
+	{
+		return UserDataManager :: get_instance()->retrieve_user($user_id);
+	}
 }
 ?>

@@ -11,8 +11,8 @@ require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.c
 
 class PersonalCalendarManagerViewerComponent extends PersonalCalendarManagerComponent
 {
-    private $folder;
-    private $publication;
+    private $event;
+    private $action_bar;
 
     /**
      * Runs this component and displays its output.
@@ -23,19 +23,19 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManagerComp
 
         if ($id)
         {
-            $event = $this->retrieve_calendar_event_publication($id);
+            $this->event = $this->retrieve_calendar_event_publication($id);
 
             $trail = new BreadcrumbTrail();
             $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR)), Translation :: get('PersonalCalendar')));
-            $trail->add(new Breadcrumb($this->get_url(array(PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID => $id)), $event->get_publication_object()->get_title()));
+            $trail->add(new Breadcrumb($this->get_url(array(PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID => $id)), $this->event->get_publication_object()->get_title()));
             $trail->add_help('personal calender general');
 
-            $action_bar = $this->get_action_bar();
-            $output = $this->get_publication_as_html($event, $action_bar);
+            $this->action_bar = $this->get_action_bar();
+            $output = $this->get_publication_as_html();
 
             $this->display_header($trail);
             echo '<br /><a name="top"></a>';
-            echo $action_bar->as_html() . '<br />';
+            echo $this->action_bar->as_html() . '<br />';
             echo '<div id="action_bar_browser">';
             echo $output;
             echo '</div>';
@@ -48,8 +48,11 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManagerComp
         }
     }
 
-    function get_publication_as_html($event, $action_bar)
+    function get_publication_as_html()
     {
+    	$event = $this->event;
+    	$action_bar = $this->action_bar;
+    	
         $learning_object = $event->get_publication_object();
         $display = LearningObjectDisplay :: factory($learning_object);
         $html = array();
@@ -67,6 +70,11 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManagerComp
         $html[] =   '<div style="float: left; width: 80%;">';
 
         $html[] = $display->get_full_html();
+		$html[] = '<div class="event_publication_info">';
+        $html[] = htmlentities(Translation :: get('PublishedOn')) . ' ' . $this->render_publication_date();
+        $html[] = htmlentities(Translation :: get('By')) . ' ' . $this->render_repo_viewer($publication);
+        $html[] = htmlentities(Translation :: get('SharedWith')) . ' ' . $this->render_publication_targets();
+        $html[] = '</div>';
 
         $back = $this->get_url();
         $edit_url = $this->get_publication_editing_url($event);
@@ -79,6 +87,63 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManagerComp
         $html[] =   '</div>';
 
         return implode("\n",$html);
+    }
+    
+    function render_repo_viewer()
+    {
+        $user = $this->event->get_publication_publisher();
+        return $user->get_firstname().' '.$user->get_lastname();
+    }
+    
+	function render_publication_date()
+    {
+        $date_format = Translation :: get('dateTimeFormatLong');
+        return Text :: format_locale_date($date_format, $this->event->get_published());
+    }
+    
+    function render_publication_targets()
+    {
+    	$event = $this->event;
+    	
+        if ($event->is_for_everybody())
+        {
+            return htmlentities(Translation :: get('Everybody'));
+        }
+        else
+        {
+            $users = $event->get_target_users();            
+            $groups = $event->get_target_groups();
+            if(count($users) + count($groups) == 1)
+            {
+                if(count($users) == 1)
+                {
+                    $user = $this->get_user_info($users[0]);
+                    return $user->get_firstname().' '.$user->get_lastname().$email_suffix;
+                }
+                else
+                {
+                    $gdm = GroupDatamanager::get_instance();
+                    $group = $gdm->retrieve_group($groups[0]);
+                    return $group->get_name();
+                }
+            }
+            $target_list = array ();
+            $target_list[] = '<select>';
+            foreach ($users as $index => $user_id)
+            {
+                $user = $this->get_user_info($user_id);
+                $target_list[] = '<option>'.$user->get_firstname().' '.$user->get_lastname().'</option>';
+            }
+            foreach ($groups as $index => $group_id)
+            {
+                $gdm = GroupDatamanager::get_instance();
+                //Todo: make this more efficient. Get all course_groups using a single query
+                $group = $gdm->retrieve_group($group_id);
+                $target_list[] = '<option>'.$group->get_name().'</option>';
+            }
+            $target_list[] = '</select>';
+            return implode("\n", $target_list);
+        }
     }
 
     function get_action_bar()

@@ -121,7 +121,6 @@ class LearningObjectPublicationUser
 	function create()
 	{
 		$dm = WeblcmsDataManager :: get_instance();
-		$this->set_id($dm->get_next_learning_object_publication_user_id());
        	return $dm->create_learning_object_publication_user($this);
 	}
 

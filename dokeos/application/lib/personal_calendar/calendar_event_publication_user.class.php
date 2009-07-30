@@ -4,19 +4,20 @@
  */
 
 /**
- * This class describes a LearningObjectPublicationCourseGroup data object
+ * This class describes a LearningObjectPublicationUser data object
  *
  * @author Hans De Bisschop
  */
-class LearningObjectPublicationCourseGroup
+class CalendarEventPublicationUser
 {
 	const CLASS_NAME = __CLASS__;
+	const TABLE_NAME = 'publication_user';
 
 	/**
-	 * LearningObjectPublicationCourseGroup properties
+	 * LearningObjectPublicationUser properties
 	 */
 	const PROPERTY_PUBLICATION = 'publication';
-	const PROPERTY_COURSE_GROUP_ID = 'course_group_id';
+	const PROPERTY_USER = 'user';
 
 	/**
 	 * Default properties stored in an associative array.
@@ -24,10 +25,10 @@ class LearningObjectPublicationCourseGroup
 	private $defaultProperties;
 
 	/**
-	 * Creates a new LearningObjectPublicationCourseGroup object
+	 * Creates a new LearningObjectPublicationUser object
 	 * @param array $defaultProperties The default properties
 	 */
-	function LearningObjectPublicationCourseGroup($defaultProperties = array ())
+	function CalendarEventPublicationUser($defaultProperties = array ())
 	{
 		$this->defaultProperties = $defaultProperties;
 	}
@@ -56,7 +57,7 @@ class LearningObjectPublicationCourseGroup
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_PUBLICATION, self :: PROPERTY_COURSE_GROUP_ID);
+		return array (self :: PROPERTY_PUBLICATION, self :: PROPERTY_USER);
 	}
 
 	/**
@@ -78,7 +79,7 @@ class LearningObjectPublicationCourseGroup
 	}
 
 	/**
-	 * Returns the publication of this LearningObjectPublicationCourseGroup.
+	 * Returns the publication of this LearningObjectPublicationUser.
 	 * @return the publication.
 	 */
 	function get_publication()
@@ -87,7 +88,7 @@ class LearningObjectPublicationCourseGroup
 	}
 
 	/**
-	 * Sets the publication of this LearningObjectPublicationCourseGroup.
+	 * Sets the publication of this LearningObjectPublicationUser.
 	 * @param publication
 	 */
 	function set_publication($publication)
@@ -95,44 +96,44 @@ class LearningObjectPublicationCourseGroup
 		$this->set_default_property(self :: PROPERTY_PUBLICATION, $publication);
 	}
 	/**
-	 * Returns the course_group_id of this LearningObjectPublicationCourseGroup.
-	 * @return the course_group_id.
+	 * Returns the user of this LearningObjectPublicationUser.
+	 * @return the user.
 	 */
-	function get_course_group_id()
+	function get_user()
 	{
-		return $this->get_default_property(self :: PROPERTY_COURSE_GROUP_ID);
+		return $this->get_default_property(self :: PROPERTY_USER);
 	}
 
 	/**
-	 * Sets the course_group_id of this LearningObjectPublicationCourseGroup.
-	 * @param course_group_id
+	 * Sets the user of this LearningObjectPublicationUser.
+	 * @param user
 	 */
-	function set_course_group_id($course_group_id)
+	function set_user($user)
 	{
-		$this->set_default_property(self :: PROPERTY_COURSE_GROUP_ID, $course_group_id);
+		$this->set_default_property(self :: PROPERTY_USER, $user);
 	}
 
 	function delete()
 	{
-		$dm = WeblcmsDataManager :: get_instance();
-		return $dm->delete_learning_object_publication_course_group($this);
+		$dm = PersonalCalendarDataManager :: get_instance();
+		return $dm->delete_calendar_event_publication_user($this);
 	}
 
 	function create()
 	{
-		$dm = WeblcmsDataManager :: get_instance();
-       	return $dm->create_learning_object_publication_course_group($this);
+		$dm = PersonalCalendarDataManager :: get_instance();
+       	return $dm->create_calendar_event_publication_user($this);
 	}
 
 	function update()
 	{
-		$dm = WeblcmsDataManager :: get_instance();
-		return $dm->update_learning_object_publication_course_group($this);
+		$dm = PersonalCalendarDataManager :: get_instance();
+		return $dm->update_calendar_event_publication_user($this);
 	}
 
 	static function get_table_name()
 	{
-		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+		return self :: TABLE_NAME;
 	}
 }
 

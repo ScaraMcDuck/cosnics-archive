@@ -5,6 +5,7 @@
 require_once dirname(__FILE__).'/../personal_calendar_manager.class.php';
 require_once dirname(__FILE__).'/../personal_calendar_manager_component.class.php';
 require_once dirname(__FILE__).'/../../renderer/personal_calendar_mini_month_renderer.class.php';
+require_once dirname(__FILE__).'/../../calendar_event_publication_form.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once Path :: get_repository_path() . 'lib/learning_object_display.class.php';
 require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
@@ -12,9 +13,6 @@ require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.c
 
 class PersonalCalendarManagerEditorComponent extends PersonalCalendarManagerComponent
 {
-    private $folder;
-    private $publication;
-
     /**
      * Runs this component and displays its output.
      */
@@ -44,16 +42,34 @@ class PersonalCalendarManagerEditorComponent extends PersonalCalendarManagerComp
             $trail->add_help('personal calender general');
 
             $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_EDIT_PUBLICATION, PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID => $calendar_event_publication->get_id())));
-            if( $form->validate())
+            
+            if( $form->validate() || Request :: get('validated'))
             {
-                $success = $form->update_learning_object();
+            	if(!Request :: get('validated'))
+				{
+                	$success = $form->update_learning_object();
+				}
+				
                 if($form->is_version())
                 {
-                    $publication->set_learning_object($learning_object->get_latest_version());
-                    $publication->update();
+                    $calendar_event_publication->set_learning_object($learning_object->get_latest_version());
+                    $calendar_event_publication->update();
                 }
-
-                $this->redirect(Translation :: get(($success ? 'CalendarEventPublicationUpdated' : 'CalendarEventPublicationNotUpdated')), ($success ? false : true), array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR));
+                
+				$publication_form = new CalendarEventPublicationForm(CalendarEventPublicationForm :: TYPE_SINGLE, $learning_object, $user, $this->get_url(array(PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID => $calendar_event_publication->get_id(), 'validated' => 1)));
+				$publication_form->set_publication($calendar_event_publication);
+				
+				if($publication_form->validate())
+				{
+					$success = $publication_form->update_calendar_event_publication();
+					$this->redirect(Translation :: get(($success ? 'CalendarEventPublicationUpdated' : 'CalendarEventPublicationNotUpdated')), ($success ? false : true), array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR));
+				}
+            	else
+				{
+					$this->display_header($trail, true);
+					$publication_form->display();
+					$this->display_footer();
+				}
             }
             else
             {
