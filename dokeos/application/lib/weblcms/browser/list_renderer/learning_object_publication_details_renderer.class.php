@@ -53,6 +53,8 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		//dump($this->browser->get_parent()->get_course());
                 
 		//$html[] = $pub->as_html();
+
+        $html[] = $this->get_feedback();
 		return implode("\n", $html);
 	}
 
