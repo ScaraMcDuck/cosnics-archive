@@ -104,7 +104,7 @@ $(function ()
 		var visibleNumber = numberOfOptions - skippedOptions + 1;
 		
 		parameters = { width: '100%', height: '65', toolbarSet: 'RepositoryQuestion', toolbarExpanded: false};
-		editorName = 'option[' + numberOfOptions + ']';
+		editorName = 'comment[' + numberOfOptions + ']';
 	
 		fieldAnswer = '<textarea name="option[' + numberOfOptions + ']" style="width: 100%; height: 65px;"></textarea>';
 		fieldFeedback = renderFckEditor(editorName, parameters);
