@@ -175,7 +175,7 @@ class CourseModuleLastAccess
 	function create()
 	{
 		$dm = WeblcmsDataManager :: get_instance();
-		$this->set_id($dm->get_next_course_module_last_access_id());
+		//$this->set_id($dm->get_next_course_module_last_access_id());
        	return $dm->create_course_module_last_access($this);
 	}
 
