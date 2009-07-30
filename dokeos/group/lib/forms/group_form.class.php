@@ -43,7 +43,7 @@ class GroupForm extends FormValidator {
 		$this->addElement('select', Group :: PROPERTY_PARENT, Translation :: get('Location'), $this->get_groups());
 		$this->addRule(Group :: PROPERTY_PARENT, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		$this->add_html_editor(Group :: PROPERTY_DESCRIPTION, Translation :: get('Description'), true);
+		$this->add_html_editor(Group :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
 		$this->addRule(Group :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
 
 		// Roles element finder

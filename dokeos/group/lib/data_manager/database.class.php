@@ -238,12 +238,14 @@ class DatabaseGroupDataManager extends GroupDataManager
 
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this->database, $params, false);
+			$translator = new ConditionTranslator($this->database, $params);
             $query .= $translator->render_query($condition);
-            $params = $translator->get_parameters();
+            $params2 = $translator->get_parameters();
 		}
+		
+		$params[] = $params2[0];
 
-		$statement = $this->database->get_connection()->prepare($query);
+		$statement = $this->database->get_connection()->prepare($query); dump($statement);
 		// TODO: Some error-handling please !
 		$res = $statement->execute($params);
 
@@ -257,10 +259,12 @@ class DatabaseGroupDataManager extends GroupDataManager
 
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this->database, $params, false);
+			$translator = new ConditionTranslator($this->database, $params);
             $query .= $translator->render_query($condition);
-            $params = $translator->get_parameters();
+            $params2 = $translator->get_parameters();
 		}
+		
+		$params[] = $params2[0];
 
 		$statement = $this->database->get_connection()->prepare($query);
 		// TODO: Some error-handling please !
