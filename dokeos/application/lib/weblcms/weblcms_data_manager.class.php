@@ -605,15 +605,7 @@ abstract class WeblcmsDataManager
 	 * @return CourseUserCategory The course user category.
 	 */
 	abstract function retrieve_course_user_category_at_sort($user_id, $sort, $direction);
-
-	/**
-	 * Adds a course module to a course
-	 * @param string $course_code
-	 * @param string $module
-	 * @param string $section
-	 * @param boolean $visible
-	 */
-	abstract function add_course_module($course_code,$module,$section,$visible = true);
+	
 	 /**
 	  * Adds a record to the access log of a course module
 	  * @param string $course_code
