@@ -183,11 +183,11 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
 		$params = array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_STATISTICS,
 						Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'));
 
-		$this->redirect(Translation :: get('LpAttemptDeleted'), false, $params, array(WeblcmsManager :: PARAM_TOOL));
+		$this->redirect(Translation :: get('LpAttemptDeleted'), false, $params, array());
 	}
 
 	private function delete_lpi_attempt($lpi_attempt_id)
-	{
+	{ 
 		$condition = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_ID, $lpi_attempt_id);
 		$dummy = new WeblcmsLpiAttemptTracker();
 		$trackers = $dummy->retrieve_tracker_items($condition);
@@ -199,7 +199,7 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
 						'attempt_id' => Request :: get('attempt_id'),
 						'cid' => Request :: get('cid'));
 
-		$this->redirect(Translation :: get('LpiAttemptDeleted'), false, $params, array(WeblcmsManager :: PARAM_TOOL));
+		$this->redirect(Translation :: get('LpiAttemptDeleted'), false, $params, array());
 	}
 
 	private function delete_lpi_attempts_from_item($item_id)
@@ -214,7 +214,7 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
 						Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'),
 						'attempt_id' => Request :: get('attempt_id'));
 
-		$this->redirect(Translation :: get('LpiAttemptsDeleted'), false, $params, array(WeblcmsManager :: PARAM_TOOL));
+		$this->redirect(Translation :: get('LpiAttemptsDeleted'), false, $params, array());
 	}
 	
 	function can_change_answer_data()
