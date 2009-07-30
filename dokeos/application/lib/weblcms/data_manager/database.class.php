@@ -343,18 +343,13 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     }
 
     function update_learning_object_publication($publication)
-    {
+    {    	
         // Delete target users and course_groups
         $condition = new EqualityCondition('publication', $publication->get_id());
         $this->database->delete_objects('learning_object_publication_user', $condition);
         $this->database->delete_objects('learning_object_publication_course_group', $condition);
 
-        // Add updated target users and course_groups
-        $users = $publication->get_target_users();
-        $course_groups = $publication->get_target_course_groups();
-
-        $this->database->get_connection()->loadModule('Extended');
-        
+        // Add updated target users and course_groups        
         if(!$this->create_learning_object_publication_users($publication))
         {
         	return false;
@@ -1193,7 +1188,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $target_course_groups = array();
         while ($course_group = $course_groups->next_result())
         {
-            $target_course_groups[] = $course_group->get_user();
+            $target_course_groups[] = $course_group->get_course_group_id();
         }
 
         return $target_course_groups;

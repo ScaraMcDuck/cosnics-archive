@@ -99,7 +99,7 @@ abstract class LearningObjectPublicationListRenderer
         }
         else
         {
-            $users = $publication->get_target_users();
+            $users = $publication->get_target_users();            
             $course_groups = $publication->get_target_course_groups();
             if(count($users) + count($course_groups) == 1)
             {

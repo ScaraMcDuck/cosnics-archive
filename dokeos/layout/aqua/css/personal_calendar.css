@@ -12,3 +12,10 @@ div.normal_calendar
 	float: left;
 	width: 80%;
 }
+
+div.event_publication_info
+{
+	text-align: right;
+	font-style: italic;
+	margin: 1em 0;
+}

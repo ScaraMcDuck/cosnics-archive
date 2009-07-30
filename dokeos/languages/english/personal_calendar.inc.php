@@ -76,4 +76,7 @@ $lang['personal_calendar']['CalendarEventPublicationUpdated'] = 'Calendar event 
 $lang['personal_calendar']['Home'] = 'Home';
 $lang['personal_calendar']['SharedEvents'] = 'Shared events';
 $lang['personal_calendar']['SelectedPublicationDeleted'] = 'Selected publication deleted';
+$lang['personal_calendar']['PublishedOn'] = 'Published on';
+$lang['personal_calendar']['By'] = 'by';
+$lang['personal_calendar']['SharedWith'] = 'Shared with';
 ?>

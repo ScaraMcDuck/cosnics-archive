@@ -156,7 +156,7 @@ class LearningObjectPublication
 		if (!isset($this->target_users))
 		{
 			$wdm = WeblcmsDataManager :: get_instance();
-			$this->target_groups = $wdm->retrieve_learning_object_publication_target_users($this);
+			$this->target_users = $wdm->retrieve_learning_object_publication_target_users($this);
 		}
 
 		return $this->target_users;
@@ -172,7 +172,7 @@ class LearningObjectPublication
 		if (!isset($this->target_course_groups))
 		{
 			$wdm = WeblcmsDataManager :: get_instance();
-			$this->target_groups = $wdm->retrieve_learning_object_publication_target_course_groups($this);
+			$this->target_course_groups = $wdm->retrieve_learning_object_publication_target_course_groups($this);
 		}
 
 		return $this->target_course_groups;
@@ -284,7 +284,7 @@ class LearningObjectPublication
 
     function is_for_everybody()
     {
-        return (! count($this->get_target_users()) && ! count($this->get_target_course_groups()));
+        return (count($this->get_target_users()) == 0 && count($this->get_target_course_groups()) == 0);
     }
 
     function is_visible_for_target_users()
@@ -332,14 +332,14 @@ class LearningObjectPublication
         $this->set_default_property(self :: PROPERTY_CATEGORY_ID, $category);
     }
 
-    function set_target_users($targetUsers)
+    function set_target_users($target_users)
     {
-        $this->targetUsers = $targetUsers;
+        $this->target_users = $target_users;
     }
 
-    function set_target_course_groups($targetCourseGroups)
+    function set_target_course_groups($target_course_groups)
     {
-        $this->targetCourseGroups = $targetCourseGroups;
+        $this->target_course_groups = $target_course_groups;
     }
 
     function set_from_date($from_date)

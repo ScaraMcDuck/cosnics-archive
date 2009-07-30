@@ -257,6 +257,11 @@ class CalendarEventPublication
 	{
 		$this->target_groups = $target_groups;
 	}
+	
+    function is_for_everybody()
+    {
+        return (count($this->get_target_users()) == 0 && count($this->get_target_groups()) == 0);
+    }
 
 	static function get_table_name()
 	{
