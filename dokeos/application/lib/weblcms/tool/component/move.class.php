@@ -21,7 +21,7 @@ class ToolMoveComponent extends ToolComponent
 				$message = htmlentities(Translation :: get('LearningObjectPublicationMoved'));
 				//$this->redirect($message, false, array());
 			}
-			$this->redirect($message, false, array());
+			$this->redirect($message, false, array('tool_action' => null));
 		}
 	}
 }
