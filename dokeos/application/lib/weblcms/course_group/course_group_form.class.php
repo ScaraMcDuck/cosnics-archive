@@ -39,7 +39,7 @@ class CourseGroupForm extends FormValidator {
     {
 		$this->addElement('text', CourseGroup :: PROPERTY_NAME, Translation :: get('Title'), array("size" => "50"));
 		$this->addRule(CourseGroup :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
-		$this->add_html_editor(CourseGroup :: PROPERTY_DESCRIPTION, Translation :: get('Description'));
+		$this->add_html_editor(CourseGroup :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
 		$this->addElement('text', CourseGroup::PROPERTY_MAX_NUMBER_OF_MEMBERS,Translation :: get('MaxNumberOfMembers'),'size="4"');
 		$this->addRule(CourseGroup::PROPERTY_MAX_NUMBER_OF_MEMBERS, Translation :: get('ThisFieldShouldBeNumeric'), 'regex','/^[0-9]*$/');
 		$this->addElement('checkbox',CourseGroup::PROPERTY_SELF_REG,Translation :: get('Registration'),Translation :: get('SelfRegAllowed'));
