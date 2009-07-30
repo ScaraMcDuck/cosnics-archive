@@ -28,24 +28,23 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
 		{
 			if(!$this->lpi_ref_object || $this->lpi_ref_object->get_id() != $lo->get_reference())
 			{
-				$ref_lo = RepositoryDataManager :: get_instance()->retrieve_learning_object($lo->get_reference());
-				$this->lpi_ref_object = $ref_lo;
+				$lo = RepositoryDataManager :: get_instance()->retrieve_learning_object($lo->get_reference());
+				$this->lpi_ref_object = $lo;
 			}
 			else
 			{
-				$ref_lo = $this->lpi_ref_object;
+				$lo = $this->lpi_ref_object;
 			}
 		}
-
 		switch ($column->get_name())
 		{
 			case Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_TITLE)) :
-				$title = htmlspecialchars($ref_lo->get_title());
+				$title = htmlspecialchars($lo->get_title());
 				$title_short = $title;
 
                 $title_short = DokeosUtilities::truncate_string($title_short,53,false);
 
-				if($ref_lo->get_type() == 'learning_path')
+				if($lo->get_type() == 'learning_path')
 				{
 					$title_short = '<a href="' . $this->browser->get_url(
 						array(ComplexBuilder :: PARAM_ROOT_LO => $this->browser->get_root(),
@@ -55,7 +54,7 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
 				return $title_short;
 		}
 
-		return parent :: render_cell($column, $cloi, $ref_lo);
+		return parent :: render_cell($column, $cloi, $lo);
 	}
 
 }
