@@ -25,16 +25,21 @@ class FeedbackManagerBrowserComponent extends FeedbackManagerComponent {
     private $html;
 
 
-    function run (){
+    function run ()
+    {
+        echo $this->as_html();
+    }
 
-        $this->pid = Request :: get('pid');
+    function as_html()
+    {
+                $this->pid = Request :: get('pid');
         $this->user_id =Request :: get('user_id');
         $this->cid = Request :: get('cid');
         $this->action = Request :: get ('action');
         $application = $this->get_parent()->get_application();
 
         $html = array();
-        
+
 
             $url = $this->get_url(array('pid' => $this->pid, 'cid' => $this->cid , 'user_id' => $this->user_id , 'action' => $this->action));
         $form = new FeedbackForm($url);
@@ -53,7 +58,7 @@ class FeedbackManagerBrowserComponent extends FeedbackManagerComponent {
             $html[] = $this->render_create_action();
 
             $feedbackpublications = $this->retrieve_feedback_publications($this->pid,$this->cid,$application);
-           
+
             $nofeedbacks = AdminDataManager::get_instance()->count_feedback_publications($this->pid, $this->cid, $application);
            //
 
@@ -71,24 +76,18 @@ class FeedbackManagerBrowserComponent extends FeedbackManagerComponent {
             }
 
             // form to enter feedbacK
-           
+
           if ( $counter >3)
           {
               $html[] = '</div>';
           }
-           $form->display();
+          $html[] = $form->toHtml();
 
            $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/feedback_list.js' .'"></script>';
         }
 
         $this->html = $html;
 
-        echo implode("\n", $html);
-    }
-
-    function as_html()
-    {
-        $this->run();
         return implode("\n", $this->html);
     }
 
