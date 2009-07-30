@@ -47,6 +47,9 @@ class FeedbackManagerBrowserComponent extends FeedbackManagerComponent {
         if($form->validate())
         {
             $success = $form->create_feedback($this->get_user()->get_id(),$this->pid,$this->cid,$application);
+            $object = RepositoryDataManager::get_instance()->retrieve_learning_object($this->pid);
+            $object->set_modification_date(time());
+            $object->update();
             $this->redirect($success?"":Translation::get('FeedbackNotCreated'), $success?null:true, array('pid' => $this->pid, 'cid' => $this->cid , 'user_id' => $this->user_id , 'action' => $this->action));
 
         }
