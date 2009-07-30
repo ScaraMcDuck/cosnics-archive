@@ -67,8 +67,11 @@ class DocumentToolViewerComponent extends DocumentToolComponent
 				echo $this->display_introduction_text($this->introduction_text);
 			}
 		}
+        $html = $browser->as_html();
 		echo $this->action_bar->as_html();
-		echo $browser->as_html();
+		echo '<div id="action_bar_browser">';
+		echo $html;
+		echo '</div>';
 
 		$this->display_footer();
 	}
