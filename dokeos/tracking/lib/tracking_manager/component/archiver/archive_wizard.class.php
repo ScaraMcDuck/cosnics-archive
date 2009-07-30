@@ -6,12 +6,12 @@ require_once 'HTML/QuickForm/Controller.php';
 require_once 'HTML/QuickForm/Rule.php';
 require_once 'HTML/QuickForm/Action/Display.php';
 
-require_once dirname(__FILE__) . '/wizard/archive_wizard_page.class.php';
-require_once dirname(__FILE__) . '/wizard/archive_wizard_display.class.php';
-require_once dirname(__FILE__) . '/wizard/archive_wizard_process.class.php';
-require_once dirname(__FILE__) . '/wizard/trackers_selection_archive_wizard_page.class.php';
-require_once dirname(__FILE__) . '/wizard/settings_archive_wizard_page.class.php';
-require_once dirname(__FILE__) . '/wizard/confirmation_archive_wizard_page.class.php';
+require_once dirname(__FILE__) . '/archive/archive_wizard_page.class.php';
+require_once dirname(__FILE__) . '/archive/archive_wizard_display.class.php';
+require_once dirname(__FILE__) . '/archive/archive_wizard_process.class.php';
+require_once dirname(__FILE__) . '/archive/trackers_selection_archive_wizard_page.class.php';
+require_once dirname(__FILE__) . '/archive/settings_archive_wizard_page.class.php';
+require_once dirname(__FILE__) . '/archive/confirmation_archive_wizard_page.class.php';
 
 /**
  * A wizard which guides the user through several steps to perform the archive
