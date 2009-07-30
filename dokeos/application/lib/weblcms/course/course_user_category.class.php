@@ -178,6 +178,11 @@ class CourseUserCategory
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
 		$this->set_id($wdm->get_next_course_user_category_id());
+		
+        $condition = new EqualityCondition(self :: PROPERTY_USER, $this->get_user());
+        $sort = $wdm->retrieve_max_sort_value(self :: get_table_name(), self :: PROPERTY_SORT, $condition);
+        $this->set_sort($sort + 1);
+		
 		$success = $wdm->create_course_user_category($this);
 		if (!$success)
 		{

@@ -13,6 +13,8 @@ require_once dirname(__FILE__) . '/../course/course.class.php';
 require_once dirname(__FILE__) . '/../course/course_section.class.php';
 require_once dirname(__FILE__) . '/../course/course_user_category.class.php';
 require_once dirname(__FILE__) . '/../course/course_user_relation.class.php';
+require_once dirname(__FILE__) . '/../course/course_module.class.php';
+require_once dirname(__FILE__) . '/../course/course_module_last_access.class.php';
 require_once dirname(__FILE__) . '/../course_group/course_group.class.php';
 require_once dirname(__FILE__) . '/../course_group/course_group_user_relation.class.php';
 require_once dirname(__FILE__) . '/../../../../repository/lib/data_manager/database.class.php';
@@ -437,36 +439,43 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
             return $this->move_learning_object_publication_down($publication, $places);
         }
     }
+    
+    function retrieve_course_module_access($condition = null, $order_by = array())
+    {
+        return $this->database->retrieve_object(CourseModuleLastAccess :: get_table_name(), $condition, $order_by);
+    }
+    
+    function retrieve_course_module_accesses($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        return $this->database->retrieve_objects(CourseModuleLastAccess :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+    }
 
     function log_course_module_access($course_code, $user_id, $module_name = null, $category_id = 0)
     {
-        $params[] = time();
-        $params[] = $course_code;
-        $params[] = $user_id;
-        $params[] = $category_id;
-        $query = 'UPDATE ' . $this->database->escape_table_name('course_module_last_access') . ' SET access_date = ? WHERE course_code = ? AND user_id = ? AND category_id = ? ';
-        if (! is_null($module_name))
-        {
-            $params[] = $module_name;
-            $query .= ' AND module_name = ? ';
-        }
-        else
-        {
-            $query .= ' AND module_name IS NULL ';
-        }
-        $statement = $this->database->get_connection()->prepare($query, null, MDB2_PREPARE_MANIP);
-        $affectedRows = $statement->execute($params);
-        if ($affectedRows == 0)
-        {
-            $props = array();
-            $props[$this->database->escape_column_name('course_code')] = $course_code;
-            $props[$this->database->escape_column_name('module_name')] = $module_name;
-            $props[$this->database->escape_column_name('user_id')] = $user_id;
-            $props[$this->database->escape_column_name('access_date')] = time();
-            $props[$this->database->escape_column_name('category_id')] = $category_id;
-            $this->database->get_connection()->loadModule('Extended');
-            $this->database->get_connection()->extended->autoExecute($this->database->get_table_name('course_module_last_access'), $props, MDB2_AUTOQUERY_INSERT);
-        }
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_COURSE_CODE, $course_code);
+    	$conditions[] = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_USER_ID, $user_id);
+    	$conditions[] = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_MODULE_NAME, $module_name);
+    	$conditions[] = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_CATEGORY_ID, $category_id);
+    	$condition = new AndCondition($conditions);
+    	
+    	$course_module_last_access = $this->retrieve_course_module_access($condition);
+    	
+    	if (!$course_module_last_access)
+    	{
+    		$course_module_last_access = new CourseModuleLastAccess();
+    		$course_module_last_access->set_course_code($course_code);
+    		$course_module_last_access->set_user_id($user_id);
+    		$course_module_last_access->set_module_name($module_name);
+    		$course_module_last_access->set_category_id($category_id);
+    		$course_module_last_access->set_access_date(time());
+    		return $course_module_last_access->create();
+    	}
+    	else
+    	{
+    		$course_module_last_access->set_access_date(time());
+    		return $course_module_last_access->update();
+    	}
     }
 
     /**
@@ -477,46 +486,52 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
      */
     function get_last_visit_date_per_course($course_code, $module_name = null)
     {
-        $params[] = $course_code;
-        $query = 'SELECT * FROM ' . $this->database->escape_table_name('course_module_last_access') . ' WHERE course_code = ? ';
-        if (! is_null($module_name))
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_COURSE_CODE, $course_code);
+		if (! is_null($module_name))
         {
-            $params[] = $module_name;
-            $query .= 'AND module_name = ? ';
+    		$conditions[] = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_MODULE_NAME, $module_name);
         }
-        $query .= ' ORDER BY access_date DESC ';
-        $this->database->get_connection()->setLimit(1);
-        $statement = $this->database->get_connection()->prepare($query);
-        $res = $statement->execute($params);
-        if ($res->numRows() == 0)
-        {
-            return 0;
-        }
-        $module = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
-        return $module->access_date;
+    	$condition = new AndCondition($conditions);
+    	
+    	$order_by = new ObjectTableOrder(CourseModuleLastAccess :: PROPERTY_ACCESS_DATE, SORT_DESC);
+    	
+    	$course_module_access = $this->retrieve_course_module_access($condition, $order_by);
+    	
+    	if (!$course_module_access)
+    	{
+    		return 0;
+    	}
+    	else
+    	{
+    		return $course_module_access->get_access_date();
+    	}
     }
 
     function get_last_visit_date($course_code, $user_id, $module_name = null, $category_id = 0)
     {
-        $params[] = $course_code;
-        $params[] = $user_id;
-        $params[] = $category_id;
-        $query = 'SELECT * FROM ' . $this->database->escape_table_name('course_module_last_access') . ' WHERE course_code = ? AND user_id = ? AND category_id = ? ';
-        if (! is_null($module_name))
+        $conditions = array();
+    	$conditions[] = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_COURSE_CODE, $course_code);
+    	$conditions[] = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_USER_ID, $user_id);
+    	$conditions[] = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_CATEGORY_ID, $category_id);
+		if (! is_null($module_name))
         {
-            $params[] = $module_name;
-            $query .= 'AND module_name = ? ';
+    		$conditions[] = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_MODULE_NAME, $module_name);
         }
-        $query .= ' ORDER BY access_date DESC ';
-        $this->database->get_connection()->setLimit(1);
-        $statement = $this->database->get_connection()->prepare($query);
-        $res = $statement->execute($params);
-        if ($res->numRows() == 0)
-        {
-            return 0;
-        }
-        $module = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
-        return $module->access_date;
+    	$condition = new AndCondition($conditions);
+    	
+    	$order_by = new ObjectTableOrder(CourseModuleLastAccess :: PROPERTY_ACCESS_DATE, SORT_DESC);
+    	
+    	$course_module_access = $this->retrieve_course_module_access($condition, $order_by);
+    	
+    	if (!$course_module_access)
+    	{
+    		return 0;
+    	}
+    	else
+    	{
+    		return $course_module_access->get_access_date();
+    	}
     }
 
     function get_course_modules($course_code, $auto_added = false)
@@ -587,16 +602,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
     function get_all_course_modules()
     {
-        $query = 'SELECT DISTINCT NAME FROM ' . $this->database->escape_table_name('course_module');
-        $statement = $this->database->get_connection()->prepare($query);
-        $res = $statement->execute();
-
-        $modules = array();
-        while ($module = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
-        {
-            $modules[$module->name] = $module;
-        }
-        return $modules;
+    	return $this->database->retrieve_distinct(CourseModule :: get_table_name(), CourseModule :: PROPERTY_NAME)->as_array();
     }
 
     function retrieve_course($id)
@@ -621,7 +627,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         return $this->database->retrieve_object(CourseUserRelation :: get_table_name(), $condition);
     }
 
-    //function retrieve_course_user_relations($user_id, $course_user_category)
     function retrieve_course_user_relations($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
     {
         return $this->database->retrieve_objects(CourseUserRelation :: get_table_name(), $condition, $offset, $count, $order_property, $order_direction);
@@ -805,48 +810,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         return $this->database->delete_objects(CourseUserRelation :: get_table_name(), $condition);
     }
 
-    function create_course_category($coursecategory)
+    function create_course_category($course_category)
     {
-        $props = array();
-        foreach ($coursecategory->get_default_properties() as $key => $value)
-        {
-            $props[$this->database->escape_column_name($key)] = $value;
-        }
-
-        $this->database->get_connection()->loadModule('Extended');
-        if ($this->database->get_connection()->extended->autoExecute($this->database->get_table_name('course_category'), $props, MDB2_AUTOQUERY_INSERT))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+    	return $this->database->create($course_category);
     }
 
-    function create_course_user_category($courseusercategory)
+    function create_course_user_category($course_user_category)
     {
-        $props = array();
-        foreach ($courseusercategory->get_default_properties() as $key => $value)
-        {
-            $props[$this->database->escape_column_name($key)] = $value;
-        }
-        $props[$this->database->escape_column_name(CourseUserCategory :: PROPERTY_ID)] = $courseusercategory->get_id();
-
-        $condition = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $courseusercategory->get_user());
-        $sort = $this->retrieve_max_sort_value('course_user_category', CourseUserCategory :: PROPERTY_SORT, $condition);
-
-        $props[$this->database->escape_column_name(CourseUserCategory :: PROPERTY_SORT)] = $sort + 1;
-
-        $this->database->get_connection()->loadModule('Extended');
-        if ($this->database->get_connection()->extended->autoExecute($this->database->get_table_name('course_user_category'), $props, MDB2_AUTOQUERY_INSERT))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+    	return $this->database->create($course_user_category);
     }
 
     function get_next_course_user_category_id()
