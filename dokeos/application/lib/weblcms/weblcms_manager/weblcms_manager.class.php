@@ -878,6 +878,7 @@ class WeblcmsManager extends WebApplication
 
 			$conditions = array();
 			$conditions[] = new EqualityCondition('tool', $tool);
+			$conditions[] = new EqualityCondition('course', $this->get_course_id());
 			$conditions[] = new InequalityCondition('modified', InequalityCondition :: GREATER_THAN, $last_visit_date);
 
 			if ((!$this->get_course()->is_course_admin($this->get_user()) && !$this->get_user()->is_platform_admin()))
