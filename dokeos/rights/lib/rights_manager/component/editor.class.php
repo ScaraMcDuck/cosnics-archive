@@ -128,7 +128,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 			$parent_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->application);
 
 			$parent_condition = new AndCondition($parent_conditions);
-			$order = array(Location :: PROPERTY_LEFT_VALUE);
+			$order = array(new ObjectTableOrder(Location :: PROPERTY_LEFT_VALUE));
 			$order_direction = array(SORT_ASC);
 
 			$parents = $this->retrieve_locations($parent_condition, null, null, $order, $order_direction);
@@ -157,6 +157,11 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 		$class = $application . '_rights.class.php';
 		$file = $base_path . $class;
 
+		if(!file_exists($file))
+		{
+			return '<div class="error-message">' . Translation :: get('NoRightsForApplication') . '</div>';
+		}
+		
 		require_once($file);
 
 		// TODO: When PHP 5.3 gets released, replace this by $class :: get_available_rights()
