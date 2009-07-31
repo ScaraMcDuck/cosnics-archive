@@ -143,7 +143,7 @@ class DocumentBrowser extends LearningObjectPublicationBrowser
 		$conditions[] = new OrCondition($access);
 		$subselect_condition = new EqualityCondition('type', 'document');
 		$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
-		
+
 		$condition = new AndCondition($conditions);
 
 		return $dm->count_learning_object_publications_new($condition);
