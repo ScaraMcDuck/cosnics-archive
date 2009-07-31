@@ -455,6 +455,21 @@ button.start, a.start_button
 	background-image: url(../img/common/buttons/button_start.png);
 }
 
+button.read, a.read_button
+{
+	background-image: url(../img/common/buttons/button_read.png);
+}
+
+button.surf, a.surf_button
+{
+	background-image: url(../img/common/buttons/button_surf.png);
+}
+
+button.help, a.help_button
+{
+	background-image: url(../img/common/buttons/button_help.png);
+}
+
 /*IE-fix to avoid adding unwanted margins to the form*/
 div.simple_search form
 {

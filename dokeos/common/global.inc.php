@@ -31,93 +31,59 @@ if (file_exists($main_configuration_file_path))
 $error_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 	<head>
-		<title>Dokeos not installed!</title>
+		<title>Dokeos isn\'t installed ?!</title>
 		<link rel="stylesheet" href="layout/aqua/css/common.css" type="text/css"/>
 	</head>
-	<body>
-		<div id="header1">Dokeos not installed!</div>
-		<div style="text-align: center;"><br /><br />';
+	<body dir="ltr">
+		<div id="outerframe">
+			<div id="header">
+				<div id="header1">
+					<div class="banner"><div class="logo"></div></div>
+					<div class="clear">&nbsp;</div>
+				</div>
+				<div class="clear">&nbsp;</div>
+			</div>
+	
+			<div id="main">' . "\n";
 
 $version = phpversion();
 
 if ($version >= 5.2)
 {
-    $error_message .= '<form action="install/index.php" method="get"><input type="submit" value="&nbsp;&nbsp; Click to INSTALL DOKEOS &nbsp;&nbsp;" /></form><br />
-				or <a href="documentation/installation_guide.html" target="_blank">read the installation guide</a><br /><br />';
+    $error_message .= '				<div class="normal-message" style="margin-bottom: 39px; margin-top: 30px;">From the looks of it, Dokeos 2.0 is currently not installed on your system.<br /><br />Please check your database and/or configuration files if you are certain the platform was installed correctly.<br /><br />If you\'re starting Dokeos for the first time, you may want to install the platform first by clicking the button below. Alternatively, you can read the installation guide, visit DokeosPlanet.org for more information or go to the community forum if you need support.
+				</div>
+				<div class="clear">&nbsp;</div>
+				<div style="text-align: center;"><a class="button positive_button" href="install/">Install Dokeos 2.0</a><a class="button normal_button read_button" href="documentation/installation_guide.html">Read the installation guide</a><a class="button normal_button surf_button" href="http://www.dokeosplanet.org/">Visit DokeosPlanet.org</a><a class="button normal_button help_button" href="http://www.dokeosplanet.org/forum/">Get support</a></div>' . "\n";
 }
 else
 {
-    $error_message .= '<div class="error-message">Your version of PHP is not recent enough to use dokeos 2.0.
-					   <br /><a href="http://www.php.net">Please upgrade to PHP version 5.2 or higher</a></div><br /><br />';
+    $error_message .= '				<div class="error-message">Your version of PHP is not recent enough to use dokeos 2.0.
+					   <br /><a href="http://www.php.net">Please upgrade to PHP version 5.2 or higher</a></div><br /><br />' . "\n";
 }
 
-$error_message .= '</div>
-		<div id="footer">
-			<div class="copyright">Platform <a href="http://www.dokeos.com"> Dokeos </a> &copy; ' . date('Y') . '</div>
-			&nbsp;
+
+$error_message .= '			</div>
+	
+			<div id="footer">
+				<div id="copyright">
+					<div class="logo">
+					<a href="http://www.dokeosplanet.org"><img src="layout/aqua/img/common/dokeos_logo_small.png" /></a>
+					</div>
+					<div class="links">
+						<a href="http://www.dokeosplanet.org">http://www.dokeosplanet.org</a>&nbsp;|&nbsp;&copy;&nbsp;2009
+					</div>
+					<div class="clear"></div>
+				</div>
+			</div>
 		</div>
 	</body>
-</html>
-';
+</html>';
 
 //
 if (! $already_installed)
 {
     die($error_message);
 }
-
-// include the main Dokeos platform library file
-
-
-// TODO: Temporary solution till these are relocated to a more suitable location
-//USER STATUS CONSTANTS
-/** global status of a user: student */
-define('STUDENT', 5);
-/** global status of a user: course manager */
-define('COURSEMANAGER', 1);
-
-//COURSE VISIBILITY CONSTANTS
-/** only visible for course admin */
-define('COURSE_VISIBILITY_CLOSED', 0);
-/** only visible for users registered in the course*/
-define('COURSE_VISIBILITY_REGISTERED', 1);
-/** open for all registered users on the platform */
-define('COURSE_VISIBILITY_OPEN_PLATFORM', 2);
-/** open for the whole world */
-define('COURSE_VISIBILITY_OPEN_WORLD', 3);
-/** modified (visibility specified through detailed roles-rights system ) */
-define('COURSE_VISIBILITY_MODIFIED', 4);
-
-define('SUBSCRIBE_ALLOWED', 1);
-define('SUBSCRIBE_NOT_ALLOWED', 0);
-define('UNSUBSCRIBE_ALLOWED', 1);
-define('UNSUBSCRIBE_NOT_ALLOWED', 0);
-
-//CONSTANTS defining all tools, using the english version
-define('TOOL_DOCUMENT', 'document');
-define('TOOL_CALENDAR_EVENT', 'calendar_event');
-define('TOOL_LINK', 'link');
-define('TOOL_COURSE_DESCRIPTION', 'course_description');
-define('TOOL_LEARNPATH', 'learnpath');
-define('TOOL_ANNOUNCEMENT', 'announcement');
-define('TOOL_BB_FORUM', 'bb_forum');
-define('TOOL_BB_THREAD', 'bb_thread');
-define('TOOL_BB_POST', 'bb_post');
-define('TOOL_DROPBOX', 'dropbox');
-define('TOOL_QUIZ', 'quiz');
-define('TOOL_USER', 'user');
-define('TOOL_GROUP', 'group');
-define('TOOL_CHAT', 'chat');
-define('TOOL_CONFERENCE', 'conference');
-define('TOOL_STUDENTPUBLICATION', 'student_publication');
-define('TOOL_TRACKING', 'tracking');
-define('TOOL_HOMEPAGE_LINK', 'homepage_link');
-define('TOOL_COURSE_SETTING', 'course_setting');
-define('TOOL_BACKUP', 'backup');
-define('TOOL_COPY_COURSE_CONTENT', 'copy_course_content');
-define('TOOL_RECYCLE_COURSE', 'recycle_course');
-define('TOOL_COURSE_HOMEPAGE', 'course_homepage');
-define('TOOL_COURSE_RIGHTS_OVERVIEW', 'course_rights');
 
 // Add the path to the pear packages to the include path
 require_once dirname(__FILE__) . '/configuration/configuration.class.php';
