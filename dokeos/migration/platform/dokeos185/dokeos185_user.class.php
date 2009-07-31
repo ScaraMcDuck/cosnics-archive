@@ -7,7 +7,8 @@
 require_once dirname(__FILE__) . '/../../lib/import/import_user.class.php';
 require_once Path :: get_user_path(). 'lib/user.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object/profile/profile.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repository_category.class.php';
+require_once Path :: get_application_path(). 'lib/profiler/profile_publication.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 user
@@ -490,73 +491,41 @@ class Dokeos185User extends Import
 			$lcms_user->set_language('english');
 		
 		//create user in database
-		$lcms_user->create();
-		
+		$lcms_user->create();		
 		//Add id references to temp table
 		$mgdm->add_id_reference($this->get_user_id(), $lcms_user->get_id(), 'user_user');
 		
 		// Create user directory
 		//$rep_dir = '/files/repository/' . $lcms_user->get_id() . '/';
 		//self :: $old_mgdm->create_directory(true, $rep_dir);
+                
 		
 		// Repository_Profile parameters
 		$lcms_repository_profile = new Profile();
 		$lcms_repository_profile->set_competences($this->get_competences());
-		$lcms_repository_profile->set_diplomas($this->get_diplomas());
-		$lcms_repository_profile->set_open($this->get_openarea());
+		$lcms_repository_profile->set_diplomas($this->get_diplomas());		
 		$lcms_repository_profile->set_teaching($this->get_teach());
-		
-		//Learning object parameters
-		$lcms_repository_profile->set_owner_id($lcms_user->get_id());
-		$lcms_repository_profile->set_title($lcms_user->get_fullname());
-		$lcms_repository_profile->set_description('...');
-		
-		// Category for calendar events already exists?
-		$lcms_category_id = $mgdm->get_parent_id($lcms_user->get_id(), 'category',
-			Translation :: get('profiles'));
-		if(!$lcms_category_id)
-		{
-			//Create category for tool in lcms
-			$lcms_repository_category = new Category();
-			$lcms_repository_category->set_owner_id($lcms_user->get_id());
-			$lcms_repository_category->set_title(Translation :: get('profiles'));
-			$lcms_repository_category->set_description('...');
-	
-			//Retrieve repository id from user
-			$repository_id = $mgdm->get_parent_id($lcms_user->get_id(), 
-				'category', Translation :: get('MyRepository'));
-	
-			$lcms_repository_category->set_parent_id($repository_id);
-			
-			//Create category in database
-			$lcms_repository_category->create();
-			unset($repository_id);
-			
-			$lcms_repository_profile->set_parent_id($lcms_repository_category->get_id());
-		}
-		else
-		{
-			$lcms_repository_profile->set_parent_id($lcms_category_id);
-		}
-		
-		unset($lcms_category_id);
-		unset($lcms_repository_category);
-		
-		
-		//Create profile in database
+                $lcms_repository_profile->set_open($this->get_openarea());
+                $lcms_repository_profile->set_title(Translation::get('Profile'));
+                $lcms_repository_profile->set_parent_id($lcms_user->get_id());
+
+                
+                //Create profile in database
 		$lcms_repository_profile->create();
-		
-		//Publish Profile
+                
+                //Publish Profile
 		$lcms_profile_publication = new ProfilePublication();
 		$lcms_profile_publication->set_profile($lcms_repository_profile->get_id());
 		$lcms_profile_publication->set_publisher($lcms_user->get_id());
-		
+
 		//Create profile publication in database
 		$lcms_profile_publication->create();
-		
+
+                //unset
 		unset($lcms_repository_profile);
-		unset($lcms_profile_publication);
-		
+		unset($lcms_profile_publication);                
+
+                
 		//Copy productions -> learning objects
 		$old_path = $old_rel_path_picture . $this->get_user_id() . '/' . $this->get_user_id() . '/';
 		$directory = $old_mgdm->append_full_path(false,$old_path);
@@ -568,17 +537,14 @@ class Dokeos185User extends Import
 			if(count($files_list) != 0)
 			{
 				//Create category for user in lcms
-				$lcms_repository_category = new Category();
-				$lcms_repository_category->set_owner_id($lcms_user->get_id());
-				$lcms_repository_category->set_title(Translation :: get('productions'));
-				$lcms_repository_category->set_description('...');
-		
+				$lcms_repository_category = new RepositoryCategory();
+				$lcms_repository_category->set_id($lcms_user->get_id());
+						
 				//Retrieve repository id from user
-				$lcms_repository_category->set_parent_id($repository_id);
+				$lcms_repository_category->set_parent($repository_id);
 				
 				//Create category in database
-				$lcms_repository_category->create();
-				
+				$lcms_repository_category->create();				
 				
 				foreach($files_list as $file)
 				{
@@ -595,14 +561,7 @@ class Dokeos185User extends Import
 						$lcms_repository_document->set_filename($filename);
 						$lcms_repository_document->set_path($lcms_user->get_id() . '/' . $filename);
 						$lcms_repository_document->set_filesize(filesize($file));
-						
-						$lcms_repository_document->set_owner_id($lcms_user->get_id());
-						$lcms_repository_document->set_title($filename);
-						$lcms_repository_document->set_description($filename);
-			
-						//Retrieve category id from user
-						$lcms_repository_document->set_parent_id($lcms_repository_category->get_id());
-							
+
 						//Create document in db
 						$lcms_repository_document->create();
 						
@@ -619,7 +578,8 @@ class Dokeos185User extends Import
 				unset($files_list);
 			}
 		}
-
+                
+                
 		unset($repository_id);
 		unset($old_path);
 		unset($directory);

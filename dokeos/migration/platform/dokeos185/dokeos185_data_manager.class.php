@@ -35,15 +35,14 @@ class Dokeos185DataManager extends OldMigrationDataManager
 	function get_configuration($old_directory)
 	{
 		$old_directory = 'file://' . $old_directory;
-		
-		if(file_exists($old_directory) && is_dir($old_directory))
-		{
+                
+		if(file_exists($old_directory) && is_dir($old_directory)) 
+		{                    
 			$config_file = $old_directory . '/main/inc/conf/configuration.php';
 			if(file_exists($config_file) && is_file($config_file))
 			{
-				require_once($config_file);
-
-				$this->_configuration = $_configuration;
+				require_once($config_file);                                
+				$this->_configuration = $_configuration;                                
 			}
 		}
 	}
