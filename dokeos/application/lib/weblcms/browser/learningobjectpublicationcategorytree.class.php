@@ -63,7 +63,8 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
 	{
 		$menu = array();
 		$menu_item = array();
-		$menu_item['title'] = Translation :: get('Root');
+		$menu_item['title'] = Translation :: get('Root').$this->get_category_count(0);
+        $menu_item['count'] = $this->get_category_count(0);
 		$menu_item['url'] = $this->get_category_url(0);
 		$sub_menu_items = $this->get_sub_menu_items(0);
 		if(count($sub_menu_items) > 0)
@@ -93,7 +94,8 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
 		while ($category = $objects->next_result())
 		{
 			$menu_item = array();
-			$menu_item['title'] = $category->get_name();
+            $menu_item['title'] = $category->get_name().$this->get_category_count($category->get_id());
+            $menu_item['count'] = $this->get_category_count($category->get_id());
 			$menu_item['url'] = $this->get_category_url($category->get_id());
 			$sub_menu_items = $this->get_sub_menu_items($category->get_id());
 			if(count($sub_menu_items) > 0)
@@ -106,6 +108,12 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
 		}
 		return $categories;
 	}
+
+    private function get_category_count($category_id)
+    {
+        $count = $this->browser->get_publication_count($category_id);
+        return $count;
+    }
 	
 	/**
 	 * Gets the URL of a category
