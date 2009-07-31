@@ -96,6 +96,11 @@ abstract class HomeManagerComponent extends CoreApplicationComponent
     {
         return $this->get_parent()->truncate_home($user_id);
     }
+    
+    function get_home_tab_editing_url($home_tab)
+    {
+        return $this->get_parent()->get_home_tab_editing_url($home_tab);
+    }
 
     function get_home_row_editing_url($home_row)
     {
@@ -116,6 +121,11 @@ abstract class HomeManagerComponent extends CoreApplicationComponent
     {
         return $this->get_parent()->get_home_block_configuring_url($home_block);
     }
+    
+    function get_home_tab_creation_url()
+    {
+        return $this->get_parent()->get_home_tab_creation_url();
+    }
 
     function get_home_row_creation_url()
     {
@@ -131,6 +141,11 @@ abstract class HomeManagerComponent extends CoreApplicationComponent
     {
         return $this->get_parent()->get_home_block_creation_url();
     }
+    
+    function get_home_tab_deleting_url($home_tab)
+    {
+        return $this->get_parent()->get_home_tab_deleting_url($home_tab);
+    }
 
     function get_home_row_deleting_url($home_row)
     {
@@ -145,6 +160,11 @@ abstract class HomeManagerComponent extends CoreApplicationComponent
     function get_home_block_deleting_url($home_block)
     {
         return $this->get_parent()->get_home_block_deleting_url($home_block);
+    }
+    
+    function get_home_tab_moving_url($home_tab, $index)
+    {
+        return $this->get_parent()->get_home_tab_moving_url($home_tab, $index);
     }
 
     function get_home_row_moving_url($home_row, $index)

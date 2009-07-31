@@ -44,7 +44,7 @@ $error_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 				<div class="clear">&nbsp;</div>
 			</div>
 	
-			<div id="main">' . "\n";
+			<div id="main" style="min-height: 300px;">' . "\n";
 
 $version = phpversion();
 

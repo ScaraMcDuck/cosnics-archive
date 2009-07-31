@@ -7,6 +7,7 @@ require_once dirname(__FILE__) . '/../home_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../home_block_form.class.php';
 require_once dirname(__FILE__) . '/../../home_row_form.class.php';
 require_once dirname(__FILE__) . '/../../home_column_form.class.php';
+require_once dirname(__FILE__) . '/../../home_tab_form.class.php';
 /**
  * Repository manager component to edit an existing learning object.
  */
@@ -68,6 +69,11 @@ class HomeManagerCreatorComponent extends HomeManagerComponent
                     $object = new HomeRow();
                     $object->set_user($user_id);
                     $form = new HomeRowForm(HomeRowForm :: TYPE_CREATE, $object, $url);
+                    break;
+                case HomeManager :: TYPE_TAB :
+                    $object = new HomeTab();
+                    $object->set_user($user_id);
+                    $form = new HomeTabForm(HomeTabForm :: TYPE_CREATE, $object, $url);
                     break;
             }
             
