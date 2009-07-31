@@ -4,6 +4,7 @@
  */
 require_once Path :: get_repository_path() . 'lib/repository_data_manager.class.php';
 require_once Path :: get_user_path() . 'lib/user_data_manager.class.php';
+require_once Path :: get_application_path(). 'lib/profiler/profiler_data_manager.class.php';
 
 /**
  *	This class represents a ProfilePublication.

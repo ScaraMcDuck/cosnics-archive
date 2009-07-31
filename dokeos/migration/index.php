@@ -5,8 +5,8 @@
 $cidReset = true;
 $this_section = 'migration';
 
-ini_set("memory_limit"		,"3500M"	);	// Geen php-beperkingen voor geheugengebruik
-	ini_set("max_execution_time"	,"72000");	// Twee uur moet voldoende zijn...
+ini_set("memory_limit"		,"3500M");	// Geen php-beperkingen voor geheugengebruik
+ini_set("max_execution_time"	,"72000");	// Twee uur moet voldoende zijn...
 
 require_once dirname(__FILE__).'/../common/global.inc.php';
 require_once dirname(__FILE__).'/lib/migration_manager/migration_manager.class.php';
@@ -30,9 +30,7 @@ try
 	$migmgr->run();
 }
 catch(Exception $exception)
-{
-	$repmgr->display_header();
-	Display :: error_message($exception->getMessage());
-	$repmgr->display_footer();
+{	
+	Display :: error_message($exception->getMessage());	
 }
 ?>

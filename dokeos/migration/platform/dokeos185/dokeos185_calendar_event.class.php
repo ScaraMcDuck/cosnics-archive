@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_calendar_event.class.
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/calendar_event/calendar_event.class.php';
 require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication.class.php';
 require_once 'dokeos185_item_property.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repository_category.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 Calendar Event
