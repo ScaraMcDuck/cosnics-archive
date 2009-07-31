@@ -41,6 +41,7 @@ class HomeManager extends CoreApplication
     const TYPE_BLOCK = 'block';
     const TYPE_COLUMN = 'column';
     const TYPE_ROW = 'row';
+    const TYPE_TAB = 'tab';
 
     private $parameters;
     private $user;
@@ -179,6 +180,11 @@ class HomeManager extends CoreApplication
 
         return $info;
     }
+    
+    function get_home_tab_creation_url()
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_HOME, self :: PARAM_HOME_TYPE => self :: TYPE_TAB));
+    }
 
     function get_home_row_creation_url()
     {
@@ -193,6 +199,11 @@ class HomeManager extends CoreApplication
     function get_home_column_creation_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_HOME, self :: PARAM_HOME_TYPE => self :: TYPE_COLUMN));
+    }
+    
+    function get_home_tab_editing_url($home_tab)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_HOME, self :: PARAM_HOME_TYPE => self :: TYPE_TAB, self :: PARAM_HOME_ID => $home_tab->get_id()));
     }
 
     function get_home_row_editing_url($home_row)
@@ -219,6 +230,11 @@ class HomeManager extends CoreApplication
     {
         return $this->get_url(array(self :: PARAM_TAB_ID => $home_tab->get_id()));
     }
+    
+    function get_home_tab_deleting_url($home_tab)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_HOME, self :: PARAM_HOME_TYPE => self :: TYPE_TAB, self :: PARAM_HOME_ID => $home_tab->get_id()));
+    }
 
     function get_home_row_deleting_url($home_row)
     {
@@ -243,6 +259,11 @@ class HomeManager extends CoreApplication
     function get_home_block_moving_url($home_block, $direction)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_HOME, self :: PARAM_HOME_TYPE => self :: TYPE_BLOCK, self :: PARAM_HOME_ID => $home_block->get_id(), self :: PARAM_DIRECTION => $direction));
+    }
+    
+    function get_home_tab_moving_url($home_tab, $direction)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_HOME, self :: PARAM_HOME_TYPE => self :: TYPE_TAB, self :: PARAM_HOME_ID => $home_tab->get_id(), self :: PARAM_DIRECTION => $direction));
     }
 
     function get_home_row_moving_url($home_row, $direction)

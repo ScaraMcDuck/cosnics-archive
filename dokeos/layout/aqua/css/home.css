@@ -3,6 +3,24 @@
 /*****************************************************
  *  HOME STYLES                                      *
  *****************************************************/
+div.manage
+{
+	text-align: center;
+	clear: both;
+	width: 100%;
+	padding-bottom: 10px;
+}
+
+div.manage ul.toolbar, div.manage ul.toolbar_horizontal
+{
+	float: none;
+}
+
+div.manage ul.toolbar li, div.manage ul.toolbar_horizontal li
+{
+	float: none;
+	display: inline;
+}
 
 div.row
 {

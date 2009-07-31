@@ -21,7 +21,9 @@ class Redirect
         switch ($type)
         {
             case self :: TYPE_CORE :
-                $link = 'index_' . $application;
+                //$link = 'index_' . $application;
+                $link = 'core';
+                $parameters['application'] = $application;
                 break;
             case self :: TYPE_APPLICATION :
                 $link = 'run';

@@ -46,6 +46,9 @@ class HomeManagerDeleterComponent extends HomeManagerComponent
                 case HomeManager :: TYPE_ROW :
                     $object = $this->retrieve_home_row($id);
                     break;
+                case HomeManager :: TYPE_TAB :
+                    $object = $this->retrieve_home_tab($id);
+                    break;
             }
             
             if (! $object->delete())

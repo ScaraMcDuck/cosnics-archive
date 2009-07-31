@@ -117,7 +117,7 @@ class MenuManagerMiniBarComponent extends MenuManagerComponent
         if (isset($user))
         {
             $html[] = '<ul class="admin">';
-            $html[] = '<li class="admin' . ($this_section == 'my_account' ? ' current' : '') . '"><a' . ($this_section == 'my_account' ? ' class="current"' : '') . ' href="index_user.php?go=account">' . Translation :: get('MyAccount') . '</a></li>';
+            $html[] = '<li class="admin' . ($this_section == 'my_account' ? ' current' : '') . '"><a' . ($this_section == 'my_account' ? ' class="current"' : '') . ' href="core.php?application=user&go=account">' . Translation :: get('MyAccount') . '</a></li>';
             $html[] = '</ul>';
             
             //			$html[] = '<ul class="admin">';
@@ -126,7 +126,7 @@ class MenuManagerMiniBarComponent extends MenuManagerComponent
             
 
             $html[] = '<ul class="admin">';
-            $html[] = '<li class="admin' . ($this_section == 'repository' ? ' current' : '') . '"><a' . ($this_section == 'repository' ? ' class="current"' : '') . ' href="index_repository_manager.php">' . Translation :: get('Repository') . '</a></li>';
+            $html[] = '<li class="admin' . ($this_section == 'repository' ? ' current' : '') . '"><a' . ($this_section == 'repository' ? ' class="current"' : '') . ' href="core.php?application=repository">' . Translation :: get('Repository') . '</a></li>';
             $html[] = '</ul>';
             
             //			$html[] = '<ul class="admin">';
@@ -137,7 +137,7 @@ class MenuManagerMiniBarComponent extends MenuManagerComponent
             if ($user->is_platform_admin())
             {
                 $html[] = '<ul class="admin">';
-                $html[] = '<li class="admin' . ($this_section == 'admin' ? ' current' : '') . '"><a' . ($this_section == 'admin' ? ' class="current"' : '') . ' href="index_admin.php">' . Translation :: get('Administration') . '</a></li>';
+                $html[] = '<li class="admin' . ($this_section == 'admin' ? ' current' : '') . '"><a' . ($this_section == 'admin' ? ' class="current"' : '') . ' href="core.php?application=admin">' . Translation :: get('Administration') . '</a></li>';
                 $html[] = '</ul>';
                 
             //				$html[] = '<ul class="admin">';
