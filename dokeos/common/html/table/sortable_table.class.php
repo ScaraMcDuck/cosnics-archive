@@ -293,9 +293,9 @@ class SortableTable extends HTML_Table
                     $html[] = '<option value="' . $action . '">' . $label . '</option>';
                 }
                 $html[] = '</select>';
-                $html[] = '<button class="normal" type="submit" value="' . Translation :: get('Ok') . '">' . Translation :: get('Ok') . '</button>';
-//                $html[] = ' <input type="submit" value="' . Translation :: get('Ok') . '"/>';
-                $html[] = '</div>';
+//                $html[] = '<button class="normal start" type="submit" value="' . Translation :: get('Ok') . '">' . Translation :: get('Ok') . '</button>';
+                $html[] = ' <input type="submit" value="' . Translation :: get('Ok') . '"/>';
+//                $html[] = '</div>';
             }
             else
             {

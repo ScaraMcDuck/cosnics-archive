@@ -22,7 +22,7 @@ class AlexiaManagerBrowserComponent extends AlexiaManagerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Library')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Alexia')));
 		$trail->add_help('alexia general');
 		
 		$this->get_introduction();
