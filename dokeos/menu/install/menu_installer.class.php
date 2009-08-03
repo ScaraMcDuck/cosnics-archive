@@ -53,12 +53,12 @@ class MenuInstaller extends Installer
         
         foreach ($applications as $application)
         {
-            $menu_applications[Translation :: get(DokeosUtilities :: underscores_to_camelcase($application))] = $application;
+            $menu_applications[$application] = DokeosUtilities :: underscores_to_camelcase_with_spaces($application);
         }
         
         ksort($menu_applications);
         
-        foreach ($menu_applications as $name => $application)
+        foreach ($menu_applications as $application => $name)
         {
             // TODO: Temporary fix.
             if (isset($values['install_' . $application]) && $application != '.svn')
