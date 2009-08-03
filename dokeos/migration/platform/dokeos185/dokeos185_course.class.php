@@ -373,10 +373,10 @@ class Dokeos185Course extends ImportCourse
 		
 		$old_code = $this->get_code();
 		$index = 0;
-		while($mgdm->code_available('weblcms_course',$this->get_code()))
+		/*while($mgdm->code_available('weblcms_course',$this->get_code()))
 		{
 			$this->set_code($this->get_code() . ($index ++));
-		}
+		}*/
 		unset($index);
 		$lcms_course->set_id($this->get_code());
 		
@@ -392,9 +392,10 @@ class Dokeos185Course extends ImportCourse
 		
 		$category_code = $mgdm->get_id_reference($this->get_category_code(), 'weblcms_course_category');
 		if($category_code)
-			$lcms_course->set_category_code($category_code);
+			$lcms_course->set_category($category_code);
 		else
-			$lcms_course->set_category_code($mgdm->get_first_course_category());		
+                        //get_first_course cat not yet implemented
+			//$lcms_course->set_category($mgdm->get_first_course_category());
 		unset($category_code);
 		$lcms_course->set_visibility($this->get_visibility());
 		$lcms_course->set_titular($this->get_tutor_name());

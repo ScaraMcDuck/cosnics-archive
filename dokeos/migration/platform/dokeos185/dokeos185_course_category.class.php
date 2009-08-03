@@ -6,7 +6,7 @@
 
 
 require_once dirname(__FILE__).'/../../lib/import/import_course_category.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/course/course_category.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/category_manager/course_category.class.php';
 
 
 /**
@@ -236,12 +236,12 @@ class Dokeos185CourseCategory extends ImportCourseCategory
 		{
 			$this->set_code($this->get_code() . ($index ++));
 		}
-		unset($index);
-		$lcms_course_category->set_code($this->get_code());
+		unset($index);		
 		
 		//Add id references to temp table
-		$mgdm->add_id_reference($old_code, $lcms_course_category->get_code(), 'weblcms_course_category');
+		$mgdm->add_id_reference($old_code, $lcms_course_category->get_id(), 'weblcms_course_category');
 		unset($old_code);
+
 		if($this->get_parent_id())
 		{
 			$parent_id = $mgdm->get_id_reference($this->get_parent_id(), 'weblcms_course_category');
@@ -252,7 +252,8 @@ class Dokeos185CourseCategory extends ImportCourseCategory
 		else
 			$lcms_course_category->set_parent(0);
 		
-		$lcms_course_category->set_tree_pos($mgdm->get_next_position('weblcms_course_category','tree_pos'));
+		//setters are not yet supported
+                /*$lcms_course_category->set_tree_pos($mgdm->get_next_position('weblcms_course_category','tree_pos'));
 		
 		if($this->get_children_count())
 			$lcms_course_category->set_children_count($this->get_children_count());
@@ -260,7 +261,7 @@ class Dokeos185CourseCategory extends ImportCourseCategory
 			$lcms_course_category->set_children_count(0);
 			
 		$lcms_course_category->set_auth_course_child($this->get_auth_course_child()?1:0);
-		$lcms_course_category->set_auth_cat_child($this->get_auth_cat_child()?1:0);
+		$lcms_course_category->set_auth_cat_child($this->get_auth_cat_child()?1:0);*/
 
 		//create course_category in database
 		$lcms_course_category->create();
