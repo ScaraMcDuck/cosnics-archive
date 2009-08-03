@@ -123,7 +123,7 @@ class DatabaseHomeDataManager extends HomeDataManager
     function retrieve_home_tab($id)
     {
         $condition = new EqualityCondition(HomeTab :: PROPERTY_ID, $id);
-        return $this->database->retrieve_object(HomeTab :: get_table_name(), $condition, array(), array(), HomeBlock :: CLASS_NAME);
+        return $this->database->retrieve_object(HomeTab :: get_table_name(), $condition, array(), array(), HomeTab :: CLASS_NAME);
     }
 
     function retrieve_home_tab_blocks($home_tab)
