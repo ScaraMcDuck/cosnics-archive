@@ -119,7 +119,7 @@ class SystemAnnouncementPublication extends DataClass
 
     function get_publication_object()
     {
-        $rdm = RepositoryDataManager :: get_instance(); dump($this);
+        $rdm = RepositoryDataManager :: get_instance();
         return $rdm->retrieve_learning_object($this->get_learning_object_id());
     }
 
