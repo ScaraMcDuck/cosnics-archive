@@ -8,6 +8,8 @@ require_once dirname(__FILE__).'/../../{L_OBJECT_CLASS}.class.php';
 
 /**
  * Default cell renderer for the {L_OBJECT_CLASS} table
+ *
+ * @author Sven Vanpoucke
  * @author {AUTHOR}
  */
 class Default{OBJECT_CLASS}TableCellRenderer implements ObjectTableCellRenderer

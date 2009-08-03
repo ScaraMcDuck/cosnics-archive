@@ -5,6 +5,8 @@
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_data_provider.class.php';
 /**
  * Data provider for a {L_OBJECT_CLASS} table
+ *
+ * @author Sven Vanpoucke
  * @author {AUTHOR}
  */
 class {OBJECT_CLASS}BrowserTableDataProvider extends ObjectTableDataProvider

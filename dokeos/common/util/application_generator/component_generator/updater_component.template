@@ -8,6 +8,7 @@ require_once dirname(__FILE__).'/../../forms/{L_OBJECT_CLASS}_form.class.php';
 
 /**
  * Component to edit an existing {L_OBJECT_CLASS} object
+ * @author Sven Vanpoucke
  * @author {AUTHOR}
  */
 class {APPLICATION_NAME}Manager{OBJECT_CLASS}UpdaterComponent extends {APPLICATION_NAME}ManagerComponent

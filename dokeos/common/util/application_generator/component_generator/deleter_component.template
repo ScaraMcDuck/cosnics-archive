@@ -7,6 +7,7 @@ require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager_component.class
 
 /**
  * Component to delete {L_OBJECT_CLASSES} objects
+ * @author Sven Vanpoucke
  * @author {AUTHOR}
  */
 class {APPLICATION_NAME}Manager{OBJECT_CLASS}DeleterComponent extends {APPLICATION_NAME}ManagerComponent

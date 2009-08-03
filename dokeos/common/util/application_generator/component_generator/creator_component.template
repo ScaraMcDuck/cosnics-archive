@@ -8,6 +8,7 @@ require_once dirname(__FILE__).'/../../forms/{L_OBJECT_CLASS}_form.class.php';
 
 /**
  * Component to create a new {L_OBJECT_CLASS} object
+ * @author Sven Vanpoucke
  * @author {AUTHOR}
  */
 class {APPLICATION_NAME}Manager{OBJECT_CLASS}CreatorComponent extends {APPLICATION_NAME}ManagerComponent
