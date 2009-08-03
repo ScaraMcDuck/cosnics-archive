@@ -8,6 +8,8 @@ require_once dirname(__FILE__).'/../../../{L_OBJECT_CLASS}.class.php';
 
 /**
  * Table column model for the {L_OBJECT_CLASS} browser table
+ *
+ * @author Sven Vanpoucke
  * @author {AUTHOR}
  */
  

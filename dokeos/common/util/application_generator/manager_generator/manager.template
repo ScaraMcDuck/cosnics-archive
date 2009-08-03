@@ -11,6 +11,8 @@ require_once dirname(__FILE__).'/component/{OBJECTS.L_OBJECT_CLASS}_browser/{OBJ
 
 /**
  * A {L_APPLICATION_NAME} manager
+ *
+ * @author Sven Vanpoucke
  * @author {AUTHOR}
  */
  class {APPLICATION_NAME}Manager extends WebApplication

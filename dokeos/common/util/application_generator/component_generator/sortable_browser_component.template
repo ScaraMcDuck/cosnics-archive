@@ -9,6 +9,7 @@ require_once dirname(__FILE__).'/{L_OBJECT_CLASS}_browser/{L_OBJECT_CLASS}_brows
 
 /**
  * {L_APPLICATION_NAME} component which allows the user to browse his {L_OBJECT_CLASSES}
+ * @author Sven Vanpoucke
  * @author {AUTHOR}
  */
 class {APPLICATION_NAME}Manager{OBJECT_CLASSES}BrowserComponent extends {APPLICATION_NAME}ManagerComponent

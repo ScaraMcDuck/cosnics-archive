@@ -7,6 +7,7 @@ require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager_component.class
 
 /**
  * {APPLICATION_NAME} component which allows the user to browse the {L_APPLICATION_NAME} application
+ * @author Sven Vanpoucke
  * @author {AUTHOR}
  */
 class {APPLICATION_NAME}ManagerBrowserComponent extends {APPLICATION_NAME}ManagerComponent

@@ -3,6 +3,7 @@
  *	This is a skeleton for a data manager for the {APPLICATION_NAME} Application.
  *	Data managers must extend this class and implement its abstract methods.
  *
+ *  @author Sven Vanpoucke
  *	@author {AUTHOR}
  */
 abstract class {APPLICATION_NAME}DataManager

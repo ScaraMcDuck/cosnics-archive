@@ -9,6 +9,8 @@ require_once dirname(__FILE__).'/../../{L_APPLICATION_NAME}_manager.class.php';
 
 /**
  * Cell rendere for the learning object browser table
+ *
+ * @author Sven Vanpoucke
  * @author {AUTHOR}
  */
  

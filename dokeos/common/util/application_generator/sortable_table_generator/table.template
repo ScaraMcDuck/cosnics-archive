@@ -10,6 +10,8 @@ require_once dirname(__FILE__).'/../../{L_APPLICATION_NAME}_manager.class.php';
 
 /**
  * Table to display a list of {L_OBJECT_CLASSES}
+ *
+ * @author Sven Vanpoucke
  * @author {AUTHOR}
  */
 class {OBJECT_CLASS}BrowserTable extends ObjectTable
