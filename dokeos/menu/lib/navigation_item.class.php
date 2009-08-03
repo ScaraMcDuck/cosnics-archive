@@ -1,12 +1,11 @@
 <?php
 require_once dirname(__FILE__) . '/menu_data_manager.class.php';
+require_once Path :: get_common_path() . 'data_class.class.php';
 
-class NavigationItem
+class NavigationItem extends DataClass
 {
-
     const CLASS_NAME = __CLASS__;
 
-    const PROPERTY_ID = 'id';
     const PROPERTY_CATEGORY = 'category';
     const PROPERTY_TITLE = 'title';
     const PROPERTY_SORT = 'sort';
@@ -15,52 +14,23 @@ class NavigationItem
     const PROPERTY_EXTRA = 'extra';
     const PROPERTY_URL = 'url';
 
-    private $defaultProperties;
-
-    function NavigationItem($defaultProperties = array ())
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    function get_default_property($name)
-    {
-        return $this->defaultProperties[$name];
-    }
-
-    function get_default_properties()
-    {
-        return $this->defaultProperties;
-    }
-
-    function set_default_property($name, $value)
-    {
-        $this->defaultProperties[$name] = $value;
-    }
-
     /**
      * Get the default properties of all user course categories.
      * @return array The property names.
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_ID, self :: PROPERTY_CATEGORY, self :: PROPERTY_TITLE, self :: PROPERTY_SORT, self :: PROPERTY_APPLICATION, self :: PROPERTY_SECTION, self :: PROPERTY_EXTRA, self :: PROPERTY_URL);
+        return parent :: get_default_property_names(array(self :: PROPERTY_CATEGORY, self :: PROPERTY_TITLE, self :: PROPERTY_SORT, self :: PROPERTY_APPLICATION, self :: PROPERTY_SECTION, self :: PROPERTY_EXTRA, self :: PROPERTY_URL));
     }
-
-    static function is_default_property_name($name)
-    {
-        return in_array($name, self :: get_default_property_names());
-    }
-
-    function get_id()
-    {
-        return $this->get_default_property(self :: PROPERTY_ID);
-    }
-
-    function set_id($id)
-    {
-        $this->set_default_property(self :: PROPERTY_ID, $id);
-    }
-
+    
+	/**
+	 * inherited
+	 */
+	function get_data_manager()
+	{
+		return MenuDataManager :: get_instance();	
+	}
+    
     function get_url()
     {
         return $this->get_default_property(self :: PROPERTY_URL);
@@ -130,22 +100,10 @@ class NavigationItem
     {
         $this->set_default_property(self :: PROPERTY_EXTRA, $extra);
     }
-
-    function update()
-    {
-        $wdm = MenuDataManager :: get_instance();
-        $success = $wdm->update_navigation_item($this);
-        if (! $success)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
+    
     function create()
     {
-        $mdm = MenuDataManager :: get_instance();
+        $mdm = $this->get_data_manager();
         $id = $mdm->get_next_navigation_item_id();
         $condition = new EqualityCondition(self :: PROPERTY_CATEGORY, $this->get_category());
         $sort = $mdm->retrieve_max_sort_value(self :: get_table_name(), self :: PROPERTY_SORT, $condition);
@@ -161,26 +119,10 @@ class NavigationItem
         return true;
     }
 
-    function delete()
-    {
-        $wdm = MenuDataManager :: get_instance();
-        $success = $wdm->delete_navigation_item($this);
-        if (! $success)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
     static function get_table_name()
     {
         return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
-    function set_default_properties($defaultProperties)
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
 }
 ?>
