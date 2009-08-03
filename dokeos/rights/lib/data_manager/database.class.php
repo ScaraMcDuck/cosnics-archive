@@ -344,7 +344,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		{
 			$defaultProp[$prop] = $record[$prop];
 		}
-		return new Role($record[Role :: PROPERTY_ID], $defaultProp);
+		return new Role($defaultProp);
 	}
 
 	function record_to_role_right_location($record)
@@ -377,7 +377,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		{
 			$defaultProp[$prop] = $record[$prop];
 		}
-		return new Right($record[Right :: PROPERTY_ID], $defaultProp);
+		return new Right($defaultProp);
 	}
 
 	function record_to_location($record)

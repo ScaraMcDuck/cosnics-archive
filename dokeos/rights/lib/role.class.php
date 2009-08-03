@@ -5,6 +5,8 @@ require_once Path :: get_user_path() . 'lib/user_role.class.php';
 require_once Path :: get_group_path() . 'lib/group_data_manager.class.php';
 require_once Path :: get_group_path() . 'lib/group.class.php';
 require_once Path :: get_group_path() . 'lib/group_role.class.php';
+require_once Path :: get_common_path() . 'data_class.class.php';
+
 /**
  * @package users
  */
@@ -32,69 +34,13 @@ require_once Path :: get_group_path() . 'lib/group_role.class.php';
  *	@author Dieter De Neef
  */
 
-class Role
+class Role extends DataClass
 {
-	const PROPERTY_ID = 'id';
+	const CLASS_NAME = __CLASS__;
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_TYPE = 'type';
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_DESCRIPTION = 'description';
-
-	/**#@-*/
-
-	/**
-	 * Numeric identifier of the user object.
-	 */
-	private $id;
-
-	/**
-	 * Default properties of the user object, stored in an associative
-	 * array.
-	 */
-	private $defaultProperties;
-
-	function update()
-	{
-		$rdm = RightsDataManager :: get_instance();
-		$success = $rdm->update_role($this);
-		if (!$success)
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Creates a new user object.
-	 * @param int $id The numeric ID of the user object. May be omitted
-	 *                if creating a new object.
-	 * @param array $defaultProperties The default properties of the user
-	 *                                 object. Associative array.
-	 */
-	function Role($id = 0, $defaultProperties = array ())
-	{
-		$this->id = $id;
-		$this->defaultProperties = $defaultProperties;
-	}
-
-	/**
-	 * Gets a default property of this user object by name.
-	 * @param string $name The name of the property.
-	 */
-	function get_default_property($name)
-	{
-		return $this->defaultProperties[$name];
-	}
-
-	/**
-	 * Gets the default properties of this user.
-	 * @return array An associative array containing the properties.
-	 */
-	function get_default_properties()
-	{
-		return $this->defaultProperties;
-	}
 
 	/**
 	 * Get the default properties of all users.
@@ -102,36 +48,17 @@ class Role
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_TYPE, self :: PROPERTY_USER_ID, self :: PROPERTY_DESCRIPTION);
+		return parent :: get_default_property_names(array (self :: PROPERTY_NAME, self :: PROPERTY_TYPE, self :: PROPERTY_USER_ID, self :: PROPERTY_DESCRIPTION));
 	}
-
+	
 	/**
-	 * Sets a default property of this user by name.
-	 * @param string $name The name of the property.
-	 * @param mixed $value The new value for the property.
+	 * inherited
 	 */
-	function set_default_property($name, $value)
+	function get_data_manager()
 	{
-		$this->defaultProperties[$name] = $value;
+		return RightsDataManager :: get_instance();	
 	}
-
-	/**
-	 * Checks if the given identifier is the name of a default user
-	 * property.
-	 * @param string $name The identifier.
-	 * @return boolean True if the identifier is a property name, false
-	 *                 otherwise.
-	 */
-	static function is_default_property_name($name)
-	{
-		return in_array($name, self :: get_default_property_names());
-	}
-
-	function get_id()
-	{
-		return $this->id;
-	}
-
+	
 	function get_user_id()
 	{
 		return $this->get_default_property(self :: PROPERTY_USER_ID);
@@ -152,11 +79,6 @@ class Role
 		return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
 	}
 
-	function set_id($id)
-	{
-		$this->id = $id;
-	}
-
 	function set_user_id($user_id)
 	{
 		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
@@ -175,22 +97,6 @@ class Role
 	function set_description($description)
 	{
 		$this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
-	}
-
-	/**
-	 * Instructs the Datamanager to delete this user.
-	 * @return boolean True if success, false otherwise.
-	 */
-	function delete()
-	{
-		return RightsDataManager :: get_instance()->delete_role($this);
-	}
-
-	function create()
-	{
-		$rdm = RightsDataManager :: get_instance();
-		$this->set_id($rdm->get_next_role_id());
-		return $rdm->create_role($this);
 	}
 
 	function get_users($user_condition, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
@@ -256,6 +162,11 @@ class Role
 		{
 			return null;
 		}
+	}
+	
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 }
 ?>
