@@ -2,6 +2,7 @@
 require_once dirname(__FILE__).'/webservice_data_manager.class.php';
 require_once dirname(__FILE__).'/webservice_rights.class.php';
 require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';
+require_once Path :: get_common_path() . 'data_class.class.php';
 
 /**
  * @package webservice
@@ -10,11 +11,10 @@ require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';
  *	@author Stefan Billiet
  */
 
-class WebserviceRegistration
+class WebserviceRegistration extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 	
-	const PROPERTY_ID = 'id';
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_DESCRIPTION = 'description';
 	const PROPERTY_PARENT = 'parent';
@@ -23,84 +23,20 @@ class WebserviceRegistration
 	const PROPERTY_CATEGORY = 'category';    
 	
 	/**
-	 * Default properties of the webservice object, stored in an associative
-	 * array.
-	 */
-	private $defaultProperties;
-	
-	/**
-	 * Creates a new webservice object.
-	 * @param int $id The numeric ID of the webservice object. May be omitted
-	 *                if creating a new object.
-	 * @param array $defaultProperties The default properties of the webservice
-	 *                                 object. Associative array.
-	 */
-	function Webservice($id = 0, $defaultProperties = array ())
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
-
-	/**
-	 * Gets a default property of this webservice object by name.
-	 * @param string $name The name of the property.
-	 */
-	function get_default_property($name)
-	{
-		return $this->defaultProperties[$name];
-	}
-
-	/**
-	 * Gets the default properties of this webservice.
-	 * @return array An associative array containing the properties.
-	 */
-	function get_default_properties()
-	{
-		return $this->defaultProperties;
-	}
-	
-	function set_default_properties($defaultProperties)
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
-	
-	/**
 	 * Get the default properties of all webservices.
 	 * @return array The property names.
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT, self :: PROPERTY_ACTIVE);
+		return parent :: get_default_property_names(array (self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT, self :: PROPERTY_ACTIVE));
 	}
 	
 	/**
-	 * Sets a default property of this webservice by name.
-	 * @param string $name The name of the property.
-	 * @param mixed $value The new value for the property.
+	 * inherited
 	 */
-	function set_default_property($name, $value)
+	function get_data_manager()
 	{
-		$this->defaultProperties[$name] = $value;
-	}
-	
-	/**
-	 * Checks if the given identifier is the name of a default webservice
-	 * property.
-	 * @param string $name The identifier.
-	 * @return boolean True if the identifier is a property name, false
-	 *                 otherwise.
-	 */
-	static function is_default_property_name($name)
-	{
-		return in_array($name, self :: get_default_property_names());
-	}
-
-	/**
-	 * Returns the id of this webservice.
-	 * @return int The id.
-	 */
-	function get_id()
-	{
-		return $this->get_default_property(self :: PROPERTY_ID);
+		return WebserviceDataManager :: get_instance();	
 	}
 	
 	/**
@@ -143,16 +79,6 @@ class WebserviceRegistration
 	{
 		return $this->get_default_property(self :: PROPERTY_ACTIVE);
 	}
-	
-
-	/**
-	 * Sets the webservice_id of this webservice.
-	 * @param int $webservice_id The webservice_id.
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}	
 	
 	function set_category($category)
 	{
@@ -201,15 +127,6 @@ class WebserviceRegistration
 		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 	
-/**
-	 * Instructs the Datamanager to delete this webservice.
-	 * @return boolean True if success, false otherwise.
-	 */
-	function delete()
-	{
-		return WebserviceDataManager :: get_instance()->delete_webservice($this);
-	}
-	
 	function truncate()
 	{
 		return WebserviceDataManager :: get_instance()->truncate_webservice($this);
@@ -246,18 +163,6 @@ class WebserviceRegistration
 		}
 
 		return true;
-	}
-	
-	function update() 
-	{
-		$wdm = WebserviceDataManager :: get_instance();
-		$success = $wdm->update_webservice($this);
-		if (!$success)
-		{
-			return false;
-		}
-
-		return true;	
 	}
     
 }
