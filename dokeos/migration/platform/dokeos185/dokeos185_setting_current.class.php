@@ -10,7 +10,7 @@ require_once dirname(__FILE__).'/../../../admin/lib/setting.class.php';
 /**
  * This class represents an old Dokeos 1.8.5 class
  *
- * @author David Van Wayenberghµ
+ * @author David Van Wayenbergh
  * @author Sven Vanpoucke
  */
 
@@ -248,9 +248,10 @@ class Dokeos185SettingCurrent extends ImportSettingCurrent
 	function convert_to_lcms($parameters)
 	{
 		//course_rel_user parameters
-		$value = $this->convert[$this->get_variable()];
+                $i = 0;
+		$value = $this->convert[$this->get_variable()];                
 		if ($value)
-		{
+		{                        
 			$lcms_admin_setting = AdminDataManager :: get_instance()->retrieve_setting_from_variable_name($value);
 			
 			if($this->get_variable() == 'allow_lostpassword')
@@ -268,13 +269,16 @@ class Dokeos185SettingCurrent extends ImportSettingCurrent
 				else
 					$this->set_selected_value(0);
 			}
-			
-			$lcms_admin_setting->set_value($this->get_selected_value());
-		
-			// Update setting in database
-			$lcms_admin_setting->update();
-		
-			//return $lcms_admin_setting;
+                        
+			if($lcms_admin_setting)
+                        {
+                            $lcms_admin_setting->set_value($this->get_selected_value());
+
+                            // Update setting in database
+                            $lcms_admin_setting->update();
+
+                            //return $lcms_admin_setting;
+                        }
 			
 			return $lcms_admin_setting;
 		}

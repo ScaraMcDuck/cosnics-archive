@@ -5,7 +5,7 @@
 
 require_once dirname(__FILE__).'/../../lib/import/import_system_announcement.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object/announcement/announcement.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repository_category.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 system announcement
