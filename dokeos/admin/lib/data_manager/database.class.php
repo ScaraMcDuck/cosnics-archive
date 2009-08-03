@@ -148,7 +148,7 @@ class DatabaseAdminDataManager extends AdminDataManager
     }
 
     // inherted
-    function get_next_feedback_id()
+    function get_next_feedback_publication_id()
     {
         return $this->database->get_next_id(FeedbackPublication :: get_table_name());
     }
@@ -512,10 +512,10 @@ class DatabaseAdminDataManager extends AdminDataManager
 
     }
 
-    function update_feedback($feedback)
+    function update_feedback_publication($feedback_publication)
     {
-        $condition = new EqualityCondition(Feedback :: PROPERTY_ID, $feedback->get_id());
-        return $this->database->update($feedback, $condition);
+        $condition = new EqualityCondition(Feedback :: PROPERTY_ID, $feedback_publication->get_id());
+        return $this->database->update($feedback_publication, $condition);
     }
 
     function update_validation($validation)
@@ -524,10 +524,10 @@ class DatabaseAdminDataManager extends AdminDataManager
         return $this->database->update($validation, $condition);
     }
 
-    function delete_feedback($feedback)
+    function delete_feedback_publication($feedback_publication)
     {
-        $condition = new EqualityCondition(FeedbackPublication :: PROPERTY_ID, $feedback->get_id());
-        return $this->database->delete($feedback->get_table_name(), $condition);
+        $condition = new EqualityCondition(FeedbackPublication :: PROPERTY_ID, $feedback_publication->get_id());
+        return $this->database->delete($feedback_publication->get_table_name(), $condition);
     }
 
     function delete_validation($validation)
@@ -536,9 +536,9 @@ class DatabaseAdminDataManager extends AdminDataManager
         return $this->database->delete($validation->get_table_name(), $condition);
     }
 
-    function create_feedback($feedback)
+    function create_feedback_publication($feedback_publication)
     {
-        return $this->database->create($feedback);
+        return $this->database->create($feedback_publication);
     }
 
     function create_validation($validation)
