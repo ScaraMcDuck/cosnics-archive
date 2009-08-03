@@ -5,7 +5,7 @@
  */
 
 require_once dirname(__FILE__).'/../../lib/import/import_course_description.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repository_category.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/description/description.class.php';
 require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication.class.php';
 
@@ -164,15 +164,13 @@ class Dokeos185CourseDescription extends ImportCourseDescription
 		if(!$lcms_category_id)
 		{
 			//Create category for tool in lcms
-			$lcms_repository_category = new Category();
-			$lcms_repository_category->set_owner_id($user_id);
-			$lcms_repository_category->set_title(Translation :: get('descriptions'));
-			$lcms_repository_category->set_description('...');
+			$lcms_repository_category = new RepositoryCategory();
+			$lcms_repository_category->set_id($user_id);
 	
 			//Retrieve repository id from course
 			$repository_id = $mgdm->get_parent_id($user_id, 
 				'category', Translation :: get('MyRepository'));
-			$lcms_repository_category->set_parent_id($repository_id);
+			$lcms_repository_category->set_parent($repository_id);
 			
 			//Create category in database
 			$lcms_repository_category->create();

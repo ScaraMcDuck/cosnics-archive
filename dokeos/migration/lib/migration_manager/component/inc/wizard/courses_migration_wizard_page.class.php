@@ -98,7 +98,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 				$this->migrate('_User_Course_Category', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,2);
 				
 				//Migrate course users
-				$this->migrate('_Course_Rel_User', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,3);
+				$this->migrate('_Course_User_Relation', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,3);
 			}
 			else
 			{

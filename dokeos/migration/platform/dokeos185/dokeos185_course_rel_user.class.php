@@ -233,7 +233,7 @@ class Dokeos185CourseRelUser extends ImportCourseRelUser
 		unset($user_id);
 		$lcms_course_rel_user->set_status($this->get_status());
 		$lcms_course_rel_user->set_role($this->get_role());
-		$lcms_course_rel_user->set_group($this->get_group_id());
+		$lcms_course_rel_user->set_course_group($this->get_group_id());
 		
 		$lcms_course_rel_user->set_tutor($this->get_tutor_id());
 		
@@ -245,6 +245,7 @@ class Dokeos185CourseRelUser extends ImportCourseRelUser
 		else
 			$lcms_course_rel_user->set_category(0);
 		unset($category_code);
+                
 		//create user in database
 		$lcms_course_rel_user->create();
 		
