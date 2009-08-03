@@ -44,7 +44,7 @@ class GroupManagerSubscriberComponent extends GroupManagerComponent
 			{
 				$existing_groupreluser = $this->retrieve_group_rel_user($user, $group_id);
 
-				if (!isset($existing_groupreluser))
+				if (!is_null($existing_groupreluser))
 				{
 					$groupreluser = new GroupRelUser();
 					$groupreluser->set_group_id($group_id);

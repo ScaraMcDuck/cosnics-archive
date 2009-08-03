@@ -1,6 +1,8 @@
 <?php
 
 require_once dirname(__FILE__).'/group_data_manager.class.php';
+require_once Path :: get_common_path() . 'data_class.class.php';
+
 /**
  * @package users
  */
@@ -9,20 +11,12 @@ require_once dirname(__FILE__).'/group_data_manager.class.php';
  *	@author Dieter De Neef
  */
 
-class GroupRelUser
+class GroupRelUser extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 	
 	const PROPERTY_GROUP_ID = 'group_id';
 	const PROPERTY_USER_ID = 'user_id';
-
-	private $defaultProperties;
-
-	function GroupRelUser($group_id = 0, $user_id = 0, $defaultProperties = array())
-	{
-		$this->set_group_id($group_id);
-		$this->set_user_id($user_id);
-	}
 	
 	function get_group_id()
 	{
@@ -44,61 +38,26 @@ class GroupRelUser
 		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
 	}	
 	
-		
-	/**
-	 * Gets a default property of this group object by name.
-	 * @param string $name The name of the property.
-	 */
-	function get_default_property($name)
-	{
-		return $this->defaultProperties[$name];
-	}
-	
-	/**
-	 * Gets the default properties of this group.
-	 * @return array An associative array containing the properties.
-	 */
-	function get_default_properties()
-	{
-		return $this->defaultProperties;
-	}
-	
-	function set_default_properties($defaultProperties)
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
-	
 	/**
 	 * Get the default properties of all groups.
 	 * @return array The property names.
 	 */
-	function get_default_property_names()
+	static function get_default_property_names()
 	{
 		return array (self :: PROPERTY_GROUP_ID, self :: PROPERTY_USER_ID);
 	}
-		
-	/**
-	 * Sets a default property of this group by name.
-	 * @param string $name The name of the property.
-	 * @param mixed $value The new value for the property.
-	 */
-	function set_default_property($name, $value)
-	{
-		$this->defaultProperties[$name] = $value;
-	}
 	
 	/**
-	 * Instructs the Datamanager to delete this user.
-	 * @return boolean True if success, false otherwise.
+	 * inherited
 	 */
-	function delete()
+	function get_data_manager()
 	{
-		return GroupDataManager :: get_instance()->delete_group_rel_user($this);
+		return GroupDataManager :: get_instance();	
 	}
 	
 	function create()
 	{
-		$gdm = GroupDataManager :: get_instance();
+		$gdm = $this->get_data_manager();
 		return $gdm->create_group_rel_user($this);
 	}
 	
