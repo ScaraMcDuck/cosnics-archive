@@ -1,6 +1,8 @@
 <?php
 require_once Path :: get_repository_path() . 'lib/repository_data_manager.class.php';
 require_once Path :: get_user_path() . 'lib/user_data_manager.class.php';
+require_once Path :: get_common_path() . 'data_class.class.php';
+
 /**
  * $Id$
  * @package application.weblcms
@@ -11,14 +13,13 @@ require_once Path :: get_user_path() . 'lib/user_data_manager.class.php';
  * When publishing a learning object from the repository in the weblcms
  * application, a new object of this type is created.
  */
-class LearningObjectPublication
+class LearningObjectPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
 
     /**#@+
      * Constant defining a property of the publication
      */
-    const PROPERTY_ID = 'id';
     const PROPERTY_LEARNING_OBJECT_ID = 'learning_object';
     const PROPERTY_COURSE_ID = 'course';
     const PROPERTY_TOOL = 'tool';
@@ -34,71 +35,24 @@ class LearningObjectPublication
     const PROPERTY_EMAIL_SENT = 'email_sent';
     const PROPERTY_SHOW_ON_HOMEPAGE = 'show_on_homepage';
 
-	private $defaultProperties;
 	private $target_course_groups;
 	private $target_users;
 
 	private $learning_object;
 	private $publisher;
 
-    function LearningObjectPublication($defaultProperties = array ())
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    /**
-     * Gets a default property of this user object by name.
-     * @param string $name The name of the property.
-     */
-    function get_default_property($name)
-    {
-        return $this->defaultProperties[$name];
-    }
-
-    /**
-     * Gets the default properties of this user.
-     * @return array An associative array containing the properties.
-     */
-    function get_default_properties()
-    {
-        return $this->defaultProperties;
-    }
-
-    function set_default_properties($defaultProperties)
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_ID, self :: PROPERTY_LEARNING_OBJECT_ID, self :: PROPERTY_COURSE_ID, self :: PROPERTY_TOOL, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CATEGORY_ID, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER_ID, self :: PROPERTY_PUBLICATION_DATE, self :: PROPERTY_MODIFIED_DATE, self :: PROPERTY_DISPLAY_ORDER_INDEX, self :: PROPERTY_EMAIL_SENT, self :: PROPERTY_SHOW_ON_HOMEPAGE);
+       return parent :: get_default_property_names(array(self :: PROPERTY_LEARNING_OBJECT_ID, self :: PROPERTY_COURSE_ID, self :: PROPERTY_TOOL, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CATEGORY_ID, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER_ID, self :: PROPERTY_PUBLICATION_DATE, self :: PROPERTY_MODIFIED_DATE, self :: PROPERTY_DISPLAY_ORDER_INDEX, self :: PROPERTY_EMAIL_SENT, self :: PROPERTY_SHOW_ON_HOMEPAGE));
     }
-
-    function set_default_property($name, $value)
-    {
-        $this->defaultProperties[$name] = $value;
-    }
-
-    /**
-     * Checks if the given identifier is the name of a default user
-     * property.
-     * @param string $name The identifier.
-     * @return boolean True if the identifier is a property name, false
-     *                 otherwise.
-     */
-    static function is_default_property_name($name)
-    {
-        return in_array($name, self :: get_default_property_names());
-    }
-
-    /**
-     * Gets the publication id.
-     * @return int
-     */
-    function get_id()
-    {
-        return $this->get_default_property(self :: PROPERTY_ID);
-    }
+    
+	/**
+	 * inherited
+	 */
+	function get_data_manager()
+	{
+		return WeblcmsDataManager :: get_instance();	
+	}
 
     /**
      * Gets the learning object.
@@ -297,16 +251,6 @@ class LearningObjectPublication
         return $this->get_default_property(self :: PROPERTY_DISPLAY_ORDER_INDEX);
     }
 
-    /**#@+
-     * Sets a property of this learning object publication.
-     * See constructor for detailed information about the property.
-     * @see LearningObjectPublication()
-     */
-    function set_id($id)
-    {
-        $this->set_default_property(self :: PROPERTY_ID, $id);
-    }
-
     function set_learning_object_id($learning_object_id)
     {
         $this->set_default_property(self :: PROPERTY_LEARNING_OBJECT_ID, $learning_object_id);
@@ -411,24 +355,6 @@ class LearningObjectPublication
         $id = $dm->get_next_learning_object_publication_id();
         $this->set_id($id);
         return $dm->create_learning_object_publication($this);
-    }
-
-    /**
-     * Updates this publication in persistent storage
-     * @see WeblcmsDataManager::update_learning_object_publication()
-     */
-    function update()
-    {
-        return WeblcmsDataManager :: get_instance()->update_learning_object_publication($this);
-    }
-
-    /**
-     * Deletes this publication from persistent storage
-     * @see WeblcmsDataManager::delete_learning_object_publication()
-     */
-    function delete()
-    {
-        return WeblcmsDataManager :: get_instance()->delete_learning_object_publication($this);
     }
 
     /**

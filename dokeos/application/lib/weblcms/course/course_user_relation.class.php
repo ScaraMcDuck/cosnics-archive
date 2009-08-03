@@ -5,6 +5,7 @@
  * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
+require_once Path :: get_common_path() . 'data_class.class.php';
 
 /**
  *	This class represents a course user relation in the weblcms.
@@ -26,7 +27,7 @@ require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
  *
  */
 
-class CourseUserRelation
+class CourseUserRelation extends DataClass
 {
     const CLASS_NAME = __CLASS__;
 
@@ -39,53 +40,6 @@ class CourseUserRelation
 	const PROPERTY_SORT = 'sort';
 	const PROPERTY_CATEGORY = 'user_course_cat';
 
-	private $defaultProperties;
-
-	/**
-	 * Creates a new course user relation object.
-	 * @param int $id The numeric ID of the course user relation object. May be omitted
-	 *                if creating a new object.
-	 * @param array $defaultProperties The default properties of the course user relation
-	 *                object. Associative array.
-	 */
-    function CourseUserRelation($defaultProperties = array ())
-    {
-		$this->defaultProperties = $defaultProperties;
-    }
-
-    /**
-	 * Gets a default property of this course user relation object by name.
-	 * @param string $name The name of the property.
-	 */
-	function get_default_property($name)
-	{
-		return $this->defaultProperties[$name];
-	}
-
-	/**
-	 * Gets the default properties of this course user relation object.
-	 * @return array An associative array containing the properties.
-	 */
-	function get_default_properties()
-	{
-		return $this->defaultProperties;
-	}
-
-	/**
-	 * Sets a default property of this course user relation object by name.
-	 * @param string $name The name of the property.
-	 * @param mixed $value The new value for the property.
-	 */
-	function set_default_property($name, $value)
-	{
-		$this->defaultProperties[$name] = $value;
-	}
-
-	function set_default_properties($defaultProperties)
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
-
 	/**
 	 * Get the default properties of all course user relations.
 	 * @return array The property names.
@@ -95,6 +49,14 @@ class CourseUserRelation
 		return array (self :: PROPERTY_COURSE, self :: PROPERTY_USER, self :: PROPERTY_STATUS, self :: PROPERTY_ROLE, self :: PROPERTY_COURSE_GROUP, self :: PROPERTY_TUTOR, self :: PROPERTY_SORT, self :: PROPERTY_CATEGORY	);
 	}
 
+	/**
+	 * inherited
+	 */
+	function get_data_manager()
+	{
+		return WeblcmsDataManager :: get_instance();	
+	}
+	
 	/**
 	 * Returns the course of this course user relation object
 	 * @return int
@@ -252,22 +214,6 @@ class CourseUserRelation
 	}
 
 	/**
-	 * Updates the course user relation object in persistent storage
-	 * @return boolean
-	 */
-	function update()
-	{
-		$wdm = WeblcmsDataManager :: get_instance();
-		$success = $wdm->update_course_user_relation($this);
-		if (!$success)
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
 	 * Creates the course user relation object in persistent storage
 	 * @return boolean
 	 */
@@ -280,22 +226,6 @@ class CourseUserRelation
 		{
 			return false;
 		}
-		return true;
-	}
-
-	/**
-	 * Deletes the course user relation object from persistent storage
-	 * @return boolean
-	 */
-	function delete()
-	{
-		$wdm = WeblcmsDataManager :: get_instance();
-		$success = $wdm->delete_course_user($this);
-		if (!$success)
-		{
-			return false;
-		}
-
 		return true;
 	}
 
