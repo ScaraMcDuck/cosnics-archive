@@ -64,7 +64,6 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
 		$menu = array();
 		$menu_item = array();
 		$menu_item['title'] = Translation :: get('Root').$this->get_category_count(0);
-        $menu_item['count'] = $this->get_category_count(0);
 		$menu_item['url'] = $this->get_category_url(0);
 		$sub_menu_items = $this->get_sub_menu_items(0);
 		if(count($sub_menu_items) > 0)
@@ -95,7 +94,6 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
 		{
 			$menu_item = array();
             $menu_item['title'] = $category->get_name().$this->get_category_count($category->get_id());
-            $menu_item['count'] = $this->get_category_count($category->get_id());
 			$menu_item['url'] = $this->get_category_url($category->get_id());
 			$sub_menu_items = $this->get_sub_menu_items($category->get_id());
 			if(count($sub_menu_items) > 0)
@@ -112,7 +110,7 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
     private function get_category_count($category_id)
     {
         $count = $this->browser->get_publication_count($category_id);
-        return $count;
+        return ($count>0)?' (' . $count . ')':'';
     }
 	
 	/**
@@ -132,10 +130,10 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
         $array_renderer = new HTML_Menu_ArrayRenderer();
 		$this->render($array_renderer, 'urhere');
 		$breadcrumbs = $array_renderer->toArray();
-		foreach ($breadcrumbs as $crumb)
+		foreach ($breadcrumbs as &$crumb)
 		{
-			$crumb['name'] = $crumb['title'];
-			unset($crumb['title']);
+			$split = explode('(', $crumb['title']);
+                        $crumb['title'] = $split[0];
 		}
 		return $breadcrumbs;
 	}
