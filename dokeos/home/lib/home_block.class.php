@@ -2,13 +2,14 @@
 require_once Path :: get_application_path() . 'lib/web_application.class.php';
 require_once dirname(__FILE__) . '/home_data_manager.class.php';
 require_once 'XML/Unserializer.php';
+require_once Path :: get_common_path() . 'data_class.class.php';
 
-class HomeBlock
+
+class HomeBlock extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'block';
     
-    const PROPERTY_ID = 'id';
     const PROPERTY_COLUMN = 'column';
     const PROPERTY_TITLE = 'title';
     const PROPERTY_SORT = 'sort';
@@ -17,56 +18,22 @@ class HomeBlock
     const PROPERTY_VISIBILITY = 'visibility';
     const PROPERTY_USER = 'user';
     
-    private $defaultProperties;
-
-    function HomeBlock($defaultProperties = array ())
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    function get_default_property($name)
-    {
-        return $this->defaultProperties[$name];
-    }
-
-    function get_default_properties()
-    {
-        return $this->defaultProperties;
-    }
-
-    function set_default_properties($defaultProperties)
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    function set_default_property($name, $value)
-    {
-        $this->defaultProperties[$name] = $value;
-    }
-
     /**
      * Get the default properties of all user course categories.
      * @return array The property names.
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_ID, self :: PROPERTY_COLUMN, self :: PROPERTY_TITLE, self :: PROPERTY_SORT, self :: PROPERTY_APPLICATION, self :: PROPERTY_COMPONENT, self :: PROPERTY_VISIBILITY, self :: PROPERTY_USER);
+        return parent :: get_default_property_names(array(self :: PROPERTY_COLUMN, self :: PROPERTY_TITLE, self :: PROPERTY_SORT, self :: PROPERTY_APPLICATION, self :: PROPERTY_COMPONENT, self :: PROPERTY_VISIBILITY, self :: PROPERTY_USER));
     }
-
-    static function is_default_property_name($name)
-    {
-        return in_array($name, self :: get_default_property_names());
-    }
-
-    function get_id()
-    {
-        return $this->get_default_property(self :: PROPERTY_ID);
-    }
-
-    function set_id($id)
-    {
-        $this->set_default_property(self :: PROPERTY_ID, $id);
-    }
+    
+	/**
+	 * inherited
+	 */
+	function get_data_manager()
+	{
+		return HomeDataManager :: get_instance();	
+	}
 
     function get_sort()
     {
@@ -153,21 +120,9 @@ class HomeBlock
         return $this->get_visibility();
     }
 
-    function update()
-    {
-        $wdm = HomeDataManager :: get_instance();
-        $success = $wdm->update_home_block($this);
-        if (! $success)
-        {
-            return false;
-        }
-        
-        return true;
-    }
-
     function create()
     {
-        $wdm = HomeDataManager :: get_instance();
+        $wdm = $this->get_data_manager();
         $id = $wdm->get_next_home_block_id();
         $this->set_id($id);
         
@@ -237,19 +192,6 @@ class HomeBlock
                 }
             }
         }
-        return true;
-    }
-
-    function delete()
-    {
-        $hdm = HomeDataManager :: get_instance();
-        $success = $hdm->delete_home_block($this);
-        
-        if (! $success)
-        {
-            return false;
-        }
-        
         return true;
     }
 

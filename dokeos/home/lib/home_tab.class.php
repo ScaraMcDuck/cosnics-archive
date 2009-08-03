@@ -1,7 +1,8 @@
 <?php
 require_once dirname(__FILE__) . '/home_data_manager.class.php';
+require_once Path :: get_common_path() . 'data_class.class.php';
 
-class HomeTab
+class HomeTab extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'tab';
@@ -44,23 +45,16 @@ class HomeTab
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_ID, self :: PROPERTY_TITLE, self :: PROPERTY_SORT, self :: PROPERTY_USER);
+        return parent :: get_default_property_names(array(self :: PROPERTY_TITLE, self :: PROPERTY_SORT, self :: PROPERTY_USER));
     }
-
-    static function is_default_property_name($name)
-    {
-        return in_array($name, self :: get_default_property_names());
-    }
-
-    function get_id()
-    {
-        return $this->get_default_property(self :: PROPERTY_ID);
-    }
-
-    function set_id($id)
-    {
-        $this->set_default_property(self :: PROPERTY_ID, $id);
-    }
+    
+	/**
+	 * inherited
+	 */
+	function get_data_manager()
+	{
+		return HomeDataManager :: get_instance();	
+	}
 
     function get_sort()
     {
@@ -92,21 +86,9 @@ class HomeTab
         $this->set_default_property(self :: PROPERTY_USER, $user);
     }
 
-    function update()
-    {
-        $wdm = HomeDataManager :: get_instance();
-        $success = $wdm->update_home_tab($this);
-        if (! $success)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
     function create()
     {
-        $wdm = HomeDataManager :: get_instance();
+        $wdm = $this->get_data_manager();
         $id = $wdm->get_next_home_tab_id();
         $this->set_id($id);
 
@@ -123,21 +105,9 @@ class HomeTab
         return true;
     }
 
-    function delete()
-    {
-        $hdm = HomeDataManager :: get_instance();
-        $success = $hdm->delete_home_tab($this);
-        if (! $success)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
     function can_be_deleted()
     {
-        $hdm = HomeDataManager :: get_instance();
+        $hdm = $this->get_data_manager();
         $blocks = $hdm->retrieve_home_tab_blocks($this);
 
         while ($block = $blocks->next_result())
