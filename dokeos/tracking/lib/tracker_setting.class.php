@@ -8,49 +8,19 @@
  *
  * @author Sven Vanpoucke
  */
-class TrackerSetting
+
+require_once Path :: get_common_path() . 'data_class.class.php';
+
+class TrackerSetting extends DataClass
 {
     const CLASS_NAME = __CLASS__;
 
     /**
      * TrackerSetting properties
      */
-    const PROPERTY_ID = 'id';
     const PROPERTY_TRACKER_ID = 'tracker_id';
     const PROPERTY_SETTING = 'setting';
     const PROPERTY_VALUE = 'value';
-
-    /**
-     * Default properties stored in an associative array.
-     */
-    private $defaultProperties;
-
-    /**
-     * Creates a new TrackerSetting object
-     * @param array $defaultProperties The default properties
-     */
-    function TrackerSetting($defaultProperties = array ())
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    /**
-     * Gets a default property by name.
-     * @param string $name The name of the property.
-     */
-    function get_default_property($name)
-    {
-        return $this->defaultProperties[$name];
-    }
-
-    /**
-     * Gets the default properties
-     * @return array An associative array containing the properties.
-     */
-    function get_default_properties()
-    {
-        return $this->defaultProperties;
-    }
 
     /**
      * Get the default properties
@@ -58,45 +28,17 @@ class TrackerSetting
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_ID, self :: PROPERTY_TRACKER_ID, self :: PROPERTY_SETTING, self :: PROPERTY_VALUE);
+        return parent :: get_default_property_names(array(self :: PROPERTY_TRACKER_ID, self :: PROPERTY_SETTING, self :: PROPERTY_VALUE));
     }
-
-    /**
-     * Sets a default property by name.
-     * @param string $name The name of the property.
-     * @param mixed $value The new value for the property.
-     */
-    function set_default_property($name, $value)
-    {
-        $this->defaultProperties[$name] = $value;
-    }
-
-    /**
-     * Sets the default properties of this class
-     */
-    function set_default_properties($defaultProperties)
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    /**
-     * Returns the id of this TrackerSetting.
-     * @return the id.
-     */
-    function get_id()
-    {
-        return $this->get_default_property(self :: PROPERTY_ID);
-    }
-
-    /**
-     * Sets the id of this TrackerSetting.
-     * @param id
-     */
-    function set_id($id)
-    {
-        $this->set_default_property(self :: PROPERTY_ID, $id);
-    }
-
+    
+	/**
+	 * inherited
+	 */
+	function get_data_manager()
+	{
+		return TrackingDataManager :: get_instance();	
+	}
+	
     /**
      * Returns the tracker_id of this TrackerSetting.
      * @return the tracker_id.
@@ -160,16 +102,7 @@ class TrackerSetting
         $this->set_id($trkdmg->get_next_id(self :: get_table_name()));
         $trkdmg->create_tracker_setting($this);
     }
-
-    /**
-     * Updates this event in the database
-     */
-    function update()
-    {
-        $trkdmg = TrackingDataManager :: get_instance();
-        $trkdmg->update_tracker_setting($this);
-    }
-
+    
     static function get_table_name()
     {
         return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
