@@ -7,6 +7,7 @@
 require_once Path :: get_application_path() . 'lib/weblcms/weblcms_data_manager.class.php';
 require_once Path :: get_application_path() . 'lib/weblcms/weblcms_manager/weblcms_manager.class.php';
 require_once Path :: get_application_path() . 'lib/weblcms/course_group/course_group.class.php';
+require_once Path :: get_common_path() . 'data_class.class.php';
 
 /**
  *	This class represents a course in the weblcms.
@@ -30,11 +31,10 @@ require_once Path :: get_application_path() . 'lib/weblcms/course_group/course_g
  *
  */
 
-class Course
+class Course extends DataClass
 {
     const CLASS_NAME = __CLASS__;
 
-	const PROPERTY_ID = 'id';
 	const PROPERTY_VISUAL = 'visual_code';
 	const PROPERTY_NAME = 'title';
 	const PROPERTY_TITULAR = 'titular';
@@ -81,10 +81,6 @@ class Course
 	const BREADCRUMB_CODE = 2;
 	const BREADCRUMB_COURSE_HOME = 3;
 
-	private $id;
-	private $defaultProperties;
-
-
 	static function get_layouts()
 	{
 		return array(self :: LAYOUT_2_COLUMNS => Translation :: get('TwoColumns'),
@@ -118,57 +114,12 @@ class Course
 	}
 
 	/**
-	 * Creates a new course object.
-	 * @param int $id The numeric ID of the course object. May be omitted
-	 *                if creating a new object.
-	 * @param array $defaultProperties The default properties of the course
-	 *                object. Associative array.
-	 */
-    function Course($defaultProperties = array ())
-    {
-		$this->defaultProperties = $defaultProperties;
-	}
-
-    /**
-	 * Gets a default property of this course object by name.
-	 * @param string $name The name of the property.
-	 */
-	function get_default_property($name)
-	{
-		return $this->defaultProperties[$name];
-	}
-
-	/**
-	 * Gets the default properties of this course object.
-	 * @return array An associative array containing the properties.
-	 */
-	function get_default_properties()
-	{
-		return $this->defaultProperties;
-	}
-
-	/**
-	 * Sets a default property of this course object by name.
-	 * @param string $name The name of the property.
-	 * @param mixed $value The new value for the property.
-	 */
-	function set_default_property($name, $value)
-	{
-		$this->defaultProperties[$name] = $value;
-	}
-
-    function set_default_properties($defaultProperties)
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
-
-	/**
 	 * Get the default properties of all courses.
 	 * @return array The property names.
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_LAYOUT, self :: PROPERTY_VISUAL,
+		return parent :: get_default_property_names(array (self :: PROPERTY_LAYOUT, self :: PROPERTY_VISUAL,
 				      self :: PROPERTY_CATEGORY, self :: PROPERTY_NAME, self :: PROPERTY_SHOW_SCORE,
 				      self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE,
 				      self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME,
@@ -177,18 +128,17 @@ class Course
 				      self :: PROPERTY_TOOL_SHORTCUT, self :: PROPERTY_MENU, self :: PROPERTY_BREADCRUMB,
 				      self :: PROPERTY_ALLOW_FEEDBACK, self :: PROPERTY_DISK_QUOTA,
 				      self :: PROPERTY_CREATION_DATE, self :: PROPERTY_EXPIRATION_DATE,
-				      self :: PROPERTY_LAST_EDIT, self :: PROPERTY_LAST_VISIT);
+				      self :: PROPERTY_LAST_EDIT, self :: PROPERTY_LAST_VISIT));
 	}
-
+	
 	/**
-	 * Returns the ID of this course object.
-	 * @return int The ID.
+	 * inherited
 	 */
-	function get_id()
-    {
-    	return $this->get_default_property(self :: PROPERTY_ID);
-    }
-
+	function get_data_manager()
+	{
+		return WeblcmsDataManager :: get_instance();	
+	}
+	
 	/**
 	 * Returns the visual code of this course object
 	 * @return string the visual code
@@ -326,15 +276,6 @@ class Course
     {
     	return $this->get_default_property(self :: PROPERTY_LAST_VISIT);
     }
-
-    /**
-     * Sets the ID of this course object
-     * @param int $id The ID
-     */
-    function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
 
 	/**
 	 * Sets the visual code of this course object
@@ -517,16 +458,6 @@ class Course
     }
 
 	/**
-	 * Deletes the course object from persistent storage
-	 * @return boolean
-	 */
-	function delete()
-	{
-		$wdm = WeblcmsDataManager :: get_instance();
-		return $wdm->delete_course($this->get_id());
-	}
-
-	/**
 	 * Creates the course object in persistent storage
 	 * @return boolean
 	 */
@@ -581,22 +512,6 @@ class Course
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
 		return $wdm->create_course_all($this);
-	}
-
-	/**
-	 * Updates the course object in persistent storage
-	 * @return boolean
-	 */
-	function update()
-	{
-		$wdm = WeblcmsDataManager :: get_instance();
-		$success = $wdm->update_course($this);
-		if (!$success)
-		{
-			return false;
-		}
-
-		return true;
 	}
 
 	/**

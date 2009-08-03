@@ -3,12 +3,14 @@
  * portfolio
  */
 
+require_once Path :: get_common_path() . 'data_class.class.php';
+
 /**
  * This class describes a PortfolioPublicationGroup data object
  *
  * @author Sven Vanpoucke
  */
-class PortfolioPublicationGroup
+class PortfolioPublicationGroup extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 
@@ -19,38 +21,6 @@ class PortfolioPublicationGroup
 	const PROPERTY_GROUP_ID = 'group_id';
 
 	/**
-	 * Default properties stored in an associative array.
-	 */
-	private $defaultProperties;
-
-	/**
-	 * Creates a new PortfolioPublicationGroup object
-	 * @param array $defaultProperties The default properties
-	 */
-	function PortfolioPublicationGroup($defaultProperties = array ())
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
-
-	/**
-	 * Gets a default property by name.
-	 * @param string $name The name of the property.
-	 */
-	function get_default_property($name)
-	{
-		return $this->defaultProperties[$name];
-	}
-
-	/**
-	 * Gets the default properties
-	 * @return array An associative array containing the properties.
-	 */
-	function get_default_properties()
-	{
-		return $this->defaultProperties;
-	}
-
-	/**
 	 * Get the default properties
 	 * @return array The property names.
 	 */
@@ -58,23 +28,13 @@ class PortfolioPublicationGroup
 	{
 		return array (self :: PROPERTY_PORTFOLIO_PUBLICATION, self :: PROPERTY_GROUP_ID);
 	}
-
+	
 	/**
-	 * Sets a default property by name.
-	 * @param string $name The name of the property.
-	 * @param mixed $value The new value for the property.
+	 * inherited
 	 */
-	function set_default_property($name, $value)
+	function get_data_manager()
 	{
-		$this->defaultProperties[$name] = $value;
-	}
-
-	/**
-	 * Sets the default properties of this class
-	 */
-	function set_default_properties($defaultProperties)
-	{
-		$this->defaultProperties = $defaultProperties;
+		return PortfolioDataManager :: get_instance();	
 	}
 
 	/**
@@ -112,22 +72,10 @@ class PortfolioPublicationGroup
 		$this->set_default_property(self :: PROPERTY_GROUP_ID, $group_id);
 	}
 
-	function delete()
-	{
-		$dm = PortfolioDataManager :: get_instance();
-		return $dm->delete_portfolio_publication_group($this);
-	}
-
 	function create()
 	{
 		$dm = PortfolioDataManager :: get_instance();
        	return $dm->create_portfolio_publication_group($this);
-	}
-
-	function update()
-	{
-		$dm = PortfolioDataManager :: get_instance();
-		return $dm->update_portfolio_publication_group($this);
 	}
 
 	static function get_table_name()

@@ -3,19 +3,20 @@
  * webconferencing
  */
 
+require_once Path :: get_common_path() . 'data_class.class.php';
+
 /**
  * This class describes a Webconference data object
  *
  * @author Stefaan Vanbillemont
  */
-class Webconference
+class Webconference extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 
 	/**
 	 * Webconference properties
 	 */
-	const PROPERTY_ID = 'id';
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_CONFKEY = 'confkey';
 	const PROPERTY_CONFNAME = 'confname';
@@ -23,80 +24,20 @@ class Webconference
 	const PROPERTY_DURATION = 'duration';
 
 	/**
-	 * Default properties stored in an associative array.
-	 */
-	private $defaultProperties;
-
-	/**
-	 * Creates a new Webconference object
-	 * @param array $defaultProperties The default properties
-	 */
-	function Webconference($defaultProperties = array ())
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
-
-	/**
-	 * Gets a default property by name.
-	 * @param string $name The name of the property.
-	 */
-	function get_default_property($name)
-	{
-		return $this->defaultProperties[$name];
-	}
-
-	/**
-	 * Gets the default properties
-	 * @return array An associative array containing the properties.
-	 */
-	function get_default_properties()
-	{
-		return $this->defaultProperties;
-	}
-
-	/**
 	 * Get the default properties
 	 * @return array The property names.
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_USER_ID, self :: PROPERTY_CONFKEY, self :: PROPERTY_CONFNAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_DURATION);
+		return parent :: get_default_property_names(array (self :: PROPERTY_USER_ID, self :: PROPERTY_CONFKEY, self :: PROPERTY_CONFNAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_DURATION));
 	}
 
 	/**
-	 * Sets a default property by name.
-	 * @param string $name The name of the property.
-	 * @param mixed $value The new value for the property.
+	 * inherited
 	 */
-	function set_default_property($name, $value)
+	function get_data_manager()
 	{
-		$this->defaultProperties[$name] = $value;
-	}
-
-	/**
-	 * Sets the default properties of this class
-	 */
-	function set_default_properties($defaultProperties)
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
-
-	/**
-	 * Returns the id of this Webconference.
-	 * @return the id.
-	 */
-	function get_id()
-	{
-		return $this->get_default_property(self :: PROPERTY_ID);
-	}
-
-	/**
-	 * Sets the id of this Webconference.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
+		return WebconferencingDataManager :: get_instance();	
 	}
 	
 	/**
@@ -187,25 +128,6 @@ class Webconference
 	function set_duration($duration)
 	{
 		$this->set_default_property(self :: PROPERTY_DURATION, $duration);
-	}
-
-	function delete()
-	{
-		$dm = WebconferencingDataManager :: get_instance();
-		return $dm->delete_webconference($this);
-	}
-
-	function create()
-	{
-		$dm = WebconferencingDataManager :: get_instance();
-		$this->set_id($dm->get_next_webconference_id());
-       	return $dm->create_webconference($this);
-	}
-
-	function update()
-	{
-		$dm = WebconferencingDataManager :: get_instance();
-		return $dm->update_webconference($this);
 	}
 
 	static function get_table_name()

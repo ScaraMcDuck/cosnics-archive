@@ -3,12 +3,14 @@
  * weblcms
  */
 
+require_once Path :: get_common_path() . 'data_class.class.php';
+
 /**
  * This class describes a CourseModuleLastAccess data object
  *
  * @author Hans De Bisschop
  */
-class CourseModuleLastAccess
+class CourseModuleLastAccess extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 
@@ -22,38 +24,6 @@ class CourseModuleLastAccess
 	const PROPERTY_ACCESS_DATE = 'access_date';
 
 	/**
-	 * Default properties stored in an associative array.
-	 */
-	private $defaultProperties;
-
-	/**
-	 * Creates a new CourseModuleLastAccess object
-	 * @param array $defaultProperties The default properties
-	 */
-	function CourseModuleLastAccess($defaultProperties = array ())
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
-
-	/**
-	 * Gets a default property by name.
-	 * @param string $name The name of the property.
-	 */
-	function get_default_property($name)
-	{
-		return $this->defaultProperties[$name];
-	}
-
-	/**
-	 * Gets the default properties
-	 * @return array An associative array containing the properties.
-	 */
-	function get_default_properties()
-	{
-		return $this->defaultProperties;
-	}
-
-	/**
 	 * Get the default properties
 	 * @return array The property names.
 	 */
@@ -63,23 +33,13 @@ class CourseModuleLastAccess
 	}
 
 	/**
-	 * Sets a default property by name.
-	 * @param string $name The name of the property.
-	 * @param mixed $value The new value for the property.
+	 * inherited
 	 */
-	function set_default_property($name, $value)
+	function get_data_manager()
 	{
-		$this->defaultProperties[$name] = $value;
+		return WeblcmsDataManager :: get_instance();	
 	}
-
-	/**
-	 * Sets the default properties of this class
-	 */
-	function set_default_properties($defaultProperties)
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
-
+	
 	/**
 	 * Returns the course_code of this CourseModuleLastAccess.
 	 * @return the course_code.
@@ -165,24 +125,12 @@ class CourseModuleLastAccess
 	{
 		$this->set_default_property(self :: PROPERTY_ACCESS_DATE, $access_date);
 	}
-
-	function delete()
-	{
-		$dm = WeblcmsDataManager :: get_instance();
-		return $dm->delete_course_module_last_access($this);
-	}
-
+	
 	function create()
 	{
 		$dm = WeblcmsDataManager :: get_instance();
 		//$this->set_id($dm->get_next_course_module_last_access_id());
        	return $dm->create_course_module_last_access($this);
-	}
-
-	function update()
-	{
-		$dm = WeblcmsDataManager :: get_instance();
-		return $dm->update_course_module_last_access($this);
 	}
 
 	static function get_table_name()
