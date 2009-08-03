@@ -3,44 +3,28 @@
  * @package repository
  */
 require_once dirname(__FILE__).'/repository_data_manager.class.php';
+require_once Path :: get_common_path() . 'data_class.class.php';
 /**
  * Instances of this class group generic information about a complex learning object item
  *
  * @author Sven Vanpoucke
  */
 
-class ComplexLearningObjectItem
+class ComplexLearningObjectItem extends DataClass
 {
-	const PROPERTY_ID = 'id';
 	const PROPERTY_REF = 'ref';
 	const PROPERTY_PARENT = 'parent';
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_DISPLAY_ORDER = 'display_order';
 	const PROPERTY_ADD_DATE = 'add_date';
 
-	private $defaultProperties;
 	private $additionalProperties;
 
     function ComplexLearningObjectItem($defaultProperties = array (), $additionalProperties = array())
     {
-		$this->defaultProperties = $defaultProperties;
+		parent :: __construct($defaultProperties);
 		$this->additionalProperties = $additionalProperties;
     }
-    
-	function get_default_property($name)
-	{
-		return $this->defaultProperties[$name];
-	}
-
-	/**
-	 * Gives a value to a given default property
-	 * @param String $name the name of the default property
-	 * @param Object $value the new value
-	 */
-	function set_default_property($name, $value)
-	{
-		$this->defaultProperties[$name] = $value;
-	}
 	
 	function get_additional_property($name)
 	{
@@ -56,25 +40,6 @@ class ComplexLearningObjectItem
 	{
 		$this->additionalProperties[$name] = $value;
 	}
-	
-	/**
-	 * Retrieves the default properties of this class
-	 * @return Array of Objects
-	 */
-	function get_default_properties()
-	{
-		return $this->defaultProperties;
-	}
-	
-	/**
-	 * Sets the default properties of this class
-	 * @param Array Of Objects $defaultProperties
-	 */
-	function set_default_properties($defaultProperties)
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
-	
 		
 	/**
 	 * Retrieves the default properties of this class
@@ -100,8 +65,16 @@ class ComplexLearningObjectItem
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_REF, self :: PROPERTY_PARENT, 
-		self :: PROPERTY_USER_ID, self :: PROPERTY_DISPLAY_ORDER, self :: PROPERTY_ADD_DATE);
+		return parent :: get_default_property_names(array(self :: PROPERTY_REF, self :: PROPERTY_PARENT, 
+		self :: PROPERTY_USER_ID, self :: PROPERTY_DISPLAY_ORDER, self :: PROPERTY_ADD_DATE));
+	}
+	
+	/**
+	 * inherited
+	 */
+	function get_data_manager()
+	{
+		return RepositoryDataManager :: get_instance();	
 	}
 	
 	/**
@@ -112,26 +85,6 @@ class ComplexLearningObjectItem
 	static function get_additional_property_names()
 	{
 		return array();
-	}
-	
-	/**
-	 * Method to check whether a certain name is a default property name
-	 * @param String $name
-	 * @return 
-	 */
-	static function is_default_property_name($name)
-	{
-		return in_array($name, self :: get_default_property_names());
-	}
-    
-    function get_id()
-    {
-    	return $this->get_default_property(self :: PROPERTY_ID);
-    }
-    
-    function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
 	}
 	
     function get_add_date()
@@ -184,12 +137,6 @@ class ComplexLearningObjectItem
 		$this->set_default_property(self :: PROPERTY_DISPLAY_ORDER, $display_order);
 	}
 	
-	function update()
-	{
-		$rdm = RepositoryDataManager :: get_instance();
-		return $rdm->update_complex_learning_object_item($this);
-	}
-	
 	function create()
 	{
 		$rdm = RepositoryDataManager :: get_instance();
@@ -197,28 +144,6 @@ class ComplexLearningObjectItem
 		$this->set_id($id);
 		$this->set_add_date(DokeosUtilities :: to_db_date(time()));
 		return $rdm->create_complex_learning_object_item($this);
-	}
-	
-	function delete()
-	{
-		$rdm = RepositoryDataManager :: get_instance();
-		$succes = $rdm->delete_complex_learning_object_item($this);
-		
-		/*if($succes)
-		{
-			$conditions[] = new InEqualityCondition(self :: PROPERTY_DISPLAY_ORDER, InEqualityCondition :: GREATER_THAN, $this->get_display_order());
-			$conditions[] = new EqualityCondition(self :: PROPERTY_PARENT, $this->get_parent());
-			$condition = new AndCondition($conditions); print_r($condition);
-			$items = $rdm->retrieve_complex_learning_object_items($condition);
-			
-			while($item = $items->next_result())
-			{
-				$item->set_display_order($item->get_display_order() - 1);
-				$item->update();
-			}
-		}*/
-		
-		return $succes;
 	}
 	
 	/**

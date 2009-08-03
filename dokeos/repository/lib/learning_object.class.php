@@ -11,6 +11,7 @@ require_once dirname(__FILE__).'/learning_object_difference.class.php';
 require_once dirname(__FILE__).'/learning_object_display.class.php';
 require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 require_once Path :: get_rights_path().'lib/location.class.php';
+require_once Path :: get_common_path() . 'data_class.class.php';
 /**
  *	This class represents a learning object in the repository. Every object
  *	that can be associated with a module is in fact a learning object.
@@ -70,7 +71,7 @@ require_once Path :: get_rights_path().'lib/location.class.php';
  *  @author Dieter De Neef
  */
 
-class LearningObject implements AccessibleLearningObject
+class LearningObject extends DataClass implements AccessibleLearningObject
 {
     const CLASS_NAME = __CLASS__;
 
@@ -90,7 +91,6 @@ class LearningObject implements AccessibleLearningObject
 	/**#@+
 	 * Property name of this learning object
 	 */
-	const PROPERTY_ID = 'id';
 	const PROPERTY_TYPE = 'type';
 	const PROPERTY_OWNER_ID = 'owner';
 	const PROPERTY_TITLE = 'title';
@@ -108,12 +108,6 @@ class LearningObject implements AccessibleLearningObject
 	 * Numeric identifier of the learning object.
 	 */
 	private $id;
-
-	/**
-	 * Default properties of the learning object, stored in an associative
-	 * array.
-	 */
-	private $defaultProperties;
 
 	/**
 	 * Additional properties specific to this type of learning object, stored
@@ -154,18 +148,17 @@ class LearningObject implements AccessibleLearningObject
 	function LearningObject($id = 0, $defaultProperties = array (), $additionalProperties = null)
 	{
 		$this->id = $id;
-		$this->defaultProperties = $defaultProperties;
+		parent :: __construct($defaultProperties);
 		$this->additionalProperties = $additionalProperties;
 		$this->oldState = $defaultProperties[self :: PROPERTY_STATE];
 	}
-
+	
 	/**
-	 * Returns the ID of this learning object.
-	 * @return int The ID.
+	 * inherited
 	 */
-	function get_id()
+	function get_data_manager()
 	{
-		return $this->id;
+		return RepositoryDataManager :: get_instance();	
 	}
 
 	/**
@@ -360,15 +353,6 @@ class LearningObject implements AccessibleLearningObject
 	function get_view_url ()
 	{
 		return $this->get_path(WEB_PATH).'index_repository_manager.php?go=view&category='.$this->get_parent_id().'&object='.$this->get_id();
-	}
-
-	/**
-	 * Sets the ID of this learning object.
-	 * @param int $id The ID.
-	 */
-	function set_id($id)
-	{
-		$this->id = $id;
 	}
 
 	/**
@@ -571,26 +555,7 @@ class LearningObject implements AccessibleLearningObject
 		$dm = RepositoryDataManager :: get_instance();
 		return $dm->exclude_learning_object($this, $id);
 	}
-
-	/**
-	 * Gets a default property of this learning object by name.
-	 * @param string $name The name of the property.
-	 */
-	function get_default_property($name)
-	{
-		return $this->defaultProperties[$name];
-	}
-
-	/**
-	 * Sets a default property of this learning object by name.
-	 * @param string $name The name of the property.
-	 * @param mixed $value The new value for the property.
-	 */
-	function set_default_property($name, $value)
-	{
-		$this->defaultProperties[$name] = $value;
-	}
-
+	
 	/**
 	 * Gets an additional (type-specific) property of this learning object by
 	 * name.
@@ -612,15 +577,6 @@ class LearningObject implements AccessibleLearningObject
 	{
 		//$this->check_for_additional_properties();
 		$this->additionalProperties[$name] = $value;
-	}
-
-	/**
-	 * Gets the default properties of this learning object.
-	 * @return array An associative array containing the properties.
-	 */
-	function get_default_properties()
-	{
-		return $this->defaultProperties;
 	}
 
 	/**
@@ -984,7 +940,7 @@ class LearningObject implements AccessibleLearningObject
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID,self :: PROPERTY_OWNER_ID,self :: PROPERTY_TYPE, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_MODIFICATION_DATE, self :: PROPERTY_OBJECT_NUMBER, self :: PROPERTY_STATE, self :: PROPERTY_DISPLAY_ORDER_INDEX, self :: PROPERTY_COMMENT);
+		return parent :: get_default_property_names(array (self :: PROPERTY_OWNER_ID,self :: PROPERTY_TYPE, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_MODIFICATION_DATE, self :: PROPERTY_OBJECT_NUMBER, self :: PROPERTY_STATE, self :: PROPERTY_DISPLAY_ORDER_INDEX, self :: PROPERTY_COMMENT));
 	}
 
 	static function get_additional_property_names()
