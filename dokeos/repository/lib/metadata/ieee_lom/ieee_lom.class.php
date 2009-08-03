@@ -186,7 +186,7 @@ class IeeeLom
 	 * Appends a vocabulary node to a give node
 	 * @param DOMNode $parent_node
 	 * @param string $node_name
-	 * @param Vocabulary $vocabulary
+	 * @param IeeeLomVocabulary $vocabulary
 	 */
 	private function append_vocabulary_node($parent_node, $node_name, $vocabulary = null)
 	{
@@ -386,7 +386,7 @@ class IeeeLom
 	}
 	/**
 	 * 1.7  Structure
-	 * @param Vocabulary $structure
+	 * @param IeeeLomVocabulary $structure
 	 */
 	function set_structure($structure)
 	{
@@ -396,7 +396,7 @@ class IeeeLom
 	}
 	/**
 	 * 1.8  Aggregation Level
-	 * @param Vocabulary $aggregation_level
+	 * @param IeeeLomVocabulary $aggregation_level
 	 */
 	function set_aggregation_level($aggregation_level)
 	{
@@ -418,7 +418,7 @@ class IeeeLom
 	}
 	/**
 	 * 2.2  Status
-	 * @param Vocabulary $status
+	 * @param IeeeLomVocabulary $status
 	 */
 	function set_status($status)
 	{
@@ -428,7 +428,7 @@ class IeeeLom
 	}
 	/**
 	 * 2.3 Contribute
-	 * @param Vocabulary $role
+	 * @param IeeeLomVocabulary $role
 	 * @param array|string $entity An array of strings in VCARD format or a
 	 * single string in VCARD format
 	 * @param IeeeLomDateTime $date
@@ -453,7 +453,36 @@ class IeeeLom
 		}
 		$parent = $this->get_node('/lom/lifeCycle');
 		$parent->appendChild($contribute_node);
+		
+		return $contribute_node;
 	}
+	
+	public function add_lifeCycle_entity($contribute_index, $entity_value)
+	{
+	    //debug($this->dom);
+	    $contribute_node = $this->get_node('/lom/lifeCycle/contribute[' . ($contribute_index + 1) . ']');
+	    if(isset($contribute_node))
+	    {
+	        $entity_node = $this->dom->createElement('entity', htmlspecialchars($entity_value));
+	        $contribute_node->appendChild($entity_node);
+	        
+	        return $entity_node;
+	    }
+	    else
+	    {
+	        return null;
+	    }
+	}
+	
+	public function remove_lifeCycle_entity($contribute_index, $entity_index)
+    {
+        $entity_node = $this->get_node('/lom/lifeCycle/contribute[' . ($contribute_index + 1) . ']/entity[' . $entity_index . ']');
+	    if(isset($entity_node))
+	    {
+	        $entity_node->parentNode->removeChild($entity_node);
+	    }
+    }
+	
 	
 	function get_contribute()
 	{
@@ -491,7 +520,7 @@ class IeeeLom
 	}
 	/**
 	 * 3.2 Contribute
-	 * @param Vocabulary $role
+	 * @param IeeeLomVocabulary $role
 	 * @param array|string $entity An array of strings in VCARD format or a
 	 * single string in VCARD format
 	 * @param IeeeLomDateTime $date
@@ -633,14 +662,14 @@ class IeeeLom
 	//=============================================
 	/**
 	 * 5. Educational
-	 * @param Vocabulary|null $interactivity_type
-	 * @param Vocabulary|null $learning_resource_type
-	 * @param Vocabulary|null $interactivity_level
-	 * @param Vocabulary|null $semantic_density
-	 * @param Vocabulary|null $intended_end_user_role
-	 * @param Vocabulary|null $context
+	 * @param IeeeLomVocabulary|null $interactivity_type
+	 * @param IeeeLomVocabulary|null $learning_resource_type
+	 * @param IeeeLomVocabulary|null $interactivity_level
+	 * @param IeeeLomVocabulary|null $semantic_density
+	 * @param IeeeLomVocabulary|null $intended_end_user_role
+	 * @param IeeeLomVocabulary|null $context
 	 * @param LangString|null $typical_age_range
-	 * @param Vocabulary|null $difficulty
+	 * @param IeeeLomVocabulary|null $difficulty
 	 * @param Duration|null $typical_learning_time
 	 * @param LangString|null $description
 	 * @param string|null $language
@@ -707,7 +736,7 @@ class IeeeLom
 	//=============================================
 	/**
 	 * 6.1  Cost
-	 * @param Vocabulary $cost
+	 * @param IeeeLomVocabulary $cost
 	 */
 	function set_cost($cost)
 	{
@@ -716,7 +745,7 @@ class IeeeLom
 	}
 	/**
 	 * 6.2  Copyright And Other Restrictions
-	 * @param Vocabulary $copyright_and_other_restrictions
+	 * @param IeeeLomVocabulary $copyright_and_other_restrictions
 	 */
 	function set_copyright_and_other_restrictions($copyright_and_other_restrictions)
 	{

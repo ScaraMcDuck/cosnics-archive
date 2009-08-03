@@ -12,6 +12,8 @@ class MetadataLOMEditForm extends FormValidator
     const FORM_ACTION_REMOVE_GENERAL_TITLE         = 'remove_title';
     const FORM_ACTION_ADD_GENERAL_IDENTIFIER       = 'add_identifier';
     const FORM_ACTION_REMOVE_GENERAL_IDENTIFIER    = 'remove_idenfitier';
+    const FORM_ACTION_REMOVE_LIFECYCLE_ENTITY      = 'remove_lifeCycle_entity';
+    const FORM_ACTION_ADD_LIFECYCLE_ENTITY         = 'add_lifeCycle_entity';
     
     const FORM_ACTION_SAVE    = 'save';
     
@@ -34,7 +36,7 @@ class MetadataLOMEditForm extends FormValidator
 	private $info_messages;
 	
 	public function MetadataLOMEditForm($learning_object_id, $ieee_lom_mapper, $action, $catalogs)
-	{
+	{ 
 		parent :: __construct('lom_metadata', 'post', $action);
 		
 		/*
@@ -86,9 +88,11 @@ class MetadataLOMEditForm extends FormValidator
 		 */
 		$this->store_skipped_indexes($this->skipped_indexes);
 	    
+		$this->disable_action_on_enter_key_pressed();
+		
 	    $this->build_general_identifier($this->ieee_lom_mapper);
 		$this->build_general_title($this->ieee_lom_mapper);
-		//$this->build_lifeCycle_contribution($this->ieee_lom_mapper);
+		$this->build_lifeCycle_contribution($this->ieee_lom_mapper);
 		
 		$this->set_action_fields();
 		$this->add_submit_buttons();
@@ -104,6 +108,13 @@ class MetadataLOMEditForm extends FormValidator
 		parent :: setConstants($this->constants);
 	}
 
+	private function disable_action_on_enter_key_pressed()
+	{   
+	    $js = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/metadata_editor.js');
+	    
+	    $this->addElement('html', $js);
+	} 
+	
 	/*** General **********************************************************************/
 	
 	/**
@@ -129,9 +140,9 @@ class MetadataLOMEditForm extends FormValidator
 	        
 	        if(!isset($this->skipped_indexes[self :: LOM_GENERAL_IDENTIFIER][$index]))
 	        {
-	            $catalog_metadata_id   = isset($data[$index][IeeeLomMapper :: METADATA_ID_CATALOG_ATTRIBUTE]) && strlen($data[$index][IeeeLomMapper :: METADATA_ID_CATALOG_ATTRIBUTE]) > 0   ? $data[$index][IeeeLomMapper :: METADATA_ID_CATALOG_ATTRIBUTE]   : RepositoryModelObject :: NO_UID;
-                $entry_metadata_id     = isset($data[$index][IeeeLomMapper :: METADATA_ID_ENTRY_ATTRIBUTE]) && strlen($data[$index][IeeeLomMapper :: METADATA_ID_ENTRY_ATTRIBUTE]) > 0 ? $data[$index][IeeeLomMapper :: METADATA_ID_ENTRY_ATTRIBUTE] : RepositoryModelObject :: NO_UID;
-	            $original_id           = isset($data[$index][IeeeLomMapper :: ORIGINAL_ID_ATTRIBUTE]) && strlen($data[$index][IeeeLomMapper :: ORIGINAL_ID_ATTRIBUTE]) > 0 ? $data[$index][IeeeLomMapper :: ORIGINAL_ID_ATTRIBUTE] : RepositoryModelObject :: NO_UID;
+	            $catalog_metadata_id   = $data[$index][IeeeLomMapper :: METADATA_ID_CATALOG_ATTRIBUTE];
+                $entry_metadata_id     = $data[$index][IeeeLomMapper :: METADATA_ID_ENTRY_ATTRIBUTE];
+	            $original_id           = $data[$index][IeeeLomMapper :: ORIGINAL_ID_ATTRIBUTE];
 	            
 	            $group_fields   = array();
 	            $group_fields[] = $this->create_textfield('catalog', Translation :: translate('MetadataLomCatalog'), array('style' => 'width:' . self :: FORM_WIDTH_LARGE . 'px'));
@@ -194,19 +205,11 @@ class MetadataLOMEditForm extends FormValidator
 	        
 	        if(!isset($this->skipped_indexes[self :: LOM_GENERAL_TITLE][$index]))
 	        {
-                $string_metadata_id   = isset($strings[$index][LangStringMapper :: STRING_METADATA_ID]) && strlen($strings[$index][LangStringMapper :: STRING_METADATA_ID]) > 0   ? $strings[$index][LangStringMapper :: STRING_METADATA_ID]   : RepositoryModelObject :: NO_UID;
-                $language_metadata_id = isset($strings[$index][LangStringMapper :: LANGUAGE_METADATA_ID]) && strlen($strings[$index][LangStringMapper :: LANGUAGE_METADATA_ID]) > 0 ? $strings[$index][LangStringMapper :: LANGUAGE_METADATA_ID] : RepositoryModelObject :: NO_UID;
-	            $string_original_id   = isset($strings[$index][LangStringMapper :: STRING_ORIGINAL_ID]) && strlen($strings[$index][LangStringMapper :: STRING_ORIGINAL_ID]) > 0 ? $strings[$index][LangStringMapper :: STRING_ORIGINAL_ID] : RepositoryModelObject :: NO_UID;
-                
+	            $string_metadata_id   = $strings[$index][LangStringMapper :: STRING_METADATA_ID];
+	            $language_metadata_id = $strings[$index][LangStringMapper :: LANGUAGE_METADATA_ID];
+	            $string_original_id   = $strings[$index][LangStringMapper :: STRING_ORIGINAL_ID];
+
 	            $this->add_lang_string(self :: LOM_GENERAL_TITLE, $index, Translation :: translate('MetadataLOMTitle'), true, $show_remove_button, $string_metadata_id, $language_metadata_id, $string_original_id);
-	        
-//	            if($index == 0)
-//    	        {
-//    	            $rule = array();
-//    	            $rule['string'][] = array('The title can not be empty', 'required');
-//    	            
-//    	            $this->addGroupRule(self :: LOM_GENERAL_TITLE . '[' . $index . ']', $rule);    
-//    	        }
     	        
     	        $this->set_current_value(self :: LOM_GENERAL_TITLE . '[' . $index . '][string]',               $strings[$index]['string']);
     	        $this->set_current_value(self :: LOM_GENERAL_TITLE . '[' . $index . '][language]',             $strings[$index]['language']);
@@ -235,8 +238,8 @@ class MetadataLOMEditForm extends FormValidator
 	{
 	    $this->addElement('html', '<h3>' . Translation :: translate('MetadataLOMContribution') . '</h3>');
 	    
-	    $data = $ieee_lom_mapper->get_contribution();
-	    //debug($contributions);
+	    $data = $ieee_lom_mapper->get_lifeCycle_contribution();
+	    //debug($data);
 	    
 	    /*
 	     * Create contributions
@@ -245,31 +248,55 @@ class MetadataLOMEditForm extends FormValidator
 	    {
 	    	//debug($data[$index]['entity'][0]->getValue('FN'));
 	    	//debug($data[$index]['role'], 'ROLE');
-	    	
+	    	//debug($data[$index]);
+	        
 	    	$group_name = self :: LOM_LIFECYCLE_CONTRIBUTION;
+	    	
+	    	$this->addElement('hidden', $group_name . '[' . $index . '][contribution_override_id]');
+	    	$this->set_current_value($group_name . '[' . $index . '][contribution_override_id]', $data[$index]['contribution_override_id']);
 	    	
 	    	/*
 	    	 * Create role for contribution
 	    	 */
-	    	$this->add_role($group_name, $index, $data[$index]['role']);
+	    	$this->add_role($group_name, $index);
+	    	$this->set_current_value($group_name . '[' . $index . '][role]', $data[$index]['role']);
+	    	$this->set_current_value($group_name . '[' . $index . '][' . IeeeLomMapper :: METADATA_ID_ROLE_ATTRIBUTE . ']', $data[$index]['role_metadata_id']);
 	    	
 	    	/*
 	    	 * Create entities for contribution
 	    	 */
-	    	$tot_entity = count($data[$index]['entity']);
-	    	$tot_entity = ($tot_entity > 0)? $tot_entity : 1;
-	    	
+	    	$this->addElement('html', '<div class="row"><div class="formw"><h5>Entity</h5></div></div>');
+	    	$tot_entity = count($data[$index]['entity']) > 0 ? count($data[$index]['entity']) : 1; //show at least one entity
 	    	for($entity_index = 0; $entity_index < $tot_entity; $entity_index++)
 	    	{
 	    	    $group_name_entity = $group_name . '[' . $index . '][entity]';
-    	    	$vcard = $data[$index]['entity'][$entity_index];
-    	    	$this->add_entity($group_name_entity, $entity_index, $vcard);
+    	    	$entity = $data[$index]['entity'][$entity_index];
+    	    	
+    	    	$show_remove_button = ($entity_index == 0) ? false : true;
+    	    	
+    	    	//debug($entity);
+    	    	
+    	    	$this->add_entity($group_name_entity, $index, $entity_index, $show_remove_button);
+    	    	
+                $this->set_current_value($group_name_entity . '[' . $entity_index . '][name]',                     $entity['name']['value']);
+        	    $this->set_current_value($group_name_entity . '[' . $entity_index . '][email]',                    $entity['email']['value']);
+        	    $this->set_current_value($group_name_entity . '[' . $entity_index . '][organisation]',             $entity['organisation']['value']);
+        	    $this->set_current_value($group_name_entity . '[' . $entity_index . '][name_metadata_id]',         $entity['name']['name_metadata_id']);
+        	    $this->set_current_value($group_name_entity . '[' . $entity_index . '][email_metadata_id]',        $entity['email']['email_metadata_id']);
+        	    $this->set_current_value($group_name_entity . '[' . $entity_index . '][organisation_metadata_id]', $entity['organisation']['organisation_metadata_id']);
+        	    $this->set_current_value($group_name_entity . '[' . $entity_index . '][override_id]',              $entity['entity_override_id']);
 	    	}
+	    	
+	    	/*
+    	     * Add the "add entity" button
+    	     */
+    	    $this->addElement('image', self :: FORM_ACTION_ADD_LIFECYCLE_ENTITY, Theme :: get_common_image_path() . 'action_add.png', array('onclick' => "$('#" . self :: FORM_ACTION . "').val('" . self :: FORM_ACTION_ADD_LIFECYCLE_ENTITY . "');$('#" . self :: FORM_ACTION_VALUE . "').val('" . $index . "')"));
 	    	
 	    	/*
 	    	 * Add date for contribution
 	    	 */
-	    	$this->add_datetime($group_name, $index, $data[$index]['role']);
+	    	$this->add_datetime($group_name, $index, $data[$index]['date']);
+	    	$this->set_current_value($group_name . '[' . $index . '][date][' . IeeeLomMapper :: METADATA_ID_DATE_ATTRIBUTE . ']', $data[$index]['date_metadata_id']);
 	    }
 	}
 	
@@ -311,24 +338,38 @@ class MetadataLOMEditForm extends FormValidator
 	    $action = Request :: post(self :: FORM_ACTION);
 	    
 	    //debug($action);
+	    $result = false;
 	    
 	    switch($action)
 	    {
 	        case self :: FORM_ACTION_ADD_GENERAL_IDENTIFIER:
-	            $this->add_identifier();
+	            $result = $this->add_identifier();
 	            break;
 	            
 	        case self :: FORM_ACTION_REMOVE_GENERAL_IDENTIFIER:
-	            $this->remove_identifier();
+	            $result = $this->remove_identifier();
 	            break;
 	            
 	        case self :: FORM_ACTION_ADD_GENERAL_TITLE:
-	            $this->add_title();
+	            $result = $this->add_title();
 	            break;
 	            
 	        case self :: FORM_ACTION_REMOVE_GENERAL_TITLE:
-	            $this->remove_title();
+	            $result = $this->remove_title();
 	            break;
+	        
+	        case self :: FORM_ACTION_ADD_LIFECYCLE_ENTITY:
+	            $result = $this->add_lifeCycle_entity();
+	            break;
+	            
+	        case self :: FORM_ACTION_REMOVE_LIFECYCLE_ENTITY:
+	            $result = $this->remove_lifeCycle_entity();
+	            break;
+	    }
+	    
+	    if($result)
+	    {
+	        $this->add_info_message(self :: MSG_FORM_HAS_UPDATE);
 	    }
 	}
 	
@@ -339,7 +380,7 @@ class MetadataLOMEditForm extends FormValidator
 	{
 	    $this->ieee_lom_mapper->add_general_identifier('', '');
 	    
-	    $this->add_info_message(self :: MSG_FORM_HAS_UPDATE);
+	    return true;
 	}
 	
 	/**
@@ -353,7 +394,7 @@ class MetadataLOMEditForm extends FormValidator
 	    {
 	        $this->skipped_indexes[self :: LOM_GENERAL_IDENTIFIER][$action_value] = true;
 	        
-	        $this->add_info_message(self :: MSG_FORM_HAS_UPDATE);
+	        return true;
 	    }
 	}
 	
@@ -364,7 +405,7 @@ class MetadataLOMEditForm extends FormValidator
 	{
 	    $this->ieee_lom_mapper->add_general_title(new LangString('', ''), -1);
 	    
-	    $this->add_info_message(self :: MSG_FORM_HAS_UPDATE);
+	    return true;
 	}
 	
 	/**
@@ -378,8 +419,32 @@ class MetadataLOMEditForm extends FormValidator
 	    {
 	        $this->skipped_indexes[self :: LOM_GENERAL_TITLE][$action_value] = true;
 	        
-	        $this->add_info_message(self :: MSG_FORM_HAS_UPDATE);
+	        return true;
 	    }
+	}
+	
+	/**
+	 * Add a blank entity
+	 */
+	private function add_lifeCycle_entity()
+	{
+	    $action_value = Request :: post(self :: FORM_ACTION_VALUE);
+	    $this->ieee_lom_mapper->add_lifeCycle_entity($action_value, '');
+	    
+	    return true;
+	}
+	
+	
+	private function remove_lifeCycle_entity()
+	{
+	    $action_value = Request :: post(self :: FORM_ACTION_VALUE);
+	    
+	    $contribute_index = StringTool :: get_value_between_chars($action_value, 0);
+	    $entity_index = StringTool :: get_value_between_chars($action_value, 1);
+	    
+	    $this->ieee_lom_mapper->remove_lifeCycle_entity($contribute_index, $entity_index);
+	    
+	    return true;
 	}
 	
 	
@@ -398,7 +463,7 @@ class MetadataLOMEditForm extends FormValidator
 	 * @param integer $string_original_id
 	 * @return void
 	 */
-	private function add_lang_string($group_name, $index, $label, $with_lang_empty_value = true, $show_remove_button = false, $string_metadata_id = RepositoryModelObject :: NO_UID, $language_metadata_id = RepositoryModelObject :: NO_UID, $string_original_id = RepositoryModelObject :: NO_UID)
+	private function add_lang_string($group_name, $index, $label, $with_lang_empty_value = true, $show_remove_button = false)
 	{
 	    $group_fields   = array();
 
@@ -424,38 +489,45 @@ class MetadataLOMEditForm extends FormValidator
 	    $this->addGroupRule($group_name . '[' . $index . ']', $rule);	    
 	}
 	
-	private function add_entity($group_name, $index, $vcard)
+	private function add_entity($group_name, $contribute_index, $entity_index, $show_remove_button)
 	{
 	    $group_fields   = array();
-	    $group_fields[] = $this->createElement('html', '<div class="row"><div class="formw"><h5>Entity</h5></div></div>');
+	    //$group_fields[] = $this->createElement('html', '<div class="row"><div class="formw"><h5>Entity</h5></div></div>');
         $group_fields[] = $this->create_textfield('name', Translation :: translate('MetadataLomContriName'), array('style' => 'width:' . self :: FORM_WIDTH_MEDIUM . 'px'));
         $group_fields[] = $this->create_textfield('email', Translation :: translate('MetadataLomContriEmail'), array('style' => 'width:' . self :: FORM_WIDTH_MEDIUM . 'px'));
         $group_fields[] = $this->create_textfield('organisation', Translation :: translate('MetadataLomContriOrg'), array('style' => 'width:' . self :: FORM_WIDTH_MEDIUM . 'px'));
     	
+        $group_fields[] = $this->createElement('hidden', 'name_metadata_id');
+        $group_fields[] = $this->createElement('hidden', 'email_metadata_id');
+        $group_fields[] = $this->createElement('hidden', 'organisation_metadata_id');
+        $group_fields[] = $this->createElement('hidden', 'override_id');
+        
+        if($show_remove_button)
+	    {
+	        $group_fields[] = $this->createElement('image', 'remove_entity_' . $entity_index , Theme :: get_common_image_path() . 'action_delete.png', array('onclick' => "$('#" . self :: FORM_ACTION . "').val('" . self :: FORM_ACTION_REMOVE_LIFECYCLE_ENTITY . "');$('#" . self :: FORM_ACTION_VALUE . "').val('[" . $contribute_index . '][' . $entity_index . "]')"));
+	    }
+	    
+        //debug($group_fields);
+        
         $renderer = $this->defaultRenderer();
-        $renderer->setGroupElementTemplate('<!-- BEGIN required -->' . Theme :: get_common_image('action_required') . '<!-- END required -->{label} {element}', $group_name . '[' . $index . ']');
+        $renderer->setGroupElementTemplate('<!-- BEGIN required -->' . Theme :: get_common_image('action_required') . '<!-- END required -->{label} {element}', $group_name . '[' . $entity_index . ']');
 
-        $this->addGroup($group_fields, $group_name . '[' . $index . ']', null, '&nbsp;&nbsp;&nbsp;&nbsp;');
+        $this->addGroup($group_fields, $group_name . '[' . $entity_index . ']', null, '&nbsp;&nbsp;&nbsp;&nbsp;');
     	    
         $rule = array();
-        $rule['name'][] = array(Translation :: translate('MetadataLomCatalogEntryEmptyError'), 'required');
-        $this->addGroupRule($group_name . '[' . $index . ']', $rule);
-        
-        if(isset($vcard))
-        {
-            $this->set_current_value($group_name . '[' . $index . '][name]',         $vcard->getValue('FN'));
-    	    $this->set_current_value($group_name . '[' . $index . '][email]',        $vcard->getValue('EMAIL'));
-    	    $this->set_current_value($group_name . '[' . $index . '][organisation]', $vcard->getValue('ORGANISATION'));
-        }
+        $rule['name'][] = array(Translation :: translate('MetadataLomCatalogNameEmptyError'), 'required');
+        $this->addGroupRule($group_name . '[' . $entity_index . ']', $rule);
 	}
 	
-	private function add_role($group_name, $index, $role_value)
+	private function add_role($group_name, $index)
 	{
 	    //debug($group_name);
 	    
 	    $group_fields   = array();
 	    $group_fields[] = $this->createElement('html', '<div class="row"><div class="formw"><h5>Role</h5></div></div>');
 	    $group_fields[] = $this->createElement('select', 'role', Translation :: translate('MetadataLomRole'), $this->get_catalog(LearningObjectMetadataCatalog :: CATALOG_ROLE));
+	    
+	    $group_fields[] = $this->createElement('hidden', IeeeLomMapper :: METADATA_ID_ROLE_ATTRIBUTE);
 	    
 	    $renderer = $this->defaultRenderer();
 	    $renderer->setGroupElementTemplate('<!-- BEGIN required -->' . Theme :: get_common_image('action_required') . '<!-- END required -->{label} {element}', $group_name . '[' . $index . ']');
@@ -465,43 +537,36 @@ class MetadataLOMEditForm extends FormValidator
 	    $rule = array();
         $rule['role'][] = array(Translation :: translate('MetadataLomRoleEmptyError'), 'required');
         $this->addGroupRule($group_name . '[' . $index . ']', $rule);
-	    
-	    $this->set_current_value($group_name . '[' . $index . '][role]', $role_value);
 	}
 	
 	private function add_datetime($group_name, $index, $date_value)
 	{
-	    //debug($group_name);
-	    
-	    $days   = array('' => '');
-	    $months = array('' => '');
-	    $years  = array('' => '');
-	    $hours  = array('' => '');
-	    $mins   = array('' => '');
-	    $secs   = array('' => '');
-	    
-	    for($i = 1; $i <= 31; $i++) { $days[$i] = $i; }
-    	for($i = 1; $i <= 12; $i++) { $months[$i] = $i; }
-    	for($i = date('Y') + 2; $i >= 1900; $i--) { $years[$i] = $i; }
-    	for($i = 0; $i < 24; $i++) { $hours[$i] = $i; }
-    	for($i = 0; $i < 60; $i++) { $mins[$i] = $i; }
-    	for($i = 0; $i < 60; $i++) { $secs[$i] = $i; }
-    	
 	    $group_fields   = array();
 	    $group_fields[] = $this->createElement('html', '<div class="row"><div class="formw"><h5>Date</h5></div></div>');
-	    $group_fields[] = $this->createElement('select', 'day', Translation :: translate('MetadataDay'), $days);
-	    $group_fields[] = $this->createElement('select', 'month', Translation :: translate('MetadataMonth'), $months);
-	    $group_fields[] = $this->createElement('select', 'year', Translation :: translate('MetadataYear'), $years);
-	    $group_fields[] = $this->createElement('select', 'hour', Translation :: translate('MetadataHour'), $hours);
-	    $group_fields[] = $this->createElement('select', 'min', Translation :: translate('MetadataMin'), $mins);
-	    $group_fields[] = $this->createElement('select', 'sec', Translation :: translate('MetadataSec'), $secs);
+	    $group_fields[] = $this->createElement('select', 'day', Translation :: translate('MetadataDay'), $this->get_catalog(LearningObjectMetadataCatalog :: CATALOG_DAY));
+	    $group_fields[] = $this->createElement('select', 'month', Translation :: translate('MetadataMonth'), $this->get_catalog(LearningObjectMetadataCatalog :: CATALOG_MONTH));
+	    $group_fields[] = $this->createElement('select', 'year', Translation :: translate('MetadataYear'), $this->get_catalog(LearningObjectMetadataCatalog :: CATALOG_YEAR));
+	    $group_fields[] = $this->createElement('select', 'hour', Translation :: translate('MetadataHour'), $this->get_catalog(LearningObjectMetadataCatalog :: CATALOG_HOUR));
+	    $group_fields[] = $this->createElement('select', 'min', Translation :: translate('MetadataMin'), $this->get_catalog(LearningObjectMetadataCatalog :: CATALOG_MIN));
+	    $group_fields[] = $this->createElement('select', 'sec', Translation :: translate('MetadataSec'), $this->get_catalog(LearningObjectMetadataCatalog :: CATALOG_SEC));
+	    
+	    $group_fields[] = $this->createElement('hidden', IeeeLomMapper :: METADATA_ID_DATE_ATTRIBUTE);
 	    
 	    $renderer = $this->defaultRenderer();
 	    //$renderer->setGroupTemplate('&nbsp;&nbsp;&nbsp;&nbsp;Date {content}', $group_name . '[' . $index . '][date]');
 	    $renderer->setGroupElementTemplate('<!-- BEGIN required -->' . Theme :: get_common_image('action_required') . '<!-- END required -->{label} {element}', $group_name . '[' . $index . '][date]');
 	    
 	    $this->addGroup($group_fields, $group_name . '[' . $index . '][date]', null, '&nbsp;&nbsp;&nbsp;&nbsp;');
+
+	    $lom_dt = new IeeeLomDateTime();
+	    $lom_dt->set_datetime_from_string($date_value);
 	    
+	    $this->set_current_value($group_name . '[' . $index . '][date][day]', $lom_dt->get_day(true));
+	    $this->set_current_value($group_name . '[' . $index . '][date][month]', $lom_dt->get_month(true));
+	    $this->set_current_value($group_name . '[' . $index . '][date][year]', $lom_dt->get_year(true));
+	    $this->set_current_value($group_name . '[' . $index . '][date][hour]', $lom_dt->get_hour(true));
+	    $this->set_current_value($group_name . '[' . $index . '][date][min]', $lom_dt->get_min(true));
+	    $this->set_current_value($group_name . '[' . $index . '][date][sec]', $lom_dt->get_sec(true));
 	}
 	
 	
@@ -516,7 +581,7 @@ class MetadataLOMEditForm extends FormValidator
 	{
 	    if($with_empty_value)
 	    {
-	        return array_merge(array(''=>''), $this->catalogs[$catalog_name]);
+	        return array('' => '') + $this->catalogs[$catalog_name];
 	    }
 	    else
 	    {
@@ -554,7 +619,7 @@ class MetadataLOMEditForm extends FormValidator
 	 */
 	public function set_constant_value($field_name, $value, $override_existing = false)
 	{
-	    if(!isset($this->constant[$field_name]) || $override_existing)
+	    if(!isset($this->constants[$field_name]) || $override_existing)
 	    {
 	        $this->constants[$field_name] = $value;
 	    }
@@ -580,6 +645,8 @@ class MetadataLOMEditForm extends FormValidator
 	    {
 	    	$this->set_constant_value($constant['name'], $constant['value'], $override_existing);
 	    }
+	    
+	    parent :: setConstants($this->constants);
 	}
 	
 	

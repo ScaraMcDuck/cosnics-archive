@@ -71,7 +71,7 @@ class RepositoryManagerMetadataEditorComponent extends RepositoryManagerMetadata
                             $this->display_message(Translation :: translate('MetadataSaved'));
                         }
                         
-                        $form->set_constant_values($mapper->get_constant_values());
+                        $form->set_constant_values($mapper->get_constant_values(), true);
                         $form->display();
                     }
                     else

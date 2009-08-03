@@ -67,9 +67,11 @@ class RepositoryManagerMetadataComponent extends RepositoryManagerComponent
 	    $catalogs = array();
 	    
 	    $catalogs[LearningObjectMetadataCatalog :: CATALOG_LANGUAGE]  = $this->get_catalog(LearningObjectMetadataCatalog :: CATALOG_LANGUAGE);
-	    $catalogs[LearningObjectMetadataCatalog :: CATALOG_ROLE] = $this->get_catalog(LearningObjectMetadataCatalog :: CATALOG_ROLE);
+	    $catalogs[LearningObjectMetadataCatalog :: CATALOG_ROLE]      = $this->get_catalog(LearningObjectMetadataCatalog :: CATALOG_ROLE);
 	    $catalogs[LearningObjectMetadataCatalog :: CATALOG_COPYRIGHT] = $this->get_catalog(LearningObjectMetadataCatalog :: CATALOG_COPYRIGHT);
 	    
+	    $catalogs = $this->build_datetime_catalogs($catalogs);
+    
 	    return $catalogs;
 	}
 	
@@ -93,6 +95,50 @@ class RepositoryManagerMetadataComponent extends RepositoryManagerComponent
         }
             
 	    return $catalog_array;
+	}
+	
+	private function build_datetime_catalogs($catalogs)
+	{ 
+	    $days   = array();
+	    $months = array();
+	    $years  = array();
+	    $hours  = array();
+	    $mins   = array();
+	    $secs   = array();
+	    
+	    for($i = 1; $i <= 31; $i++) 
+	    { 
+	        $days[sprintf('%02d', $i)] = sprintf('%02d', $i); 
+	    }
+	    for($i = 1; $i <= 12; $i++) 
+	    { 
+	        $months[sprintf('%02d', $i)] = sprintf('%02d', $i); 
+	    }
+    	for($i = date('Y') + 2; $i >= 1900; $i--) 
+    	{ 
+    	    $years[sprintf('%02d', $i)] = sprintf('%02d', $i); 
+    	}
+    	for($i = 0; $i < 24; $i++) 
+    	{ 
+    	    $hours[sprintf('%02d', $i)] = sprintf('%02d', $i); 
+    	}
+    	for($i = 0; $i < 60; $i++) 
+    	{ 
+    	    $mins[sprintf('%02d', $i)] = sprintf('%02d', $i); 
+    	}
+    	for($i = 0; $i < 60; $i++) 
+    	{ 
+    	    $secs[sprintf('%02d', $i)] = sprintf('%02d', $i); 
+    	}
+    	
+    	$catalogs[LearningObjectMetadataCatalog :: CATALOG_DAY]   = $days;
+    	$catalogs[LearningObjectMetadataCatalog :: CATALOG_MONTH] = $months;
+    	$catalogs[LearningObjectMetadataCatalog :: CATALOG_YEAR]  = $years;
+    	$catalogs[LearningObjectMetadataCatalog :: CATALOG_HOUR]  = $hours;
+    	$catalogs[LearningObjectMetadataCatalog :: CATALOG_MIN]   = $mins;
+    	$catalogs[LearningObjectMetadataCatalog :: CATALOG_SEC]   = $secs;
+    	
+    	return $catalogs;
 	}
 	
 }

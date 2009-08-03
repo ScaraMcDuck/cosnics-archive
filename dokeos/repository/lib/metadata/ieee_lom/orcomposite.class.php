@@ -27,12 +27,13 @@ class OrComposite {
 	private $maximum_version;
 	/**
 	 * Constructor
-	 * @param Vocabulary|null $type
+	 * @param IeeeLomVocabulary|null $type
 	 * @param Vocabylary|null $name
 	 * @param string|null $minimum_version
 	 * @param string|null $maximum_version
 	 */
-    function OrComposite($type = null,$name = null,$minimum_version,$maximum_version) {
+    function OrComposite($type = null, $name = null, $minimum_version, $maximum_version) 
+    {
     	$this->type = $type;
     	$this->name = $name;
     	$this->minimum_version = $minimum_version;
@@ -40,7 +41,7 @@ class OrComposite {
     }
     /**
      * Gets the type
-     * @return Vocabulary|null
+     * @return IeeeLomVocabulary|null
      */
 	function get_type()
 	{
@@ -48,7 +49,7 @@ class OrComposite {
 	}
     /**
      * Gets the name
-     * @return Vocabulary|null
+     * @return IeeeLomVocabulary|null
      */
 	function get_name()
 	{
