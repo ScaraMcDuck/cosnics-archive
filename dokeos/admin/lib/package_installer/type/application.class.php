@@ -92,7 +92,7 @@ class PackageInstallerApplicationType extends PackageInstallerType
         $application_name = $attributes->get_code();
 
         $navigation_item = new NavigationItem();
-        $navigation_item->set_title(Translation :: get(DokeosUtilities :: underscores_to_camelcase($application_name)));
+        $navigation_item->set_title(DokeosUtilities :: underscores_to_camelcase_with_spaces($application_name));
         $navigation_item->set_application($application_name);
         $navigation_item->set_section($application_name);
         $navigation_item->set_category(0);
