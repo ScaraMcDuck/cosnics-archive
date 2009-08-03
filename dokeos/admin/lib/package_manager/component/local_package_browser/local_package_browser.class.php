@@ -43,7 +43,7 @@ class LocalPackageBrowser
             {
                 $html[] = ' class="current"';
             }
-            $params = $this->manager->get_parameters();
+            $params = $this->manager->get_parameters();            
             $params[PackageManager :: PARAM_SECTION] = $section;
             $html[] = ' href="' . $this->manager->get_url($params) . '">' . htmlentities(Translation :: get(DokeosUtilities :: underscores_to_camelcase($section) . 'Title')) . '</a></li>';
         }

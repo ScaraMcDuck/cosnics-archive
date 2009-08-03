@@ -84,17 +84,6 @@ class AnnouncementDistributionForm extends FormValidator
     function build_form()
     {
     	$shares = array ();
-//    	if ($publication)
-//    	{
-//			$publication = $this->publication;
-//			$recip = $publication->get_publication_sender();
-//			$recipient = array ();
-//			$recipient['id'] = $recip->get_id();
-//			$recipient['class'] = 'type type_user';
-//			$recipient['title'] = $recip->get_username();
-//			$recipient['description'] = $recip->get_lastname() . ' ' . $recip->get_firstname();
-//			$recipients[$recipient['id']] = $recipient;
-//    	}
 
 		$url = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
 		$locale = array ();
