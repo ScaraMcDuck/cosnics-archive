@@ -4,19 +4,19 @@
  */
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
 require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
+require_once Path :: get_common_path() . 'data_class.class.php';
 /**
  * This class describes a DistributePublication data object
  *
  * @author Hans De Bisschop
  */
-class AnnouncementDistribution
+class AnnouncementDistribution extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 
 	/**
 	 * DistributePublication properties
 	 */
-	const PROPERTY_ID = 'id';
 	const PROPERTY_ANNOUNCEMENT = 'announcement';
 	const PROPERTY_PUBLISHER = 'publisher';
 	const PROPERTY_PUBLISHED = 'published';
@@ -28,40 +28,8 @@ class AnnouncementDistribution
 	const STATUS_SENDING = 4;
 	const STATUS_SENT = 5;
 
-	/**
-	 * Default properties stored in an associative array.
-	 */
-	private $defaultProperties;
-
 	private $target_groups;
 	private $target_users;
-
-	/**
-	 * Creates a new DistributePublication object
-	 * @param array $defaultProperties The default properties
-	 */
-	function AnnouncementDistribution($defaultProperties = array ())
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
-
-	/**
-	 * Gets a default property by name.
-	 * @param string $name The name of the property.
-	 */
-	function get_default_property($name)
-	{
-		return $this->defaultProperties[$name];
-	}
-
-	/**
-	 * Gets the default properties
-	 * @return array An associative array containing the properties.
-	 */
-	function get_default_properties()
-	{
-		return $this->defaultProperties;
-	}
 
 	/**
 	 * Get the default properties
@@ -69,44 +37,17 @@ class AnnouncementDistribution
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_ANNOUNCEMENT, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_STATUS);
+		return parent :: get_default_property_names(array (self :: PROPERTY_ANNOUNCEMENT, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_STATUS));
 	}
-
+	
 	/**
-	 * Sets a default property by name.
-	 * @param string $name The name of the property.
-	 * @param mixed $value The new value for the property.
+	 * inherited
 	 */
-	function set_default_property($name, $value)
+	function get_data_manager()
 	{
-		$this->defaultProperties[$name] = $value;
+		return DistributeDataManager :: get_instance();	
 	}
-
-	/**
-	 * Sets the default properties of this class
-	 */
-	function set_default_properties($defaultProperties)
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
-
-	/**
-	 * Returns the id of this DistributePublication.
-	 * @return the id.
-	 */
-	function get_id()
-	{
-		return $this->get_default_property(self :: PROPERTY_ID);
-	}
-
-	/**
-	 * Sets the id of this DistributePublication.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
+	
 	/**
 	 * Returns the announcement of this DistributePublication.
 	 * @return the announcement.
@@ -175,25 +116,6 @@ class AnnouncementDistribution
 	function set_status($status)
 	{
 		$this->set_default_property(self :: PROPERTY_STATUS, $status);
-	}
-
-	function delete()
-	{
-		$dm = DistributeDataManager :: get_instance();
-		return $dm->delete_announcement_publication($this);
-	}
-
-	function create()
-	{
-		$dm = DistributeDataManager :: get_instance();
-		$this->set_id($dm->get_next_announcement_distribution_id());
-       	return $dm->create_announcement_distribution($this);
-	}
-
-	function update()
-	{
-		$dm = DistributeDataManager :: get_instance();
-		return $dm->update_announcement_distribution($this);
 	}
 
 	static function get_table_name()
