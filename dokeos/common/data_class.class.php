@@ -12,6 +12,13 @@ abstract class DataClass
 	 * array.
 	 */
 	private $defaultProperties;
+	
+	/**
+	 * The datamanager needed to 
+	 *
+	 * @var unknown_type
+	 */
+	private $datamanager;
 
 	/**
 	 * Creates a new data class object.
@@ -97,6 +104,38 @@ abstract class DataClass
 	{
 		$this->set_default_property(self :: PROPERTY_ID, $id);
 	}		
+	
+	function create()
+	{
+		$dm = $this->get_data_manager();
+		$table_name = $this->get_table_name();
+		
+		$func = 'get_next_' . $table_name . '_id';
+		call_user_func(array($dm, $func));
+		
+		$func = 'create_' . $table_name;
+		call_user_func(array($dm, $func), $this);
+	}
+	
+	function update()
+	{
+		$dm = $this->get_data_manager();
+		$table_name = $this->get_table_name();
+
+		$func = 'update_' . $table_name;
+		call_user_func(array($dm, $func), $this);
+	}
+	
+	function delete()
+	{
+		$dm = $this->get_data_manager();
+		$table_name = $this->get_table_name();
+
+		$func = 'delete_' . $table_name;
+		call_user_func(array($dm, $func), $this);
+	}
+	
+	abstract function get_data_manager();
 	
 	static function get_table_name()
 	{
