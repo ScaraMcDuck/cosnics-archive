@@ -5,11 +5,12 @@
  * @author: Michael Kyndt
  */
 
-class ReportingBlock
+require_once Path :: get_common_path() . 'data_class.class.php';
+
+class ReportingBlock extends DataClass
 {
     const CLASS_NAME = __CLASS__;
 
-    const PROPERTY_ID = 'id';
     const PROPERTY_NAME = 'name';
     const PROPERTY_APPLICATION = 'application';
     const PROPERTY_FUNCTION = 'function';
@@ -18,30 +19,7 @@ class ReportingBlock
     const PROPERTY_WIDTH = 'width';
     const PROPERTY_HEIGHT = 'height';
 
-    private $properties, $data, $params;
-
-    public function ReportingBlock($properties = array())
-    {
-        $this->properties = $properties;
-    }
-
-    /**
-     * Gets a default property by name.
-     * @param string $name The name of the property.
-     */
-    function get_default_property($name)
-    {
-        return $this->properties[$name];
-    }
-
-    /**
-     * Gets the default properties
-     * @return array An associative array containing the properties.
-     */
-    function get_default_properties()
-    {
-        return $this->properties;
-    }
+    private $data, $params;
 
     /**
      * Get the default properties
@@ -49,26 +27,16 @@ class ReportingBlock
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_APPLICATION, self :: PROPERTY_FUNCTION, self :: PROPERTY_DISPLAYMODE, self :: PROPERTY_WIDTH, self :: PROPERTY_HEIGHT, self :: PROPERTY_EXCLUDE_DISPLAYMODES);
+        return parent :: get_default_property_names(array(self :: PROPERTY_NAME, self :: PROPERTY_APPLICATION, self :: PROPERTY_FUNCTION, self :: PROPERTY_DISPLAYMODE, self :: PROPERTY_WIDTH, self :: PROPERTY_HEIGHT, self :: PROPERTY_EXCLUDE_DISPLAYMODES));
     }
-
-    /**
-     * Sets a default property by name.
-     * @param string $name The name of the property.
-     * @param mixed $value The new value for the property.
-     */
-    function set_default_property($name, $value)
-    {
-        $this->properties[$name] = $value;
-    }
-
-    /**
-     * Sets the default properties of this class
-     */
-    function set_default_properties($properties)
-    {
-        $this->properties = $properties;
-    }
+    
+	/**
+	 * inherited
+	 */
+	function get_data_manager()
+	{
+		return ReportingDataManager :: get_instance();	
+	}
 
     /**
      * Retrieves the data for this block
@@ -81,25 +49,6 @@ class ReportingBlock
         $file = $base_path . $this->get_application() . '/reporting/reporting_' . $this->get_application() . '.class.php';
         require_once $file;
         $this->data = call_user_func('Reporting' . $this->get_application() . '::' . $this->get_function(), $this->get_function_parameters());
-    }
-
-    /**
-     * Creates the block in the database
-     */
-    public function create()
-    {
-        $repdmg = ReportingDataManager :: get_instance();
-        $this->set_id($repdmg->get_next_reporting_block_id());
-        return $repdmg->create_reporting_block($this);
-    }
-
-    /**
-     * Updates the block in the database
-     */
-    public function update()
-    {
-        $repdmg = ReportingDataManager :: get_instance();
-        return $repdmg->update_reporting_block($this);
     }
 
     /**
@@ -254,16 +203,6 @@ class ReportingBlock
     public function get_function_parameters()
     {
         return $this->params;
-    }
-
-    public function get_id()
-    {
-        return $this->get_default_property(self :: PROPERTY_ID);
-    }
-
-    function set_id($id)
-    {
-        $this->set_default_property(self :: PROPERTY_ID, $id);
     }
 
     public function get_name()
