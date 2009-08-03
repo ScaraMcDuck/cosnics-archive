@@ -3,19 +3,20 @@
  * wiki
  */
 
+require_once Path :: get_common_path() . 'data_class.class.php';
+
 /**
  * This class describes a WikiPublication data object
  *
  * @author Sven Vanpoucke & Stefan Billiet
  */
-class WikiPublication
+class WikiPublication extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 
 	/**
 	 * WikiPublication properties
 	 */
-	const PROPERTY_ID = 'id';
 	const PROPERTY_LEARNING_OBJECT = 'learning_object';
 	const PROPERTY_PARENT_ID = 'parent_id';
 	const PROPERTY_CATEGORY = 'category';
@@ -29,81 +30,22 @@ class WikiPublication
 	const PROPERTY_EMAIL_SENT = 'email_sent';
 
 	/**
-	 * Default properties stored in an associative array.
-	 */
-	private $defaultProperties;
-
-	/**
-	 * Creates a new WikiPublication object
-	 * @param array $defaultProperties The default properties
-	 */
-	function WikiPublication($defaultProperties = array ())
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
-
-	/**
-	 * Gets a default property by name.
-	 * @param string $name The name of the property.
-	 */
-	function get_default_property($name)
-	{
-		return $this->defaultProperties[$name];
-	}
-
-	/**
-	 * Gets the default properties
-	 * @return array An associative array containing the properties.
-	 */
-	function get_default_properties()
-	{
-		return $this->defaultProperties;
-	}
-
-	/**
 	 * Get the default properties
 	 * @return array The property names.
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_LEARNING_OBJECT, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CATEGORY, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_MODIFIED, self :: PROPERTY_DISPLAY_ORDER, self :: PROPERTY_EMAIL_SENT);
+		return parent :: get_default_property_names(array (self :: PROPERTY_LEARNING_OBJECT, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CATEGORY, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_MODIFIED, self :: PROPERTY_DISPLAY_ORDER, self :: PROPERTY_EMAIL_SENT));
 	}
 
 	/**
-	 * Sets a default property by name.
-	 * @param string $name The name of the property.
-	 * @param mixed $value The new value for the property.
+	 * inherited
 	 */
-	function set_default_property($name, $value)
+	function get_data_manager()
 	{
-		$this->defaultProperties[$name] = $value;
+		return WikiDataManager :: get_instance();	
 	}
-
-	/**
-	 * Sets the default properties of this class
-	 */
-	function set_default_properties($defaultProperties)
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
-
-	/**
-	 * Returns the id of this WikiPublication.
-	 * @return the id.
-	 */
-	function get_id()
-	{
-		return $this->get_default_property(self :: PROPERTY_ID);
-	}
-
-	/**
-	 * Sets the id of this WikiPublication.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
+	
 	/**
 	 * Returns the learning_object of this WikiPublication.
 	 * @return the learning_object.
@@ -290,25 +232,6 @@ class WikiPublication
 	function set_email_sent($email_sent)
 	{
 		$this->set_default_property(self :: PROPERTY_EMAIL_SENT, $email_sent);
-	}
-
-	function delete()
-	{
-		$dm = WikiDataManager :: get_instance();
-		return $dm->delete_wiki_publication($this);
-	}
-
-	function create()
-	{
-		$dm = WikiDataManager :: get_instance();
-		$this->set_id($dm->get_next_wiki_publication_id());
-       	return $dm->create_wiki_publication($this);
-	}
-
-	function update()
-	{
-		$dm = WikiDataManager :: get_instance();
-		return $dm->update_wiki_publication($this);
 	}
 
 	static function get_table_name()
