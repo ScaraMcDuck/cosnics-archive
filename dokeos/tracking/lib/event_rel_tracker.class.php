@@ -8,7 +8,10 @@
  *
  * @author Sven Vanpoucke
  */
-class EventRelTracker
+
+require_once Path :: get_common_path() . 'data_class.class.php';
+
+class EventRelTracker extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     
@@ -18,39 +21,7 @@ class EventRelTracker
     const PROPERTY_EVENT_ID = 'event_id';
     const PROPERTY_TRACKER_ID = 'tracker_id';
     const PROPERTY_ACTIVE = 'active';
-    
-    /**
-     * Default properties stored in an associative array.
-     */
-    private $defaultProperties;
-
-    /**
-     * Creates a new EventRelTracker object
-     * @param array $defaultProperties The default properties
-     */
-    function EventRelTracker($defaultProperties = array ())
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    /**
-     * Gets a default property by name.
-     * @param string $name The name of the property.
-     */
-    function get_default_property($name)
-    {
-        return $this->defaultProperties[$name];
-    }
-
-    /**
-     * Gets the default properties
-     * @return array An associative array containing the properties.
-     */
-    function get_default_properties()
-    {
-        return $this->defaultProperties;
-    }
-
+  
     /**
      * Get the default properties
      * @return array The property names.
@@ -59,24 +30,14 @@ class EventRelTracker
     {
         return array(self :: PROPERTY_EVENT_ID, self :: PROPERTY_TRACKER_ID, self :: PROPERTY_ACTIVE);
     }
-
-    /**
-     * Sets a default property by name.
-     * @param string $name The name of the property.
-     * @param mixed $value The new value for the property.
-     */
-    function set_default_property($name, $value)
-    {
-        $this->defaultProperties[$name] = $value;
-    }
-
-    /**
-     * Sets the default properties of this class
-     */
-    function set_default_properties($defaultProperties)
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
+    
+	/**
+	 * inherited
+	 */
+	function get_data_manager()
+	{
+		return TrackingDataManager :: get_instance();	
+	}
 
     /**
      * Returns the event_id of this EventRelTracker.
@@ -139,15 +100,6 @@ class EventRelTracker
     {
         $trkdmg = TrackingDataManager :: get_instance();
         return $trkdmg->create_event_tracker_relation($this);
-    }
-
-    /**
-     * Updates this event tracker relation in the database
-     */
-    function update()
-    {
-        $trkdmg = TrackingDataManager :: get_instance();
-        return $trkdmg->update_event_tracker_relation($this);
     }
 
     static function get_table_name()
