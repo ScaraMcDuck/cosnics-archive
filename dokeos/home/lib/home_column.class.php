@@ -1,44 +1,17 @@
 <?php
 require_once dirname(__FILE__) . '/home_data_manager.class.php';
+require_once Path :: get_common_path() . 'data_class.class.php';
 
-class HomeColumn
+class HomeColumn extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'column';
     
-    const PROPERTY_ID = 'id';
     const PROPERTY_TITLE = 'title';
     const PROPERTY_SORT = 'sort';
     const PROPERTY_WIDTH = 'width';
     const PROPERTY_ROW = 'row';
     const PROPERTY_USER = 'user';
-    
-    private $defaultProperties;
-
-    function HomeColumn($defaultProperties = array ())
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    function get_default_property($name)
-    {
-        return $this->defaultProperties[$name];
-    }
-
-    function get_default_properties()
-    {
-        return $this->defaultProperties;
-    }
-
-    function set_default_properties($defaultProperties)
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    function set_default_property($name, $value)
-    {
-        $this->defaultProperties[$name] = $value;
-    }
 
     /**
      * Get the default properties of all user course categories.
@@ -46,23 +19,16 @@ class HomeColumn
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_ID, self :: PROPERTY_TITLE, self :: PROPERTY_SORT, self :: PROPERTY_WIDTH, self :: PROPERTY_ROW, self :: PROPERTY_USER);
+        return parent :: get_default_property_names(array(self :: PROPERTY_TITLE, self :: PROPERTY_SORT, self :: PROPERTY_WIDTH, self :: PROPERTY_ROW, self :: PROPERTY_USER));
     }
-
-    static function is_default_property_name($name)
-    {
-        return in_array($name, self :: get_default_property_names());
-    }
-
-    function get_id()
-    {
-        return $this->get_default_property(self :: PROPERTY_ID);
-    }
-
-    function set_id($id)
-    {
-        $this->set_default_property(self :: PROPERTY_ID, $id);
-    }
+    
+	/**
+	 * inherited
+	 */
+	function get_data_manager()
+	{
+		return HomeDataManager :: get_instance();	
+	}
 
     function get_sort()
     {
@@ -114,21 +80,9 @@ class HomeColumn
         $this->set_default_property(self :: PROPERTY_USER, $user);
     }
 
-    function update()
-    {
-        $hdm = HomeDataManager :: get_instance();
-        $success = $hdm->update_home_column($this);
-        if (! $success)
-        {
-            return false;
-        }
-        
-        return true;
-    }
-
     function create()
     {
-        $hdm = HomeDataManager :: get_instance();
+        $hdm = $this->get_data_manager();
         $id = $hdm->get_next_home_column_id();
         $this->set_id($id);
         
@@ -145,21 +99,9 @@ class HomeColumn
         return true;
     }
 
-    function delete()
-    {
-        $hdm = HomeDataManager :: get_instance();
-        $success = $hdm->delete_home_column($this);
-        if (! $success)
-        {
-            return false;
-        }
-        
-        return true;
-    }
-
     function is_empty()
     {
-        $hdm = HomeDataManager :: get_instance();
+        $hdm = $this->get_data_manager();
         
         $condition = new EqualityCondition(HomeBlock :: PROPERTY_COLUMN, $this->get_id());
         
