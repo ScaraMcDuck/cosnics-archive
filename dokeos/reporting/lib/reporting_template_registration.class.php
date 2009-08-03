@@ -5,88 +5,34 @@
  * @author: Michael Kyndt
  */
 
-class ReportingTemplateRegistration
+require_once Path :: get_common_path() . 'data_class.class.php';
+
+class ReportingTemplateRegistration extends DataClass
 {
     const CLASS_NAME = __CLASS__;
 
-    const PROPERTY_ID = 'id';
     const PROPERTY_TITLE = 'title';
     const PROPERTY_APPLICATION = 'application';
     const PROPERTY_CLASSNAME = 'class';
     const PROPERTY_PLATFORM = 'platform';
     const PROPERTY_DESCRIPTION = 'description';
-    private $properties;
-
-    /**
-     *
-     * @param array $properties
-     */
-    public function ReportingTemplateRegistration($properties = array())
-    {
-        $this->properties = $properties;
-    }
-
+   
     /**
      * Get the default properties
      * @return array The property names.
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_ID, self :: PROPERTY_TITLE, self :: PROPERTY_APPLICATION, self :: PROPERTY_CLASSNAME, self :: PROPERTY_PLATFORM, self :: PROPERTY_DESCRIPTION);
+        return parent :: get_default_property_names(array(self :: PROPERTY_TITLE, self :: PROPERTY_APPLICATION, self :: PROPERTY_CLASSNAME, self :: PROPERTY_PLATFORM, self :: PROPERTY_DESCRIPTION));
     }
-
-    /**
-     * Sets a default property by name.
-     * @param string $name The name of the property.
-     * @param mixed $value The new value for the property.
-     */
-    function set_default_property($name, $value)
-    {
-        $this->properties[$name] = $value;
-    }
-
-    /**
-     * Sets the default properties of this class
-     */
-    function set_default_properties($properties)
-    {
-        $this->properties = $properties;
-    }
-
-    /**
-     * Gets a default property by name.
-     * @param string $name The name of the property.
-     */
-    function get_default_property($name)
-    {
-        return $this->properties[$name];
-    }
-
-    /**
-     * Gets the default properties
-     * @return array An associative array containing the properties.
-     */
-    function get_default_properties()
-    {
-        return $this->properties;
-    }
-
-    /**
-     * creates a reporting template registration in the database
-     * @return ReportingTemplateRegistration
-     */
-    function create()
-    {
-        $repdmg = ReportingDataManager :: get_instance();
-        $this->set_id($repdmg->get_next_reporting_template_registration_id());
-        return $repdmg->create_reporting_template_registration($this);
-    }
-
-    function update()
-    {
-        $repdmg = ReportingDataManager :: get_instance();
-        return $repdmg->update_reporting_template_registration($this);
-    }
+    
+	/**
+	 * inherited
+	 */
+	function get_data_manager()
+	{
+		return ReportingDataManager :: get_instance();	
+	}
 
     /**
      * Checks if the reporting template registration is aplatform template.
@@ -100,16 +46,6 @@ class ReportingTemplateRegistration
     /*
  	 * Getters and setters
  	 */
-
-    public function get_id()
-    {
-        return $this->get_default_property(self :: PROPERTY_ID);
-    }
-
-    public function set_id($id)
-    {
-        $this->set_default_property(self :: PROPERTY_ID, $id);
-    }
 
     public function get_title()
     {
