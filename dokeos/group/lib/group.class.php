@@ -1,6 +1,7 @@
 <?php
 
 require_once dirname(__FILE__).'/group_data_manager.class.php';
+require_once Path :: get_common_path() . 'data_class.class.php';
 
 /**
  * @package group
@@ -11,11 +12,8 @@ require_once dirname(__FILE__).'/group_data_manager.class.php';
  *  @author Sven Vanpoucke
  */
 
-class Group
+class Group extends DataClass
 {
-	const CLASS_NAME = __CLASS__;
-	
-	const PROPERTY_ID = 'id';
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_DESCRIPTION = 'description';
 	const PROPERTY_SORT = 'sort';
@@ -24,84 +22,28 @@ class Group
 	const PROPERTY_RIGHT_VALUE = 'right_value';
 	
 	/**
-	 * Default properties of the group object, stored in an associative
-	 * array.
-	 */
-	private $defaultProperties;
-
-	/**
-	 * Creates a new group object.
-	 * @param int $id The numeric ID of the group object. May be omitted
-	 *                if creating a new object.
-	 * @param array $defaultProperties The default properties of the group
-	 *                                 object. Associative array.
-	 */
-	function Group($id = 0, $defaultProperties = array ())
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
-	
-	/**
-	 * Gets a default property of this group object by name.
-	 * @param string $name The name of the property.
-	 */
-	function get_default_property($name)
-	{
-		return $this->defaultProperties[$name];
-	}
-	
-	/**
-	 * Gets the default properties of this group.
-	 * @return array An associative array containing the properties.
-	 */
-	function get_default_properties()
-	{
-		return $this->defaultProperties;
-	}
-	
-	function set_default_properties($defaultProperties)
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
-	
-	/**
 	 * Get the default properties of all groups.
 	 * @return array The property names.
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_SORT, self :: PROPERTY_PARENT, self :: PROPERTY_LEFT_VALUE, self :: PROPERTY_RIGHT_VALUE);
+		return parent :: get_default_property_names(array(self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_SORT, self :: PROPERTY_PARENT, self :: PROPERTY_LEFT_VALUE, self :: PROPERTY_RIGHT_VALUE));
 	}
-		
-	/**
-	 * Sets a default property of this group by name.
-	 * @param string $name The name of the property.
-	 * @param mixed $value The new value for the property.
+	
+	/*
+	 * Gets the table name for this class
 	 */
-	function set_default_property($name, $value)
+	static function get_table_name()
 	{
-		$this->defaultProperties[$name] = $value;
+		return DokeosUtilities :: camelcase_to_underscores(__CLASS__);
 	}
 	
 	/**
-	 * Checks if the given identifier is the name of a default group
-	 * property.
-	 * @param string $name The identifier.
-	 * @return boolean True if the identifier is a property name, false
-	 *                 otherwise.
+	 * inherited
 	 */
-	static function is_default_property_name($name)
+	function get_data_manager()
 	{
-		return in_array($name, self :: get_default_property_names());
-	}
-
-	/**
-	 * Returns the id of this group.
-	 * @return int The id.
-	 */
-	function get_id()
-	{
-		return $this->get_default_property(self :: PROPERTY_ID);
+		return GroupDataManager :: get_instance();	
 	}
 	
 	/**
@@ -125,15 +67,6 @@ class Group
 	function get_sort()
 	{
 		return $this->get_default_property(self :: PROPERTY_SORT);
-	}
-	
-	/**
-	 * Sets the group_id of this group.
-	 * @param int $group_id The group_id.
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
 	}		
 	
 	/**
@@ -194,7 +127,7 @@ class Group
 	 */
 	function get_parents($include_self = true)
 	{
-		$gdm = GroupDataManager :: get_instance();
+		$gdm = $this->get_data_manager();
 		
 		$parent_conditions = array();
 		if ($include_self)
@@ -212,12 +145,12 @@ class Group
 		$order = array(Group :: PROPERTY_LEFT_VALUE);
 		$order_direction = array(SORT_DESC);
 			
-		return $rdm->retrieve_groups($parent_condition, null, null, $order, $order_direction);
+		return $gdm->retrieve_groups($parent_condition, null, null, $order, $order_direction);
 	}
 	
 	function is_child_of($parent_id)
 	{
-		$gdm = GroupDataManager :: get_instance();
+		$gdm = $this->get_data_manager();
 		
 		$parent = $gdm->retrieve_group($parent_id);
 		
@@ -235,7 +168,7 @@ class Group
 	
 	function is_parent_of($child_id)
 	{
-		$gdm = GroupDataManager :: get_instance();
+		$gdm = $this->get_data_manager();
 		
 		$child = $gdm->retrieve_group($child_id);
 		return $child->is_child_of($this->get_id());
@@ -246,7 +179,7 @@ class Group
 	 */
 	function get_siblings($include_self = true)
 	{
-		$gdm = GroupDataManager :: get_instance();
+		$gdm = $this->get_data_manager();
 		
 		$siblings_conditions = array();
 		$siblings_conditions[] = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_parent());
@@ -263,7 +196,7 @@ class Group
 	
 	function has_siblings()
 	{
-		$gdm = GroupDataManager :: get_instance();
+		$gdm = $this->get_data_manager();
 		
 		$siblings_conditions = array();
 		$siblings_conditions[] = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_parent());
@@ -279,7 +212,7 @@ class Group
 	 */
 	function get_children($recursive = true)
 	{
-		$gdm = GroupDataManager :: get_instance();
+		$gdm = $this->get_data_manager();
 		
 		if ($recursive)
 		{
@@ -298,14 +231,14 @@ class Group
 	
 	function has_children()
 	{
-		$gdm = GroupDataManager :: get_instance();
+		$gdm = $this->get_data_manager();
 		$children_condition = new EqualityCondition(Location :: PROPERTY_PARENT, $this->get_id());
 		return ($gdm->count_groups($children_condition) > 0);
 	}
 	
 	function move($new_parent_id, $new_previous_id = 0)
 	{
-		$gdm = GroupDataManager :: get_instance();
+		$gdm = $this->get_data_manager();
 		
 		if (!$gdm->move_group($this, $new_parent_id, $new_previous_id))
 		{
@@ -321,7 +254,7 @@ class Group
 	 */
 	function delete()
 	{
-		$gdm = GroupDataManager :: get_instance();
+		$gdm = $this->get_data_manager();
 		
 		// Delete the actual location
 		if (!$gdm->delete_group($this))
@@ -339,12 +272,12 @@ class Group
 	
 	function truncate()
 	{
-		return GroupDataManager :: get_instance()->truncate_group($this);
+		return $this->get_data_manager()->truncate_group($this);
 	}
 	
 	function create($previous_id = 0)
 	{
-		$gdm = GroupDataManager :: get_instance();
+		$gdm = $this->get_data_manager();
 		
 		$parent_id = $this->get_parent();
 		
@@ -396,27 +329,9 @@ class Group
         return true;
 	}
 	
-	function update() 
-	{
-		$gdm = GroupDataManager :: get_instance();
-			
-		$success = $gdm->update_group($this);
-		if (!$success)
-		{
-			return false;
-		}
-
-		return true;	
-	}
-	
-	static function get_table_name()
-	{
-		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
-	}
-	
 	function get_roles()
 	{
-		$gdm = GroupDataManager :: get_instance();
+		$gdm = $this->get_data_manager();
 		$condition = new EqualityCondition(GroupRole :: PROPERTY_GROUP_ID, $this->get_id());
 		
 		return $gdm->retrieve_group_roles($condition);
@@ -424,25 +339,25 @@ class Group
 	
 	function add_role_link($role_id)
 	{
-		$gdm = GroupDataManager :: get_instance();
+		$gdm = $this->get_data_manager();
 		return $gdm->add_role_link($this, $role_id);
 	}
 	
 	function delete_role_link($role_id)
 	{
-		$gdm = GroupDataManager :: get_instance();
+		$gdm = $this->get_data_manager();
 		return $gdm->delete_role_link($this, $role_id);
 	}
 	
 	function update_role_links($roles)
 	{
-		$gdm = GroupDataManager :: get_instance();
+		$gdm = $this->get_data_manager();
 		return $gdm->update_role_links($this, $roles);
 	}
 	
 	function get_users($include_subgroups = false, $recursive_subgroups = false)
 	{
-		$gdm = GroupDataManager :: get_instance();
+		$gdm = $this->get_data_manager();
 		
 		$groups = array();
 		$groups[] = $this->get_id();
@@ -482,7 +397,7 @@ class Group
 	
 	function get_subgroups($recursive = false)
 	{
-		$gdm = GroupDataManager :: get_instance();
+		$gdm = $this->get_data_manager();
 		
 		if ($recursive)
 		{
@@ -510,7 +425,7 @@ class Group
 	
 	function count_subgroups($recursive = false)
 	{
-		$gdm = GroupDataManager :: get_instance();
+		$gdm = $this->get_data_manager();
 		
 		if ($recursive)
 		{

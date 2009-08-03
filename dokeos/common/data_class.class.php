@@ -12,22 +12,13 @@ abstract class DataClass
 	 * array.
 	 */
 	private $defaultProperties;
-	
-	/**
-	 * The datamanager needed to 
-	 *
-	 * @var unknown_type
-	 */
-	private $datamanager;
 
 	/**
 	 * Creates a new data class object.
-	 * @param int $id The numeric ID of the data class object. May be omitted
-	 *                if creating a new object.
 	 * @param array $defaultProperties The default properties of the data class
 	 *                                 object. Associative array.
 	 */
-	function Group($id = 0, $defaultProperties = array ())
+	function DataClass($defaultProperties = array ())
 	{
 		$this->defaultProperties = $defaultProperties;
 	}
@@ -114,7 +105,7 @@ abstract class DataClass
 		call_user_func(array($dm, $func));
 		
 		$func = 'create_' . $table_name;
-		call_user_func(array($dm, $func), $this);
+		return call_user_func(array($dm, $func), $this);
 	}
 	
 	function update()
@@ -123,7 +114,7 @@ abstract class DataClass
 		$table_name = $this->get_table_name();
 
 		$func = 'update_' . $table_name;
-		call_user_func(array($dm, $func), $this);
+		return call_user_func(array($dm, $func), $this);
 	}
 	
 	function delete()
@@ -132,15 +123,10 @@ abstract class DataClass
 		$table_name = $this->get_table_name();
 
 		$func = 'delete_' . $table_name;
-		call_user_func(array($dm, $func), $this);
+		return call_user_func(array($dm, $func), $this);
 	}
 	
 	abstract function get_data_manager();
-	
-	static function get_table_name()
-	{
-		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
-	}
 
 }
 ?>
