@@ -15,7 +15,9 @@
  *	@author Dieter De Neef
  */
 
-class UserQuota
+require_once Path :: get_common_path() . 'data_class.class.php';
+
+class UserQuota extends DataClass
 {
 	const CLASS_NAME					= __CLASS__;
 	
@@ -24,52 +26,6 @@ class UserQuota
 	const PROPERTY_USER_QUOTA 			= 'user_quota';
 
 	/**
-	 * Numeric identifier of the userquota object.
-	 */
-	private $user_id;
-
-	/**
-	 * Default properties of the userquota object, stored in an associative
-	 * array.
-	 */
-	private $defaultProperties;
-
-	/**
-	 * Creates a new user quota object.
-	 * @param int $user_id The numeric ID of the passed user.
-	 * @param array $defaultProperties The default properties of the user
-	 *                                 object. Associative array.
-	 */
-	function UserQuota($user_id = 0, $defaultProperties = array ())
-	{
-		$this->user_id = $user_id;
-		$this->defaultProperties = $defaultProperties;
-	}
-	
-	/**
-	 * Gets a default property of this user quota object by name.
-	 * @param string $name The name of the property.
-	 */
-	function get_default_property($name)
-	{
-		return $this->defaultProperties[$name];
-	}
-	
-	/**
-	 * Gets the default properties of this user quota object.
-	 * @return array An associative array containing the properties.
-	 */
-	function get_default_properties()
-	{
-		return $this->defaultProperties;
-	}
-	
-	function set_default_properties($prop)
-	{
-		return $this->defaultProperties = $prop;
-	}
-	
-	/**
 	 * Get the default properties of all users quota objects.
 	 * @return array The property names.
 	 */
@@ -77,27 +33,13 @@ class UserQuota
 	{
 		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_LEARNING_OBJECT_TYPE, self :: PROPERTY_USER_QUOTA);
 	}
-		
-	/**
-	 * Sets a default property of this user quota by name.
-	 * @param string $name The name of the property.
-	 * @param mixed $value The new value for the property.
-	 */
-	function set_default_property($name, $value)
-	{
-		$this->defaultProperties[$name] = $value;
-	}
 	
 	/**
-	 * Checks if the given identifier is the name of a default user
-	 * property.
-	 * @param string $name The identifier.
-	 * @return boolean True if the identifier is a property name, false
-	 *                 otherwise.
+	 * inherited
 	 */
-	static function is_default_property_name($name)
+	function get_data_manager()
 	{
-		return in_array($name, self :: get_default_property_names());
+		return UserDataManager :: get_instance();	
 	}
 
 	/**
@@ -152,15 +94,6 @@ class UserQuota
 	function set_user_quota($quota)
 	{
 		$this->set_default_property(self :: PROPERTY_USER_QUOTA, $quota);
-	}
-	
-	/**
-	 * Updates this user quota object.
-	 */
-	function update()
-	{
-		$udm = UserDataManager :: get_instance();
-		return $udm->update_user_quota($this);
 	}
 	
 	function create()
