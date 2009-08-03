@@ -108,9 +108,12 @@ $(function ()
 		$("#tool_bar_hide").bind("click", hideBlockScreen);
 		$("#tool_bar_show").bind("click", showBlockScreen);
 
-		if(hide == 'true')
+		if (typeof hide !== 'undefined')
 		{
-			hideBlockScreen();
+			if(hide == 'true')
+			{
+				hideBlockScreen();
+			}
 		}
 	});
 
