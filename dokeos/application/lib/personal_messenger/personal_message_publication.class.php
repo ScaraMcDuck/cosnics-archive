@@ -6,6 +6,7 @@
  */
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
 require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
+require_once Path :: get_common_path() . 'data_class.class.php';
 
 /**
  *	This class represents a personal message.
@@ -20,96 +21,35 @@ require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
  *	@author Hans de Bisschop
  *	@author Dieter De Neef
  */
-class PersonalMessagePublication
+class PersonalMessagePublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'publication';
 
-	const PROPERTY_ID = 'id';
 	const PROPERTY_PERSONAL_MESSAGE = 'personal_message';
 	const PROPERTY_STATUS = 'status';
 	const PROPERTY_USER = 'user';
 	const PROPERTY_SENDER = 'sender';
 	const PROPERTY_RECIPIENT = 'recipient';
 	const PROPERTY_PUBLISHED = 'published';
-
-	private $defaultProperties;
-
-	/**
-	 * Creates a new PM object.
-	 * @param int $id The numeric ID of the PM object. May be omitted
-	 *                if creating a new object.
-	 * @param array $defaultProperties The default properties of the PM
-	 *                                 object. Associative array.
-	 */
-	function PersonalMessagePublication($defaultProperties = array ())
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
-
-	/**
-	 * Gets a default property of this PM object by name.
-	 * @param string $name The name of the property.
-	 */
-	function get_default_property($name)
-	{
-		return $this->defaultProperties[$name];
-	}
-
-	/**
-	 * Gets the default properties of this user.
-	 * @return array An associative array containing the properties.
-	 */
-	function get_default_properties()
-	{
-		return $this->defaultProperties;
-	}
-
-	function set_default_properties($defaultProperties)
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
-
+	
 	/**
 	 * Get the default properties of all users.
 	 * @return array The property names.
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_PERSONAL_MESSAGE, self :: PROPERTY_STATUS, self :: PROPERTY_USER, self :: PROPERTY_SENDER, self :: PROPERTY_RECIPIENT, self :: PROPERTY_PUBLISHED);
+		return parent :: get_default_property_names(array (self :: PROPERTY_PERSONAL_MESSAGE, self :: PROPERTY_STATUS, self :: PROPERTY_USER, self :: PROPERTY_SENDER, self :: PROPERTY_RECIPIENT, self :: PROPERTY_PUBLISHED));
 	}
 
 	/**
-	 * Sets a default property of this PMP by name.
-	 * @param string $name The name of the property.
-	 * @param mixed $value The new value for the property.
+	 * inherited
 	 */
-	function set_default_property($name, $value)
+	function get_data_manager()
 	{
-		$this->defaultProperties[$name] = $value;
+		return PersonalMessengerDataManager :: get_instance();	
 	}
-
-	/**
-	 * Checks if the given identifier is the name of a default PMP
-	 * property.
-	 * @param string $name The identifier.
-	 * @return boolean True if the identifier is a property name, false
-	 *                 otherwise.
-	 */
-	static function is_default_property_name($name)
-	{
-		return in_array($name, self :: get_default_property_names());
-	}
-
-	/**
-	 * Returns the id of this PMP.
-	 * @return int The PM id.
-	 */
-	function get_id()
-	{
-		return $this->get_default_property(self :: PROPERTY_ID);
-	}
-
+	
 	/**
 	 * Returns the learning object id from this PMP object
 	 * @return int The personal message ID
@@ -163,16 +103,7 @@ class PersonalMessagePublication
 	{
 		return $this->get_default_property(self :: PROPERTY_PUBLISHED);
 	}
-
-	/**
-	 * Sets the id of this PMP.
-	 * @param int $pm_id The PM id.
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-
+	
 	/**
 	 * Sets the learning object id of this PMP.
 	 * @param Int $id the personal message ID.
@@ -263,24 +194,6 @@ class PersonalMessagePublication
 		$id = $pmdm->get_next_personal_message_publication_id();
 		$this->set_id($id);
 		return $pmdm->create_personal_message_publication($this);
-	}
-
-	/**
-	 * Deletes this publication from persistent storage
-	 * @see PersonalMessengerDataManager::delete_personal_message_publication()
-	 */
-	function delete()
-	{
-		return PersonalMessengerDataManager :: get_instance()->delete_personal_message_publication($this);
-	}
-
-	/**
-	 * Updates this publication in persistent storage
-	 * @see PersonalMessengerDataManager::update_personal_message_publication()
-	 */
-	function update()
-	{
-		return PersonalMessengerDataManager :: get_instance()->update_personal_message_publication($this);
 	}
 
 	static function get_table_name()
