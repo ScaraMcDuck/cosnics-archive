@@ -171,7 +171,7 @@ class DokeosUtilities
         $date = date('r', $object->get_modification_date());
         $return = array();
         $return['id'] = 'lo_' . $object->get_id();
-        $return['class'] = 'type type_' . $type;
+        $return['classes'] = 'type type_' . $type;
         $return['title'] = $object->get_title();
         $return['description'] = Translation :: get(LearningObject :: type_to_class($type) . 'TypeName') . ' (' . $date . ')';
         return $return;
