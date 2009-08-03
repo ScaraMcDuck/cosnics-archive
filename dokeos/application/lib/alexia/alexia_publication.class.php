@@ -5,13 +5,14 @@
 require_once Path :: get_repository_path() . 'lib/repository_data_manager.class.php';
 require_once dirname(__FILE__) . '/alexia_publication_user.class.php';
 require_once dirname(__FILE__) . '/alexia_publication_group.class.php';
+require_once Path :: get_common_path() . 'data_class.class.php';
 
 /**
  * This class describes an AlexiaPublication data object
  *
  * @author Hans De Bisschop
  */
-class AlexiaPublication
+class AlexiaPublication extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 	const TABLE_NAME = 'publication';
@@ -19,7 +20,6 @@ class AlexiaPublication
 	/**
 	 * AlexiaPublication properties
 	 */
-	const PROPERTY_ID = 'id';
 	const PROPERTY_LEARNING_OBJECT = 'learning_object';
 	const PROPERTY_FROM_DATE = 'from_date';
 	const PROPERTY_TO_DATE = 'to_date';
@@ -27,85 +27,26 @@ class AlexiaPublication
 	const PROPERTY_PUBLISHER = 'publisher';
 	const PROPERTY_PUBLISHED = 'published';
 
-	/**
-	 * Default properties stored in an associative array.
-	 */
-	private $defaultProperties;
-
 	private $target_groups;
 	private $target_users;
 	
-	/**
-	 * Creates a new AlexiaPublication object
-	 * @param array $defaultProperties The default properties
-	 */
-	function AlexiaPublication($defaultProperties = array ())
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
-
-	/**
-	 * Gets a default property by name.
-	 * @param string $name The name of the property.
-	 */
-	function get_default_property($name)
-	{
-		return $this->defaultProperties[$name];
-	}
-
-	/**
-	 * Gets the default properties
-	 * @return array An associative array containing the properties.
-	 */
-	function get_default_properties()
-	{
-		return $this->defaultProperties;
-	}
-
 	/**
 	 * Get the default properties
 	 * @return array The property names.
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_LEARNING_OBJECT, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED);
+		return parent :: get_default_property_names(array (self :: PROPERTY_LEARNING_OBJECT, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED));
 	}
 
 	/**
-	 * Sets a default property by name.
-	 * @param string $name The name of the property.
-	 * @param mixed $value The new value for the property.
+	 * inherited
 	 */
-	function set_default_property($name, $value)
+	function get_data_manager()
 	{
-		$this->defaultProperties[$name] = $value;
+		return AlexiaDataManager :: get_instance();	
 	}
-
-	/**
-	 * Sets the default properties of this class
-	 */
-	function set_default_properties($defaultProperties)
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
-
-	/**
-	 * Returns the id of this AlexiaPublication.
-	 * @return the id.
-	 */
-	function get_id()
-	{
-		return $this->get_default_property(self :: PROPERTY_ID);
-	}
-
-	/**
-	 * Sets the id of this AlexiaPublication.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
+	
 	/**
 	 * Returns the learning_object of this AlexiaPublication.
 	 * @return the learning_object.
@@ -309,25 +250,6 @@ class AlexiaPublication
 		}
 		
 		return true;
-	}
-
-	function delete()
-	{
-		$dm = AlexiaDataManager :: get_instance();
-		return $dm->delete_alexia_publication($this);
-	}
-
-	function create()
-	{
-		$dm = AlexiaDataManager :: get_instance();
-		$this->set_id($dm->get_next_alexia_publication_id());
-       	return $dm->create_alexia_publication($this);
-	}
-
-	function update($delete_targets = true)
-	{
-		$dm = AlexiaDataManager :: get_instance();
-		return $dm->update_alexia_publication($this, $delete_targets);
 	}
 
 	static function get_table_name()
