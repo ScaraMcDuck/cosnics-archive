@@ -30,7 +30,9 @@ require_once Path :: get_group_path() . 'lib/group_data_manager.class.php';
  *	@author Dieter De Neef
  */
 
-class User
+require_once Path :: get_common_path() . 'data_class.class.php';
+
+class User extends DataClass
 {
 	const CLASS_NAME				= __CLASS__;
 	
@@ -71,63 +73,6 @@ class User
 	private $user_id;
 
 	/**
-	 * Default properties of the user object, stored in an associative
-	 * array.
-	 */
-	private $defaultProperties;
-
-	/**
-	 * Updates the user object
-	 */
-	function update()
-	{
-		$udm = UserDataManager :: get_instance();
-		$success = $udm->update_user($this);
-		if (!$success)
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Creates a new user object.
-	 * @param int $id The numeric ID of the user object. May be omitted
-	 *                if creating a new object.
-	 * @param array $defaultProperties The default properties of the user
-	 *                                 object. Associative array.
-	 */
-	function User($user_id = 0, $defaultProperties = array ())
-	{
-		$this->set_id($user_id);
-		$this->defaultProperties = $defaultProperties;
-	}
-
-	/**
-	 * Gets a default property of this user object by name.
-	 * @param string $name The name of the property.
-	 */
-	function get_default_property($name)
-	{
-		return $this->defaultProperties[$name];
-	}
-
-	/**
-	 * Gets the default properties of this user.
-	 * @return array An associative array containing the properties.
-	 */
-	function get_default_properties()
-	{
-		return $this->defaultProperties;
-	}
-	
-	function set_default_properties($defaultProperties)
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
-
-	/**
 	 * Get the default properties of all users.
 	 * @return array The property names.
 	 */
@@ -146,27 +91,13 @@ class User
 					  self :: PROPERTY_ACTIVATION_DATE, self :: PROPERTY_EXPIRATION_DATE, 
 					  self :: PROPERTY_REGISTRATION_DATE, self :: PROPERTY_ACTIVE);
 	}
-
+	
 	/**
-	 * Sets a default property of this user by name.
-	 * @param string $name The name of the property.
-	 * @param mixed $value The new value for the property.
+	 * inherited
 	 */
-	function set_default_property($name, $value)
+	function get_data_manager()
 	{
-		$this->defaultProperties[$name] = $value;
-	}
-
-	/**
-	 * Checks if the given identifier is the name of a default user
-	 * property.
-	 * @param string $name The identifier.
-	 * @return boolean True if the identifier is a property name, false
-	 *                 otherwise.
-	 */
-	static function is_default_property_name($name)
-	{
-		return in_array($name, self :: get_default_property_names());
+		return UserDataManager :: get_instance();	
 	}
 
 	/**
@@ -682,15 +613,6 @@ class User
 	function is_teacher()
 	{
 		return ($this->get_status() == 1 ? true : false);
-	}
-
-	/**
-	 * Instructs the Datamanager to delete this user.
-	 * @return boolean True if success, false otherwise.
-	 */
-	function delete()
-	{
-		return UserDataManager :: get_instance()->delete_user($this);
 	}
 
 	/**
