@@ -47,7 +47,7 @@ abstract class AdminDataManager
 
     abstract function get_next_registration_id();
 
-    abstract function get_next_feedback_id();
+    abstract function get_next_feedback_publication_id();
 
     abstract function get_next_validation_id();
 
@@ -175,11 +175,11 @@ abstract class AdminDataManager
 
     abstract function create_validation($validation);
 
-    abstract function delete_feedback($feeback);
+    abstract function delete_feedback_publication($feeback_publication);
 
-    abstract function update_feedback($feedback);
+    abstract function update_feedback_publication($feedback_publication);
 
-    abstract function create_feedback($feedback);
+    abstract function create_feedback_publication($feedback_publication);
 
     abstract function retrieve_validations($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1);
 

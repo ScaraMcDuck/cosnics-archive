@@ -1,4 +1,6 @@
 <?php
+require_once Path :: get_common_path() . 'data_class.class.php';
+
 /**
  * @package admin.lib
  * @author Hans De Bisschop
@@ -6,11 +8,10 @@
 require_once dirname(__FILE__) . '/admin_data_manager.class.php';
 require_once Path :: get_repository_path() . 'lib/repository_data_manager.class.php';
 
-class SystemAnnouncementPublication
+class SystemAnnouncementPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     
-    const PROPERTY_ID = 'id';
     const PROPERTY_LEARNING_OBJECT_ID = 'learning_object';
     const PROPERTY_FROM_DATE = 'from_date';
     const PROPERTY_TO_DATE = 'to_date';
@@ -20,47 +21,21 @@ class SystemAnnouncementPublication
     const PROPERTY_MODIFIED = 'modified';
     const PROPERTY_EMAIL_SENT = 'email_sent';
     
-    private $id;
-    private $defaultProperties;
-    
     private $target_groups;
     private $target_users;
 
-    function SystemAnnouncementPublication($id = 0, $defaultProperties = array ())
-    {
-        $this->set_id($id);
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    function get_default_property($name)
-    {
-        return $this->defaultProperties[$name];
-    }
-
-    function get_default_properties()
-    {
-        return $this->defaultProperties;
-    }
-
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_ID, self :: PROPERTY_LEARNING_OBJECT_ID, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_MODIFIED, self :: PROPERTY_EMAIL_SENT);
+        return parent :: get_default_property_names(array(self :: PROPERTY_LEARNING_OBJECT_ID, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_MODIFIED, self :: PROPERTY_EMAIL_SENT));
     }
-
-    function set_default_property($name, $value)
-    {
-        $this->defaultProperties[$name] = $value;
-    }
-
-    static function is_default_property_name($name)
-    {
-        return in_array($name, self :: get_default_property_names());
-    }
-
-    function get_id()
-    {
-        return $this->get_default_property(self :: PROPERTY_ID);
-    }
+    
+	/**
+	 * inherited
+	 */
+	function get_data_manager()
+	{
+		return AdminDataManager :: get_instance();	
+	}
 
     function get_learning_object_id()
     {
@@ -100,11 +75,6 @@ class SystemAnnouncementPublication
     function get_email_sent()
     {
         return $this->get_default_property(self :: PROPERTY_EMAIL_SENT);
-    }
-
-    function set_id($id)
-    {
-        $this->set_default_property(self :: PROPERTY_ID, $id);
     }
 
     function set_learning_object_id($id)
@@ -168,25 +138,10 @@ class SystemAnnouncementPublication
     {
         $now = time();
         $this->set_published($now);
-        $adm = AdminDataManager :: get_instance();
-        $id = $adm->get_next_system_announcement_publication_id();
-        $this->set_id($id);
         
-        $success = $adm->create_system_announcement_publication($this);
-        
-        return $success;
+        return parent :: create();
     }
-
-    function delete()
-    {
-        return AdminDataManager :: get_instance()->delete_system_announcement_publication($this);
-    }
-
-    function update()
-    {
-        return AdminDataManager :: get_instance()->update_system_announcement_publication($this);
-    }
-
+    
     static function get_table_name()
     {
         return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);

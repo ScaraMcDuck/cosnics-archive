@@ -102,8 +102,9 @@ abstract class DataClass
 		$table_name = $this->get_table_name();
 		
 		$func = 'get_next_' . $table_name . '_id';
-		call_user_func(array($dm, $func));
-		
+		$id = call_user_func(array($dm, $func));
+		$this->set_id($id);
+	
 		$func = 'create_' . $table_name;
 		return call_user_func(array($dm, $func), $this);
 	}
