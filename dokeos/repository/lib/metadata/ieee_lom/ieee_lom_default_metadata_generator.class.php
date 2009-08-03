@@ -71,7 +71,7 @@ class IeeeLomDefaultMetadataGenerator
 	    $owner = $this->user_data_manager->retrieve_user($this->learning_object->get_owner_id());
 
 	    $this->ieeeLom->set_version(new Langstring($this->learning_object->get_learning_object_edition(), IeeeLom :: NO_LANGUAGE));
-	    $this->ieeeLom->set_status(new Vocabulary(IeeeLom :: VERSION, ($this->learning_object->is_latest_version() == TRUE ? 'final' : 'draft')));
+	    $this->ieeeLom->set_status(new IeeeLomVocabulary(($this->learning_object->is_latest_version() == TRUE ? 'final' : 'draft')));
 	    
 	    $all_versions = $this->learning_object->get_learning_object_versions();
 		foreach($all_versions as $version)
@@ -82,7 +82,7 @@ class IeeeLomDefaultMetadataGenerator
 			$vcard->addEmail(        $versionowner->get_email());
 			$vcard->setFormattedName($versionowner->get_firstname() . ' ' . $versionowner->get_lastname());
 			$vcard->setName(         $versionowner->get_lastname() . ' ' . $versionowner->get_firstname());
-			$this->ieeeLom->add_contribute(new Vocabulary(IeeeLom :: VERSION, $versionowner == $owner ? 'author' : 'editor'), $vcard->fetch(), new IeeeLomDateTime(date('Y-m-d\TH:i:sO', $version->get_creation_date())));
+			$this->ieeeLom->add_contribute(new IeeeLomVocabulary($versionowner == $owner ? 'author' : 'editor'), $vcard->fetch(), new IeeeLomDateTime($version->get_creation_date()));
 		}
 	}
 	
@@ -96,7 +96,7 @@ class IeeeLomDefaultMetadataGenerator
 		$vcard->setName(         PlatformSetting :: get('site_name',       'admin'));
 		$vcard->addOrganization( PlatformSetting :: get('institution',     'admin'));
 		$vcard->setURL(          PlatformSetting :: get('institution_url', 'admin'));
-		$this->ieeeLom->add_metadata_contribute(new Vocabulary(IeeeLom :: VERSION, 'creator'), $vcard->fetch(), new IeeeLomDateTime(date('Y-m-d\TH:i:sO')));
+		$this->ieeeLom->add_metadata_contribute(new IeeeLomVocabulary('creator'), $vcard->fetch(), new IeeeLomDateTime(date('Y-m-d\TH:i:sO')));
 	}
 	
 	

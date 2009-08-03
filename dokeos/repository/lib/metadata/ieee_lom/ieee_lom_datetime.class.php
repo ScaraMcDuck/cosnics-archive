@@ -1,52 +1,77 @@
 <?php
-/**
- * $Id: ieee_lom_datetime.class.php 9169 2006-08-29 13:01:29Z bmol $
- * @package repository.metadata
- * @subpackage ieee_lom
- */
-/**
- * A DateTime field used in IEEE LOM. This object contains a date & time value
- * and a description
- */
-class IeeeLomDateTime {
-	/**
-	 * The date & time value
-	 */
-	private $datetime;
-	
-	/**
-	 * The description
-	 */
-	private $description;
-	
-	/**
-	 * Constructor
-	 * @param string|null $datetime
-	 * @param LangString|null $description
-	 */
-    function IeeeLomDateTime($datetime = null, $description = null) 
+require_once (dirname(__FILE__) . '/ieee_lom_time.class.php');
+
+class IeeeLomDateTime extends IeeeLomTime
+{
+    public function IeeeLomDateTime($timestamp = null, $description = null)
     {
-    	$this->datetime = $datetime;
-    	$this->description = $description;
+        parent :: IeeeLomTime($timestamp, $description);
+    }
+    
+	/**
+     * Return an ISO 8601 formatted datetime
+     *
+     * @return string Formatted datetime
+     */
+    public function get_datetime()
+    {
+        $datetime_str = '';
+        $time_str     = '';
+        
+        if(isset($this->day) && isset($this->month) && isset($this->year))
+        {
+            $datetime_str = DatetimeTool :: get_complete_year($this->year) . '-' . $this->get_month(true) . '-' . $this->get_day(true);
+        }
+        
+        $hour = $this->get_hour(true);
+        if(isset($hour))
+        {
+            $time_str = 'T' . $hour;
+        }
+        
+        $min = $this->get_min(true);
+        if(isset($min))
+        {
+            if(strlen($time_str) > 0)
+            {
+                $time_str .= ':' . $min;
+            }
+            else
+            {
+                $time_str = 'T00:' . $min;
+            }
+        }
+        
+        $sec = $this->get_sec(true);
+        if(isset($sec))
+        {
+            if(strlen($time_str) > 0)
+            {
+                $time_str .= ':' . $sec;
+            }
+            else
+            {
+                $time_str = 'T00:00:' . $sec;
+            }
+        }
+        
+        if(strlen($time_str) > 0)
+        {
+            $datetime_str .= $time_str;
+        }
+        
+        return $datetime_str;
     }
     
     /**
-     * Gets the date & time value
-     * @return string|null
+     * Set the the instance datetime value
+     * 
+     * @param $date_string Date in format accepted by strtotime() 
      */
-    function get_datetime()
+    public function set_datetime_from_string($date_string)
     {
-    	return $this->datetime;
+        $this->set_timestamp(strtotime($date_string));
     }
     
-    /**
-     * Gets the description
-     * @return LangString|null
-     */
-    function get_description()
-    {
-    	return $this->description;
-    }
-    
-}
+} 
 ?>

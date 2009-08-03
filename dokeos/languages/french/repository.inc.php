@@ -44,4 +44,7 @@ $lang['repository']['MetadataYear'] = 'année';
 $lang['repository']['MetadataHour'] = 'heure';
 $lang['repository']['MetadataMin'] = 'min';
 $lang['repository']['MetadataSec'] = 'sec';
+$lang['repository']['MetadataLomCatalogNameEmptyError'] = 'Le nom ne peut pas être vide';
+
+
 ?>

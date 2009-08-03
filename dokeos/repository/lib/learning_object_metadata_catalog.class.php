@@ -13,6 +13,12 @@ class LearningObjectMetadataCatalog extends RepositoryModelObject
 	const CATALOG_LANGUAGE         = 'language';
     const CATALOG_COPYRIGHT        = 'copyright';
     const CATALOG_ROLE             = 'role';
+    const CATALOG_DAY              = 'day';
+    const CATALOG_MONTH            = 'month';
+    const CATALOG_YEAR             = 'year';
+    const CATALOG_HOUR             = 'hour';
+    const CATALOG_MIN              = 'min';
+    const CATALOG_SEC              = 'sec';
     
 	function LearningObjectMetadataCatalog($id = null, $defaultProperties = array ())
 	{

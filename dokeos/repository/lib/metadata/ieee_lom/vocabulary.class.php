@@ -7,25 +7,29 @@
 /**
  * A Vocabulary field in IEEE LOM
  */
-class Vocabulary {
+class IeeeLomVocabulary 
+{
 	/**
 	 * The source
 	 */
 	private $source;
+	
 	/**
 	 * The value
 	 */
 	private $value;
+	
 	/**
 	 * Constructor
 	 * @param string|null $source
 	 * @param string|null $value
 	 */
-	public function Vocabulary($source=null,$value=null)
+	public function IeeeLomVocabulary($value = null, $source = IeeeLom :: VERSION)
 	{
-		$this->source = $source;
 		$this->value = $value;
+		$this->source = $source;
 	}
+	
 	/**
 	 * Gets the source
 	 * @return string|null
@@ -34,6 +38,7 @@ class Vocabulary {
 	{
 		return $this->source;
 	}
+	
 	/**
 	 * Gets the value
 	 * @return string|null
@@ -42,5 +47,6 @@ class Vocabulary {
 	{
 		return $this->value;
 	}
+	
 }
 ?>
