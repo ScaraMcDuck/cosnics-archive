@@ -32,7 +32,7 @@ class SystemAnnouncementPublicationBrowserTableCellRenderer extends DefaultSyste
         {
             return $this->get_modification_links($system_announcement_publication);
         }
-        
+
         // Add special features here
         switch ($column->get_name())
         {

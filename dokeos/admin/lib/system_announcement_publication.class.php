@@ -119,7 +119,7 @@ class SystemAnnouncementPublication extends DataClass
 
     function get_publication_object()
     {
-        $rdm = RepositoryDataManager :: get_instance();
+        $rdm = RepositoryDataManager :: get_instance(); dump($this);
         return $rdm->retrieve_learning_object($this->get_learning_object_id());
     }
 
@@ -163,11 +163,6 @@ class SystemAnnouncementPublication extends DataClass
     function toggle_visibility()
     {
         $this->set_hidden(! $this->is_hidden());
-    }
-
-    function set_default_properties($defaultProperties)
-    {
-        $this->defaultProperties = $defaultProperties;
     }
 
     function is_visible_for_target_users()
