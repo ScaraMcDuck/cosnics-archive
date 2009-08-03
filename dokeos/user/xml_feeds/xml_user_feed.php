@@ -52,7 +52,7 @@ else
 }
 
 header('Content-Type: text/xml');
-echo '<?xml version="1.0" encoding="utf-8"?>', "\n", '<tree>', "\n";
+echo '<?xml version="1.0" encoding="utf-8"?>'. "\n". '<tree>', "\n";
 
 if (isset($users))
 {
@@ -68,14 +68,14 @@ function dump_tree($users)
 		return;
 	}
 
-	echo '<node id="0" classes="type_category unlinked" title="', Translation :: get('Users'), '">', "\n";
+	echo '<node id="0" classes="type_category unlinked" title="'. Translation :: get('Users'). '">'. "\n";
 
 	while ($user = $users->next_result())
 	{
-		echo '<leaf id="', $user->get_id(), '" classes="type type_user" title="', htmlentities($user->get_fullname()), '" description="', htmlentities($user->get_fullname()), '"/>', "\n";
+		echo '<leaf id="'. $user->get_id(). '" classes="type type_user" title="'. htmlentities($user->get_fullname()). '" description="'. htmlentities($user->get_username()). '"/>'. "\n";
 	}
 
-	echo '</node>', "\n";
+	echo '</node>'. "\n";
 }
 
 function contains_results($node, $objects)
