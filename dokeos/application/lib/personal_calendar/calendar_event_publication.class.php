@@ -4,6 +4,7 @@
  */
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
 require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
+require_once Path :: get_common_path() . 'data_class.class.php';
 
 /**
  *	This class represents a CalendarEventPublication.
@@ -16,55 +17,17 @@ require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
  *	@author Hans de Bisschop
  *	@author Dieter De Neef
  */
-class CalendarEventPublication
+class CalendarEventPublication extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 	const TABLE_NAME = 'publication';
 
-	const PROPERTY_ID = 'id';
 	const PROPERTY_CALENDAR_EVENT = 'calendar_event';
 	const PROPERTY_PUBLISHER = 'publisher';
 	const PROPERTY_PUBLISHED = 'published';
 
-	private $defaultProperties;
-
 	private $target_groups;
 	private $target_users;
-
-	/**
-	 * Creates a new calendar_event object.
-	 * @param int $id The numeric ID of the CalendarEventPublication object. May be omitted
-	 *                if creating a new object.
-	 * @param array $defaultProperties The default properties of the CalendarEventPublication
-	 *                                 object. Associative array.
-	 */
-	function CalendarEventPublication($defaultProperties = array ())
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
-
-	/**
-	 * Gets a default property of this CalendarEventPublication object by name.
-	 * @param string $name The name of the property.
-	 */
-	function get_default_property($name)
-	{
-		return $this->defaultProperties[$name];
-	}
-
-	/**
-	 * Gets the default properties of this CalendarEventPublication.
-	 * @return array An associative array containing the properties.
-	 */
-	function get_default_properties()
-	{
-		return $this->defaultProperties;
-	}
-
-	function set_default_properties($defaultProperties)
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
 
 	/**
 	 * Get the default properties of all CalendarEventPublications.
@@ -72,40 +35,17 @@ class CalendarEventPublication
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_CALENDAR_EVENT, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED);
+		return parent :: get_default_property_names(array (self :: PROPERTY_CALENDAR_EVENT, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED));
 	}
 
 	/**
-	 * Sets a default property of this CalendarEventPublication by name.
-	 * @param string $name The name of the property.
-	 * @param mixed $value The new value for the property.
+	 * inherited
 	 */
-	function set_default_property($name, $value)
+	function get_data_manager()
 	{
-		$this->defaultProperties[$name] = $value;
+		return PersonalCalendarDataManager :: get_instance();	
 	}
-
-	/**
-	 * Checks if the given identifier is the name of a default calendar_eventr
-	 * property.
-	 * @param string $name The identifier.
-	 * @return boolean True if the identifier is a property name, false
-	 *                 otherwise.
-	 */
-	static function is_default_property_name($name)
-	{
-		return in_array($name, self :: get_default_property_names());
-	}
-
-	/**
-	 * Returns the id of this CalendarEventPublication.
-	 * @return int The CalendarEventPublication id.
-	 */
-	function get_id()
-	{
-		return $this->get_default_property(self :: PROPERTY_ID);
-	}
-
+	
 	/**
 	 * Returns the learning object id from this CalendarEventPublication object
 	 * @return int The CalendarEvent ID
@@ -131,15 +71,6 @@ class CalendarEventPublication
 	function get_published()
 	{
 		return $this->get_default_property(self :: PROPERTY_PUBLISHED);
-	}
-
-	/**
-	 * Sets the id of this CalendarEventPublication.
-	 * @param int $pm_id The CalendarEventPublication id.
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
 	}
 
 	/**
@@ -206,24 +137,6 @@ class CalendarEventPublication
 		$id = $pmdm->get_next_calendar_event_publication_id();
 		$this->set_id($id);
 		return $pmdm->create_calendar_event_publication($this);
-	}
-
-	/**
-	 * Deletes this publication from persistent storage
-	 * @see PersonalCalendarDataManager::delete_calendar_event_publication()
-	 */
-	function delete()
-	{
-		return PersonalCalendarDataManager :: get_instance()->delete_calendar_event_publication($this);
-	}
-
-	/**
-	 * Updates this publication in persistent storage
-	 * @see PersonalCalendarDataManager::update_calendar_event_publication()
-	 */
-	function update()
-	{
-		return PersonalCalendarDataManager :: get_instance()->update_calendar_event_publication($this);
 	}
 
 	function get_target_users()
