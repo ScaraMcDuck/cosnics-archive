@@ -19,7 +19,6 @@ class AssessmentManagerAssessmentPublicationUpdaterComponent extends AssessmentM
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE)), Translation :: get('BrowseAssessment')));
 		$trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateAssessmentPublication')));
 

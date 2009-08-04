@@ -89,51 +89,5 @@ abstract class AssessmentManagerComponent extends WebApplicationComponent
 	{
 		return $this->get_parent()->get_browse_assessment_publications_url();
 	}
-
-	function get_create_assessment_publication_group_url()
-	{
-		return $this->get_parent()->get_create_assessment_publication_group_url();
-	}
-
-	function get_update_assessment_publication_group_url($assessment_publication_group)
-	{
-		return $this->get_parent()->get_update_assessment_publication_group_url($assessment_publication_group);
-	}
-
- 	function get_delete_assessment_publication_group_url($assessment_publication_group)
-	{
-		return $this->get_parent()->get_delete_assessment_publication_group_url($assessment_publication_group);
-	}
-
-	function get_browse_assessment_publication_groups_url()
-	{
-		return $this->get_parent()->get_browse_assessment_publication_groups_url();
-	}
-
-	function get_create_assessment_publication_user_url()
-	{
-		return $this->get_parent()->get_create_assessment_publication_user_url();
-	}
-
-	function get_update_assessment_publication_user_url($assessment_publication_user)
-	{
-		return $this->get_parent()->get_update_assessment_publication_user_url($assessment_publication_user);
-	}
-
- 	function get_delete_assessment_publication_user_url($assessment_publication_user)
-	{
-		return $this->get_parent()->get_delete_assessment_publication_user_url($assessment_publication_user);
-	}
-
-	function get_browse_assessment_publication_users_url()
-	{
-		return $this->get_parent()->get_browse_assessment_publication_users_url();
-	}
-
-
-	function get_browse_url()
-	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
-	}
 }
 ?>
