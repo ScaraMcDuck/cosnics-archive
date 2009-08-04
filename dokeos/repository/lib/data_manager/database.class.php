@@ -1519,7 +1519,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this->database, $params, $prefix_properties = false);
+			$translator = new ConditionTranslator($this->database, $params);
             $query .= $translator->render_query($condition);
             $params = $translator->get_parameters();
 		}
