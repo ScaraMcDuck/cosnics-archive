@@ -503,5 +503,10 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     {
     	return $this->get_parent()->is_allowed($right);
     }
+    
+    function get_course_group()
+    {
+    	return $this->get_parent()->get_course_group();
+    }
 }
 ?>
