@@ -9,6 +9,8 @@ require_once dirname(__FILE__).'/../weblcms_manager_component.class.php';
  */
 class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 {
+	private $rights;
+	
 	/**
 	 * The tools that this application offers.
 	 */
@@ -29,6 +31,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 	 */
 	function run()
 	{
+		$this->load_rights();
 		$trail = new BreadcrumbTrail();
 		$trail->add_help('courses general');
 
@@ -117,7 +120,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 				
 				$wdm = WeblcmsDataManager :: get_instance();
 				$class = Tool :: type_to_class($tool);
-				$toolObj = new $class ($this->get_parent());
+				$toolObj = new $class ($this);
 				$this->set_tool_class($class);
 				$toolObj->run();
 				$wdm->log_course_module_access($this->get_course_id(),$this->get_user_id(),$tool,$category);
@@ -305,6 +308,176 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 		}
 
 		return implode("\n",$html);
+	}
+	
+/**
+	 * Displays the header of this application
+	 * @param array $breadcrumbs The breadcrumbs which should be displayed
+	 */
+	function display_header($breadcrumbtrail, $display_search = false, $display_title = true)
+	{
+		if (is_null($breadcrumbtrail))
+		{
+			$breadcrumbtrail = new BreadcrumbTrail();
+		}
+
+		$tool = $this->get_parameter(WeblcmsManager :: PARAM_TOOL);
+		$course = $this->get_parameter(WeblcmsManager :: PARAM_COURSE);
+		$action = $this->get_parameter(WeblcmsManager :: PARAM_ACTION);
+
+		if (isset ($this->tool_class))
+		{
+			$tool = str_replace('_tool', '', Tool :: class_to_type($this->tool_class));
+			$js_file = dirname(__FILE__).'/tool/'.$tool.'/'.$tool.'.js';
+			if (file_exists($js_file))
+			{
+				$htmlHeadXtra[] = '<script type="text/javascript" src="application/lib/weblcms/tool/'.$tool.'/'.$tool.'.js"></script>';
+			}
+		}
+
+		$title = $breadcrumbtrail->get_last()->get_name();
+		$title_short = $title;
+		if (strlen($title_short) > 53)
+		{
+			$title_short = substr($title_short, 0, 50).'&hellip;';
+		}
+		Display :: header($breadcrumbtrail);
+
+		if($this->is_teacher())
+		{
+			echo '<div style="float: right;">';
+			$studentview = Request :: get('studentview');
+			
+			if(is_null($studentview))
+				$studentview = Session :: retrieve('studentview');
+			
+			if($studentview == 1)
+			{
+				Session :: register('studentview', 1);
+				$this->set_rights_for_student();
+				echo '<a href="' . $this->get_url(array('studentview' => '0')) . '">' . Translation :: get('TeacherView') . '</a>';
+			}
+			else 
+			{
+				Session :: unregister('studentview');
+				$this->set_rights_for_teacher();
+				echo '<a href="' . $this->get_url(array('studentview' => '1')) . '">' . Translation :: get('StudentView') . '</a>';
+			}
+
+			echo '</div>';
+		}
+		
+		if (isset ($this->tool_class))
+		{
+            if($display_title)
+            {
+               echo '<div style="float: left;">';
+                Display :: tool_title(htmlentities(Translation :: get($this->tool_class.'Title')));
+                echo '</div>';
+            }
+
+		}
+		else
+		{
+			if ($course && is_object($this->course) && $action == self :: ACTION_VIEW_COURSE)
+			{
+				//echo '<h3 style="float: left;">'.htmlentities($this->course->get_name()).'</h3>';
+				echo '<h3 style="float: left;">'.htmlentities($title).'</h3>';
+				// TODO: Add department name and url here somewhere ?
+			}
+			else
+			{
+				echo '<h3 style="float: left;">'.htmlentities($title).'</h3>';
+				if ($display_search)
+				{
+					$this->display_search_form();
+				}
+			}
+
+			//echo '<div class="clear">&nbsp;</div>';
+		}
+
+		if (!isset ($this->tool_class))
+		{
+			if ($msg = Request :: get(Application :: PARAM_MESSAGE))
+			{
+				echo '<br />';
+				$this->display_message($msg);
+			}
+			if($msg = Request :: get(Application :: PARAM_ERROR_MESSAGE))
+			{
+				echo '<br />';
+				$this->display_error_message($msg);
+			}
+		}
+		
+		//echo 'Last visit: '.date('r',$this->get_last_visit_date());
+	}
+	
+	function is_allowed($right)
+	{
+		return $this->rights[$right];
+	}
+
+	/**
+	 * Load the rights for the current user in this tool
+	 */
+	private function load_rights()
+	{			
+		$this->rights[VIEW_RIGHT] = true;
+		
+		$studentview = Session :: retrieve('studentview');
+		
+		if($this->is_teacher() && $studentview != '1')
+		{
+			$this->set_rights_for_teacher();	
+		}
+		else 
+		{
+			$this->set_rights_for_student();
+		}
+		
+		return;
+	}
+	
+	private function set_rights_for_teacher()
+	{
+		$this->rights[EDIT_RIGHT] = true;
+		$this->rights[ADD_RIGHT] = true;
+		$this->rights[DELETE_RIGHT] = true;
+	}
+	
+	private function set_rights_for_student()
+	{
+		$this->rights[EDIT_RIGHT] = false;
+		$this->rights[ADD_RIGHT] = false;
+		$this->rights[DELETE_RIGHT] = false;
+	}
+	
+	private $is_teacher;
+	
+	private function is_teacher()
+	{
+		if(is_null($this->is_teacher))
+		{
+			$user = $this->get_user();
+			$course = $this->get_course();
+			
+			if ($user != null && $course != null)
+			{
+				$relation = $this->retrieve_course_user_relation($course->get_id(),$user->get_id());
+		
+				if(($relation && $relation->get_status() == 1) || $user->is_platform_admin())
+				{
+					$this->is_teacher = true;
+					return $this->is_teacher;
+				}
+			}
+			
+			$this->is_teacher = false;
+		}
+
+		return $this->is_teacher;
 	}
 }
 ?>

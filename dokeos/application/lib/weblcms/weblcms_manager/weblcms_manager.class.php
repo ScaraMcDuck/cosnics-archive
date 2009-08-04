@@ -128,7 +128,6 @@ class WeblcmsManager extends WebApplication
 		$this->load_sections();
 		$this->tools = array ();
 		$this->load_tools();
-		$this->load_rights();
 	}
 
 	/*
@@ -343,30 +342,6 @@ class WeblcmsManager extends WebApplication
 			$title_short = substr($title_short, 0, 50).'&hellip;';
 		}
 		Display :: header($breadcrumbtrail);
-
-		if($this->is_teacher())
-		{
-			echo '<div style="float: right;">';
-			$studentview = Request :: get('studentview');
-			
-			if(is_null($studentview))
-				$studentview = Session :: retrieve('studentview');
-			
-			if($studentview == 1)
-			{
-				Session :: register('studentview', 1);
-				$this->set_rights_for_student();
-				echo '<a href="' . $this->get_url(array('studentview' => '0')) . '">' . Translation :: get('TeacherView') . '</a>';
-			}
-			else 
-			{
-				Session :: unregister('studentview');
-				$this->set_rights_for_teacher();
-				echo '<a href="' . $this->get_url(array('studentview' => '1')) . '">' . Translation :: get('StudentView') . '</a>';
-			}
-
-			echo '</div>';
-		}
 		
 		if (isset ($this->tool_class))
 		{
@@ -1307,72 +1282,6 @@ class WeblcmsManager extends WebApplication
 	function get_application_name()
 	{
 		return self :: APPLICATION_NAME;
-	}
-	
-	function is_allowed($right)
-	{
-		return $this->rights[$right];
-	}
-
-	/**
-	 * Load the rights for the current user in this tool
-	 */
-	private function load_rights()
-	{			
-		$this->rights[VIEW_RIGHT] = true;
-		
-		$studentview = Session :: retrieve('studentview');
-		
-		if($this->is_teacher() && $studentview != '1')
-		{
-			$this->set_rights_for_teacher();	
-		}
-		else 
-		{
-			$this->set_rights_for_student();
-		}
-		
-		return;
-	}
-	
-	private function set_rights_for_teacher()
-	{
-		$this->rights[EDIT_RIGHT] = true;
-		$this->rights[ADD_RIGHT] = true;
-		$this->rights[DELETE_RIGHT] = true;
-	}
-	
-	private function set_rights_for_student()
-	{
-		$this->rights[EDIT_RIGHT] = false;
-		$this->rights[ADD_RIGHT] = false;
-		$this->rights[DELETE_RIGHT] = false;
-	}
-	
-	private $is_teacher;
-	
-	private function is_teacher()
-	{
-		if(is_null($this->is_teacher))
-		{
-			$user = $this->get_user();
-			$course = $this->get_course();
-			
-			if ($user != null && $course != null)
-			{
-				$relation = $this->retrieve_course_user_relation($course->get_id(),$user->get_id());
-		
-				if(($relation && $relation->get_status() == 1) || $user->is_platform_admin())
-				{
-					$this->is_teacher = true;
-					return $this->is_teacher;
-				}
-			}
-			
-			$this->is_teacher = false;
-		}
-
-		return $this->is_teacher;
 	}
 	
 }
