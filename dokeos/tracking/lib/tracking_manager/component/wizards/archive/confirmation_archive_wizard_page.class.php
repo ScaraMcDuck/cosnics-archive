@@ -50,7 +50,7 @@ class ConfirmationArchiveWizardPage extends ArchiveWizardPage
                 {
                     if ((strpos($key2, $eventname) !== false) && ($key2 != $key))
                     {
-                        $id = substr($key2, strlen($eventname . 'event'));
+                        $id = substr($key2, strlen($eventname . 'event_'));
                         $tracker = $this->get_parent()->retrieve_tracker_registration($id);
                         $this->addElement('html', '<div style="margin-top: 3px; left: 40px; position: relative;">' . $tracker->get_class() . '</div>');
                     }
@@ -67,8 +67,8 @@ class ConfirmationArchiveWizardPage extends ArchiveWizardPage
         $this->addElement('html', '<div style="margin-top: 3px">' . Translation :: get('End_date') . ': ' . $enddate . ' 23:59:59</div>');
         $this->addElement('html', '<div style="margin-top: 3px">' . Translation :: get('Period') . ': ' . $period . ' ' . Translation :: get('Days') . '</div>');
         
-        $prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous'), 'style=\'margin-top: 20px;\'');
-        $prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Confirm') . ' >>', 'style=\'margin-top: 20px;\'');
+        $prevnext[] = $this->createElement('style_submit_button', $this->getButtonName('back'), '<< ' . Translation :: get('Previous'), array('class' => 'previous'));
+        $prevnext[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Confirm') . ' >>', array('class' => 'positive finish'));
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
         $this->setDefaultAction('next');
     }

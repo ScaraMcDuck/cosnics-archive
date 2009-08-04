@@ -53,8 +53,8 @@ class SettingsArchiveWizardPage extends ArchiveWizardPage
         
         $this->addElement('select', 'period', Translation :: get('Period') . ' (' . Translation :: get('Days') . ')', $numbers);
         
-        $prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous'));
-        $prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next') . ' >>');
+        $prevnext[] = $this->createElement('style_submit_button', $this->getButtonName('back'), '<< ' . Translation :: get('Previous'), array('class' => 'previous'));
+        $prevnext[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next') . ' >>', array('class' => 'next'));
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
         $this->setDefaultAction('next');
         $this->set_form_defaults();

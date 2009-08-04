@@ -32,14 +32,14 @@ class ArchiveWizardDisplay extends HTML_QuickForm_Action_Display
      */
     function _renderForm($current_page)
     {
-        $renderer = $current_page->defaultRenderer();
+        /*$renderer = $current_page->defaultRenderer();
         $current_page->setRequiredNote('<font color="#FF0000">*</font> ' . Translation :: get('ThisFieldIsRequired'));
         $element_template = "\n\t<tr>\n\t\t<td valign=\"top\"><!-- BEGIN required --><span style=\"color: #ff0000\">*</span> <!-- END required -->{label}</td>\n\t\t<td valign=\"top\" align=\"left\"><!-- BEGIN error --><span style=\"color: #ff0000;font-size:x-small;margin:2px;\">{error}</span><br /><!-- END error -->\t{element}</td>\n\t</tr>";
         $renderer->setElementTemplate($element_template);
         $header_template = "\n\t<tr>\n\t\t<td valign=\"top\" colspan=\"2\">{header}</td>\n\t</tr>";
         $renderer->setHeaderTemplate($header_template);
         HTML_QuickForm :: setRequiredNote('<font color="red">*</font> <small>' . Translation :: get('ThisFieldIsRequired') . '</small>');
-        $current_page->accept($renderer);
+        $current_page->accept($renderer);*/
         
         $trail = new BreadCrumbTrail();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
@@ -47,7 +47,7 @@ class ArchiveWizardDisplay extends HTML_QuickForm_Action_Display
         
         $this->parent->display_header($trail, false);
         
-        echo '<div style="float: left; background-color:#EFEFEF;margin-right: 20px;padding: 15px; min-height: 400px;">';
+        echo '<div style="float: left; background-color:#EFEFEF; width: 17%; margin-right: 20px;padding: 15px; min-height: 400px;">';
         echo '<img src="layout/aqua/img/common/dokeos.png" alt="logo"/>';
         $all_pages = $current_page->controller->_pages;
         $total_number_of_pages = count($all_pages);
@@ -70,7 +70,7 @@ class ArchiveWizardDisplay extends HTML_QuickForm_Action_Display
         echo '</ol>';
         echo '</div>' . "\n";
         
-        echo '<div style="margin: 10px;">';
+        echo '<div style="margin: 10px; float: right; width: 75%;">';
         echo '<h2>' . Translation :: get('Step') . ' ' . $current_page_number . ' ' . Translation :: get('of') . ' ' . $total_number_of_pages . ' &ndash; ' . $current_page->get_title() . '</h2>';
         echo '<div>';
         echo $current_page->get_info();
