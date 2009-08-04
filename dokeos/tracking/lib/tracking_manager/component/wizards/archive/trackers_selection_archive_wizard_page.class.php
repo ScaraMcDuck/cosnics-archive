@@ -71,7 +71,8 @@ class TrackersSelectionArchiveWizardPage extends ArchiveWizardPage
         $this->setDefaults($defaults);
         
         //$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous'), 'style=\'margin-top: 20px;\'');
-        $prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next') . ' >>', 'style=\'margin-top: 20px;\'');
+        //$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next') . ' >>', 'style=\'margin-top: 20px;\'');
+        $prevnext[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next') . ' >>', array('class' => 'next'));
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
         
         $this->setDefaultAction('next');

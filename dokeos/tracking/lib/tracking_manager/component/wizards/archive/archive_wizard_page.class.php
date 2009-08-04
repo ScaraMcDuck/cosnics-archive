@@ -6,11 +6,13 @@
  * @subpackage maintenance
  */
 
+require_once Path :: get_common_path() . 'html/formvalidator/form_validator_page.class.php';
+
 /**
  * This abstract class defines a page which is used in a archive trackers wizard.
  * @author Sven Vanpoucke
  */
-abstract class ArchiveWizardPage extends HTML_QuickForm_Page
+abstract class ArchiveWizardPage extends FormValidatorPage
 {
     /**
      * The Component which the wizard runs.
@@ -31,7 +33,7 @@ abstract class ArchiveWizardPage extends HTML_QuickForm_Page
     {
         $this->parent = $parent;
         $this->name = $name;
-        parent :: HTML_QuickForm_Page($name, 'post');
+        parent :: FormValidatorPage($name, 'post');
        	$this->updateAttributes(array('action' => $parent->get_url()));
     }
 
