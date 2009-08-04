@@ -80,7 +80,15 @@ class Footer
         $links[] = Translation :: get('License');
         $links[] = Translation :: get('PrivacyPolicy');
         $links[] = '<a href="http://www.dokeosplanet.org">http://www.dokeosplanet.org</a>';
-        $links[] = '&copy;&nbsp;' . date('Y');
+        
+    	$world = PlatformSetting :: get('whoisonlineaccess');
+        
+   		if($world == "1" || $_SESSION['_uid'] && $world == "2")
+   		{
+   			$links[] = '<a href="' . Path :: get(WEB_PATH). 'index_admin.php?go=whois_online">' . Translation :: get('WhoisOnline') . '</a>';
+   		}
+   		
+   		$links[] = '&copy;&nbsp;' . date('Y');
         
         $output[] = implode('&nbsp;|&nbsp;', $links);
         $output[] = '</div>';
