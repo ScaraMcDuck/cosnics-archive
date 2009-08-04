@@ -5,6 +5,7 @@
 
 require_once dirname(__FILE__).'/../assessment_manager.class.php';
 require_once dirname(__FILE__).'/../assessment_manager_component.class.php';
+require_once dirname(__FILE__).'/../../assessment_publication_category_menu.class.php';
 require_once dirname(__FILE__).'/assessment_publication_browser/assessment_publication_browser_table.class.php';
 
 /**
@@ -27,7 +28,12 @@ class AssessmentManagerAssessmentPublicationsBrowserComponent extends Assessment
 
 		echo $this->action_bar->as_html();
 		echo '<div id="action_bar_browser">';
+		echo '<div style="float: left; width: 17%; overflow: auto;">';
+		echo $this->get_menu();
+		echo '</div>';
+		echo '<div style="width: 80%; overflow: auto; float: right;">';
 		echo $this->get_table();
+		echo '</div>';
 		echo '</div>';
 		$this->display_footer();
 	}
@@ -36,6 +42,14 @@ class AssessmentManagerAssessmentPublicationsBrowserComponent extends Assessment
 	{
 		$table = new AssessmentPublicationBrowserTable($this, array(Application :: PARAM_APPLICATION => 'assessment', Application :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS), null);
 		return $table->as_html();
+	}
+	
+	function get_menu()
+	{
+		$current_category = Request :: get('category');
+		$current_category = $current_category ? $current_category : 0;
+		$menu = new AssessmentPublicationCategoryMenu($current_category);
+		return $menu->render_as_tree();
 	}
 	
 	function get_action_bar()
