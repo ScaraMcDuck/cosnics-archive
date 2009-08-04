@@ -17,7 +17,7 @@ class ConfirmationArchiveWizardPage extends ArchiveWizardPage
      */
     function get_title()
     {
-        return Translation :: get('Archive_confirmation_title');
+        return Translation :: get('ArchiveConfirmationTitle');
     }
 
     /**
@@ -26,7 +26,7 @@ class ConfirmationArchiveWizardPage extends ArchiveWizardPage
      */
     function get_info()
     {
-        return Translation :: get('Archive_confirmation_info');
+        return Translation :: get('ArchiveConfirmationInfo');
     }
 
     /**

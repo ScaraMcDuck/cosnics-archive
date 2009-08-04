@@ -84,7 +84,7 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
                         $path = Path :: get(SYS_PATH) . $trackerregistration->get_path() . 'tracker_tables/' . $tracker->get_table() . '.xml';
                         
                         $storage_units = array();
-                        
+                      
                         if ($tracker->is_summary_tracker())
                         {
                             $storage_units[] = $tracker->get_table() . '_' . $startdate;
@@ -110,7 +110,7 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
                             }
                         
                         }
-                        
+                  
                         $resultset = $tracker->export($startdate, $enddate, $event);
                         
                         foreach ($resultset as $result)
