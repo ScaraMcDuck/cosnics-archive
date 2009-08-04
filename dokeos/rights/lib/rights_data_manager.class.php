@@ -63,6 +63,14 @@ abstract class RightsDataManager
 
     abstract function retrieve_location_id_from_location_string($location);
 
+    /**
+	 * retrieves the role and right location
+	 *
+	 * @param int $right_id
+	 * @param int $role_id
+	 * @param int $location_id
+	 * @return RoleRightLocation
+	 */
     abstract function retrieve_role_right_location($right, $role_id, $location_id);
 
     abstract function retrieve_location($id);

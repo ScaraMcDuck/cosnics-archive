@@ -31,10 +31,10 @@ $location = $rights['3'];
 if (isset($role) && isset($right) && isset($location))
 {
 	$rdm = RightsDataManager :: get_instance();
-	
+
 	$result = $rdm->retrieve_role_right_location($right, $role, $location);
 	$result->invert();
-	
+
 	if (!$result->update())
 	{
 		echo 0;
