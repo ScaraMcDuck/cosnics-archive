@@ -3,12 +3,11 @@
  * @package repository.usertable
  */
 
-require_once dirname(__FILE__) . '/event_table_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/../event.class.php';
 /**
  * TODO: Add comment
  */
-class DefaultEventTableCellRenderer implements EventTableCellRenderer
+class DefaultEventTableCellRenderer implements ObjectTableCellRenderer
 {
 
     /**
@@ -27,7 +26,7 @@ class DefaultEventTableCellRenderer implements EventTableCellRenderer
      */
     function render_cell($column, $event)
     {
-        if ($property = $column->get_event_property())
+        if ($property = $column->get_property())
         {
             switch ($property)
             {
@@ -38,6 +37,11 @@ class DefaultEventTableCellRenderer implements EventTableCellRenderer
             }
         }
         return '&nbsp;';
+    }
+    
+	function render_id_cell($event)
+    {
+    	return $event->get_id();
     }
 }
 ?>

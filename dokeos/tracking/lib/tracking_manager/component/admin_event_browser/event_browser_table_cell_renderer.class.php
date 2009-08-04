@@ -27,6 +27,13 @@ class EventBrowserTableCellRenderer extends DefaultEventTableCellRenderer
     }
 
     // Inherited
+    /**
+     * Renders the cell
+     *
+     * @param ObjectTableColumn $column
+     * @param Event $event
+     * @return unknown
+     */
     function render_cell($column, $event)
     {
         if ($column === EventBrowserTableColumnModel :: get_modification_column())
@@ -34,7 +41,7 @@ class EventBrowserTableCellRenderer extends DefaultEventTableCellRenderer
             return $this->get_modification_links($event);
         }
         
-        $property = $column->get_event_property();
+        $property = $column->get_property();
         
         if ($property == Event :: PROPERTY_NAME && $event->get_active() == 1)
         {
