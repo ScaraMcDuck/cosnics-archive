@@ -122,34 +122,40 @@ abstract class DataClass
 	    }
 	}
 	
-	function create()
+	function get_object_name()
 	{
+		$class = get_class($this);
+		return DokeosUtilities :: camelcase_to_underscores($class);
+	}
+	
+	function create()
+	{		
 		$dm = $this->get_data_manager();
-		$table_name = $this->get_table_name();
+		$class_name = $this->get_object_name();
 		
-		$func = 'get_next_' . $table_name . '_id';
+		$func = 'get_next_' . $class_name . '_id';
 		$id = call_user_func(array($dm, $func));
 		$this->set_id($id);
 	
-		$func = 'create_' . $table_name;
+		$func = 'create_' . $class_name;
 		return call_user_func(array($dm, $func), $this);
 	}
 	
 	function update()
 	{
 		$dm = $this->get_data_manager();
-		$table_name = $this->get_table_name();
+		$class_name = $this->get_object_name();
 
-		$func = 'update_' . $table_name;
+		$func = 'update_' . $class_name;
 		return call_user_func(array($dm, $func), $this);
 	}
 	
 	function delete()
 	{
 		$dm = $this->get_data_manager();
-		$table_name = $this->get_table_name();
+		$class_name = $this->get_object_name();
 
-		$func = 'delete_' . $table_name;
+		$func = 'delete_' . $class_name;
 		return call_user_func(array($dm, $func), $this);
 	}
 	

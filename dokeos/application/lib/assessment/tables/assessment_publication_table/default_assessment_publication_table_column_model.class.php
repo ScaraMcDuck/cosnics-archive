@@ -28,15 +28,15 @@ class DefaultAssessmentPublicationTableColumnModel extends ObjectTableColumnMode
 	 */
 	private static function get_default_columns()
 	{
+        $rdm = RepositoryDataManager :: get_instance();
+        $learning_object_alias = $rdm->get_database()->get_alias(LearningObject :: get_table_name());
+		
 		$columns = array();
-
-		$columns[] = new ObjectTableColumn(AssessmentPublication :: PROPERTY_ID);
-		$columns[] = new ObjectTableColumn(AssessmentPublication :: PROPERTY_LEARNING_OBJECT);
+        $columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE, true, $learning_object_alias);
+        $columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION, true, $learning_object_alias);
 		$columns[] = new ObjectTableColumn(AssessmentPublication :: PROPERTY_FROM_DATE);
 		$columns[] = new ObjectTableColumn(AssessmentPublication :: PROPERTY_TO_DATE);
-		$columns[] = new ObjectTableColumn(AssessmentPublication :: PROPERTY_HIDDEN);
-		$columns[] = new ObjectTableColumn(AssessmentPublication :: PROPERTY_PUBLISHER);
-		$columns[] = new ObjectTableColumn(AssessmentPublication :: PROPERTY_PUBLISHED);
+//		$columns[] = new ObjectTableColumn(AssessmentPublication :: PROPERTY_PUBLISHER);
 
 		return $columns;
 	}

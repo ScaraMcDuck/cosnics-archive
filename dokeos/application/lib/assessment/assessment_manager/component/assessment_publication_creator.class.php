@@ -4,7 +4,8 @@
  */
 require_once dirname(__FILE__).'/../assessment_manager.class.php';
 require_once dirname(__FILE__).'/../assessment_manager_component.class.php';
-require_once dirname(__FILE__).'/../../forms/assessment_publication_form.class.php';
+require_once Path :: get_application_library_path() . 'repo_viewer/repo_viewer.class.php';
+require_once dirname(__FILE__) . '/../../publisher/assessment_publisher.class.php';
 
 /**
  * Component to create a new assessment_publication object
@@ -22,20 +23,23 @@ class AssessmentManagerAssessmentPublicationCreatorComponent extends AssessmentM
 		$trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateAssessmentPublication')));
 
-		$assessment_publication = new AssessmentPublication();
-		$form = new AssessmentPublicationForm(AssessmentPublicationForm :: TYPE_CREATE, $assessment_publication, $this->get_url(), $this->get_user());
+		$object = Request :: get('object');
+		$pub = new RepoViewer($this, array('assessment', 'survey'), true);
 
-		if($form->validate())
+		if(!isset($object))
 		{
-			$success = $form->create_assessment_publication();
-			$this->redirect($success ? Translation :: get('AssessmentPublicationCreated') : Translation :: get('AssessmentPublicationNotCreated'), !$success, array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS));
+			$html[] =  $pub->as_html();
 		}
 		else
 		{
-			$this->display_header($trail);
-			$form->display();
-			$this->display_footer();
+			$publisher = new AssessmentPublisher($pub);
+			$html[] = $publisher->get_publications_form($object);
 		}
+
+		$this->display_header($trail);
+		echo implode("\n", $html);
+		echo '<div style="clear: both;"></div>';
+		$this->display_footer();
 	}
 }
 ?>

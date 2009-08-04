@@ -12,17 +12,20 @@ require_once Path :: get_common_path() . 'data_class.class.php';
 class AssessmentPublication extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
+	const TABLE_NAME = 'publication';
 
 	/**
 	 * AssessmentPublication properties
 	 */
-	const PROPERTY_ID = 'id';
 	const PROPERTY_LEARNING_OBJECT = 'learning_object';
 	const PROPERTY_FROM_DATE = 'from_date';
 	const PROPERTY_TO_DATE = 'to_date';
 	const PROPERTY_HIDDEN = 'hidden';
 	const PROPERTY_PUBLISHER = 'publisher';
 	const PROPERTY_PUBLISHED = 'published';
+	
+	private $target_groups;
+	private $target_users;
 
 	/**
 	 * Get the default properties
@@ -30,30 +33,12 @@ class AssessmentPublication extends DataClass
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_LEARNING_OBJECT, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED);
+		return parent :: get_default_property_names(array(self :: PROPERTY_LEARNING_OBJECT, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED));
 	}
 
 	function get_data_manager()
 	{
 		return AssessmentDataManager :: get_instance();
-	}
-
-	/**
-	 * Returns the id of this AssessmentPublication.
-	 * @return the id.
-	 */
-	function get_id()
-	{
-		return $this->get_default_property(self :: PROPERTY_ID);
-	}
-
-	/**
-	 * Sets the id of this AssessmentPublication.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
 	}
 
 	/**
@@ -163,12 +148,116 @@ class AssessmentPublication extends DataClass
 	{
 		$this->set_default_property(self :: PROPERTY_PUBLISHED, $published);
 	}
+	
+	function set_target_groups($target_groups)
+	{
+		$this->target_groups = $target_groups;
+	}
+	
+	function set_target_users($target_users)
+	{
+		$this->target_users = $target_users;
+	}
+	
+	function get_target_groups()
+	{
+		if(!$this->target_groups)
+		{
+			$condition = new EqualityCondition(AlexiaPublicationGroup :: PROPERTY_PUBLICATION, $this->get_id());
+			$groups = $this->get_data_manager()->retrieve_assessment_publication_groups($condition);
+			
+			while($group = $groups->next_result())
+			{
+				$this->target_groups[] = $group->get_group_id();
+			}
+		}
+		
+		return $this->target_groups;
+	}
+	
+	function get_target_users()
+	{
+		if(!$this->target_users)
+		{
+			$condition = new EqualityCondition(AlexiaPublicationUser :: PROPERTY_PUBLICATION, $this->get_id());
+			$users = $this->get_data_manager()->retrieve_assessment_publication_users($condition);
+			
+			while($user = $users->next_result())
+			{
+				$this->target_users[] = $user->get_user();
+			}
+		}
+		
+		return $this->target_users;
+	}
+	
+	function is_visible_for_target_user($user_id)
+	{
+		$user = UserDataManager :: get_instance()->retrieve_user($user_id);
+		
+		if($user->is_platform_admin() || $user_id == $this->get_publisher())
+			return true;
+		
+		if($this->get_target_groups() || $this->get_target_users())
+		{ 
+			$allowed = false;
+			
+			if(in_array($user_id, $this->get_target_users()))
+			{
+				$allowed = true;
+			}
+			
+			if(!$allowed)
+			{
+				$user_groups = $user->get_groups();
 
+				while($user_group = $user_groups->next_result())
+				{
+					if(in_array($user_group->get_id(), $this->get_target_groups()))
+					{
+						$allowed = true;
+						break;
+					}
+				}
+			}
+
+			if(!$allowed)
+			{
+				return false;
+			}
+		}
+		
+		if($this->get_hidden())
+		{
+			return false;
+		}
+		
+		$time = time();
+		
+		if($time < $this->get_from_date() || $time > $this->get_to_date())
+		{
+			return false;
+		}
+		
+		return true;
+	}
 
 	static function get_table_name()
 	{
-		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+		return self :: TABLE_NAME;
 	}
+	
+    function get_publication_object()
+    {
+        $rdm = RepositoryDataManager :: get_instance();
+        return $rdm->retrieve_learning_object($this->get_learning_object());
+    }
+
+    function get_publication_publisher()
+    {
+        $udm = UserDataManager :: get_instance();
+        return $udm->retrieve_user($this->get_publisher());
+    }
 }
 
 ?>

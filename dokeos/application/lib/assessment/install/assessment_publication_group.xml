@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<object name="assessment_publication_group">
+<object name="publication_group">
  <properties>
   <property name="assessment_publication" type="integer" unsigned="1" notnull="1"/>
   <property name="group_id" type="integer" unsigned="1" notnull="1"/>

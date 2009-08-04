@@ -12,6 +12,7 @@ require_once Path :: get_common_path() . 'data_class.class.php';
 class AssessmentPublicationGroup extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
+	const TABLE_NAME = 'publication_group';
 
 	/**
 	 * AssessmentPublicationGroup properties
@@ -69,11 +70,9 @@ class AssessmentPublicationGroup extends DataClass
 		$this->set_default_property(self :: PROPERTY_GROUP_ID, $group_id);
 	}
 
-
 	static function get_table_name()
 	{
-		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+		return self :: TABLE_NAME;
 	}
 }
-
 ?>

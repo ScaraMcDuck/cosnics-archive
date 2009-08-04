@@ -12,6 +12,7 @@ require_once Path :: get_common_path() . 'data_class.class.php';
 class AssessmentPublicationUser extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
+	const TABLE_NAME = 'publication_user';
 
 	/**
 	 * AssessmentPublicationUser properties
@@ -72,8 +73,7 @@ class AssessmentPublicationUser extends DataClass
 
 	static function get_table_name()
 	{
-		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+		return self :: TABLE_NAME;
 	}
 }
-
 ?>
