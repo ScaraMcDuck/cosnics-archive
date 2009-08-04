@@ -141,11 +141,11 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 				$component = UserManagerComponent :: factory('Deleter', $this);
 				break;
 			case self :: ACTION_IMPORT_USERS :
-				$this->force_menu_url($this->create_url, true);
+				//$this->force_menu_url($this->create_url, true);
 				$component = UserManagerComponent :: factory('Importer', $this);
 				break;
 			case self :: ACTION_EXPORT_USERS :
-				$this->force_menu_url($this->create_url, true);
+				//$this->force_menu_url($this->create_url, true);
 				$component = UserManagerComponent :: factory('Exporter', $this);
 				break;
 			case self :: ACTION_USER_QUOTA :
