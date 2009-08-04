@@ -52,7 +52,8 @@ class DataClassGenerator
                 $this->template->assign_block_vars("PROPERTY", array('PROPERTY_CONST' => $property_const, 'PROPERTY_NAME' => $property));
             }
             
-            $this->template->assign_vars(array('DEFAULT_PROPERTY_NAMES' => implode(', ', $property_names)));
+            $this->template->assign_vars(array('DEFAULT_PROPERTY_NAMES' => implode(', ', $property_names),
+            								   'APPLICATION_NAME' => DokeosUtilities :: underscores_to_camelcase($application_name)));
             
             $string = "<?php \n" . $this->template->pparse_return('dataclass') . "\n?>";
             fwrite($file, $string);
