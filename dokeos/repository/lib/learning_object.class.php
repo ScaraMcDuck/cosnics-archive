@@ -147,8 +147,8 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 	 */
 	function LearningObject($id = 0, $defaultProperties = array (), $additionalProperties = null)
 	{
-		$this->id = $id;
 		parent :: __construct($defaultProperties);
+                $this->set_id($id);
 		$this->additionalProperties = $additionalProperties;
 		$this->oldState = $defaultProperties[self :: PROPERTY_STATE];
 	}
