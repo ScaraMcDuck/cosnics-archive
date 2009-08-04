@@ -291,7 +291,7 @@ EOT;
 			$select->setSelected($this->learning_object->get_parent_id());
 		}
 		$value = PlatformSetting :: get('description_required', 'repository');
-		$required = ($value == 'true')?true:false;
+		$required = ($value == 1)?true:false;
 		$this->add_html_editor(LearningObject :: PROPERTY_DESCRIPTION, Translation :: get(get_class($this) . 'Description'), $required);
 	}
 
