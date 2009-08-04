@@ -290,9 +290,12 @@ abstract class RepositoryDataManager
 			$versions = $this->get_version_ids($object);
 			$forbidden = array_merge($children, $versions);
 		}
-
 		
-		$count_wrapper_items = $this->count_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $object->get_id()));
+		$conditions = array();
+		$conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $object->get_id());
+		$conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $object->get_id());
+		$condition = new OrCondition($conditions);
+		$count_wrapper_items = $this->count_complex_learning_object_items($condition);
 		if($count_wrapper_items > 0)
 			return false;
 		
@@ -849,6 +852,15 @@ abstract class RepositoryDataManager
 		}
 
 		return $this->applications;
+	}
+	
+	function delete_clois_for_learning_object($learning_object)
+	{
+		$conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $learning_object->get_id());
+		$conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $learning_object->get_id());
+		$condition = new OrCondition($conditions);
+		
+		return $this->delete_complex_learning_object_items($condition);
 	}
 
 	/**

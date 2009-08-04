@@ -783,7 +783,8 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 
-		if ($rdm->delete_learning_object_publications($this) && $rdm->delete_learning_object_attachments($this))
+		if ($rdm->delete_learning_object_publications($this) && $rdm->delete_learning_object_attachments($this) &&
+			$rdm->delete_clois_for_learning_object($this))
 		{
 			return true;
 		}

@@ -402,7 +402,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
     function delete_learning_object_publications($object_id)
     {
-        $condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT, $object_id);
+        $condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, $object_id);
         $publications = $this->retrieve_learning_object_publications_new($condition);
 
         while ($publication = $publications->next_result())

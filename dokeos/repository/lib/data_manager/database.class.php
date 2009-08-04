@@ -47,6 +47,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 */
 	private $prefix;
 
+	/**
+	 * @var Database
+	 */
 	private $database;
 
 	// Inherited.
@@ -1233,6 +1236,11 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 		return true;
 
+	}
+	
+	function delete_complex_learning_object_items($condition)
+	{
+		return $this->database->delete('complex_learning_object_item', $condition);
 	}
 
 	/**
