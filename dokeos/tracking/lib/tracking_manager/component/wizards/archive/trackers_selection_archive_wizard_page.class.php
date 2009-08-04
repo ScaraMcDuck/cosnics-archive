@@ -49,20 +49,20 @@ class TrackersSelectionArchiveWizardPage extends ArchiveWizardPage
         {
             if ($event->get_block() != $previousblock)
             {
-                $message = '<div style="float:left;"><img src="' . Theme :: get_image_path() . 'place_' . $event->get_block() . '.png" alt="' . $event->get_block() . '"></div>';
+                $message = '<div style="float:left;"><img src="' . Theme :: get_image_path('admin') . 'place_' . $event->get_block() . '.png" alt="' . $event->get_block() . '"></div>';
                 $previousblock = $event->get_block();
             }
             else
                 $message = "";
             
-            $this->addElement('checkbox', $event->get_name() . 'event', $message, $event->get_name(), 'onclick=\'event_clicked("' . $event->get_name() . 'event", this.form)\' style=\'margin-top: 20px;\' class="chckbox"');
+            $this->addElement('checkbox', $event->get_block() . '_' . $event->get_name() . '_event', $message, $event->get_name(), 'onclick=\'event_clicked("' . $event->get_block() . '_' . $event->get_name() . '_event", this.form)\' style=\'margin-top: 20px;\' class="chckbox"');
             $defaults[$event->get_name() . 'event'] = 1;
             
             $trackers = $this->get_parent()->retrieve_trackers_from_event($event->get_id());
             
             foreach ($trackers as $tracker)
             {
-                $this->addElement('checkbox', $event->get_name() . 'event' . $tracker->get_id(), '', $tracker->get_class(), 'onclick=\'tracker_clicked("' . $event->get_name() . 'event", this)\' style=\'margin-left: 20px;\' class="chckbox"');
+                $this->addElement('checkbox', $event->get_block() . '_' . $event->get_name() . '_event_' . $tracker->get_id(), '', $tracker->get_class(), 'onclick=\'tracker_clicked("' . $event->get_block() . '_' . $event->get_name() . '_event", this)\' style=\'margin-left: 20px;\' class="chckbox"');
                 $defaults[$event->get_name() . 'event' . $tracker->get_id()] = 1;
             }
         }
