@@ -45,16 +45,16 @@ class ArchiveWizardDisplay extends HTML_QuickForm_Action_Display
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb($this->parent->get_url(array(Application :: PARAM_ACTION => TrackingManager :: ACTION_ARCHIVE)), Translation :: get('Archiver')));
         
-        $this->parent->display_header($trail, false, 'tracking general');
+        $this->parent->display_header($trail, false);
         
         echo '<div style="float: left; background-color:#EFEFEF;margin-right: 20px;padding: 15px; min-height: 400px;">';
-        echo '<img src="layout/img/bluelogo.gif" alt="logo"/>';
+        echo '<img src="layout/aqua/img/common/dokeos.png" alt="logo"/>';
         $all_pages = $current_page->controller->_pages;
         $total_number_of_pages = count($all_pages);
         $current_page_number = 0;
         $page_number = 0;
         echo '<ol>';
-        foreach ($all_pages as $index => $page)
+        foreach ($all_pages as $page)
         {
             $page_number ++;
             if ($page->get_title() == $current_page->get_title())

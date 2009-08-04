@@ -32,6 +32,7 @@ abstract class ArchiveWizardPage extends HTML_QuickForm_Page
         $this->parent = $parent;
         $this->name = $name;
         parent :: HTML_QuickForm_Page($name, 'post');
+       	$this->updateAttributes(array('action' => $parent->get_url()));
     }
 
     /**

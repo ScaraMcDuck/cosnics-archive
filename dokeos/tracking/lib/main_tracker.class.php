@@ -194,13 +194,18 @@ abstract class MainTracker
     {
         $db_start_date = $this->to_db_date($start_date);
         $db_end_date = $this->to_db_date($end_date);
-        
+
         $conditions = array();
-        $conditions[] = new InEqualityCondition('date', InEqualityCondition :: GREATER_THAN_OR_EQUAL, $db_start_date);
-        $conditions[] = new InEqualityCondition('date', InEqualityCondition :: LESS_THAN_OR_EQUAL, $db_end_date);
         
+        if($start_date)
+        	$conditions[] = new InEqualityCondition('date', InEqualityCondition :: GREATER_THAN_OR_EQUAL, $db_start_date);
+        if($end_date)
+        	$conditions[] = new InEqualityCondition('date', InEqualityCondition :: LESS_THAN_OR_EQUAL, $db_end_date);
+    
         $conditions2 = array_merge($optional_conditions, $conditions);
-        $condition = new AndCondition($conditions2);
+        
+        if($conditions2)
+        	$condition = new AndCondition($conditions2);
         
         return $this->retrieve_tracker_items($condition);
     }

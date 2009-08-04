@@ -52,8 +52,8 @@ class DatabaseTrackingDataManager extends TrackingDataManager
      */
     function get_tables()
     {
-        $this->connection->loadModule('Manager');
-        $manager = $this->connection->manager;
+        $this->database->get_connection()->loadModule('Manager');
+        $manager = $this->database->get_connection()->manager;
         return $manager->listTables();
     }
 

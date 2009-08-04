@@ -17,7 +17,7 @@ class SettingsArchiveWizardPage extends ArchiveWizardPage
      */
     function get_title()
     {
-        return Translation :: get('Archive_settings_title');
+        return Translation :: get('ArchiveSettingsTitle');
     }
 
     /**
@@ -26,7 +26,7 @@ class SettingsArchiveWizardPage extends ArchiveWizardPage
      */
     function get_info()
     {
-        return Translation :: get('Archive_settings_info');
+        return Translation :: get('ArchiveSettingsInfo');
     }
 
     /**
