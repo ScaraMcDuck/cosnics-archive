@@ -1,0 +1,79 @@
+<?php 
+/**
+ * assessment
+ */
+require_once Path :: get_common_path() . 'data_class.class.php';
+
+/**
+ * This class describes a AssessmentPublicationGroup data object
+ * @author Sven Vanpoucke
+ * @author 
+ */
+class AssessmentPublicationGroup extends DataClass
+{
+	const CLASS_NAME = __CLASS__;
+
+	/**
+	 * AssessmentPublicationGroup properties
+	 */
+	const PROPERTY_ASSESSMENT_PUBLICATION = 'assessment_publication';
+	const PROPERTY_GROUP_ID = 'group_id';
+
+	/**
+	 * Get the default properties
+	 * @return array The property names.
+	 */
+	static function get_default_property_names()
+	{
+		return array (self :: PROPERTY_ASSESSMENT_PUBLICATION, self :: PROPERTY_GROUP_ID);
+	}
+
+	function get_data_manager()
+	{
+		return AssessmentDataManager :: get_instance();
+	}
+
+	/**
+	 * Returns the assessment_publication of this AssessmentPublicationGroup.
+	 * @return the assessment_publication.
+	 */
+	function get_assessment_publication()
+	{
+		return $this->get_default_property(self :: PROPERTY_ASSESSMENT_PUBLICATION);
+	}
+
+	/**
+	 * Sets the assessment_publication of this AssessmentPublicationGroup.
+	 * @param assessment_publication
+	 */
+	function set_assessment_publication($assessment_publication)
+	{
+		$this->set_default_property(self :: PROPERTY_ASSESSMENT_PUBLICATION, $assessment_publication);
+	}
+
+	/**
+	 * Returns the group_id of this AssessmentPublicationGroup.
+	 * @return the group_id.
+	 */
+	function get_group_id()
+	{
+		return $this->get_default_property(self :: PROPERTY_GROUP_ID);
+	}
+
+	/**
+	 * Sets the group_id of this AssessmentPublicationGroup.
+	 * @param group_id
+	 */
+	function set_group_id($group_id)
+	{
+		$this->set_default_property(self :: PROPERTY_GROUP_ID, $group_id);
+	}
+
+
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
+}
+
+?>
