@@ -88,7 +88,7 @@ class DlofExport extends LearningObjectExport
   			$property = $doc->createElement($prop); 
 	  		$extended->appendChild($property);
 	  		
-	  		if(($uvalue = unserialize($value)) != 0)
+	  		/*if(($uvalue = unserialize($value)) != 0)
 	  		{
 	  			$options = array(
   					XML_SERIALIZER_OPTION_INDENT        => '    ',
@@ -97,7 +97,7 @@ class DlofExport extends LearningObjectExport
   				
 	  			$serializer = new XML_Serializer($options);
 	  			$value = $serializer->serialize($uvalue); dump($value); exit();
-	  		}
+	  		}*/
 	  		
 	  		$text = $doc->createTextNode($value);
 			$text = $property->appendChild($text);
