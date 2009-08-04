@@ -50,21 +50,14 @@ abstract class AssessmentDataManager
 	abstract function retrieve_assessment_publication($id);
 	abstract function retrieve_assessment_publications($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
-	abstract function get_next_assessment_publication_group_id();
-	abstract function create_assessment_publication_group($assessment_publication_group);
-	abstract function update_assessment_publication_group($assessment_publication_group);
-	abstract function delete_assessment_publication_group($assessment_publication_group);
-	abstract function count_assessment_publication_groups($conditions = null);
-	abstract function retrieve_assessment_publication_group($id);
-	abstract function retrieve_assessment_publication_groups($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
-
-	abstract function get_next_assessment_publication_user_id();
-	abstract function create_assessment_publication_user($assessment_publication_user);
-	abstract function update_assessment_publication_user($assessment_publication_user);
-	abstract function delete_assessment_publication_user($assessment_publication_user);
-	abstract function count_assessment_publication_users($conditions = null);
-	abstract function retrieve_assessment_publication_user($id);
-	abstract function retrieve_assessment_publication_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function get_next_assessment_publication_category_id();
+	abstract function create_assessment_publication_category($assessment_category);
+	abstract function update_assessment_publication_category($assessment_category);
+	abstract function delete_assessment_publication_category($assessment_category);
+	abstract function count_assessment_publication_categories($conditions = null);
+	abstract function retrieve_assessment_publication_category($id);
+	abstract function retrieve_assessment_publication_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function select_next_assessment_publication_category_display_order($parent);
 
 }
 ?>

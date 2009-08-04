@@ -74,81 +74,64 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
 		return $this->database->retrieve_objects(AssessmentPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
 	}
 
-	function get_next_assessment_publication_group_id()
+	function get_next_assessment_publication_category_id()
 	{
-		return $this->database->get_next_id(AssessmentPublicationGroup :: get_table_name());
+		return $this->database->get_next_id(AssessmentPublicationCategory :: get_table_name());
 	}
-
-	function create_assessment_publication_group($assessment_publication_group)
+	
+	function create_assessment_publication_category($assessment_category)
 	{
-		return $this->database->create($assessment_publication_group);
+		return $this->database->create($assessment_category);
 	}
-
-	function update_assessment_publication_group($assessment_publication_group)
+	
+	function update_assessment_publication_category($assessment_category)
 	{
-		$condition = new EqualityCondition(AssessmentPublicationGroup :: PROPERTY_ID, $assessment_publication_group->get_id());
-		return $this->database->update($assessment_publication_group, $condition);
+		$condition = new EqualityCondition(AssessmentPublicationCategory :: PROPERTY_ID, $assessment_category->get_id());
+		return $this->database->update($assessment_category, $condition);
 	}
-
-	function delete_assessment_publication_group($assessment_publication_group)
+	
+	function delete_assessment_publication_category($assessment_category)
 	{
-		$condition = new EqualityCondition(AssessmentPublicationGroup :: PROPERTY_ID, $assessment_publication_group->get_id());
-		return $this->database->delete($assessment_publication_group->get_table_name(), $condition);
+		$condition = new EqualityCondition(AssessmentPublicationCategory :: PROPERTY_ID, $assessment_category->get_id());
+		return $this->database->delete($assessment_category->get_table_name(), $condition);
 	}
-
-	function count_assessment_publication_groups($condition = null)
+	
+	function count_assessment_publication_categories($condition = null)
 	{
-		return $this->database->count_objects(AssessmentPublicationGroup :: get_table_name(), $condition);
+		return $this->database->count_objects(AssessmentPublicationCategory :: get_table_name(), $condition);
 	}
-
-	function retrieve_assessment_publication_group($id)
+	
+	function retrieve_assessment_publication_category($id)
 	{
-		$condition = new EqualityCondition(AssessmentPublicationGroup :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(AssessmentPublicationGroup :: get_table_name(), $condition);
+		$condition = new EqualityCondition(AssessmentPublicationCategory :: PROPERTY_ID, $id);
+		return $this->database->retrieve_object(AssessmentPublicationCategory :: get_table_name(), $condition);
 	}
-
-	function retrieve_assessment_publication_groups($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+	
+	function retrieve_assessment_publication_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return $this->database->retrieve_objects(AssessmentPublicationGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+		return $this->database->retrieve_objects(AssessmentPublicationCategory :: get_table_name(), $condition, $offset, $count, $order_property, $order_direction);
 	}
-
-	function get_next_assessment_publication_user_id()
+	
+	function select_next_assessment_publication_category_display_order($parent)
 	{
-		return $this->database->get_next_id(AssessmentPublicationUser :: get_table_name());
-	}
+		$query = 'SELECT MAX(' . AssessmentPublicationCategory :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . $this->database->escape_table_name('assessment_publication_category');
 
-	function create_assessment_publication_user($assessment_publication_user)
-	{
-		return $this->database->create($assessment_publication_user);
-	}
+        $condition = new EqualityCondition(AssessmentPublicationCategory :: PROPERTY_PARENT, $parent);
 
-	function update_assessment_publication_user($assessment_publication_user)
-	{
-		$condition = new EqualityCondition(AssessmentPublicationUser :: PROPERTY_ID, $assessment_publication_user->get_id());
-		return $this->database->update($assessment_publication_user, $condition);
-	}
+        $params = array();
+        if (isset($condition))
+        {
+            $translator = new ConditionTranslator($this->database, $params);
+            $query .= $translator->render_query($condition);
+            $params = $translator->get_parameters();
+        }
 
-	function delete_assessment_publication_user($assessment_publication_user)
-	{
-		$condition = new EqualityCondition(AssessmentPublicationUser :: PROPERTY_ID, $assessment_publication_user->get_id());
-		return $this->database->delete($assessment_publication_user->get_table_name(), $condition);
-	}
+        $sth = $this->database->get_connection()->prepare($query);
+        $res = $sth->execute($params);
+        $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+        $res->free();
 
-	function count_assessment_publication_users($condition = null)
-	{
-		return $this->database->count_objects(AssessmentPublicationUser :: get_table_name(), $condition);
+        return $record[0] + 1;
 	}
-
-	function retrieve_assessment_publication_user($id)
-	{
-		$condition = new EqualityCondition(AssessmentPublicationUser :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(AssessmentPublicationUser :: get_table_name(), $condition);
-	}
-
-	function retrieve_assessment_publication_users($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
-	{
-		return $this->database->retrieve_objects(AssessmentPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
-	}
-
 }
 ?>

@@ -24,6 +24,7 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 	const ACTION_EDIT_ASSESSMENT_PUBLICATION = 'edit_assessment_publication';
 	const ACTION_CREATE_ASSESSMENT_PUBLICATION = 'create_assessment_publication';
 	const ACTION_BROWSE_ASSESSMENT_PUBLICATIONS = 'browse_assessment_publications';
+	const ACTION_MANAGE_ASSESSMENT_PUBLICATION_CATEGORIES = 'manage_apub_categories';
 	
 	/**
 	 * Constructor
@@ -55,6 +56,9 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 				break;
 			case self :: ACTION_CREATE_ASSESSMENT_PUBLICATION :
 				$component = AssessmentManagerComponent :: factory('AssessmentPublicationCreator', $this);
+				break;
+			case self :: ACTION_MANAGE_ASSESSMENT_PUBLICATION_CATEGORIES :
+				$component = AssessmentManagerComponent :: factory('AssessmentPublicationCategoryManager', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS);
@@ -167,6 +171,10 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS));
 	}
 
+	function get_manage_assessment_publication_categories_url()
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_ASSESSMENT_PUBLICATION_CATEGORIES));
+	}
 
 	function learning_object_is_published($object_id)
 	{
