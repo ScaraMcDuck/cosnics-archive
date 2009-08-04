@@ -148,7 +148,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		return false;
 	}
 
-	function update_rolerightlocation($rolerightlocation)
+	function update_role_right_location($rolerightlocation)
 	{
 		$where = $this->escape_column_name(RoleRightLocation :: PROPERTY_RIGHT_ID).'='.$rolerightlocation->get_right_id() . ' AND ' . $this->escape_column_name(RoleRightLocation :: PROPERTY_LOCATION_ID).'='.$rolerightlocation->get_location_id() . ' AND ' . $this->escape_column_name(RoleRightLocation :: PROPERTY_ROLE_ID).'='.$rolerightlocation->get_role_id();
 		$props = array();
@@ -159,7 +159,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		return true;
 	}
 
-	function delete_rolerightlocation($rolerightlocation)
+	function delete_role_right_location($rolerightlocation)
 	{
 		$query = 'DELETE FROM '.$this->escape_table_name('role_right_location').' WHERE '.$this->escape_column_name(RoleRightLocation :: PROPERTY_RIGHT_ID).'=? AND '.$this->escape_column_name(RoleRightLocation :: PROPERTY_ROLE_ID).'=? AND '.$this->escape_column_name(RoleRightLocation :: PROPERTY_LOCATION_ID).'=?';
 		$sth = $this->connection->prepare($query);
@@ -423,6 +423,14 @@ class DatabaseRightsDataManager extends RightsDataManager
 		}
 	}
 
+	/**
+	 * retrieves the role and right location
+	 *
+	 * @param int $right_id
+	 * @param int $role_id
+	 * @param int $location_id
+	 * @return RoleRightLocation
+	 */
 	function retrieve_role_right_location($right_id, $role_id, $location_id)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('role_right_location');
@@ -461,7 +469,8 @@ class DatabaseRightsDataManager extends RightsDataManager
 			$defaultProperties[RoleRightLocation :: PROPERTY_LOCATION_ID] = $location_id;
 			$defaultProperties[RoleRightLocation :: PROPERTY_VALUE] = 0;
 
-			$rolerightlocation = new RoleRightLocation($defaultProperties);
+			$rolerightlocation = new RoleRightLocation();
+			$rolerightlocation->set_default_properties($defaultProperties);
 			$rolerightlocation->create();
 			return $rolerightlocation;
 		}

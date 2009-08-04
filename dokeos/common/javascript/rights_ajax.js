@@ -23,6 +23,7 @@
 		$.post("./rights/ajax/role_right_location.php", {
 			rights : id
 			}, function(result){
+				  
 					if (result)
 					{
 						var newClass = $.ajax({
@@ -31,7 +32,7 @@
 							data: { rights : id },
 							async: false
 						}).responseText;
-						
+
 						image.attr("class", newClass);
 					}
 					else

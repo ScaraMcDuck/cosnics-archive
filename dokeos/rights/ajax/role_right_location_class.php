@@ -45,7 +45,7 @@ if (isset($role) && isset($right) && isset($location))
 	else
 	{
 		$value = $rdm->retrieve_role_right_location($right, $role->get_id(), $location->get_id())->get_value();
-		
+
 		if (!$value)
 		{
 			if ($location->inherits())
