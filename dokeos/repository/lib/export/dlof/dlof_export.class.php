@@ -12,6 +12,9 @@ require_once 'XML/Serializer.php';
 class DlofExport extends LearningObjectExport
 {
 	private $rdm;
+	/**
+	 * @var DOMDocument
+	 */
 	private $doc;
 	private $files;
 	
@@ -26,6 +29,7 @@ class DlofExport extends LearningObjectExport
 		$learning_object = $this->get_learning_object();
 		$this->doc = new DOMDocument('1.0', 'UTF-8');
   		$this->doc->formatOutput = true;
+
   		$this->render_xml($learning_object, $this->doc);
   		$temp_dir = Path :: get(SYS_TEMP_PATH). $learning_object->get_owner_id() . '/export_' . $learning_object->get_id() . '/';
   		
@@ -35,7 +39,7 @@ class DlofExport extends LearningObjectExport
   		}
   		
   		$xml_path = $temp_dir . 'learning_object.xml';
-
+		//echo '<pre>' . htmlentities($this->doc->saveXML()); exit();
 		$this->doc->save($xml_path);
 			
 		foreach($this->files as $file)
@@ -98,7 +102,7 @@ class DlofExport extends LearningObjectExport
 	  			$serializer = new XML_Serializer($options);
 	  			$value = $serializer->serialize($uvalue); dump($value); exit();
 	  		}*/
-	  		
+			$value = convert_uuencode($value);
 	  		$text = $doc->createTextNode($value);
 			$text = $property->appendChild($text);
   		}
