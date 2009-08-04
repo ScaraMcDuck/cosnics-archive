@@ -61,7 +61,7 @@ class DlofImport extends LearningObjectImport
 	
 	public function create_learning_object($learning_object)
 	{
-		$lotype = $learning_object->getAttribute('type');
+		//$lotype = $learning_object->getAttribute('type');
 		if($learning_object->hasChildNodes())
 		{ 
 			$general = $learning_object->getElementsByTagName('general')->item(0);
@@ -92,7 +92,7 @@ class DlofImport extends LearningObjectImport
 				foreach($nodes as $node)
 				{
 					if($node->nodeName == "#text") continue;
-					$additionalProperties[$node->nodeName] = $node->nodeValue;
+					$additionalProperties[$node->nodeName] = convert_uudecode($node->nodeValue);
 				}
 				
 				if($type == 'document')
