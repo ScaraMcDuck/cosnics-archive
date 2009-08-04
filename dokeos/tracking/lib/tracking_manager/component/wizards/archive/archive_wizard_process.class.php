@@ -58,9 +58,9 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
         {
             if (substr($key, strlen($key) - strlen('event'), strlen($key)) == 'event')
             {
-                $eventname = substr($key, 0, strlen($key) - strlen('event'));
-                
-                $event = $this->parent->retrieve_event_by_name($eventname);
+                $application = substr($key, 0, strpos($key, '_'));
+            	$eventname = substr($key, strpos($key, '_') + 1, strlen($key) - strlen('event') - strpos($key, '_') - 2);
+                $event = $this->parent->retrieve_event_by_name($eventname, $application);
                 
                 $this->display_event_header($eventname);
                 
@@ -68,7 +68,7 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
                 {
                     if ((strpos($key2, $eventname) !== false) && ($key2 != $key))
                     {
-                        $id = substr($key2, strlen($eventname . 'event'));
+                        $id = substr($key2, strlen($application . '_' . $eventname . '_event_'));
                         $trackerregistration = $this->parent->retrieve_tracker_registration($id);
                         
                         $classname = $trackerregistration->get_class();
@@ -199,7 +199,7 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
     function display_event_header($eventname)
     {
         $html = array();
-        $html[] = '<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(layout/aqua/img/admin/action_archive.png);">';
+        $html[] = '<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(layout/aqua/img/admin/browse_archive.png);">';
         $html[] = '<div class="title">' . Translation :: get('Event') . ' ' . $eventname . '</div>';
         $html[] = '<div class="description">';
         echo implode("\n", $html);
