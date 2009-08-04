@@ -6,6 +6,7 @@
 abstract class DataClass
 {
 	const PROPERTY_ID = 'id';
+	const NO_UID = -1;
 	
 	/**
 	 * Default properties of the data class object, stored in an associative
@@ -94,7 +95,32 @@ abstract class DataClass
 	function set_id($id)
 	{
 		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}		
+	}	
+
+	function is_identified()
+	{
+	    $id = $this->get_id();
+	    if(isset($id) && $id != self :: NO_UID)
+	    {
+	        return true;
+	    }
+	    else
+	    {
+	        return false;
+	    }
+	}
+	
+	function save()
+	{
+	    if($this->is_identified())
+	    {
+	        return $this->update();
+	    }
+	    else
+	    {
+	        return $this->create();
+	    }
+	}
 	
 	function create()
 	{
