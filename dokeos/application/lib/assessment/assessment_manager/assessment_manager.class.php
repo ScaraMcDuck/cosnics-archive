@@ -6,8 +6,6 @@ require_once dirname(__FILE__).'/assessment_manager_component.class.php';
 require_once dirname(__FILE__).'/../assessment_data_manager.class.php';
 require_once dirname(__FILE__).'/../../web_application.class.php';
 require_once dirname(__FILE__).'/component/assessment_publication_browser/assessment_publication_browser_table.class.php';
-require_once dirname(__FILE__).'/component/assessment_publication_group_browser/assessment_publication_group_browser_table.class.php';
-require_once dirname(__FILE__).'/component/assessment_publication_user_browser/assessment_publication_user_browser_table.class.php';
 
 /**
  * A assessment manager
@@ -26,26 +24,7 @@ require_once dirname(__FILE__).'/component/assessment_publication_user_browser/a
 	const ACTION_EDIT_ASSESSMENT_PUBLICATION = 'edit_assessment_publication';
 	const ACTION_CREATE_ASSESSMENT_PUBLICATION = 'create_assessment_publication';
 	const ACTION_BROWSE_ASSESSMENT_PUBLICATIONS = 'browse_assessment_publications';
-
-	const PARAM_ASSESSMENT_PUBLICATION_GROUP = 'assessment_publication_group';
-	const PARAM_DELETE_SELECTED_ASSESSMENT_PUBLICATION_GROUPS = 'delete_selected_assessment_publication_groups';
-
-	const ACTION_DELETE_ASSESSMENT_PUBLICATION_GROUP = 'delete_assessment_publication_group';
-	const ACTION_EDIT_ASSESSMENT_PUBLICATION_GROUP = 'edit_assessment_publication_group';
-	const ACTION_CREATE_ASSESSMENT_PUBLICATION_GROUP = 'create_assessment_publication_group';
-	const ACTION_BROWSE_ASSESSMENT_PUBLICATION_GROUPS = 'browse_assessment_publication_groups';
-
-	const PARAM_ASSESSMENT_PUBLICATION_USER = 'assessment_publication_user';
-	const PARAM_DELETE_SELECTED_ASSESSMENT_PUBLICATION_USERS = 'delete_selected_assessment_publication_users';
-
-	const ACTION_DELETE_ASSESSMENT_PUBLICATION_USER = 'delete_assessment_publication_user';
-	const ACTION_EDIT_ASSESSMENT_PUBLICATION_USER = 'edit_assessment_publication_user';
-	const ACTION_CREATE_ASSESSMENT_PUBLICATION_USER = 'create_assessment_publication_user';
-	const ACTION_BROWSE_ASSESSMENT_PUBLICATION_USERS = 'browse_assessment_publication_users';
-
-
-	const ACTION_BROWSE = 'browse';
-
+	
 	/**
 	 * Constructor
 	 * @param User $user The current user
@@ -77,36 +56,9 @@ require_once dirname(__FILE__).'/component/assessment_publication_user_browser/a
 			case self :: ACTION_CREATE_ASSESSMENT_PUBLICATION :
 				$component = AssessmentManagerComponent :: factory('AssessmentPublicationCreator', $this);
 				break;
-			case self :: ACTION_BROWSE_ASSESSMENT_PUBLICATION_GROUPS :
-				$component = AssessmentManagerComponent :: factory('AssessmentPublicationGroupsBrowser', $this);
-				break;
-			case self :: ACTION_DELETE_ASSESSMENT_PUBLICATION_GROUP :
-				$component = AssessmentManagerComponent :: factory('AssessmentPublicationGroupDeleter', $this);
-				break;
-			case self :: ACTION_EDIT_ASSESSMENT_PUBLICATION_GROUP :
-				$component = AssessmentManagerComponent :: factory('AssessmentPublicationGroupUpdater', $this);
-				break;
-			case self :: ACTION_CREATE_ASSESSMENT_PUBLICATION_GROUP :
-				$component = AssessmentManagerComponent :: factory('AssessmentPublicationGroupCreator', $this);
-				break;
-			case self :: ACTION_BROWSE_ASSESSMENT_PUBLICATION_USERS :
-				$component = AssessmentManagerComponent :: factory('AssessmentPublicationUsersBrowser', $this);
-				break;
-			case self :: ACTION_DELETE_ASSESSMENT_PUBLICATION_USER :
-				$component = AssessmentManagerComponent :: factory('AssessmentPublicationUserDeleter', $this);
-				break;
-			case self :: ACTION_EDIT_ASSESSMENT_PUBLICATION_USER :
-				$component = AssessmentManagerComponent :: factory('AssessmentPublicationUserUpdater', $this);
-				break;
-			case self :: ACTION_CREATE_ASSESSMENT_PUBLICATION_USER :
-				$component = AssessmentManagerComponent :: factory('AssessmentPublicationUserCreator', $this);
-				break;
-			case self :: ACTION_BROWSE:
-				$component = AssessmentManagerComponent :: factory('Browser', $this);
-				break;
 			default :
-				$this->set_action(self :: ACTION_BROWSE);
-				$component = AssessmentManagerComponent :: factory('Browser', $this);
+				$this->set_action(self :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS);
+				$component = AssessmentManagerComponent :: factory('AssessmentPublicationsBrowser', $this);
 
 		}
 		$component->run();
@@ -133,38 +85,6 @@ require_once dirname(__FILE__).'/component/assessment_publication_user_browser/a
 
 					$this->set_action(self :: ACTION_DELETE_ASSESSMENT_PUBLICATION);
 					$_GET[self :: PARAM_ASSESSMENT_PUBLICATION] = $selected_ids;
-					break;
-				case self :: PARAM_DELETE_SELECTED_ASSESSMENT_PUBLICATION_GROUPS :
-
-					$selected_ids = $_POST[AssessmentPublicationGroupBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
-
-					if (empty ($selected_ids))
-					{
-						$selected_ids = array ();
-					}
-					elseif (!is_array($selected_ids))
-					{
-						$selected_ids = array ($selected_ids);
-					}
-
-					$this->set_action(self :: ACTION_DELETE_ASSESSMENT_PUBLICATION_GROUP);
-					$_GET[self :: PARAM_ASSESSMENT_PUBLICATION_GROUP] = $selected_ids;
-					break;
-				case self :: PARAM_DELETE_SELECTED_ASSESSMENT_PUBLICATION_USERS :
-
-					$selected_ids = $_POST[AssessmentPublicationUserBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
-
-					if (empty ($selected_ids))
-					{
-						$selected_ids = array ();
-					}
-					elseif (!is_array($selected_ids))
-					{
-						$selected_ids = array ($selected_ids);
-					}
-
-					$this->set_action(self :: ACTION_DELETE_ASSESSMENT_PUBLICATION_USER);
-					$_GET[self :: PARAM_ASSESSMENT_PUBLICATION_USER] = $selected_ids;
 					break;
 			}
 
@@ -247,56 +167,7 @@ require_once dirname(__FILE__).'/component/assessment_publication_user_browser/a
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS));
 	}
 
-	function get_create_assessment_publication_group_url()
-	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_ASSESSMENT_PUBLICATION_GROUP));
-	}
 
-	function get_update_assessment_publication_group_url($assessment_publication_group)
-	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_ASSESSMENT_PUBLICATION_GROUP,
-								    self :: PARAM_ASSESSMENT_PUBLICATION_GROUP => $assessment_publication_group->get_id()));
-	}
-
- 	function get_delete_assessment_publication_group_url($assessment_publication_group)
-	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_ASSESSMENT_PUBLICATION_GROUP,
-								    self :: PARAM_ASSESSMENT_PUBLICATION_GROUP => $assessment_publication_group->get_id()));
-	}
-
-	function get_browse_assessment_publication_groups_url()
-	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_ASSESSMENT_PUBLICATION_GROUPS));
-	}
-
-	function get_create_assessment_publication_user_url()
-	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_ASSESSMENT_PUBLICATION_USER));
-	}
-
-	function get_update_assessment_publication_user_url($assessment_publication_user)
-	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_ASSESSMENT_PUBLICATION_USER,
-								    self :: PARAM_ASSESSMENT_PUBLICATION_USER => $assessment_publication_user->get_id()));
-	}
-
- 	function get_delete_assessment_publication_user_url($assessment_publication_user)
-	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_ASSESSMENT_PUBLICATION_USER,
-								    self :: PARAM_ASSESSMENT_PUBLICATION_USER => $assessment_publication_user->get_id()));
-	}
-
-	function get_browse_assessment_publication_users_url()
-	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_ASSESSMENT_PUBLICATION_USERS));
-	}
-
-	function get_browse_url()
-	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
-	}
-
-	// Dummy Methods which are needed because we don't work with learning objects
 	function learning_object_is_published($object_id)
 	{
 	}
