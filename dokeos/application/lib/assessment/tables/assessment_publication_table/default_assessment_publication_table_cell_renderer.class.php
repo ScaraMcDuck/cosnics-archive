@@ -30,22 +30,20 @@ class DefaultAssessmentPublicationTableCellRenderer implements ObjectTableCellRe
 	 */
 	function render_cell($column, $assessment_publication)
 	{
+		$learning_object = $assessment_publication->get_publication_object();
+		
 		switch ($column->get_name())
 		{
-			case AssessmentPublication :: PROPERTY_ID :
-				return $assessment_publication->get_id();
-			case AssessmentPublication :: PROPERTY_LEARNING_OBJECT :
-				return $assessment_publication->get_learning_object();
+            case LearningObject :: PROPERTY_TITLE :
+                return $learning_object->get_title();
+            case LearningObject :: PROPERTY_DESCRIPTION :
+                return DokeosUtilities :: truncate_string($learning_object->get_description(), 200);
 			case AssessmentPublication :: PROPERTY_FROM_DATE :
 				return $assessment_publication->get_from_date();
 			case AssessmentPublication :: PROPERTY_TO_DATE :
 				return $assessment_publication->get_to_date();
-			case AssessmentPublication :: PROPERTY_HIDDEN :
-				return $assessment_publication->get_hidden();
 			case AssessmentPublication :: PROPERTY_PUBLISHER :
 				return $assessment_publication->get_publisher();
-			case AssessmentPublication :: PROPERTY_PUBLISHED :
-				return $assessment_publication->get_published();
 			default :
 				return '&nbsp;';
 		}
