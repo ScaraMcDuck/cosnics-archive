@@ -134,17 +134,18 @@ class RepositoryManager extends CoreApplication
 	    parent :: __construct($user);
 		$this->parse_input_from_table();
 		$this->determine_search_settings();
-		$this->publication_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_MY_PUBLICATIONS), false, false, 'dddd');
-		$this->quota_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_QUOTA, self :: PARAM_CATEGORY_ID => null));
-		$this->create_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_LEARNING_OBJECTS));
-		$this->import_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_IMPORT_LEARNING_OBJECTS));
-		$this->recycle_bin_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS, self :: PARAM_CATEGORY_ID => null));
 	}
 	/**
 	 * Run this repository manager
 	 */
 	function run()
 	{
+		$this->publication_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_MY_PUBLICATIONS), false, false, 'dddd');
+		$this->quota_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_QUOTA, self :: PARAM_CATEGORY_ID => null));
+		$this->create_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_LEARNING_OBJECTS));
+		$this->import_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_IMPORT_LEARNING_OBJECTS));
+		$this->recycle_bin_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS, self :: PARAM_CATEGORY_ID => null));
+		
 		/*
 		 * Only setting breadcrumbs here. Some stuff still calls
 		 * forceCurrentUrl(), but that should not affect the breadcrumbs.
