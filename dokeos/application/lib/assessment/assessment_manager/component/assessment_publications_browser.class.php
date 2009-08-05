@@ -32,7 +32,7 @@ class AssessmentManagerAssessmentPublicationsBrowserComponent extends Assessment
 		echo '<div style="float: left; width: 17%; overflow: auto;">';
 		echo $menu->render_as_tree();
 		echo '</div>';
-		echo '<div style="width: 80%; overflow: auto; float: right;">';
+		echo '<div style="width: 80%; float: right;">';
 		echo $this->get_table();
 		echo '</div>';
 		echo '</div>';
