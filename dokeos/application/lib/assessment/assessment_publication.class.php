@@ -178,6 +178,11 @@ class AssessmentPublication extends DataClass
 		$this->target_users = $target_users;
 	}
 	
+	function toggle_visibility()
+	{
+		$this->set_hidden(!$this->get_hidden());
+	}
+	
 	function get_target_groups()
 	{
 		if(!$this->target_groups)

@@ -104,5 +104,25 @@ abstract class AssessmentManagerComponent extends WebApplicationComponent
 	{
 		return $this->get_parent()->get_assessment_results_viewer_url($assessment_publication);
 	}
+	
+	function get_import_qti_url()
+	{
+		return $this->get_parent()->get_import_qti_url();
+	}
+	
+ 	function get_export_qti_url($assessment_publication)
+	{
+		return $this->get_parent()->get_export_qti_url($assessment_publication);
+	}
+	
+ 	function get_change_assessment_publication_visibility_url($assessment_publication)
+	{
+		return $this->get_parent()->get_change_assessment_publication_visibility_url($assessment_publication);
+	}
+	
+ 	function get_move_assessment_publication_url($assessment_publication)
+	{
+		return $this->get_parent()->get_move_assessment_publication_url($assessment_publication);
+	}
 }
 ?>

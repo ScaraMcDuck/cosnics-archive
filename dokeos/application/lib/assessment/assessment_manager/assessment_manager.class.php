@@ -27,6 +27,10 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 	const ACTION_MANAGE_ASSESSMENT_PUBLICATION_CATEGORIES = 'manage_apub_categories';
 	const ACTION_VIEW_ASSESSMENT_PUBLICATION = 'view_assessment_publication';
 	const ACTION_VIEW_ASSESSMENT_PUBLICATION_RESULTS = 'view_apub_results';
+	const ACTION_IMPORT_QTI = 'import_qti';
+	const ACTION_EXPORT_QTI = 'export_qti';
+	const ACTION_CHANGE_ASSESSMENT_PUBLICATION_VISIBILITY = 'change_apub_visibility';
+	const ACTION_MOVE_ASSESSMENT_PUBLICATION = 'move_assessment_publication';
 	
 	/**
 	 * Constructor
@@ -67,6 +71,18 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 				break;
 			case self :: ACTION_VIEW_ASSESSMENT_PUBLICATION_RESULTS :
 				$component = AssessmentManagerComponent :: factory('AssessmentPublicationResultsViewer', $this);
+				break;
+			case self :: ACTION_IMPORT_QTI :
+				$component = AssessmentManagerComponent :: factory('QtiImporter', $this);
+				break;
+			case self :: ACTION_EXPORT_QTI :
+				$component = AssessmentManagerComponent :: factory('QtiExporter', $this);
+				break;
+			case self :: ACTION_CHANGE_ASSESSMENT_PUBLICATION_VISIBILITY :
+				$component = AssessmentManagerComponent :: factory('AssessmentPublicationVisibilityChanger', $this);
+				break;
+			case self :: ACTION_MOVE_ASSESSMENT_PUBLICATION :
+				$component = AssessmentManagerComponent :: factory('AssessmentPublicationMover', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS);
@@ -192,10 +208,34 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 	
 	function get_assessment_results_viewer_url($assessment_publication)
 	{
+		$id = $assessment_publication ? $assessment_publication->get_id() : null;
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_ASSESSMENT_PUBLICATION_RESULTS,
+								    self :: PARAM_ASSESSMENT_PUBLICATION => $id));
+	}
+	
+ 	function get_import_qti_url()
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_QTI));
+	}
+	
+ 	function get_export_qti_url($assessment_publication)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXPORT_QTI,
 								    self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
 	}
-
+	
+ 	function get_change_assessment_publication_visibility_url($assessment_publication)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CHANGE_ASSESSMENT_PUBLICATION_VISIBILITY,
+								    self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
+	}
+	
+ 	function get_move_assessment_publication_url($assessment_publication)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_ASSESSMENT_PUBLICATION,
+								    self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
+	}
+	
 	function learning_object_is_published($object_id)
 	{
 	}
