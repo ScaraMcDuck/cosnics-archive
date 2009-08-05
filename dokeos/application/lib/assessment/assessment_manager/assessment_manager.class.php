@@ -62,6 +62,12 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 			case self :: ACTION_MANAGE_ASSESSMENT_PUBLICATION_CATEGORIES :
 				$component = AssessmentManagerComponent :: factory('AssessmentPublicationCategoryManager', $this);
 				break;
+			case self :: ACTION_VIEW_ASSESSMENT_PUBLICATION :
+				$component = AssessmentManagerComponent :: factory('AssessmentPublicationViewer', $this);
+				break;
+			case self :: ACTION_VIEW_ASSESSMENT_PUBLICATION_RESULTS :
+				$component = AssessmentManagerComponent :: factory('AssessmentPublicationResultsViewer', $this);
+				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS);
 				$component = AssessmentManagerComponent :: factory('AssessmentPublicationsBrowser', $this);

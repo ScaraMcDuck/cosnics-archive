@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<application name="weblcms">
+<application name="assessment">
 	<event name="create_publication">
 		<tracker name="assessment_publication_changes" />
 	</event>
