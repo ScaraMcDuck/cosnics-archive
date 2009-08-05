@@ -28,7 +28,6 @@ class AssessmentManagerQtiImporterComponent extends AssessmentManagerComponent
 			$trail = new BreadCrumbTrail();
 			$trail->add(new BreadCrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
 			$trail->add(new BreadCrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_IMPORT_QTI)), Translation :: get('ImportQTI')));
-			$trail->add_help('courses assessment tool');
 			
 			$this->display_header($trail, true);
 
