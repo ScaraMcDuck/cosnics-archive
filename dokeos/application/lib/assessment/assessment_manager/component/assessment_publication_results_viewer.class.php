@@ -27,6 +27,33 @@ class AssessmentManagerAssessmentPublicationResultsViewerComponent extends Asses
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewResults')));
 
 		$pid = Request :: get(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION);
+		$delete = Request :: get('delete');
+		
+		if($delete)
+		{
+			$split = explode('_', $delete);
+			$id = $split[1];
+			
+			if($split[0] == 'aid')
+			{
+				$condition = new EqualityCondition(AssessmentAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $id);
+			}
+			else 
+			{
+				$condition = new EqualityCondition(AssessmentAssessmentAttemptsTracker :: PROPERTY_ID, $id);
+				$parameters = array(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => $pid);
+			}
+			
+			$dummy = new AssessmentAssessmentAttemptsTracker();
+			$trackers = $dummy->retrieve_tracker_items($condition);
+			foreach($trackers as $tracker)
+			{
+				$tracker->delete();
+			}
+			
+			$this->redirect(Translation :: get('AssessmentAttemptsDeleted'), false, $parameters);
+			exit();
+		}
 		
 		if(!$pid)
 		{

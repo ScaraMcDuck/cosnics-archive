@@ -8,12 +8,8 @@ require_once dirname(__FILE__).'/../../assessment_publication_category_menu.clas
 
 class AssessmentAttemptsSummaryTemplate extends ReportingTemplate
 {
-	private $object;
-	
 	function AssessmentAttemptsSummaryTemplate($parent=null,$id,$params,$trail)
 	{
-		$this->object = $object;
-		
 		$this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("AssessmentAttemptsSummary"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
 
