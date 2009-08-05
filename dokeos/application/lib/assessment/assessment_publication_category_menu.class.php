@@ -54,7 +54,7 @@ class AssessmentPublicationCategoryMenu extends HTML_Menu
 		$menu = array();
 
 		$menu_item = array();
-		$menu_item['title'] = Translation :: get('Categories');
+		$menu_item['title'] = Translation :: get('Categories') . ' (' . $this->get_publication_count(0) . ')';
 		$menu_item['url'] = $this->get_url(0);
 
 		$sub_menu_items = $this->get_menu_items(0);
@@ -88,7 +88,7 @@ class AssessmentPublicationCategoryMenu extends HTML_Menu
 		{
 
 			$menu_item = array();
-			$menu_item['title'] = $category->get_name();
+			$menu_item['title'] = $category->get_name() . ' (' . $this->get_publication_count($category->get_id()) . ')';
 			$menu_item['url'] = $this->get_url($category->get_id());
 
 			$sub_menu_items = $this->get_menu_items($category->get_id());
@@ -106,6 +106,12 @@ class AssessmentPublicationCategoryMenu extends HTML_Menu
 		return $menu;
 	}
 
+	function get_publication_count($category_id)
+	{
+		$condition = new EqualityCondition(AssessmentPublication :: PROPERTY_CATEGORY, $category_id);
+		return AssessmentDataManager :: get_instance()->count_assessment_publications($condition);
+	}
+	
 	/**
 	 * Gets the URL of a given category
 	 * @param int $category The id of the category
@@ -126,9 +132,16 @@ class AssessmentPublicationCategoryMenu extends HTML_Menu
 		$this->render($this->array_renderer, 'urhere');
 		$breadcrumbs = $this->array_renderer->toArray();
 		$trail = new BreadcrumbTrail(false);
+		$i = 0;
 		foreach ($breadcrumbs as $crumb)
 		{
-			$trail->add(new Breadcrumb($crumb['url'], $crumb['title']));
+			if($i == 0)
+			{
+				$i++;
+				continue;
+			}
+				
+			$trail->add(new Breadcrumb($crumb['url'], substr($crumb['title'], 0, strpos($crumb['title'], '(') - 1)));
 		}
 		return $trail;
 	}

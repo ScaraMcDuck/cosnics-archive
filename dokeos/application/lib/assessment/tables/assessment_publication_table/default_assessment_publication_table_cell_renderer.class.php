@@ -38,6 +38,13 @@ class DefaultAssessmentPublicationTableCellRenderer implements ObjectTableCellRe
                 return $learning_object->get_title();
             case LearningObject :: PROPERTY_DESCRIPTION :
                 return DokeosUtilities :: truncate_string($learning_object->get_description(), 200);
+            case LearningObject :: PROPERTY_TYPE :
+                $type = $learning_object->get_type();
+                if($type != 'assessment')
+                	return Translation :: get($type);
+                
+                $type = $learning_object->get_assessment_type();
+              	return Translation :: get($type);
 			case AssessmentPublication :: PROPERTY_FROM_DATE :
 				return $assessment_publication->get_from_date();
 			case AssessmentPublication :: PROPERTY_TO_DATE :
