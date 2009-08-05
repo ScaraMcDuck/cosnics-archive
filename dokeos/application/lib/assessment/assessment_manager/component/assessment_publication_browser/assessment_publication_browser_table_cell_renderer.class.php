@@ -77,11 +77,22 @@ class AssessmentPublicationBrowserTableCellRenderer extends DefaultAssessmentPub
 			'img' => Theme :: get_common_image_path().'action_edit.png'
 		);
 
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_change_assessment_publication_visibility_url($assessment_publication),
-			'label' => Translation :: get('Hide'),
-			'img' => Theme :: get_common_image_path().'action_visible.png',
-		);
+		if($assessment_publication->get_hidden())
+		{
+			$toolbar_data[] = array(
+				'href' => $this->browser->get_change_assessment_publication_visibility_url($assessment_publication),
+				'label' => Translation :: get('Show'),
+				'img' => Theme :: get_common_image_path().'action_visible_na.png',
+			);
+		}
+		else 
+		{
+			$toolbar_data[] = array(
+				'href' => $this->browser->get_change_assessment_publication_visibility_url($assessment_publication),
+				'label' => Translation :: get('Hide'),
+				'img' => Theme :: get_common_image_path().'action_visible.png',
+			);
+		}
 		
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_export_qti_url($assessment_publication),
