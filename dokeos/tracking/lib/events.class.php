@@ -43,7 +43,7 @@ class Events
         $trkdmg = TrackingDataManager :: get_instance();
         $event = $trkdmg->retrieve_event_by_name($event_name, $block);
         
-        if ($event->get_active() == 0)
+        if (!$event || $event->get_active() == 0)
             return;
         
         $trackerregistrations = $trkdmg->retrieve_trackers_from_event($event->get_id());

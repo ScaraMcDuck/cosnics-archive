@@ -18,6 +18,7 @@ class AssessmentPublicationBrowserTableCellRenderer extends DefaultAssessmentPub
 {
 	/**
 	 * The browser component
+	 * @var AssessmentManagerAssessmentPublicationsBrowserComponent
 	 */
 	private $browser;
 
@@ -62,6 +63,12 @@ class AssessmentPublicationBrowserTableCellRenderer extends DefaultAssessmentPub
 			'href' => $this->browser->get_delete_assessment_publication_url($assessment_publication),
 			'label' => Translation :: get('Delete'),
 			'img' => Theme :: get_common_image_path().'action_delete.png',
+		);
+		
+		$toolbar_data[] = array(
+			'href' => $this->browser->get_assessment_publication_viewer_url($assessment_publication),
+			'label' => Translation :: get('TakeAssessment'),
+			'img' => Theme :: get_common_image_path().'action_next.png',
 		);
 
 		return DokeosUtilities :: build_toolbar($toolbar_data);

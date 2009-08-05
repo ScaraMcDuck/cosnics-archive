@@ -18,19 +18,20 @@ class AssessmentManagerAssessmentPublicationViewerComponent extends AssessmentMa
 	function run()
 	{
 		// Retrieving assessment
-		$this->datamanager = WeblcmsDataManager :: get_instance();
-		if (Request :: get(Tool :: PARAM_PUBLICATION_ID))
+		$this->datamanager = AssessmentDataManager :: get_instance();
+		if (Request :: get(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION))
 		{
-			$this->pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
-			$this->pub = $this->datamanager->retrieve_learning_object_publication($this->pid);
-			$this->assessment = $this->pub->get_learning_object();
-			$this->set_parameter('pid', $this->pid);
+			$this->pid = Request :: get(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION);
+			$this->pub = $this->datamanager->retrieve_assessment_publication($this->pid);
+			$assessment_id = $this->pub->get_learning_object();
+			$this->assessment = RepositoryDataManager :: get_instance()->retrieve_learning_object($assessment_id);
+			$this->set_parameter(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION, $this->pid);
 		}
 		// Checking statistics
 		
-		$track = new WeblcmsAssessmentAttemptsTracker();
-		$conditions[] = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $this->pid);
-		$conditions[] = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID, $this->get_user_id());
+		$track = new AssessmentAssessmentAttemptsTracker();
+		$conditions[] = new EqualityCondition(AssessmentAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $this->pid);
+		$conditions[] = new EqualityCondition(AssessmentAssessmentAttemptsTracker :: PROPERTY_USER_ID, $this->get_user_id());
 		$condition = new AndCondition($conditions);
 		$trackers = $track->retrieve_tracker_items($condition);
 	
@@ -76,8 +77,12 @@ class AssessmentManagerAssessmentPublicationViewerComponent extends AssessmentMa
 		{
 			$display = ComplexDisplay :: factory($this, $this->assessment->get_type());
 	        $display->set_root_lo($this->assessment);
-	        	
-			$this->display_header(new BreadcrumbTrail());
+	        
+	        $trail = new BreadcrumbTrail();
+	        $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
+	        $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => $this->pid)), Translation :: get('TakeAssessment')));
+	        
+			$this->display_header($trail);
 			$display->run();
 			$this->display_footer();
 		}
@@ -89,11 +94,10 @@ class AssessmentManagerAssessmentPublicationViewerComponent extends AssessmentMa
 		$args = array(
 			'assessment_id' => $this->pid,
 			'user_id' => $this->get_user_id(),
-			'course_id' => $this->get_course_id(),
 			'total_score' => 0
 		);
 
-		$tracker = Events :: trigger_event('attempt_assessment', 'weblcms', $args);
+		$tracker = Events :: trigger_event('attempt_assessment', 'assessment', $args);
 
 		return $tracker[0];
 	}
@@ -117,7 +121,7 @@ class AssessmentManagerAssessmentPublicationViewerComponent extends AssessmentMa
 		$parameters['score'] = $score;
 		$parameters['feedback'] = '';
 
-		Events :: trigger_event('attempt_question', 'weblcms', $parameters); 
+		Events :: trigger_event('attempt_question', 'assessment', $parameters); 
 	}
 	
 	function finish_assessment($total_score)
