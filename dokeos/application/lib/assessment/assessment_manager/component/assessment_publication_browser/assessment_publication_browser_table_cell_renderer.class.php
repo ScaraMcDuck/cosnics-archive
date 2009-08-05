@@ -54,11 +54,17 @@ class AssessmentPublicationBrowserTableCellRenderer extends DefaultAssessmentPub
 		$toolbar_data = array();
 
 		$toolbar_data[] = array(
-			'href' => $this->browser->get_update_assessment_publication_url($assessment_publication),
-			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_image_path().'action_edit.png'
+			'href' => $this->browser->get_assessment_publication_viewer_url($assessment_publication),
+			'label' => Translation :: get('TakeAssessment'),
+			'img' => Theme :: get_common_image_path().'action_next.png',
 		);
-
+		
+		$toolbar_data[] = array(
+			'href' => $this->browser->get_assessment_results_viewer_url($assessment_publication),
+			'label' => Translation :: get('ViewResults'),
+			'img' => Theme :: get_common_image_path().'action_view_results.png',
+		);
+		
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_delete_assessment_publication_url($assessment_publication),
 			'label' => Translation :: get('Delete'),
@@ -66,9 +72,27 @@ class AssessmentPublicationBrowserTableCellRenderer extends DefaultAssessmentPub
 		);
 		
 		$toolbar_data[] = array(
+			'href' => $this->browser->get_update_assessment_publication_url($assessment_publication),
+			'label' => Translation :: get('Edit'),
+			'img' => Theme :: get_common_image_path().'action_edit.png'
+		);
+
+		$toolbar_data[] = array(
 			'href' => $this->browser->get_assessment_publication_viewer_url($assessment_publication),
-			'label' => Translation :: get('TakeAssessment'),
-			'img' => Theme :: get_common_image_path().'action_next.png',
+			'label' => Translation :: get('Hide'),
+			'img' => Theme :: get_common_image_path().'action_visible.png',
+		);
+		
+		$toolbar_data[] = array(
+			'href' => $this->browser->get_assessment_publication_viewer_url($assessment_publication),
+			'label' => Translation :: get('Export'),
+			'img' => Theme :: get_common_image_path().'action_export.png',
+		);
+		
+		$toolbar_data[] = array(
+			'href' => $this->browser->get_assessment_publication_viewer_url($assessment_publication),
+			'label' => Translation :: get('Move'),
+			'img' => Theme :: get_common_image_path().'action_move.png',
 		);
 
 		return DokeosUtilities :: build_toolbar($toolbar_data);

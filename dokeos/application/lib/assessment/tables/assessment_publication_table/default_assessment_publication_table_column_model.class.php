@@ -34,8 +34,9 @@ class DefaultAssessmentPublicationTableColumnModel extends ObjectTableColumnMode
 		$columns = array();
         $columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE, true, $learning_object_alias);
         $columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION, true, $learning_object_alias);
-		$columns[] = new ObjectTableColumn(AssessmentPublication :: PROPERTY_FROM_DATE);
-		$columns[] = new ObjectTableColumn(AssessmentPublication :: PROPERTY_TO_DATE);
+        $columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TYPE, true, $learning_object_alias);
+		//$columns[] = new ObjectTableColumn(AssessmentPublication :: PROPERTY_FROM_DATE);
+		//$columns[] = new ObjectTableColumn(AssessmentPublication :: PROPERTY_TO_DATE);
 //		$columns[] = new ObjectTableColumn(AssessmentPublication :: PROPERTY_PUBLISHER);
 
 		return $columns;
