@@ -122,8 +122,8 @@ class DlofImport extends LearningObjectImport
 				$learning_object = $subitem->getElementsByTagname('learning_object')->item(0);
 				$childlo = $this->create_learning_object($learning_object);
 				
-				$cloi = ComplexLearningObjectItem :: factory($childlo->get_type);
-				
+				$cloi = ComplexLearningObjectItem :: factory($childlo->get_type());
+	
 				$cloi->set_ref($childlo->get_id());
 				$cloi->set_user_id($this->get_user()->get_id());
 				$cloi->set_parent($lo->get_id());
@@ -132,11 +132,12 @@ class DlofImport extends LearningObjectImport
 				if($subitem->hasAttributes())
 				{ 
 					$additionalProperties = array();
+
 					foreach ($subitem->attributes as $attrName => $attrNode) 
 					{
-						$additionalProperties[$attrName] = $attrNode;
+						$additionalProperties[$attrName] = $attrNode->value;
 					}
-					
+
 					$cloi->set_additional_properties($additionalProperties);
 				}
 				
