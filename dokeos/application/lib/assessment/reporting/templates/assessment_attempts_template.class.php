@@ -16,8 +16,11 @@ class AssessmentAttemptsTemplate extends ReportingTemplate
 		
 		$this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("AssessmentAttempts"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
-
+            
         parent :: __construct($parent,$id,$params,$trail);
+        
+        $this->action_bar->add_common_action(new ToolbarItem(Translation :: get('DeleteAllResults'), Theme :: get_common_image_path().'action_delete.png', $params['url'] . '&delete=aid_' . $pid, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $this->action_bar->add_common_action(new ToolbarItem(Translation :: get('DownloadDocuments'), Theme :: get_common_image_path().'action_export.png', $params['url'], ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 	}
 
     /**
