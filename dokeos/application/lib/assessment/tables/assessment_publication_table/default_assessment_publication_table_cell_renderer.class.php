@@ -35,15 +35,32 @@ class DefaultAssessmentPublicationTableCellRenderer implements ObjectTableCellRe
 		switch ($column->get_name())
 		{
             case LearningObject :: PROPERTY_TITLE :
+            	
+            	if($assessment_publication->get_hidden())
+            	{
+            		return '<span style="color: #999999;">' . $learning_object->get_title() . '</span>';
+            	}
+            	
                 return $learning_object->get_title();
             case LearningObject :: PROPERTY_DESCRIPTION :
-                return DokeosUtilities :: truncate_string($learning_object->get_description(), 200);
+				$description = DokeosUtilities :: truncate_string($learning_object->get_description(), 200);
+            	
+            	if($assessment_publication->get_hidden())
+            	{
+            		return '<span style="color: #999999;">' . $description . '</span>';
+            	}
+            	
+                return $description;
             case LearningObject :: PROPERTY_TYPE :
                 $type = $learning_object->get_type();
-                if($type != 'assessment')
-                	return Translation :: get($type);
+                if($type == 'assessment')
+                	$type = $learning_object->get_assessment_type();
+                	
+				if($assessment_publication->get_hidden())
+            	{
+            		return '<span style="color: #999999;">' . $type . '</span>';
+            	}
                 
-                $type = $learning_object->get_assessment_type();
               	return Translation :: get($type);
 			case AssessmentPublication :: PROPERTY_FROM_DATE :
 				return $assessment_publication->get_from_date();
