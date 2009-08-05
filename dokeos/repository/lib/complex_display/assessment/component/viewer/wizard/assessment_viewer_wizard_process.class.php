@@ -27,7 +27,7 @@ class AssessmentViewerWizardProcess extends HTML_QuickForm_Action
 		echo '</div>';
 		
 		$values = $this->parent->exportValues();
-		
+
 		foreach($values as $key => $value)
 		{
 			$value = Security :: remove_XSS($value);

@@ -53,6 +53,7 @@ class OpenQuestionResultDisplay extends QuestionResultDisplay
 		else 
 			$html[] = Translation :: get('NoAnswer');
 		
+		$html[] = '<div class="clear"></div>';
 		$html[] = '<br />';
 	}
 	
