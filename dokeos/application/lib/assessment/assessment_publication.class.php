@@ -23,6 +23,7 @@ class AssessmentPublication extends DataClass
 	const PROPERTY_HIDDEN = 'hidden';
 	const PROPERTY_PUBLISHER = 'publisher';
 	const PROPERTY_PUBLISHED = 'published';
+	const PROPERTY_CATEGORY = 'category';
 	
 	private $target_groups;
 	private $target_users;
@@ -33,7 +34,7 @@ class AssessmentPublication extends DataClass
 	 */
 	static function get_default_property_names()
 	{
-		return parent :: get_default_property_names(array(self :: PROPERTY_LEARNING_OBJECT, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED));
+		return parent :: get_default_property_names(array(self :: PROPERTY_LEARNING_OBJECT, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_CATEGORY));
 	}
 
 	function get_data_manager()
@@ -147,6 +148,24 @@ class AssessmentPublication extends DataClass
 	function set_published($published)
 	{
 		$this->set_default_property(self :: PROPERTY_PUBLISHED, $published);
+	}
+	
+	/**
+	 * Returns the category of this AssessmentPublication.
+	 * @return the category.
+	 */
+	function get_category()
+	{
+		return $this->get_default_property(self :: PROPERTY_CATEGORY);
+	}
+
+	/**
+	 * Sets the category of this AssessmentPublication.
+	 * @param category
+	 */
+	function set_category($category)
+	{
+		$this->set_default_property(self :: PROPERTY_CATEGORY, $category);
 	}
 	
 	function set_target_groups($target_groups)
