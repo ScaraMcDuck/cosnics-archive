@@ -162,6 +162,19 @@ class AssessmentAssessmentAttemptsTracker extends MainTracker
 		$trackers = $this->retrieve_tracker_items($condition);
 		return count($trackers);
 	}
+	
+	function delete()
+	{
+		parent :: delete();
+		
+		$condition = new EqualityCondition(AssessmentQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $this->get_id());
+		$dummy = new AssessmentQuestionAttemptsTracker();
+		$trackers = $dummy->retrieve_tracker_items($condition);
+		foreach($trackers as $tracker)
+		{
+			$tracker->delete();
+		}
+	}
 
 	function get_average_score($publication, $user_id = null)
 	{

@@ -30,6 +30,8 @@ class ReportingAssessment
 	    	$data[Translation :: get('Date')][] = $tracker->get_date();
 	    	$data[Translation :: get('TotalScore')][] = $tracker->get_total_score() . '%';
 	    	
+	    	$actions = array();
+	    	
 	    	$actions[] = array(
 				'href' => $url . '&details=' . $tracker->get_id(),
 				'label' => Translation :: get('ViewResults'),
@@ -37,7 +39,7 @@ class ReportingAssessment
 			);
 			
 			$actions[] = array(
-				'href' => '',
+				'href' =>  $url . '&delete=tid_' . $tracker->get_id(),
 				'label' => Translation :: get('DeleteResults'),
 				'img' => Theme :: get_common_image_path().'action_delete.png'
 			);
@@ -80,6 +82,8 @@ class ReportingAssessment
 	    	$data[Translation :: get('TimesTaken')][] = $dummy->get_times_taken($publication);
 	    	$data[Translation :: get('AverageScore')][] = $dummy->get_average_score($publication) . '%';
 	    	
+	    	$actions = array();
+	    	
 	    	$actions[] = array(
 				'href' => $url . '&' . AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION . '=' . $publication->get_id(),
 				'label' => Translation :: get('ViewResults'),
@@ -87,7 +91,7 @@ class ReportingAssessment
 			);
 			
 			$actions[] = array(
-				'href' => '',
+				'href' => $url . '&delete=aid_' . $publication->get_id(),
 				'label' => Translation :: get('DeleteResults'),
 				'img' => Theme :: get_common_image_path().'action_delete.png'
 			);
