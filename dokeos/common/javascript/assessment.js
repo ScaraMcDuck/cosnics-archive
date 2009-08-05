@@ -23,7 +23,7 @@ function handle_timer()
 	if(value >= max_time)
 	{
 		alert(getTranslation('TimesUp', 'repository'));
-		$(".finish").click();
+		$(".process").click();
 	}
 	else
 	{
