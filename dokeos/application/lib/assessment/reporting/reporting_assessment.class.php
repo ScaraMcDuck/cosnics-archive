@@ -17,6 +17,8 @@ class ReportingAssessment
     public static function getAssessmentAttempts($params)
     {
     	$aid = $params[AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION];
+    	$url = $params['url'];
+    	
     	$dummy = new AssessmentAssessmentAttemptsTracker();
     	$condition = new EqualityCondition(AssessmentAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $aid);
     	$trackers = $dummy->retrieve_tracker_items($condition);
@@ -26,8 +28,27 @@ class ReportingAssessment
     		$user = UserDataManager :: get_instance()->retrieve_user($tracker->get_user_id());
     		$data[Translation :: get('User')][] = $user->get_fullname();
 	    	$data[Translation :: get('Date')][] = $tracker->get_date();
-	    	$data[Translation :: get('TotalScore')][] = $tracker->get_total_score();
-	    	$data[Translation :: get('Action')][] = '';
+	    	$data[Translation :: get('TotalScore')][] = $tracker->get_total_score() . '%';
+	    	
+	    	$actions[] = array(
+				'href' => $url . '&details=' . $tracker->get_id(),
+				'label' => Translation :: get('ViewResults'),
+				'img' => Theme :: get_common_image_path().'action_view_results.png'
+			);
+			
+			$actions[] = array(
+				'href' => '',
+				'label' => Translation :: get('DeleteResults'),
+				'img' => Theme :: get_common_image_path().'action_delete.png'
+			);
+			
+			$actions[] = array(
+				'href' => '',
+				'label' => Translation :: get('ExportResults'),
+				'img' => Theme :: get_common_image_path().'action_export.png'
+			);
+	    	
+	    	$data[Translation :: get('Action')][] = DokeosUtilities :: build_toolbar($actions);
     	}
     	
     	$description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
@@ -38,7 +59,8 @@ class ReportingAssessment
     {
     	$data = array();
 		$category = $params['category'];
-    	
+    	$url = $params['url'];
+		
     	$adm = AssessmentDataManager :: get_instance();
     	$condition = new EqualityCondition(AssessmentPublication :: PROPERTY_CATEGORY, $category);
     	$publications = $adm->retrieve_assessment_publications($condition);
@@ -57,7 +79,20 @@ class ReportingAssessment
 	    	$data[Translation :: get('Title')][] = $lo->get_title();
 	    	$data[Translation :: get('TimesTaken')][] = $dummy->get_times_taken($publication);
 	    	$data[Translation :: get('AverageScore')][] = $dummy->get_average_score($publication) . '%';
-	    	$data[Translation :: get('Action')][] = '';
+	    	
+	    	$actions[] = array(
+				'href' => $url . '&' . AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION . '=' . $publication->get_id(),
+				'label' => Translation :: get('ViewResults'),
+				'img' => Theme :: get_common_image_path().'action_view_results.png'
+			);
+			
+			$actions[] = array(
+				'href' => '',
+				'label' => Translation :: get('DeleteResults'),
+				'img' => Theme :: get_common_image_path().'action_delete.png'
+			);
+	    	
+	    	$data[Translation :: get('Action')][] = DokeosUtilities :: build_toolbar($actions);
     	}
     	
     	$description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
