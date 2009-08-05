@@ -54,7 +54,7 @@ class AssessmentPublicationCategoryMenu extends HTML_Menu
 		$menu = array();
 
 		$menu_item = array();
-		$menu_item['title'] = Translation :: get('Categories') . ' (' . $this->get_publication_count(0) . ')';
+		$menu_item['title'] = Translation :: get('Root') . ' (' . $this->get_publication_count(0) . ')';
 		$menu_item['url'] = $this->get_url(0);
 
 		$sub_menu_items = $this->get_menu_items(0);
