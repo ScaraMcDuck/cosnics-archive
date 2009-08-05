@@ -41,7 +41,7 @@ class AssessmentManagerAssessmentPublicationsBrowserComponent extends Assessment
 
 	function get_table()
 	{
-		$table = new AssessmentPublicationBrowserTable($this, array(Application :: PARAM_APPLICATION => 'assessment', Application :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS), null);
+		$table = new AssessmentPublicationBrowserTable($this, array(Application :: PARAM_APPLICATION => 'assessment', Application :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS), $this->get_condition());
 		return $table->as_html();
 	}
 	
@@ -66,6 +66,14 @@ class AssessmentManagerAssessmentPublicationsBrowserComponent extends Assessment
 		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ImportQTI'), Theme :: get_common_image_path().'action_import.png', $this->get_import_qti_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
 		return $action_bar;
+	}
+	
+	function get_condition()
+	{
+		$current_category = Request :: get('category');
+		$current_category = $current_category ? $current_category : 0;
+		
+		return new EqualityCondition(AssessmentPublication :: PROPERTY_CATEGORY, $current_category);
 	}
 
 }
