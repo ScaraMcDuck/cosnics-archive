@@ -25,6 +25,8 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 	const ACTION_CREATE_ASSESSMENT_PUBLICATION = 'create_assessment_publication';
 	const ACTION_BROWSE_ASSESSMENT_PUBLICATIONS = 'browse_assessment_publications';
 	const ACTION_MANAGE_ASSESSMENT_PUBLICATION_CATEGORIES = 'manage_apub_categories';
+	const ACTION_VIEW_ASSESSMENT_PUBLICATION = 'view_assessment_publication';
+	const ACTION_VIEW_ASSESSMENT_PUBLICATION_RESULTS = 'view_apub_results';
 	
 	/**
 	 * Constructor
@@ -174,6 +176,18 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 	function get_manage_assessment_publication_categories_url()
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_ASSESSMENT_PUBLICATION_CATEGORIES));
+	}
+	
+	function get_assessment_publication_viewer_url($assessment_publication)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_ASSESSMENT_PUBLICATION,
+								    self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
+	}
+	
+	function get_assessment_results_viewer_url($assessment_publication)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_ASSESSMENT_PUBLICATION_RESULTS,
+								    self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
 	}
 
 	function learning_object_is_published($object_id)

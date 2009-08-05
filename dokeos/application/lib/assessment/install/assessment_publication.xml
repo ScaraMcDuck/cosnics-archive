@@ -8,6 +8,7 @@
   <property name="hidden" type="integer" length="1"/>
   <property name="publisher" type="integer" notnull="1"/>
   <property name="published" type="integer" notnull="1"/>
+  <property name="category" type="integer" notnull="1" default="0"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
