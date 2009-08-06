@@ -253,7 +253,7 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 	
  	function get_download_documents_url($assessment_publication)
 	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_ASSESSMENT_PUBLICATION,
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DOWNLOAD_DOCUMENTS,
 								    self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
 	}
 	
