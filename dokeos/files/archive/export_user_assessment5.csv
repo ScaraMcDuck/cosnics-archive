@@ -1,0 +1,7 @@
+assessment_title;assessment_description;assessment_type
+This is a small assessment test;This is a small assessment test;Assignment
+
+username;result;date_time_taken;question_title;question_description;question_type;weight;answer;score;feedback
+John Doe;0;2009-08-05 16:33:31;rate this;tesq;rating_question;1;5;0;
+John Doe;0;2009-08-05 16:33:31;aezrzerze;azerfsqdqsdfqfsdfdqsdqsf;open_question;1;qsdfsdf;0;; ; ; 
+John Doe;0;2009-08-05 16:33:31;qsdfqsdf;qsdf;fill_in_blanks_question;1;azer;0;; ; ; 

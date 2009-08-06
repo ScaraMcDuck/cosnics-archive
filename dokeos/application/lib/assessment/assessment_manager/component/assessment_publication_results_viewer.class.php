@@ -114,7 +114,10 @@ class AssessmentManagerAssessmentPublicationResultsViewerComponent extends Asses
 	{
 		require_once(Path :: get_application_path() . 'lib/assessment/reporting/templates/assessment_attempts_template.class.php');
 		
-		$parameters = array(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => $pid, 'url' => $this->get_url(array(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => $pid)));
+		$url = $this->get_url(array(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => $pid));
+		$results_export_url = $this->get_results_exporter_url();
+		
+		$parameters = array(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => $pid, 'url' => $url, 'results_export_url' => $results_export_url);
 		$template = new AssessmentAttemptsTemplate($this, 0, $parameters, null, $pid);
 		$template->set_reporting_blocks_function_parameters($parameters);
 		return $template->to_html();
