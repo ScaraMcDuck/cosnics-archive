@@ -94,13 +94,16 @@ abstract class DataClass
 	 */
 	function set_id($id)
 	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
+	    if(isset($id) && strlen($id) > 0)
+	    {
+	        $this->set_default_property(self :: PROPERTY_ID, $id);
+	    }
 	}	
 
 	function is_identified()
 	{
 	    $id = $this->get_id();
-	    if(isset($id) && $id != self :: NO_UID)
+	    if(isset($id) && strlen($id) > 0 && $id != self :: NO_UID)
 	    {
 	        return true;
 	    }
