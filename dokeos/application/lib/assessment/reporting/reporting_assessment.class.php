@@ -24,6 +24,9 @@ class ReportingAssessment
     	$condition = new EqualityCondition(AssessmentAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $aid);
     	$trackers = $dummy->retrieve_tracker_items($condition);
     	
+    	$pub = AssessmentDataManager :: get_instance()->retrieve_assessment_publication($aid);
+    	$assessment = $pub->get_publication_object();
+    	
     	foreach($trackers as $tracker)
     	{
     		$user = UserDataManager :: get_instance()->retrieve_user($tracker->get_user_id());
@@ -33,22 +36,25 @@ class ReportingAssessment
 	    	
 	    	$actions = array();
 	    	
-	    	$actions[] = array(
-				'href' => $url . '&details=' . $tracker->get_id(),
-				'label' => Translation :: get('ViewResults'),
-				'img' => Theme :: get_common_image_path().'action_view_results.png'
-			);
+	    	if($assessment->get_type() != 'hotpotatoes')
+	    	{
+		    	$actions[] = array(
+					'href' => $url . '&details=' . $tracker->get_id(),
+					'label' => Translation :: get('ViewResults'),
+					'img' => Theme :: get_common_image_path().'action_view_results.png'
+				);
+				
+				$actions[] = array(
+					'href' => $results_export_url . '&tid=' . $tracker->get_id(),
+					'label' => Translation :: get('ExportResults'),
+					'img' => Theme :: get_common_image_path().'action_export.png'
+				);
+	    	}
 			
 			$actions[] = array(
 				'href' =>  $url . '&delete=tid_' . $tracker->get_id(),
 				'label' => Translation :: get('DeleteResults'),
 				'img' => Theme :: get_common_image_path().'action_delete.png'
-			);
-			
-			$actions[] = array(
-				'href' => $results_export_url . '&tid=' . $tracker->get_id(),
-				'label' => Translation :: get('ExportResults'),
-				'img' => Theme :: get_common_image_path().'action_export.png'
 			);
 	    	
 	    	$data[Translation :: get('Action')][] = DokeosUtilities :: build_toolbar($actions);
