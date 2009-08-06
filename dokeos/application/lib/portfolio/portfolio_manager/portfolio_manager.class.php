@@ -194,12 +194,12 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 
 	function delete_learning_object_publications($object_id)
 	{
-		return PortfolioDataManager :: get_instance()->delete_personal_message_publications($object_id);
+		return PortfolioDataManager :: get_instance()->delete_portfolio_publications($object_id);
 	}
 
 	function update_learning_object_publication_id($publication_attr)
 	{
-		return PortfolioDataManager :: get_instance()->update_personal_message_publication_id($publication_attr);
+		return PortfolioDataManager :: get_instance()->update_portfolio_publication_id($publication_attr);
 	}
 
 	function get_learning_object_publication_locations($learning_object)
