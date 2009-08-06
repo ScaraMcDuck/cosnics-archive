@@ -90,6 +90,7 @@ class AssessmentManagerAssessmentPublicationsBrowserComponent extends Assessment
 		$conditions = array();
 		
 		$access = array();
+		$access[] = new EqualityCondition(AssessmentPublication :: PROPERTY_PUBLISHER, $user_id = $user->get_id());
 		$access[] = new InCondition(AssessmentPublicationUser :: PROPERTY_USER, $user_id, $datamanager->get_database()->get_alias(AssessmentPublicationUser :: get_table_name()));
 		$access[] = new InCondition(AssessmentPublicationGroup :: PROPERTY_GROUP_ID, $groups, $datamanager->get_database()->get_alias(AssessmentPublicationGroup :: get_table_name()));
 		if (!empty($user_id) || !empty($groups))
