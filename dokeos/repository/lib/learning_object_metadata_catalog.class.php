@@ -1,7 +1,7 @@
 <?php
-require_once dirname(__FILE__) . '/repository_model_object.class.php';
+require_once dirname(__FILE__) . '/repository_data_class.class.php';
 
-class LearningObjectMetadataCatalog extends RepositoryModelObject
+class LearningObjectMetadataCatalog extends RepositoryDataClass
 {
 	const CLASS_NAME = __CLASS__;
 	
@@ -37,7 +37,7 @@ class LearningObjectMetadataCatalog extends RepositoryModelObject
 	
 	function get_type()
 	{
-	    return $this->defaultProperties[self :: PROPERTY_TYPE];
+	    return $this->get_default_property(self :: PROPERTY_TYPE);
 	}
 	
 	/*************************************************************************/
@@ -52,7 +52,7 @@ class LearningObjectMetadataCatalog extends RepositoryModelObject
 	
 	function get_value()
 	{
-	    return $this->defaultProperties[self :: PROPERTY_VALUE];
+	    return $this->get_default_property(self :: PROPERTY_VALUE);
 	}
 	
 	/*************************************************************************/
@@ -67,7 +67,7 @@ class LearningObjectMetadataCatalog extends RepositoryModelObject
 	
 	function get_name()
 	{
-	    return $this->defaultProperties[self :: PROPERTY_NAME];
+	    return $this->get_default_property(self :: PROPERTY_NAME);
 	}
 	
 	/*************************************************************************/
@@ -82,20 +82,19 @@ class LearningObjectMetadataCatalog extends RepositoryModelObject
 	
 	function get_sort()
 	{
-	    return $this->defaultProperties[self :: PROPERTY_SORT];
+	    return $this->get_default_property(self :: PROPERTY_SORT);
 	}
 	
 	/*************************************************************************/
 	
-	static function get_default_property_names()
+	static function get_default_property_names($extended_property_names = array())
 	{
-		return array (self :: PROPERTY_ID,   
-		                self :: PROPERTY_TYPE, 
-		                self :: PROPERTY_VALUE,
-		                self :: PROPERTY_NAME,
-		                self :: PROPERTY_SORT, 
-		                parent :: PROPERTY_CREATED, 
-		                parent :: PROPERTY_MODIFIED);
+	    $extended_property_names[] = self :: PROPERTY_TYPE;
+	    $extended_property_names[] = self :: PROPERTY_VALUE;
+	    $extended_property_names[] = self :: PROPERTY_NAME;
+	    $extended_property_names[] = self :: PROPERTY_SORT;
+	    
+		return parent :: get_default_property_names($extended_property_names);
 	}
 	
 	static function get_table_name()
@@ -108,8 +107,8 @@ class LearningObjectMetadataCatalog extends RepositoryModelObject
 	{
 	    $dm = RepositoryDataManager :: get_instance();
 	    
-	    $id = $this->get_id();
-	    if(!isset($id) || $id == parent :: NO_UID)
+	    //$id = $this->get_id();
+	    if(!$this->is_identified())
 	    {
 	        $this->set_id($dm->get_next_learning_object_metadata_catalog_id());
 	    }
@@ -121,8 +120,7 @@ class LearningObjectMetadataCatalog extends RepositoryModelObject
 	
 	function update()
 	{
-	    $id = $this->get_id();
-	    if(!isset($id))
+	    if(!$this->is_identified())
 	    {
 	       throw new Exception('Learning object metadata catalog could not be saved as its identity is not set');
 	    }

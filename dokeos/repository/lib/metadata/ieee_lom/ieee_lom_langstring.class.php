@@ -8,10 +8,11 @@
  * A LangString field used in IEEE LOM.
  * This object zero or more strings in different languages
  */
-class LangString 
+class IeeeLomLangString 
 {
     const STRING               = 'string';
     const LANGUAGE             = 'language';
+    const NO_LANGUAGE          = 'x-none';
     
 	/**
 	 * Array containing all strings
@@ -23,7 +24,7 @@ class LangString
 	 * @param string|null $string The text
 	 * @param string|null $language The language of the $string parameters
 	 */
-	public function LangString($string = null, $language = null)
+	public function IeeeLomLangString($string = null, $language = self :: NO_LANGUAGE)
 	{
 		$this->strings = array();
 		
@@ -37,10 +38,19 @@ class LangString
 	 * @param string|null $string The text
 	 * @param string|null $language The language of the $string parameters
 	 */
-	public function add_string($string = null, $language = null)
+	public function add_string($string = null, $language = self :: NO_LANGUAGE)
 	{
 		$new_string[self :: STRING]   = $string;
-		$new_string[self :: LANGUAGE] = $language;
+		
+		if(isset($language) && strlen($language) > 0)
+		{
+		    $new_string[self :: LANGUAGE] = $language;
+		}
+		else
+		{
+		    $new_string[self :: LANGUAGE] = self :: NO_LANGUAGE;
+		}
+		
 		$this->strings[]              = $new_string;
 	}
 	/**

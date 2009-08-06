@@ -87,7 +87,6 @@ class RepositoryManagerMetadataEditorComponent extends RepositoryManagerMetadata
 
                     $this->render_action_bar($id);
                     $form->display();
-                    //$this->display_lom_xml($object, $ieeeLomDecorator, true);
                     
                     $this->display_footer();    
                 }

@@ -5,7 +5,7 @@ require_once dirname(__FILE__) . '/../repository_manager_component.class.php';
 require_once dirname(__FILE__) . '/../repository_manager.class.php';
 
 require_once dirname(__FILE__) . '/../../metadata/ieee_lom/ieee_lom_mapper.class.php';
-require_once dirname(__FILE__) . '/../../metadata/ieee_lom/langstring_mapper.class.php';
+require_once dirname(__FILE__) . '/../../metadata/ieee_lom/ieee_lom_langstring_mapper.class.php';
 require_once dirname(__FILE__) . '/../../forms/metadata_lom_edit_form.class.php';
 require_once dirname(__FILE__) . '/../../forms/metadata_lom_export_form.class.php';
 require_once dirname(__FILE__) . '/../../learning_object_metadata_catalog.class.php';

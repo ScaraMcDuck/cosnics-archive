@@ -219,7 +219,7 @@ abstract class MetadataMapper
     	
     	$metaData->set_value($value);
     	
-    	if(isset($override_id) && strlen($override_id) > 0 && is_numeric($override_id) && $override_id != RepositoryModelObject :: NO_UID)
+    	if(isset($override_id) && strlen($override_id) > 0 && is_numeric($override_id) && $override_id != RepositoryDataClass :: NO_UID)
     	{
     	    $metaData->set_override_id($override_id);
     	}

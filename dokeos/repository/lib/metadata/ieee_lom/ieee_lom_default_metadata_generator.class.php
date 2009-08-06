@@ -61,16 +61,16 @@ class IeeeLomDefaultMetadataGenerator
 	
 	private function add_general()
 	{
-	    $this->ieeeLom->add_title(new LangString($this->learning_object->get_title(), IeeeLom :: NO_LANGUAGE));
+	    $this->ieeeLom->add_title(new IeeeLomLangString($this->learning_object->get_title(), IeeeLom :: NO_LANGUAGE));
 	    $this->ieeeLom->add_identifier(PlatformSetting :: get('institution_url', 'admin'), $this->learning_object->get_id());
-	    $this->ieeeLom->add_description(new LangString($this->learning_object->get_description(), IeeeLom :: NO_LANGUAGE));
+	    $this->ieeeLom->add_description(new IeeeLomLangString($this->learning_object->get_description(), IeeeLom :: NO_LANGUAGE));
 	}
 	
 	private function add_lifeCycle()
 	{
 	    $owner = $this->user_data_manager->retrieve_user($this->learning_object->get_owner_id());
 
-	    $this->ieeeLom->set_version(new Langstring($this->learning_object->get_learning_object_edition(), IeeeLom :: NO_LANGUAGE));
+	    $this->ieeeLom->set_version(new IeeeLomLangString($this->learning_object->get_learning_object_edition(), IeeeLom :: NO_LANGUAGE));
 	    $this->ieeeLom->set_status(new IeeeLomVocabulary(($this->learning_object->is_latest_version() == TRUE ? 'final' : 'draft')));
 	    
 	    $all_versions = $this->learning_object->get_learning_object_versions();
