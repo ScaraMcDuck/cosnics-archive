@@ -10,7 +10,7 @@ require_once dirname(__FILE__).'/../assessment_manager_component.class.php';
  * @author Sven Vanpoucke
  * @author 
  */
-class AssessmentManagerAssessmentPublicationMoverComponent extends AssessmentManagerComponent
+class AssessmentManagerMoverComponent extends AssessmentManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.

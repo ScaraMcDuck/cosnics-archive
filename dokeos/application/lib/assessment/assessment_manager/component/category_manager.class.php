@@ -11,7 +11,7 @@ require_once dirname(__FILE__).'/../../category_manager/assessment_publication_c
  * @author Sven Vanpoucke
  * @author 
  */
-class AssessmentManagerAssessmentPublicationCategoryManagerComponent extends AssessmentManagerComponent
+class AssessmentManagerCategoryManagerComponent extends AssessmentManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.

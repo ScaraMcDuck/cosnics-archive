@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/../../publisher/assessment_publisher.class.ph
  * @author Sven Vanpoucke
  * @author 
  */
-class AssessmentManagerAssessmentPublicationCreatorComponent extends AssessmentManagerComponent
+class AssessmentManagerCreatorComponent extends AssessmentManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.

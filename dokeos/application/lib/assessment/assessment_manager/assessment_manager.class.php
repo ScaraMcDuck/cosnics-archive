@@ -21,17 +21,17 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 	const PARAM_INVITATION_ID = 'invitation_id';
 	const PARAM_DELETE_SELECTED_ASSESSMENT_PUBLICATIONS = 'delete_selected_assessment_publications';
 
-	const ACTION_DELETE_ASSESSMENT_PUBLICATION = 'delete_assessment_publication';
-	const ACTION_EDIT_ASSESSMENT_PUBLICATION = 'edit_assessment_publication';
-	const ACTION_CREATE_ASSESSMENT_PUBLICATION = 'create_assessment_publication';
-	const ACTION_BROWSE_ASSESSMENT_PUBLICATIONS = 'browse_assessment_publications';
-	const ACTION_MANAGE_ASSESSMENT_PUBLICATION_CATEGORIES = 'manage_apub_categories';
-	const ACTION_VIEW_ASSESSMENT_PUBLICATION = 'view_assessment_publication';
-	const ACTION_VIEW_ASSESSMENT_PUBLICATION_RESULTS = 'view_apub_results';
+	const ACTION_DELETE_ASSESSMENT_PUBLICATION = 'delete';
+	const ACTION_EDIT_ASSESSMENT_PUBLICATION = 'edit';
+	const ACTION_CREATE_ASSESSMENT_PUBLICATION = 'create';
+	const ACTION_BROWSE_ASSESSMENT_PUBLICATIONS = 'browse';
+	const ACTION_MANAGE_ASSESSMENT_PUBLICATION_CATEGORIES = 'manage_categories';
+	const ACTION_VIEW_ASSESSMENT_PUBLICATION = 'view';
+	const ACTION_VIEW_ASSESSMENT_PUBLICATION_RESULTS = 'view_results';
 	const ACTION_IMPORT_QTI = 'import_qti';
 	const ACTION_EXPORT_QTI = 'export_qti';
-	const ACTION_CHANGE_ASSESSMENT_PUBLICATION_VISIBILITY = 'change_apub_visibility';
-	const ACTION_MOVE_ASSESSMENT_PUBLICATION = 'move_assessment_publication';
+	const ACTION_CHANGE_ASSESSMENT_PUBLICATION_VISIBILITY = 'change_visibility';
+	const ACTION_MOVE_ASSESSMENT_PUBLICATION = 'move';
 	const ACTION_EXPORT_RESULTS = 'export_results';
 	const ACTION_DOWNLOAD_DOCUMENTS = 'download_documents';
 	const ACTION_PUBLISH_SURVEY = 'publish_survey';
@@ -56,25 +56,25 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 		switch ($action)
 		{
 			case self :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS :
-				$component = AssessmentManagerComponent :: factory('AssessmentPublicationsBrowser', $this);
+				$component = AssessmentManagerComponent :: factory('Browser', $this);
 				break;
 			case self :: ACTION_DELETE_ASSESSMENT_PUBLICATION :
-				$component = AssessmentManagerComponent :: factory('AssessmentPublicationDeleter', $this);
+				$component = AssessmentManagerComponent :: factory('Deleter', $this);
 				break;
 			case self :: ACTION_EDIT_ASSESSMENT_PUBLICATION :
-				$component = AssessmentManagerComponent :: factory('AssessmentPublicationUpdater', $this);
+				$component = AssessmentManagerComponent :: factory('Updater', $this);
 				break;
 			case self :: ACTION_CREATE_ASSESSMENT_PUBLICATION :
-				$component = AssessmentManagerComponent :: factory('AssessmentPublicationCreator', $this);
+				$component = AssessmentManagerComponent :: factory('Creator', $this);
 				break;
 			case self :: ACTION_MANAGE_ASSESSMENT_PUBLICATION_CATEGORIES :
-				$component = AssessmentManagerComponent :: factory('AssessmentPublicationCategoryManager', $this);
+				$component = AssessmentManagerComponent :: factory('CategoryManager', $this);
 				break;
 			case self :: ACTION_VIEW_ASSESSMENT_PUBLICATION :
-				$component = AssessmentManagerComponent :: factory('AssessmentPublicationViewer', $this);
+				$component = AssessmentManagerComponent :: factory('Viewer', $this);
 				break;
 			case self :: ACTION_VIEW_ASSESSMENT_PUBLICATION_RESULTS :
-				$component = AssessmentManagerComponent :: factory('AssessmentPublicationResultsViewer', $this);
+				$component = AssessmentManagerComponent :: factory('ResultsViewer', $this);
 				break;
 			case self :: ACTION_IMPORT_QTI :
 				$component = AssessmentManagerComponent :: factory('QtiImporter', $this);
@@ -83,10 +83,10 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 				$component = AssessmentManagerComponent :: factory('QtiExporter', $this);
 				break;
 			case self :: ACTION_CHANGE_ASSESSMENT_PUBLICATION_VISIBILITY :
-				$component = AssessmentManagerComponent :: factory('AssessmentPublicationVisibilityChanger', $this);
+				$component = AssessmentManagerComponent :: factory('VisibilityChanger', $this);
 				break;
 			case self :: ACTION_MOVE_ASSESSMENT_PUBLICATION :
-				$component = AssessmentManagerComponent :: factory('AssessmentPublicationMover', $this);
+				$component = AssessmentManagerComponent :: factory('Mover', $this);
 				break;
 			case self :: ACTION_EXPORT_RESULTS :
 				$component = AssessmentManagerComponent :: factory('ResultsExporter', $this);
@@ -99,7 +99,7 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS);
-				$component = AssessmentManagerComponent :: factory('AssessmentPublicationsBrowser', $this);
+				$component = AssessmentManagerComponent :: factory('Browser', $this);
 
 		}
 		$component->run();
