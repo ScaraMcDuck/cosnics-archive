@@ -31,6 +31,9 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 	const ACTION_EXPORT_QTI = 'export_qti';
 	const ACTION_CHANGE_ASSESSMENT_PUBLICATION_VISIBILITY = 'change_apub_visibility';
 	const ACTION_MOVE_ASSESSMENT_PUBLICATION = 'move_assessment_publication';
+	const ACTION_EXPORT_RESULTS = 'export_results';
+	const ACTION_DOWNLOAD_DOCUMENTS = 'download_documents';
+	
 	
 	/**
 	 * Constructor
@@ -83,6 +86,12 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 				break;
 			case self :: ACTION_MOVE_ASSESSMENT_PUBLICATION :
 				$component = AssessmentManagerComponent :: factory('AssessmentPublicationMover', $this);
+				break;
+			case self :: ACTION_EXPORT_RESULTS :
+				$component = AssessmentManagerComponent :: factory('ResultsExporter', $this);
+				break;
+			case self :: ACTION_DOWNLOAD_DOCUMENTS :
+				$component = AssessmentManagerComponent :: factory('DocumentDownloader', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS);
@@ -231,6 +240,18 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 	}
 	
  	function get_move_assessment_publication_url($assessment_publication)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_ASSESSMENT_PUBLICATION,
+								    self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
+	}
+	
+	function get_results_exporter_url($tracker_id)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXPORT_RESULTS,
+								    'tid' => $tracker_id));
+	}
+	
+ 	function get_download_documents_url($assessment_publication)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_ASSESSMENT_PUBLICATION,
 								    self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));

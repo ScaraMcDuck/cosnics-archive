@@ -18,6 +18,7 @@ class ReportingAssessment
     {
     	$aid = $params[AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION];
     	$url = $params['url'];
+    	$results_export_url = $params['results_export_url'];
     	
     	$dummy = new AssessmentAssessmentAttemptsTracker();
     	$condition = new EqualityCondition(AssessmentAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $aid);
@@ -45,7 +46,7 @@ class ReportingAssessment
 			);
 			
 			$actions[] = array(
-				'href' => '',
+				'href' => $results_export_url . '&tid=' . $tracker->get_id(),
 				'label' => Translation :: get('ExportResults'),
 				'img' => Theme :: get_common_image_path().'action_export.png'
 			);
