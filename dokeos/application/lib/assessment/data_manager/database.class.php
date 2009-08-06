@@ -3,6 +3,7 @@
  * @package assessment.datamanager
  */
 require_once dirname(__FILE__).'/../assessment_publication.class.php';
+require_once dirname(__FILE__).'/../survey_invitation.class.php';
 require_once dirname(__FILE__).'/../category_manager/assessment_publication_category.class.php';
 require_once dirname(__FILE__).'/../assessment_publication_group.class.php';
 require_once dirname(__FILE__).'/../assessment_publication_user.class.php';

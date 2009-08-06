@@ -27,6 +27,19 @@ class AssessmentManagerAssessmentPublicationViewerComponent extends AssessmentMa
 			$this->assessment = RepositoryDataManager :: get_instance()->retrieve_learning_object($assessment_id);
 			$this->set_parameter(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION, $this->pid);
 		}
+		
+		if (Request :: get(AssessmentManager :: PARAM_INVITATION_ID))
+		{
+			$condition = new EqualityCondition(SurveyInvitation :: PROPERTY_INVITATION_CODE, Request :: get(AssessmentManager :: PARAM_INVITATION_ID));
+			$invitation = $this->datamanager->retrieve_survey_invitations($condition)->next_result();
+			
+			$this->pid = $invitation->get_survey_id();
+			$this->pub = $this->datamanager->retrieve_assessment_publication($this->pid);
+			$assessment_id = $this->pub->get_learning_object();
+			$this->assessment = RepositoryDataManager :: get_instance()->retrieve_learning_object($assessment_id);
+			$this->set_parameter(AssessmentManager :: PARAM_INVITATION_ID, Request :: get(AssessmentManager :: PARAM_INVITATION_ID));
+		}
+		
 		// Checking statistics
 		
 		$track = new AssessmentAssessmentAttemptsTracker();
@@ -88,7 +101,7 @@ class AssessmentManagerAssessmentPublicationViewerComponent extends AssessmentMa
 		}
 
 	}
-
+	
 	function create_tracker()
 	{
 		$args = array(
@@ -106,7 +119,7 @@ class AssessmentManagerAssessmentPublicationViewerComponent extends AssessmentMa
 	{
 		if ($this->assessment->get_assessment_type() == Survey :: TYPE_SURVEY)
 		{
-			if ($this->assessment->get_anonymous() == true)
+			//if ($this->assessment->get_anonymous() == true)
 				return 0;
 		}
 		return parent :: get_user_id();
