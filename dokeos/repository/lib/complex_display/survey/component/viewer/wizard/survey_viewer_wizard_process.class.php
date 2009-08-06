@@ -12,12 +12,12 @@ class SurveyViewerWizardProcess extends HTML_QuickForm_Action
 	function perform($page, $actionName)
 	{
 		echo '<div class="assessment">';
-		echo '<h2>' . $this->parent->get_assessment()->get_title() . '</h2>';
+		echo '<h2>' . $this->parent->get_survey()->get_title() . '</h2>';
 
-		if($this->parent->get_assessment()->has_description())
+		if($this->parent->get_survey()->has_description())
 		{
 			echo '<div class="description">';
-			echo $this->parent->get_assessment()->get_description();
+			echo $this->parent->get_survey()->get_description();
 			echo '<div class="clear"></div>';
 			echo '</div>';
 		}
@@ -54,7 +54,8 @@ class SurveyViewerWizardProcess extends HTML_QuickForm_Action
 		echo $this->parent->get_survey()->get_finish_text();
 		echo '</div></div>';
 		
-		echo '<a href="' . $this->parent->get_parent()->get_url(array('tool_action' => null, 'pid' => null)) . '">' . Translation :: get('GoBack') . '</a>';
+		if(!Request :: get('invitation_id'))
+			echo '<a href="' . $this->parent->get_parent()->get_url(array('tool_action' => null, 'pid' => null)) . '">' . Translation :: get('GoBack') . '</a>';
 
 	}
 }

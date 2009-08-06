@@ -21,7 +21,9 @@ class SurveyPublicationForm extends FormValidator
 		$this->add_html_editor('email_content', Translation :: get('EmailContent'), true);
 
 		$this->addElement('advmultiselect', 'course_users', Translation :: get('SelectUsers'), $usrs, 'style="width: 250px;"');
-		$this->addElement('textarea', 'additional_users', Translation :: get('AdditionalUsers'), array ('cols' => 50, 'rows' => 2));
+		
+		if($survey->get_anonymous())
+			$this->addElement('textarea', 'additional_users', Translation :: get('AdditionalUsers'), array ('cols' => 50, 'rows' => 2));
 
 		$this->addElement('html', '<br />' . Translation :: get('PublishSurveySendMailInfo') . '<br /><br />');
 		$this->addElement('checkbox', 'resend', Translation :: get('ResendEmail'));
