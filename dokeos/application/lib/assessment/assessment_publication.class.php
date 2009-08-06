@@ -183,11 +183,20 @@ class AssessmentPublication extends DataClass
 		$this->set_hidden(!$this->get_hidden());
 	}
 	
+    /**
+     * Determines whether this publication is hidden or not
+     * @return boolean True if the publication is hidden.
+     */
+    function is_hidden()
+    {
+        return $this->get_default_property(self :: PROPERTY_HIDDEN);
+    }
+	
 	function get_target_groups()
 	{
 		if(!$this->target_groups)
 		{
-			$condition = new EqualityCondition(AlexiaPublicationGroup :: PROPERTY_PUBLICATION, $this->get_id());
+			$condition = new EqualityCondition(AssessmentPublicationGroup :: PROPERTY_ASSESSMENT_PUBLICATION, $this->get_id());
 			$groups = $this->get_data_manager()->retrieve_assessment_publication_groups($condition);
 			
 			while($group = $groups->next_result())
@@ -203,7 +212,7 @@ class AssessmentPublication extends DataClass
 	{
 		if(!$this->target_users)
 		{
-			$condition = new EqualityCondition(AlexiaPublicationUser :: PROPERTY_PUBLICATION, $this->get_id());
+			$condition = new EqualityCondition(AssessmentPublicationUser :: PROPERTY_ASSESSMENT_PUBLICATION, $this->get_id());
 			$users = $this->get_data_manager()->retrieve_assessment_publication_users($condition);
 			
 			while($user = $users->next_result())

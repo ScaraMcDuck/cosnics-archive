@@ -52,7 +52,7 @@ class DefaultAssessmentPublicationTableCellRenderer implements ObjectTableCellRe
             	
                 return $description;
             case LearningObject :: PROPERTY_TYPE :
-                $type = $learning_object->get_type();
+                $type = Translation :: get($learning_object->get_type());
                 if($type == 'assessment')
                 {
                 	$type = $learning_object->get_assessment_type();
@@ -63,7 +63,7 @@ class DefaultAssessmentPublicationTableCellRenderer implements ObjectTableCellRe
             		return '<span style="color: #999999;">' . $type . '</span>';
             	}
                 
-              	return Translation :: get($type);
+              	return $type;
 			case AssessmentPublication :: PROPERTY_FROM_DATE :
 				return $assessment_publication->get_from_date();
 			case AssessmentPublication :: PROPERTY_TO_DATE :

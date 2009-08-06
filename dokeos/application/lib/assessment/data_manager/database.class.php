@@ -211,12 +211,12 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
 	function retrieve_assessment_publication_group($id)
 	{
 		$condition = new EqualityCondition(AssessmentPublicationGroup :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(AssessmentPublicationGroup :: get_table_name(), $condition);
+		return $this->database->retrieve_object(AssessmentPublicationGroup :: get_table_name(), $condition, array(), array(), AssessmentPublicationGroup :: CLASS_NAME);
 	}
 
 	function retrieve_assessment_publication_groups($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(AssessmentPublicationGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+		return $this->database->retrieve_objects(AssessmentPublicationGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, AssessmentPublicationGroup :: CLASS_NAME);
 	}
 
 	function get_next_assessment_publication_user_id()
@@ -249,12 +249,12 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
 	function retrieve_assessment_publication_user($id)
 	{
 		$condition = new EqualityCondition(AssessmentPublicationUser :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(AssessmentPublicationUser :: get_table_name(), $condition);
+		return $this->database->retrieve_object(AssessmentPublicationUser :: get_table_name(), $condition, array(), array(), AssessmentPublicationUser :: CLASS_NAME);
 	}
 
 	function retrieve_assessment_publication_users($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(AssessmentPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+		return $this->database->retrieve_objects(AssessmentPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, AssessmentPublicationUser :: CLASS_NAME);
 	}
 	
 	function get_next_survey_invitation_id()

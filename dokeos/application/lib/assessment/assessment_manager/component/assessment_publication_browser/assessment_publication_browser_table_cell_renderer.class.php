@@ -67,54 +67,59 @@ class AssessmentPublicationBrowserTableCellRenderer extends DefaultAssessmentPub
 			'img' => Theme :: get_common_image_path().'action_view_results.png',
 		);
 		
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_delete_assessment_publication_url($assessment_publication),
-			'label' => Translation :: get('Delete'),
-			'img' => Theme :: get_common_image_path().'action_delete.png',
-		);
+		$user = $this->browser->get_user();
 		
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_update_assessment_publication_url($assessment_publication),
-			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_image_path().'action_edit.png'
-		);
-
-		if($assessment_publication->get_hidden())
+		if ($user->is_platform_admin() || $user->get_id() == $assessment_publication->get_publisher())
 		{
 			$toolbar_data[] = array(
-				'href' => $this->browser->get_change_assessment_publication_visibility_url($assessment_publication),
-				'label' => Translation :: get('Show'),
-				'img' => Theme :: get_common_image_path().'action_visible_na.png',
+				'href' => $this->browser->get_delete_assessment_publication_url($assessment_publication),
+				'label' => Translation :: get('Delete'),
+				'img' => Theme :: get_common_image_path().'action_delete.png',
 			);
-		}
-		else 
-		{
+			
 			$toolbar_data[] = array(
-				'href' => $this->browser->get_change_assessment_publication_visibility_url($assessment_publication),
-				'label' => Translation :: get('Hide'),
-				'img' => Theme :: get_common_image_path().'action_visible.png',
+				'href' => $this->browser->get_update_assessment_publication_url($assessment_publication),
+				'label' => Translation :: get('Edit'),
+				'img' => Theme :: get_common_image_path().'action_edit.png'
 			);
-		}
-		
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_export_qti_url($assessment_publication),
-			'label' => Translation :: get('Export'),
-			'img' => Theme :: get_common_image_path().'action_export.png',
-		);
-		
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_move_assessment_publication_url($assessment_publication),
-			'label' => Translation :: get('Move'),
-			'img' => Theme :: get_common_image_path().'action_move.png',
-		);
-		
-		if ($assessment->get_assessment_type() == Survey :: TYPE_SURVEY)
-		{
+	
+			if($assessment_publication->get_hidden())
+			{
+				$toolbar_data[] = array(
+					'href' => $this->browser->get_change_assessment_publication_visibility_url($assessment_publication),
+					'label' => Translation :: get('Show'),
+					'img' => Theme :: get_common_image_path().'action_visible_na.png',
+				);
+			}
+			else 
+			{
+				$toolbar_data[] = array(
+					'href' => $this->browser->get_change_assessment_publication_visibility_url($assessment_publication),
+					'label' => Translation :: get('Hide'),
+					'img' => Theme :: get_common_image_path().'action_visible.png',
+				);
+			}
+			
 			$toolbar_data[] = array(
-				'href' => $this->browser->get_publish_survey_url($assessment_publication), 
-				'label' => Translation :: get('InviteUsers'), 
-				'img' => Theme :: get_common_image_path().'action_invite_users.png'
+				'href' => $this->browser->get_export_qti_url($assessment_publication),
+				'label' => Translation :: get('Export'),
+				'img' => Theme :: get_common_image_path().'action_export.png',
 			);
+			
+			$toolbar_data[] = array(
+				'href' => $this->browser->get_move_assessment_publication_url($assessment_publication),
+				'label' => Translation :: get('Move'),
+				'img' => Theme :: get_common_image_path().'action_move.png',
+			);
+			
+			if ($assessment->get_assessment_type() == Survey :: TYPE_SURVEY)
+			{
+				$toolbar_data[] = array(
+					'href' => $this->browser->get_publish_survey_url($assessment_publication), 
+					'label' => Translation :: get('InviteUsers'), 
+					'img' => Theme :: get_common_image_path().'action_invite_users.png'
+				);
+			}
 		}
 
 		return DokeosUtilities :: build_toolbar($toolbar_data);
