@@ -30,7 +30,8 @@ class AssessmentForm extends LearningObjectForm
 		$object = $this->get_learning_object();
 		if ($object != null)
 		{
-			$defaults[Assessment :: PROPERTY_ASSESSMENT_TYPE] = $object->get_assessment_type();
+			$types = Assessment :: get_types();
+			$defaults[Assessment :: PROPERTY_ASSESSMENT_TYPE] = array_search($object->get_assessment_type(), $types);
 			$defaults[Assessment :: PROPERTY_MAXIMUM_ATTEMPTS] = $object->get_maximum_attempts();
 			$defaults[self :: UNLIMITED_ATTEMPTS] = ($defaults[Assessment :: PROPERTY_MAXIMUM_ATTEMPTS] > 0 ? 1 : 0);
 			$defaults[Assessment :: PROPERTY_QUESTIONS_PER_PAGE] = $object->get_questions_per_page();
@@ -45,7 +46,7 @@ class AssessmentForm extends LearningObjectForm
 			$defaults[self :: ALL_QUESTIONS] = 0;
 			$defaults[self :: UNLIMITED_TIME] = 0;
 		}
-
+	
 		parent :: setDefaults($defaults);
 	}
 
