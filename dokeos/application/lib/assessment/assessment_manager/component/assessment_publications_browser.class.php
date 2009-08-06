@@ -98,6 +98,20 @@ class AssessmentManagerAssessmentPublicationsBrowserComponent extends Assessment
 			$access[] = new AndCondition(array(new EqualityCondition(AssessmentPublicationUser :: PROPERTY_USER, null, $datamanager->get_database()->get_alias(AssessmentPublicationUser :: get_table_name())), new EqualityCondition(AssessmentPublicationGroup :: PROPERTY_GROUP_ID, null, $datamanager->get_database()->get_alias(AssessmentPublicationGroup :: get_table_name()))));
 		}
 		$conditions[] = new OrCondition($access);
+		
+		if(!$user->is_platform_admin())
+		{
+			$visibility = array();
+			$visibility[] = new EqualityCondition(AssessmentPublication :: PROPERTY_HIDDEN, false);
+			$visibility[] = new EqualityCondition(AssessmentPublication :: PROPERTY_PUBLISHER, $user->get_id());
+			$conditions[] = new OrCondition($visibility);
+			
+			$dates = array();
+			$dates[] = new AndCondition(array(new InequalityCondition(AssessmentPublication :: PROPERTY_FROM_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time()), new InequalityCondition(AssessmentPublication :: PROPERTY_TO_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time())));
+			$dates[] = new EqualityCondition(AssessmentPublication :: PROPERTY_PUBLISHER, $user->get_id());
+			$conditions[] = new OrCondition($dates);
+		}
+		
 		$conditions[] = new EqualityCondition(AssessmentPublication :: PROPERTY_CATEGORY, $current_category);
 			
 		return new AndCondition($conditions);
