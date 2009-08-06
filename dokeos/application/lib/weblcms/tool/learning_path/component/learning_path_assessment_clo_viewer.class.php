@@ -57,6 +57,11 @@ class LearningPathToolAssessmentCloViewerComponent extends LearningPathToolCompo
 	{
 		return $this->lpi_attempt_id;
 	}
+	
+	function get_go_back_url()
+	{
+		return null;
+	}
 
 }
 ?>

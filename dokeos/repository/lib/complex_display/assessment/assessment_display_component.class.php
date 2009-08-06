@@ -36,6 +36,11 @@ class AssessmentDisplayComponent extends ComplexDisplayComponent
 	{
 		return $this->get_parent()->get_current_attempt_id();
 	}
+	
+	function get_go_back_url()
+	{
+		return $this->get_parent()->get_go_back_url();
+	}
 }
 
 ?>
