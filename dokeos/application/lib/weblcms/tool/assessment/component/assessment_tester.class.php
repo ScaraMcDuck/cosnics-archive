@@ -151,5 +151,10 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 	{
 		return $this->active_tracker->get_id();
 	}
+	
+	function get_go_back_url()
+	{
+		return $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW));
+	}
 }
 ?>

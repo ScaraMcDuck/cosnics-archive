@@ -151,6 +151,12 @@ class AssessmentManagerAssessmentPublicationViewerComponent extends AssessmentMa
 		return $this->active_tracker->get_id();
 	}
 	
+	function get_go_back_url()
+	{
+		return $this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS, 
+							  	    AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => null));
+	}
+	
 	//Add javascript
 	
 	function add_javascript($course)
