@@ -188,23 +188,7 @@ class CalendarEventPublication extends DataClass
     	$target_users = $this->get_target_users();
     	$target_groups = $this->get_target_groups();
     	
-    	$user_groups = array();
-    	$groups = $user->get_user_groups();
-    	
-    	while ($group = $groups->next_result())
-    	{
-    		$user_groups[] = $group->get_id();
-    		$subgroups = $group->get_parents(false);
-    		
-    		while ($subgroup = $subgroups->next_result())
-    		{
-    			$subgroup_id = $subgroup->get_id();
-    			if (!in_array($subgroup_id, $user_groups))
-    			{
-    				$user_groups[] = $subgroup_id;
-    			}
-    		}
-    	}
+    	$user_groups = $user->get_groups(true);
     	
     	if (in_array($user_id, $target_users))
     	{
