@@ -25,12 +25,12 @@ require_once dirname(__FILE__).'/../learning_object.class.php';
  * @see DefaultLearningObjectTableCellRenderer
  * @author Tim De Pauw
  */
-class DefaultSharedLearningObjectTableColumnModel extends ObjectTableColumnModel
+class DefaultSharedLearningObjectsTableColumnModel extends ObjectTableColumnModel
 {
 	/**
 	 * Constructor
 	 */
-	function DefaultSharedLearningObjectTableColumnModel()
+	function DefaultSharedLearningObjectsTableColumnModel()
 	{
 		parent :: __construct(self :: get_default_columns(), 1);
 	}

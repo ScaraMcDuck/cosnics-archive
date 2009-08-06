@@ -34,12 +34,12 @@ require_once dirname(__FILE__).'/../learning_object.class.php';
  * @see DefaultLearningObjectTableColumnModel
  * @author Tim De Pauw
  */
-class DefaultSharedLearningObjectTableCellRenderer implements ObjectTableCellRenderer
+class DefaultSharedLearningObjectsTableCellRenderer implements ObjectTableCellRenderer
 {
 	/**
 	 * Constructor
 	 */
-	function DefaultSharedLearningObjectTableCellRenderer()
+	function DefaultSharedLearningObjectsTableCellRenderer()
 	{
 	}
 	/**
@@ -71,6 +71,8 @@ class DefaultSharedLearningObjectTableCellRenderer implements ObjectTableCellRen
                 return date('Y-m-d, H:i', $learning_object->get_creation_date());
             case Translation :: get('Versions') :
                 return $learning_object->get_version_count();
+            case LearningObject :: PROPERTY_OWNER_ID:
+                return $learning_object->get_owner_id();
             default :
                 return '&nbsp;';
         }
