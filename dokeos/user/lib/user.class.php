@@ -658,6 +658,16 @@ class User extends DataClass
 		while($group = $groups->next_result())
 		{
 			$group_ids[] = $group->get_group_id();
+			$subgroups = $group->get_parents(false);
+    		
+    		while ($subgroup = $subgroups->next_result())
+    		{
+    			$subgroup_id = $subgroup->get_id();
+    			if (!in_array($subgroup_id, $group_ids))
+    			{
+    				$group_ids[] = $subgroup_id;
+    			}
+    		}
 		}
 		
 		if($only_retrieve_ids)
