@@ -58,7 +58,7 @@ class AnnouncementBrowser extends LearningObjectPublicationBrowser
 			{
 				$user_id = $this->get_user_id();
 				$course_groups = $this->get_course_groups();
-			}			
+			}
 			
 			$conditions = array();
 			$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());

@@ -69,6 +69,11 @@ class AssessmentPublicationGroup extends DataClass
 	{
 		$this->set_default_property(self :: PROPERTY_GROUP_ID, $group_id);
 	}
+	
+	function create()
+	{
+       	return $this->get_data_manager()->create_assessment_publication_group($this);
+	}
 
 	static function get_table_name()
 	{

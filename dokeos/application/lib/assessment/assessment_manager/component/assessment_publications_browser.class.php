@@ -76,19 +76,18 @@ class AssessmentManagerAssessmentPublicationsBrowserComponent extends Assessment
 		$user = $this->get_user();
 		$datamanager = AssessmentDataManager :: get_instance();
 		
-//		if($this->is_allowed(EDIT_RIGHT))
-//		{
-//			$user_id = array();
-//			$groups = array();
-//		}
-//		else
-//		{
+		if($user->is_platform_admin())
+		{
+			$user_id = array();
+			$groups = array();
+		}
+		else
+		{
 			$user_id = $user->get_id();
 			$groups = $user->get_groups();
-//		}
+		}
 		
 		$conditions = array();
-		$conditions[] = new EqualityCondition(AssessmentPublication :: PROPERTY_CATEGORY, $current_category);
 		
 		$access = array();
 		$access[] = new InCondition(AssessmentPublicationUser :: PROPERTY_USER, $user_id, $datamanager->get_database()->get_alias(AssessmentPublicationUser :: get_table_name()));
@@ -98,9 +97,9 @@ class AssessmentManagerAssessmentPublicationsBrowserComponent extends Assessment
 			$access[] = new AndCondition(array(new EqualityCondition(AssessmentPublicationUser :: PROPERTY_USER, null, $datamanager->get_database()->get_alias(AssessmentPublicationUser :: get_table_name())), new EqualityCondition(AssessmentPublicationGroup :: PROPERTY_GROUP_ID, null, $datamanager->get_database()->get_alias(AssessmentPublicationGroup :: get_table_name()))));
 		}
 		$conditions[] = new OrCondition($access);
+		$conditions[] = new EqualityCondition(AssessmentPublication :: PROPERTY_CATEGORY, $current_category);
 			
 		return new AndCondition($conditions);
 	}
-
 }
 ?>
