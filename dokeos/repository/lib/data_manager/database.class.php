@@ -197,7 +197,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	    $orders = array();
         foreach($order_by as $order)
         {
-            $orders[] = $this->escape_column_name($order->get_property()) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+        	$orders[] = $this->escape_column_name($order->get_property()) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
         }
         if (count($orders))
         {

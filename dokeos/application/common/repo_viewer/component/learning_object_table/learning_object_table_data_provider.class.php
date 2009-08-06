@@ -48,6 +48,7 @@ class LearningObjectTableDataProvider extends ObjectTableDataProvider
     {
     	$order_property = $this->get_order_property($order_property);
     	$order_direction = $this->get_order_direction($order_direction);
+
     	$dm = RepositoryDataManager :: get_instance();
     	
     	return $dm->retrieve_learning_objects(null, $this->get_condition(), $order_property, $order_direction, $offset, $count);
