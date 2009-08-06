@@ -743,4 +743,9 @@ $lang['repository']['MetadataHour'] = 'hour';
 $lang['repository']['MetadataMin'] = 'min';
 $lang['repository']['MetadataSec'] = 'sec';
 $lang['repository']['MetadataLomCatalogNameEmptyError'] = 'The name can not be empty';
+$lang['repository']['MetadataLOMRightsDescription'] = 'Description';
+$lang['repository']['MetadataLOMRights'] = 'Rights';
+$lang['repository']['MetadataLomRoleEmptyError'] = 'The role can not be empty';
+
+
 ?>

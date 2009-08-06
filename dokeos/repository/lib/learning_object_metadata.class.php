@@ -1,7 +1,7 @@
 <?php
-require_once dirname(__FILE__) . '/repository_model_object.class.php';
+require_once dirname(__FILE__) . '/repository_data_class.class.php';
 
-class LearningObjectMetadata extends RepositoryModelObject
+class LearningObjectMetadata extends RepositoryDataClass
 {
 	const CLASS_NAME = __CLASS__;
 	
@@ -28,7 +28,7 @@ class LearningObjectMetadata extends RepositoryModelObject
 	
 	function get_learning_object_id()
 	{
-	    return $this->defaultProperties[self :: PROPERTY_LEARNING_OBJECT];
+	    return $this->get_default_property(self :: PROPERTY_LEARNING_OBJECT);
 	}
 	
 	/*************************************************************************/
@@ -43,7 +43,7 @@ class LearningObjectMetadata extends RepositoryModelObject
 	
 	function get_override_id()
 	{
-	    return $this->defaultProperties[self :: PROPERTY_OVERRIDE_ID];
+	    return $this->get_default_property(self :: PROPERTY_OVERRIDE_ID);
 	}
 	
 	/*************************************************************************/
@@ -58,7 +58,7 @@ class LearningObjectMetadata extends RepositoryModelObject
 	
 	function get_type()
 	{
-	    return $this->defaultProperties[self :: PROPERTY_TYPE];
+	    return $this->get_default_property(self :: PROPERTY_TYPE);
 	}
 	
 	/*************************************************************************/
@@ -73,7 +73,7 @@ class LearningObjectMetadata extends RepositoryModelObject
 	
 	function get_property()
 	{
-	    return $this->defaultProperties[self :: PROPERTY_PROPERTY];
+	    return $this->get_default_property(self :: PROPERTY_PROPERTY);
 	}
 	
 	/*************************************************************************/
@@ -88,22 +88,22 @@ class LearningObjectMetadata extends RepositoryModelObject
 	
 	function get_value()
 	{
-	    return $this->defaultProperties[self :: PROPERTY_VALUE];
+	    return $this->get_default_property(self :: PROPERTY_VALUE);
 	}
 	
 	/*************************************************************************/
 	
-	static function get_default_property_names()
+	static function get_default_property_names($extended_property_names = array())
 	{
-		return array (self :: PROPERTY_ID, 
-		                self :: PROPERTY_LEARNING_OBJECT, 
-		                self :: PROPERTY_OVERRIDE_ID, 
-		                self :: PROPERTY_PROPERTY, 
-		                self :: PROPERTY_TYPE, 
-		                self :: PROPERTY_VALUE, 
-		                parent :: PROPERTY_CREATED, 
-		                parent :: PROPERTY_MODIFIED);
+	    $extended_property_names[] = self :: PROPERTY_LEARNING_OBJECT;
+	    $extended_property_names[] = self :: PROPERTY_OVERRIDE_ID;
+	    $extended_property_names[] = self :: PROPERTY_PROPERTY;
+	    $extended_property_names[] = self :: PROPERTY_TYPE;
+	    $extended_property_names[] = self :: PROPERTY_VALUE;
+	    
+		return parent :: get_default_property_names($extended_property_names);
 	}
+	
 	
 	static function get_table_name()
 	{
@@ -115,8 +115,9 @@ class LearningObjectMetadata extends RepositoryModelObject
 	{
 	    $dm = RepositoryDataManager :: get_instance();
 	    
-	    $id = $this->get_id();
-	    if(!isset($id) || $id == parent :: NO_UID)
+	    //$id = $this->get_id();
+	    //if(!isset($id) || $id == parent :: NO_UID)
+	    if(!$this->is_identified())
 	    {
 	        $this->set_id($dm->get_next_learning_object_metadata_id());
 	    }
@@ -128,16 +129,15 @@ class LearningObjectMetadata extends RepositoryModelObject
 	
 	function update()
 	{
-	    $id = $this->get_id();
-	    if(!isset($id))
+	    if(!$this->is_identified())
 	    {
 	       throw new Exception('Learning object metadata could not be saved as its identity is not set');
 	    }
 	    
 	    $this->set_modification_date(time());
 	    
-	    $dm = RepositoryDataManager :: get_instance();
-	    $result = $dm->update_learning_object_metadata($this);
+	    //$dm = RepositoryDataManager :: get_instance();
+	    $result = $this->get_data_manager()->update_learning_object_metadata($this);
 	    
 	    return $result;
 	}

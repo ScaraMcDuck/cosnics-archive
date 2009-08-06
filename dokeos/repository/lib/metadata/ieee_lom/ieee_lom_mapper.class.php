@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/../metadata_mapper.class.php';
-require_once dirname(__FILE__) . '/langstring_mapper.class.php';
+require_once dirname(__FILE__) . '/ieee_lom_langstring_mapper.class.php';
 require_once dirname(__FILE__) . '/ieee_lom_default_metadata_generator.class.php';
 require_once ('File/Contact_Vcard_Parse.php');
 require_once ('File/Contact_Vcard_Build.php');
@@ -106,6 +106,7 @@ class IeeeLomMapper extends MetadataMapper
         $this->decorate_lifeCycle_contribution($ieeeLom, $learning_object_id);
     }
     
+    
     public function decorate_general_identifier($ieeeLom, $learning_object_id)
     {
         $nodes = $ieeeLom->get_identifier();
@@ -158,6 +159,15 @@ class IeeeLomMapper extends MetadataMapper
 	    //debug($nodes);
     }
     
+    public function decorate_rights_copyright($ieeeLom, $learning_object_id)
+    {
+        $copyright_node = $ieeeLom->get_copyright_and_other_restrictions();
+        if(isset($copyright_node)) 
+	    {
+	        $copyright_node->setAttribute(self :: ORIGINAL_ID_ATTRIBUTE, $learning_object_id);
+	    }
+    }
+    
     
 	/****************************************************************************************/
 	/****************************************************************************************/
@@ -170,6 +180,7 @@ class IeeeLomMapper extends MetadataMapper
             $this->additional_metadata = $additional_metadata;    
             $this->merge_general();
             $this->merge_lifeCycle();
+            $this->merge_rights();
             
             //TODO: add other IeeeLom sections here 
         }
@@ -187,6 +198,10 @@ class IeeeLomMapper extends MetadataMapper
 	    $this->merge_lifeCycle_contribution();
 	}
 	
+	public function merge_rights()
+    {
+        $this->merge_rights_description();
+    }
     
 	//1.2 Identifier-----------------------------------------------------------
 	private function merge_general_identifier()
@@ -220,15 +235,7 @@ class IeeeLomMapper extends MetadataMapper
 	    	    /*
 	    	     * Remove the original node corresponding to the same id 
 	    	     */
-	    	    $xpath = new DOMXPath($this->ieeeLom->get_dom());
-	    	    $original_nodes = $xpath->query('/lom/general/identifier[@'. self :: ORIGINAL_ID_ATTRIBUTE . '=' . $override_id . ']');
-	    	    if($original_nodes->length > 0)
-	    	    {
-	    	        foreach ($original_nodes as $original_node) 
-	    	        {
-	    	        	$original_node->parentNode->removeChild($original_node);
-	    	        }
-	    	    }
+	    	    XMLTool :: delete_element_by_xpath($this->ieeeLom->get_dom(), '/lom/general/identifier[@'. self :: ORIGINAL_ID_ATTRIBUTE . '=' . $override_id . ']');
 	    	}
 	    	
 	    	$datas[$index][$concern]['value'] = $value;
@@ -250,19 +257,13 @@ class IeeeLomMapper extends MetadataMapper
 	        $catalog_override_id = isset($data['catalog'][LearningObjectMetadata :: PROPERTY_OVERRIDE_ID]) ? $data['catalog'][LearningObjectMetadata :: PROPERTY_OVERRIDE_ID] : '';
 	        $entry_override_id = isset($data['entry'][LearningObjectMetadata :: PROPERTY_OVERRIDE_ID]) ? $data['entry'][LearningObjectMetadata :: PROPERTY_OVERRIDE_ID] : '';
 	        
-	        //debug($string_override_id);
-	        //debug($lang_override_id);
-	        
-	        //$langstring = new LangString($string, $lang);
-	    	//$this->add_general_title($langstring, $string_metadata_id, $lang_metadata_id, $string_override_id, $lang_override_id);
-	    	
 	        $this->add_general_identifier($catalog, $entry, $catalog_metadata_id, $entry_metadata_id, $catalog_override_id, $entry_override_id);
 	    }
 	    
 	    //debug($this->get_dom(true));
 	}
 	
-	public function add_general_identifier($catalog, $entry, $catalog_metadata_id = RepositoryModelObject :: NO_UID, $entry_metadata_id = RepositoryModelObject :: NO_UID, $catalog_override_id = RepositoryModelObject :: NO_UID, $entry_override_id = RepositoryModelObject :: NO_UID)
+	public function add_general_identifier($catalog, $entry, $catalog_metadata_id = RepositoryDataClass :: NO_UID, $entry_metadata_id = RepositoryDataClass :: NO_UID, $catalog_override_id = RepositoryDataClass :: NO_UID, $entry_override_id = RepositoryDataClass :: NO_UID)
     {
         $new_node = $this->ieeeLom->add_identifier($catalog, $entry);
         
@@ -280,30 +281,22 @@ class IeeeLomMapper extends MetadataMapper
     {
         $identifier_nodes = $this->ieeeLom->get_identifier();
         
-        //debug($identifier_nodes);
-        
         $identifiers = array();
         foreach ($identifier_nodes as $identifier) 
 	    {
 	        $catalog = XMLTool :: get_first_element_value_by_tag_name($identifier, IeeeLom :: CATALOG);
 	        $entry   = XMLTool :: get_first_element_value_by_tag_name($identifier, IeeeLom :: ENTRY);
 	        
-//	        debug($identifier);
-//	        debug($catalog);
-//	        debug($entry);
-	        
 	        $ident_array = array();
 	        $ident_array[IeeeLom :: CATALOG]                      = $catalog;
 	        $ident_array[IeeeLom :: ENTRY]                        = $entry;
-	        $ident_array[self :: METADATA_ID_CATALOG_ATTRIBUTE]   = XMLTool :: get_attribute($identifier, self :: METADATA_ID_CATALOG_ATTRIBUTE, RepositoryModelObject :: NO_UID);
-	        $ident_array[self :: METADATA_ID_ENTRY_ATTRIBUTE]     = XMLTool :: get_attribute($identifier, self :: METADATA_ID_ENTRY_ATTRIBUTE, RepositoryModelObject :: NO_UID);;
-	        $ident_array[self :: ORIGINAL_ID_ATTRIBUTE]           = XMLTool :: get_attribute($identifier, self :: ORIGINAL_ID_ATTRIBUTE, RepositoryModelObject :: NO_UID);;;
+	        $ident_array[self :: METADATA_ID_CATALOG_ATTRIBUTE]   = XMLTool :: get_attribute($identifier, self :: METADATA_ID_CATALOG_ATTRIBUTE, RepositoryDataClass :: NO_UID);
+	        $ident_array[self :: METADATA_ID_ENTRY_ATTRIBUTE]     = XMLTool :: get_attribute($identifier, self :: METADATA_ID_ENTRY_ATTRIBUTE, RepositoryDataClass :: NO_UID);;
+	        $ident_array[self :: ORIGINAL_ID_ATTRIBUTE]           = XMLTool :: get_attribute($identifier, self :: ORIGINAL_ID_ATTRIBUTE, RepositoryDataClass :: NO_UID);;;
 	        
 	        $identifiers[] = $ident_array;
 	    }
 	    
-	    //debug($identifiers);
-	     
 	    return $identifiers;
     }
 	
@@ -311,111 +304,41 @@ class IeeeLomMapper extends MetadataMapper
 	//1.2 Title-----------------------------------------------------------
     private function merge_general_title()
     {
-	    $metadata_array = $this->get_additional_metadata(MetadataLOMEditForm :: LOM_GENERAL_TITLE . '[');
-	    //debug($metadata_array, 'Additional Metadata');
-	    
-	    $titles = array();
-	    
-	    foreach ($metadata_array as $learning_object_metadata) 
-	    {
-	        $metadata_id = $learning_object_metadata->get_id();
-	        $index       = StringTool :: get_value_between_chars($learning_object_metadata->get_property());
-	    	$concern     = StringTool :: get_value_between_chars($learning_object_metadata->get_property(), 1);
-	        $value       = $learning_object_metadata->get_value();
-	    	$override_id = $learning_object_metadata->get_override_id();
-	    	
-	        if(!isset($titles[$index]))
-	        {
-	            $titles[$index] = array();
-	        }
-	        
-	        if(!isset($titles[$index][$concern]))
-	        {
-	            $titles[$index][$concern] = array();
-	        }
-	        
-	        if(isset($override_id))
-	    	{
-	    	    /*
-	    	     * Remove the original node corresponding to the same id 
-	    	     */
-	    	    $xpath = new DOMXPath($this->ieeeLom->get_dom());
-	    	    $original_nodes = $xpath->query('/lom/general/title[@'. self :: ORIGINAL_ID_ATTRIBUTE . '=' . $override_id . ']');
-	    	    if($original_nodes->length > 0)
-	    	    {
-	    	        foreach ($original_nodes as $original_node) 
-	    	        {
-	    	        	$original_node->parentNode->removeChild($original_node);
-	    	        }
-	    	    }
-	    	}
-	    	
-	        $titles[$index][$concern]['value'] = $value;
-	        $titles[$index][$concern][self :: METADATA_ID_ATTRIBUTE] = $metadata_id;
-	        $titles[$index][$concern][LearningObjectMetadata :: PROPERTY_OVERRIDE_ID] = $override_id;
-	    }
-	    ksort($titles);
-	    
-	    //debug($titles);
-	    
-	    foreach ($titles as $title) 
-	    {
-	        //debug($title);
-	        
-	        $string = isset($title['string']['value'])   ? $title['string']['value']   : '';
-	        $string_metadata_id = isset($title['string'][self :: METADATA_ID_ATTRIBUTE])   ? $title['string'][self :: METADATA_ID_ATTRIBUTE]   : '';
-	        
-	        $lang   = isset($title['language']['value']) ? $title['language']['value'] : '';
-	        $lang_metadata_id   = isset($title['language'][self :: METADATA_ID_ATTRIBUTE]) ? $title['language'][self :: METADATA_ID_ATTRIBUTE] : '';
-	        
-	        $string_override_id = isset($title['string'][LearningObjectMetadata :: PROPERTY_OVERRIDE_ID]) ? $title['string'][LearningObjectMetadata :: PROPERTY_OVERRIDE_ID] : '';
-	        $lang_override_id = isset($title['language'][LearningObjectMetadata :: PROPERTY_OVERRIDE_ID]) ? $title['language'][LearningObjectMetadata :: PROPERTY_OVERRIDE_ID] : '';
-	        
-	        //debug($string_override_id);
-	        //debug($lang_override_id);
-	        
-	        $langstring = new LangString($string, $lang);
-	    	$this->add_general_title($langstring, $string_metadata_id, $lang_metadata_id, $string_override_id, $lang_override_id);
-	    }
-	    
-	    //debug($this->ieeeLom->get_dom());
+        $langstring_mapper = $this->get_lang_strings_to_merge(MetadataLOMEditForm :: LOM_GENERAL_TITLE, '/lom/general/title');
+	    $this->add_general_title($langstring_mapper);
 	}
 	
-    public function add_general_title($langstring, $string_metadata_id, $lang_metadata_id, $string_override_id, $lang_override_id)
+    public function add_general_title($langstring_mapper)
     {
-        $new_node = $this->ieeeLom->add_title($langstring);
+        $new_string_nodes = $this->ieeeLom->add_title($langstring_mapper);
         
-        if(isset($new_node))
+        if(isset($new_string_nodes))
         {
-            $new_node->setAttribute(self :: METADATA_ID_ATTRIBUTE, $string_metadata_id);
-            $new_node->setAttribute(self :: METADATA_ID_LANG_ATTRIBUTE, $lang_metadata_id);
-            $new_node->setAttribute(LangStringMapper :: STRING_OVERRIDE_ID, $string_override_id);
-            $new_node->setAttribute(LangStringMapper :: LANGUAGE_OVERRIDE_ID, $lang_override_id);
+            foreach ($new_string_nodes as $index => $string_node) 
+            {
+                $string_node->setAttribute(self :: METADATA_ID_ATTRIBUTE, $langstring_mapper->get_string_metadata_id($index));
+                $string_node->setAttribute(self :: METADATA_ID_LANG_ATTRIBUTE, $langstring_mapper->get_lang_metadata_id($index));
+                $string_node->setAttribute(IeeeLomLangStringMapper :: STRING_OVERRIDE_ID, $langstring_mapper->get_string_override_id($index));
+                $string_node->setAttribute(IeeeLomLangStringMapper :: LANGUAGE_OVERRIDE_ID, $langstring_mapper->get_lang_override_id($index));
+            }
         }
         
-        //debug($new_node);
-        
-        return $new_node;
+        return $new_string_nodes;
     }
     
     public function get_titles()
     {
         $title_nodes = $this->ieeeLom->get_titles();
         
-        //debug($title_nodes, '$title_nodes');
-        
-        $langstrings = new LangStringMapper();
+        $langstrings = new IeeeLomLangStringMapper();
         
         foreach ($title_nodes as $title)
 	    {
-	        //debug($title->parentNode, '$title_nodes->parentNode');
-	        //debug($title);
-	        
-	        $string_metadata_id   = XMLTool :: get_attribute($title->parentNode, self :: METADATA_ID_ATTRIBUTE, RepositoryModelObject :: NO_UID);
-	        $language_metadata_id = XMLTool :: get_attribute($title->parentNode, self :: METADATA_ID_LANG_ATTRIBUTE, RepositoryModelObject :: NO_UID);
-	        $string_override_id   = XMLTool :: get_attribute($title->parentNode, LangStringMapper :: STRING_OVERRIDE_ID, RepositoryModelObject :: NO_UID);
-	        $language_override_id = XMLTool :: get_attribute($title->parentNode, LangStringMapper :: LANGUAGE_OVERRIDE_ID, RepositoryModelObject :: NO_UID);
-	        $string_original_id   = XMLTool :: get_attribute($title->parentNode, self :: ORIGINAL_ID_ATTRIBUTE, RepositoryModelObject :: NO_UID);
+	        $string_metadata_id   = XMLTool :: get_attribute($title, self :: METADATA_ID_ATTRIBUTE, RepositoryDataClass :: NO_UID);
+	        $language_metadata_id = XMLTool :: get_attribute($title, self :: METADATA_ID_LANG_ATTRIBUTE, RepositoryDataClass :: NO_UID);
+	        $string_override_id   = XMLTool :: get_attribute($title, IeeeLomLangStringMapper :: STRING_OVERRIDE_ID, RepositoryDataClass :: NO_UID);
+	        $language_override_id = XMLTool :: get_attribute($title, IeeeLomLangStringMapper :: LANGUAGE_OVERRIDE_ID, RepositoryDataClass :: NO_UID);
+	        $string_original_id   = XMLTool :: get_attribute($title, self :: ORIGINAL_ID_ATTRIBUTE, RepositoryDataClass :: NO_UID);
 	        
 	        $langstrings->add_string($title->nodeValue, $title->getAttribute('language'), $string_metadata_id, $language_metadata_id, $string_override_id, $language_override_id, $string_original_id);
 	    }
@@ -428,8 +351,6 @@ class IeeeLomMapper extends MetadataMapper
     private function merge_lifeCycle_contribution()
     {
         $metadata_array = $this->get_additional_metadata(MetadataLOMEditForm :: LOM_LIFECYCLE_CONTRIBUTION . '[');
-        
-        //debug($metadata_array);
         
         $contributions = array();
         
@@ -456,18 +377,7 @@ class IeeeLomMapper extends MetadataMapper
 	    	    /*
 	    	     * Remove the original node corresponding to the same id 
 	    	     */
-	    	    
-	    	    //debug($this->ieeeLom->get_dom());
-	    	    
-	    	    $xpath = new DOMXPath($this->ieeeLom->get_dom());
-	    	    $original_nodes = $xpath->query('/lom/lifeCycle/contribute[@contribution_override_id=' . $override_id . ']');
-	    	    if($original_nodes->length > 0)
-	    	    {
-	    	        foreach ($original_nodes as $original_node) 
-	    	        {
-	    	        	$original_node->parentNode->removeChild($original_node);
-	    	        }
-	    	    }
+	    	    XMLTool :: delete_element_by_xpath($this->ieeeLom->get_dom(), '/lom/lifeCycle/contribute[@contribution_override_id=' . $override_id . ']');
 	    	}
 	    	
 	    	if($concern == 'entity')
@@ -475,9 +385,6 @@ class IeeeLomMapper extends MetadataMapper
 	    	    $entity_index = StringTool :: get_value_between_chars($learning_object_metadata->get_property(), 2);
 	    	    $entity_concern = StringTool :: get_value_between_chars($learning_object_metadata->get_property(), 3);
 	    	    
-//	    	    debug($entity_index);
-//    	        debug($entity_concern);
-    	        
     	        $contributions[$index][$concern][$entity_index][$entity_concern]['value'] = $value;
     	        $contributions[$index][$concern][$entity_index][$entity_concern][self :: METADATA_ID_ATTRIBUTE] = $metadata_id;
     	        $contributions[$index][$concern][$entity_index][$entity_concern][LearningObjectMetadata :: PROPERTY_OVERRIDE_ID] = $override_id;
@@ -491,12 +398,8 @@ class IeeeLomMapper extends MetadataMapper
 	    }
 	    ksort($contributions);
 	    
-	    //debug($contributions);
-        
 	    foreach ($contributions as $contribution) 
 	    {
-	        //debug($contribution['entity']);
-	        
 	        $this->add_lifeCycle_contribution($contribution['role']['value'], 
 	                                            $contribution['role']['metadata_id'], 
 	                                            $contribution['role']['override_id'],
@@ -529,21 +432,17 @@ class IeeeLomMapper extends MetadataMapper
         
         if(isset($new_node))
         {
-            //debug($new_node);
-            
             $role_node = XMLTool :: get_first_element_by_tag_name($new_node, 'role');
             if(isset($role_node))
             {
                 $role_node->setAttribute(self :: METADATA_ID_ATTRIBUTE, $role_metadata_id);
             }
             
-            //debug($new_node->ownerDocument);
             $entity_nodes = XMLTool :: get_all_element_by_xpath($new_node, '/lom/lifeCycle/contribute/entity');
             if(isset($entity_nodes))
             {
                 foreach ($entity_nodes as $index => $entity_node) 
                 {
-                    //debug($entity_values[$index]);
                     $entity_node->setAttribute('name_metadata_id', $entity_values[$index]['name']['metadata_id']);
                     $entity_node->setAttribute('email_metadata_id', $entity_values[$index]['email']['metadata_id']);
                     $entity_node->setAttribute('organisation_metadata_id', $entity_values[$index]['organisation']['metadata_id']);
@@ -556,40 +455,27 @@ class IeeeLomMapper extends MetadataMapper
                 $date_node->setAttribute(self :: METADATA_ID_ATTRIBUTE, $date_metadata_id);
             }
         }
-        
-        //debug($new_node);
     }
     
     public function get_lifeCycle_contribution()
     {
         $contribution_nodes = $this->ieeeLom->get_contribute();
         
-        //debug($contribution_nodes);
-        
         $contributions = array();
         foreach ($contribution_nodes as $contribution) 
 	    {
-	        //debug($contribution);
 	        $contribution_array = array();
 	        
-	        $role     = XMLTool :: get_first_element_by_xpath($contribution, '/contribute/role');
+	        $role     = XMLTool :: get_first_element_by_xpath($contribution, '/lom/lifeCycle/contribute/role');
 	        $entities = XMLTool :: get_all_element_by_xpath($contribution, '/lom/lifeCycle/contribute/entity');
-	        $date     = XMLTool :: get_first_element_by_xpath($contribution, '/contribute/date');
+	        $date     = XMLTool :: get_first_element_by_xpath($contribution, '/lom/lifeCycle/contribute/date');
 	        
-	        //debug($entities);
+	        $contribution_array['contribution_override_id'] = XMLTool :: get_attribute($role, self :: ORIGINAL_ID_ATTRIBUTE, RepositoryDataClass :: NO_UID);
 	        
-	        $contribution_array['contribution_override_id'] = XMLTool :: get_attribute($role, self :: ORIGINAL_ID_ATTRIBUTE, RepositoryModelObject :: NO_UID);
-	        
-	        //$vcards = array();
-	        //for($i = 0; $i < $entities->length; $i++)
 	        foreach($entities as $entity_index => $entity)
 	        {
-	            //debug($entity);
-	            
 	            $vcard_parser = new Contact_Vcard_Parse();
 	            $vcard_array  = $vcard_parser->fromText($entity->nodeValue);
-	            
-	            //debug($vcard_array);
 	            
 	            $vcard        = new Contact_Vcard_Build();
 	            $vcard->setFromArray($vcard_array[0]);
@@ -600,25 +486,26 @@ class IeeeLomMapper extends MetadataMapper
 	            $contribution_array['entity'][$entity_index]['email']['email_metadata_id']                  = $entity->getAttribute('email_metadata_id');
 	            $contribution_array['entity'][$entity_index]['organisation']['value']                       = $vcard->getValue('ORG');
 	            $contribution_array['entity'][$entity_index]['organisation']['organisation_metadata_id']    = $entity->getAttribute('organisation_metadata_id');
-	            //$contribution_array['entity'][$entity_index][IeeeLomMapper :: METADATA_ID_ENTITY_ATTRIBUTE] = XMLTool :: get_attribute($entity, self :: METADATA_ID_ATTRIBUTE, RepositoryModelObject :: NO_UID);
-	            $contribution_array['entity'][$entity_index]['entity_override_id']                          = XMLTool :: get_attribute($entity, self :: ORIGINAL_ID_ATTRIBUTE, RepositoryModelObject :: NO_UID);
-	            
-	            //$vcards[] = $vcard;
+	            $contribution_array['entity'][$entity_index]['entity_override_id']                          = XMLTool :: get_attribute($entity, self :: ORIGINAL_ID_ATTRIBUTE, RepositoryDataClass :: NO_UID);
 	        }
 	        
-	        $contribution_array['role']                             = XMLTool :: get_first_element_value_by_xpath($role, '/role/value');
-	        $contribution_array[self :: METADATA_ID_ROLE_ATTRIBUTE] = XMLTool :: get_attribute($role, self :: METADATA_ID_ATTRIBUTE, RepositoryModelObject :: NO_UID);
-	        $contribution_array['role_override_id']                 = XMLTool :: get_attribute($role, self :: ORIGINAL_ID_ATTRIBUTE, RepositoryModelObject :: NO_UID);
+	        if(isset($role))
+	        {
+    	        $contribution_array['role']                             = XMLTool :: get_first_element_value_by_relative_xpath($role, '/role/value');
+    	        $contribution_array[self :: METADATA_ID_ROLE_ATTRIBUTE] = XMLTool :: get_attribute($role, self :: METADATA_ID_ATTRIBUTE, RepositoryDataClass :: NO_UID);
+    	        $contribution_array['role_override_id']                 = XMLTool :: get_attribute($role, self :: ORIGINAL_ID_ATTRIBUTE, RepositoryDataClass :: NO_UID);
+	        }
 	        
-	        $contribution_array['date']                             = $date->nodeValue;
-	        $contribution_array[self :: METADATA_ID_DATE_ATTRIBUTE] = XMLTool :: get_attribute($date, self :: METADATA_ID_ATTRIBUTE, RepositoryModelObject :: NO_UID); 
-	        $contribution_array['date_override_id']                 = XMLTool :: get_attribute($date, self :: ORIGINAL_ID_ATTRIBUTE, RepositoryModelObject :: NO_UID); 
+	        if(isset($date))
+	        {
+    	        $contribution_array['date']                             = $date->nodeValue;
+    	        $contribution_array[self :: METADATA_ID_DATE_ATTRIBUTE] = XMLTool :: get_attribute($date, self :: METADATA_ID_ATTRIBUTE, RepositoryDataClass :: NO_UID); 
+    	        $contribution_array['date_override_id']                 = XMLTool :: get_attribute($date, self :: ORIGINAL_ID_ATTRIBUTE, RepositoryDataClass :: NO_UID); 
+	        }
 	        
 	        $contributions[] = $contribution_array;
 	    }
 	    
-	    //debug($contributions);
-        
         return $contributions;
     }
     
@@ -635,6 +522,66 @@ class IeeeLomMapper extends MetadataMapper
     }
     
     
+    //6.3 Rights description
+    public function merge_rights_description()
+    {        
+        $langstring_mapper = $this->get_lang_strings_to_merge(MetadataLOMEditForm :: LOM_RIGHTS_DESCRIPTION, '/lom/rights/description');
+	    $this->add_rights_description($langstring_mapper);
+	    
+	    /*
+	     * Add the copyrightAndOtherRestrictions node if there is at least one description
+	     */
+	    if(count($langstring_mapper->get_strings()) > 0)
+	    {
+	        $copyright_and_other_restrictions = new IeeeLomVocabulary('yes');
+	    }
+	    else
+	    {
+	        $copyright_and_other_restrictions = new IeeeLomVocabulary('no');
+	    }
+	    
+	    $this->ieeeLom->set_copyright_and_other_restrictions($copyright_and_other_restrictions);
+    }
+    
+    public function add_rights_description($langstring_mapper)
+    {
+        $new_string_nodes = $this->ieeeLom->add_rights_description($langstring_mapper);
+        
+        if(isset($new_string_nodes))
+        {
+            foreach ($new_string_nodes as $index => $string_node) 
+            {
+            	$string_node->setAttribute(self :: METADATA_ID_ATTRIBUTE, $langstring_mapper->get_string_metadata_id($index));
+                $string_node->setAttribute(self :: METADATA_ID_LANG_ATTRIBUTE, $langstring_mapper->get_lang_metadata_id($index));
+                $string_node->setAttribute(IeeeLomLangStringMapper :: STRING_OVERRIDE_ID, $langstring_mapper->get_string_override_id($index));
+                $string_node->setAttribute(IeeeLomLangStringMapper :: LANGUAGE_OVERRIDE_ID, $langstring_mapper->get_lang_override_id($index));
+            }
+        }
+        
+        return $new_string_nodes;
+    }
+    
+    public function get_rights_description()
+    {
+        $description_nodes = $this->ieeeLom->get_rights_description();
+        
+        $langstrings = new IeeeLomLangStringMapper();
+        
+        foreach ($description_nodes as $description)
+	    {
+	        $string_metadata_id   = XMLTool :: get_attribute($description, self :: METADATA_ID_ATTRIBUTE, RepositoryDataClass :: NO_UID);
+	        $language_metadata_id = XMLTool :: get_attribute($description, self :: METADATA_ID_LANG_ATTRIBUTE, RepositoryDataClass :: NO_UID);
+	        $string_override_id   = XMLTool :: get_attribute($description, IeeeLomLangStringMapper :: STRING_OVERRIDE_ID, RepositoryDataClass :: NO_UID);
+	        $language_override_id = XMLTool :: get_attribute($description, IeeeLomLangStringMapper :: LANGUAGE_OVERRIDE_ID, RepositoryDataClass :: NO_UID);
+	        $string_original_id   = XMLTool :: get_attribute($description, self :: ORIGINAL_ID_ATTRIBUTE, RepositoryDataClass :: NO_UID);
+	        
+	        $langstrings->add_string($description->nodeValue, $description->getAttribute('language'), $string_metadata_id, $language_metadata_id, $string_override_id, $language_override_id, $string_original_id);
+	    }
+	    
+	    return $langstrings;
+    }
+    
+    
 	/****************************************************************************************/
 	/****************************************************************************************/
 	/****************************************************************************************/
@@ -646,13 +593,12 @@ class IeeeLomMapper extends MetadataMapper
      */
     public function save_submitted_values($submitted_values)
     {
-        //debug($submitted_values);
-        
         $this->constant_values = array();
         
         $this->save_general_identifier($submitted_values);
         $this->save_general_title($submitted_values);
         $this->save_lifeCycle_contribution($submitted_values);
+        $this->save_rights_description($submitted_values);
         
         return (count($this->errors) == 0);
     }
@@ -669,7 +615,6 @@ class IeeeLomMapper extends MetadataMapper
         {
             foreach ($submitted_values[MetadataLOMEditForm :: LOM_GENERAL_IDENTIFIER] as $key => $data) 
             {
-                //debug($data);
                 $meta_data = $this->get_new_learning_object_metadata($data[self :: METADATA_ID_CATALOG_ATTRIBUTE], IeeeLom :: VERSION, MetadataLOMEditForm :: LOM_GENERAL_IDENTIFIER . '[' . $key . '][catalog]', $data['catalog'], $data[self :: ORIGINAL_ID_ATTRIBUTE], IeeeLom :: VERSION);
 
                 try
@@ -714,73 +659,11 @@ class IeeeLomMapper extends MetadataMapper
         $this->delete_non_saved_metadata($existing_metadata_id, $saved_metadata_id);
     }
     
+    
     //1.2 Title----------------------------------------------------------------
     private function save_general_title($submitted_values)
     {
-        $existing_metadata_id = $this->retrieve_existing_metadata_id(LearningObjectMetadata :: PROPERTY_PROPERTY, MetadataLOMEditForm :: LOM_GENERAL_TITLE . '[', IeeeLom :: VERSION);
-        
-        //debug($existing_metadata_id);
-        
-        $saved_metadata_id = array();
-        
-        if(isset($submitted_values[MetadataLOMEditForm :: LOM_GENERAL_TITLE]))
-        {
-            //debug($submitted_values[MetadataLOMEditForm :: LOM_GENERAL_TITLE], 'Submitted general title values');
-            
-            foreach ($submitted_values[MetadataLOMEditForm :: LOM_GENERAL_TITLE] as $key => $title) 
-            {
-            	$meta_data = $this->get_new_learning_object_metadata($title['string_metadata_id'], IeeeLom :: VERSION, MetadataLOMEditForm :: LOM_GENERAL_TITLE . '[' . $key . '][string]', $title['string'], $title['string_original_id'], IeeeLom :: VERSION);
-            	
-            	//debug($metaData->get_default_properties(), 'LearningObjectMetadata in mapper');
-            	
-            	try
-            	{
-            	    $meta_data->save();
-            	    $saved_metadata_id[$meta_data->get_id()] = $meta_data;
-            	    
-            	    /*
-            	     * Set the new generated ID in the form 
-            	     */
-            	    $input_name = MetadataLOMEditForm :: LOM_GENERAL_TITLE . '[' . $key . '][string_metadata_id]';
-            	    $this->store_constant_value($input_name, $meta_data->get_id());
-            	}
-            	catch(Exception $ex)
-            	{
-            	    $this->add_error($ex->getMessage());
-            	}
-            	
-            	if(isset($title['language']) && strlen($title['language']) > 0)
-            	{
-            	    if($title['language'] == '0')
-            	    {
-            	        $title['language'] = IeeeLom :: NO_LANGUAGE;
-            	    }
-            	    
-            	    $meta_data = $this->get_new_learning_object_metadata($title['language_metadata_id'], IeeeLom :: VERSION, MetadataLOMEditForm :: LOM_GENERAL_TITLE . '[' . $key . '][language]', $title['language'], IeeeLom :: VERSION);
-            	   
-                	try
-                	{ 
-                	    $meta_data->save();
-                	    $saved_metadata_id[$meta_data->get_id()] = $meta_data;
-                	    
-                	    /*
-                	     * Set the new generated ID in the form 
-                	     */
-                	    $input_name = MetadataLOMEditForm :: LOM_GENERAL_TITLE . '[' . $key . '][language_metadata_id]';
-                	    $this->store_constant_value($input_name, $meta_data->get_id());
-                	}
-                	catch(Exception $ex)
-                	{
-                	    $this->add_error($ex->getMessage());
-                	}
-            	}
-            }
-            
-            /*
-             * Delete metadata that were not sent back for saving
-             */
-            $this->delete_non_saved_metadata($existing_metadata_id, $saved_metadata_id);
-        }
+        $this->save_lang_strings($submitted_values, MetadataLOMEditForm :: LOM_GENERAL_TITLE);
     }
     
     
@@ -791,16 +674,10 @@ class IeeeLomMapper extends MetadataMapper
         
         $saved_metadata_id = array();
         
-        //debug($existing_metadata);
-        
         if(isset($submitted_values[MetadataLOMEditForm :: LOM_LIFECYCLE_CONTRIBUTION]))
         {
-             //debug($submitted_values[MetadataLOMEditForm :: LOM_LIFECYCLE_CONTRIBUTION]);
-             
              foreach ($submitted_values[MetadataLOMEditForm :: LOM_LIFECYCLE_CONTRIBUTION] as $key => $contribution) 
              {
-                 //debug($contribution);
-                 
                  try
                  {
                      /*
@@ -917,6 +794,140 @@ class IeeeLomMapper extends MetadataMapper
         }
     }
     
+	
+    //6.3 Rights description---------------------------------------------------
+	private function save_rights_description($submitted_values)
+	{
+	    $this->save_lang_strings($submitted_values, MetadataLOMEditForm :: LOM_RIGHTS_DESCRIPTION);
+	}
+	
+	
+	/****************************************************************************************/
+	/****************************************************************************************/
+	/****************************************************************************************/
+	
+	/**
+	 * Get a IeeeLomLangStringMapper to merge with the original metadata
+	 * 
+	 * @param $start_value The beginning of the stored existing metadata in the datasource. Used to retrieve the existing metadata
+	 * @param $xpath_to_langstring XPATH to the langstring node. Used to remove original nodes if some metadata override them.
+	 * @return IeeeLomLangstringMapper
+	 */
+	private function get_lang_strings_to_merge($start_value, $xpath_to_langstring)
+	{
+	    $metadata_array = $this->get_additional_metadata($start_value . '[');
+        
+        $descriptions = array();
+        foreach($metadata_array as $learning_object_metadata)
+        {
+            $metadata_id = $learning_object_metadata->get_id();
+            $index       = StringTool :: get_value_between_chars($learning_object_metadata->get_property());
+	    	$concern     = StringTool :: get_value_between_chars($learning_object_metadata->get_property(), 1);
+            $override_id = $learning_object_metadata->get_override_id();
+            $value       = $learning_object_metadata->get_value();
+            
+            if(isset($override_id))
+	    	{
+                /*
+                 * Delete eventual original one
+                 */
+                XMLTool :: delete_element_by_xpath($this->ieeeLom->get_dom(), $xpath_to_langstring . '[@'. self :: ORIGINAL_ID_ATTRIBUTE . '=' . $override_id . ']');
+	    	}
+            
+	    	$descriptions[$index][$concern]['value'] = $value;
+	        $descriptions[$index][$concern][self :: METADATA_ID_ATTRIBUTE] = $metadata_id;
+	        $descriptions[$index][$concern][LearningObjectMetadata :: PROPERTY_OVERRIDE_ID] = $override_id;
+        }
+        
+        ksort($descriptions);
+        
+        $langstring_mapper = new IeeeLomLangStringMapper(); 
+        foreach ($descriptions as $description) 
+	    {
+	        $string = isset($description['string']['value'])   ? $description['string']['value']   : '';
+	        $string_metadata_id = isset($description['string'][self :: METADATA_ID_ATTRIBUTE])   ? $description['string'][self :: METADATA_ID_ATTRIBUTE]   : RepositoryDataClass :: NO_UID;
+	        
+	        $lang   = isset($description['language']['value']) ? $description['language']['value'] : '';
+	        $lang_metadata_id   = isset($description['language'][self :: METADATA_ID_ATTRIBUTE]) ? $description['language'][self :: METADATA_ID_ATTRIBUTE] : RepositoryDataClass :: NO_UID;
+	        
+	        $string_override_id = isset($description['string'][LearningObjectMetadata :: PROPERTY_OVERRIDE_ID]) ? $description['string'][LearningObjectMetadata :: PROPERTY_OVERRIDE_ID] : RepositoryDataClass :: NO_UID;
+	        $lang_override_id = isset($description['language'][LearningObjectMetadata :: PROPERTY_OVERRIDE_ID]) ? $description['language'][LearningObjectMetadata :: PROPERTY_OVERRIDE_ID] : RepositoryDataClass :: NO_UID;
+	        
+	        $langstring_mapper->add_string($string, $lang, $string_metadata_id, $lang_metadata_id, $string_override_id, $lang_override_id);
+	    }
+	    
+	    return $langstring_mapper;
+	}
+	
+	/**
+	 * Save new metadata langstring values in the datasource.
+	 * 
+	 * @param $submitted_values Array containing the new metadata to save
+	 * @param $start_value The beginning of the stored existing metadata in the datasource. Used to retrieve the existing metadata and to save the new ones
+	 */
+	private function save_lang_strings($submitted_values, $start_value)
+	{
+	    $existing_metadata_id = $this->retrieve_existing_metadata_id(LearningObjectMetadata :: PROPERTY_PROPERTY, $start_value . '[', IeeeLom :: VERSION);
+        
+        $saved_metadata_id = array();
+        
+        if(isset($submitted_values[$start_value]))
+        {
+            foreach ($submitted_values[$start_value] as $key => $description) 
+            {
+            	$meta_data = $this->get_new_learning_object_metadata($description['string_metadata_id'], IeeeLom :: VERSION, $start_value . '[' . $key . '][string]', $description['string'], $description['string_original_id'], IeeeLom :: VERSION);
+            	
+            	try
+            	{
+            	    $meta_data->save();
+            	    $saved_metadata_id[$meta_data->get_id()] = $meta_data;
+            	    
+            	    /*
+            	     * Set the new generated ID in the form 
+            	     */
+            	    $input_name = $start_value . '[' . $key . '][string_metadata_id]';
+            	    $this->store_constant_value($input_name, $meta_data->get_id());
+            	}
+            	catch(Exception $ex)
+            	{
+            	    $this->add_error($ex->getMessage());
+            	}
+            	
+            	if(isset($description['language']) && strlen($description['language']) > 0)
+            	{
+            	    if($description['language'] == '0')
+            	    {
+            	        $description['language'] = IeeeLom :: NO_LANGUAGE;
+            	    }
+            	    
+            	    $meta_data = $this->get_new_learning_object_metadata($description['language_metadata_id'], IeeeLom :: VERSION, $start_value . '[' . $key . '][language]', $description['language'], IeeeLom :: VERSION);
+            	   
+                	try
+                	{ 
+                	    $meta_data->save();
+                	    $saved_metadata_id[$meta_data->get_id()] = $meta_data;
+                	    
+                	    /*
+                	     * Set the new generated ID in the form 
+                	     */
+                	    $input_name = $start_value . '[' . $key . '][language_metadata_id]';
+                	    $this->store_constant_value($input_name, $meta_data->get_id());
+                	}
+                	catch(Exception $ex)
+                	{
+                	    $this->add_error($ex->getMessage());
+                	}
+            	}
+            }
+            
+            /*
+             * Delete metadata that were not sent back for saving
+             */
+            $this->delete_non_saved_metadata($existing_metadata_id, $saved_metadata_id);
+        }
+	}
+	
+	
 	/****************************************************************************************/
 	/****************************************************************************************/
 	/****************************************************************************************/

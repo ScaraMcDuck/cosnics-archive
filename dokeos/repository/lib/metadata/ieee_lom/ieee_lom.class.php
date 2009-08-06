@@ -5,7 +5,7 @@
  * @package repository.metadata
  * @subpackage ieee_lom
  */
-require_once (dirname(__FILE__).'/langstring.class.php');
+require_once (dirname(__FILE__).'/ieee_lom_langstring.class.php');
 require_once (dirname(__FILE__).'/ieee_lom_datetime.class.php');
 require_once (dirname(__FILE__).'/vocabulary.class.php');
 require_once (dirname(__FILE__).'/orcomposite.class.php');
@@ -141,6 +141,8 @@ class IeeeLom
 	{
 		if (!is_null($langstring))
 		{
+		    $new_string_nodes = array();
+		    
 			$strings = $langstring->get_strings();
 			foreach ($strings as $index => $string)
 			{
@@ -150,7 +152,15 @@ class IeeeLom
 					$string_node->setAttribute('language', $string['language']);
 				}
 				$parent_node->appendChild($string_node);
+				
+				$new_string_nodes[] = $string_node;
 			}
+			
+			return $new_string_nodes;
+		}
+		else
+		{
+		    return null;
 		}
 	}
 	/**
@@ -166,11 +176,11 @@ class IeeeLom
 		{
 			$this->create_nodes_from_path($path);
 			$parent_node = $this->dom->createElement($node_name);
-			$this->append_langstring_nodes($parent_node, $langstring);
+			$new_string_nodes = $this->append_langstring_nodes($parent_node, $langstring);
 			$node = $this->get_node($path);
 			$node->appendChild($parent_node);
 			
-			return $parent_node;
+			return $new_string_nodes;
 		}
 	}
 	
@@ -476,11 +486,17 @@ class IeeeLom
 	
 	public function remove_lifeCycle_entity($contribute_index, $entity_index)
     {
-        $entity_node = $this->get_node('/lom/lifeCycle/contribute[' . ($contribute_index + 1) . ']/entity[' . $entity_index . ']');
-	    if(isset($entity_node))
+        $entity_node = $this->get_node('/lom/lifeCycle/contribute[' . ($contribute_index + 1) . ']/entity[' . ($entity_index + 1) . ']');
+	    
+        //$parent_node = $entity_node->parentNode;
+        //debug($parent_node);
+        
+        if(isset($entity_node))
 	    {
 	        $entity_node->parentNode->removeChild($entity_node);
 	    }
+	    
+	    //debug($parent_node);
     }
 	
 	
@@ -752,14 +768,26 @@ class IeeeLom
 		$this->create_nodes_from_path('/lom/rights');
 		$this->append_vocabulary_node($this->get_node('/lom/rights'), 'copyrightAndOtherRestrictions', $copyright_and_other_restrictions);
 	}
+	
+	function get_copyright_and_other_restrictions($copyright_and_other_restrictions)
+	{
+	    return XMLTool :: get_first_element_by_xpath($this->dom, '/lom/rights/copyrightAndOtherRestrictions');
+	}
+	
 	/**
 	 * 6.3  Description
 	 * @param Langstring $langstring
 	 */
 	function add_rights_description($langstring)
 	{
-		$this->add_langstring_nodes('/lom/rights', 'description', $langstring);
+		return $this->add_langstring_nodes('/lom/rights', 'description', $langstring);
 	}
+	
+	function get_rights_description()
+	{
+	    return $this->get_langstring_nodes('/lom/rights/description/string');
+	}
+	
 	// End of implementation IEEE LOM standard
 	/**#@-*/
 }
