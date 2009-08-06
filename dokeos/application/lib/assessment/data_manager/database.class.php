@@ -50,7 +50,25 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
 
 	function create_assessment_publication($assessment_publication)
 	{
-		return $this->database->create($assessment_publication);
+		$succes = $this->database->create($assessment_publication);
+
+		foreach($assessment_publication->get_target_groups() as $group)
+		{
+			$assessment_publication_group = new AssessmentPublicationGroup();
+			$assessment_publication_group->set_assessment_publication($assessment_publication->get_id());
+			$assessment_publication_group->set_group_id($group);
+			$succes = $assessment_publication_group->create();
+		}
+
+		foreach($assessment_publication->get_target_users() as $user)
+		{
+			$assessment_publication_user = new AssessmentPublicationUser();
+			$assessment_publication_user->set_assessment_publication($assessment_publication->get_id());
+			$assessment_publication_user->set_user($user);
+			$succes = $assessment_publication_user->create();
+		}
+
+		return $succes;
 	}
 
 	function update_assessment_publication($assessment_publication)
