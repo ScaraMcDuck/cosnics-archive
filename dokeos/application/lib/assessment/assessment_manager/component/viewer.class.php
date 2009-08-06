@@ -6,7 +6,7 @@
 require_once Path :: get_application_path().'lib/assessment/trackers/assessment_assessment_attempts_tracker.class.php';
 require_once Path :: get_repository_path() . 'lib/complex_display/complex_display.class.php';
 
-class AssessmentManagerAssessmentPublicationViewerComponent extends AssessmentManagerComponent
+class AssessmentManagerViewerComponent extends AssessmentManagerComponent
 {
 	private $datamanager;
 

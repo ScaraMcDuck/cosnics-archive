@@ -11,7 +11,7 @@ require_once dirname(__FILE__).'/../../forms/assessment_publication_form.class.p
  * @author Sven Vanpoucke
  * @author 
  */
-class AssessmentManagerAssessmentPublicationUpdaterComponent extends AssessmentManagerComponent
+class AssessmentManagerUpdaterComponent extends AssessmentManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.

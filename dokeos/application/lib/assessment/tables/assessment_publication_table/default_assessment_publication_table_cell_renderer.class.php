@@ -54,7 +54,9 @@ class DefaultAssessmentPublicationTableCellRenderer implements ObjectTableCellRe
             case LearningObject :: PROPERTY_TYPE :
                 $type = $learning_object->get_type();
                 if($type == 'assessment')
+                {
                 	$type = $learning_object->get_assessment_type();
+                }
                 	
 				if($assessment_publication->get_hidden())
             	{

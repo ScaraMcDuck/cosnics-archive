@@ -13,7 +13,7 @@ require_once dirname(__FILE__) . '/../../trackers/assessment_assessment_attempts
  * @author Sven Vanpoucke
  * @author 
  */
-class AssessmentManagerAssessmentPublicationResultsViewerComponent extends AssessmentManagerComponent
+class AssessmentManagerResultsViewerComponent extends AssessmentManagerComponent
 {
 	private $current_attempt_id;
 	

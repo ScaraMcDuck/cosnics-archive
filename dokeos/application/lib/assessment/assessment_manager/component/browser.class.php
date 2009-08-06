@@ -13,7 +13,7 @@ require_once dirname(__FILE__).'/assessment_publication_browser/assessment_publi
  * @author Sven Vanpoucke
  * @author 
  */
-class AssessmentManagerAssessmentPublicationsBrowserComponent extends AssessmentManagerComponent
+class AssessmentManagerBrowserComponent extends AssessmentManagerComponent
 {
 	private $action_bar;
 	
