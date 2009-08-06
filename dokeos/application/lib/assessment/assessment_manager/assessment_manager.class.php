@@ -18,6 +18,7 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
  	const APPLICATION_NAME = 'assessment';
 
 	const PARAM_ASSESSMENT_PUBLICATION = 'assessment_publication';
+	const PARAM_INVITATION_ID = 'invitation_id';
 	const PARAM_DELETE_SELECTED_ASSESSMENT_PUBLICATIONS = 'delete_selected_assessment_publications';
 
 	const ACTION_DELETE_ASSESSMENT_PUBLICATION = 'delete_assessment_publication';
@@ -33,7 +34,7 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 	const ACTION_MOVE_ASSESSMENT_PUBLICATION = 'move_assessment_publication';
 	const ACTION_EXPORT_RESULTS = 'export_results';
 	const ACTION_DOWNLOAD_DOCUMENTS = 'download_documents';
-	
+	const ACTION_PUBLISH_SURVEY = 'publish_survey';
 	
 	/**
 	 * Constructor
@@ -92,6 +93,9 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 				break;
 			case self :: ACTION_DOWNLOAD_DOCUMENTS :
 				$component = AssessmentManagerComponent :: factory('DocumentDownloader', $this);
+				break;
+			case self :: ACTION_PUBLISH_SURVEY :
+				$component = AssessmentManagerComponent :: factory('SurveyPublisher', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS);
@@ -254,6 +258,12 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
  	function get_download_documents_url($assessment_publication)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DOWNLOAD_DOCUMENTS,
+								    self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
+	}
+	
+ 	function get_publish_survey_url($assessment_publication)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_PUBLISH_SURVEY,
 								    self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
 	}
 	

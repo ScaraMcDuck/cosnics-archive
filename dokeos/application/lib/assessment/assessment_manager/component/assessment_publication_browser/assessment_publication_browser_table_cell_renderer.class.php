@@ -45,12 +45,14 @@ class AssessmentPublicationBrowserTableCellRenderer extends DefaultAssessmentPub
 
 	/**
 	 * Gets the action links to display
-	 * @param LearningObject $learning_object The learning object for which the
+	 * @param AssessmentPublication $assessment_publication The learning object for which the
 	 * action links should be returned
 	 * @return string A HTML representation of the action links
 	 */
 	private function get_modification_links($assessment_publication)
 	{
+		$assessment = $assessment_publication->get_publication_object();
+		
 		$toolbar_data = array();
 
 		$toolbar_data[] = array(
@@ -105,6 +107,15 @@ class AssessmentPublicationBrowserTableCellRenderer extends DefaultAssessmentPub
 			'label' => Translation :: get('Move'),
 			'img' => Theme :: get_common_image_path().'action_move.png',
 		);
+		
+		if ($assessment->get_assessment_type() == Survey :: TYPE_SURVEY)
+		{
+			$toolbar_data[] = array(
+				'href' => $this->browser->get_publish_survey_url($assessment_publication), 
+				'label' => Translation :: get('InviteUsers'), 
+				'img' => Theme :: get_common_image_path().'action_invite_users.png'
+			);
+		}
 
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}

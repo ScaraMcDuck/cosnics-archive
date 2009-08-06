@@ -134,5 +134,10 @@ abstract class AssessmentManagerComponent extends WebApplicationComponent
 	{
 		return $this->get_parent()->get_download_documents_url($assessment_publication);
 	}
+	
+	function get_publish_survey_url($assessment_publication)
+	{
+		return $this->get_parent()->get_publish_survey_url($assessment_publication);
+	}
 }
 ?>

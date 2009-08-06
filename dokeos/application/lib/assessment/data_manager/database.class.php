@@ -219,5 +219,43 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
 	{
 		return $this->database->retrieve_objects(AssessmentPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
 	}
+	
+	function get_next_survey_invitation_id()
+	{
+		return $this->database->get_next_id(SurveyInvitation :: get_table_name());
+	}
+	
+	function create_survey_invitation($survey_invitation)
+	{
+		return $this->database->create($survey_invitation);
+	}
+	
+	function update_survey_invitation($survey_invitation)
+	{
+		$condition = new EqualityCondition(SurveyInvitation :: PROPERTY_ID, $survey_invitation->get_id());
+		return $this->database->update($survey_invitation, $condition);
+	}
+	
+	function delete_survey_invitation($survey_invitation)
+	{
+		$condition = new EqualityCondition(SurveyInvitation :: PROPERTY_ID, $survey_invitation->get_id());
+		return $this->database->delete($survey_invitation->get_table_name(), $condition);
+	}
+	
+	function count_survey_invitations($condition = null)
+	{
+		return $this->database->count_objects(SurveyInvitation :: get_table_name(), $condition);
+	}
+	
+	function retrieve_survey_invitation($id)
+	{
+		$condition = new EqualityCondition(SurveyInvitation :: PROPERTY_ID, $id);
+		return $this->database->retrieve_object(SurveyInvitation :: get_table_name(), $condition);
+	}
+	
+	function retrieve_survey_invitations($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		return $this->database->retrieve_objects(SurveyInvitation :: get_table_name(), $condition, $offset, $count, $order_property, $order_direction);
+	}
 }
 ?>
