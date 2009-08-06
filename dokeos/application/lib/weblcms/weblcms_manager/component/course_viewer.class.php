@@ -321,19 +321,9 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 			$breadcrumbtrail = new BreadcrumbTrail();
 		}
 
-		$tool = $this->get_parameter(WeblcmsManager :: PARAM_TOOL);
+		$tool_class = $this->get_parameter(WeblcmsManager :: PARAM_TOOL);
 		$course = $this->get_parameter(WeblcmsManager :: PARAM_COURSE);
 		$action = $this->get_parameter(WeblcmsManager :: PARAM_ACTION);
-
-		if (isset ($this->tool_class))
-		{
-			$tool = str_replace('_tool', '', Tool :: class_to_type($this->tool_class));
-			$js_file = dirname(__FILE__).'/tool/'.$tool.'/'.$tool.'.js';
-			if (file_exists($js_file))
-			{
-				$htmlHeadXtra[] = '<script type="text/javascript" src="application/lib/weblcms/tool/'.$tool.'/'.$tool.'.js"></script>';
-			}
-		}
 
 		$title = $breadcrumbtrail->get_last()->get_name();
 		$title_short = $title;
@@ -367,12 +357,12 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 			echo '</div>';
 		}
 		
-		if (isset ($this->tool_class))
+		if (isset ($tool_class))
 		{
             if($display_title)
             {
                echo '<div style="float: left;">';
-                Display :: tool_title(htmlentities(Translation :: get($this->tool_class.'Title')));
+                Display :: tool_title(htmlentities(Translation :: get($tool_class.'Title')));
                 echo '</div>';
             }
 
@@ -397,7 +387,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 			//echo '<div class="clear">&nbsp;</div>';
 		}
 
-		if (!isset ($this->tool_class))
+		if (!isset ($tool_class))
 		{
 			if ($msg = Request :: get(Application :: PARAM_MESSAGE))
 			{
