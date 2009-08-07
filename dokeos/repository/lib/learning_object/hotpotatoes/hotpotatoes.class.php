@@ -73,16 +73,13 @@ class Hotpotatoes extends LearningObject
 		Filesystem::remove($path);
 	}
 	
-	function add_javascript($course)
+	function add_javascript($postback_url, $goback_url, $tracker_id)
 	{
 		$content = $this->read_file_content();
-		$js_content = $this->replace_javascript($content, $course);
-		$this->write_file_content($js_content);
-	}
-	
-	function get_test_path($type = WEB_REPO_PATH)
-	{
-		return Path :: get($type) . substr($this->get_path(), 0, strlen($this->get_path()) - 4) . '.' . Session :: get_user_id() . '.t.htm';
+		$js_content = $this->replace_javascript($content, $postback_url, $goback_url, $tracker_id);
+		$path = $this->write_file_content($js_content);
+		
+		return $path;
 	}
 	
 	private function read_file_content()
@@ -104,6 +101,7 @@ class Hotpotatoes extends LearningObject
 	private function write_file_content($content)
 	{
 		$full_file_path = Path :: get(SYS_REPO_PATH) . substr($this->get_path(), 0, strlen($this->get_path()) - 4) . '.' . Session :: get_user_id() . '.t.htm';
+		$full_web_path = Path :: get(WEB_REPO_PATH) . substr($this->get_path(), 0, strlen($this->get_path()) - 4) . '.' . Session :: get_user_id() . '.t.htm';
 		Filesystem::remove($full_file_path);
 		
 		if (($fp = fopen(urldecode($full_file_path), "w"))) 
@@ -111,38 +109,45 @@ class Hotpotatoes extends LearningObject
 			fwrite($fp,$content);
 			fclose($fp);
 		}
+		
+		return $full_web_path;
 	}
 	
-	private function replace_javascript($content, $course)
+	private function replace_javascript($content, $postback_url, $goback_url, $tracker_id)
 	{
 		$mit = "function Finish(){";
-		$tracker_id = $_SESSION['assessment_tracker'];
 		$js_content = "var SaveScoreVariable = 0; // This variable included by Dokeos System\n".
 					"function mySaveScore() // This function included by Dokeos System\n".
 					"{\n".
 					"   if (SaveScoreVariable==0)\n".
 					"		{\n".
 					"			SaveScoreVariable = 1;\n".
+					"			var result=jQuery.ajax({type: 'POST', url:'" . $postback_url . "', data: {id: " . $tracker_id . ", score: Score}, async: false}).responseText;\n" .
+				//	"			alert(result);" .
 					"			if (C.ie)\n".
 					"			{\n".
-					"				document.location.href = \"".Path ::get(WEB_PATH)."application/lib/weblcms/tool/assessment/component/assessment_tester_form/"."hotpotatoes_score.php?course=$course&tracker=$tracker_id&score=\"+Score;\n".
 				//	"				window.alert(Score);\n".
+					"				document.parent.location.href=\"" . $goback_url . "\"\n".
 					"			}\n".
 					"			else\n".
 					"			{\n".
 				//	"				window.alert(Score);\n".
-					"				window.location.href   = \"".Path ::get(WEB_PATH)."application/lib/weblcms/tool/assessment/component/assessment_tester_form/"."hotpotatoes_score.php?course=$course&tracker=$tracker_id&score=\"+Score;\n".
+					"				window.parent.location.href=\"" . $goback_url . "\"\n".
 					"			}\n".
 					"		}\n".
 					"}\n".
 					"// Must be included \n".
 					"function Finish(){\n".
 					" mySaveScore();";
-		
 		$newcontent = str_replace($mit,$js_content,$content);
 		$prehref="<!-- BeginTopNavButtons -->";
 		$posthref="<!-- BeginTopNavButtons --><!-- edited by Dokeos -->";
 		$newcontent = str_replace($prehref,$posthref,$newcontent);
+		
+		$jquery_content = "<head>\n<script src='" . Path :: get(WEB_PATH) . "plugin/jquery/jquery.min.js' type='text/javascript'></script>";
+		$add_to = '<head>';
+		$newcontent = str_replace($add_to,$jquery_content,$newcontent);
+		
 		return $newcontent;
 	}
 }
