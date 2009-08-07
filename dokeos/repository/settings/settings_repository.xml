@@ -94,6 +94,9 @@
 			<setting name="allow_personal_message_creation" field="checkbox" default="1">
 				<options type="static"><option name="allow_personal_message_creation" value="1" /></options>
 			</setting>
+			<setting name="allow_physical_location_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_physical_location_creation" value="1" /></options>
+			</setting>
 			<setting name="allow_portal_home_creation" field="checkbox" default="0">
 				<options type="static"><option name="allow_portal_home_creation" value="1" /></options>
 			</setting>
