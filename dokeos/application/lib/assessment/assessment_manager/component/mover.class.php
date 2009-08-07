@@ -31,6 +31,12 @@ class AssessmentManagerMoverComponent extends AssessmentManagerComponent
 		}
 		
 		$publication = $this->retrieve_assessment_publication($pid);
+		
+		if (!$publication->is_visible_for_target_user($this->get_user()))
+		{
+			$this->not_allowed($trail, false);
+		}
+		
 		$parent = $publication->get_category();
 		
 		$form = $this->build_move_form($parent, $pids);

@@ -181,9 +181,9 @@ class ApplicationComponent
     /**
      * @see Application :: not_allowed()
      */
-    function not_allowed()
+    function not_allowed($trail = null, $show_login_form = true)
     {
-        $this->get_parent()->not_allowed();
+        $this->get_parent()->not_allowed($trail, $show_login_form);
     }
 
     /**

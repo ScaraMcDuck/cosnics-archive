@@ -247,7 +247,7 @@ class Display
         $footer->display();
     }
 
-    public static function not_allowed($trail = null)
+    public static function not_allowed($trail = null, $show_login_form = true)
     {
         if (is_null($trail))
         {
@@ -256,8 +256,12 @@ class Display
         self :: header($trail);
         $home_url = Path :: get(WEB_PATH);
         
-        $html[] = '<p>Either you are not allowed here or your session has expired.</p>'; //<br><br>You may try <a href=\"$home_url\" target=\"_top\">reconnecting on the home page</a>.</p>';
-        $html[] = self :: display_login_form();
+        $html[] = Translation :: get('NotAllowed');
+        
+        if ($show_login_form)
+        {
+        	$html[] = self :: display_login_form();
+        }
         
         self :: error_message(implode("\n", $html));
         $_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];

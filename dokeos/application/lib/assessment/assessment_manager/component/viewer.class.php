@@ -40,6 +40,11 @@ class AssessmentManagerViewerComponent extends AssessmentManagerComponent
 			$this->set_parameter(AssessmentManager :: PARAM_INVITATION_ID, Request :: get(AssessmentManager :: PARAM_INVITATION_ID));
 		}
 		
+		if ($this->pub && !$this->pub->is_visible_for_target_user($this->get_user()))
+		{
+			$this->not_allowed($trail, false);
+		}
+		
 		// Checking statistics
 		
 		$track = new AssessmentAssessmentAttemptsTracker();

@@ -28,6 +28,12 @@ class AssessmentManagerUpdaterComponent extends AssessmentManagerComponent
 		if(isset($publication))
 		{
 			$assessment_publication = $this->retrieve_assessment_publication($publication);
+			
+			if (!$assessment_publication->is_visible_for_target_user($this->get_user()))
+			{
+				$this->not_allowed($trail, false);
+			}
+			
 			$learning_object = $assessment_publication->get_publication_object();
 			
 			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Application :: PARAM_ACTION => AssessmentManager :: ACTION_EDIT_ASSESSMENT_PUBLICATION, AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => $publication)));
@@ -57,20 +63,21 @@ class AssessmentManagerUpdaterComponent extends AssessmentManagerComponent
 				}
 				else
 				{
-					$this->display_header($trail, true);
+					$this->display_header($trail);
 					$publication_form->display();
 					$this->display_footer();
 				}
 			}
 			else
 			{
-				$this->display_header($trail, true);
+				$this->display_header($trail);
 				$form->display();
 				$this->display_footer();
 			}
 		}
 		else
 		{
+			$this->redirect(Translation :: get('NoPublicationSelected'), true, array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS));
 		}
 	}
 }

@@ -18,20 +18,27 @@ class AssessmentManagerVisibilityChangerComponent extends AssessmentManagerCompo
 	function run()
 	{
 		$pid = Request :: get('assessment_publication');
-		if(!$pid)
-		{
-			$this->not_allowed();
-			exit();
+		
+		if($pid)
+		{			
+			$publication = $this->retrieve_assessment_publication($pid);
+			
+			if (!$publication->is_visible_for_target_user($this->get_user()))
+			{
+				$this->redirect(null, false, array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS));
+			}
+			
+			$publication->toggle_visibility();
+			$succes = $publication->update();
+			
+			$message = $succes ? 'VisibilityChanged': 'VisibilityNotChanged';
+			
+			$this->redirect(Translation :: get($message), !$succes, array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS));
 		}
-		
-		$publication = $this->retrieve_assessment_publication($pid);
-		$publication->toggle_visibility();
-		$succes = $publication->update();
-		
-		$message = $succes ? 'VisibilityChanged': 'VisibilityNotChanged';
-		
-		$this->redirect(Translation :: get($message), !$succes, array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS));
-		
+		else
+		{
+			$this->redirect(Translation :: get('NoPublicationSelected'), true, array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS));
+		}		
 	}
 }
 ?>
