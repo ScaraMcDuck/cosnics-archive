@@ -80,7 +80,8 @@ class GeolocationToolBrowserComponent extends GeolocationToolComponent
 				while($publication = $publications->next_result())
 				{
 					if($publication->is_visible_for_target_users())
-						$html[] = 'codeAddress(\'' . $publication->get_learning_object()->get_location() . '\');';
+						$html[] = 'codeAddress(\'' . $publication->get_learning_object()->get_location() . '\', \'' .
+													 $publication->get_learning_object()->get_title() . '\');';
 				} 
 				$html[] = '</script>';
 				
