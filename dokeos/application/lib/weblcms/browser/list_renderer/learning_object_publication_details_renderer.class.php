@@ -15,7 +15,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 {
 	function LearningObjectPublicationDetailsRenderer($browser, $parameters = array (), $actions)
 	{
-		parent :: LearningObjectPublicationListRenderer($browser, $parameters = array (), $actions);
+		parent :: LearningObjectPublicationListRenderer($browser, $parameters, $actions);
 		if($browser->get_parent()->get_course()->get_allow_feedback())
 		{
 			//$item = new ToolbarItem(Translation :: get('AddFeedback'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_FEEDBACK, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
@@ -53,7 +53,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		//dump($this->browser->get_parent()->get_course());
                 
 		//$html[] = $pub->as_html();
-
+		$html[] = '<br />';
         $html[] = $this->get_feedback();
 		return implode("\n", $html);
 	}
@@ -97,7 +97,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = $this->render_title($publication);
 		$html[] = '</div>';
-		$html[] = '<div class="description'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
+		$html[] = '<div style="padding-top: 1px;" class="description'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = $this->render_description($publication);
 		$html[] = $this->render_attachments($publication);
 		$html[] = '</div>';
