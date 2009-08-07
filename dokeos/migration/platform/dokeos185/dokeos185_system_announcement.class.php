@@ -235,16 +235,10 @@ class Dokeos185SystemAnnouncement extends Import
 		if(!$lcms_category_id)
 		{
 			//Create category for tool in lcms
-			$lcms_repository_category = new Category();
-			$lcms_repository_category->set_owner_id($admin_id);
-			$lcms_repository_category->set_title(Translation :: get('system_announcements'));
-			$lcms_repository_category->set_description('...');
-	
-			//Retrieve repository id from user
-			$repository_id = $new_mgdm->get_parent_id($admin_id, 
-				'category', Translation :: get('MyRepository'));
-	
-			$lcms_repository_category->set_parent_id($repository_id);
+			$lcms_repository_category = new RepositoryCategory();
+                        $lcms_repository_category->set_user_id($admin_id);
+                        $lcms_repository_category->set_name(Translation :: get('systemSettings'));
+			$lcms_repository_category->set_parent(0);
 			
 			//Create category in database
 			$lcms_repository_category->create();

@@ -152,7 +152,7 @@ class Dokeos185ClassUser extends ImportClassUser
 		
 		$class_id = $mgdm->get_id_reference($this->get_class_id(), 'classgroup_classgroup');
 		if($class_id)
-			$lcms_class_user->set_classgroup_id($class_id);
+			$lcms_class_user->set_group_id($class_id);
 		
 		$user_id = $mgdm->get_id_reference($this->get_user_id(), 'user_user');
 		if($user_id)

@@ -539,9 +539,8 @@ class Dokeos185User extends Import
 				//Create category for user in lcms
 				$lcms_repository_category = new RepositoryCategory();
 				$lcms_repository_category->set_id($lcms_user->get_id());
-						
-				//Retrieve repository id from user
-				$lcms_repository_category->set_parent($repository_id);
+                                $lcms_repository_category->set_name(Translation :: get('User'));
+                                $lcms_repository_category->set_parent(0);
 				
 				//Create category in database
 				$lcms_repository_category->create();				

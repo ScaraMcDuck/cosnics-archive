@@ -51,6 +51,7 @@ class Dokeos185Course extends ImportCourse
 	 * Alfanumeric identifier of the course object.
 	 */
 	private $code;
+        private $index = 0;
 	
 	/**
 	 * Default properties of the course object, stored in an associative
@@ -360,7 +361,22 @@ class Dokeos185Course extends ImportCourse
 		
 		return true;
 	}
-	
+
+        //check if visual code is avalaible
+        function check_visual_code($visual_code,$course)
+        {
+            $mgdm = MigrationDataManager :: get_instance();
+            
+            if($mgdm->visual_code_available($visual_code))
+                $course->set_visual($visual_code);
+            else
+            {
+                $index = $this->index++;
+                $this->check_visual_code($visual_code.'+'.$index, $course);
+            }
+
+        }
+
 	/**
 	 * Convert to new course
 	 * @return the new course
@@ -371,14 +387,13 @@ class Dokeos185Course extends ImportCourse
 		$mgdm = MigrationDataManager :: get_instance();
 		$lcms_course = new Course();
 		
-		$old_code = $this->get_code();
-		$index = 0;
+		$old_code = $this->get_code();		
 		/*while($mgdm->code_available('weblcms_course',$this->get_code()))
 		{
 			$this->set_code($this->get_code() . ($index ++));
-		}*/
-		unset($index);
-		$lcms_course->set_id($this->get_code());
+		}
+		
+		$lcms_course->set_id($this->get_code());*/
 		
 		//$lcms_course->set_db($this->get_db_name());
 		//$lcms_course->set_path($this->get_directory());
@@ -398,9 +413,9 @@ class Dokeos185Course extends ImportCourse
 			//$lcms_course->set_category($mgdm->get_first_course_category());
 		unset($category_code);
 		$lcms_course->set_visibility($this->get_visibility());
-		$lcms_course->set_titular($this->get_tutor_name());
-		$lcms_course->set_visual($this->get_visual_code());
-		$lcms_course->set_extlink_name($this->get_department_name());
+		$lcms_course->set_titular($this->get_tutor_name());                
+                $this->check_visual_code($this->get_visual_code(),$lcms_course);
+                $lcms_course->set_extlink_name($this->get_department_name());
 		$lcms_course->set_extlink_url($this->get_department_url());
 		$lcms_course->set_subscribe_allowed($this->get_subscribe());
 		$lcms_course->set_unsubscribe_allowed($this->get_unsubscribe());
@@ -408,8 +423,9 @@ class Dokeos185Course extends ImportCourse
 		$lcms_course->set_default_property(Course :: PROPERTY_LAST_EDIT, $this->get_last_edit());
 		$lcms_course->set_default_property(Course :: PROPERTY_CREATION_DATE, $this->get_creation_date());
 		$lcms_course->set_default_property(Course :: PROPERTY_EXPIRATION_DATE, $this->get_expiration_date());
-		//create course in database
-		$lcms_course->create_all();
+
+                //create course in database
+		$lcms_course->create();
 		
 		//Add id references to temp table
 		$mgdm->add_id_reference($old_code, $lcms_course->get_id(), 'weblcms_course');

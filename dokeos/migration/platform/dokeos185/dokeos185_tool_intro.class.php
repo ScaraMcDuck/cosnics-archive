@@ -137,7 +137,7 @@ class Dokeos185ToolIntro extends ImportToolIntro
 		$mgdm = MigrationDataManager :: get_instance();
 		
 		$new_course_code = $mgdm->get_id_reference($course->get_code(),'weblcms_course');
-		$user_id = $mgdm->get_owner($new_course_code);
+		$user_id = $mgdm->get_owner($new_course_code);           
 		
 		$lcms_tool_intro = new Description();
 		$lcms_tool_intro->set_title($this->get_intro_text());
@@ -146,17 +146,15 @@ class Dokeos185ToolIntro extends ImportToolIntro
 		
 		// Category for contents already exists?
 		$lcms_category_id = $mgdm->get_parent_id($user_id, 'category',
-			Translation :: get('descriptions'));
+			Translation :: get('descriptions')); 
 		if(!$lcms_category_id)
 		{
+                        
 			//Create category for tool in lcms
 			$lcms_repository_category = new RepositoryCategory();
-			$lcms_repository_category->set_id($user_id);
-	
-			//Retrieve repository id from course
-			$repository_id = $mgdm->get_parent_id($user_id, 
-				'category', Translation :: get('MyRepository'));
-			$lcms_repository_category->set_parent($repository_id);
+                        $lcms_repository_category->set_user_id($user_id);
+                        $lcms_repository_category->set_name(Translation :: get('toolIntro'));
+			$lcms_repository_category->set_parent(0);
 			
 			//Create category in database
 			$lcms_repository_category->create();
@@ -171,8 +169,7 @@ class Dokeos185ToolIntro extends ImportToolIntro
 		$lcms_tool_intro->set_owner_id($user_id);
 		$lcms_tool_intro->create();
 		
-	   $publication = new LearningObjectPublication();
-			
+                $publication = new LearningObjectPublication();
 		$publication->set_learning_object($lcms_tool_intro);
 		$publication->set_course_id($new_course_code);
 		$publication->set_publisher_id($user_id);

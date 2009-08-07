@@ -66,7 +66,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			return false;
 		}
 		
-		$logger->write_text('courses');
+		//$logger->write_text('courses');
 		
 		if($this->command_execute)
 			require(dirname(__FILE__) . '/../../../../../settings.inc.php');

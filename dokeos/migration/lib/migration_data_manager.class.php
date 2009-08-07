@@ -130,6 +130,10 @@ abstract class MigrationDataManager
 	 * Checks if a code is allready available in a table
 	 */
 	abstract function code_available($table_name, $code);
+        /**
+	 * Checks if a visual code is allready available in a table
+	 */
+	abstract function visual_code_available($visual_code);
 	/**
 	 * Gets the parent id of weblcmslearningobjectpublicationcategory
 	 */
