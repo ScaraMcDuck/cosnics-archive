@@ -10,10 +10,20 @@ require_once dirname(__FILE__) . '/../../learning_object.class.php';
  */
 class PhysicalLocation extends LearningObject
 {
-	//Inherited
-	function supports_attachments()
+	const PROPERTY_LOCATION = 'location';
+
+	function get_location ()
 	{
-		return true;
+		return $this->get_additional_property(self :: PROPERTY_LOCATION);
+	}
+	function set_location ($location)
+	{
+		return $this->set_additional_property(self :: PROPERTY_LOCATION, $location);
+	}
+	
+	static function get_additional_property_names()
+	{
+		return array (self :: PROPERTY_LOCATION);
 	}
 }
 ?>
