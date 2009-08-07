@@ -341,12 +341,13 @@ class Database
 	            $query .= ' ORDER BY ' . implode(', ', $orders);
 	        }
 	        
-	        if ($max_objects < 0)
+	        if ($max_objects > 0)
 	        {
-            	$max_objects = null;
+            	$query .= ' LIMIT ' . $max_objects;
         	}
 
-        	$this->connection->setLimit(intval($max_objects), intval($offset));
+        	//$this->connection->setLimit(intval($max_objects), intval($offset));
+        	//$this->connection->setLimit(intval($max_objects));
     		$statement = $this->connection->prepare($query);
     		$statement->execute($params);
     		return true;
