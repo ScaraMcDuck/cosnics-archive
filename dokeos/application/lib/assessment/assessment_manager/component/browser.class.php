@@ -73,6 +73,8 @@ class AssessmentManagerBrowserComponent extends AssessmentManagerComponent
 		$current_category = Request :: get('category');
 		$current_category = $current_category ? $current_category : 0;
 		
+		$query = $this->action_bar->get_query();
+		
 		$user = $this->get_user();
 		$datamanager = AssessmentDataManager :: get_instance();
 		
@@ -88,6 +90,15 @@ class AssessmentManagerBrowserComponent extends AssessmentManagerComponent
 		}
 		
 		$conditions = array();
+				
+		if(isset($query) && $query != '')
+		{
+			$search_conditions = array();
+			$search_conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);
+			$search_conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query);
+			$subselect_condition = new OrCondition($search_conditions);
+			$conditions[] = new SubselectCondition(AssessmentPublication :: PROPERTY_LEARNING_OBJECT, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
+		}
 		
 		$access = array();
 		$access[] = new EqualityCondition(AssessmentPublication :: PROPERTY_PUBLISHER, $user_id = $user->get_id());

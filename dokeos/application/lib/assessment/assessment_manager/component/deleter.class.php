@@ -17,7 +17,7 @@ class AssessmentManagerDeleterComponent extends AssessmentManagerComponent
 	 */
 	function run()
 	{
-		$ids = $_GET[AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION];
+		$ids = Request :: get(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION);
 		$failures = 0;
 
 		if (!empty ($ids))
