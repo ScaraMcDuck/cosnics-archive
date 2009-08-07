@@ -52,6 +52,22 @@ class AlexiaManagerBrowserComponent extends AlexiaManagerComponent
     
     function get_condition()
     {
+    	$conditions = array();
+    	
+    	$user = $this->get_user();
+		$datamanager = AlexiaDataManager :: get_instance();
+		
+		if($user->is_platform_admin())
+		{
+			$user_id = array();
+			$groups = array();
+		}
+		else
+		{
+			$user_id = $user->get_id();
+			$groups = $user->get_groups();
+		}
+    	
     	$subselect_conditions = array();
 		$subselect_conditions[] = new EqualityCondition(LearningObject :: PROPERTY_TYPE, 'link');
 		
@@ -66,9 +82,32 @@ class AlexiaManagerBrowserComponent extends AlexiaManagerComponent
 		}
 		
 		$subselect_condition = new AndCondition($subselect_conditions);
-		$condition = new SubselectCondition(AlexiaPublication :: PROPERTY_LEARNING_OBJECT, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
-    	
-    	return $condition;
+		$conditions[] = new SubselectCondition(AlexiaPublication :: PROPERTY_LEARNING_OBJECT, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
+		
+		$access = array();
+		$access[] = new EqualityCondition(AlexiaPublication :: PROPERTY_PUBLISHER, $user_id = $user->get_id());
+		$access[] = new InCondition(AlexiaPublicationUser :: PROPERTY_USER, $user_id, $datamanager->get_database()->get_alias(AlexiaPublicationUser :: get_table_name()));
+		$access[] = new InCondition(AlexiaPublicationGroup :: PROPERTY_GROUP_ID, $groups, $datamanager->get_database()->get_alias(AlexiaPublicationGroup :: get_table_name()));
+		if (!empty($user_id) || !empty($groups))
+		{
+			$access[] = new AndCondition(array(new EqualityCondition(AlexiaPublicationUser :: PROPERTY_USER, null, $datamanager->get_database()->get_alias(AlexiaPublicationUser :: get_table_name())), new EqualityCondition(AlexiaPublicationGroup :: PROPERTY_GROUP_ID, null, $datamanager->get_database()->get_alias(AlexiaPublicationGroup :: get_table_name()))));
+		}
+		$conditions[] = new OrCondition($access);
+		
+		if(!$user->is_platform_admin())
+		{
+			$visibility = array();
+			$visibility[] = new EqualityCondition(AlexiaPublication :: PROPERTY_HIDDEN, false);
+			$visibility[] = new EqualityCondition(AlexiaPublication :: PROPERTY_PUBLISHER, $user->get_id());
+			$conditions[] = new OrCondition($visibility);
+			
+			$dates = array();
+			$dates[] = new AndCondition(array(new InequalityCondition(AlexiaPublication :: PROPERTY_FROM_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time()), new InequalityCondition(AlexiaPublication :: PROPERTY_TO_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time())));
+			$dates[] = new EqualityCondition(AlexiaPublication :: PROPERTY_PUBLISHER, $user->get_id());
+			$conditions[] = new OrCondition($dates);
+		}
+			
+		return new AndCondition($conditions);
     }
     
     function get_introduction()
