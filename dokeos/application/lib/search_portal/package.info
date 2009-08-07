@@ -4,6 +4,7 @@
 		<name>Search Portal</name>
 		<code>search_portal</code>
 		<section>application</section>
+		<category>collaboration</category>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/applications/s/search_portal/search_portal-1.0.0.zip</filename>

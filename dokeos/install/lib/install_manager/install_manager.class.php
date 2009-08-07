@@ -86,7 +86,29 @@ class InstallManager extends CoreApplication
 		$output[] = '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">'."\n";
 		$output[] = '<head>'."\n";
 		$output[] = '<title>-- ' .$dokeos_version . ' Installation --</title>'."\n";
+		$output[] = '<link rel="stylesheet" href="../layout/aqua/plugin/jquery/jquery.css" type="text/css"/>'."\n";
 		$output[] = '<link rel="stylesheet" href="../layout/aqua/css/common.css" type="text/css"/>'."\n";
+		$output[] = '<link rel="stylesheet" href="../layout/aqua/css/install.css" type="text/css"/>'."\n";
+		$output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.min.js"></script>'."\n";
+		$output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.dimensions.min.js"></script>'."\n";
+
+		$output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.tabula.js"></script>'."\n";
+		$output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.tablednd.js"></script>'."\n";
+		$output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.ui.min.js"></script>'."\n";
+		$output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.ui.tabs.paging.js"></script>'."\n";
+		$output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.simplemodal.js"></script>'."\n";
+		$output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.treeview.pack.js"></script>'."\n";
+
+		$output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.treeview.async.js"></script>'."\n";
+		$output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.timeout.interval.idle.js"></script>'."\n";
+		$output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.mousewheel.min.js"></script>'."\n";
+		$output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.scrollable.pack.js"></script>'."\n";
+		$output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.xml2json.pack.js"></script>'."\n";
+		$output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.json.js"></script>'."\n";
+
+		$output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.iphone.checkboxes.js"></script>'."\n";
+		$output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.textarearesizer.js"></script>'."\n";
+		
 		$output[] = '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'."\n";
 		$output[] = '</head>'."\n";
 		$output[] = '<body dir="'. Translation :: get('text_dir') .'">' . "\n";

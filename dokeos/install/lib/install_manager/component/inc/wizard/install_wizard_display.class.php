@@ -33,8 +33,26 @@ class InstallWizardDisplay extends HTML_QuickForm_Action_Display
 		$renderer = $current_page->defaultRenderer();
 		$current_page->setRequiredNote('<font color="#FF0000">*</font> '.Translation :: get('ThisFieldIsRequired'));
 		$element_template = "\n\t<tr>\n\t\t<td valign=\"top\"><!-- BEGIN required --><span style=\"color: #ff0000\">*</span> <!-- END required -->{label}</td>\n\t\t<td valign=\"top\" align=\"left\"><!-- BEGIN error --><span style=\"color: #ff0000;font-size:x-small;margin:2px;\">{error}</span><br /><!-- END error -->\t{element}</td>\n\t</tr>";
+//        $element_template = array();
+//        $element_template[] = '<div class="row">';
+//        $element_template[] = '<div class="label">';
+//        $element_template[] = '{label}<!-- BEGIN required --><span class="form_required"><img src="../layout/aqua/common/action_required.png" alt="*" title ="*"/></span> <!-- END required -->';
+//        $element_template[] = '</div>';
+//        $element_template[] = '<div class="formw">';
+//        $element_template[] = '<div class="element"><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}</div>';
+//        $element_template[] = '<div class="form_feedback"></div></div>';
+//        $element_template[] = '<div class="clear">&nbsp;</div>';
+//        $element_template[] = '</div>';
+//        $element_template = implode("\n", $element_template);
+        
 		$renderer->setElementTemplate($element_template);
 		$header_template = "\n\t<tr>\n\t\t<td valign=\"top\" colspan=\"2\">{header}</td>\n\t</tr>";
+//        $header_template = array();
+//        $header_template[] = '<div class="row">';
+//        $header_template[] = '<div class="form_header">{header}</div>';
+//        $header_template[] = '</div>';
+//        $header_template = implode("\n", $header_template);
+		
 		$renderer->setHeaderTemplate($header_template);
 		HTML_QuickForm :: setRequiredNote('<font color="red">*</font> <small>'.Translation :: get('ThisFieldIsRequired').'</small>');
 		$current_page->accept($renderer);

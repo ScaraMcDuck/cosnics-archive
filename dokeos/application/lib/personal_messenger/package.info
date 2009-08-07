@@ -4,6 +4,7 @@
 		<name>Personal Messenger</name>
 		<code>personal_messenger</code>
 		<section>application</section>
+		<category>communication</category>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/applications/p/personal_messenger/personal_messenger-1.0.0.zip</filename>

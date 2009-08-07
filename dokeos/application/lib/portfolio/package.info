@@ -4,6 +4,7 @@
 		<name>Portfolio</name>
 		<code>portfolio</code>
 		<section>application</section>
+		<category>social</category>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/applications/p/portfolio/portfolio-1.0.0.zip</filename>
