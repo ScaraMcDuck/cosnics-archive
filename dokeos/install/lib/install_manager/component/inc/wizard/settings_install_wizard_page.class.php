@@ -22,10 +22,16 @@ class SettingsInstallWizardPage extends InstallWizardPage
 	{
 		$this->set_lang($this->controller->exportValue('page_language', 'install_language'));
 		$this->_formBuilt = true;
+		
+		$this->addElement('category', Translation :: get('GeneralProperties'));
 		$this->addElement('select', 'platform_language', Translation :: get("MainLang"), $this->get_language_folder_list());
 		$this->addElement('text', 'platform_url', Translation :: get("DokeosURL"), array ('size' => '40'));
 		$this->addRule('platform_url', Translation :: get('ThisFieldIsRequired'), 'required');
 		$this->addRule('platform_url', 'AddTrailingSlash', 'regex', '/^.*\/$/');
+		$this->addElement('category');
+		
+		
+		$this->addElement('category', Translation :: get('Administrator'));
 		$this->addElement('text', 'admin_email', Translation :: get("AdminEmail"), array ('size' => '40'));
 		$this->addRule('admin_email', Translation :: get('ThisFieldIsRequired'), 'required');
 		$this->addRule('admin_email', Translation :: get('WrongEmail'), 'email');
@@ -38,12 +44,18 @@ class SettingsInstallWizardPage extends InstallWizardPage
 		$this->addRule('admin_username', Translation :: get('ThisFieldIsRequired'), 'required');
 		$this->addElement('text', 'admin_password', Translation :: get("AdminPass"), array ('size' => '40'));
 		$this->addRule('admin_password', Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('category');
+		
+		$this->addElement('category', Translation :: get('Platform'));
 		$this->addElement('text', 'platform_name', Translation :: get("CampusName"), array ('size' => '40'));
 		$this->addRule('platform_name', Translation :: get('ThisFieldIsRequired'), 'required');
 		$this->addElement('text', 'organization_name', Translation :: get("InstituteShortName"), array ('size' => '40'));
 		$this->addRule('organization_name', Translation :: get('ThisFieldIsRequired'), 'required');
 		$this->addElement('text', 'organization_url', Translation :: get("InstituteURL"), array ('size' => '40'));
 		$this->addRule('organization_url', Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('category');
+		
+		$this->addElement('category', Translation :: get('Security'));
 		$self_reg[] = $this->createElement('radio', 'self_reg', null, Translation :: get('Yes'), 1);
 		$self_reg[] = $this->createElement('radio', 'self_reg', null, Translation :: get('No'), 0);
 		$this->addGroup($self_reg, 'self_reg', Translation :: get("AllowSelfReg"), '&nbsp;', false);
@@ -59,11 +71,13 @@ class SettingsInstallWizardPage extends InstallWizardPage
 		}
 		
 		$this->addElement('select', 'hashing_algorithm', Translation :: get('HashingAlgorithm'), $active_folders);
+		$this->addElement('category');
 		
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'));
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
-		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
-		$this->setDefaultAction('next');
+		$buttons = array();
+		$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous'), array('class' => 'normal previous'));
+		$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'normal next'));
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+		$this->setDefaultAction($this->getButtonName('next'));
 		$this->set_form_defaults();
 	}
 	

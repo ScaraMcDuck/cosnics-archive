@@ -145,7 +145,6 @@ div.vertical_action
 	overflow: hidden;
 	padding: 10px 0px 10px 0px;
 	border-top: 1px solid #EBEBEB;
-	height: 64px;
 }
 
 div.vertical_action div.icon
@@ -158,6 +157,16 @@ div.vertical_action div.icon
 div.vertical_action div.icon img
 {
 	margin: 16px;
+}
+
+div.vertical_action div.description
+{
+	margin-left: 64px;
+}
+
+div.vertical_action div.description .binary_checkbox
+{
+	margin-top: 10px;
 }
 
 div.vertical_action h4

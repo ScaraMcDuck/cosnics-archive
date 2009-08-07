@@ -5,6 +5,7 @@ $(function () {
 	$(document).ready(function () {
 		$("#tabs").tabs();
 		$('#tabs').tabs('paging', { cycle: false, follow: false, nextButton : "", prevButton : "" } );
+        $(':checkbox').iphoneStyle({ checkedLabel: 'On', uncheckedLabel: 'Off'});
 	});
 
 });

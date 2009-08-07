@@ -24,10 +24,15 @@ class LanguageInstallWizardPage extends InstallWizardPage
 	function buildForm()
 	{
 		$this->_formBuilt = true;
+		
+        $this->addElement('category', Translation :: get('Language'));
 		$this->addElement('select', 'install_language', Translation :: get('InstallationLanguage'), $this->get_language_folder_list());
-		$buttons[0] = HTML_QuickForm :: createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
-		$this->addGroup($buttons, 'buttons', '', '&nbsp', false);
-		$this->setDefaultAction('next');
+		$this->addElement('category');
+		
+		$buttons = array();
+		$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'normal next'));
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+		$this->setDefaultAction($this->getButtonName('next'));
 		$this->set_form_defaults();
 	}
 	

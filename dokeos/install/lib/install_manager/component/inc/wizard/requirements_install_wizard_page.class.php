@@ -93,19 +93,21 @@ class RequirementsInstallWizardPage extends InstallWizardPage
 		$this->set_lang($this->controller->exportValue('page_language', 'install_language'));
 		
 		$this->_formBuilt = true;
-		$this->addElement('radio', 'installation_type', Translation :: get('InstallType'), Translation :: get('NewInstall'), 'new');
+//		$this->addElement('radio', 'installation_type', Translation :: get('InstallType'), Translation :: get('NewInstall'), 'new');
 		//$update_group[0] = HTML_QuickForm :: createElement('radio', 'installation_type', null, 'Update from Dokeos '.implode('|', $updateFromVersion).'', 'update');
 		//$this->addGroup($update_group, 'update_group', '', '&nbsp', false);
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'));
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
+		
+		$buttons = array();
+		$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous'), array('class' => 'normal previous'));
+		$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'normal next'));
 		$not_writable = $this->get_not_writable_folders();
 		if (count($not_writable) > 0)
 		{
-			$el = $prevnext[1];
+			$el = $buttons[1];
 			$el->updateAttributes('disabled="disabled"');
 		}
-		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
-		$this->setDefaultAction('next');
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+		$this->setDefaultAction($this->getButtonName('next'));
 		$this->set_form_defaults();
 	}
 	
