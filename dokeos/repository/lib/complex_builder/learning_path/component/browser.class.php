@@ -35,7 +35,7 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilderComponent
 		//echo $this->get_object_info();
 
 		echo '<br />';
-		$types = array('learning_path', 'announcement', 'assessment', 'blog_item', 'calendar_event', 'description', 'document', 'forum', 'glossary', 'link', 'note', 'wiki');
+		$types = array('learning_path', 'announcement', 'assessment', 'blog_item', 'calendar_event', 'description', 'document', 'forum', 'glossary', 'hotpotatoes', 'link', 'note', 'wiki');
 		echo $this->get_creation_links($lo, $types);
 		echo '<div class="clear">&nbsp;</div><br />';
 
