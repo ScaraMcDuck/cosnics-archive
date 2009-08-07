@@ -292,8 +292,8 @@ EOT;
      */
     function add_forever_or_timewindow($element_label = 'PublicationPeriod')
     {
-        $choices[] = $this->createElement('radio', 'forever', '', Translation :: get('Forever'), 1, array('onclick' => 'javascript:timewindow_hide(\'forever_timewindow\')'));
-        $choices[] = $this->createElement('radio', 'forever', '', Translation :: get('LimitedPeriod'), 0, array('onclick' => 'javascript:timewindow_show(\'forever_timewindow\')'));
+        $choices[] = $this->createElement('radio', 'forever', '', Translation :: get('Forever'), 1, array('id' => 'forever', 'onclick' => 'javascript:timewindow_hide(\'forever_timewindow\')'));
+        $choices[] = $this->createElement('radio', 'forever', '', Translation :: get('LimitedPeriod'), 0, array('id' => 'limited', 'onclick' => 'javascript:timewindow_show(\'forever_timewindow\')'));
         $this->addGroup($choices, null, Translation :: get($element_label), '<br />', false);
         $this->addElement('html', '<div style="margin-left:25px;display:block;" id="forever_timewindow">');
         $this->add_timewindow('from_date', 'to_date', '', '');
