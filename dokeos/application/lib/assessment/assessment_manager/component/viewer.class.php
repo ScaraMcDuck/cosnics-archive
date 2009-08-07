@@ -164,10 +164,10 @@ class AssessmentManagerViewerComponent extends AssessmentManagerComponent
 	
 	//Add javascript
 	
-	function add_javascript($course)
+	function add_javascript()
 	{
 		$content = $this->read_file_content();
-		$js_content = $this->replace_javascript($content, $course);
+		$js_content = $this->replace_javascript($content);
 		$path = $this->write_file_content($js_content);
 		
 		return $path;
