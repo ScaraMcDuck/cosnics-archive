@@ -53,6 +53,41 @@ class GeolocationToolBrowserComponent extends GeolocationToolComponent
 		echo $this->action_bar->as_html();
 		echo '<div id="action_bar_browser">';
 		echo $html;
+		
+		if(Request :: get('pid') == null)
+		{
+			$conditions = array();
+			$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
+			$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'geolocation');
+			$subselect_condition = new EqualityCondition('type', 'physical_location');
+			$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
+			$condition = new AndCondition($conditions);
+		
+			$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications_new($condition);
+			
+			if($publications->size())
+			{
+				$html = array();
+				
+				$html[] = '<br /><br /><h3>' . Translation :: get('LocationsSummary') . '</h3>';
+				
+				$html[] = '<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>';
+				$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/google_maps.js');
+				$html[] = '<div id="map_canvas" style="border: 1px solid black; height:500px"></div>';
+				$html[] = '<script type="text/javascript">';
+				$html[] = 'initialize();';
+				
+				while($publication = $publications->next_result())
+				{
+					if($publication->is_visible_for_target_users())
+						$html[] = 'codeAddress(\'' . $publication->get_learning_object()->get_location() . '\');';
+				} 
+				$html[] = '</script>';
+				
+				echo implode("\n", $html);
+			}
+		}
+		
 		echo '</div>';
 
 		$this->display_footer();
