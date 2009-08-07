@@ -224,18 +224,18 @@ class AssessmentPublication extends DataClass
 		return $this->target_users;
 	}
 	
-	function is_visible_for_target_user($user_id)
-	{
-		$user = UserDataManager :: get_instance()->retrieve_user($user_id);
-		
-		if($user->is_platform_admin() || $user_id == $this->get_publisher())
+	function is_visible_for_target_user($user)
+	{		
+		if($user->is_platform_admin() || $user->get_id() == $this->get_publisher())
+		{
 			return true;
+		}
 		
 		if($this->get_target_groups() || $this->get_target_users())
 		{ 
 			$allowed = false;
 			
-			if(in_array($user_id, $this->get_target_users()))
+			if(in_array($user->get_id(), $this->get_target_users()))
 			{
 				$allowed = true;
 			}

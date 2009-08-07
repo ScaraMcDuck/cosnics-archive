@@ -307,9 +307,9 @@ abstract class Application
     /**
      * Wrapper for Display :: not_allowed();.
      */
-    function not_allowed()
+    function not_allowed($trail = null, $show_login_form = true)
     {
-        Display :: not_allowed();
+        Display :: not_allowed($trail, $show_login_form);
     }
 
     /**
