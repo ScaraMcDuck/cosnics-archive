@@ -122,9 +122,12 @@ class Hotpotatoes extends LearningObject
 					"   if (SaveScoreVariable==0)\n".
 					"		{\n".
 					"			SaveScoreVariable = 1;\n".
-					"			var result=jQuery.ajax({type: 'POST', url:'" . $postback_url . "', data: {id: " . $tracker_id . ", score: Score}, async: false}).responseText;\n" .
-				//	"			alert(result);" .
-					"			if (C.ie)\n".
+					"			var result=jQuery.ajax({type: 'POST', url:'" . $postback_url . "', data: {id: " . $tracker_id . ", score: Score}, async: false}).responseText;\n";
+					//"			alert(result);";
+				
+		if($goback_url)
+		{
+			$js_content .= "		if (C.ie)\n".
 					"			{\n".
 				//	"				window.alert(Score);\n".
 					"				document.parent.location.href=\"" . $goback_url . "\"\n".
@@ -133,9 +136,12 @@ class Hotpotatoes extends LearningObject
 					"			{\n".
 				//	"				window.alert(Score);\n".
 					"				window.parent.location.href=\"" . $goback_url . "\"\n".
-					"			}\n".
-					"		}\n".
-					"}\n".
+					"			}\n";
+		}
+		
+		$js_content .= "		}\n".
+					   " }\n".
+		
 					"// Must be included \n".
 					"function Finish(){\n".
 					" mySaveScore();";
