@@ -25,6 +25,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	 * The database connection.
 	 */
 	private $connection;
+        private $database;
 
 	// Inherited.
 	function initialize()
@@ -38,7 +39,11 @@ class DatabaseMigrationDataManager extends MigrationDataManager
    		 die($this->connection->getMessage());
 		}
 		$this->connection->query('SET NAMES utf8');
-		
+
+                $this->database = new Database(array('course' => 'cs'));
+		$this->database->set_prefix('weblcms_');
+
+
 	}
 
 	/**
@@ -338,6 +343,16 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	 	$result = $this->connection->query($query);
 	 	return ($result->numRows() > 0);
 	 }
+
+         /**
+	  * Checks if a visual_code is allready available in a table
+	  */
+	 function visual_code_available($visual_code)
+	 {
+	 	$condition = new EqualityCondition(Course :: PROPERTY_VISUAL,$visual_code);	
+		return !($this->database->count_objects(Course :: get_table_name(), $condition) == 1);
+	 }
+
 	 
 	/**
 	 * Creates a unix time from the given timestamp
@@ -357,7 +372,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	function publication_category_exist($title,$course_code,$tool,$parent = null)
 	{
 		$title = $this->connection->quote($title, "text", true);
-		$query = 'SELECT id FROM ' . $this->get_table_name('weblcms_learning_object_publication_category'). ' WHERE title=' . $title . ' AND course=\'' . $course_code .
+		$query = 'SELECT id FROM ' . $this->get_table_name('weblcms_learning_object_publication_category'). ' WHERE name=' . $title . ' AND course=\'' . $course_code .
 		 		'\' AND tool=\'' . $tool . '\'';
 		
 		if($parent)
@@ -393,7 +408,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	 */
 	function get_owner($course)
 	{
-		$query = 'SELECT user_id FROM ' . $this->get_table_name('weblcms_course_rel_user'). ' WHERE course_code = \'' . $course . '\' AND status=1;';
+		$query = 'SELECT user_id FROM ' . $this->get_table_name('weblcms_course_user_relation'). ' WHERE course_code = \'' . $course . '\' AND status=1;';
 		
 		$result = $this->connection->query($query);
 		$owners = array();
@@ -410,9 +425,9 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 		}
 		else
 		{
-			$query = 'SELECT CRL.user_id FROM ' . $this->get_table_name('weblcms_course_rel_user'). ' CRL WHERE CRL.user_id IN (
+			$query = 'SELECT CRL.user_id FROM ' . $this->get_table_name('weblcms_course_user_relation'). ' CRL WHERE CRL.user_id IN (
 					  SELECT UU.user_id FROM ' . $this->get_table_name('user_user'). ' UU WHERE CONCAT(UU.lastname,\' \',UU.firstname) IN (
-					  SELECT C.titular FROM ' . $this->get_table_name('weblcms_course'). ' C WHERE C.code = CRL.course_code)) AND CRL.status = 1 AND CRL.course_code = \'' . $course . '\';';
+					  SELECT C.titular FROM ' . $this->get_table_name('weblcms_course'). ' C WHERE C.id = CRL.course_code)) AND CRL.status = 1 AND CRL.course_code = \'' . $course . '\';';
 			
 			$result = $this->connection->query($query);
 			$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
@@ -422,7 +437,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 			else
 			{
 				$query = 'SELECT COUNT(LOP.publisher) as count, LOP.publisher FROM ' . $this->get_table_name('weblcms_learning_object_publication'). ' LOP WHERE LOP.publisher IN (
-						  SELECT CRL.user_id FROM ' . $this->get_table_name('weblcms_course_rel_user'). ' CRL WHERE CRL.course_code = \''. $course .'\' AND CRL.status = 1) AND
+						  SELECT CRL.user_id FROM ' . $this->get_table_name('weblcms_course_user_relation'). ' CRL WHERE CRL.course_code = \''. $course .'\' AND CRL.status = 1) AND
 						  LOP.course = \''. $course .'\' GROUP BY LOP.publisher;';
 				
 				$result = $this->connection->query($query);

@@ -139,7 +139,7 @@ class Dokeos185CourseDescription extends ImportCourseDescription
 	 * @return the new course description
 	 */
 	function convert_to_lcms($array)
-	{	
+	{	 
 		$old_mgdm = $array['old_mgdm'];
 		$mgdm = MigrationDataManager :: get_instance();
 		$course = $array['course'];
@@ -163,14 +163,11 @@ class Dokeos185CourseDescription extends ImportCourseDescription
 			Translation :: get('descriptions'));
 		if(!$lcms_category_id)
 		{
-			//Create category for tool in lcms
-			$lcms_repository_category = new RepositoryCategory();
-			$lcms_repository_category->set_id($user_id);
-	
-			//Retrieve repository id from course
-			$repository_id = $mgdm->get_parent_id($user_id, 
-				'category', Translation :: get('MyRepository'));
-			$lcms_repository_category->set_parent($repository_id);
+			///Create category for user in lcms
+                        $lcms_repository_category = new RepositoryCategory();
+                        $lcms_repository_category->set_user_id($user_id);
+                        $lcms_repository_category->set_name(Translation :: get('courseDescription'));
+                        $lcms_repository_category->set_parent(0);
 			
 			//Create category in database
 			$lcms_repository_category->create();

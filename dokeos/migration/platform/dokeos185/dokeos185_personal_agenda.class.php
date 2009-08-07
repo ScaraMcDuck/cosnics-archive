@@ -227,14 +227,9 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
                     
 			//Create category for tool in lcms
 			$lcms_repository_category = new RepositoryCategory();
-			$lcms_repository_category->set_id($owner_id);			
-	
-			//Retrieve repository id from user
-			$repository_id = $mgdm->get_parent_id($owner_id, 
-				'category', Translation :: get('MyRepository'));
-
-                        echo 'repo' .$repository_id;
-			$lcms_repository_category->set_parent($repository_id); //zit fout
+                        $lcms_repository_category->set_user_id($owner_id);
+                        $lcms_repository_category->set_name(Translation :: get('PersonalAgenda'));
+			$lcms_repository_category->set_parent(0);
 			
 			//Create category in database
 			$lcms_repository_category->create();
