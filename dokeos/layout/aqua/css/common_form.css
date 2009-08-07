@@ -69,7 +69,24 @@ div.row div.forme_no_margin
 	border-color: #ffd89b;
 }
 
-div.row div.forme_no_margin
+div.row div.formc,
+div.row div.formc_no_margin
+{
+	margin-left: 20%;
+	border-width: 1px;
+	padding: 10px 10px 10px 50px;
+	
+	border-style: solid;
+	background-repeat: no-repeat;
+	background-position: 10px 10px;
+	
+	background-image: url('../img/common/status_confirmation_medium.png');
+	background-color: #E5EDF9;
+	border-color: #b9d0ef;
+}
+
+div.row div.forme_no_margin,
+div.row div.formc_no_margin
 {
 	margin-left: 0px;
 }

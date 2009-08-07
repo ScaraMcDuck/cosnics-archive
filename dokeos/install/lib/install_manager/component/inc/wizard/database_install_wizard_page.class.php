@@ -25,22 +25,29 @@ class DatabaseInstallWizardPage extends InstallWizardPage
 	{
 		$this->set_lang($this->controller->exportValue('page_language', 'install_language'));
 		$this->_formBuilt = true;
+		
+		$this->addElement('category', Translation :: get('Database'));
 		$this->addElement('text', 'database_driver', Translation :: get('DBDriver'), array ('size' => '40'));
-		$this->addRule('database_driver', 'ThisFieldIsRequired', 'required');
 		$this->addElement('text', 'database_host', Translation :: get('DBHost'), array ('size' => '40'));
-		$this->addRule('database_host', 'ThisFieldIsRequired', 'required');
+		$this->addElement('text', 'database_name', Translation :: get('DatabaseName'), array ('size' => '40'));
+		$this->addElement('category');
+		
+		$this->addElement('category', Translation :: get('Credentials'));
 		$this->addElement('text', 'database_username', Translation :: get('DBLogin'), array ('size' => '40'));
 		$this->addElement('password', 'database_password', Translation :: get('DBPassword'), array ('size' => '40'));
-		$this->addRule(array('database_driver', 'database_host', 'database_username', 'database_password'),Translation :: get('CouldNotConnectToDatabase'), new ValidateDatabaseConnection());
-
-		$this->addElement('text', 'database_name', Translation :: get('DatabaseName'), array ('size' => '40'));
+		$this->addElement('category');
+		
+		$this->addRule('database_host', 'ThisFieldIsRequired', 'required');
+		$this->addRule('database_driver', 'ThisFieldIsRequired', 'required');
 		$this->addRule('database_name', 'ThisFieldIsRequired', 'required');
 		$this->addRule('database_name', 'OnlyCharactersNumbersUnderscoresAndHyphens', 'regex', '/^[a-z][a-z0-9_-]+$/');
+		$this->addRule(array('database_driver', 'database_host', 'database_username', 'database_password'),Translation :: get('CouldNotConnectToDatabase'), new ValidateDatabaseConnection());
 		
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'));
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
-		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
-		$this->setDefaultAction('next');
+		$buttons = array();
+		$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous'), array('class' => 'normal previous'));
+		$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'normal next'));
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+		$this->setDefaultAction($this->getButtonName('next'));
 		$this->set_form_defaults();
 	}
 	

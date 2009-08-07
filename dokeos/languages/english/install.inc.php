@@ -123,4 +123,16 @@ $lang['install']['Linker'] = 'Linker';
 $lang['install']['Distribute'] = 'Distribute';
 $lang['install']['Webconferencing'] = 'Webconferencing';
 $lang['install']['Wiki'] = 'Wiki';
+
+$lang['install']['Research'] = 'Research';
+$lang['install']['Communication'] = 'Communication';
+$lang['install']['Collaboration'] = 'Collaboration';
+$lang['install']['Evaluation'] = 'Evaluation';
+$lang['install']['Social'] = 'Social';
+$lang['install'][''] = '';
+$lang['install'][''] = '';
+$lang['install'][''] = '';
+$lang['install'][''] = '';
+$lang['install'][''] = '';
+$lang['install'][''] = '';
 ?>

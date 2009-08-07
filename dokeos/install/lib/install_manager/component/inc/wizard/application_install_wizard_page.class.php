@@ -32,13 +32,13 @@ class ApplicationInstallWizardPage extends InstallWizardPage
 		//		print_r($packages) . '<br />';
 		//		echo '</pre>';
 
-		$tabs = $this->get_package_tabs($packages);
-		$this->addElement('html', $tabs);
-
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'));
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
-		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
-		$this->setDefaultAction('next');
+		$this->get_package_tabs($packages);
+		
+		$buttons = array();
+		$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous'), array('class' => 'normal previous'));
+		$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'normal next'));
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+		$this->setDefaultAction($this->getButtonName('next'));
 		$this->setDefaults($appDefaults);
 	}
 
@@ -48,7 +48,7 @@ class ApplicationInstallWizardPage extends InstallWizardPage
 		$applications = WebApplication :: load_all_from_filesystem(false);
 
 		foreach($applications as $application)
-		{
+		{			
 			$xml_data = file_get_contents(Path :: get_application_path() . 'lib/' . $application . '/package.info');
 			 
 			if ($xml_data)
@@ -60,16 +60,22 @@ class ApplicationInstallWizardPage extends InstallWizardPage
 				$unserializer->setOption(XML_UNSERIALIZER_OPTION_GUESS_TYPES, true);
 				$unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array('package', 'dependency'));
 				 
-				// userialize the document
+				// unserialize the document
 				$status = $unserializer->unserialize($xml_data);
 				 
 				if (!PEAR :: isError($status))
 				{
 					$data = $unserializer->getUnserializedData();
+					if (!isset($packages[$data['package'][0]['category']]))
+					{
+						$packages[$data['package'][0]['category']] = array();
+					}
 					$packages[$data['package'][0]['category']][] = $data['package'][0];
 				}
 			}
 		}
+		
+		ksort($packages);
 
 		return $packages;
 	}
@@ -78,6 +84,7 @@ class ApplicationInstallWizardPage extends InstallWizardPage
 	{
 		$html = array();
 
+		$html[] = '<div class="clear"></div>';
 		$html[] = '<div id="tabs">';
 		$html[] = '<ul>';
 
@@ -91,71 +98,68 @@ class ApplicationInstallWizardPage extends InstallWizardPage
 
 			$html[] = '<li><a href="#tabs-' . $index . '">';
 			$html[] = '<span class="category">';
-			$html[] = '<img src="../layout/aqua/img/install/place_mini_' . $category . '.png" border="0" style="vertical-align: middle;" alt="' . $category_name . '" title="' . $category_name . '"/>';
+			$html[] = '<img src="../layout/aqua/img/install/category_' . $category . '.png" border="0" style="vertical-align: middle;" alt="' . $category_name . '" title="' . $category_name . '"/>';
 			$html[] = '<span class="title">' . $category_name . '</span>';
 			$html[] = '</span>';
 			$html[] = '</a></li>';
 		}
 
 		$html[] = '</ul>';
+		
+		$this->addElement('html', implode("\n", $html));
+		$renderer = $this->defaultRenderer();
 
 		$index = 0;
 		foreach ($categories as $category => $packages)
 		{
 			$index ++;
-
+			
+			$html = array();
 			$html[] = '<div class="tab" id="tabs-' . $index . '">';
-
 			$html[] = '<a class="prev"></a>';
+			$html[] = '<div class="scrollable">';
+			$html[] = '<div class="items">';
+			$this->addElement('html', implode("\n", $html));
 
-//			$html[] = '<div class="scrollable">';
-//			$html[] = '<div class="items">';
-//
-//			$count = 0;
-//
-//			foreach ($application_links['links'] as $link)
-//			{
-//				$count ++;
-//
-//				if ($link['confirm'])
-//				{
-//					$onclick = 'onclick = "return confirm(\'' . $link['confirm'] . '\')"';
-//				}
-//
-//				$html[] = '<div class="vertical_action"' . ($count == 1 ? ' style="border-top: 0px solid #FAFCFC;"' : '') . '>';
-//				$html[] = '<div class="icon">';
-//				$html[] = '<a href="' . $link['url'] . '" ' . $onclick . '><img src="' . Theme :: get_image_path() . 'browse_' . $link['action'] . '.png" alt="' . $link['name'] . '" title="' . $link['name'] . '"/></a>';
-//				$html[] = '</div>';
-//				$html[] = '<h4>' . $link['name'] . '</h4>';
-//				$html[] = $link['description'];
-//				$html[] = '</div>';
-//			}
-//
-//			if (isset($application_links['search']))
-//			{
-//				$search_form = new AdminSearchForm($this, $application_links['search'], $index);
-//
-//				$html[] = '<div class="vertical_action">';
-//				$html[] = '<div class="icon">';
-//				$html[] = '<img src="' . Theme :: get_image_path() . 'action_search.png" alt="' . Translation :: get('Search') . '" title="' . Translation :: get('Search') . '"/>';
-//				$html[] = '</div>';
-//				$html[] = $search_form->display();
-//				$html[] = '</div>';
-//			}
-//
-//			$html[] = '</div>';
-//			$html[] = '</div>';
+			$count = 0;
 
-			$html[] = '<a class="next"></a>';
+			foreach ($packages as $package)
+			{
+				$count ++;
+				
+				$html = array();
+				$html[] = '<div class="vertical_action"' . ($count == 1 ? ' style="border-top: 0px solid #FAFCFC;"' : '') . '>';
+				$html[] = '<div class="icon">';
+				$html[] = '<a href="#"><img src="../layout/aqua/img/install/application_' . $package['code'] . '.png" alt="' . $package['name'] . '" title="' . $package['name'] . '"/></a>';
+				$html[] = '</div>';
+				$html[] = '<div class="description">';
+				$html[] = '<h4>' . $package['name'] . '</h4>';
+				$html[] = $package['description'];
+				$html[] = '<br />';
+				$this->addElement('html', implode("\n", $html));
+				
+				$checkbox_name = 'install_' . $package['code'];
+				$this->addElement('checkbox', $checkbox_name);
+				$renderer->setElementTemplate('{element}', $checkbox_name);
+				
+				$this->addElement('html', '</div></div>');
+			}
+			
+//			$this->accept($renderer);
 
-			$html[] = '<div class="clear"></div>';
-
+			$html = array();
 			$html[] = '</div>';
+			$html[] = '</div>';
+			$html[] = '<a class="next"></a>';
+			$html[] = '<div class="clear"></div>';
+			$html[] = '</div>';
+			$this->addElement('html', implode("\n", $html));
 		}
-
-		$html[] = '</div>';
 		
+		$html = array();
+		$html[] = '</div>';
 		$html[] = '<script type="text/javascript" src="../common/javascript/install.js"></script>';
+		$this->addElement('html', implode("\n", $html));
 
 		return implode("\n", $html);
 	}

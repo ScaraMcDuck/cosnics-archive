@@ -22,13 +22,17 @@ class LicenseInstallWizardPage extends InstallWizardPage
 	{
 		$this->set_lang($this->controller->exportValue('page_language', 'install_language'));
 		$this->_formBuilt = true;
-		$this->addElement('textarea', 'license', Translation :: get('Licence'), array ('cols' => 80, 'rows' => 20, 'disabled' => 'disabled', 'style'=>'background-color: white;'));
+		$this->addElement('category', Translation :: get('Licence'));
+		$this->addElement('textarea', 'license', null, array ('cols' => 80, 'rows' => 20, 'disabled' => 'disabled', 'style'=>'background-color: white;'));
 		$this->addElement('checkbox','license_accept','',Translation :: get('IAccept'));
 		$this->addRule('license_accept',Translation :: get('ThisFieldIsRequired'),'required');
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'));
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
-		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
-		$this->setDefaultAction('next');
+		$this->addElement('category');
+		
+		$buttons = array();
+		$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous'), array('class' => 'normal previous'));
+		$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'normal next'));
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+		$this->setDefaultAction($this->getButtonName('next'));
 		$this->set_form_defaults();
 	}
 	

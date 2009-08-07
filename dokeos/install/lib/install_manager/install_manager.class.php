@@ -137,7 +137,7 @@ class InstallManager extends CoreApplication
 	{
 		$output = array();
 
-		$output[] = '</div>';
+//		$output[] = '</div>';
 		$output[] = '<div class="clear">&nbsp;</div> <!-- "clearing" div to make sure that footer stays below the main and right column sections -->';
 		$output[] = '</div> <!-- end of #main" started at the end of banner.inc.php -->';
 
