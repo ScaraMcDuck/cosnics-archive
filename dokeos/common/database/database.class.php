@@ -308,9 +308,9 @@ class Database
     		$updates = array();
     		foreach($properties as $column => $property)
     		{
-    			$updates[] = $this->escape_column_name($column) . '="' . $property;
+    			$updates[] = $this->escape_column_name($column) . '=' . $property;
     		}
-    		
+    
     		$query .= implode(", ", $updates);
     		
     	    $params = array();

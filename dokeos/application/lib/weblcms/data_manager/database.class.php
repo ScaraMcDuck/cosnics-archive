@@ -1101,7 +1101,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     	$conditions[] = new InequalityCondition(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX, InequalityCondition :: LESS_THAN, $oldIndex);
     	$condition = new AndCondition($conditions);
     	
-    	$properties[LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX] = $this->database->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX) + 1;
+    	$properties[LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX] = $this->database->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX) . '+ 1';
     	
     	if (!$this->database->update_objects(LearningObjectPublication :: get_table_name(), $properties, $condition, null, $places, new ObjectTableOrder(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC)))
     	{
@@ -1129,8 +1129,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     	$conditions[] = new InequalityCondition(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX, InequalityCondition :: GREATER_THAN, $oldIndex);
     	$condition = new AndCondition($conditions);
     	
-    	$properties[LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX] = $this->database->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX) - 1;
-    	
+    	$properties[LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX] = LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX . ' - 1';
+
     	if (!$this->database->update_objects(LearningObjectPublication :: get_table_name(), $properties, $condition, null, $places, new ObjectTableOrder(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_ASC)))
     	{
     		return false;
