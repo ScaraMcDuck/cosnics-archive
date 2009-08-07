@@ -4,6 +4,7 @@
 		<name>Assessment</name>
 		<code>assessment</code>
 		<section>application</section>
+		<category>evaluation</category>
 		<author>Sven Vanpoucke & Hans De Bisschop</author>
 		<version>1.0.0</version>
 		<filename>pool/main/applications/a/assessment/assessment-1.0.0.zip</filename>

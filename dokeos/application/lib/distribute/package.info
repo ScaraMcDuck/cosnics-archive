@@ -4,6 +4,7 @@
 		<name>Distribute</name>
 		<code>distribute</code>
 		<section>application</section>
+		<category>communication</category>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/applications/d/distribute/distribute-1.0.0.zip</filename>

@@ -4,6 +4,7 @@
 		<name>Wiki</name>
 		<code>wiki</code>
 		<section>application</section>
+		<category>collaboration</category>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/applications/w/wiki/wiki-1.0.0.zip</filename>
