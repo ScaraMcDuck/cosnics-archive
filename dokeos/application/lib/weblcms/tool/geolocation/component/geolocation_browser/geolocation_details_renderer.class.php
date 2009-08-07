@@ -26,7 +26,7 @@ class GeolocationDetailsRenderer extends LearningObjectPublicationDetailsRendere
 		$html[] = '<div id="map_canvas" style="border: 1px solid black; height:500px"></div>';
 		$html[] = '<script type="text/javascript">';
 		$html[] = 'initialize();';
-		$html[] = 'codeAddress(\'' . $lo->get_location() . '\');'; 
+		$html[] = 'codeAddress(\'' . $lo->get_location() . '\', \'' . $lo->get_title() . '\');'; 
 		$html[] = '</script>';
 		
 		return implode("\n", $html);

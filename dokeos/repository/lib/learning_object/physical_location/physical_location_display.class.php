@@ -42,7 +42,7 @@ class PhysicalLocationDisplay extends LearningObjectDisplay
 		$html[] = '<div id="map_canvas" style="width:100%; border: 1px solid black; height:500px"></div>';
 		$html[] = '<script type="text/javascript">';
 		$html[] = 'initialize();';
-		$html[] = 'codeAddress(\'' . $object->get_location() . '\');'; 
+		$html[] = 'codeAddress(\'' . $object->get_location() . '\', \'' . $object->get_title() . '\');'; 
 		$html[] = '</script>';
 		
 		

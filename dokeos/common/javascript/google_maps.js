@@ -15,7 +15,7 @@ function initialize()
     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 }
 
-function codeAddress(address) 
+function codeAddress(address, title) 
 {
 	geocoder.geocode( { address: address},
 		function(results, status) 
@@ -28,7 +28,8 @@ function codeAddress(address)
 					map.set_center(results[0].geometry.location);
 					var marker = new google.maps.Marker({
 						position: results[0].geometry.location,
-						map: map
+						map: map,
+						title: title + " - " + address
 					});
 				}
 			} else 
