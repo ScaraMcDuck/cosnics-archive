@@ -480,7 +480,7 @@ class Course extends DataClass
 		$location = new Location();
 		$location->set_location($this->get_name());
 		$location->set_application(WeblcmsManager :: APPLICATION_NAME);
-		$location->set_type($this);
+		$location->set_type_from_object($this);
 		$location->set_identifier($this->get_id());
 
         $parent = WeblcmsRights :: get_location_id_by_identifier('course_category', 1);

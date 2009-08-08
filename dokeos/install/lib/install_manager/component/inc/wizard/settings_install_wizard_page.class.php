@@ -114,8 +114,10 @@ class SettingsInstallWizardPage extends InstallWizardPage
 		foreach($list as $index => $language)
 		{
 			if ($language == '.' || $language == '..' || $language == '.svn')
+			{
 				continue;
-			$language_list[$language] = $language;
+			}
+			$language_list[$language] = DokeosUtilities :: underscores_to_camelcase_with_spaces($language);
 		}
 		return $language_list;
 	}

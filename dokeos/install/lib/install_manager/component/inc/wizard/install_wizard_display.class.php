@@ -79,15 +79,12 @@ EOT;
 		
 		$this->parent->display_header(array(), 'install');
 		
-		echo '<div id="trailbox" style="margin-left: -1%; margin-right: -1%;">';
-//		echo '<div style="margin: 0px; text-align: center;">';
-//		echo '<img src="../layout/aqua/img/common/dokeos.png" alt="logo"/>';
-//		echo '</div>';
+		echo '<div id="progressbox">';
 		$all_pages = $current_page->controller->_pages;
 		$total_number_of_pages = count($all_pages);
 		$current_page_number = 0;
 		$page_number = 0;
-		echo '<ul id="breadcrumbtrail">';
+		echo '<ul id="progresstrail">';
 		foreach($all_pages as $index => $page)
 		{
 			$page_number++;
@@ -95,6 +92,21 @@ EOT;
 			if($page->get_title() == $current_page->get_title())
 			{
 				$current_page_number = $page_number;
+//				echo '<li class="active"><a href="#">' . $page_number . '.&nbsp;&nbsp;' . $page->get_title() . '</a></li>';
+			}
+			else
+			{
+//				echo '<li><a href="#">' . $page_number . '.&nbsp;&nbsp;' . $page->get_title() . '</a></li>';
+			}
+		}
+		
+		$page_number = 0;
+		foreach($all_pages as $index => $page)
+		{
+			$page_number++;
+			
+			if($page_number <= $current_page_number)
+			{
 				echo '<li class="active"><a href="#">' . $page_number . '.&nbsp;&nbsp;' . $page->get_title() . '</a></li>';
 			}
 			else
@@ -102,6 +114,7 @@ EOT;
 				echo '<li><a href="#">' . $page_number . '.&nbsp;&nbsp;' . $page->get_title() . '</a></li>';
 			}
 		}
+		
 		echo '</ul>';
 		echo '<div class="clear"></div>';
 		echo '</div>' . "\n";

@@ -184,25 +184,6 @@ img
 	color: #444444;
 }
 
-#breadcrumbtrail li.active
-{
-	color: #4171b5;
-}
-
-#breadcrumbtrail li.active a
-{
-	background: url(../img/common/background_breadcrumb_active.png) no-repeat right center;
-	color: #4171b5;
-	font-size: 14px;
-	text-transform: uppercase;
-}
-
-#breadcrumbtrail li.active a:hover
-{
-	color: #4171b5;
-	cursor: default;
-}
-
 #breadcrumbtrail li a:hover
 {
 	color: red;
