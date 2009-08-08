@@ -49,6 +49,7 @@ class WeblcmsInstaller extends Installer
 		$cat->set_name('Language skills');
 		$cat->set_parent('0');
 		$cat->set_display_order(1);
+		
 		if (!$cat->create())
 		{
 			return false;

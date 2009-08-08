@@ -132,7 +132,7 @@ abstract class DataClass
 	}
 	
 	function create()
-	{		
+	{
 		$dm = $this->get_data_manager();
 		$class_name = $this->get_object_name();
 		

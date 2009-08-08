@@ -102,7 +102,7 @@ class Location extends DataClass
 	
 	function set_type_from_object($object)
 	{
-		$this->set_default_property(self :: PROPERTY_TYPE, DokeosUtilities :: camelcase_to_underscores(get_class($object)));
+		$this->set_type(DokeosUtilities :: camelcase_to_underscores(get_class($object)));
 	}
 	
 	function get_identifier()

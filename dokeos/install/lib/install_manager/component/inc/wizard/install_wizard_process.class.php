@@ -155,7 +155,6 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		$config['{DATABASE_HOST}']		= $values['database_host'];
 		$config['{DATABASE_USER}']		= $values['database_username'];
 		$config['{DATABASE_PASSWORD}']	= $values['database_password'];
-		$config['{DATABASE_USERDB}']	= $values['database_user'];
 		$config['{DATABASE_NAME}']		= $values['database_name'];
 		$config['{ROOT_WEB}']			= $values['platform_url'];
 		$config['{ROOT_SYS}']			= str_replace('\\', '/', realpath($values['platform_url']).'/');

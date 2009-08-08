@@ -20,7 +20,7 @@ class PackageInstallerApplicationType extends PackageInstallerType
 
             if (! $installer->install())
             {
-                return $this->get_parent->installation_failed('initilization', Translation :: get('ApplicationInitilizationFailed'));
+                return $this->get_parent()->installation_failed('initilization', Translation :: get('ApplicationInitilizationFailed'));
             }
             else
             {
@@ -32,7 +32,7 @@ class PackageInstallerApplicationType extends PackageInstallerType
 
             if (! $installer->post_process())
             {
-                return $this->get_parent->installation_failed('processing', Translation :: get('ApplicationPostProcessingFailed'));
+                return $this->get_parent()->installation_failed('processing', Translation :: get('ApplicationPostProcessingFailed'));
             }
             else
             {

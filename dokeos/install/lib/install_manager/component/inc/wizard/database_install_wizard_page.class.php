@@ -26,8 +26,10 @@ class DatabaseInstallWizardPage extends InstallWizardPage
 		$this->set_lang($this->controller->exportValue('page_language', 'install_language'));
 		$this->_formBuilt = true;
 		
+		$this->get_database_drivers();
+		
 		$this->addElement('category', Translation :: get('Database'));
-		$this->addElement('text', 'database_driver', Translation :: get('DBDriver'), array ('size' => '40'));
+		$this->addElement('select', 'database_driver', Translation :: get('DBDriver'), $this->get_database_drivers());
 		$this->addElement('text', 'database_host', Translation :: get('DBHost'), array ('size' => '40'));
 		$this->addElement('text', 'database_name', Translation :: get('DatabaseName'), array ('size' => '40'));
 		$this->addElement('category');
@@ -54,11 +56,24 @@ class DatabaseInstallWizardPage extends InstallWizardPage
 	function set_form_defaults()
 	{
 		$defaults = array();
-		$defaults['database_driver'] = 'mysql';
+		$defaults['database_driver'] = 'mysqli';
 		$defaults['database_host'] = 'localhost';
 		$defaults['database_name'] = 'lcms';
-		//$defaults['enable_tracking'] = 1;
 		$this->setDefaults($defaults);
+	}
+	
+	function get_database_drivers()
+	{
+		$drivers = array();
+		$drivers['ibase'] = 'Interbase & Firebird';
+		$drivers['mssql'] = 'Microsoft SQL Server';
+		$drivers['mysql'] = 'MySQL < 4.1.3';
+		$drivers['mysqli'] = 'MySQL >= 4.1.3';
+		$drivers['oci8'] = 'Oracle Database (7-11G)';
+		$drivers['pgsql'] = 'PostgreSQL';
+		$drivers['sqlite'] = 'SQLite';
+		
+		return $drivers;
 	}
 }
 
