@@ -78,11 +78,11 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
             
             if (count($application_links['links']))
             {
+            	$html[] = '<h2><img src="' . Theme :: get_image_path() . 'place_mini_' . $application_links['application']['class'] . '.png" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/>&nbsp;' . $application_links['application']['name'] . '</h2>';
                 $html[] = '<div class="tab" id="tabs-' . $index . '">';
                 
                 $html[] = '<a class="prev"></a>';
                 
-                $html[] = '<div class="scrollable">';
                 $html[] = '<div class="items">';
                 
                 $count = 0;
@@ -100,8 +100,10 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
                     $html[] = '<div class="icon">';
                     $html[] = '<a href="' . $link['url'] . '" ' . $onclick . '><img src="' . Theme :: get_image_path() . 'browse_' . $link['action'] . '.png" alt="' . $link['name'] . '" title="' . $link['name'] . '"/></a>';
                     $html[] = '</div>';
+                    $html[] = '<div class="description">';
                     $html[] = '<h4>' . $link['name'] . '</h4>';
                     $html[] = $link['description'];
+                    $html[] = '</div>';
                     $html[] = '</div>';
                 }
                 
@@ -111,13 +113,12 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
                     
                     $html[] = '<div class="vertical_action">';
                     $html[] = '<div class="icon">';
-                    $html[] = '<img src="' . Theme :: get_image_path() . 'action_search.png" alt="' . Translation :: get('Search') . '" title="' . Translation :: get('Search') . '"/>';
+                    $html[] = '<img src="' . Theme :: get_image_path() . 'browse_search.png" alt="' . Translation :: get('Search') . '" title="' . Translation :: get('Search') . '"/>';
                     $html[] = '</div>';
                     $html[] = $search_form->display();
                     $html[] = '</div>';
                 }
                 
-                $html[] = '</div>';
                 $html[] = '</div>';
                 
                 $html[] = '<a class="next"></a>';

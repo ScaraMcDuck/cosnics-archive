@@ -62,6 +62,8 @@ abstract class AdminDataManager
     abstract function create_system_announcement_publication($system_announcement_publication);
 
     abstract function retrieve_languages($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1);
+    
+    abstract function count_settings($condition = null);
 
     abstract function retrieve_settings($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1);
 

@@ -138,6 +138,16 @@ div.admin_search_form div.row div.formw button {
 	margin-left: 10px;
 }
 
+.tab
+{
+	border: 1px solid #ebebeb;
+}
+
+#tabs ul
+{
+	display: none;
+}
+
 div.vertical_action
 {
 	clear: both;

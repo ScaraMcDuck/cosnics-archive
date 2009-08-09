@@ -112,9 +112,11 @@ class ApplicationInstallWizardPage extends InstallWizardPage
 		$index = 0;
 		foreach ($categories as $category => $packages)
 		{
+			$category_name = Translation :: get(DokeosUtilities :: underscores_to_camelcase($category));
 			$index ++;
 			
 			$html = array();
+			$html[] = '<h2><img src="../layout/aqua/img/install/category_' . $category . '.png" border="0" style="vertical-align: middle;" alt="' . $category_name . '" title="' . $category_name . '"/>&nbsp;' . $category_name . '</h2>';
 			$html[] = '<div class="tab" id="tabs-' . $index . '">';
 			$html[] = '<a class="prev"></a>';
 			$html[] = '<div class="scrollable">';
