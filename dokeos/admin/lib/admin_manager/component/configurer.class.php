@@ -66,33 +66,54 @@ class AdminManagerConfigurerComponent extends AdminManagerComponent
     {
         $application = $this->application;
         
+        $tabs = array();
         $html = array();
+        
+        $index = 0;
         
         $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/application.js' . '"></script>';
         $html[] = '<div class="configure">';
+//		$tabs[] = '<div id="tabs">';
+//		$tabs[] = '<ul>';
         
         WebApplication :: load_all();
         
         foreach ($this->get_application_platform_admin_links() as $application_links)
         {
-            if (isset($application) && $application == $application_links['application']['class'])
+        	$settings_count = AdminDataManager :: get_instance()->count_settings(new EqualityCondition(Setting :: PROPERTY_APPLICATION, $application_links['application']['class']));
+        	if ($settings_count > 0)
             {
-                $html[] = '<div class="application_current">';
+	        	$index ++;
+//	            $tabs[] = '<li><a href="' . $this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_CONFIGURE_PLATFORM, AdminManager :: PARAM_WEB_APPLICATION => $application_links['application']['class'])) . '">';
+//	            $tabs[] = '<span class="category">';
+//	            $tabs[] = '<img src="' . Theme :: get_image_path() . 'place_mini_' . $application_links['application']['class'] . '.png" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/>';
+//	            $tabs[] = '<span class="title">' . $application_links['application']['name'] . '</span>';
+//	            $tabs[] = '</span>';
+//	            $tabs[] = '</a></li>';
+	        	
+	            if (isset($application) && $application == $application_links['application']['class'])
+	            {
+	                $html[] = '<div class="application_current">';
+	            }
+	            else
+	            {
+	                $html[] = '<div class="application">';
+	            }
+	            $html[] = '<a href="' . $this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_CONFIGURE_PLATFORM, AdminManager :: PARAM_WEB_APPLICATION => $application_links['application']['class'])) . '">';
+	            $html[] = '<img src="' . Theme :: get_image_path() . 'place_' . $application_links['application']['class'] . '.png" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/><br />' . $application_links['application']['name'];
+	            $html[] = '</a>';
+	            $html[] = '</div>';
             }
-            else
-            {
-                $html[] = '<div class="application">';
-            }
-            $html[] = '<a href="' . $this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_CONFIGURE_PLATFORM, AdminManager :: PARAM_WEB_APPLICATION => $application_links['application']['class'])) . '">';
-            $html[] = '<img src="' . Theme :: get_image_path() . 'place_' . $application_links['application']['class'] . '.png" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/><br />' . $application_links['application']['name'];
-            $html[] = '</a>';
-            $html[] = '</div>';
         }
         
         $html[] = '</div>';
         $html[] = '<div style="clear: both;"></div>';
         
-        return implode("\n", $html);
+//        $tabs[] = '</ul>';
+//        $tabs[] = '</div>';
+//        $tabs[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/admin_ajax.js');
+        
+        return implode("\n", $html) . implode("\n", $tabs);
     }
 }
 ?>

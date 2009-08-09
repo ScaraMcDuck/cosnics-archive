@@ -34,7 +34,7 @@
           offlabel  = elem.siblings('.off'),
           onlabel   = elem.siblings('.on'),
           container = elem.parent('.binary_checkbox'),
-          rightside = container.width() - 39;
+          rightside = container.outerWidth() - 39;
       
       container.click(function() {
         var is_onstate = (handle.position().left <= 0);

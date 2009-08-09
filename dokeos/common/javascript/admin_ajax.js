@@ -4,69 +4,6 @@ $(function () {
 	
 	var windowHeight = getWindowHeight(), resizeTimer = null;
 	
-	function applyScroll()
-	{
-		var elementHeight, dimensions, htmlHeight = null, theWindowHeight = null, extraSpace = null, scrollableHeight = null, newScrollableHeight = null, maxElements = null;
-		
-		var self = this, initialized = false, currentPage;
-		
-		elementHeight = $("div.tab:visible div.vertical_action:visible").outerHeight();
-		
-		//alert("elementHeight " + elementHeight);
-
-		htmlHeight = $("body").outerHeight();
-		theWindowHeight = getWindowHeight();
-		//alert("windowHeight " + theWindowHeight);
-		extraSpace = theWindowHeight - htmlHeight;
-		//alert("extraSpace " + extraSpace);
-		
-		scrollableHeight = $("div.tab:visible div.scrollable").height();
-		//alert("scrollableHeight " + scrollableHeight);
-		scrollableHeight = scrollableHeight + extraSpace;
-		
-		//alert("scrollableHeight " + scrollableHeight);
-		
-		newScrollableHeight = scrollableHeight - (scrollableHeight % elementHeight);
-		maxElements = newScrollableHeight / elementHeight;
-		
-		//alert(maxElements);
-		
-		$("div.tab").each(function (i) {
-			var elementCount = $("div.scrollable:first div.items div.vertical_action", $(this)).size();
-			
-			if (elementCount > maxElements)
-			{
-				$("div.scrollable", $(this)).next().show();
-				$("div.scrollable", $(this)).prev().show();
-				$("div.scrollable", $(this)).height(newScrollableHeight);
-	  			
-				$("div.scrollable div.items", $(this)).height("20000em");
-				$("div.scrollable div.items", $(this)).css("position", "absolute");
-	  			
-				$("div.scrollable", $(this)).scrollable({
-					size : maxElements,
-					clickable : false,
-					vertical : true,
-					hoverClass : "hover"
-				});
-			}
-			else
-			{
-				var nonScrollHeight = elementCount * elementHeight;
-				
-				$("div.scrollable", $(this)).next().hide();
-				$("div.scrollable", $(this)).prev().hide();
-				$("div.scrollable", $(this)).height(nonScrollHeight);
-				
-				$("div.scrollable div.items", $(this)).height("");
-				$("div.scrollable div.items", $(this)).css("position", "static");
-			}
-		});
-		
-		placeFooter();
-		$(window).bind('resize', handleResize);
-	}
-	
 	function handleResize() {
 		var currentHeight = getWindowHeight();
 		
@@ -96,7 +33,6 @@ $(function () {
 	function reinit() {	
 		windowHeight = getWindowHeight();
 		destroy();
-		applyScroll();
 	}
 	
 	function destroy() {
@@ -134,11 +70,12 @@ $(function () {
 		}
 	}
 
-	$(document).ready(function () {
-		
+	$(document).ready(function ()
+	{
+		$("#tabs ul").css('display', 'block');
+		$("#tabs h2").hide();
 		$("#tabs").tabs();
 		$('#tabs').tabs('paging', { cycle: false, follow: false, nextButton : "", prevButton : "" } );
-		//applyScroll();
 		//placeFooter();
 	});
 

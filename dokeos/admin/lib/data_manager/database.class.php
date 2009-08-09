@@ -34,6 +34,11 @@ class DatabaseAdminDataManager extends AdminDataManager
     {
         return $this->database->retrieve_objects(Language :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
     }
+    
+    function count_settings($condition = null)
+    {
+        return $this->database->count_objects(Setting :: get_table_name(), $condition);
+    }
 
     function retrieve_settings($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
     {
