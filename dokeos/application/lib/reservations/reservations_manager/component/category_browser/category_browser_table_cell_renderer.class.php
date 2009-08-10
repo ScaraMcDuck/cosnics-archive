@@ -50,27 +50,27 @@ class CategoryBrowserTableCellRenderer extends DefaultCategoryTableCellRenderer
 		$toolbar_data[] = array(
 				'href' => $this->browser->get_update_category_url($category->get_id()),
 				'label' => Translation :: get('Edit'),
-				'img' => Theme :: get_common_image('action_edit')
+				'img' => Theme :: get_common_image_path() . 'action_edit.png'
 		);
 		
 		$toolbar_data[] = array(
 				'href' => $this->browser->get_delete_category_url($category->get_id()),
 				'label' => Translation :: get('Delete'),
-				'img' => Theme :: get_common_image('action_delete'),
+				'img' => Theme :: get_common_image_path() . 'action_delete.png',
 				'confirm' => true
 		);
 		
 		$toolbar_data[] = array(
 				'href' => $this->browser->get_modify_rights_url('category', $category->get_id()),
 				'label' => Translation :: get('ModifyRights'),
-				'img' => Theme :: get_common_image('action_rights')
+				'img' => Theme :: get_common_image_path() . 'action_rights.png'
 		);
 		
 		$url = $this->browser->get_browse_category_quota_boxes_url($category->get_id());
 		$toolbar_data[] = array(
 			'href' => $url,
 			'label' => Translation :: get('ManageQuota'),
-			'img' => Theme :: get_common_image('action_statistics')
+			'img' => Theme :: get_common_image_path() . 'action_statistics.png'
 		);
 		
 		if($category->get_display_order() > 1)
@@ -78,14 +78,14 @@ class CategoryBrowserTableCellRenderer extends DefaultCategoryTableCellRenderer
 			$toolbar_data[] = array(
 					'href' => $this->browser->get_move_category_url($category->get_id(), -1),
 					'label' => Translation :: get('MoveUp'),
-					'img' => Theme :: get_common_image('action_up')
+					'img' => Theme :: get_common_image_path() . 'action_up.png'
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
 					'label' => Translation :: get('MoveUpNA'),
-					'img' => Theme :: get_common_image('action_up_na')
+					'img' => Theme :: get_common_image_path() . 'action_up_na.png'
 			);
 		}
 		
@@ -94,14 +94,14 @@ class CategoryBrowserTableCellRenderer extends DefaultCategoryTableCellRenderer
 			$toolbar_data[] = array(
 					'href' => $this->browser->get_move_category_url($category->get_id(), 1),
 					'label' => Translation :: get('MoveDown'),
-					'img' => Theme :: get_common_image('action_down')
+					'img' => Theme :: get_common_image_path() . 'action_down.png'
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
 					'label' => Translation :: get('MoveDownNA'),
-					'img' => Theme :: get_common_image('action_down_na')
+					'img' => Theme :: get_common_image_path() . 'action_down_na.png'
 			);
 		}
 		
