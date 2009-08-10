@@ -7,7 +7,6 @@ require_once dirname(__FILE__).'/../reservations_manager_component.class.php';
 require_once dirname(__FILE__).'/../../category.class.php';
 require_once dirname(__FILE__).'/../../forms/category_form.class.php';
 require_once dirname(__FILE__).'/../../reservations_data_manager.class.php';
-require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 
 class ReservationsManagerCategoryMoverComponent extends ReservationsManagerComponent
 {
@@ -20,16 +19,15 @@ class ReservationsManagerCategoryMoverComponent extends ReservationsManagerCompo
 		$direction = $_GET[ReservationsManager :: PARAM_DIRECTION];
 		
 		$trail = new BreadcrumbTrail();
-		$admin = new Admin();
-		$trail->add(new Breadcrumb($admin->get_link(array(Admin :: PARAM_ACTION => Admin :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
 		$trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_CATEGORIES, ReservationsManager :: PARAM_CATEGORY_ID => $category_id)), Translation :: get('Browse Categories')));
-		$trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_CATEGORY_ID => $category_id)), Translation :: get('Create category')));
+		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
+		$trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_CATEGORY_ID => $category_id)), Translation :: get('MoveCategory')));
 
 		$user = $this->get_user();
 
 		if (!isset($user) || !isset($category_id)) 
 		{
-			Display :: display_not_allowed($trail);
+			Display :: not_allowed($trail);
 			exit;
 		}
 
@@ -55,7 +53,7 @@ class ReservationsManagerCategoryMoverComponent extends ReservationsManagerCompo
 		{
 			$sucess = false;
 		}
-		$this->redirect('url', Translation :: get($sucess ? 'CategoryMoved' : 'CategoryNotMoved'), ($sucess ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_CATEGORIES, ReservationsManager :: PARAM_CATEGORY_ID => $category->get_parent()));
+		$this->redirect(Translation :: get($sucess ? 'CategoryMoved' : 'CategoryNotMoved'), ($sucess ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_CATEGORIES, ReservationsManager :: PARAM_CATEGORY_ID => $category->get_parent()));
 	}
 }
 ?>

@@ -5,7 +5,6 @@
  */
 require_once dirname(__FILE__).'/../reservations_manager_component.class.php';
 require_once dirname(__FILE__).'/../../reservations_rights.class.php';
-require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
 
 /**
@@ -112,7 +111,7 @@ class ReservationsManagerRightsEditorComponent extends ReservationsManagerCompon
 					{
 						if ($location->inherits())
 						{
-							$inherited_value = RightsDokeosUtilities :: is_allowed_for_role($role->get_id(), $id, $location, $location->get_application());
+							$inherited_value = RightsUtilities :: is_allowed_for_role($role->get_id(), $id, $location, $location->get_application());
 							
 							if ($inherited_value)
 							{
@@ -153,18 +152,16 @@ class ReservationsManagerRightsEditorComponent extends ReservationsManagerCompon
  		$tb_data = array();
 
 	 	$location = $this->location;       
-        
+       
+	 	$ab = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+	 	
         if(isset($location))
         {
             if (!$location->is_root())
 			{
 				if ($location->inherits())
-				{                    
-					$tb_data[] = array(
-						'href' => $this->get_url(array(self :: PARAM_COMPONENT_ACTION => 'inherit', 'application' => 'reservations','type' => $this->type, 'id' => $this->id)),
-						'label' => Translation :: get('LocationNoInherit'),
-						'img' => Theme :: get_theme_path() . 'action_setting_false_inherit.png'
-					);     
+				{                     
+					$ab->add_common_action(new ToolbarItem(Translation :: get('LocationNoInherit'), Theme :: get_common_image_path().'action_setting_false_inherit.png', $this->get_url(array(self :: PARAM_COMPONENT_ACTION => 'inherit', 'application' => 'reservations','type' => $this->type, 'id' => $this->id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 				}
 				else
 				{                    
@@ -173,15 +170,12 @@ class ReservationsManagerRightsEditorComponent extends ReservationsManagerCompon
 						'label' => Translation :: get('LocationInherit'),
 						'img' => Theme :: get_theme_path() . 'action_setting_true_inherit.png'
 					);     
+					
+					$ab->add_common_action(new ToolbarItem(Translation :: get('LocationInherit'), Theme :: get_common_image_path().'action_setting_true_inherit.png', $this->get_url(array(self :: PARAM_COMPONENT_ACTION => 'inherit', 'application' => 'reservations','type' => $this->type, 'id' => $this->id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 				}
 			}           
         }
-        else
-        {
-            echo 'No location.';
-        }
 
-    	$ab = new ActionBarRenderer($tb_data);
     	return $ab->as_html() . '<br />';
     	
 	}
@@ -193,40 +187,39 @@ class ReservationsManagerRightsEditorComponent extends ReservationsManagerCompon
 		$right = $_GET['right_id'];
 		$location =  $this->location;
         
-        $success = RightsDokeosUtilities :: invert_role_right_location($right, $role, $location);
+        $success = RightsUtilities :: invert_role_right_location($right, $role, $location);
 
-        $this->redirect('url', Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_EDIT_RIGHTS,'application' => 'reservations','type' => $this->type, 'id' => $this->id));
+        $this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_EDIT_RIGHTS,'application' => 'reservations','type' => $this->type, 'id' => $this->id));
        		
 	}
 	
 	function inherit_location()
 	{        
 		$location = $this->location;        
-		$success = RightsDokeosUtilities :: switch_location_inherit($location);
+		$success = RightsUtilities :: switch_location_inherit($location);
         
         //$this->redirect('url', Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_EDIT_RIGHTS,'application' => 'reservations','reservations' => $this->reservationsID, 'reservations' => $this->reservationsID,'reservations_category_id' => $this->categoryID));
-        $this->redirect('url', Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_EDIT_RIGHTS,'application' => 'reservations','type' => $this->type, 'id' => $this->id));
+        $this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_EDIT_RIGHTS,'application' => 'reservations','type' => $this->type, 'id' => $this->id));
 	}
 	
 	function show_rights_list()
 	{        
 		$trail = new BreadcrumbTrail();
 		
-		$admin = new Admin();
-		$trail->add(new Breadcrumb($admin->get_link(array(Admin :: PARAM_ACTION => Admin :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
+		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		
 		if($this->type == 'category')
-			$trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_CATEGORIES)), Translation :: get('View categories')));
+			$trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_CATEGORIES)), Translation :: get('ViewCategories')));
 		else
-			$trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS)), Translation :: get('View items')));
+			$trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS)), Translation :: get('ViewItems')));
 								
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('EditRights')));
+        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_EDIT_RIGHTS, 'type' => Request :: get('type'), 'id' => Request :: get('id'))), Translation :: get('EditRights')));
         			
 		$this->display_header($trail);
         echo $this->submessage .'<br/><br/>';
 		echo $this->get_modification_links();            
 		echo $this->get_rights_table_html();            
-		echo RightsDokeosUtilities :: get_rights_legend();
+		echo RightsUtilities :: get_rights_legend();
 		$this->display_footer();
 	}
     
