@@ -37,7 +37,8 @@ class ReservationsManagerAdminItemBrowserComponent extends ReservationsManagerCo
 	
 	function get_user_html()
 	{		
-		$table = new ItemBrowserTable($this, array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_ITEMS, ReservationsManager :: PARAM_CATEGORY_ID => $this->get_category()), $this->get_condition());
+		$parameters = array_merge($this->get_parameters(), array(ReservationsManager :: PARAM_CATEGORY_ID => $this->get_category()));
+		$table = new ItemBrowserTable($this, $parameters, $this->get_condition());
 		
 		$html = array();
 		$html[] = $table->as_html();

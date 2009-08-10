@@ -80,7 +80,10 @@ class ItemForm extends FormValidator {
 		$this->addElement('html', '</div>');
 		
 		// Submit button
-		$this->addElement('submit', 'submit', 'OK');
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
     /**
@@ -104,7 +107,7 @@ class ItemForm extends FormValidator {
 		$bo = $this->exportValue(Item :: PROPERTY_BLACKOUT);
 		$item->set_blackout($bo?$bo:0);
 		
-		$item->set_salto_id($this->exportValue(Item :: PROPERTY_SALTO_ID));
+		//$item->set_salto_id($this->exportValue(Item :: PROPERTY_SALTO_ID));
 		
 		return $item->create();
 	}
@@ -122,7 +125,7 @@ class ItemForm extends FormValidator {
 		$bo = $this->exportValue(Item :: PROPERTY_BLACKOUT);
 		$item->set_blackout($bo?$bo:0);
 		
-		$item->set_salto_id($this->exportValue(Item :: PROPERTY_SALTO_ID));
+		//$item->set_salto_id($this->exportValue(Item :: PROPERTY_SALTO_ID));
 		
 		return $item->update();
     }

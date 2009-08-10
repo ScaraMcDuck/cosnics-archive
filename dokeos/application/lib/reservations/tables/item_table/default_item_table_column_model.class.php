@@ -25,7 +25,7 @@ class DefaultItemTableColumnModel extends ObjectTableColumnModel
 	private static function get_default_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn('', false);
+		$columns[] = new StaticTableColumn('');
 		$columns[] = new ObjectTableColumn(Item :: PROPERTY_NAME, true);
 		$columns[] = new ObjectTableColumn(Item :: PROPERTY_DESCRIPTION, true);
 		$columns[] = new ObjectTableColumn(Item :: PROPERTY_RESPONSIBLE, true);
