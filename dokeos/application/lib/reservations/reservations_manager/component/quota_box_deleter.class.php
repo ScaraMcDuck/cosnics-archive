@@ -48,7 +48,7 @@ class ReservationsManagerQuotaBoxDeleterComponent extends ReservationsManagerCom
 				$message = $bool ? 'QuotaBoxesDeleted' : 'QuotaBoxesNotDeleted';
 			
 			
-			$this->redirect('url', Translation :: get($message), ($bool ? false : true), 
+			$this->redirect(Translation :: get($message), ($bool ? false : true), 
 				array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_QUOTA_BOXES));
 		}
 		else

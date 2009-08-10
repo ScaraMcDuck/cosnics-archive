@@ -198,7 +198,6 @@ class ReservationsManagerRightsEditorComponent extends ReservationsManagerCompon
 		$location = $this->location;        
 		$success = RightsUtilities :: switch_location_inherit($location);
         
-        //$this->redirect('url', Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_EDIT_RIGHTS,'application' => 'reservations','reservations' => $this->reservationsID, 'reservations' => $this->reservationsID,'reservations_category_id' => $this->categoryID));
         $this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_EDIT_RIGHTS,'application' => 'reservations','type' => $this->type, 'id' => $this->id));
 	}
 	

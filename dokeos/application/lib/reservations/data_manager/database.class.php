@@ -76,12 +76,12 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 	function update_reservation($reservation)
 	{
 		$condition = new EqualityCondition(Reservation :: PROPERTY_ID, $reservation->get_id());
-		return $this->db->update($reservation, 'reservation', $condition);
+		return $this->db->update($reservation, $condition);
 	}
 	
 	function create_reservation($reservation)
 	{
-		return $this->db->create($reservation, 'reservation');
+		return $this->db->create($reservation);
 	}
 	
 	function count_reservations($conditions = null)
@@ -167,12 +167,12 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 	function update_item($item)
 	{
 		$condition = new EqualityCondition(Item :: PROPERTY_ID, $item->get_id());
-		return $this->db->update($item, 'item', $condition);
+		return $this->db->update($item, $condition);
 	}
 	
 	function create_item($item)
 	{
-		return $this->db->create($item, 'item');
+		return $this->db->create($item);
 	}
 	
 	function count_items($conditions = null)
@@ -199,12 +199,12 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 	function update_quota($quota)
 	{
 		$condition = new EqualityCondition(Quota :: PROPERTY_ID, $quota->get_id());
-		return $this->db->update($quota, 'quota', $condition);
+		return $this->db->update($quota, $condition);
 	}
 	
 	function create_quota($quota)
 	{
-		return $this->db->create($quota, 'quota');
+		return $this->db->create($quota);
 	}
 	
 	function count_quotas($conditions = null)
@@ -235,13 +235,13 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 	
 	function create_subscription($subscription)
 	{
-		return $this->db->create($subscription, 'subscription');
+		return $this->db->create($subscription);
 	}
 	
 	function update_subscription($subscription)
 	{
 		$condition = new EqualityCondition(Subscription :: PROPERTY_ID, $subscription->get_id());
-		return $this->db->update($subscription, 'subscription', $condition);
+		return $this->db->update($subscription, $condition);
 	}
 	
 	function count_subscriptions($conditions = null)
@@ -267,7 +267,7 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 	
 	function create_subscription_user($subscription_user)
 	{
-		return $this->db->create($subscription_user, 'subscription_user');
+		return $this->db->create($subscription_user);
 	}
 	
 	function count_subscription_users($condition = null)
@@ -354,12 +354,12 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 	function update_quota_box($quota_box)
 	{
 		$condition = new EqualityCondition(QuotaBox :: PROPERTY_ID, $quota_box->get_id());
-		return $this->db->update($quota_box, 'quota_box', $condition);
+		return $this->db->update($quota_box, $condition);
 	}
 	
 	function create_quota_box($quota_box)
 	{
-		return $this->db->create($quota_box, 'quota_box');
+		return $this->db->create($quota_box);
 	}
 	
 	function count_quota_boxes($conditions = null)
@@ -374,7 +374,7 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 	
 	function create_quota_rel_quota_box($quota_rel_quota_box)
 	{
-		return $this->db->create($quota_rel_quota_box, 'quota_rel_quota_box');
+		return $this->db->create($quota_rel_quota_box);
 	}
 	
 	function delete_quota_rel_quota_box($quota_rel_quota_box)
@@ -405,7 +405,7 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 	
 	function create_quota_box_rel_category($quota_rel_quota_box)
 	{
-		return $this->db->create($quota_rel_quota_box, 'quota_box_rel_category');
+		return $this->db->create($quota_rel_quota_box);
 	}
 	
 	function delete_quota_box_rel_category($quota_box_rel_category)
@@ -472,7 +472,7 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 	
 	function create_quota_box_rel_category_rel_user($quota_box_rel_category_rel_user)
 	{
-		return $this->db->create($quota_box_rel_category_rel_user, 'quota_box_rel_category_rel_user');
+		return $this->db->create($quota_box_rel_category_rel_user);
 	}
 	
 	function delete_quota_box_rel_category_rel_user($quota_box_rel_category_rel_user)
@@ -496,7 +496,7 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 	
 	function create_quota_box_rel_category_rel_group($quota_box_rel_category_rel_group)
 	{
-		return $this->db->create($quota_box_rel_category_rel_group, 'quota_box_rel_category_rel_group');
+		return $this->db->create($quota_box_rel_category_rel_group);
 	}
 	
 	function delete_quota_box_rel_category_rel_group($quota_box_rel_category_rel_group)
@@ -520,7 +520,7 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 	
 	function create_overview_item($overview_item)
 	{
-		return $this->db->create($overview_item, 'overview_item');
+		return $this->db->create($overview_item);
 	}
 	
 	function empty_overview_for_user($user_id)

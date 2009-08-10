@@ -52,7 +52,7 @@ class ReservationsManagerItemDeleterComponent extends ReservationsManagerCompone
 				$message = $bool ? 'ItemsDeleted' : 'ItemsNotDeleted';
 			
 			
-			$this->redirect('url', Translation :: get($message), ($bool ? false : true), 
+			$this->redirect(Translation :: get($message), ($bool ? false : true), 
 				array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS,
 					  ReservationsManager :: PARAM_CATEGORY_ID => $category));
 		}

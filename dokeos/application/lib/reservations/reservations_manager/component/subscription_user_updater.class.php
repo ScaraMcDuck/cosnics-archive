@@ -6,7 +6,6 @@ require_once dirname(__FILE__).'/../reservations_manager.class.php';
 require_once dirname(__FILE__).'/../reservations_manager_component.class.php';
 require_once dirname(__FILE__).'/../../forms/subscription_user_form.class.php';
 require_once dirname(__FILE__).'/../../reservations_data_manager.class.php';
-require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 
 class ReservationsManagerSubscriptionUserUpdaterComponent extends ReservationsManagerComponent
 {
@@ -28,8 +27,7 @@ class ReservationsManagerSubscriptionUserUpdaterComponent extends ReservationsMa
 	
 		if($this->get_user()->is_platform_admin())
 		{
-			$admin = new Admin();
-			$trail->add(new Breadcrumb($admin->get_link(array(Admin :: PARAM_ACTION => Admin :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
+			$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 			$trail->add(new BreadCrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS)), Translation :: get('View items')));
 			$trail->add(new BreadCrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_RESERVATIONS, ReservationsManager :: PARAM_ITEM_ID => $this->item->get_id())), Translation :: get('View reservations')));
 			$trail->add(new BreadCrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_SUBSCRIPTIONS, ReservationsManager :: PARAM_RESERVATION_ID => $this->reservation->get_id())), Translation :: get('View subscriptions')));
@@ -58,7 +56,7 @@ class ReservationsManagerSubscriptionUserUpdaterComponent extends ReservationsMa
 		if($form->validate())
 		{
 			$success = $form->update_subscription_users();
-			$this->redirect('url', Translation :: get($success ? 'SubscriptionUserUpdated' : 'SubscriptionUserNotUpdated'), ($success ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_SUBSCRIPTION_USERS, ReservationsManager :: PARAM_SUBSCRIPTION_ID => $subscription_id));
+			$this->redirect(Translation :: get($success ? 'SubscriptionUserUpdated' : 'SubscriptionUserNotUpdated'), ($success ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_SUBSCRIPTION_USERS, ReservationsManager :: PARAM_SUBSCRIPTION_ID => $subscription_id));
 		}
 		else
 		{

@@ -6,7 +6,6 @@ require_once dirname(__FILE__).'/../reservations_manager.class.php';
 require_once dirname(__FILE__).'/../reservations_manager_component.class.php';
 require_once dirname(__FILE__).'/quota_box_browser/quota_box_browser_table.class.php';
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
-require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 
 class ReservationsManagerQuotaBoxBrowserComponent extends ReservationsManagerComponent
 {
@@ -18,8 +17,7 @@ class ReservationsManagerQuotaBoxBrowserComponent extends ReservationsManagerCom
 	function run()
 	{
 		$trail = new BreadCrumbTrail();
-		$admin = new Admin();
-		$trail->add(new Breadcrumb($admin->get_link(array(Admin :: PARAM_ACTION => Admin :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
+		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new BreadCrumb($this->get_url(), Translation :: get('ViewQuotaBoxes')));
 		
 		$this->ab = new ActionBarRenderer($this->get_left_toolbar_data(), array(), $this->get_url(array()));

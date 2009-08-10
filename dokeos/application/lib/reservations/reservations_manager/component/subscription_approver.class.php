@@ -51,7 +51,7 @@ class ReservationsManagerSubscriptionApproverComponent extends ReservationsManag
 				$message = $bool ? 'SubscriptionsApproved' : 'SubscriptionsNotApproved';
 			
 			
-			$this->redirect('url', Translation :: get($message), ($bool ? false : true), 
+			$this->redirect(Translation :: get($message), ($bool ? false : true), 
 				array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_SUBSCRIPTIONS, ReservationsManager :: PARAM_RESERVATION_ID => $reservation_id));
 		}
 		else

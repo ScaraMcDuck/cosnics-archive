@@ -41,7 +41,7 @@ class ReservationsManagerSubscriptionCreatorComponent extends ReservationsManage
 		if($status == 1)
 		{
 			$success = $form->create_subscription();
-			$this->redirect('url', Translation :: get($success ? 'SubscriptionCreated' : 'SubscriptionNotCreated'), ($success ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_RESERVATIONS, ReservationsManager :: PARAM_ITEM_ID => $reservation->get_item()));
+			$this->redirect(Translation :: get($success ? 'SubscriptionCreated' : 'SubscriptionNotCreated'), ($success ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_RESERVATIONS, ReservationsManager :: PARAM_ITEM_ID => $reservation->get_item()));
 		}
 		else
 		{
