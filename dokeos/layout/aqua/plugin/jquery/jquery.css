@@ -406,3 +406,54 @@
 .ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a { cursor: pointer; } /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
 .ui-tabs .ui-tabs-panel { padding: 1em 1.4em; display: block; border-width: 0; background: none; }
 .ui-tabs .ui-tabs-hide { display: none !important; }
+
+/*******************
+ * jSuggest styles *
+ *******************/
+#jSuggestContainer
+{
+	position: absolute;
+	border: 1px solid #808080;
+	border-top: 0px;
+	background: #FFFFFF;
+	margin-left: -1px;
+}
+
+.jSuggestLoading
+{
+	font-style: italic;
+	padding: 5px;
+}
+
+.jSuggestLoading img
+{
+	margin-right: 5px;
+	vertical-align: middle;
+}
+
+#jSuggestContainer ul, #jSuggestContainer ul li
+{
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+
+#jSuggestContainer ul li
+{
+	padding: 2px 4px 2px 4px;
+	border-bottom: 1px dotted #b5cae7;
+	color: #666666;
+	background: #eef5fa;
+	cursor: pointer;
+}
+
+#jSuggestContainer ul li.last
+{
+	border-bottom: 0px;
+}
+
+#jSuggestContainer ul li.jSuggestHover
+{
+	background: #b5cae7;
+	color: #333333;
+}

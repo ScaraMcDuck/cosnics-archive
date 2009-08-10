@@ -227,4 +227,5 @@ $lang['common']['Tools'] = 'Tools';
 $lang['common']['Links'] = 'Links';
 $lang['common']['Disabled'] = 'Disabled';
 $lang['common']['CourseAdministration'] = 'Course Administration';
+$lang['common']['Loading'] = 'Loading';
 ?>
