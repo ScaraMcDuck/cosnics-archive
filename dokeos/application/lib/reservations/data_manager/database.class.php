@@ -128,7 +128,7 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 	function update_category($category)
 	{
 		$condition = new EqualityCondition(Category :: PROPERTY_ID, $category->get_id());
-		return $this->db->update($category, 'category', $condition);
+		return $this->db->update($category, $condition);
 	}
 	
 	function create_category($category)
