@@ -377,5 +377,10 @@ abstract class RepositoryManagerComponent extends CoreApplicationComponent
 	{
 		return $this->get_parent()->retrieve_user_views($condition, $offset, $count, $order_property, $order_direction);
 	}
+
+        function get_reuse_learning_object_url($learning_object)
+        {
+            return $this->get_parent()->get_reuse_learning_object_url($learning_object);
+        }
 }
 ?>
