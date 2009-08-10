@@ -28,32 +28,33 @@ class DefaultCategoryTableCellRenderer implements ObjectTableCellRenderer
 	 */
 	function render_cell($column, $category)
 	{
-		if ($property = $column->get_object_property())
+		switch ($column->get_name())
 		{
-			switch ($property)
-			{
-				case Category :: PROPERTY_ID :
-					return $category->get_id();
-				case Category :: PROPERTY_NAME : 
-					$url = $this->browser->get_browse_categories_url($category->get_id());
-					return '<a href="' . $url . '" alt="' . $category->get_name() . '">' . $category->get_name() . '</a>';
-				case Category :: PROPERTY_POOL : 
-					if($category->use_as_pool())
-						return Translation :: get('Yes');
-					else
-						return Translation :: get('No');
-			}
-
+			case Category :: PROPERTY_ID :
+				return $category->get_id();
+			case Category :: PROPERTY_NAME : 
+				$url = $this->browser->get_browse_categories_url($category->get_id());
+				return '<a href="' . $url . '" alt="' . $category->get_name() . '">' . $category->get_name() . '</a>';
+			case Category :: PROPERTY_POOL : 
+				if($category->use_as_pool())
+					return Translation :: get('Yes');
+				else
+					return Translation :: get('No');
 		}
 		
 		$title = $column->get_title();
 		if($title == '')
 		{
-			$img = Theme :: get_theme_path() . 'treemenu_types/category.png';
+			$img = Theme :: get_common_image_path() . ('treemenu_types/category.png');
 			return '<img src="' . $img . '"alt="category" />';
 		}
 			
 		return '&nbsp;';
+	}
+	
+	function render_id_cell($category)
+	{
+		return $category->get_id();
 	}
 }
 ?>

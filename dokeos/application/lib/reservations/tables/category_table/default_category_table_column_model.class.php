@@ -25,7 +25,7 @@ class DefaultCategoryTableColumnModel extends ObjectTableColumnModel
 	private static function get_default_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn('', false);
+		$columns[] = new StaticTableColumn('', false);
 		$columns[] = new ObjectTableColumn(Category :: PROPERTY_NAME, true);
 		$columns[] = new ObjectTableColumn(Category :: PROPERTY_POOL, true);
 		return $columns;

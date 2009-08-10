@@ -100,7 +100,7 @@ class Category extends DataClass
 	function create()
 	{
 		$rdm = ReservationsDataManager :: get_instance();
-		$this->set_id($rdm->get_next_category_id());
+		$this->set_id($rdm->get_next_category_id()); 
 		$this->set_display_order($rdm->select_next_display_order($this->get_parent()));
 		$succes = $rdm->create_category($this);
 		

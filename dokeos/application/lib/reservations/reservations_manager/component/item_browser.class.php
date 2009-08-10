@@ -23,7 +23,7 @@ class ReservationsManagerItemBrowserComponent extends ReservationsManagerCompone
 		$trail = new BreadCrumbTrail();
 		$trail->add(new BreadCrumb($this->get_url(), Translation :: get('View items')));
 		
-		$this->ab = new ActionBarRenderer($this->get_left_toolbar_data(), null, $this->get_url(array(ReservationsManager :: PARAM_CATEGORY_ID => $this->get_category())));
+		$this->ab = $this->get_action_bar();
 		$menu = new ReservationsMenu($_GET[ReservationsManager :: PARAM_CATEGORY_ID], '?go=browse_items&category_id=%s');
 		$poolform = $this->get_poolform();
 		
@@ -83,19 +83,6 @@ class ReservationsManagerItemBrowserComponent extends ReservationsManagerCompone
 		return (isset($_GET[ReservationsManager :: PARAM_CATEGORY_ID])?$_GET[ReservationsManager :: PARAM_CATEGORY_ID]:0);
 	}
 	
-	function get_left_toolbar_data()
-	{
-		$tb_data = array();
-		
-		$tb_data[] = array(
-				'href' => $this->get_url(),
-				'label' => Translation :: get('ShowAll'),
-				'img' => Theme :: get_theme_path() . 'action_browser.png'
-		);
-		
-		return $tb_data;
-	}
-	
 	function get_poolform()
 	{
 		$category = $this->retrieve_categories(new EqualityCondition(Category :: PROPERTY_ID, $this->get_category()))->next_result();
@@ -104,6 +91,16 @@ class ReservationsManagerItemBrowserComponent extends ReservationsManagerCompone
 			$form = new PoolForm($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_SEARCH_POOL, ReservationsManager :: PARAM_CATEGORY_ID => $this->get_category())), $this->get_user());
 			return $form;
 		}
+	}
+	
+	function get_action_bar()
+	{
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+
+		$action_bar->set_search_url($this->get_url(array(ReservationsManager :: PARAM_CATEGORY_ID => $this->get_category())));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		
+		return $action_bar;
 	}
 }
 ?>

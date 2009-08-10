@@ -32,6 +32,9 @@ require_once 'MDB2.php';
 
 class DatabaseReservationsDataManager extends ReservationsDataManager
 {
+	/**
+	 * @var Database
+	 */
 	private $db;
 	
 	/**
@@ -130,7 +133,7 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 	
 	function create_category($category)
 	{
-		return $this->db->create($category, 'category');
+		return $this->db->create($category);
 	}
 	
 	function count_categories($conditions = null)
@@ -283,15 +286,14 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 		$this->db->escape_table_name('category');
 	
 		$condition = new EqualityCondition(Category :: PROPERTY_PARENT, $parent_category_id);
-		
+	
 		$params = array ();
-		if (isset ($condition))
-		{
-			$translator = new ConditionTranslator($this->db, $params, $prefix_properties = false);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
-		}
+		if (isset($condition))
+        {
+            $translator = new ConditionTranslator($this->db, $params);
+            $query .= $translator->render_query($condition);
+            $params = $translator->get_parameters();
+        }
 		
 		$sth = $this->db->get_connection()->prepare($query);
 		$res = $sth->execute($params);
