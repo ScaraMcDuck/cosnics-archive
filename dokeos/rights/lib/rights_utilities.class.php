@@ -420,5 +420,18 @@ class RightsUtilities
 		$return['description'] = strip_tags($role->get_description());
 		return $return;
 	}
+	
+	function create_location($name, $application, $type = 'root', $identifier = 0, $inherit = 0, $parent = 0)
+	{
+		$location = new Location();
+		$location->set_location($name);
+		$location->set_parent($parent);
+		$location->set_application($application);
+		$location->set_type($type);
+		$location->set_identifier($identifier);
+		$location->set_inherit($inherit);
+		return $location->create();
+	}
+	
 }
 ?>

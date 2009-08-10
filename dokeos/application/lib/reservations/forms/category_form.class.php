@@ -59,7 +59,7 @@ class CategoryForm extends FormValidator {
 		$this->addElement('submit', 'submit', 'OK');
 		
 		$this->addElement('html', '<div style="clear: both;"></div>');
-		$this->addElement('html', '</div>');
+		$this->addElement('html', '</div></div>');
     }
 
     /**

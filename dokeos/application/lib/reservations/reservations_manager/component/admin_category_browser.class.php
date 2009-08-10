@@ -7,7 +7,6 @@ require_once dirname(__FILE__).'/../reservations_manager_component.class.php';
 require_once dirname(__FILE__).'/category_browser/category_browser_table.class.php';
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
 require_once dirname(__FILE__).'/../../reservations_menu.class.php';
-require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 
 class ReservationsManagerAdminCategoryBrowserComponent extends ReservationsManagerComponent
 {
@@ -19,12 +18,11 @@ class ReservationsManagerAdminCategoryBrowserComponent extends ReservationsManag
 	function run()
 	{
 		$trail = new BreadCrumbTrail();
-		$admin = new Admin();
-		$trail->add(new Breadcrumb($admin->get_link(array(Admin :: PARAM_ACTION => Admin :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
+		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new BreadCrumb($this->get_url(), Translation :: get('View categories')));
 		
-		$this->ab = new ActionBarRenderer($this->get_left_toolbar_data(), array(), $this->get_url(array(ReservationsManager :: PARAM_CATEGORY_ID => $this->get_category())));
-		$menu = new ReservationsMenu($_GET[ReservationsManager :: PARAM_CATEGORY_ID], '?go=admin_browse_categories&category_id=%s');
+		$this->ab = $this->get_action_bar();
+		$menu = new ReservationsMenu($_GET[ReservationsManager :: PARAM_CATEGORY_ID], '?application=reservations&go=admin_browse_categories&category_id=%s');
 		
 		$this->display_header($trail);
 		echo $this->ab->as_html() . '<br />';
@@ -72,33 +70,15 @@ class ReservationsManagerAdminCategoryBrowserComponent extends ReservationsManag
 		return (isset($_GET[ReservationsManager :: PARAM_CATEGORY_ID])?$_GET[ReservationsManager :: PARAM_CATEGORY_ID]:0);
 	}
 	
-	function get_left_toolbar_data()
+	function get_action_bar()
 	{
-		$tb_data = array();
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+
+		$action_bar->set_search_url($this->get_url(array(ReservationsManager :: PARAM_CATEGORY_ID => $this->get_category())));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_create_category_url($_GET[ReservationsManager :: PARAM_CATEGORY_ID]), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageQuota'), Theme :: get_common_image_path().'action_statistics.png', $this->get_browse_category_quota_boxes_url(0), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
-		//if($this->has_right('category', $this->get_category(), ReservationsRights :: ADD_RIGHT))
-		{
-			$tb_data[] = array(
-					'href' => $this->get_create_category_url($_GET[ReservationsManager :: PARAM_CATEGORY_ID]),
-					'label' => Translation :: get('Add'),
-					'img' => Theme :: get_theme_path() . 'action_add.png'
-			);
-		}
-		
-		$tb_data[] = array(
-				'href' => $this->get_url(),
-				'label' => Translation :: get('ShowAll'),
-				'img' => Theme :: get_theme_path() . 'action_browser.png'
-		);
-		
-		$url = $this->get_browse_category_quota_boxes_url(0);
-		$tb_data[] = array(
-			'href' => $url,
-			'label' => Translation :: get('ManageQuota'),
-			'img' => Theme :: get_theme_path() .'quota.png'
-		);
-		
-		return $tb_data;
-		
+		return $action_bar;
 	}
 }

@@ -415,7 +415,7 @@ class ReservationsManager extends WebApplication
 	 */
 	function get_browse_categories_url($category_id = 0)
 	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CATEGORIES,
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_CATEGORIES,
 								    self :: PARAM_CATEGORY_ID => $category_id));
 	}
 	
