@@ -105,6 +105,7 @@ class RepositoryManager extends CoreApplication
     const ACTION_VIEW_ATTACHMENT = 'view_attachment';
     const ACTION_BUILD_COMPLEX_LEARNING_OBJECT = 'build_complex';
     const ACTION_VIEW_REPO = 'repo_viewer';
+    const ACTION_REUSE_LEARNING_OBJECT = 'reuse_learning_object';
 
     const ACTION_BROWSE_USER_VIEWS = 'browse_views';
     const ACTION_CREATE_USER_VIEW = 'create_view';
@@ -267,6 +268,9 @@ class RepositoryManager extends CoreApplication
                 break;
             case self :: ACTION_BROWSE_SHARED_LEARNING_OBJECTS :
                 $component = RepositoryManagerComponent :: factory('SharedLearningObjectsBrowser', $this);
+                break;
+            case self :: ACTION_REUSE_LEARNING_OBJECT :
+                $component = RepositoryManagerComponent :: factory('ReuseLearningObject', $this);
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_LEARNING_OBJECTS);
@@ -1125,6 +1129,11 @@ class RepositoryManager extends CoreApplication
     {
         return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_USER_VIEW,
         self :: PARAM_USER_VIEW => $user_view_id));
+    }
+
+    function get_reuse_learning_object_url($learning_object)
+    {
+        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_REUSE_LEARNING_OBJECT, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
     }
 
     /**
