@@ -33,7 +33,9 @@ class ReservationsManagerAdminCategoryBrowserComponent extends ReservationsManag
 	
 	function get_user_html()
 	{		
-		$table = new CategoryBrowserTable($this, array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_CATEGORIES, ReservationsManager :: PARAM_CATEGORY_ID => $this->get_category()), $this->get_condition());
+		//ReservationsManager :: PARAM_CATEGORY_ID => $this->get_category()
+		$parameters = array_merge($this->get_parameters(), array(ReservationsManager :: PARAM_CATEGORY_ID => $this->get_category()));
+		$table = new CategoryBrowserTable($this, $parameters, $this->get_condition());
 		
 		$html = array();
 		$html[] = '<div style="float: right; width: 80%;">';

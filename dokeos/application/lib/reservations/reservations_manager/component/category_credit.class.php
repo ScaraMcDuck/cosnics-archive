@@ -31,7 +31,13 @@ class ReservationsManagerCategoryCreditComponent extends ReservationsManagerComp
 		$categories = $this->retrieve_categories(new EqualityCondition(Category :: PROPERTY_ID, $category_id));
 		$category = $categories->next_result();
 		
-		$form = new CreditForm( $this->get_url(array(ReservationsManager :: PARAM_CATEGORY_ID => $category->get_id())));
+		if(!$category)
+		{
+			$category = new Category();
+			$category->set_id($category_id);
+		}
+		
+		$form = new CreditForm( $this->get_url(array(ReservationsManager :: PARAM_CATEGORY_ID => $category_id)));
 
 		if($form->validate())
 		{

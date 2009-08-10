@@ -51,7 +51,7 @@ class ItemBrowserTableCellRenderer extends DefaultItemTableCellRenderer
 				$toolbar_data[] = array(
 						'href' => $this->browser->get_update_item_url($item->get_id(), $this->browser->get_category()),
 						'label' => Translation :: get('Edit'),
-						'img' => Theme :: get_theme_path() . 'action_edit.png'
+						'img' => Theme :: get_common_image_path() . 'action_edit.png'
 				);
 			}
 			
@@ -60,7 +60,7 @@ class ItemBrowserTableCellRenderer extends DefaultItemTableCellRenderer
 				$toolbar_data[] = array(
 						'href' => $this->browser->get_delete_item_url($item->get_id(), $this->browser->get_category()),
 						'label' => Translation :: get('Delete'),
-						'img' => Theme :: get_theme_path() . 'action_delete.png',
+						'img' => Theme :: get_common_image_path() . 'action_delete.png',
 						'confirm' => true
 				);
 			}
@@ -70,7 +70,7 @@ class ItemBrowserTableCellRenderer extends DefaultItemTableCellRenderer
 				$toolbar_data[] = array(
 					'href' => $this->browser->get_modify_rights_url('item', $item->get_id()),
 					'label' => Translation :: get('ModifyRights'),
-					'img' => Theme :: get_theme_path() . 'action_rights.png'		
+					'img' => Theme :: get_common_image_path() . 'action_rights.png'		
 				);
 			}
 		}
@@ -90,7 +90,7 @@ class ItemBrowserTableCellRenderer extends DefaultItemTableCellRenderer
 			$toolbar_data[] = array(
 					'href' => $url,
 					'label' => Translation :: get('BrowseReservations'),
-					'img' => Theme :: get_theme_path() . 'action_browser.png'
+					'img' => Theme :: get_common_image_path() . 'action_browser.png'
 			);
 		}
 		

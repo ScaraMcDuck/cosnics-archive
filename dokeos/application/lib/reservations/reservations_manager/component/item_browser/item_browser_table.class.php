@@ -25,8 +25,8 @@ class ItemBrowserTable extends ObjectTable
 		$data_provider = new ItemBrowserTableDataProvider($browser, $condition);
 		parent :: __construct($data_provider, ItemBrowserTable :: DEFAULT_NAME, $model, $renderer);
 		$this->set_additional_parameters($parameters);
-		
-		if(get_class($this->browser) == 'ReservationsManagerAdminItemBrowserComponent' && $browser->get_user() && $browser->get_user()->is_platform_admin())
+
+		if(get_class($browser) == 'ReservationsManagerAdminItemBrowserComponent' && $browser->get_user() && $browser->get_user()->is_platform_admin())
 		{
 			$actions = array();
 			$actions[ReservationsManager :: PARAM_REMOVE_SELECTED_ITEMS] = Translation :: get('RemoveSelected');
