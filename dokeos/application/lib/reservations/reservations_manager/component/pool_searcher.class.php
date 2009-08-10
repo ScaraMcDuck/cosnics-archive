@@ -50,7 +50,7 @@ class ReservationsManagerPoolSearcherComponent extends ReservationsManagerCompon
 //		$this->display_footer();
 
 		$bool = ($message == 'NoReservationPeriodFound');
-		$this->redirect('url', Translation :: get($message), ($bool), 
+		$this->redirect(Translation :: get($message), ($bool), 
 				array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_ITEMS, 
 					  ReservationsManager :: PARAM_CATEGORY_ID => $pool_id));
 		

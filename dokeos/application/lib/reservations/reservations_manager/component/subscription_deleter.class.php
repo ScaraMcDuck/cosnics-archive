@@ -52,7 +52,7 @@ class ReservationsManagerSubscriptionDeleterComponent extends ReservationsManage
 				$message = $bool ? 'SubscriptionsDeleted' : 'SubscriptionsNotDeleted';
 			
 			
-			$this->redirect('url', Translation :: get($message), ($bool ? false : true), 
+			$this->redirect(Translation :: get($message), ($bool ? false : true), 
 				array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_SUBSCRIPTIONS));
 		}
 		else

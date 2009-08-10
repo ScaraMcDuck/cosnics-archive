@@ -7,7 +7,6 @@ require_once dirname(__FILE__).'/../reservations_manager_component.class.php';
 require_once dirname(__FILE__).'/../../item.class.php';
 require_once dirname(__FILE__).'/../../forms/item_form.class.php';
 require_once dirname(__FILE__).'/../../reservations_data_manager.class.php';
-require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 
 class ReservationsManagerItemUpdaterComponent extends ReservationsManagerComponent
 {
@@ -20,8 +19,7 @@ class ReservationsManagerItemUpdaterComponent extends ReservationsManagerCompone
 		$item_id = $_GET[ReservationsManager :: PARAM_ITEM_ID];
 		
 		$trail = new BreadcrumbTrail();
-		$admin = new Admin();
-		$trail->add(new Breadcrumb($admin->get_link(array(Admin :: PARAM_ACTION => Admin :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
+		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS, ReservationsManager :: PARAM_CATEGORY_ID => $category_id)), Translation :: get('View items')));
 		$trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ITEM_ID => $item_id, ReservationsManager :: PARAM_CATEGORY_ID => $category_id)), Translation :: get('Update item')));
 
@@ -41,7 +39,7 @@ class ReservationsManagerItemUpdaterComponent extends ReservationsManagerCompone
 		if($form->validate())
 		{
 			$success = $form->update_item();
-			$this->redirect('url', Translation :: get($success ? 'ItemUpdated' : 'ItemNotUpdated'), ($success ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS, ReservationsManager :: PARAM_CATEGORY_ID => $category_id));
+			$this->redirect(Translation :: get($success ? 'ItemUpdated' : 'ItemNotUpdated'), ($success ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS, ReservationsManager :: PARAM_CATEGORY_ID => $category_id));
 		}
 		else
 		{

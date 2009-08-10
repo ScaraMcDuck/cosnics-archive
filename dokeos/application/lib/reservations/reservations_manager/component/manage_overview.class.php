@@ -32,7 +32,7 @@ class ReservationsManagerManageOverviewComponent extends ReservationsManagerComp
 		if($form->validate())
 		{
 			$success = $form->update_overview();
-			$this->redirect('url', Translation :: get($success ? 'StatisticsListUpdated' : 'StatisticsListNotUpdated'), ($success ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_RESPONSIBLE_OVERVIEW));
+			$this->redirect(Translation :: get($success ? 'StatisticsListUpdated' : 'StatisticsListNotUpdated'), ($success ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_RESPONSIBLE_OVERVIEW));
 		}
 		else
 		{

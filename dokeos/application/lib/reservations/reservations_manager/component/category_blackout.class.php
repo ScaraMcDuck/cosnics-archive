@@ -33,7 +33,7 @@ class ReservationsManagerCategoryBlackoutComponent extends ReservationsManagerCo
 			
 			$message = $blackout ? $message : 'Un' . $message;
 			
-			$this->redirect('url', Translation :: get($message), ($bool ? false : true), 
+			$this->redirect(Translation :: get($message), ($bool ? false : true), 
 				array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS,
 					  ReservationsManager :: PARAM_CATEGORY_ID => $id));
 		}

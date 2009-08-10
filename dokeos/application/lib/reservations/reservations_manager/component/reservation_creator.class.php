@@ -7,7 +7,6 @@ require_once dirname(__FILE__).'/../reservations_manager_component.class.php';
 require_once dirname(__FILE__).'/../../reservation.class.php';
 require_once dirname(__FILE__).'/../../forms/reservation_form.class.php';
 require_once dirname(__FILE__).'/../../reservations_data_manager.class.php';
-require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 
 class ReservationsManagerReservationCreatorComponent extends ReservationsManagerComponent
 {
@@ -19,8 +18,7 @@ class ReservationsManagerReservationCreatorComponent extends ReservationsManager
 		$item_id = $_GET[ReservationsManager :: PARAM_ITEM_ID];
 		
 		$trail = new BreadcrumbTrail();
-		$admin = new Admin();
-		$trail->add(new Breadcrumb($admin->get_link(array(Admin :: PARAM_ACTION => Admin :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
+		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS)), Translation :: get('View items')));
 		$trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_RESERVATIONS, ReservationsManager :: PARAM_ITEM_ID => $item_id)), Translation :: get('View reservations')));
 		$trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ITEM_ID => $item_id)), Translation :: get('Create reservation')));
@@ -42,7 +40,7 @@ class ReservationsManagerReservationCreatorComponent extends ReservationsManager
 		if($status == 1)
 		{
 			$success = $form->create_reservation();
-			$this->redirect('url', Translation :: get($success ? 'ReservationCreated' : 'ReservationNotCreated'), ($success ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_RESERVATIONS, ReservationsManager :: PARAM_ITEM_ID => $item_id));
+			$this->redirect(Translation :: get($success ? 'ReservationCreated' : 'ReservationNotCreated'), ($success ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_RESERVATIONS, ReservationsManager :: PARAM_ITEM_ID => $item_id));
 		}
 		else
 		{

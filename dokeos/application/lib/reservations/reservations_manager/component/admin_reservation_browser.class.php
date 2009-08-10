@@ -9,7 +9,6 @@ require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.c
 require_once dirname(__FILE__).'/../../reservations_menu.class.php';
 require_once dirname(__FILE__).'/../../calendar/reservations_calendar_mini_month_renderer.class.php';
 require_once dirname(__FILE__).'/../../calendar/reservations_calendar_week_renderer.class.php';
-require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 
 class ReservationsManagerAdminReservationBrowserComponent extends ReservationsManagerComponent
 {
@@ -21,8 +20,7 @@ class ReservationsManagerAdminReservationBrowserComponent extends ReservationsMa
 	function run()
 	{
 		$trail = new BreadCrumbTrail();
-		$admin = new Admin();
-		$trail->add(new Breadcrumb($admin->get_link(array(Admin :: PARAM_ACTION => Admin :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
+		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new BreadCrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS)), Translation :: get('View items')));
 		$trail->add(new BreadCrumb($this->get_url(array(ReservationsManager :: PARAM_ITEM_ID => $this->get_item())), Translation :: get('View reservations')));
 		

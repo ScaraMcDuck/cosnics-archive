@@ -49,7 +49,7 @@ class ReservationsManagerQuotaDeleterComponent extends ReservationsManagerCompon
 				$message = $bool ? 'QuotasDeleted' : 'QuotasNotDeleted';
 			
 			
-			$this->redirect('url', Translation :: get($message), ($bool ? false : true), 
+			$this->redirect(Translation :: get($message), ($bool ? false : true), 
 				array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_QUOTAS));
 		}
 		else
