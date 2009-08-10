@@ -163,7 +163,6 @@ class RepositoryManagerSharedLearningObjectsBrowserComponent extends RepositoryM
                 $location_ids[] = $role_right_location->get_location_id();
 
             $this->list[] = array('location_id' => $role_right_location->get_location_id(),'role' => $role_right_location->get_role_id(), 'right' => $role_right_location->get_right_id());
-                //hier array maken van alle learning object ids & right (voor tabel)
         }
 
         $location_cond = new InCondition('id',$location_ids);
