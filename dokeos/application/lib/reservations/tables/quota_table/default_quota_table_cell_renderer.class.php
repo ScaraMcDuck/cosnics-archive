@@ -26,23 +26,28 @@ class DefaultQuotaTableCellRenderer implements ObjectTableCellRenderer
 	 * @param Learning Object $learning_object The learning object to render
 	 * @return string A HTML representation of the rendered table cell
 	 */
-	function render_cell($column, $category)
+	function render_cell($column, $quota)
 	{
-		if ($property = $column->get_object_property())
+		if ($property = $column->get_name())
 		{
 			switch ($property)
 			{
 				case Quota :: PROPERTY_ID :
-					return $category->get_id();
+					return $quota->get_id();
 				case Quota :: PROPERTY_CREDITS :
-					return $category->get_credits();
+					return $quota->get_credits();
 				case Quota :: PROPERTY_TIME_UNIT :
-					return $category->get_time_unit() . ' ' . Translation :: get('day(s)');
+					return $quota->get_time_unit() . ' ' . Translation :: get('day(s)');
 			}
 
 		}
 			
 		return '&nbsp;';
+	}
+	
+	function render_id_cell($quota)
+	{
+		return $quota->get_id();
 	}
 }
 ?>

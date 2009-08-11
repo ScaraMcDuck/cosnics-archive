@@ -20,7 +20,7 @@ class ReservationsManagerQuotaBoxBrowserComponent extends ReservationsManagerCom
 		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new BreadCrumb($this->get_url(), Translation :: get('ViewQuotaBoxes')));
 		
-		$this->ab = new ActionBarRenderer($this->get_left_toolbar_data(), array(), $this->get_url(array()));
+		$this->ab = $this->get_action_bar();
 		
 		$this->display_header($trail);
 		echo $this->ab->as_html() . '<br />';
@@ -51,24 +51,15 @@ class ReservationsManagerQuotaBoxBrowserComponent extends ReservationsManagerCom
 			return $condition;
 		}
 	}
-
-	function get_left_toolbar_data()
+	
+	function get_action_bar()
 	{
-		$tb_data = array();
-		
-		$tb_data[] = array(
-				'href' => $this->get_create_quota_box_url(),
-				'label' => Translation :: get('Add'),
-				'img' => Theme :: get_theme_path() . 'action_add.png'
-		);
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-		$tb_data[] = array(
-				'href' => $this->get_url(),
-				'label' => Translation :: get('ShowAll'),
-				'img' => Theme :: get_theme_path() . 'action_browser.png'
-		);
+		$action_bar->set_search_url($this->get_url());
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_create_quota_box_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
-		return $tb_data;
-		
+		return $action_bar;
 	}
 }
