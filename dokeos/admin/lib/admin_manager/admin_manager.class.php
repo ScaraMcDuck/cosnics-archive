@@ -220,12 +220,7 @@ class AdminManager extends CoreApplication
         foreach ($applications as $index => $application_name)
         {
             $application = Application :: factory($application_name);
-            $links = $application->get_application_platform_admin_links();
-            if ($links['application']['name'])
-            {
-                $links['application']['name'] = Translation :: get(Application :: application_to_class($links['application']['name']));
-                $info[] = $links;
-            }
+            $info[] = $application->get_application_platform_admin_links();
         }
 
         return $info;

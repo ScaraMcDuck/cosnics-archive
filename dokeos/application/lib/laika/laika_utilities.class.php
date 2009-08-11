@@ -144,17 +144,17 @@ class LaikaUtilities
 		$html[] = '<ul>';
 
 		// Result Links
-		$html[] = '<li class="tool_list_menu" style="font-weight: bold">' . Translation :: get('LaikaResults') . '</li><br />';
-		$html[] = '<li class="tool_list_menu" style="list-style-position: inside; list-style-image: url(' . Theme :: get_common_image_path() . 'action_browser.png)"><a style="top: -3px; position: relative;" href="'.$browser->get_url(array(Application :: PARAM_ACTION => LaikaManager :: ACTION_BROWSE_RESULTS)) .'">'.Translation :: get('BrowseResults').'</a></li>';
-		$html[] = '<li class="tool_list_menu" style="list-style-position: inside; list-style-image: url(' . Theme :: get_common_image_path() . 'action_chart.png)"><a style="top: -3px; position: relative;" href="'.$browser->get_url(array(Application :: PARAM_ACTION => LaikaManager :: ACTION_RENDER_GRAPH)) .'">'.Translation :: get('RenderGraphs').'</a></li>';
-		$html[] = '<li class="tool_list_menu" style="list-style-position: inside; list-style-image: url(' . Theme :: get_common_image_path() . 'action_users.png)"><a style="top: -3px; position: relative;" href="'.$browser->get_url(array(Application :: PARAM_ACTION => LaikaManager :: ACTION_BROWSE_USERS)) .'">'.Translation :: get('BrowseUsers').'</a></li>';
-		$html[] = '<li class="tool_list_menu" style="list-style-position: inside; list-style-image: url(' . Theme :: get_common_image_path() . 'action_statistics.png)"><a style="top: -3px; position: relative;" href="'.$browser->get_url(array(Application :: PARAM_ACTION => LaikaManager :: ACTION_VIEW_STATISTICS)) .'">'.Translation :: get('ViewStatistics').'</a></li>';
+		$html[] = '<li class="tool_list_menu title">' . Translation :: get('LaikaResults') . '</li>';
+		$html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_browser.png)"><a href="'.$browser->get_url(array(Application :: PARAM_ACTION => LaikaManager :: ACTION_BROWSE_RESULTS)) .'">'.Translation :: get('BrowseResults').'</a></li>';
+		$html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_chart.png)"><a href="'.$browser->get_url(array(Application :: PARAM_ACTION => LaikaManager :: ACTION_RENDER_GRAPH)) .'">'.Translation :: get('RenderGraphs').'</a></li>';
+		$html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_users.png)"><a href="'.$browser->get_url(array(Application :: PARAM_ACTION => LaikaManager :: ACTION_BROWSE_USERS)) .'">'.Translation :: get('BrowseUsers').'</a></li>';
+		$html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_statistics.png)"><a href="'.$browser->get_url(array(Application :: PARAM_ACTION => LaikaManager :: ACTION_VIEW_STATISTICS)) .'">'.Translation :: get('ViewStatistics').'</a></li>';
 
-		$html[] = '<div style="margin: 10px 0 10px 0; border-bottom: 1px dotted #4271B5; height: 0px;"></div>';
+		$html[] = '<div class="splitter"></div>';
 
 		// Test Links
-		$html[] = '<li class="tool_list_menu" style="font-weight: bold">' . Translation :: get('LaikaTest') . '</li><br />';
-		$html[] = '<li class="tool_list_menu" style="list-style-position: inside; list-style-image: url(' . Theme :: get_common_image_path() . 'action_start.png)"><a style="top: -3px; position: relative;" href="'.$browser->get_url(array(Application :: PARAM_ACTION => LaikaManager :: ACTION_TAKE_TEST)) .'">'.Translation :: get('TakeLaika').'</a></li>';
+		$html[] = '<li class="tool_list_menu title">' . Translation :: get('LaikaTest') . '</li>';
+		$html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_start.png)"><a href="'.$browser->get_url(array(Application :: PARAM_ACTION => LaikaManager :: ACTION_TAKE_TEST)) .'">'.Translation :: get('TakeLaika').'</a></li>';
 
 		$html[] = '</ul>';
 		$html[] = '</div>';

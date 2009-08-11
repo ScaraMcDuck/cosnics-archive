@@ -269,15 +269,17 @@ class ReservationsManager extends WebApplication
 		$html[] = '<div class="tool_menu">';
 		$html[] = '<ul>';
 
-		$html[] = '<li class="tool_list_menu title" style="font-weight: bold">' . Translation :: get('Use') . '</li><br />';
-		$html[] = '<li class="tool_list_menu">' . Translation :: get('MyReservations') . '</li><br />';
-		$html[] = '<li class="tool_list_menu">' . Translation :: get('Statistics') . '</li><br />';
-		$html[] = '<div style="margin: 10px 0 10px 0; border-bottom: 1px dotted #4271B5; height: 0px;"></div>';
-		$html[] = '<li class="tool_list_menu title" style="font-weight: bold">' . Translation :: get('Manage') . '</li><br />';
-		$html[] = '<li class="tool_list_menu">' . Translation :: get('ManageCategories') . '</li><br />';
-		$html[] = '<li class="tool_list_menu">' . Translation :: get('ManageItems') . '</li><br />';
-		$html[] = '<li class="tool_list_menu">' . Translation :: get('ManageQuota') . '</li><br />';
-		$html[] = '<li class="tool_list_menu">' . Translation :: get('ManageQuotaBoxes') . '</li><br />';
+		$html[] = '<li class="tool_list_menu title">' . Translation :: get('Use') . '</li>';
+		$html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_browser.png)"><a href="#">' . Translation :: get('MyReservations') . '</a></li>';
+		$html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_statistics.png)"><a href="#">' . Translation :: get('Statistics') . '</a></li>';
+		
+		$html[] = '<div class="splitter"></div>';
+		
+		$html[] = '<li class="tool_list_menu title" style="font-weight: bold">' . Translation :: get('Manage') . '</li>';
+		$html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_category.png)"><a href="#">' . Translation :: get('ManageCategories') . '</a></li>';
+		$html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_item.png)"><a href="#">' . Translation :: get('ManageItems') . '</a></li>';
+		$html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_quota.png)"><a href="#">' . Translation :: get('ManageQuota') . '</a></li>';
+		$html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_browser.png)"><a href="#">' . Translation :: get('ManageQuotaBoxes') . '</a></li>';
 		$html[] = '</ul>';
 		$html[] = '</div>';
 
@@ -307,11 +309,14 @@ class ReservationsManager extends WebApplication
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
-		$links[] = array('name' => Translation :: get('Categories'), 'action' => 'list', 'url' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_CATEGORIES)));
+		$links[] = array('name' => Translation :: get('Categories'), 'action' => 'category', 'url' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_CATEGORIES)));
 		$links[] = array('name' => Translation :: get('Items'), 'action' => 'list', 'url' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_ITEMS)));
 		$links[] = array('name' => Translation :: get('Quotas'), 'action' => 'list', 'url' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_QUOTAS)));
 		$links[] = array('name' => Translation :: get('QuotaBoxes'), 'action' => 'list', 'url' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_QUOTA_BOXES)));
-		return array('application' => array('name' => Translation :: get('Reservations'), 'class' => 'reservations'), 'links' => $links);
+		
+		$info = parent :: get_application_platform_admin_links();		
+		$info['links'] = $links;
+		return $info;
 	}
 	
 	/**
@@ -700,49 +705,6 @@ class ReservationsManager extends WebApplication
 	function get_manage_overview_url()
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_OVERVIEW));
-	}
-	
-	//Dummy Methods which are needed because we don't work with learning objects
-	function learning_object_is_published($object_id)
-	{
-	}
-
-	function any_learning_object_is_published($object_ids)
-	{
-	}
-
-	function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
-	{
-	}
-
-	function get_learning_object_publication_attribute($object_id)
-	{
-
-	}
-
-	function count_publication_attributes($type = null, $condition = null)
-	{
-
-	}
-
-	function delete_learning_object_publications($object_id)
-	{
-
-	}
-
-	function update_learning_object_publication_id($publication_attr)
-	{
-
-	}
-
-	function get_learning_object_publication_locations($learning_object)
-	{
-
-	}
-
-	function publish_learning_object($learning_object, $location)
-	{
-
 	}
 
 	/**
