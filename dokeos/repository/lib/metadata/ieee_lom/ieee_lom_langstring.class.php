@@ -67,5 +67,15 @@ class IeeeLomLangString
 	{
 		return $this->strings;
 	}
+	
+	public function get_string($index)
+	{
+	    return $this->strings[$index][self :: STRING];
+	}
+	
+	public function get_language($index)
+	{
+	    return $this->strings[$index][self :: LANGUAGE];
+	}
 }
 ?>

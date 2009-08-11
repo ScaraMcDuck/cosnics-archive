@@ -87,6 +87,7 @@ class RepositoryInstaller extends Installer
 	    $languages = array(array('name' => 'Dutsch', 'value' => 'nl'),
 	                       array('name' => 'English', 'value' => 'en'),
 	                       array('name' => 'French', 'value' => 'fr'),
+	                       array('name' => 'German', 'value' => 'de'),
 	                       array('name' => 'Italian', 'value' => 'it'),
 	                       array('name' => 'Spanish', 'value' => 'es'));
 	    

@@ -36,6 +36,7 @@ $lang['repository']['Metadatasubject_matter_expert'] = 'expert-contenu';
 $lang['repository']['MetadataDutsch'] = 'flamand';
 $lang['repository']['MetadataEnglish'] = 'anglais';
 $lang['repository']['MetadataFrench'] = 'français';
+$lang['repository']['MetadataGerman'] = 'allemand';
 $lang['repository']['MetadataItalian'] = 'italien';
 $lang['repository']['MetadataSpanish'] = 'espagnol';
 $lang['repository']['MetadataDay'] = 'jour';
@@ -48,5 +49,6 @@ $lang['repository']['MetadataLomCatalogNameEmptyError'] = 'Le nom ne peut pas ê
 $lang['repository']['MetadataLOMRightsDescription'] = 'Description';
 $lang['repository']['MetadataLOMRights'] = 'Droits';
 $lang['repository']['MetadataLomRoleEmptyError'] = 'Le rôle ne peut pas être vide';
-
+$lang['repository']['MetadataLOMDescriptions'] = 'Descriptions';
+$lang['repository']['MetadataLOMDescription'] = 'Description';
 ?>
