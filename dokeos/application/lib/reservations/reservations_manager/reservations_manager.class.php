@@ -242,6 +242,11 @@ class ReservationsManager extends WebApplication
 		$component->run();
 	}
 	
+ 	function display_header($breadcrumb_trail)
+    {
+    	parent :: display_header($breadcrumb_trail);
+    }
+	
 	function has_right($type, $id, $right)
 	{
 		//$location_id = ReservationsRights :: get_location_id_by_identifier($type, $id);
