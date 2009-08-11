@@ -7,6 +7,9 @@
   <property name="confname" type="text" length="500" notnull="1" default=""/>
   <property name="description" type="text" length="500" notnull="1" default=""/>
   <property name="duration" type="integer" unsigned="1" notnull="1"/>
+  <property name="from_date" type="integer" notnull="1"/>
+  <property name="to_date" type="integer" notnull="1"/>
+  <property name="hidden" type="integer" length="1"/>
  </properties>
  <index name="id" type="primary">
  <indexproperty name="id"/>
