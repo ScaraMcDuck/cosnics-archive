@@ -190,17 +190,12 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 			Translation :: get('calendar_events'));
 		if(!$lcms_category_id)
 		{
+			
 			//Create category for tool in lcms
-			$lcms_repository_category = new Category();
-			$lcms_repository_category->set_owner_id($new_user_id);
-			$lcms_repository_category->set_title(Translation :: get('calendar_events'));
-			$lcms_repository_category->set_description('...');
-	
-			//Retrieve repository id from user
-			$repository_id = $mgdm->get_parent_id($new_user_id, 
-				'category', Translation :: get('MyRepository'));
-	
-			$lcms_repository_category->set_parent_id($repository_id);
+			$lcms_repository_category = new RepositoryCategory();
+                        $lcms_repository_category->set_user_id($new_user_id);
+                        $lcms_repository_category->set_name(Translation :: get('calenderEvent'));
+			$lcms_repository_category->set_parent(0);
 			
 			//Create category in database
 			$lcms_repository_category->create();

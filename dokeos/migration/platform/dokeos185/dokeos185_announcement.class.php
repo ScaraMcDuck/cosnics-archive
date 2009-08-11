@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_announcement.class.ph
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/announcement/announcement.class.php';
 require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication.class.php';
 require_once 'dokeos185_item_property.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repository_category.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 announcement
@@ -201,15 +201,10 @@ class Dokeos185Announcement extends ImportAnnouncement
 		if(!$lcms_category_id)
 		{
 			//Create category for tool in lcms
-			$lcms_repository_category = new Category();
-			$lcms_repository_category->set_owner_id($new_user_id);
-			$lcms_repository_category->set_title(Translation :: get('announcements'));
-			$lcms_repository_category->set_description('...');
-	
-			//Retrieve repository id from course
-			$repository_id = $mgdm->get_parent_id($new_user_id, 
-				'category', Translation :: get('MyRepository'));
-			$lcms_repository_category->set_parent_id($repository_id);
+			$lcms_repository_category = new RepositoryCategory();
+                        $lcms_repository_category->set_user_id($new_user_id);
+                        $lcms_repository_category->set_name(Translation :: get('descriptions'));
+			$lcms_repository_category->set_parent(0);
 			
 			//Create category in database
 			$lcms_repository_category->create();

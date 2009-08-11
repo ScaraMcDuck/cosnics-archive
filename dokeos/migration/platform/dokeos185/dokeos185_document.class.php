@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/../../lib/import/import_document.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/learning_object/document/document.class.php';
 require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication.class.php';
 require_once 'dokeos185_item_property.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication_category.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/category_manager/learning_object_publication_category.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/learning_object.class.php';
 
 /**
@@ -209,7 +209,7 @@ class Dokeos185Document extends ImportDocument
 	 * @return the new document
 	 */
 	function convert_to_lcms($array)
-	{
+	{               
 		$course = $array['course'];
 		$mgdm = MigrationDataManager :: get_instance();
 		$old_mgdm = $array['old_mgdm'];
@@ -241,14 +241,14 @@ class Dokeos185Document extends ImportDocument
 
 		$document_md5 = md5_file($old_mgdm->append_full_path(false,$old_rel_path . $filename)); 
 		$document_id = $mgdm->get_document_from_md5($new_user_id,$document_md5);
-		
+                 
 		if(!$document_id)
 		{
 			$file = $old_mgdm->move_file($old_rel_path, $new_rel_path, 
 				$filename);
 
 			if($file)
-			{
+			{                            
 				//document parameters
 				$lcms_document = new Document();
 				
@@ -272,16 +272,11 @@ class Dokeos185Document extends ImportDocument
 					Translation :: get('documents'));
 				if(!$lcms_category_id)
 				{
-					//Create category for tool in lcms
-					$lcms_repository_category = new Category();
-					$lcms_repository_category->set_owner_id($new_user_id);
-					$lcms_repository_category->set_title(Translation :: get('documents'));
-					$lcms_repository_category->set_description('...');
-			
-					//Retrieve repository id from course
-					$repository_id = $mgdm->get_parent_id($new_user_id, 
-						'category', Translation :: get('MyRepository'));
-					$lcms_repository_category->set_parent_id($repository_id);
+					///Create category for tool in lcms
+                                        $lcms_repository_category = new RepositoryCategory();
+                                        $lcms_repository_category->set_user_id($new_user_id);
+                                        $lcms_repository_category->set_name(Translation :: get('documents'));
+                                        $lcms_repository_category->set_parent(0);
 					
 					//Create category in database
 					$lcms_repository_category->create();
@@ -312,6 +307,7 @@ class Dokeos185Document extends ImportDocument
 				{
 					$lcms_document = new LearningObject();
 					$lcms_document->set_id($document_id);
+                                        
 				}
 			}
 			
@@ -329,7 +325,9 @@ class Dokeos185Document extends ImportDocument
 		unset($new_rel_path);
 		unset($old_rel_path);
 		unset($filename);
+                
 		//publication
+                
 		if($this->item_property->get_visibility() <= 1 && $lcms_document) 
 		{
 			// Categories already exists?
@@ -349,11 +347,10 @@ class Dokeos185Document extends ImportDocument
 				if(!$lcms_category_id)
 				{
 					//Create category for tool in lcms
-					$lcms_category = new LearningObjectPublicationCategory();
-					$lcms_category->set_title($cat);
+					$lcms_category = new LearningObjectPublicationCategory();					
 					$lcms_category->set_course($new_course_code);
 					$lcms_category->set_tool('document');
-					$lcms_category->set_parent_category_id($parent);
+					$lcms_category->set_parent($parent);
 					
 					//Create category in database
 					$lcms_category->create();
@@ -366,8 +363,7 @@ class Dokeos185Document extends ImportDocument
 			}	
 			
 			
-			$publication = new LearningObjectPublication();
-			
+			$publication = new LearningObjectPublication();			
 			$publication->set_learning_object($lcms_document);
 			$publication->set_course_id($new_course_code);
 			unset($new_course_code);

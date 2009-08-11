@@ -5,7 +5,7 @@
  */
 
 require_once dirname(__FILE__).'/../../lib/import/import_group.class.php';
-require_once dirname(__FILE__).'/../../../application/lib/weblcms/group/group.class.php';
+require_once dirname(__FILE__).'/../../../application/lib/weblcms/course_group/course_group.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 Group (table group_info)
@@ -239,7 +239,7 @@ class Dokeos185Group extends ImportGroup
 		$course = $array['course'];
 		$new_course_code = $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		
-		$lcms_group = new Group();
+		$lcms_group = new CourseGroup();
 		$lcms_group->set_course_code($new_course_code);
 		$lcms_group->set_name($this->get_name());
 		$lcms_group->set_max_number_of_members($this->get_max_student());

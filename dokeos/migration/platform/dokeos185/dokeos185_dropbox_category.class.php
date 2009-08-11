@@ -4,7 +4,7 @@
  */
 
 require_once dirname(__FILE__).'/../../lib/import/import_dropbox_category.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication_category.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/category_manager/learning_object_publication_category.class.php';
 
 /**
  * This class presents a Dokeos185 dropbox_category
@@ -167,9 +167,9 @@ class Dokeos185DropboxCategory extends ImportDropboxCategory
 		//Course category parameters
 		$lcms_dropbox_category = new LearningObjectPublicationCategory();
 		$course = $array['course'];
-		$lcms_dropbox_category->set_title($this->get_cat_name());
+		$lcms_dropbox_category->set_name($this->get_cat_name());
 		
-		$lcms_dropbox_category->set_parent_category_id(0);
+		$lcms_dropbox_category->set_parent(0);
 		
 		$lcms_dropbox_category->set_course($mgdm->get_id_reference($course->get_code(),'weblcms_course'));
 		
