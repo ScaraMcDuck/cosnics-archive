@@ -245,7 +245,58 @@ class ReservationsManager extends WebApplication
  	function display_header($breadcrumb_trail)
     {
     	parent :: display_header($breadcrumb_trail);
+    	echo $this->display_menu();
+    	echo '<div id="tool_browser_left">';
     }
+    
+    function display_footer()
+    {
+    	echo '</div>';
+    	echo parent :: display_footer();
+    }
+    
+    function display_menu()
+	{
+		$html = array();
+
+		$html[] = '<div id="tool_bar" class="tool_bar tool_bar_left">';
+
+		$html[] = '<div id="tool_bar_hide_container" class="hide">';
+		$html[] = '<a id="tool_bar_hide" href="#"><img src="'. Theme :: get_common_image_path() .'action_action_bar_left_hide.png" /></a>';
+		$html[] = '<a id="tool_bar_show" href="#"><img src="'. Theme :: get_common_image_path() .'action_action_bar_left_show.png" /></a>';
+		$html[] = '</div>';
+
+		$html[] = '<div class="tool_menu">';
+		$html[] = '<ul>';
+
+//		if ($this->get_user()->is_platform_admin())
+//		{
+//			$html[] = '<li class="tool_list_menu title" style="font-weight: bold">' . Translation :: get('CourseManagement') . '</li><br />';
+//			$html[] = $this->display_platform_admin_course_list_links();
+//			$html[] = '<div style="margin: 10px 0 10px 0; border-bottom: 1px dotted #4271B5; height: 0px;"></div>';
+//		}
+//		else
+//		{
+//			$display_add_course_link = $this->get_user()->is_teacher() && ($_SESSION["studentview"] != "studentenview");
+//			if ($display_add_course_link)
+//			{
+//				$html[] = '<li class="tool_list_menu" style="font-weight: bold">' . Translation :: get('MenuUser') . '</li><br />';
+//				$html[] = $this->display_create_course_link();
+//			}
+//		}
+
+		$html[] = '<li class="tool_list_menu title" style="font-weight: bold">' . Translation :: get('Manage') . '</li><br />';
+		//$html[] = $this->display_edit_course_list_links();
+		$html[] = '</ul>';
+		$html[] = '</div>';
+
+		$html[] = '</div>';
+		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/tool_bar.js' .'"></script>';
+		$html[] = '<div class="clear"></div>';
+
+		return implode($html, "\n");
+	}
+    
 	
 	function has_right($type, $id, $right)
 	{
