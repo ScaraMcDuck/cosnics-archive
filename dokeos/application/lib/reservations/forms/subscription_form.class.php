@@ -136,16 +136,16 @@ class SubscriptionForm extends FormValidator
 		
 		ksort($times);
 		
-		$previous_stop = $this->reservation->get_start_date();
+		$previous_stop = $start_date = $this->reservation->get_start_date();
 		$end_time = DokeosUtilities :: time_from_datepicker($this->reservation->get_stop_date());
 		
 		foreach($times as $start => $stop)
 		{
 			$previous_stop_time = DokeosUtilities :: time_from_datepicker($previous_stop);
 			$start_time = DokeosUtilities :: time_from_datepicker($start);
-			$stop_time = DokeosUtilities :: time_from_datepicker($stop);
+			//$stop_time = DokeosUtilities :: time_from_datepicker($stop);
 			
-			if(($difference = ($start_time - $previous_stop_time)) > $this->reservation->get_timepicker_min() * 60)
+			if((($start_time - $previous_stop_time)) > $this->reservation->get_timepicker_min() * 60)
 			{
 				$this->addElement('html', '<li>' . $previous_stop . ' ' . Translation :: get('and') . ' ' . 
 						  $start. '</li>');
@@ -155,7 +155,7 @@ class SubscriptionForm extends FormValidator
 		}
 	
 		$previous_stop_time = DokeosUtilities :: time_from_datepicker($previous_stop);
-		if(($difference = ($end_time - $previous_stop_time)) > $this->reservation->get_timepicker_min() * 60)
+		if((($end_time - $previous_stop_time)) > $this->reservation->get_timepicker_min() * 60)
 		{
 			$this->addElement('html', '<li>' . $previous_stop . ' ' . Translation :: get('and') . ' ' . 
 						  $this->reservation->get_stop_date() . '</li>');
@@ -166,6 +166,10 @@ class SubscriptionForm extends FormValidator
 		$this->add_timewindow(Subscription :: PROPERTY_START_TIME, Subscription :: PROPERTY_STOP_TIME, 
 							  Translation :: get('StartDate'), Translation :: get('StopDate'));
 
+		$defaults = array();
+		$defaults['start_time'] = $start_date;
+		$defaults['stop_time'] = date(strtotime('+1 Minute', strtotime($start_date)));
+		$this->setDefaults($defaults);
     }
     
     function build_footer()
