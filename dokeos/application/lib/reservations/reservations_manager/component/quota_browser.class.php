@@ -22,7 +22,7 @@ class ReservationsManagerQuotaBrowserComponent extends ReservationsManagerCompon
 		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new BreadCrumb($this->get_url(), Translation :: get('View quotas')));
 		
-		$this->ab = new ActionBarRenderer($this->get_left_toolbar_data(), array(), $this->get_url());
+		$this->ab = $this->get_action_bar();
 		
 		$this->display_header($trail);
 		echo $this->ab->as_html() . '<br />';
@@ -32,7 +32,7 @@ class ReservationsManagerQuotaBrowserComponent extends ReservationsManagerCompon
 	
 	function get_user_html()
 	{		
-		$table = new QuotaBrowserTable($this, array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_ITEMS), $this->get_condition());
+		$table = new QuotaBrowserTable($this, $this->get_parameters(), $this->get_condition());
 		
 		$html = array();
 		$html[] = $table->as_html();
@@ -52,23 +52,15 @@ class ReservationsManagerQuotaBrowserComponent extends ReservationsManagerCompon
 		}
 	}
 	
-	function get_left_toolbar_data()
+	function get_action_bar()
 	{
-		$tb_data = array();
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+
+		$action_bar->set_search_url($this->get_url());
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_create_quota_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
-		$tb_data[] = array(
-				'href' => $this->get_create_quota_url(),
-				'label' => Translation :: get('Add'),
-				'img' => Theme :: get_theme_path() . 'action_add.png'
-		);
-		
-		$tb_data[] = array(
-				'href' => $this->get_url(),
-				'label' => Translation :: get('ShowAll'),
-				'img' => Theme :: get_theme_path() . 'action_browser.png'
-		);
-		
-		return $tb_data;
+		return $action_bar;
 	}
 }
 ?>

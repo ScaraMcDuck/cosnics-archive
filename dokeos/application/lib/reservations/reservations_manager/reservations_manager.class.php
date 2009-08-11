@@ -99,10 +99,7 @@ class ReservationsManager extends WebApplication
     {
 		$this->dm = ReservationsDataManager :: get_instance();
     	parent :: __construct($user);
-    	if(strpos($_SERVER['PHP_SELF'], "index_reservations.php") !== false)
-    	{
-    		$this->parse_input_from_table();
-    	}
+    	$this->parse_input_from_table();
     }
 
     /**
@@ -276,7 +273,7 @@ class ReservationsManager extends WebApplication
 	private function parse_input_from_table()
 	{
 		if (isset ($_POST['action']))
-		{
+		{ 
 			$selected_ids = $_POST['reservations_table'.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 				
 			if (empty ($selected_ids))
@@ -306,7 +303,7 @@ class ReservationsManager extends WebApplication
 					$_GET[self :: PARAM_SUBSCRIPTION_ID] = $selected_ids;
 					break;
 				case self :: PARAM_REMOVE_SELECTED_QUOTAS:
-					$this->set_action(self :: ACTION_DELETE_QUOTA);
+					$this->set_action(self :: ACTION_DELETE_QUOTA); 
 					$_GET[self :: PARAM_QUOTA_ID] = $selected_ids;
 					break;
 				case self :: PARAM_REMOVE_SELECTED_REF_QUOTAS:
