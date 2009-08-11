@@ -28,7 +28,7 @@ class DefaultSubscriptionUserTableCellRenderer implements ObjectTableCellRendere
 	 */
 	function render_cell($column, $subscription_user)
 	{
-		if ($property = $column->get_object_property())
+		if ($property = $column->get_name())
 		{
 			switch ($property)
 			{
@@ -40,6 +40,11 @@ class DefaultSubscriptionUserTableCellRenderer implements ObjectTableCellRendere
 		}
 			
 		return '&nbsp;';
+	}
+	
+	function render_id_cell($subscription_user)
+	{
+		return $subscription_user->get_user_id();
 	}
 }
 ?>

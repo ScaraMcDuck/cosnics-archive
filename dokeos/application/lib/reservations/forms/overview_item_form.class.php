@@ -31,16 +31,15 @@ class OverviewItemForm extends FormValidator
 			$item_list[$item->get_id()] = array('title' => $item->get_name(), 'description' => $item->get_name(), 'class' => 'type type_group');
 		}
     	
-    	$url = Path :: get(WEB_PATH).'reservations/item_xml_feed.php';
+    	$url = Path :: get(WEB_PATH).'applications/lib/reservations/xml_feeds/item_xml_feed.php';
 	
     	$locale = array ();
 		$locale['Display'] = Translation :: get('AddItems');
 		$locale['Searching'] = Translation :: get('Searching');
 		$locale['NoResults'] = Translation :: get('NoResults');
 		$locale['Error'] = Translation :: get('Error');
-		$hidden = true;
 		
-		$elem = $this->addElement('element_finder', 'items', null, $url, $locale, $item_list);
+		$this->addElement('element_finder', 'items', Translation :: get('SelectItems'), $url, $locale, $item_list);
     	
     	$this->addElement('html', '<div style="clear: both;"></div>');
 		$this->addElement('html', '</div>');

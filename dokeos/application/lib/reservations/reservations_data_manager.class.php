@@ -150,7 +150,7 @@ abstract class ReservationsDataManager
 		$and_conditions[] = new EqualityCondition(Reservation :: PROPERTY_STATUS, Reservation :: STATUS_NORMAL);
 		if($id)
 		{
-			$and_conditions[] = new NoEqualityCondition(Reservation :: PROPERTY_ID, $id);
+			$and_conditions[] = new NotCondition(new EqualityCondition(Reservation :: PROPERTY_ID, $id));
 		}
 		
 		$condition = new AndCondition($and_conditions);

@@ -29,7 +29,7 @@ class DefaultSubscriptionTableCellRenderer implements ObjectTableCellRenderer
 	 */
 	function render_cell($column, $subscription)
 	{
-		if ($property = $column->get_object_property())
+		if ($property = $column->get_name())
 		{
 			switch ($property)
 			{
@@ -74,6 +74,11 @@ class DefaultSubscriptionTableCellRenderer implements ObjectTableCellRenderer
 		}
 			
 		return '&nbsp;';
+	}
+	
+	function render_id_cell($subscription)
+	{
+		return $subscription->get_id();
 	}
 }
 ?>
