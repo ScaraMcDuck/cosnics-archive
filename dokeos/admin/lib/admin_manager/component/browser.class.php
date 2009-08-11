@@ -51,9 +51,8 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
         $html[] = '<ul>';
         
         // Render the tabs
-        
-
         $index = 0;
+        
         foreach ($links as $application_links)
         {
             $index ++;
