@@ -79,14 +79,18 @@ class ReservationForm extends FormValidator {
 		$this->addElement('html', '<span class="category">' . Translation :: get('Optional') . '</span>');
     	
 		$this->addElement('text', Reservation :: PROPERTY_MAX_USERS, Translation :: get('MaxUsers'));
-		$this->addElement('html_editor', Reservation :: PROPERTY_NOTES, Translation :: get('Notes'));
+		//$this->addElement('html_editor', Reservation :: PROPERTY_NOTES, Translation :: get('Notes'));
+		$this->add_html_editor(Reservation :: PROPERTY_NOTES, Translation :: get('Notes'), false);
 		$this->addElement('checkbox', Reservation :: PROPERTY_AUTO_ACCEPT, null, Translation :: get('AutoAccept'));
 		
 		$this->addElement('html', '<div style="clear: both;"></div>');
 		$this->addElement('html', '</div>');
 		
 		// Submit button
-		$this->addElement('submit', 'submit', 'OK');
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
     
     function build_creating_form()
