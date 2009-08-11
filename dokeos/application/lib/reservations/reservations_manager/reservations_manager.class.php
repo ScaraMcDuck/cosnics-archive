@@ -269,24 +269,15 @@ class ReservationsManager extends WebApplication
 		$html[] = '<div class="tool_menu">';
 		$html[] = '<ul>';
 
-//		if ($this->get_user()->is_platform_admin())
-//		{
-//			$html[] = '<li class="tool_list_menu title" style="font-weight: bold">' . Translation :: get('CourseManagement') . '</li><br />';
-//			$html[] = $this->display_platform_admin_course_list_links();
-//			$html[] = '<div style="margin: 10px 0 10px 0; border-bottom: 1px dotted #4271B5; height: 0px;"></div>';
-//		}
-//		else
-//		{
-//			$display_add_course_link = $this->get_user()->is_teacher() && ($_SESSION["studentview"] != "studentenview");
-//			if ($display_add_course_link)
-//			{
-//				$html[] = '<li class="tool_list_menu" style="font-weight: bold">' . Translation :: get('MenuUser') . '</li><br />';
-//				$html[] = $this->display_create_course_link();
-//			}
-//		}
-
+		$html[] = '<li class="tool_list_menu title" style="font-weight: bold">' . Translation :: get('Use') . '</li><br />';
+		$html[] = '<li class="tool_list_menu">' . Translation :: get('MyReservations') . '</li><br />';
+		$html[] = '<li class="tool_list_menu">' . Translation :: get('Statistics') . '</li><br />';
+		$html[] = '<div style="margin: 10px 0 10px 0; border-bottom: 1px dotted #4271B5; height: 0px;"></div>';
 		$html[] = '<li class="tool_list_menu title" style="font-weight: bold">' . Translation :: get('Manage') . '</li><br />';
-		//$html[] = $this->display_edit_course_list_links();
+		$html[] = '<li class="tool_list_menu">' . Translation :: get('ManageCategories') . '</li><br />';
+		$html[] = '<li class="tool_list_menu">' . Translation :: get('ManageItems') . '</li><br />';
+		$html[] = '<li class="tool_list_menu">' . Translation :: get('ManageQuota') . '</li><br />';
+		$html[] = '<li class="tool_list_menu">' . Translation :: get('ManageQuotaBoxes') . '</li><br />';
 		$html[] = '</ul>';
 		$html[] = '</div>';
 
