@@ -7,7 +7,7 @@ require_once dirname(__FILE__).'/../../lib/import/import_dropbox_file.class.php'
 require_once dirname(__FILE__).'/../../../repository/lib/learning_object/document/document.class.php';
 require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication.class.php';
 require_once 'dokeos185_item_property.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication_category.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/category_manager/learning_object_publication_category.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/learning_object.class.php';
 
 /**
@@ -200,6 +200,8 @@ class Dokeos185DropboxFile extends ImportDropboxFile
 	 * Check if the dropboxfile is valid
 	 * @param array $courses the parameters for the validation
 	 */
+
+       
 	function is_valid($courses)
 	{
 		$course = $courses['course'];
@@ -214,13 +216,46 @@ class Dokeos185DropboxFile extends ImportDropboxFile
 		$filename = iconv("UTF-8", "ISO-8859-1", $filename);
 		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
 		
-		if(!$this->get_id() || !$this->item_property || !$this->item_property->get_ref() ||
-			!$this->item_property->get_insert_date() || !file_exists($old_mgdm->append_full_path(false,$old_rel_path . $filename)))
-		{		 
-			$mgdm->add_failed_element($this->get_id(),
+                if(!$this->get_id())
+                {
+                    //echo 'Error in ID at course : ' . $course->get_db_name() .' ';
+                    $mgdm->add_failed_element($this->get_id(),
+				$course->get_db_name() . '.dropbox_file');
+			return false;
+                }
+                else if(!$this->item_property)
+                {
+                    //echo 'Error in property at course : ' . $course->get_db_name() .' ';
+                    $mgdm->add_failed_element($this->get_id(),
+				$course->get_db_name() . '.dropbox_file');
+			return false;
+                }
+                else if(!$this->item_property->get_ref())
+                {
+                    //echo 'Error in reference at course : ' . $course->get_db_name() .' ';
+                    $mgdm->add_failed_element($this->get_id(),
+				$course->get_db_name() . '.dropbox_file');
+			return false;
+                }
+                else if(!$this->item_property->get_insert_date())
+                {
+                    //echo 'Error in insert_date at course : ' . $course->get_db_name() .' ';
+                    $mgdm->add_failed_element($this->get_id(),
+				$course->get_db_name() . '.dropbox_file');
+			return false;
+                }
+		else if(!file_exists($old_mgdm->append_full_path(false,$old_rel_path . $filename)))
+		{                    
+                    //echo 'Error in full_path at course : ' . $course->get_db_name() .'ID : ' . $this->get_id();
+                    $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.dropbox_file');
 			return false;
 		}
+
+                //Close the logfile
+		$this->passedtime = $this->logfile->write_passed_time();
+		$this->logfile->close_file();
+                
 		return true;
 	}
 	

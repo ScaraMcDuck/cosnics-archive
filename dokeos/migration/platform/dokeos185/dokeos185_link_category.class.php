@@ -5,7 +5,7 @@
  */
 
 require_once dirname(__FILE__).'/../../lib/import/import_link_category.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication_category.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/category_manager/learning_object_publication_category.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 Link Category
@@ -149,11 +149,11 @@ class Dokeos185LinkCategory extends ImportLinkCategory
 		$lcms_link_category->set_tool('link');
 		
 		if(!$this->get_category_title())
-			$lcms_link_category->set_title($this->get_description());
+			$lcms_link_category->set_name($this->get_description());
 		else
-			$lcms_link_category->set_title($this->get_category_title());
+			$lcms_link_category->set_name($this->get_category_title());
 			
-		$lcms_link_category->get_parent_category_id(0);
+		$lcms_link_category->get_parent(0);
 		
 		$lcms_link_category->create();
 		
