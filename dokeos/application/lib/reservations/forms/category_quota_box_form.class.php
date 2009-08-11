@@ -89,7 +89,8 @@ class CategoryQuotaBoxForm extends FormValidator {
 		while($rel_user = $users->next_result())
 		{
 			$user = $udm->retrieve_user($rel_user->get_user_id());
-			$defaults['user|' . $user->get_id()] = array('title' => $user->get_fullname(), 'description' => $user->get_fullname(), 'class' => 'type type_group');
+			$id = 'user_' . $user->get_id();
+			$defaults[$id] = array('id' => $id, 'title' => $user->get_username(), 'description' => $user->get_fullname(), 'class' => 'type type_group');
 		}
 		
     	$condition = new EqualityCondition(QuotaBoxRelCategoryRelGroup :: PROPERTY_QUOTA_BOX_REL_CATEGORY_ID, $this->quota_box_rel_category->get_id());
@@ -97,19 +98,18 @@ class CategoryQuotaBoxForm extends FormValidator {
 		while($rel_group = $groups->next_result())
 		{
 			$group = $gdm->retrieve_group($rel_group->get_group_id());
-			$defaults['group|' . $group->get_id()] = array('title' => $group->get_name(), 'description' => $group->get_name(), 'class' => 'type type_group');
+			$id = 'group_' . $group->get_id();
+			$defaults[$id] = array('id' => $id, 'title' => $group->get_name(), 'description' => $group->get_name(), 'class' => 'type type_group');
 		}
 		
 		$url = Path :: get(WEB_PATH).'application/lib/reservations/xml_feeds/users_groups_xml_feed.php';
-
 		$locale = array ();
-		$locale['Display'] = Translation :: get('SelectUsersOrGroups');
+		$locale['Display'] = Translation :: get('SelectRecipients');
 		$locale['Searching'] = Translation :: get('Searching');
 		$locale['NoResults'] = Translation :: get('NoResults');
 		$locale['Error'] = Translation :: get('Error');
 
-		$elem = $this->addElement('element_finder', 'users', Translation :: get('SelectUsersOrGroups'), $url, $locale, $defaults);
-		$elem->setDefaultCollapsed(false);
+		$this->addElement('element_finder', 'users', Translation :: get('SelectUsersOrGroups'), $url, $locale, $defaults);
 		
 		$this->addElement('html', '<div style="clear: both;"></div>');
 		$this->addElement('html', '</div>');
@@ -210,7 +210,7 @@ class CategoryQuotaBoxForm extends FormValidator {
     	
     	foreach($selected_users as $user)
     	{
-    		$split = explode('|', $user);
+    		$split = explode('_', $user);
     		$type = $split[0];
     		$ref = $split[1];
     		
