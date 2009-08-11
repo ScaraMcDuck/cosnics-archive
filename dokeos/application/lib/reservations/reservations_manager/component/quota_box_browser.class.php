@@ -30,7 +30,7 @@ class ReservationsManagerQuotaBoxBrowserComponent extends ReservationsManagerCom
 	
 	function get_user_html()
 	{		
-		$table = new QuotaBoxBrowserTable($this, array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_CATEGORIES), $this->get_condition());
+		$table = new QuotaBoxBrowserTable($this, $this->get_parameters(), $this->get_condition());
 		
 		$html = array();
 		$html[] = $table->as_html();

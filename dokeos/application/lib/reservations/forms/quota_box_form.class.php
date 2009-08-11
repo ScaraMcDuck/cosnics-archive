@@ -67,7 +67,10 @@ class QuotaBoxForm extends FormValidator {
 		$this->addElement('html', '</div>');
 									  
 		// Submit button
-		$this->addElement('submit', 'submit', 'OK');
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
     /**
