@@ -25,9 +25,7 @@ class ReservationsManagerPoolSearcherComponent extends ReservationsManagerCompon
 			$this->display_footer();
 			exit;
 		}
-		
-		$this->logger = Logger :: get_instance('webservices.txt');
-		
+				
 		$start_array = $_POST[Subscription :: PROPERTY_START_TIME];
 		$stop_array = $_POST[Subscription :: PROPERTY_STOP_TIME];
 		
@@ -53,9 +51,7 @@ class ReservationsManagerPoolSearcherComponent extends ReservationsManagerCompon
 		$this->redirect(Translation :: get($message), ($bool), 
 				array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_ITEMS, 
 					  ReservationsManager :: PARAM_CATEGORY_ID => $pool_id));
-		
-		$this->logger->close_logs();
-		
+				
 	}
 	
 	function search_pool($start_date, $stop_date, $pool_id)
@@ -212,22 +208,22 @@ class ReservationsManagerPoolSearcherComponent extends ReservationsManagerCompon
 		$quota_box_id = ReservationsDataManager :: get_instance()->retrieve_quota_box_from_user_for_category($this->get_user_id(), $item->get_category());
 		$subscription->set_quota_box($quota_box_id);
 		
-		if($item->get_salto_id() != null && $item->get_salto_id() != 0)
-		{	
-			$maakreservatieresult = $this->client->call('MaakReservatie', array(
-					'sExtUserID' => $this->get_user()->get_official_code(), 
-					'sExtDoorID' => $item->get_salto_id(), 
-					'sTimezoneTableID' => "1"));
-		
-			$res = $maakreservatieresult['MaakReservatieResult'];	
-			
-			$this->logger->write('Webservice MaakReservatie called (UserID: ' .$this->get_user()->get_official_code() .
-						   ', DoorID: ' . $item->get_salto_id() . ', TimeZone: ' . "1" . ') Result: ' .
-						   $res);
-			
-			if($res != $this->get_user()->get_official_code())
-				return null;
-		}
+//		if($item->get_salto_id() != null && $item->get_salto_id() != 0)
+//		{	
+//			$maakreservatieresult = $this->client->call('MaakReservatie', array(
+//					'sExtUserID' => $this->get_user()->get_official_code(), 
+//					'sExtDoorID' => $item->get_salto_id(), 
+//					'sTimezoneTableID' => "1"));
+//		
+//			$res = $maakreservatieresult['MaakReservatieResult'];	
+//			
+//			$this->logger->write('Webservice MaakReservatie called (UserID: ' .$this->get_user()->get_official_code() .
+//						   ', DoorID: ' . $item->get_salto_id() . ', TimeZone: ' . "1" . ') Result: ' .
+//						   $res);
+//			
+//			if($res != $this->get_user()->get_official_code())
+//				return null;
+//		}
 		
 		$subscription->create();
 		return $subscription;
