@@ -50,13 +50,13 @@ class CategoryQuotaBoxBrowserTableCellRenderer extends DefaultCategoryQuotaBoxTa
 		$toolbar_data[] = array(
 				'href' => $this->browser->get_update_category_quota_box_url($quota_box_rel_category->get_id()),
 				'label' => Translation :: get('Edit'),
-				'img' => Theme :: get_theme_path() . 'action_edit.png'
+				'img' => Theme :: get_common_image_path() . 'action_edit.png'
 		);
 		
 		$toolbar_data[] = array(
 				'href' => $this->browser->get_delete_category_quota_box_url($quota_box_rel_category->get_id(), $quota_box_rel_category->get_category_id()),
 				'label' => Translation :: get('Delete'),
-				'img' => Theme :: get_theme_path() . 'action_delete.png',
+				'img' => Theme :: get_common_image_path() . 'action_delete.png',
 				'confirm' => true
 		);
 		

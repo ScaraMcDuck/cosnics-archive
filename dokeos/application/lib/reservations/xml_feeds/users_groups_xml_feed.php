@@ -4,13 +4,8 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../common/global.inc.php';
-require_once Path :: get_library_path() . 'utilities.class.php';
+require_once dirname(__FILE__).'/../../../../common/global.inc.php';
 require_once Path :: get_user_path(). 'lib/user.class.php';
-require_once Path :: get_library_path().'condition/equality_condition.class.php';
-require_once Path :: get_library_path().'condition/not_condition.class.php';
-require_once Path :: get_library_path().'condition/and_condition.class.php';
-require_once Path :: get_library_path().'condition/or_condition.class.php';
 require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 
 if (Authentication :: is_valid())
@@ -74,11 +69,11 @@ function dump_tree($users, $groups)
 {
 	if (contains_results($users) || contains_results($groups))
 	{
-		echo '<nodes class="type_category unlinked" id="recipients" title="Recipients">';
+		//echo '<node class="type_category unlinked" id="recipients" title="Recipients">';
 		echo '<node id="user" class="type_category unlinked" title="Users">', "\n";
 		foreach ($users as $lo)
 		{
-			echo '<leaf id="user|'. $lo->get_id(). '" class="'. 'type type_group'. '" title="'. htmlentities($lo->get_username()). '" description="'. htmlentities($lo->get_firstname()) . ' ' . htmlentities($lo->get_lastname()) . '"/>'. "\n";
+			echo '<leaf id="user|'. $lo->get_id(). '" class="'. 'type type_user'. '" title="'. htmlentities($lo->get_username()). '" description="'. htmlentities($lo->get_firstname()) . ' ' . htmlentities($lo->get_lastname()) . '"/>'. "\n";
 		}
 		echo '</node>', "\n";
 		
@@ -88,7 +83,7 @@ function dump_tree($users, $groups)
 			echo '<leaf id="group|'. $group->get_id(). '" class="'. 'type type_group'. '" title="'. htmlentities($group->get_name()). '" description="'. htmlentities($group->get_name()) . '"/>'. "\n";
 		}
 		echo '</node>', "\n";
-		echo '</nodes>';
+		//echo '</node>';
 	}
 }
 

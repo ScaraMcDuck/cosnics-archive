@@ -32,7 +32,7 @@ class DefaultCategoryQuotaBoxTableCellRenderer implements ObjectTableCellRendere
 	
 	function render_cell($column, $quota_box_rel_category)
 	{
-		if ($title = $column->get_title())
+		if ($title = $column->get_name())
 		{
 			$name = Translation :: get(DokeosUtilities :: underscores_to_camelcase(QuotaBox :: PROPERTY_NAME));
 			$description = Translation :: get(DokeosUtilities :: underscores_to_camelcase(QuotaBox :: PROPERTY_DESCRIPTION));
@@ -61,6 +61,11 @@ class DefaultCategoryQuotaBoxTableCellRenderer implements ObjectTableCellRendere
 		}
 			
 		return '&nbsp;';
+	}
+	
+	function render_id_cell($quota_box_rel_category)
+	{
+		return $quota_box_rel_category->get_quota_box_id();
 	}
 }
 ?>
