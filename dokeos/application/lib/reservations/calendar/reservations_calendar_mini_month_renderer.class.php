@@ -64,7 +64,7 @@ class ReservationsCalendarMiniMonthRenderer extends ReservationsCalendarRenderer
 		$calendar->add_calendar_navigation($this->get_parent()->get_url($parameters));
 		$calendar->mark_period(MiniMonthCalendar::PERIOD_WEEK);
 		$calendar->add_navigation_links($this->get_parent()->get_url($parameters));
-		$html = $calendar->toHtml();
+		$html = $calendar->render();
 		return $html;
 	}
 	/**
