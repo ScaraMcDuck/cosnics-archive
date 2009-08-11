@@ -28,7 +28,7 @@ class DefaultQuotaBoxTableCellRenderer implements ObjectTableCellRenderer
 	 */
 	function render_cell($column, $quota_box)
 	{
-		if ($property = $column->get_object_property())
+		if ($property = $column->get_name())
 		{
 			switch ($property)
 			{
@@ -47,6 +47,11 @@ class DefaultQuotaBoxTableCellRenderer implements ObjectTableCellRenderer
 		}
 			
 		return '&nbsp;';
+	}
+	
+	function render_id_cell($quota_box)
+	{
+		return $quota_box->get_id();
 	}
 }
 ?>

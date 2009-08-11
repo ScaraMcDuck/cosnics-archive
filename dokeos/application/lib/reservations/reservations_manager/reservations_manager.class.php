@@ -306,6 +306,10 @@ class ReservationsManager extends WebApplication
 					$this->set_action(self :: ACTION_DELETE_QUOTA); 
 					$_GET[self :: PARAM_QUOTA_ID] = $selected_ids;
 					break;
+				case self :: PARAM_REMOVE_SELECTED_QUOTA_BOXES:
+					$this->set_action(self :: ACTION_DELETE_QUOTA_BOX); 
+					$_GET[self :: PARAM_QUOTA_BOX_ID] = $selected_ids;
+					break;
 				case self :: PARAM_REMOVE_SELECTED_REF_QUOTAS:
 					$this->set_action(self :: ACTION_DELETE_REF_QUOTA);
 					$_GET[self :: PARAM_QUOTA_ID] = $selected_ids;
