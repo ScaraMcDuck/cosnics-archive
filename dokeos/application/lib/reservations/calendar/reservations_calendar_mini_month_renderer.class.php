@@ -74,7 +74,7 @@ class ReservationsCalendarMiniMonthRenderer extends ReservationsCalendarRenderer
 	 */
 	private function render_reservation($reservation)
 	{
-		$html[] = '<br /><img src="'.Theme :: get_theme_path().'action_posticon.png"/>';
+		$html[] = '<br /><img src="'.Theme :: get_common_image_path().'action_posticon.png"/>';
 		return implode("\n",$html);
 	}
 }

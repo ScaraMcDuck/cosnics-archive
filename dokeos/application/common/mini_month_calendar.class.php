@@ -46,6 +46,13 @@ class MiniMonthCalendar extends MonthCalendar
 		}
 
 	}
+	
+	public function get_start_time()
+	{
+		$first_day = mktime(0, 0, 0, date('m', $this->get_display_time()), 1, date('Y',  $this->get_display_time()));
+		return strtotime('Next Monday', $first_day);
+	}
+	
 	public function mark_period($period)
 	{
 		switch ($period)
@@ -73,8 +80,8 @@ class MiniMonthCalendar extends MonthCalendar
 //				}
 //				break;
 			case self :: PERIOD_WEEK :
-				$monday = $day = strtotime(date('Y-m-d 00:00:00', $this->get_start_time()));
-				$this_week = strtotime(date('Y-m-d 00:00:00', $this->get_display_time()));
+				$monday = strtotime(date('Y-m-d 00:00:00', $this->get_start_time()));
+				$this_week = strtotime(date('Y-m-d 00:00:00', strtotime('+1 Week', $this->get_display_time())));
 				$week_diff = floor(($this_week - $monday) / (60 * 60 * 24 * 7));
 				$row = $week_diff;
 				$this->updateRowAttributes($row, 'style="background-color: #ffdfb9;"', false);
