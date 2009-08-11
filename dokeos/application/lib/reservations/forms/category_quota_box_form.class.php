@@ -100,13 +100,14 @@ class CategoryQuotaBoxForm extends FormValidator {
 			$defaults['group|' . $group->get_id()] = array('title' => $group->get_name(), 'description' => $group->get_name(), 'class' => 'type type_group');
 		}
 		
-		$url = Path :: get(WEB_PATH).'reservations/users_groups_xml_feed.php';
+		$url = Path :: get(WEB_PATH).'application/lib/reservations/xml_feeds/users_groups_xml_feed.php';
+
 		$locale = array ();
 		$locale['Display'] = Translation :: get('SelectUsersOrGroups');
 		$locale['Searching'] = Translation :: get('Searching');
 		$locale['NoResults'] = Translation :: get('NoResults');
 		$locale['Error'] = Translation :: get('Error');
-		$hidden = false;
+
 		$elem = $this->addElement('element_finder', 'users', Translation :: get('SelectUsersOrGroups'), $url, $locale, $defaults);
 		$elem->setDefaultCollapsed(false);
 		
@@ -114,7 +115,10 @@ class CategoryQuotaBoxForm extends FormValidator {
 		$this->addElement('html', '</div>');
 									  
 		// Submit button
-		$this->addElement('submit', 'submit', 'OK');
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
     /**
@@ -233,7 +237,10 @@ class CategoryQuotaBoxForm extends FormValidator {
     			$qbrcrg->set_group_id($ref);
     			$qbrcrg->create();
     			
-    			$subgroups = Group :: get_subgroups_from_group($ref, true);
+    			$group = GroupDataManager :: get_instance()->retrieve_group($ref);
+    			
+    			//$subgroups = Group :: get_subgroups_from_group($ref, true);
+    			$subgroups = $group->get_subgroups();
     			foreach($subgroups as $subgroup)
     			{
     				$conditions = array();
