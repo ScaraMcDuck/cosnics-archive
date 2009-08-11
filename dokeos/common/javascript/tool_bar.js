@@ -17,7 +17,7 @@ $(function ()
 		{
 			case 'tool_bar tool_bar_left':
 				$("div.tool_bar_left").animate({left: "-" + originalWidth + "px"}, 300, function(){
-					$("#tool_browser_left").animate({marginLeft: "0px"}, 300, toggleButtons);
+					$("#tool_browser_left").animate({marginLeft: "10px"}, 300, toggleButtons);
 				});
 				break;
 			case 'tool_bar tool_bar_icon_left':
