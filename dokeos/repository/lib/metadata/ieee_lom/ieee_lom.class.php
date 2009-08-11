@@ -89,6 +89,8 @@ class IeeeLom
 				$parent->appendChild($new_node);
 			}
 		}
+		
+		return $new_node;
 	}
 	/**
 	 * Removes all nodes matching a given query
@@ -168,18 +170,34 @@ class IeeeLom
 	 * @param string $path
 	 * @param string $node_name
 	 * @param LangString $langstring
+	 * @param bool $append_to_existing_node If true and the $path returns a node, the langstring is created under the found node
 	 */
-	private function add_langstring_nodes($path, $node_name, $langstring)
+	private function add_langstring_nodes($path, $node_name, $langstring, $append_to_existing_node = false)
 	{
 		$strings = $langstring->get_strings();
 		if (count($strings) > 0)
 		{
-			$this->create_nodes_from_path($path);
-			$parent_node = $this->dom->createElement($node_name);
-			$new_string_nodes = $this->append_langstring_nodes($parent_node, $langstring);
-			$node = $this->get_node($path);
-			$node->appendChild($parent_node);
-			
+		    $existing_node = $this->get_node($path . '/' . $node_name);
+		    if($append_to_existing_node && isset($existing_node))
+		    {
+		        $node = $existing_node; //     /lom/general/title
+		    }
+		    elseif(isset($existing_node))
+		    {
+		        $parent = $this->get_node($path);
+		        $node = $this->dom->createElement($node_name);
+		        $parent->appendChild($node);
+		    }
+		    else
+		    {
+		        $node = $this->create_nodes_from_path($path. '/' . $node_name);//     /lom/general/title
+		        //$node = $this->get_node($path. '/' . $node_name);//     /lom/general/title
+		    }
+		    
+            //$parent_node = $this->dom->createElement($node_name);
+            $new_string_nodes = $this->append_langstring_nodes($node, $langstring);
+            //$node->appendChild($parent_node); 
+	        
 			return $new_string_nodes;
 		}
 	}
@@ -308,7 +326,7 @@ class IeeeLom
 	 */
 	function add_title($langstring)
 	{
-		return $this->add_langstring_nodes('/lom/general', 'title', $langstring);
+		return $this->add_langstring_nodes('/lom/general', 'title', $langstring, true);
 	}
 	
 	function get_titles()
@@ -376,8 +394,36 @@ class IeeeLom
 	 */
 	function add_description($langstring)
 	{
-		$this->add_langstring_nodes('/lom/general', 'description', $langstring);
+	    $general_node = $this->get_node('/lom/general');
+	    $new_description_node = $this->dom->createElement('description');
+	    $general_node->appendChild($new_description_node);
+	    $new_string_nodes = $this->append_langstring_nodes($new_description_node, $langstring);
+	    
+	    return $new_string_nodes;
 	}
+	
+	function add_description_string($langstring, $description_index)
+	{
+	    $description_node = $this->get_node('/lom/general/description[' . ($description_index + 1) . ']');
+	    if(isset($description_node))
+	    {
+	        $new_string_nodes = $this->append_langstring_nodes($description_node, $langstring);
+	        return $new_string_nodes;
+	    }
+	    else
+	    {
+	        return null;
+	    }
+	}
+	
+	
+	function get_descriptions()
+	{
+	    //debug($this->dom);
+	    $descriptions = $this->get_langstring_nodes('/lom/general/description');
+	    return $descriptions;
+	}
+	
 	/**
 	 * 1.5  Keyword
 	 * @param LangString $langstring
@@ -780,7 +826,7 @@ class IeeeLom
 	 */
 	function add_rights_description($langstring)
 	{
-		return $this->add_langstring_nodes('/lom/rights', 'description', $langstring);
+		return $this->add_langstring_nodes('/lom/rights', 'description', $langstring, true);
 	}
 	
 	function get_rights_description()

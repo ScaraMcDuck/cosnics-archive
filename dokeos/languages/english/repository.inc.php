@@ -734,6 +734,7 @@ $lang['repository']['Metadatasubject_matter_expert'] = 'matter expert';
 $lang['repository']['MetadataDutsch'] = 'dutsch';
 $lang['repository']['MetadataEnglish'] = 'english';
 $lang['repository']['MetadataFrench'] = 'french';
+$lang['repository']['MetadataGerman'] = 'german';
 $lang['repository']['MetadataItalian'] = 'italian';
 $lang['repository']['MetadataSpanish'] = 'spanish';
 $lang['repository']['MetadataDay'] = 'day';
@@ -746,6 +747,8 @@ $lang['repository']['MetadataLomCatalogNameEmptyError'] = 'The name can not be e
 $lang['repository']['MetadataLOMRightsDescription'] = 'Description';
 $lang['repository']['MetadataLOMRights'] = 'Rights';
 $lang['repository']['MetadataLomRoleEmptyError'] = 'The role can not be empty';
+$lang['repository']['MetadataLOMDescriptions'] = 'Descriptions';
+$lang['repository']['MetadataLOMDescription'] = 'Description';
 
 
 ?>

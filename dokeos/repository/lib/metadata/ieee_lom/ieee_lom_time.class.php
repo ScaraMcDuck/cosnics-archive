@@ -186,6 +186,13 @@ abstract class IeeeLomTime
         	$this->hour    = date('G', $timestamp);
         	$this->min     = date('i', $timestamp);
         	$this->sec     = date('s', $timestamp);
+        	
+        	if($this->hour == 0 && $this->min == 0 && $this->sec == 0)
+        	{
+        	    unset($this->hour);
+        	    unset($this->min);
+        	    unset($this->sec);
+        	}
         }
     }
     
