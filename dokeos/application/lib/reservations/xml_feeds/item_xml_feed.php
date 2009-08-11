@@ -3,13 +3,8 @@
  * @package application.lib.personal_messenger
  * @author Sven Vanpoucke
  */
-require_once dirname(__FILE__).'/../common/global.inc.php';
-require_once Path :: get_library_path() . 'utilities.class.php';
+require_once dirname(__FILE__).'/../../../../common/global.inc.php';
 require_once Path :: get_application_path(). 'lib/reservations/item.class.php';
-require_once Path :: get_library_path().'condition/equality_condition.class.php';
-require_once Path :: get_library_path().'condition/not_condition.class.php';
-require_once Path :: get_library_path().'condition/and_condition.class.php';
-require_once Path :: get_library_path().'condition/or_condition.class.php';
 require_once Path :: get_application_path(). 'lib/reservations/reservations_data_manager.class.php';
 
 if (Authentication :: is_valid())
@@ -66,12 +61,12 @@ function dump_tree($items)
 {
 	if (contains_results($items))
 	{
-		echo '<nodes class="type_category unlinked" id="items" title="Items">';
+		echo '<node class="type_category unlinked" id="items" title="Items">';
 		foreach ($items as $item)
 		{
 			echo '<leaf id="'. $item->get_id(). '" class="'. 'type type_group'. '" title="'. htmlentities($item->get_name()). '" description="'. htmlentities($item->get_name()) . '"/>'. "\n";
 		}
-		echo '</nodes>';
+		echo '</node>';
 	}
 }
 
