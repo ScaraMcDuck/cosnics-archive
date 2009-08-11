@@ -44,7 +44,7 @@ class ReservationBrowserTableCellRenderer extends DefaultReservationTableCellRen
 		{
 			return $this->get_modification_links($reservation);
 		}
-		if ($property = $column->get_object_property())
+		if ($property = $column->get_name())
 		{
 			switch ($property)
 			{
@@ -74,28 +74,28 @@ class ReservationBrowserTableCellRenderer extends DefaultReservationTableCellRen
 				$toolbar_data[] = array(
 						'href' => $this->browser->get_update_reservation_url($reservation->get_id(), $this->browser->get_item()),
 						'label' => Translation :: get('Edit'),
-						'img' => Theme :: get_theme_path() . 'action_edit.png'
+						'img' => Theme :: get_common_image_path() . 'action_edit.png'
 				);
 			}
 			else
 			{
 				$toolbar_data[] = array(
 						'label' => Translation :: get('EditNA'),
-						'img' => Theme :: get_theme_path() . 'action_edit_na.png'
+						'img' => Theme :: get_common_image_path() . 'action_edit_na.png'
 				);
 			}
 			
 			$toolbar_data[] = array(
 					'href' => $this->browser->get_delete_reservation_url($reservation->get_id(), $this->browser->get_item()),
 					'label' => Translation :: get('Delete'),
-					'img' => Theme :: get_theme_path() . 'action_delete.png',
+					'img' => Theme :: get_common_image_path() . 'action_delete.png',
 					'confirm' => true
 			);
 			
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_admin_browse_subscription_url($reservation->get_id()),
 				'label' => Translation :: get('BrowseSubscriptions'),
-				'img' => Theme :: get_theme_path() . 'action_browser.png',
+				'img' => Theme :: get_common_image_path() . 'action_browser.png',
 			);
 		}
 		

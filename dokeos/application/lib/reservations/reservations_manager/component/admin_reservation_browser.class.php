@@ -24,7 +24,7 @@ class ReservationsManagerAdminReservationBrowserComponent extends ReservationsMa
 		$trail->add(new BreadCrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS)), Translation :: get('View items')));
 		$trail->add(new BreadCrumb($this->get_url(array(ReservationsManager :: PARAM_ITEM_ID => $this->get_item())), Translation :: get('View reservations')));
 		
-		$this->ab = new ActionBarRenderer($this->get_left_toolbar_data(), array(), null);//$this->get_url(array(ReservationsManager :: PARAM_ITEM_ID => $this->get_item())));
+		$this->ab = $this->get_action_bar();
 		$this->display_header($trail);
 		
 		$time = isset ($_GET['time']) ? intval($_GET['time']) : time();
@@ -77,17 +77,13 @@ class ReservationsManagerAdminReservationBrowserComponent extends ReservationsMa
 		return (isset($_GET[ReservationsManager :: PARAM_ITEM_ID])?$_GET[ReservationsManager :: PARAM_ITEM_ID]:0);
 	}
 	
-	function get_left_toolbar_data()
+	function get_action_bar()
 	{
-		$tb_data = array();
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_create_reservation_url($this->get_item()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
-		$tb_data[] = array(
-				'href' => $this->get_create_reservation_url($this->get_item()),
-				'label' => Translation :: get('Add'),
-				'img' => Theme :: get_theme_path() . 'action_add.png'
-		);
-		
-		return $tb_data;
+		return $action_bar;
 	}
 }
 ?>

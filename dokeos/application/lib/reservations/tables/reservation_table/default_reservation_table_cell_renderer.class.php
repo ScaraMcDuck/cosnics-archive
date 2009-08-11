@@ -27,7 +27,7 @@ class DefaultReservationTableCellRenderer implements ObjectTableCellRenderer
 	 */
 	function render_cell($column, $reservation)
 	{
-		if ($property = $column->get_object_property())
+		if ($property = $column->get_name())
 		{
 			switch ($property)
 			{
@@ -59,6 +59,11 @@ class DefaultReservationTableCellRenderer implements ObjectTableCellRenderer
 		}
 			
 		return '&nbsp;';
+	}
+	
+	function render_id_cell($reservation)
+	{
+		return $reservation->get_id();
 	}
 }
 ?>
