@@ -8,7 +8,7 @@ require_once Path :: get_common_path() . 'data_class.class.php';
 class WebconferenceUser extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
-	const TABLE_NAME = 'publication_user';
+	const TABLE_NAME = 'webconference_user';
 
 	/**
 	 * WebconferenceUser properties

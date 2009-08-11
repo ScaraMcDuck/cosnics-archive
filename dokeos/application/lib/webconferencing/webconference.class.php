@@ -5,6 +5,9 @@
 
 require_once Path :: get_common_path() . 'data_class.class.php';
 
+require_once dirname(__FILE__) . '/webconference_group.class.php';
+require_once dirname(__FILE__) . '/webconference_user.class.php';
+
 /**
  * This class describes a Webconference data object
  *

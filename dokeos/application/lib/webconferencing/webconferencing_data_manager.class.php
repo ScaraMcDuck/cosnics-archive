@@ -58,5 +58,9 @@ abstract class WebconferencingDataManager
 	abstract function retrieve_webconference_option($id);
 	abstract function retrieve_webconference_options($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
+        abstract function retrieve_webconference_groups($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null);
+        abstract function retrieve_webconference_users($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null);
+        abstract function create_webconference_user($webconference_user);
+        abstract function create_webconference_group($webconference_group);
 }
 ?>
