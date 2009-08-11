@@ -11,62 +11,62 @@ require_once dirname(__FILE__).'/../webconferencing_manager_component.class.php'
  */
 class WebconferencingManagerWebconferenceDeleterComponent extends WebconferencingManagerComponent
 {
-	/**
-	 * Runs this component and displays its output.
-	 */
-	function run()
-	{
-		$ids = $_GET[WebconferencingManager :: PARAM_WEBCONFERENCE];
-		$failures = 0;
+/**
+ * Runs this component and displays its output.
+ */
+    function run()
+    {
+        $ids = $_GET[WebconferencingManager :: PARAM_WEBCONFERENCE];
+        $failures = 0;
 
-		if (!empty ($ids))
-		{
-			if (!is_array($ids))
-			{
-				$ids = array ($ids);
-			}
+        if (!empty ($ids))
+        {
+            if (!is_array($ids))
+            {
+                $ids = array ($ids);
+            }
 
-			foreach ($ids as $id)
-			{
-				$webconference = $this->retrieve_webconference($id);
-				//Delete all webconference_options too
-				//WebconferenceDataManager :: get_instance()->delete_webconference_options($webconference);
-				
-				if (!$webconference->delete())
-				{
-					$failures++;
-				}
-			}
+            foreach ($ids as $id)
+            {
+                $webconference = $this->retrieve_webconference($id);
+                //Delete all webconference_options too
+                //WebconferenceDataManager :: get_instance()->delete_webconference_options($webconference);
 
-			if ($failures)
-			{
-				if (count($ids) == 1)
-				{
-					$message = 'SelectedWebconferenceDeleted';
-				}
-				else
-				{
-					$message = 'SelectedWebconferenceDeleted';
-				}
-			}
-			else
-			{
-				if (count($ids) == 1)
-				{
-					$message = 'SelectedWebconferencesDeleted';
-				}
-				else
-				{
-					$message = 'SelectedWebconferencesDeleted';
-				}
-			}
+                if (!$webconference->delete())
+                {
+                    $failures++;
+                }
+            }
 
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(WebconferencingManager :: PARAM_ACTION => WebconferencingManager :: ACTION_BROWSE_WEBCONFERENCES));
-		}
-		else
-		{
-			$this->display_error_page(htmlentities(Translation :: get('NoWebconferencesSelected')));
-		}
-	}
+            if ($failures)
+            {
+                if (count($ids) == 1)
+                {
+                    $message = 'SelectedWebconferenceDeleted';
+                }
+                else
+                {
+                    $message = 'SelectedWebconferenceDeleted';
+                }
+            }
+            else
+            {
+                if (count($ids) == 1)
+                {
+                    $message = 'SelectedWebconferencesDeleted';
+                }
+                else
+                {
+                    $message = 'SelectedWebconferencesDeleted';
+                }
+            }
+
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(WebconferencingManager :: PARAM_ACTION => WebconferencingManager :: ACTION_BROWSE_WEBCONFERENCES));
+        }
+        else
+        {
+            $this->display_error_page(htmlentities(Translation :: get('NoWebconferencesSelected')));
+        }
+    }
 }
 ?>
