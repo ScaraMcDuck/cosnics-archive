@@ -23,15 +23,17 @@ class OverviewItemForm extends FormValidator
     	
     	$dm = ReservationsDataManager :: get_instance();
     	
+    	$item_list = array();
+    	
 		$condition = new EqualityCondition(OverviewItem :: PROPERTY_USER_ID, $this->user->get_id());
 		$overview_items = $dm->retrieve_overview_items($condition);
 		while($overview_item = $overview_items->next_result())
 		{
 			$item = $dm->retrieve_items(new EqualityCondition(Item :: PROPERTY_ID, $overview_item->get_item_id()))->next_result();
-			$item_list[$item->get_id()] = array('title' => $item->get_name(), 'description' => $item->get_name(), 'class' => 'type type_group');
+			$item_list[$item->get_id()] = array('id' => $item->get_id(), 'title' => $item->get_name(), 'description' => $item->get_name(), 'class' => 'type type_group');
 		}
     	
-    	$url = Path :: get(WEB_PATH).'applications/lib/reservations/xml_feeds/item_xml_feed.php';
+    	$url = Path :: get(WEB_PATH).'application/lib/reservations/xml_feeds/item_xml_feed.php';
 	
     	$locale = array ();
 		$locale['Display'] = Translation :: get('AddItems');
@@ -39,13 +41,16 @@ class OverviewItemForm extends FormValidator
 		$locale['NoResults'] = Translation :: get('NoResults');
 		$locale['Error'] = Translation :: get('Error');
 		
-		$this->addElement('element_finder', 'items', Translation :: get('SelectItems'), $url, $locale, $item_list);
+		$this->addElement('element_finder', 'items', '', $url, $locale, $item_list);
     	
     	$this->addElement('html', '<div style="clear: both;"></div>');
 		$this->addElement('html', '</div>');
     	
     	// Submit button
-		$this->addElement('submit', 'submit', 'OK');
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
 	function update_overview()
