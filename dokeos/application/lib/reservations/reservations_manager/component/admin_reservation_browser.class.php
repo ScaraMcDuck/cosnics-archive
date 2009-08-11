@@ -21,8 +21,8 @@ class ReservationsManagerAdminReservationBrowserComponent extends ReservationsMa
 	{
 		$trail = new BreadCrumbTrail();
 		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-		$trail->add(new BreadCrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS)), Translation :: get('View items')));
-		$trail->add(new BreadCrumb($this->get_url(array(ReservationsManager :: PARAM_ITEM_ID => $this->get_item())), Translation :: get('View reservations')));
+		$trail->add(new BreadCrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS)), Translation :: get('ViewItems')));
+		$trail->add(new BreadCrumb($this->get_url(array(ReservationsManager :: PARAM_ITEM_ID => $this->get_item())), Translation :: get('ViewReservations')));
 		
 		$this->ab = $this->get_action_bar();
 		$this->display_header($trail);

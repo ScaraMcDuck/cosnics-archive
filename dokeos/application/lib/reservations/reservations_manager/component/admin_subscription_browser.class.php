@@ -23,9 +23,9 @@ class ReservationsManagerAdminSubscriptionBrowserComponent extends ReservationsM
 		$item = $this->retrieve_items(new EqualityCondition(Item :: PROPERTY_ID, $reservation->get_item()))->next_result();
 		
 		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-		$trail->add(new BreadCrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS)), Translation :: get('View items')));
-		$trail->add(new BreadCrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_RESERVATIONS, ReservationsManager :: PARAM_ITEM_ID => $reservation->get_item())), Translation :: get('View reservations')));
-		$trail->add(new BreadCrumb($this->get_url(array(ReservationsManager :: PARAM_RESERVATION_ID => $this->get_reservation_id())), Translation :: get('View subscriptions')));
+		$trail->add(new BreadCrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS)), Translation :: get('ViewItems')));
+		$trail->add(new BreadCrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_RESERVATIONS, ReservationsManager :: PARAM_ITEM_ID => $reservation->get_item())), Translation :: get('ViewReservations')));
+		$trail->add(new BreadCrumb($this->get_url(array(ReservationsManager :: PARAM_RESERVATION_ID => $this->get_reservation_id())), Translation :: get('ViewSubscriptions')));
 		
 		$this->display_header($trail);
 		
@@ -37,7 +37,7 @@ class ReservationsManagerAdminSubscriptionBrowserComponent extends ReservationsM
 	
 	function get_user_html()
 	{		
-		$table = new SubscriptionBrowserTable($this, array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_SUBSCRIPTIONS), $this->get_condition());
+		$table = new SubscriptionBrowserTable($this, $this->get_parameters(), $this->get_condition());
 		
 		$html = array();
 		$html[] = $table->as_html();
@@ -64,9 +64,10 @@ class ReservationsManagerAdminSubscriptionBrowserComponent extends ReservationsM
 	
 	function display_reservation_information($item, $reservation)
 	{
-		$responsible = UserDataManager :: get_instance()->retrieve_user($item->get_responsible())->get_fullname();
+		//$responsible = UserDataManager :: get_instance()->retrieve_user($item->get_responsible())->get_fullname();
+		$responsible = $item->get_responsible();
 		
-		$html[] = '<div class="learning_object" style="background-image: url(' . Theme :: get_theme_path().'treemenu_types/calendar_event.png);">';
+		$html[] = '<div class="learning_object" style="background-image: url(' . Theme :: get_common_image_path().'treemenu_types/calendar_event.png);">';
 		$html[] = '<div class="title">';
 		$html[] = $item->get_name();
 		$html[] = '</div>';

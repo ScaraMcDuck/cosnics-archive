@@ -39,7 +39,7 @@ class ReservationsManagerSubscriptionUserBrowserComponent extends ReservationsMa
 		
 		$trail->add(new BreadCrumb($this->get_url(array(ReservationsManager :: PARAM_SUBSCRIPTION_ID => $this->subscription->get_id())), Translation :: get('View subscription')));
 		
-		$this->ab = new ActionBarRenderer($this->get_left_toolbar_data());
+		$this->ab = $this->get_action_bar();
 		
 		$this->display_header($trail);
 		
@@ -47,7 +47,7 @@ class ReservationsManagerSubscriptionUserBrowserComponent extends ReservationsMa
 		
 		$this->display_reservation_information();
 		
-		echo '<div class="learning_object" style="background-image: url(' . Theme :: get_theme_path().'users.png);">';
+		echo '<div class="learning_object" style="background-image: url(' . Theme :: get_common_image_path().'action_users.png);">';
 		echo '<div class="title">' . Translation :: get('Additional Users') . '</div>';
 		echo '<div class="description">';
 		echo $this->get_user_html();
@@ -86,10 +86,11 @@ class ReservationsManagerSubscriptionUserBrowserComponent extends ReservationsMa
 		$start = $subscription->get_start_time()?$subscription->get_start_time():$reservation->get_start_date();
 		$stop = $subscription->get_stop_time()?$subscription->get_stop_time():$reservation->get_stop_date();
 		
-		$responsible = UserDataManager :: get_instance()->retrieve_user($item->get_responsible())->get_fullname();
+		//$responsible = UserDataManager :: get_instance()->retrieve_user($item->get_responsible())->get_fullname();
+		$responsible = $item->get_responsible();
 		$sub_user = UserDataManager :: get_instance()->retrieve_user($subscription->get_user_id())->get_fullname();
 		
-		$html[] = '<div class="learning_object" style="background-image: url(' . Theme :: get_theme_path().'treemenu_types/calendar_event.png);">';
+		$html[] = '<div class="learning_object" style="background-image: url(' . Theme :: get_common_image_path().'treemenu_types/calendar_event.png);">';
 		$html[] = '<div class="title">';
 		$html[] = $item->get_name();
 		$html[] = '</div>';
@@ -114,14 +115,12 @@ class ReservationsManagerSubscriptionUserBrowserComponent extends ReservationsMa
 		}
 	}
 	
-	function get_left_toolbar_data()
+	function get_action_bar()
 	{
-		$tb_data[] = array(
-				'href' => $this->get_subscription_user_updater_url($this->subscription->get_id()),
-				'label' => Translation :: get('ChangeAdditionalUsers'),
-				'img' => Theme :: get_theme_path() . 'action_edit.png'
-		);
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ChangeAdditionalUsers'), Theme :: get_common_image_path().'action_edit.png', $this->get_subscription_user_updater_url($this->subscription->get_id()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
-		return $tb_data;
+		return $action_bar;
 	}
 }

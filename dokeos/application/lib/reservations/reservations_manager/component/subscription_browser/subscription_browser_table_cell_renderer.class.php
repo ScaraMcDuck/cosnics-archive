@@ -48,7 +48,7 @@ class SubscriptionBrowserTableCellRenderer extends DefaultSubscriptionTableCellR
 		$toolbar_data[] = array(
 				'href' => $this->browser->get_delete_subscription_url($subscription->get_id()),
 				'label' => Translation :: get('Delete'),
-				'img' => Theme :: get_theme_path() . 'action_delete.png',
+				'img' => Theme :: get_common_image_path() . 'action_delete.png',
 				'confirm' => true
 		);
 		
@@ -57,14 +57,14 @@ class SubscriptionBrowserTableCellRenderer extends DefaultSubscriptionTableCellR
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_approve_subscription_url($subscription->get_id()),
 				'label' => Translation :: get('Accept'),
-				'img' => Theme :: get_theme_path() . 'thumbs_up.png',
+				'img' => Theme :: get_common_image_path() . 'thumbs_up.png',
 			);
 		}
 		
 		$toolbar_data[] = array(
 				'href' => $this->browser->get_subscription_user_browser_url($subscription->get_id()),
 				'label' => Translation :: get('Details'),
-				'img' => Theme :: get_theme_path() . 'action_browser.png',
+				'img' => Theme :: get_common_image_path() . 'action_browser.png',
 		);
 		
 		return DokeosUtilities :: build_toolbar($toolbar_data);

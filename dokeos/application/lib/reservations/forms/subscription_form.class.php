@@ -186,22 +186,24 @@ class SubscriptionForm extends FormValidator
     	//$this->addElement('advmultiselect', 'users', Translation :: get('SelectUsers'), 
 			//					  $users, array('style' => 'width:200px;'));
 			
-		$url = Path :: get(WEB_PATH).'users/xml_user_feed.php';
+		$url = Path :: get(WEB_PATH).'user/xml_feeds/xml_user_feed.php';
     	$locale = array ();
-		$locale['Display'] = Translation :: get('AddRoles');
+		$locale['Display'] = Translation :: get('AddUsers');
 		$locale['Searching'] = Translation :: get('Searching');
 		$locale['NoResults'] = Translation :: get('NoResults');
 		$locale['Error'] = Translation :: get('Error');
-		$hidden = true;
 		
-		$elem = $this->addElement('element_finder', 'users', null, $url, $locale, null);
-		$elem->setDefaults($users);
-    	
+		$elem = $this->addElement('element_finder', 'users', Translation :: get('SelectAdditionalUsers'), $url, $locale, array());
+    	$elem->excludeElements(array($this->user->get_id()));
+		
     	$this->addElement('html', '<div style="clear: both;"></div>');
 		$this->addElement('html', '</div>');
     	
     	// Submit button
-		$this->addElement('submit', 'submit', 'OK');
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 		
     }
 
@@ -244,7 +246,6 @@ class SubscriptionForm extends FormValidator
 
 	function create_subscription()
 	{
-		$this->logger = Logger :: get_instance('webservices.txt');
 		$subscription = $this->subscription;
 		
 		$values = $this->exportValues();
@@ -255,19 +256,19 @@ class SubscriptionForm extends FormValidator
 			$subs = $this->make_subscriptions_from_subscription($subscription, $optional);
 		}
 		
-		if($this->item->get_salto_id() != null && $this->item->get_salto_id() != 0)
-		{
-			$res = $this->call_webservice($this->user, $subscription);
-			if(!$res)
-				return false;
-				
-			foreach($subs as $sub)
-			{
-				$res = $this->call_webservice($this->user, $sub);
-				if(!$res)
-					return false;
-			}
-		}
+//		if($this->item->get_salto_id() != null && $this->item->get_salto_id() != 0)
+//		{
+//			$res = $this->call_webservice($this->user, $subscription);
+//			if(!$res)
+//				return false;
+//				
+//			foreach($subs as $sub)
+//			{
+//				$res = $this->call_webservice($this->user, $sub);
+//				if(!$res)
+//					return false;
+//			}
+//		}
 		
 		$result = $subscription->create();
 		
@@ -281,21 +282,21 @@ class SubscriptionForm extends FormValidator
 		
 		foreach($users as $user)
 		{	
-			if($this->item->get_salto_id() != null && $this->item->get_salto_id() != 0)
-			{
-				$usr = $udm->retrieve_user($user);
-					
-				$res = $this->call_webservice($usr, $subscription);
-					if(!$res)
-						return false;
-					
-					foreach($subs as $sub)
-					{
-						$res = $this->call_webservice($usr, $sub);
-						if(!$res)
-							return false;
-					}
-			}
+//			if($this->item->get_salto_id() != null && $this->item->get_salto_id() != 0)
+//			{
+//				$usr = $udm->retrieve_user($user);
+//					
+//				$res = $this->call_webservice($usr, $subscription);
+//					if(!$res)
+//						return false;
+//					
+//					foreach($subs as $sub)
+//					{
+//						$res = $this->call_webservice($usr, $sub);
+//						if(!$res)
+//							return false;
+//					}
+//			}
 			
 			$subscription_user = new SubscriptionUser();
 			$subscription_user->set_subscription_id($subscription->get_id());
@@ -312,29 +313,27 @@ class SubscriptionForm extends FormValidator
 			}
 			
 		}
-		
-		Logger :: close_logs();
-		
+				
 		return $result;
 	}
 	
-	function call_webservice($user, $subscription)
-	{
-		require_once Path :: get_plugin_path() . 'nusoap/nusoap.php';
-			
-		$maakreservatieresult = $client->call('MaakReservatie', array(
-					'sExtUserID' => $user->get_official_code(), 
-					'sExtDoorID' => $this->item->get_salto_id(), 
-					'sTimezoneTableID' => "1"));
-				
-		$res = $maakreservatieresult['MaakReservatieResult'];
-		
-		$this->logger->write('Webservice MaakReservatie called (UserID: ' . $user->get_official_code() .
-				   ', DoorID: ' . $this->item->get_salto_id() . ', TimeZone: ' . "1" . ') Result: ' .
-				   $res);
-		
-		return ($res == $usr->get_official_code());
-	}
+//	function call_webservice($user, $subscription)
+//	{
+//		require_once Path :: get_plugin_path() . 'nusoap/nusoap.php';
+//			
+//		$maakreservatieresult = $client->call('MaakReservatie', array(
+//					'sExtUserID' => $user->get_official_code(), 
+//					'sExtDoorID' => $this->item->get_salto_id(), 
+//					'sTimezoneTableID' => "1"));
+//				
+//		$res = $maakreservatieresult['MaakReservatieResult'];
+//		
+//		$this->logger->write('Webservice MaakReservatie called (UserID: ' . $user->get_official_code() .
+//				   ', DoorID: ' . $this->item->get_salto_id() . ', TimeZone: ' . "1" . ') Result: ' .
+//				   $res);
+//		
+//		return ($res == $usr->get_official_code());
+//	}
 	
 	function make_subscriptions_from_subscription($subscription, $additional_reservations)
 	{
