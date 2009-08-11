@@ -14,22 +14,22 @@ require_once dirname(__FILE__).'/../../webconferencing_manager.class.php';
  */
 class WebconferenceBrowserTable extends ObjectTable
 {
-	const DEFAULT_NAME = 'webconference_browser_table';
+    const DEFAULT_NAME = 'webconference_browser_table';
 
-	/**
-	 * Constructor
-	 */
-	function WebconferenceBrowserTable($browser, $parameters, $condition)
-	{
-		$model = new WebconferenceBrowserTableColumnModel();
-		$renderer = new WebconferenceBrowserTableCellRenderer($browser);
-		$data_provider = new WebconferenceBrowserTableDataProvider($browser, $condition);
-		parent :: __construct($data_provider, self :: DEFAULT_NAME, $model, $renderer);
-		$this->set_additional_parameters($parameters);
-		$actions = array();
-		$actions[WebconferencingManager :: PARAM_DELETE_SELECTED_WEBCONFERENCES] = Translation :: get('RemoveSelected');
-		$this->set_form_actions($actions);
-		$this->set_default_row_count(20);
-	}
+    /**
+     * Constructor
+     */
+    function WebconferenceBrowserTable($browser, $parameters, $condition)
+    {
+        $model = new WebconferenceBrowserTableColumnModel();
+        $renderer = new WebconferenceBrowserTableCellRenderer($browser);
+        $data_provider = new WebconferenceBrowserTableDataProvider($browser, $condition);
+        parent :: __construct($data_provider, self :: DEFAULT_NAME, $model, $renderer);
+        $this->set_additional_parameters($parameters);
+        $actions = array();
+        $actions[WebconferencingManager :: PARAM_DELETE_SELECTED_WEBCONFERENCES] = Translation :: get('RemoveSelected');
+        $this->set_form_actions($actions);
+        $this->set_default_row_count(20);
+    }
 }
 ?>
