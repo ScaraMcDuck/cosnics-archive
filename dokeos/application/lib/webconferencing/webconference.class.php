@@ -159,6 +159,15 @@ class Webconference extends DataClass
 
     /**
      * Returns the to_date of this Webconference.
+     * @return the to_date
+     */
+     function get_to_date()
+     {
+         return $this->get_default_property(self :: PROPERTY_TO_DATE);
+     }
+
+    /**
+     * Returns the to_date of this Webconference.
      * @param to_date
      */
     function set_to_date($to_date)
