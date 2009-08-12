@@ -56,26 +56,26 @@ abstract class Installer
     }
 
     function install()
-    {
+    {        
         if (! $this->register_application())
         {
             return false;
         }
 
         $dir = $this->get_path();
-        $files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
+        $files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);        
 
         foreach ($files as $file)
-        {
+        {            
             if ((substr($file, - 3) == 'xml'))
             {
                 if (! $this->create_storage_unit($file))
                 {
                     return false;
-                }
+                }                
             }
-        }
-
+        }      
+        
         if (! $this->configure_application())
         {
             return false;
@@ -531,6 +531,7 @@ abstract class Installer
 
     function configure_application()
     {
+        
         $application = $this->get_application();
 
         $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
@@ -540,31 +541,32 @@ abstract class Installer
         if (file_exists($settings_file))
         {
             $xml = $this->parse_application_settings($settings_file);
-
+            
             foreach ($xml as $name => $value)
             {
                 $setting = new Setting();
                 $setting->set_application($application);
                 $setting->set_variable($name);
                 $setting->set_value($value);
-
+                
                 if (! $setting->create())
-                {
+                {                   
                     $message = Translation :: get('ApplicationConfigurationFailed');
                     $this->installation_failed($message);
                 }
             }
         }
-
+        
         return true;
     }
 
     function register_application()
     {
+        
         $application = $this->get_application();
-
+       
         if (WebApplication :: is_application($application))
-        {
+        {             
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('RegisteringApplication'));
 
             $application_registration = new Registration();
@@ -582,7 +584,7 @@ abstract class Installer
             }
         }
         else
-        {
+        {             
             return true;
         }
     }

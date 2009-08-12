@@ -8,7 +8,7 @@ class PackageInstallerLearningObjectType extends PackageInstallerType
 {
 
     function install()
-    {
+    {        
         $source = $this->get_source();
         $attributes = $source->get_attributes();
         $object_name = $attributes->get_code();

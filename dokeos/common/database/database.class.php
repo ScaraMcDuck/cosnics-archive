@@ -272,7 +272,7 @@ class Database
             return true;
         }
         else
-        {
+        {            
             return false;
         }
     }

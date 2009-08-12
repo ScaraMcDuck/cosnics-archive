@@ -8,7 +8,7 @@ class PackageInstallerApplicationType extends PackageInstallerType
 {
 
     function install()
-    {
+    {        
         $source = $this->get_source();
         $attributes = $source->get_attributes();
         $application_name = $attributes->get_code();
@@ -70,6 +70,7 @@ class PackageInstallerApplicationType extends PackageInstallerType
 
     function set_version()
     {
+
         $source = $this->get_source();
         $attributes = $source->get_attributes();
         $application_name = $attributes->get_code();

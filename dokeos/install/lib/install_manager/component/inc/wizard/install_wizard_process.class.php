@@ -35,6 +35,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 	}
 	function perform($page, $actionName)
 	{
+                
 		$this->values = $page->controller->exportValues();
 
 		$this->applications['core']	= array('webservice', 'admin', 'help','reporting', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu');
@@ -56,10 +57,11 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		flush();
 
 		$this->counter++;
-
+                
 		// 3. Installing the applications
 		echo '<h3>' . Translation :: get('Applications') . '</h3>';
 		$this->install_applications();
+                
 
 		$this->counter++;
 
@@ -190,17 +192,20 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 
 	function install_applications()
 	{
+                
 		$core_applications = $this->applications['core'];
 		$applications = $this->applications['extra'];
 		$values = $this->values;
-
+                
 		foreach ($core_applications as $core_application)
 		{
+                        
 			$installer = Installer :: factory($core_application, $values);
-			$result = $installer->install();
+			$result = $installer->install();                        
 			$this->process_result($core_application, $result, $installer->retrieve_message());
-			unset($installer);
+			unset($installer);                        
 			flush();
+                        
 		}
 
 		flush();
