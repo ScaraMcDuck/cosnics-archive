@@ -8,7 +8,7 @@ class PackageInstallerLanguageType extends PackageInstallerType
 {
 
     function install()
-    {
+    {        
         if ($this->verify_dependencies())
         {
             $this->get_parent()->installation_successful('dependencies', Translation :: get('LanguageDependenciesVerified'));
@@ -33,7 +33,7 @@ class PackageInstallerLanguageType extends PackageInstallerType
     }
 
     function add_registration()
-    {
+    {        
         $source = $this->get_source();
         $attributes = $source->get_attributes();
         $language_name = $attributes->get_code();

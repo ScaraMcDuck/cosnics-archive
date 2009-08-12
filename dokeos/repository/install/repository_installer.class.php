@@ -29,7 +29,7 @@ class RepositoryInstaller extends Installer
 	 * storage unit.
 	 */
 	function install_extra()
-	{
+	{                
 		$rdm	= $this->get_data_manager();
 		$dir	= dirname(__FILE__) . '/../lib/learning_object';
 		

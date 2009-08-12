@@ -4,7 +4,7 @@
  */
 
 require_once dirname(__FILE__).'/../../lib/import/import_forum_category.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication_category.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/category_manager/learning_object_publication_category.class.php';
 
 /**
  * This class presents a Dokeos185 forum_category
@@ -163,9 +163,9 @@ class Dokeos185ForumCategory extends ImportForumCategory
 		$course = $array['course'];
 		
 		if($this->get_cat_title())
-			$lcms_forum_category->set_title($this->get_cat_title());
+			$lcms_forum_category->set_name($this->get_cat_title());
 		else
-			$lcms_forum_category->set_title($this->get_cat_comment());
+			$lcms_forum_category->set_name($this->get_cat_comment());
 		
 		$old_id = $this->get_cat_id();
 		

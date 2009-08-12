@@ -223,8 +223,7 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
 		$lcms_category_id = $mgdm->get_parent_id($owner_id, 'category',
 			Translation :: get('calendar_events'));                    
 		if(!$lcms_category_id)
-		{
-                    
+		{                      
 			//Create category for tool in lcms
 			$lcms_repository_category = new RepositoryCategory();
                         $lcms_repository_category->set_user_id($owner_id);

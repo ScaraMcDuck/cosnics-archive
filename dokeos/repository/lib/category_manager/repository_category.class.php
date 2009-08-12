@@ -16,8 +16,9 @@ class RepositoryCategory extends PlatformCategory
 	
 	function create()
 	{
-		$user_id = Session :: get_user_id();
-		$this->set_user_id($user_id);
+                $user_id = Session :: get_user_id();
+		if($user_id)
+                    $this->set_user_id($user_id);
 		$rdm = RepositoryDataManager :: get_instance();
 		$this->set_id($rdm->get_next_category_id());
 		$this->set_display_order($rdm->select_next_category_display_order($this->get_parent(), $user_id));
