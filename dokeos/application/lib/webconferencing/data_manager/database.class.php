@@ -83,7 +83,15 @@ class DatabaseWebconferencingDataManager extends WebconferencingDataManager
 
     function count_webconferences($condition = null)
     {
-        return $this->database->count_objects(Webconference :: get_table_name(), $condition);
+        $webconference_alias = $this->database->get_alias(Webconference :: get_table_name());
+        $webconference_user_alias = $this->database->get_alias(WebconferenceUser :: get_table_name());
+        $webconference_group_alias = $this->database->get_alias(WebconferenceGroup :: get_table_name());
+
+        $query  = 'SELECT COUNT(*) FROM ' . $this->database->escape_table_name(Webconference :: get_table_name()) . ' AS ' . $webconference_alias;
+        $query .= ' LEFT JOIN ' . $this->database->escape_table_name(WebconferenceUser :: get_table_name()) . ' AS ' . $webconference_user_alias . ' ON ' . $this->database->escape_column_name(Webconference :: PROPERTY_ID, $webconference_alias) . '  = ' . $this->database->escape_column_name(WebconferenceUser :: PROPERTY_WEBCONFERENCE, $webconference_user_alias);
+        $query .= ' LEFT JOIN ' . $this->database->escape_table_name(WebconferenceGroup :: get_table_name()) . ' AS ' . $webconference_group_alias . ' ON ' . $this->database->escape_column_name(Webconference :: PROPERTY_ID, $webconference_alias) . '  = ' . $this->database->escape_column_name(WebconferenceGroup :: PROPERTY_WEBCONFERENCE, $webconference_group_alias);
+
+        return $this->database->count_result_set($query, Webconference :: get_table_name(), $condition);
     }
 
     function retrieve_webconference($id)
@@ -94,7 +102,15 @@ class DatabaseWebconferencingDataManager extends WebconferencingDataManager
 
     function retrieve_webconferences($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
     {
-        return $this->database->retrieve_objects(Webconference :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+        $webconference_alias = $this->database->get_alias(Webconference :: get_table_name());
+        $webconference_user_alias = $this->database->get_alias(WebconferenceUser :: get_table_name());
+        $webconference_group_alias = $this->database->get_alias(WebconferenceGroup :: get_table_name());
+
+        $query  = 'SELECT ' . $webconference_alias . '.* FROM ' . $this->database->escape_table_name(Webconference :: get_table_name()) . ' AS ' . $webconference_alias;
+        $query .= ' LEFT JOIN ' . $this->database->escape_table_name(WebconferenceUser :: get_table_name()) . ' AS ' . $webconference_user_alias . ' ON ' . $this->database->escape_column_name(Webconference :: PROPERTY_ID, $webconference_alias) . '  = ' . $this->database->escape_column_name(WebconferenceUser :: PROPERTY_WEBCONFERENCE, $webconference_user_alias);
+        $query .= ' LEFT JOIN ' . $this->database->escape_table_name(WebconferenceGroup :: get_table_name()) . ' AS ' . $webconference_group_alias . ' ON ' . $this->database->escape_column_name(Webconference :: PROPERTY_ID, $webconference_alias) . '  = ' . $this->database->escape_column_name(WebconferenceGroup :: PROPERTY_WEBCONFERENCE, $webconference_group_alias);
+
+        return $this->database->retrieve_result_set($query, Webconference :: get_table_name(), $condition, $offset, $max_objects, $order_by, Webconference :: CLASS_NAME);
     }
 
     function get_next_webconference_option_id()
