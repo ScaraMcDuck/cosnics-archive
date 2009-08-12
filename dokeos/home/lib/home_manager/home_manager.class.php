@@ -289,10 +289,10 @@ class HomeManager extends CoreApplication
         return $hdm->retrieve_home_row_at_sort($parent, $sort, $direction);
     }
 
-    function retrieve_home_tab_at_sort($sort, $direction)
+    function retrieve_home_tab_at_sort($user, $sort, $direction)
     {
         $hdm = HomeDataManager :: get_instance();
-        return $hdm->retrieve_home_tab_at_sort($sort, $direction);
+        return $hdm->retrieve_home_tab_at_sort($user, $sort, $direction);
     }
 
     /**
