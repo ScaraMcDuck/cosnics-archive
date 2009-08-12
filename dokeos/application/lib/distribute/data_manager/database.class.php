@@ -40,6 +40,11 @@ class DatabaseDistributeDataManager extends DistributeDataManager
 	{
 		return $this->database->get_next_id(AnnouncementDistribution :: get_table_name());
 	}
+	
+	function create_group_moderator($group_moderator)
+	{
+		return $this->database->create($group_moderator);
+	}
 
 	function create_announcement_distribution($announcement_distribution)
 	{
@@ -53,6 +58,7 @@ class DatabaseDistributeDataManager extends DistributeDataManager
 				$props[$this->database->escape_column_name('user')] = $user_id;
 				$this->database->get_connection()->extended->autoExecute($this->database->get_table_name('announcement_distribution_user'), $props, MDB2_AUTOQUERY_INSERT);
 			}
+			
 			$groups = $announcement_distribution->get_target_groups();
 			foreach($groups as $index => $group_id)
 			{

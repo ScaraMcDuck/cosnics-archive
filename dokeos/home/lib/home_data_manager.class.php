@@ -94,6 +94,8 @@ abstract class HomeDataManager
     abstract function retrieve_home_column_at_sort($parent, $sort, $direction);
 
     abstract function retrieve_home_block_at_sort($parent, $sort, $direction);
+    
+    abstract function retrieve_home_tab_at_sort($user, $sort, $direction);
 
     abstract function update_home_block($home_block);
 

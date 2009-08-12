@@ -107,8 +107,8 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 	            while ($column = $columns->next_result())
 	            {
 	                $column_width = floor((700 - ($columns->size() - 1) * 10) / $columns->size()) - 20;
-	                $html[] = '<div class="column" style="' . ($columns->position() != 'last' && $columns->position() != 'single' ? 'margin-right: 10px;' : '') . 'padding: 10px; text-align: center; width: ' . $column_width . 'px; font-size: 10pt;background-color: #E8E8E8; color: #000000;">';
-	                $html[] = '<h3 style="margin: 0px; padding: 0px;">' . Translation :: get('Column') . ':&nbsp;' . $column->get_title() . '</h3>';
+	                $html[] = '<div class="column" style="' . ($columns->position() != 'last' && $columns->position() != 'single' ? 'margin-right: 1%;' : '') . ' text-align: center; width: ' . $column->get_width() . '%; font-size: 10pt;background-color: #E8E8E8; color: #000000;">';
+	                $html[] = '<h3 style="margin: 0px; padding: 0px;">' . Translation :: get('Column') . ':&nbsp;' . $column->get_title() . ' (' . $column->get_width() . '%)</h3>';
 	                $html[] = $this->get_column_modification_links($column, $columns->position());
 	                
 	                $conditions = array();
@@ -120,7 +120,7 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 	                
 	                while ($block = $blocks->next_result())
 	                {
-	                    $html[] = '<div style="' . ($blocks->position() != 'last' && $blocks->position() != 'single' ? 'margin-bottom: 10px;' : '') . 'padding: 10px; text-align: center; width: ' . ($column_width - 20) . 'px; height: 40px; line-height: 20px; font-size: 8pt;background-color: #B8B8B8; color: #2F2F2F;">';
+	                    $html[] = '<div style="margin: 0px 10px 10px 10px; padding: 10px; text-align: center; height: 40px; line-height: 20px; font-size: 8pt;background-color: #B8B8B8; color: #2F2F2F;">';
 	                    $html[] = Translation :: get('Block') . ':&nbsp;' . $block->get_title();
 	                    $html[] = $this->get_block_modification_links($block, $blocks->position());
 	                    $html[] = '</div>';

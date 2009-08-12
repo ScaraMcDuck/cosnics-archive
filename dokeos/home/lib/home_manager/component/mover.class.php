@@ -55,6 +55,11 @@ class HomeManagerMoverComponent extends HomeManagerComponent
                     $sort = $move_home->get_sort();
                     $next_home = $this->retrieve_home_row_at_sort($move_home->get_tab(), $sort, $direction);
                     break;
+                case HomeManager :: TYPE_TAB :
+                    $move_home = $this->retrieve_home_tab($id);
+                    $sort = $move_home->get_sort();
+                    $next_home = $this->retrieve_home_tab_at_sort($move_home->get_user(), $sort, $direction);
+                    break;
             }
 
             if ($direction == 'up')

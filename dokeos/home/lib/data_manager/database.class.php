@@ -325,17 +325,17 @@ class DatabaseHomeDataManager extends HomeDataManager
         if ($direction == 'up')
         {
             $conditions[] = new InequalityCondition(HomeBlock :: PROPERTY_SORT, InequalityCondition :: LESS_THAN, $sort);
-            $order_direction = array(SORT_DESC);
+            $order_direction = SORT_DESC;
         }
         elseif ($direction == 'down')
         {
             $conditions[] = new InequalityCondition(HomeBlock :: PROPERTY_SORT, InequalityCondition :: GREATER_THAN, $sort);
-            $order_direction = array(SORT_ASC);
+            $order_direction = SORT_ASC;
         }
 
         $condition = new AndCondition($conditions);
 
-        return $this->database->retrieve_object(HomeBlock :: get_table_name(), $condition, array(HomeBlock :: PROPERTY_SORT), $order_direction, HomeBlock :: CLASS_NAME);
+        return $this->database->retrieve_object(HomeBlock :: get_table_name(), $condition, array(new ObjectTableOrder(HomeBlock :: PROPERTY_SORT, $order_direction)), array(), HomeBlock :: CLASS_NAME);
     }
 
     function retrieve_home_column_at_sort($parent, $sort, $direction)
@@ -346,17 +346,17 @@ class DatabaseHomeDataManager extends HomeDataManager
         if ($direction == 'up')
         {
             $conditions[] = new InequalityCondition(HomeColumn :: PROPERTY_SORT, InequalityCondition :: LESS_THAN, $sort);
-            $order_direction = array(SORT_DESC);
+            $order_direction = SORT_DESC;
         }
         elseif ($direction == 'down')
         {
             $conditions[] = new InequalityCondition(HomeColumn :: PROPERTY_SORT, InequalityCondition :: GREATER_THAN, $sort);
-            $order_direction = array(SORT_ASC);
+            $order_direction = SORT_ASC;
         }
 
         $condition = new AndCondition($conditions);
 
-        return $this->database->retrieve_object(HomeColumn :: get_table_name(), $condition, array(HomeColumn :: PROPERTY_SORT), $order_direction, HomeColumn :: CLASS_NAME);
+        return $this->database->retrieve_object(HomeColumn :: get_table_name(), $condition, array(new ObjectTableOrder(HomeColumn :: PROPERTY_SORT, $order_direction)), array(), HomeColumn :: CLASS_NAME);
     }
 
     function retrieve_home_row_at_sort($parent, $sort, $direction)
@@ -367,33 +367,38 @@ class DatabaseHomeDataManager extends HomeDataManager
         if ($direction == 'up')
         {
             $conditions[] = new InequalityCondition(HomeRow :: PROPERTY_SORT, InequalityCondition :: LESS_THAN, $sort);
-            $order_direction = array(SORT_DESC);
+            $order_direction = SORT_DESC;
         }
         elseif ($direction == 'down')
         {
             $conditions[] = new InequalityCondition(HomeRow :: PROPERTY_SORT, InequalityCondition :: GREATER_THAN, $sort);
-            $order_direction = array(SORT_ASC);
+            $order_direction = SORT_ASC;
         }
 
         $condition = new AndCondition($conditions);
 
-        return $this->database->retrieve_object(HomeRow :: get_table_name(), $condition, array(HomeRow :: PROPERTY_SORT), $order_direction, HomeRow :: CLASS_NAME);
+        return $this->database->retrieve_object(HomeRow :: get_table_name(), $condition, array(new ObjectTableOrder(HomeRow :: PROPERTY_SORT, $order_direction)), array(), HomeRow :: CLASS_NAME);
     }
 
-    function retrieve_home_tab_at_sort($sort, $direction)
+    function retrieve_home_tab_at_sort($user, $sort, $direction)
     {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(HomeTab :: PROPERTY_USER, $user);
+    	
         if ($direction == 'up')
         {
-            $condition = new InequalityCondition(HomeTab :: PROPERTY_SORT, InequalityCondition :: LESS_THAN, $sort);
-            $order_direction = array(SORT_DESC);
+            $conditions[] = new InequalityCondition(HomeTab :: PROPERTY_SORT, InequalityCondition :: LESS_THAN, $sort);
+            $order_direction = SORT_DESC;
         }
         elseif ($direction == 'down')
         {
-            $condition = new InequalityCondition(HomeTab :: PROPERTY_SORT, InequalityCondition :: GREATER_THAN, $sort);
-            $order_direction = array(SORT_ASC);
+            $conditions[] = new InequalityCondition(HomeTab :: PROPERTY_SORT, InequalityCondition :: GREATER_THAN, $sort);
+            $order_direction = SORT_ASC;
         }
+        
+        $condition = new AndCondition($conditions);
 
-        return $this->database->retrieve_object(HomeTab :: get_table_name(), $condition, array(HomeTab :: PROPERTY_SORT), $order_direction, HomeTab :: CLASS_NAME);
+        return $this->database->retrieve_object(HomeTab :: get_table_name(), $condition, array(new ObjectTableOrder(HomeTab :: PROPERTY_SORT, $order_direction)), array(), HomeTab :: CLASS_NAME);
     }
 
     function delete_home_row($home_row)
