@@ -104,12 +104,18 @@ class WebconferencingManagerWebconferencesBrowserComponent extends Webconferenci
             $conditions[] = new OrCondition($visibility);
 
             $dates = array();
-            $dates[] = new AndCondition(array(new InequalityCondition(Webconference :: PROPERTY_FROM_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time()), new InequalityCondition(Webconference :: PROPERTY_TO_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time())));
+            $dates[] = new AndCondition(array(
+                                    new InequalityCondition(Webconference :: PROPERTY_FROM_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time()),
+                                    new InequalityCondition(Webconference :: PROPERTY_TO_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time())
+                                        ));
+            $dates[] = new AndCondition(array(
+                                    new EqualityCondition(Webconference :: PROPERTY_FROM_DATE, 0),
+                                    new EqualityCondition(Webconference :: PROPERTY_TO_DATE, 0)
+                                        ));
             $dates[] = new EqualityCondition(Webconference :: PROPERTY_USER_ID, $user->get_id());
             $conditions[] = new OrCondition($dates);
-        }
 
-        dump($conditions);
+        }
 
         return new AndCondition($conditions);
     }

@@ -191,6 +191,11 @@ class WebconferenceForm extends FormValidator
         $webconference->set_confname($values[Webconference :: PROPERTY_CONFNAME]);
         $webconference->set_description($values[Webconference :: PROPERTY_DESCRIPTION]);
         $webconference->set_duration($values[Webconference :: PROPERTY_DURATION]);
+        $webconference->set_from_date($from);
+        $webconference->set_to_date($to);
+        $webconference->set_hidden($hidden);
+        $webconference->set_target_users($users);
+        $webconference->set_target_groups($groups);
 
         //delete all webconference_options
         WebconferencingDataManager :: get_instance()->delete_webconference_options($webconference);
@@ -273,6 +278,11 @@ class WebconferenceForm extends FormValidator
         $defaults[Webconference :: PROPERTY_ID] = $webconference->get_id();
         $defaults[Webconference :: PROPERTY_CONFNAME] = $webconference->get_confname();
         $defaults[Webconference :: PROPERTY_DESCRIPTION] = $webconference->get_description();
+        $defaults[Webconference :: PROPERTY_HIDDEN] = $webconference->is_hidden();
+
+        $defaults['from_date'] = $webconference->get_from_date();
+        $defaults['to_date'] = $webconference->get_to_date();
+        $defaults['forever'] = ($defaults['from_date'] !=0)?0:1;
 
         //loop all webconference_options and place them in defaults
         if($webconference)
@@ -289,8 +299,47 @@ class WebconferenceForm extends FormValidator
                 $defaults['option['. $option->get_name() . ']'] = $option->get_value();
             }
         }
-        $defaults[self :: PARAM_TARGET_OPTION] = 0;
-        $defaults[self :: PARAM_FOREVER] = 1;
+
+        $udm = UserDataManager :: get_instance();
+        $gdm = GroupDataManager :: get_instance();
+
+        $target_groups = $webconference->get_target_groups();
+        $target_users = $webconference->get_target_users();
+
+        $defaults[self :: PARAM_TARGET_ELEMENTS] = array();
+        foreach($target_groups as $target_group)
+        {
+            $group = $gdm->retrieve_group($target_group);
+
+            $selected_group = array ();
+            $selected_group['id'] = 'group_' . $group->get_id();
+            $selected_group['classes'] = 'type type_group';
+            $selected_group['title'] = $group->get_name();
+            $selected_group['description'] = $group->get_description();
+
+            $defaults[self :: PARAM_TARGET_ELEMENTS][$selected_group['id']] = $selected_group;
+        }
+        foreach($target_users as $target_user)
+        {
+            $user = $udm->retrieve_user($target_user);
+
+            $selected_user = array ();
+            $selected_user['id'] = 'user_' . $user->get_id();
+            $selected_user['classes'] = 'type type_user';
+            $selected_user['title'] = $user->get_fullname();
+            $selected_user['description'] = $user->get_username();
+
+            $defaults[self :: PARAM_TARGET_ELEMENTS][$selected_user['id']] = $selected_user;
+        }
+
+        if (count($defaults[self :: PARAM_TARGET_ELEMENTS]) > 0)
+        {
+            $defaults[self :: PARAM_TARGET_OPTION] = '1';
+        }
+
+        $active = $this->getElement(self :: PARAM_TARGET_ELEMENTS);
+        $active->_elements[0]->setValue(serialize($defaults[self :: PARAM_TARGET_ELEMENTS]));
+
         parent :: setDefaults($defaults);
     }
 }
