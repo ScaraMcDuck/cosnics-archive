@@ -119,6 +119,7 @@ class AssessmentManagerBrowserComponent extends AssessmentManagerComponent
 			
 			$dates = array();
 			$dates[] = new AndCondition(array(new InequalityCondition(AssessmentPublication :: PROPERTY_FROM_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time()), new InequalityCondition(AssessmentPublication :: PROPERTY_TO_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time())));
+                        $dates[] = new AndCondition(array(new EqualityCondition(Webconference :: PROPERTY_FROM_DATE, 0),new EqualityCondition(Webconference :: PROPERTY_TO_DATE, 0)));
 			$dates[] = new EqualityCondition(AssessmentPublication :: PROPERTY_PUBLISHER, $user->get_id());
 			$conditions[] = new OrCondition($dates);
 		}
