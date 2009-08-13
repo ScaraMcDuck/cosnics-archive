@@ -173,4 +173,11 @@ $lang['reservations']['ViewRight'] = 'View';
 $lang['reservations']['AddRight'] = 'Add';
 $lang['reservations']['EditRight'] = 'Edit';
 $lang['reservations']['DeleteRight'] = 'Delete';
+$lang['reservations']['Use'] = 'Use';
+$lang['reservations']['MyReservations'] = 'My reservations';
+$lang['reservations']['Statistics'] = 'Statistics';
+$lang['reservations']['ManageCategories'] = 'Manage categories';
+$lang['reservations']['ManageItems'] = 'Manage items';
+$lang['reservations']['ManageQuota'] = 'Manage quota';
+$lang['reservations']['ManageQuotaBoxes'] = 'Manage quota boxes';
 ?>

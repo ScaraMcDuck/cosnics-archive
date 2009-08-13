@@ -122,7 +122,7 @@ class ObjectTableColumnModel
             // Make sure the default order column is actually an ObjectTableColumn AND sortabele
             if ($default_column instanceof ObjectTableColumn && $default_column->is_sortable())
             {
-                return $default_column->get_property();
+               return new ObjectTableOrder($default_column->get_property(), $order_direction);
             }
             // If not, just don't sort (probably a table with display orders)
             else
