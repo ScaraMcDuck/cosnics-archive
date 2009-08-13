@@ -16,9 +16,9 @@ class ReservationsManagerQuotaCreatorComponent extends ReservationsManagerCompon
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-		$trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_QUOTAS)), Translation :: get('View quotas')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Create quota')));
+		$trail->add(new BreadCrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
+		$trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_QUOTAS)), Translation :: get('ViewQuota')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateQuota')));
 
 		$user = $this->get_user();
 

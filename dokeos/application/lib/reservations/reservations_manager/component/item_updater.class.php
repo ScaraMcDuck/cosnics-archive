@@ -19,9 +19,9 @@ class ReservationsManagerItemUpdaterComponent extends ReservationsManagerCompone
 		$item_id = $_GET[ReservationsManager :: PARAM_ITEM_ID];
 		
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-		$trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS, ReservationsManager :: PARAM_CATEGORY_ID => $category_id)), Translation :: get('View items')));
-		$trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ITEM_ID => $item_id, ReservationsManager :: PARAM_CATEGORY_ID => $category_id)), Translation :: get('Update item')));
+		$trail->add(new BreadCrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
+		$trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS, ReservationsManager :: PARAM_CATEGORY_ID => $category_id)), Translation :: get('ViewItems')));
+		$trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ITEM_ID => $item_id, ReservationsManager :: PARAM_CATEGORY_ID => $category_id)), Translation :: get('UpdateItem')));
 
 		$user = $this->get_user();
 

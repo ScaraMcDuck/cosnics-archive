@@ -20,6 +20,7 @@ class ReservationsManagerSubscriptionBrowserComponent extends ReservationsManage
 	function run()
 	{
 		$trail = new BreadCrumbTrail();
+		$trail->add(new BreadCrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
 		$trail->add(new BreadCrumb($this->get_url(), Translation :: get('MySubscriptions')));
 		
 		$this->display_header($trail);
