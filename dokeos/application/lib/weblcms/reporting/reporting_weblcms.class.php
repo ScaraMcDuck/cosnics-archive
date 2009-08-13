@@ -752,23 +752,22 @@ class ReportingWeblcms
             $condition = new LikeCondition(VisitTracker :: PROPERTY_LOCATION,'&pid='.$pid);
         }
         $user = $udm->retrieve_user($user_id);
-        $trackerdata = $tracker->retrieve_tracker_items($condition);
-        foreach ($trackerdata as $key => $value)
+        
+        $order_by = new ObjectTableOrder(VisitTracker :: PROPERTY_ENTER_DATE, SORT_DESC);
+        $trackerdata = $tracker->retrieve_tracker_items_result_set($condition, $order_by);
+
+        while($value = $trackerdata->next_result())
         {
-            $lastaccess = $value->get_enter_date();
             if(!isset($user_id))
                 $user = $udm->retrieve_user($value->get_user_id());
 
             $arr[Translation :: get('User')][] = $user->get_fullname();
-            $arr[Translation :: get('LastAccess')][] = $lastaccess;
-            $time = strtotime($value->get_leave_date()) - strtotime($value->get_enter_date());
+            $arr[Translation :: get('LastAccess')][] = $value->get_enter_date();
+            $time = strtotime($value->geT_leave_date()) - strtotime($value->get_enter_date());
             $time = mktime(0,0,$time,0,0,0);
-            $time = date('G:i:s',$time);
+            $time = date('G:i:s', $time);
             $arr[Translation :: get('TotalTime')][] = $time;
         }
-
-        Reporting :: sort_array($arr,Translation :: get('LastAccess'));
-
         return Reporting :: getSerieArray($arr);
     }
 
