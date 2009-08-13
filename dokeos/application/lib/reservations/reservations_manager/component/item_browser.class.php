@@ -21,6 +21,7 @@ class ReservationsManagerItemBrowserComponent extends ReservationsManagerCompone
 	function run()
 	{
 		$trail = new BreadCrumbTrail();
+		$trail->add(new BreadCrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
 		$trail->add(new BreadCrumb($this->get_url(), Translation :: get('View items')));
 		
 		$this->ab = $this->get_action_bar();
