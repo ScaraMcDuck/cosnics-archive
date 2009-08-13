@@ -19,7 +19,7 @@ class SubscriptionBrowserTableColumnModel extends DefaultSubscriptionTableColumn
 	function SubscriptionBrowserTableColumnModel($browser)
 	{
 		parent :: __construct($browser);
-		$this->set_default_order_column(1);
+		$this->set_default_order_column(2);
 		$this->add_column(self :: get_modification_column());
 	}
 	/**

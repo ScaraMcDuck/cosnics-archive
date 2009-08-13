@@ -270,7 +270,7 @@ class ReservationsManager extends WebApplication
 		$html[] = '<ul>';
 
 		$html[] = '<li class="tool_list_menu title">' . Translation :: get('Use') . '</li>';
-		$html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_browser.png)"><a href="' . $this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_ITEMS)) . '">' . Translation :: get('MyReservations') . '</a></li>';
+		$html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_browser.png)"><a href="' . $this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_SUBSCRIPTIONS)) . '">' . Translation :: get('MyReservations') . '</a></li>';
 		$html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_statistics.png)"><a href="' . $this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_RESPONSIBLE_OVERVIEW)) . '">' . Translation :: get('Statistics') . '</a></li>';
 		
 		$html[] = '<div class="splitter"></div>';
