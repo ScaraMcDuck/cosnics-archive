@@ -196,23 +196,23 @@ class ReportingWeblcms
             $condition = new LikeCondition(VisitTracker :: PROPERTY_LOCATION,'&course='.$course_id);
         }
         $user = $udm->retrieve_user($user_id);
-        $trackerdata = $tracker->retrieve_tracker_items($condition);
-        foreach ($trackerdata as $key => $value)
+        $order_by = new ObjectTableOrder(VisitTracker :: PROPERTY_ENTER_DATE, SORT_DESC);
+        $trackerdata = $tracker->retrieve_tracker_items_result_set($condition, $order_by);
+
+        while($visittracker = $trackerdata->next_result())
         {
-            $lastaccess = $value->get_enter_date();
             if(!isset($user_id))
-                $user = $udm->retrieve_user($value->get_user_id());
+                $user = $udm->retrieve_user($visittracker->get_user_id());
 
             $arr[Translation :: get('User')][] = $user->get_fullname();
-            $arr[Translation :: get('LastAccess')][] = $lastaccess;
-            $time = strtotime($value->get_leave_date()) - strtotime($value->get_enter_date());
+            $arr[Translation :: get('LastAccess')][] = $visittracker->get_enter_date();
+            $time = strtotime($visittracker->get_leave_date()) - strtotime($visittracker->get_enter_date());
             $time = mktime(0,0,$time,0,0,0);
-            $time = date('G:i:s',$time);
+            $time = date('G:i:s', $time);
             $arr[Translation :: get('TotalTime')][] = $time;
         }
-
+        
         $description['default_sort_column'] = 1;
-        Reporting :: sort_array($arr,Translation::get('LastAccess'));
         return Reporting :: getSerieArray($arr,$description);
     }
 
@@ -459,6 +459,8 @@ class ReportingWeblcms
     {
         $course_id = $params[ReportingManager::PARAM_COURSE_ID];
         $wdm = WeblcmsDataManager::get_instance();
+
+        $course = $wdm->retrieve_course($course_id);
 
         $conditions = array();
         $conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
