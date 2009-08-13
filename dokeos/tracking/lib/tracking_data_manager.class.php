@@ -155,6 +155,8 @@ abstract class TrackingDataManager
      */
     abstract function retrieve_tracker_items($tablename, $classname, $condition);
 
+    abstract function retrieve_tracker_items_result_set($tablename, $classname, $condition, $order_by);
+
     /**
      * Retrieves a tracker item from the database
      * @param string $tablename the table name where the database has to be written to

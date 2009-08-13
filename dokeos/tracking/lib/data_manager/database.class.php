@@ -268,6 +268,11 @@ class DatabaseTrackingDataManager extends TrackingDataManager
         return $items->as_array();
     }
 
+    function retrieve_tracker_items_result_set($table_name, $classname, $condition, $order_by)
+    {
+        return $this->database->retrieve_objects($table_name, $conditions, null, null, $order_by, array(), $classname);
+    }
+
     function count_tracker_items($tablename, $condition)
     {
         return $this->database->count_objects($tablename, $condition);
