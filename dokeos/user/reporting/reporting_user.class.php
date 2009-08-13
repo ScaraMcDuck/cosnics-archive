@@ -442,11 +442,12 @@ class ReportingUser {
         $rdm = RepositoryDataManager::get_instance();
 
         $course = $wdm->retrieve_course($course_id);
-        $list = $wdm->retrieve_course_users($course);
+        $list = $wdm->retrieve_course_user_relations(new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE,$course_id));
+        //$list = $wdm->retrieve_course_users($course);
         $tracker = new VisitTracker();
-        while($user = $list->next_result())
+        while($user_relation = $list->next_result())
         {
-            $user_id = $user->get_user();
+            $user_id = $user_relation->get_user();
             unset($conditions);
             unset($condition);
             $conditions[] = new LikeCondition(VisitTracker :: PROPERTY_LOCATION,'&course='.$course_id);
