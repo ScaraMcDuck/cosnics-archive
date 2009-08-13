@@ -11,6 +11,31 @@ class ReportingWeblcms
     {
     }
 
+    private static function visit_tracker_to_array($condition, $user)
+    {
+        require_once Path :: get_user_path().'trackers/visit_tracker.class.php';
+        $tracker = new VisitTracker();
+        $udm = UserDataManager::get_instance();
+
+        $order_by = new ObjectTableOrder(VisitTracker :: PROPERTY_ENTER_DATE, SORT_DESC);
+        $trackerdata = $tracker->retrieve_tracker_items_result_set($condition, $order_by);
+
+        while($visittracker = $trackerdata->next_result())
+        {
+            if(!isset($user))
+                $user = $udm->retrieve_user($visittracker->get_user_id());
+
+            $arr[Translation :: get('User')][] = $user->get_fullname();
+            $arr[Translation :: get('LastAccess')][] = $visittracker->get_enter_date();
+            $time = strtotime($visittracker->get_leave_date()) - strtotime($visittracker->get_enter_date());
+            $time = mktime(0,0,$time,0,0,0);
+            $time = date('G:i:s', $time);
+            $arr[Translation :: get('TotalTime')][] = $time;
+        }
+
+        return $arr;
+    }//visit_tracker_to_array
+
     /**
      * Returns the course information
      * @param <type> $params
@@ -180,9 +205,6 @@ class ReportingWeblcms
     {
         $course_id = $params[ReportingManager::PARAM_COURSE_ID];
         $user_id = $params[ReportingManager::PARAM_USER_ID];
-
-        require_once Path :: get_user_path().'trackers/visit_tracker.class.php';
-        $tracker = new VisitTracker();
         $udm = UserDataManager::get_instance();
 
         if(isset($user_id))
@@ -195,23 +217,10 @@ class ReportingWeblcms
         {
             $condition = new LikeCondition(VisitTracker :: PROPERTY_LOCATION,'&course='.$course_id);
         }
+
         $user = $udm->retrieve_user($user_id);
-        $order_by = new ObjectTableOrder(VisitTracker :: PROPERTY_ENTER_DATE, SORT_DESC);
-        $trackerdata = $tracker->retrieve_tracker_items_result_set($condition, $order_by);
+        $arr = self :: visit_tracker_to_array($condition,$user);
 
-        while($visittracker = $trackerdata->next_result())
-        {
-            if(!isset($user_id))
-                $user = $udm->retrieve_user($visittracker->get_user_id());
-
-            $arr[Translation :: get('User')][] = $user->get_fullname();
-            $arr[Translation :: get('LastAccess')][] = $visittracker->get_enter_date();
-            $time = strtotime($visittracker->get_leave_date()) - strtotime($visittracker->get_enter_date());
-            $time = mktime(0,0,$time,0,0,0);
-            $time = date('G:i:s', $time);
-            $arr[Translation :: get('TotalTime')][] = $time;
-        }
-        
         $description['default_sort_column'] = 1;
         return Reporting :: getSerieArray($arr,$description);
     }
@@ -737,8 +746,6 @@ class ReportingWeblcms
         $pid = $params['pid'];
         $tool = $params['tool'];
 
-        require_once Path :: get_user_path().'trackers/visit_tracker.class.php';
-        $tracker = new VisitTracker();
         $udm = UserDataManager::get_instance();
 
         if(isset($user_id))
@@ -752,23 +759,10 @@ class ReportingWeblcms
             $condition = new LikeCondition(VisitTracker :: PROPERTY_LOCATION,'&pid='.$pid);
         }
         $user = $udm->retrieve_user($user_id);
-        
-        $order_by = new ObjectTableOrder(VisitTracker :: PROPERTY_ENTER_DATE, SORT_DESC);
-        $trackerdata = $tracker->retrieve_tracker_items_result_set($condition, $order_by);
 
-        while($value = $trackerdata->next_result())
-        {
-            if(!isset($user_id))
-                $user = $udm->retrieve_user($value->get_user_id());
-
-            $arr[Translation :: get('User')][] = $user->get_fullname();
-            $arr[Translation :: get('LastAccess')][] = $value->get_enter_date();
-            $time = strtotime($value->geT_leave_date()) - strtotime($value->get_enter_date());
-            $time = mktime(0,0,$time,0,0,0);
-            $time = date('G:i:s', $time);
-            $arr[Translation :: get('TotalTime')][] = $time;
-        }
-        return Reporting :: getSerieArray($arr);
+        $arr = self :: visit_tracker_to_array($condition,$user);
+        $description['default_sort_column'] = 1;
+        return Reporting :: getSerieArray($arr,$description);
     }
 
     /**
