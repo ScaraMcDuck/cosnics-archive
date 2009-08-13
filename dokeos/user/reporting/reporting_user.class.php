@@ -3,9 +3,11 @@
  * @author Michael Kyndt
  */
 require_once dirname(__FILE__).'/../lib/user_data_manager.class.php';
-class ReportingUser {
+class ReportingUser
+{
 
-    function ReportingUser() {
+    function ReportingUser()
+    {
     }
 
     /**
@@ -19,9 +21,9 @@ class ReportingUser {
         $start = strtotime($start_date);
         $end = strtotime($end_date);
         if ($start-$end > 0)
-        return 1;
+            return 1;
         else
-        return 0;
+            return 0;
     }
 
     /**
@@ -101,10 +103,10 @@ class ReportingUser {
             //                $arr[$date][0] = 1;
 
             $arr2[$bus][0]++;
-            //            if (array_key_exists($bus,$arr2))
-            //                $arr2[$bus][0]++;
-            //            else
-            //                $arr2[$bus][0] = 1;
+        //            if (array_key_exists($bus,$arr2))
+        //                $arr2[$bus][0]++;
+        //            else
+        //                $arr2[$bus][0] = 1;
         }
         //sort the array
         ksort($arr2);
@@ -113,9 +115,9 @@ class ReportingUser {
             $date = date($format,$key);
             $date = (is_numeric($date))?$date:Translation :: get($date.'Long');
             if (array_key_exists($date,$arr2))
-            $arr2[$date][0] += $arr2[$key][0];
+                $arr2[$date][0] += $arr2[$key][0];
             else
-            $arr2[$date][0] = $arr2[$key][0];
+                $arr2[$date][0] = $arr2[$key][0];
             unset($arr2[$key]);
         }
         return $arr2;
@@ -292,9 +294,9 @@ class ReportingUser {
             {
                 $firstconnection = $value->get_date();
             }else if(self :: greaterDate($value->get_date(),$lastconnection))
-            {
-                $lastconnection = $value->get_date();
-            }
+                {
+                    $lastconnection = $value->get_date();
+                }
         }
         $arr[Translation :: get('FirstConnection')][] = $firstconnection;
         $arr[Translation :: get('LastConnection')][] = $lastconnection;
@@ -321,7 +323,8 @@ class ReportingUser {
         $condition = new AndCondition($conditions);
         $trackerdata = $tracker->retrieve_tracker_items($condition);
         $count = 0;
-        foreach ($trackerdata as $key => $value) {
+        foreach ($trackerdata as $key => $value)
+        {
             $count++;
             if(!$firstconnection)
             {
@@ -334,12 +337,12 @@ class ReportingUser {
                 $firstconnection = $value->get_enter_date();
         }
 
-//        unset($conditions);
-//        unset($condition);
-//        $conditions[] = new LikeCondition(VisitTracker :: PROPERTY_LOCATION,'&course='.$course_id);
-//        $conditions[] = new EqualityCondition(VisitTracker::PROPERTY_USER_ID,$uid);
-//        $condition = new AndCondition($conditions);
-//        $trackerdata = $tracker->retrieve_tracker_items($condition);
+        //        unset($conditions);
+        //        unset($condition);
+        //        $conditions[] = new LikeCondition(VisitTracker :: PROPERTY_LOCATION,'&course='.$course_id);
+        //        $conditions[] = new EqualityCondition(VisitTracker::PROPERTY_USER_ID,$uid);
+        //        $condition = new AndCondition($conditions);
+        //        $trackerdata = $tracker->retrieve_tracker_items($condition);
 
         $arr[Translation :: get('FirstAccessToCourse')][] = $firstconnection;
         $arr[Translation :: get('LastAccessToCourse')][] = $lastconnection;
