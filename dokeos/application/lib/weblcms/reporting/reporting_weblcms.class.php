@@ -653,10 +653,10 @@ class ReportingWeblcms
         $conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, $tool);
 
         $access = array();
-        $access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
+        $access[] = new InCondition('user', $user_id, $wdm->get_database()->get_alias('learning_object_publication_user'));
         if (!empty($user_id))
         {
-            $access[] = new EqualityCondition('user', null, $datamanager->get_database()->get_alias('learning_object_publication_user'));
+            $access[] = new EqualityCondition('user', null, $wdm->get_database()->get_alias('learning_object_publication_user'));
         }
         $conditions[] = new OrCondition($access);
 
@@ -773,7 +773,7 @@ class ReportingWeblcms
     public static function getPublicationUserAccess($params)
     {
         require_once Path :: get_user_path().'trackers/visit_tracker.class.php';
-
+        
         $tracker = new VisitTracker();
         $course_id = $params[ReportingManager :: PARAM_COURSE_ID];
         $user_id = $params[ReportingManager :: PARAM_USER_ID];
@@ -781,30 +781,38 @@ class ReportingWeblcms
         $pid = $params['pid'];
 
         $udm = UserDataManager::get_instance();
+        $user = $udm->retrieve_user($user_id);
 
         $condition = new PatternMatchCondition(VisitTracker::PROPERTY_LOCATION,'*pid='.$pid.'*');
-        $trackerdata = $tracker->retrieve_tracker_items($condition);
 
-        foreach ($trackerdata as $key => $value)
+        $order_by = new ObjectTableOrder(VisitTracker :: PROPERTY_ENTER_DATE, SORT_DESC);
+        $trackerdata = $tracker->retrieve_tracker_items_result_set($condition,$order_by);
+
+        while($value = $trackerdata->next_result())
         {
-            if($search[$value->get_user_id()]['lastaccess'] < $value->get_enter_date())
-                $search[$value->get_user_id()]['lastaccess'] = $value->get_enter_date();
-            $search[$value->get_user_id()]['clicks']++;
-            $search[$value->get_user_id()]['totaltime'] += strtotime($value->get_leave_date())-strtotime($value->get_enter_date());
+            $time = strtotime($value->get_leave_date()) - strtotime($value->get_enter_date());
+            
+            if(!in_array($udm->retrieve_user($value->get_user_id())->get_fullname(),$arr[Translation :: get('User')]))
+            {
+                $arr[Translation :: get('User')][] = $udm->retrieve_user($value->get_user_id())->get_fullname();
+                $arr[Translation :: get('LastAccess')][] = $value->get_enter_date();
+                $arr[Translation :: get('TotalTime')][] = $time;
+                $arr[Translation :: get('Clicks')][] = 1;
+            }else
+            {
+                $keys = array_keys($arr[Translation :: get('User')],$udm->retrieve_user($value->get_user_id())->get_fullname());
+                $key = $keys[0];
+                $arr[Translation :: get('TotalTime')][$key] += $time;
+                $arr[Translation :: get('Clicks')][$key]++;
+            }
         }
 
-        foreach($search as $key => $value)
+        foreach ($arr[Translation :: get('TotalTime')] as $key => $value)
         {
-            $arr[Translation :: get('User')][] = $udm->retrieve_user($key)->get_fullname();
-            $arr[Translation :: get('LastAccess')][] = $search[$key]['lastaccess'];
-            $time = mktime(0,0,$search[$key]['totaltime'],0,0,0);
-            $time = date('G:i:s',$time);
-            $arr[Translation :: get('TotalTime')][] = $time;
-            $arr[Translation :: get('Clicks')][] = $search[$key]['clicks'];
+            $value = mktime(0,0,$value,0,0,0);
+            $value = date('G:i:s', $value);
+            $arr[Translation :: get('TotalTime')][$key] = $value;
         }
-
-        Reporting :: sort_array($arr,Translation :: get('LastAccess'));
-
 
         $description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
         return Reporting :: getSerieArray($arr,$description);
