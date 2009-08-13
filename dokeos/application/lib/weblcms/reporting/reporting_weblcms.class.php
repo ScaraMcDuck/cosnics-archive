@@ -474,7 +474,7 @@ class ReportingWeblcms
         $conditions = array();
         $conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
         $conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'learning_path');
-        $lops = $datamanager->retrieve_learning_object_publications_new($condition);
+        $lops = $wdm->retrieve_learning_object_publications_new($condition);
 
         while($lop = $lops->next_result())
         {
