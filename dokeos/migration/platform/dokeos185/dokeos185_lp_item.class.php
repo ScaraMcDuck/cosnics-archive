@@ -4,10 +4,9 @@
  */
 
 require_once dirname(__FILE__) . '/../../lib/import/import_lp_item.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/learning_path_chapter/learning_path_chapter.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/learning_path_item/learning_path_item.class.php';
 require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repository_category.class.php';
 
 /**
  * This class presents a Dokeos185 lp_item
@@ -291,15 +290,17 @@ class Dokeos185LpItem extends ImportLpItem
 	 */
 	function convert_to_lcms($array)
 	{
-		$mgdm = MigrationDataManager :: get_instance();
+            
+		$mgdm = MigrationDataManager :: get_instance();               
 		$id = $mgdm->get_id_reference($this->get_lp_id(),'repository_learning_path');
-		$course = $array['course'];
+		$course = $array['course'];                
 		$new_course_code = $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 
 		if($id)		
-		{
-			$lo = $mgdm->get_owner_learning_object($id,'learning_path');
-			$new_user_id = $lo->get_owner_id();
+		{      
+			$lo = $mgdm->get_owner_learning_object($id,'learning_path');			
+                        $new_user_id = $lo->get_owner_id();
+                        
 		}
 		else
 		{
@@ -310,15 +311,15 @@ class Dokeos185LpItem extends ImportLpItem
 		$course = $array['course'];
 		$new_course_code = $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		
-		if($this->get_item_type() == 'dokeos_chapter')
+		/*if($this->get_item_type() == 'dokeos_chapter') //not used anymore
 		{
 			$lcms_lp_item = new LearningPathChapter();
 		}
 		else
-		{
+		{*/
 			$referentie = 0;
 			$lcms_lp_item = new LearningPathItem();
-			//forum parameters
+			//different types off LPI
 			switch($this->get_item_type())
 			{
 				case 'document': $referentie = $mgdm->get_id_reference($this->get_path(),'repository_document'); break;
@@ -327,8 +328,9 @@ class Dokeos185LpItem extends ImportLpItem
 				case 'student_publication': $referentie = $mgdm->get_id_reference($this->get_path(),'repository_work'); break;
 				case 'forum': $referentie = $mgdm->get_id_reference($this->get_path(),'repository_forum'); break;
 				case 'thread': $referentie = $mgdm->get_id_reference($this->get_path(),'repository_forum_thread'); break;
+                                case 'announcement': $referentie = $mgdm->get_id_reference($this->get_path(),'announcement'); break;
 			}
-		}
+		//}
 		
 		// Category for lp item/chapter already exists?
 		$lcms_category_id = $mgdm->get_parent_id($new_user_id, 'category',
@@ -336,16 +338,11 @@ class Dokeos185LpItem extends ImportLpItem
 		if(!$lcms_category_id)
 		{
 			//Create category for tool in lcms
-			$lcms_repository_category = new Category();
-			$lcms_repository_category->set_owner_id($new_user_id);
-			$lcms_repository_category->set_title(Translation :: get('learning_paths'));
-			$lcms_repository_category->set_description('...');
-	
-			//Retrieve repository id from course
-			$repository_id = $mgdm->get_parent_id($new_user_id, 
-				'category', Translation :: get('MyRepository'));
-			$lcms_repository_category->set_parent_id($repository_id);
-			
+			$lcms_repository_category = new RepositoryCategory();
+                        $lcms_repository_category->set_user_id($new_user_id);
+                        $lcms_repository_category->set_name(Translation :: get('learning_path'));
+			$lcms_repository_category->set_parent(0);
+
 			//Create category in database
 			$lcms_repository_category->create();
 			
@@ -355,6 +352,7 @@ class Dokeos185LpItem extends ImportLpItem
 		{
 			$lcms_lp_item->set_parent_id($lcms_category_id);	
 		}
+
 		if(!$this->get_title())
 		{	
 			$lcms_lp_item->set_title(substr($this->get_description(),0,20));
@@ -366,11 +364,12 @@ class Dokeos185LpItem extends ImportLpItem
 			$lcms_lp_item->set_description($this->get_title());
 		else
 			$lcms_lp_item->set_description($this->get_description());
-		
+
+		$lcms_lp_item->set_reference($id); 
 		$lcms_lp_item->set_owner_id($new_user_id);
 		$lcms_lp_item->set_display_order_index($this->get_display_order());
 		
-		//create announcement in database
+		//create item in database
 		$lcms_lp_item->create_all();
 		
 		//Add id references to temp table
