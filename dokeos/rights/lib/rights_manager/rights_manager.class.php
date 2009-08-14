@@ -17,7 +17,8 @@ class RightsManager extends CoreApplication
     const PARAM_COMPONENT_ACTION = 'action';
     const PARAM_SOURCE = 'source';
 
-    const ACTION_EDIT_RIGHTS   = 'edit';
+    const ACTION_EDIT_RIGHTS = 'edit';
+    const ACTION_MANAGE_RIGHTS_TEMPLATES = 'rights_template';
     const ACTION_REQUEST_RIGHT = 'request_rights';
 
     private $quota_url;
@@ -53,17 +54,8 @@ class RightsManager extends CoreApplication
             case self :: ACTION_EDIT_RIGHTS :
                 $component = RightsManagerComponent :: factory('Editor', $this);
                 break;
-            case self :: ACTION_BROWSE_ROLES :
-                $component = RightsManagerComponent :: factory('RoleBrowser', $this);
-                break;
-            case self :: ACTION_EDIT_ROLES :
-                $component = RightsManagerComponent :: factory('RoleEditor', $this);
-                break;
-            case self :: ACTION_CREATE_ROLE :
-                $component = RightsManagerComponent :: factory('RoleCreator', $this);
-                break;
-            case self :: ACTION_DELETE_ROLES :
-                $component = RightsManagerComponent :: factory('RoleDeleter', $this);
+            case self :: ACTION_MANAGE_RIGHTS_TEMPLATES :
+                $component = RightsManagerComponent :: factory('Templater', $this);
                 break;
             case self :: ACTION_REQUEST_RIGHT :
                 $component = RightsManagerComponent :: factory('RightRequester', $this);
@@ -75,19 +67,19 @@ class RightsManager extends CoreApplication
         $component->run();
     }
 
-    function retrieve_roles($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_rights_templates($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
     {
-        return RightsDataManager :: get_instance()->retrieve_roles($condition, $offset, $count, $order_property, $order_direction);
+        return RightsDataManager :: get_instance()->retrieve_rights_templates($condition, $offset, $count, $order_property, $order_direction);
     }
 
-    function count_roles($condition = null)
+    function count_rights_templates($condition = null)
     {
-        return RightsDataManager :: get_instance()->count_roles($condition);
+        return RightsDataManager :: get_instance()->count_rights_templates($condition);
     }
 
-    function delete_role($role)
+    function delete_rights_template($rights_template)
     {
-        return RightsDataManager :: get_instance()->delete_role($role);
+        return RightsDataManager :: get_instance()->delete_rights_template($rights_template);
     }
 
     function retrieve_rights($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
@@ -100,9 +92,9 @@ class RightsManager extends CoreApplication
         return RightsDataManager :: get_instance()->retrieve_locations($condition, $offset, $count, $order_property, $order_direction);
     }
 
-    function retrieve_role($id)
+    function retrieve_rights_template($id)
     {
-        return RightsDataManager :: get_instance()->retrieve_role($id);
+        return RightsDataManager :: get_instance()->retrieve_rights_template($id);
     }
 
     function retrieve_location($id)
@@ -118,10 +110,10 @@ class RightsManager extends CoreApplication
     public function get_application_platform_admin_links()
     {
         $links		= array();
-        $links[]	= array('name' => Translation :: get('Roles'),
-            'description' => Translation :: get('RolesDescription'),
+        $links[]	= array('name' => Translation :: get('RightsTemplates'),
+            'description' => Translation :: get('RightsTemplatesDescription'),
             'action' => 'list',
-            'url' => $this->get_link(array(Application :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_ROLES)));
+            'url' => $this->get_link(array(Application :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_RIGHTS_TEMPLATES)));
         $links[]	= array('name' => Translation :: get('Rights'),
             'description' => Translation :: get('RightsDescription'),
             'action' => 'manage',
@@ -140,26 +132,16 @@ class RightsManager extends CoreApplication
         return $rdm->retrieve_location_id_from_location_string($location);
     }
 
-    function is_allowed($right, $role_id, $location_id)
+    function is_allowed($right, $rights_template_id, $location_id)
     {
         $rdm = RightsDataManager :: get_instance();
-        $rolerightlocation = $rdm->retrieve_role_right_location($right, $role_id, $location_id);
-        return $rolerightlocation->get_value();
+        $rights_templaterightlocation = $rdm->retrieve_rights_template_right_location($right, $rights_template_id, $location_id);
+        return $rights_templaterightlocation->get_value();
     }
 
-    function retrieve_role_right_location($right_id, $role_id, $location_id)
+    function retrieve_rights_template_right_location($right_id, $rights_template_id, $location_id)
     {
-        return RightsDataManager :: get_instance()->retrieve_role_right_location($right_id, $role_id, $location_id);
-    }
-
-    function get_role_deleting_url($role)
-    {
-        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_ROLES, self :: PARAM_ROLE_ID => $role->get_id()));
-    }
-
-    function get_role_editing_url($role)
-    {
-        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_ROLES, self :: PARAM_ROLE_ID => $role->get_id()));
+        return RightsDataManager :: get_instance()->retrieve_rights_template_right_location($right_id, $rights_template_id, $location_id);
     }
 }
 ?>

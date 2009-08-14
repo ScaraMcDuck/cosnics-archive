@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<object name="role_right_location">
+<object name="rights_template_right_location">
  <properties>
-  <property name="role_id" type="integer" unsigned="1" notnull="1"/>
+  <property name="rights_template_id" type="integer" unsigned="1" notnull="1"/>
   <property name="right_id" type="integer" unsigned="1" notnull="1"/>
   <property name="location_id" type="integer" unsigned="1" notnull="1"/>
   <property name="value" type="integer" length="1" unsigned="1" notnull="1"/>
  </properties>
- <index name="role_right_location" type="primary">
-  <indexproperty name="role_id"/>
+ <index name="rights_template_right_location" type="primary">
+  <indexproperty name="rights_template_id"/>
   <indexproperty name="right_id"/>
   <indexproperty name="location_id"/>
  </index>

@@ -2,7 +2,7 @@
 /**
  * @package application.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__).'/role_browser_table/role_browser_table.class.php';
+require_once dirname(__FILE__).'/rights_template_browser_table/rights_template_browser_table.class.php';
 require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
 /**
@@ -19,8 +19,8 @@ class RightsTemplateManagerBrowserComponent extends RightsTemplateManagerCompone
 
 		$trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('RolesAndRights')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseRoles')));
+		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('RightsTemplatesAndRights')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseRightsTemplates')));
 		$trail->add_help('rights general');
 
 		if (!$this->get_user()->is_platform_admin())
@@ -42,7 +42,7 @@ class RightsTemplateManagerBrowserComponent extends RightsTemplateManagerCompone
 
 	function get_user_html()
 	{
-		$table = new RoleBrowserTable($this, array(Application :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_ROLES), $this->get_condition());
+		$table = new RightsTemplateBrowserTable($this, array(Application :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_RIGHTS_TEMPLATES), $this->get_condition());
 
 		$html = array();
 		$html[] = '<div style="float: right; width: 100%;">';
@@ -63,17 +63,17 @@ class RightsTemplateManagerBrowserComponent extends RightsTemplateManagerCompone
 		return $condition;
 	}
 
-	function get_role()
+	function get_rights_template()
 	{
-		return (Request :: get(RightsManager :: PARAM_ROLE_ID) ? Request :: get(RightsManager :: PARAM_ROLE_ID) : 0);
+		return (Request :: get(RightsManager :: PARAM_RIGHTS_TEMPLATE_ID) ? Request :: get(RightsManager :: PARAM_RIGHTS_TEMPLATE_ID) : 0);
 	}
 
 	function get_action_bar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-		$action_bar->set_search_url($this->get_url(array(RightsManager :: PARAM_ROLE_ID => $this->get_role())));
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_CREATE_ROLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->set_search_url($this->get_url(array(RightsManager :: PARAM_RIGHTS_TEMPLATE_ID => $this->get_rights_template())));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_CREATE_RIGHTS_TEMPLATE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 		return $action_bar;
 	}

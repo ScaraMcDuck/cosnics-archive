@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application name="rights">
-	<event name="role_create">
-		<tracker name ="roles_right_changes" />
+	<event name="rights_template_create">
+		<tracker name ="rights_templates_right_changes" />
 	</event>
 	<event name="right_create">
-		<tracker name ="roles_right_changes" />
+		<tracker name ="rights_templates_right_changes" />
 	</event>
 	<event name="location_create">
-		<tracker name ="roles_right_changes" />
+		<tracker name ="rights_templates_right_changes" />
 	</event>
-	<event name="role_right_location_create">
-		<tracker name ="roles_right_changes" />
+	<event name="rights_template_right_location_create">
+		<tracker name ="rights_templates_right_changes" />
 	</event>
-	<event name="role_update">
-		<tracker name ="roles_right_changes" />
+	<event name="rights_template_update">
+		<tracker name ="rights_templates_right_changes" />
 	</event>
 	<event name="right_update">
-		<tracker name ="roles_right_changes" />
+		<tracker name ="rights_templates_right_changes" />
 	</event>
 	<event name="location_update">
-		<tracker name ="roles_right_changes" />
+		<tracker name ="rights_templates_right_changes" />
 	</event>
-	<event name="role_right_location_update">
-		<tracker name ="roles_right_changes" />
+	<event name="rights_template_right_location_update">
+		<tracker name ="rights_templates_right_changes" />
 	</event>
-	<event name="role_delete">
-		<tracker name ="roles_right_changes" />
+	<event name="rights_template_delete">
+		<tracker name ="rights_templates_right_changes" />
 	</event>
 	<event name="right_delete">
-		<tracker name ="roles_right_changes" />
+		<tracker name ="rights_templates_right_changes" />
 	</event>
 	<event name="location_delete">
-		<tracker name ="roles_right_changes" />
+		<tracker name ="rights_templates_right_changes" />
 	</event>
-	<event name="role_right_location_delete">
-		<tracker name ="roles_right_changes" />
+	<event name="rights_template_right_location_delete">
+		<tracker name ="rights_templates_right_changes" />
 	</event>
 </application>

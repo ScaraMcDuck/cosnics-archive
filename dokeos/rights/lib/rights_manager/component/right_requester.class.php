@@ -6,7 +6,7 @@ require_once Path :: get_library_path() . 'security/security.class.php';
 
 class RightsManagerRightRequesterComponent extends RightsManagerComponent
 {
-    const USER_CURRENT_ROLES  = 'USER_CURRENT_ROLES';
+    const USER_CURRENT_RIGHTS_TEMPLATES  = 'USER_CURRENT_RIGHTS_TEMPLATES';
     const USER_CURRENT_GROUPS = 'USER_CURRENT_GROUPS';
     const IS_NEW_USER         = 'IS_NEW_USER';
     
@@ -34,7 +34,7 @@ class RightsManagerRightRequesterComponent extends RightsManagerComponent
     	        $parameters[self :: IS_NEW_USER] = true;
     	    }
     	    
-    	    $form = new RoleRequestForm($parameters);
+    	    $form = new RightsTemplateRequestForm($parameters);
     	    
     	    if($form->validate())
     	    {
@@ -47,7 +47,7 @@ class RightsManagerRightRequesterComponent extends RightsManagerComponent
     	        $traductor->set_language(PlatformSetting :: get_instance()->get('platform_language'));
     	        
     	        $admin_email    = PlatformSetting :: get_instance()->get('administrator_email');
-    	        $email_content  = Security :: remove_XSS($data[RoleRequestForm :: REQUEST_CONTENT]);
+    	        $email_content  = Security :: remove_XSS($data[RightsTemplateRequestForm :: REQUEST_CONTENT]);
     	        $email_title    = $traductor->get('RightRequestEmailTitle');
     	        $email_user     = $user->get_email(); 
     	        $email_username = $user->get_lastname() . ' ' . $user->get_firstname(); 
@@ -75,14 +75,14 @@ class RightsManagerRightRequesterComponent extends RightsManagerComponent
     	        /*
     	         * display request form
     	         * 
-    	         * - get user's current roles and groups (to display them to the user) 
+    	         * - get user's current rights_templates and groups (to display them to the user) 
     	         */
     	       
 	            $this->display_header($trail);
 
-	            $roles = array();
+	            $rights_templates = array();
 	            $groups = array();
-    	        $user_roles  = $user->get_roles();
+    	        $user_rights_templates  = $user->get_rights_templates();
                 $user_groups = $user->get_user_groups();
                 
                 $gdm = DatabaseGroupDataManager :: get_instance();
@@ -99,19 +99,19 @@ class RightsManagerRightRequesterComponent extends RightsManagerComponent
         		}
         		
                 $rdm = DatabaseRightsDataManager :: get_instance();
-        		while($user_role = $user_roles->next_result())
+        		while($user_rights_template = $user_rights_templates->next_result())
         		{
-        			$role_id = $user_role->get_role_id();
-        			$role = $rdm->retrieve_role($role_id);
+        			$rights_template_id = $user_rights_template->get_rights_template_id();
+        			$rights_template = $rdm->retrieve_rights_template($rights_template_id);
         			
-        			//$role may be null if no FK exists in the DB
-        			if(isset($role))
+        			//$rights_template may be null if no FK exists in the DB
+        			if(isset($rights_template))
         			{
-        			    $roles[] = $role;
+        			    $rights_templates[] = $rights_template;
         			}
         		}
                 
-    	        $form->set_parameter(self :: USER_CURRENT_ROLES, $roles);
+    	        $form->set_parameter(self :: USER_CURRENT_RIGHTS_TEMPLATES, $rights_templates);
     	        $form->set_parameter(self :: USER_CURRENT_GROUPS, $groups);
     	        
     	        $form->print_form_header();

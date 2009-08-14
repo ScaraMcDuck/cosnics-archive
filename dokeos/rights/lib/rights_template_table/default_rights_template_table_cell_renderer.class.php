@@ -4,16 +4,16 @@
  */
 
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_cell_renderer.class.php';
-require_once dirname(__FILE__).'/../role.class.php';
+require_once dirname(__FILE__).'/../rights_template.class.php';
 /**
  * TODO: Add comment
  */
-class DefaultRoleTableCellRenderer implements ObjectTableCellRenderer
+class DefaultRightsTemplateTableCellRenderer implements ObjectTableCellRenderer
 {
 	/**
 	 * Constructor
 	 */
-	function DefaultRoleTableCellRenderer()
+	function DefaultRightsTemplateTableCellRenderer()
 	{
 	}
 	/**
@@ -23,14 +23,14 @@ class DefaultRoleTableCellRenderer implements ObjectTableCellRenderer
 	 * @param Learning Object $learning_object The learning object to render
 	 * @return string A HTML representation of the rendered table cell
 	 */
-	function render_cell($column, $role)
+	function render_cell($column, $rights_template)
 	{
 		switch ($column->get_name())
 		{
-			case Role :: PROPERTY_NAME :
-				return $role->get_name();
-			case Role :: PROPERTY_DESCRIPTION :
-				$description = strip_tags($role->get_description());
+			case RightsTemplate :: PROPERTY_NAME :
+				return $rights_template->get_name();
+			case RightsTemplate :: PROPERTY_DESCRIPTION :
+				$description = strip_tags($rights_template->get_description());
 				return DokeosUtilities::truncate_string($description,203);
 			default :
 			    return '&nbsp;';

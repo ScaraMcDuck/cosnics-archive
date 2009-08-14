@@ -15,7 +15,7 @@ if (!Authentication :: is_valid())
 }
 
 $user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
-// TODO: User real roles'n'rights here
+// TODO: User real rights_templates'n'rights here
 if (!$user->is_platform_admin())
 {
 	echo 0;
@@ -25,14 +25,14 @@ $rights = $_POST['rights'];
 $rights = explode('_', $rights);
 
 $right = $rights['1'];
-$role = $rights['2'];
+$rights_template = $rights['2'];
 $location = $rights['3'];
 
-if (isset($role) && isset($right) && isset($location))
+if (isset($rights_template) && isset($right) && isset($location))
 {
 	$rdm = RightsDataManager :: get_instance();
 
-	$result = $rdm->retrieve_role_right_location($right, $role, $location);
+	$result = $rdm->retrieve_rights_template_right_location($right, $rights_template, $location);
 	$result->invert();
 
 	if (!$result->update())

@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/../rights_manager.class.php';
 require_once dirname(__FILE__).'/../rights_manager_component.class.php';
-require_once dirname(__FILE__).'/role_browser_table/role_browser_table.class.php';
+require_once dirname(__FILE__).'/rights_template_browser_table/rights_template_browser_table.class.php';
 
 class RightsTemplateManagerDeleterComponent extends RightsTemplateManagerComponent
 {
@@ -10,7 +10,7 @@ class RightsTemplateManagerDeleterComponent extends RightsTemplateManagerCompone
 	 */
 	function run()
 	{
-		$ids = Request :: get(RightsManager :: PARAM_ROLE_ID);
+		$ids = Request :: get(RightsManager :: PARAM_RIGHTS_TEMPLATE_ID);
 		$failures = 0;
 		
 		if (!empty($ids))
@@ -22,9 +22,9 @@ class RightsTemplateManagerDeleterComponent extends RightsTemplateManagerCompone
 			
 			foreach ($ids as $id)
 			{
-				$role = $this->retrieve_role($id);
+				$rights_template = $this->retrieve_rights_template($id);
 				
-				if (!$role->delete())
+				if (!$rights_template->delete())
 				{
 					$failures++;
 				}
@@ -34,30 +34,30 @@ class RightsTemplateManagerDeleterComponent extends RightsTemplateManagerCompone
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedRoleDeleted';
+					$message = 'SelectedRightsTemplateDeleted';
 				}
 				else
 				{
-					$message = 'SelectedRoleDeleted';
+					$message = 'SelectedRightsTemplateDeleted';
 				}
 			}
 			else
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedRolesDeleted';
+					$message = 'SelectedRightsTemplatesDeleted';
 				}
 				else
 				{
-					$message = 'SelectedRolesDeleted';
+					$message = 'SelectedRightsTemplatesDeleted';
 				}
 			}
 			
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_ROLES));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_RIGHTS_TEMPLATES));
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get('NoRoleSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoRightsTemplateSelected')));
 		}
 	}
 }

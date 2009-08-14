@@ -43,11 +43,11 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 
 	function edit_right()
 	{
-		$role = Request :: get('role_id');
+		$rights_template = Request :: get('rights_template_id');
 		$right = Request :: get('right_id');
 		$location =  $this->location;
 
-		$success = RightsUtilities :: invert_role_right_location($right, $role, $location);
+		$success = RightsUtilities :: invert_rights_template_right_location($right, $rights_template, $location);
 
 		$this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS,'application' => $this->application, 'location' => $location->get_id()));
 	}
@@ -82,7 +82,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 	{
 		$trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('RolesAndRights')));
+		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('RightsTemplatesAndRights')));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('EditRights')));
 		$trail->add_help('rights general');
 
@@ -190,50 +190,50 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 		$html[] = '</div>';
 		$html[] = '<div style="clear: both;"></div>';
 
-		$roles = $this->retrieve_roles();
+		$rights_templates = $this->retrieve_rights_templates();
 		$locked_parent = $location->get_locked_parent();
 
-		while ($role = $roles->next_result())
+		while ($rights_template = $rights_templates->next_result())
 		{
 			$html[] = '<div style="padding: 5px; border-bottom: 1px solid #DDDDDD;">';
-			$html[] = '<div style="float: left; width: 50%;">'. Translation :: get($role->get_name()) .'</div>';
+			$html[] = '<div style="float: left; width: 50%;">'. Translation :: get($rights_template->get_name()) .'</div>';
 			$html[] = '<div style="float: right; width: 40%;">';
 
 			foreach ($rights_array as $id => $name)
 			{
-				$html[] = '<div id="r_'. $id .'_'. $role->get_id() .'_'. $location->get_id() .'" style="float: left; width: 24%; text-align: center;">';
+				$html[] = '<div id="r_'. $id .'_'. $rights_template->get_id() .'_'. $location->get_id() .'" style="float: left; width: 24%; text-align: center;">';
 				if (isset($locked_parent))
 				{
-					$value = $this->is_allowed($id, $role->get_id(), $locked_parent->get_id());
+					$value = $this->is_allowed($id, $rights_template->get_id(), $locked_parent->get_id());
 					$html[] = '<a href="'. $this->get_url(array('application' => $this->application, 'location' => $locked_parent->get_id())) .'">' . ($value == 1 ? '<img src="'. Theme :: get_common_image_path() .'action_setting_true_locked.png" title="'. Translation :: get('LockedTrue') .'" />' : '<img src="'. Theme :: get_common_image_path() .'action_setting_false_locked.png" title="'. Translation :: get('LockedFalse') .'" />') . '</a>';
 				}
 				else
 				{
-					$value = $this->is_allowed($id, $role->get_id(), $location->get_id());
+					$value = $this->is_allowed($id, $rights_template->get_id(), $location->get_id());
 
 					if (!$value)
 					{
 						if ($location->inherits())
 						{
-							$inherited_value = RightsUtilities :: is_allowed_for_role($role->get_id(), $id, $location, $this->application);
+							$inherited_value = RightsUtilities :: is_allowed_for_rights_template($rights_template->get_id(), $id, $location, $this->application);
 
 							if ($inherited_value)
 							{
-								$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<div class="rightInheritTrue"></div></a>';
+								$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'rights_template_id' => $rights_template->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<div class="rightInheritTrue"></div></a>';
 							}
 							else
 							{
-								$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<div class="rightFalse"></div></a>';
+								$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'rights_template_id' => $rights_template->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<div class="rightFalse"></div></a>';
 							}
 						}
 						else
 						{
-							$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<div class="rightFalse"></div></a>';
+							$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'rights_template_id' => $rights_template->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<div class="rightFalse"></div></a>';
 						}
 					}
 					else
 					{
-						$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<div class="rightTrue"></div></a>';
+						$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'rights_template_id' => $rights_template->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<div class="rightTrue"></div></a>';
 					}
 				}
 				$html[] = '</div>';

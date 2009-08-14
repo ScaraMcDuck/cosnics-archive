@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/../../common/global.inc.php';
 require_once Path :: get_rights_path() . 'lib/rights_data_manager.class.php';
 require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';
-require_once Path :: get_rights_path() . 'lib/role.class.php';
+require_once Path :: get_rights_path() . 'lib/rights_template.class.php';
 require_once Path :: get_library_path().'dokeos_utilities.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once Path :: get_library_path().'condition/not_condition.class.php';
@@ -18,7 +18,7 @@ if (Authentication :: is_valid())
 {
 	$conditions = array ();
 
-	$query_condition = DokeosUtilities :: query_to_condition($_GET['query'], array(Role :: PROPERTY_NAME, Role :: PROPERTY_DESCRIPTION));
+	$query_condition = DokeosUtilities :: query_to_condition($_GET['query'], array(RightsTemplate :: PROPERTY_NAME, RightsTemplate :: PROPERTY_DESCRIPTION));
 	if (isset ($query_condition))
 	{
 		$conditions[] = $query_condition;
@@ -29,7 +29,7 @@ if (Authentication :: is_valid())
 		$c = array ();
 		foreach ($_GET['exclude'] as $id)
 		{
-			$c[] = new EqualityCondition(Role :: PROPERTY_ID, $id);
+			$c[] = new EqualityCondition(RightsTemplate :: PROPERTY_ID, $id);
 		}
 		$conditions[] = new NotCondition(new OrCondition($c));
 	}
@@ -44,36 +44,36 @@ if (Authentication :: is_valid())
 	}
 
 	$rdm = RightsDataManager :: get_instance();
-	$roles = $rdm->retrieve_roles($condition);
+	$rights_templates = $rdm->retrieve_rights_templates($condition);
 }
 else
 {
-	$roles = null;
+	$rights_templates = null;
 }
 
 header('Content-Type: text/xml');
 echo '<?xml version="1.0" encoding="utf-8"?>', "\n", '<tree>', "\n";
 
-if (isset($roles))
+if (isset($rights_templates))
 {
-	dump_tree($roles);
+	dump_tree($rights_templates);
 }
 
 echo '</tree>';
 
-function dump_tree($roles)
+function dump_tree($rights_templates)
 {
-	if (isset($roles) && $roles->size() == 0)
+	if (isset($rights_templates) && $rights_templates->size() == 0)
 	{
 		return;
 	}
 
-	echo '<node id="0" classes="type_category unlinked" title="', Translation :: get('Roles'), '">', "\n";
+	echo '<node id="0" classes="type_category unlinked" title="', Translation :: get('RightsTemplates'), '">', "\n";
 
-	while ($role = $roles->next_result())
+	while ($rights_template = $rights_templates->next_result())
 	{
-		$value = RightsUtilities :: role_for_element_finder($role);
-		echo '<leaf id="', $role->get_id(), '" classes="', $value['class'], '" title="', htmlentities($value['title']), '" description="', htmlentities(isset($value['description']) && !empty($value['description']) ? $value['description'] : $value['title']), '"/>', "\n";
+		$value = RightsUtilities :: rights_template_for_element_finder($rights_template);
+		echo '<leaf id="', $rights_template->get_id(), '" classes="', $value['class'], '" title="', htmlentities($value['title']), '" description="', htmlentities(isset($value['description']) && !empty($value['description']) ? $value['description'] : $value['title']), '"/>', "\n";
 	}
 
 	echo '</node>', "\n";

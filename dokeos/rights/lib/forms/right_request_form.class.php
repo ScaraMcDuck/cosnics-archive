@@ -1,13 +1,13 @@
 <?php
 require_once Path :: get_library_path() . 'html/formvalidator/FormValidator.class.php';
 
-class RoleRequestForm extends FormValidator 
+class RightsTemplateRequestForm extends FormValidator 
 {
     const REQUEST_CONTENT = 'REQUEST_CONTENT';
     
     private $parameter = array();
     
-    function RoleRequestForm($parameters = null)
+    function RightsTemplateRequestForm($parameters = null)
     {
         parent :: __construct('right_request', 'post', $parameters['form_action']);
         
@@ -52,7 +52,7 @@ class RoleRequestForm extends FormValidator
         
         echo '<p>' . Translation :: translate($explanation) . '</p>';
         
-        $this->print_roles_list();
+        $this->print_rights_templates_list();
         $this->print_groups_list();
         
         echo '<p>' . Translation :: translate('RightRequestExplanationFillForm') . '</p>';
@@ -60,22 +60,22 @@ class RoleRequestForm extends FormValidator
         echo '</div></div></div>';
     }
     
-    function print_roles_list()
+    function print_rights_templates_list()
     {
-        if(isset($this->parameters[RightsManagerRightRequesterComponent :: USER_CURRENT_ROLES])
-            && count($this->parameters[RightsManagerRightRequesterComponent :: USER_CURRENT_ROLES]) > 0)
+        if(isset($this->parameters[RightsManagerRightRequesterComponent :: USER_CURRENT_RIGHTS_TEMPLATES])
+            && count($this->parameters[RightsManagerRightRequesterComponent :: USER_CURRENT_RIGHTS_TEMPLATES]) > 0)
         {
-             echo '<h4>' . Translation :: translate('Roles') . '</h4>';
+             echo '<h4>' . Translation :: translate('RightsTemplates') . '</h4>';
             
-            $roles  = $this->parameters[RightsManagerRightRequesterComponent :: USER_CURRENT_ROLES];
+            $rights_templates  = $this->parameters[RightsManagerRightRequesterComponent :: USER_CURRENT_RIGHTS_TEMPLATES];
             
             /*
-             * Display current user roles 
+             * Display current user rights_templates 
              */
             echo '<ul>';
-            foreach ($roles as $role) 
+            foreach ($rights_templates as $rights_template) 
             {
-            	echo '<li>' . $role->get_name() . '</li>';
+            	echo '<li>' . $rights_template->get_name() . '</li>';
             }
             echo '</ul>';
         }

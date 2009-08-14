@@ -2,14 +2,14 @@
 /**
  * @package repository.repositorymanager
  */
-require_once dirname(__FILE__).'/role_browser_table_column_model.class.php';
-require_once dirname(__FILE__).'/../../../role_table/default_role_table_cell_renderer.class.php';
-require_once dirname(__FILE__).'/../../../role.class.php';
+require_once dirname(__FILE__).'/rights_template_browser_table_column_model.class.php';
+require_once dirname(__FILE__).'/../../../rights_template_table/default_rights_template_table_cell_renderer.class.php';
+require_once dirname(__FILE__).'/../../../rights_template.class.php';
 require_once dirname(__FILE__).'/../../rights_manager.class.php';
 /**
  * Cell rendere for the learning object browser table
  */
-class RoleBrowserTableCellRenderer extends DefaultRoleTableCellRenderer
+class RightsTemplateBrowserTableCellRenderer extends DefaultRightsTemplateTableCellRenderer
 {
 	/**
 	 * The repository browser component
@@ -20,20 +20,20 @@ class RoleBrowserTableCellRenderer extends DefaultRoleTableCellRenderer
 	 * Constructor
 	 * @param RepositoryManagerBrowserComponent $browser
 	 */
-	function RoleBrowserTableCellRenderer($browser)
+	function RightsTemplateBrowserTableCellRenderer($browser)
 	{
 		parent :: __construct();
 		$this->browser = $browser;
 	}
 	// Inherited
-	function render_cell($column, $role)
+	function render_cell($column, $rights_template)
 	{
-		if ($column === RoleBrowserTableColumnModel :: get_modification_column())
+		if ($column === RightsTemplateBrowserTableColumnModel :: get_modification_column())
 		{
-			return $this->get_modification_links($role);
+			return $this->get_modification_links($rights_template);
 		}
 		
-		return parent :: render_cell($column, $role);
+		return parent :: render_cell($column, $rights_template);
 	}
 	/**
 	 * Gets the action links to display
@@ -41,18 +41,18 @@ class RoleBrowserTableCellRenderer extends DefaultRoleTableCellRenderer
 	 * action links should be returned
 	 * @return string A HTML representation of the action links
 	 */
-	private function get_modification_links($role)
+	private function get_modification_links($rights_template)
 	{
 		$toolbar_data = array();
 		
-		$editing_url = $this->browser->get_role_editing_url($role);
+		$editing_url = $this->browser->get_rights_template_editing_url($rights_template);
 		$toolbar_data[] = array(
 			'href' => $editing_url,
 			'label' => Translation :: get('Edit'),
 			'img' => Theme :: get_common_image_path().'action_edit.png',
 		);
 		
-		$deleting_url = $this->browser->get_role_deleting_url($role);
+		$deleting_url = $this->browser->get_rights_template_deleting_url($rights_template);
 		$toolbar_data[] = array(
 			'href' => $deleting_url,
 			'label' => Translation :: get('Delete'),
