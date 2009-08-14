@@ -86,8 +86,8 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 		);
 		
 		$toolbar_data[] = array(
-				'href' => $this->browser->get_manage_roles_url($user),
-				'label' => Translation :: get('ManageRoles'),
+				'href' => $this->browser->get_manage_rights_templates_url($user),
+				'label' => Translation :: get('ManageRightsTemplates'),
 				'img' => Theme :: get_common_image_path().'action_rights.png'
 			);
 

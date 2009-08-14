@@ -683,7 +683,7 @@ input#attachments_expand_button:hover
 	color: red;
 }
 
-input#roles_expand_button
+input#rights_templates_expand_button
 {
 	border: 0;
 	background: transparent;
@@ -698,7 +698,7 @@ input#roles_expand_button
 	color: #4171b5;
 	cursor: pointer;
 }
-input#roles_expand_button:hover
+input#rights_templates_expand_button:hover
 {
 	color: red;
 }

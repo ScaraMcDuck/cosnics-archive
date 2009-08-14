@@ -6,7 +6,7 @@
 require_once dirname(__FILE__).'/../user_data_manager.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
 require_once dirname(__FILE__).'/../user_quota.class.php';
-require_once dirname(__FILE__).'/../user_role.class.php';
+require_once dirname(__FILE__).'/../user_rights_template.class.php';
 require_once dirname(__FILE__).'/../buddy_list_item.class.php';
 require_once dirname(__FILE__).'/../buddy_list_category.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/learning_object.class.php';
@@ -35,7 +35,7 @@ class DatabaseUserDataManager extends UserDataManager
 	 */
 	function initialize()
 	{
-		$this->database = new Database(array(User :: get_table_name() => self :: ALIAS_USER,'user_quota' => 'uq', 'user_role' => 'ur', 'buddy_list_category' => 'blc', 'buddy_list_item' => 'bli'));
+		$this->database = new Database(array(User :: get_table_name() => self :: ALIAS_USER,'user_quota' => 'uq', 'user_rights_template' => 'urt', 'buddy_list_category' => 'blc', 'buddy_list_item' => 'bli'));
 		$this->database->set_prefix('user_');
 	}
 
@@ -78,23 +78,23 @@ class DatabaseUserDataManager extends UserDataManager
 		return $this->database->delete($user->get_table_name(), $condition);
 	}
 
-	function delete_user_roles($condition)
+	function delete_user_rights_templates($condition)
 	{
-		return $this->database->delete(UserRole :: get_table_name(), $condition);
+		return $this->database->delete(UserRightsTemplate :: get_table_name(), $condition);
 	}
 
-	function delete_user_role($user_role)
+	function delete_user_rights_template($user_rights_template)
 	{
 	    $conditions  = array();
-	    $conditions[] = new EqualityCondition(UserRole :: PROPERTY_USER_ID, $user_role->get_user_id());
-	    $conditions[] = new EqualityCondition(UserRole :: PROPERTY_ROLE_ID, $user_role->get_role_id());
+	    $conditions[] = new EqualityCondition(UserRightsTemplate :: PROPERTY_USER_ID, $user_rights_template->get_user_id());
+	    $conditions[] = new EqualityCondition(UserRightsTemplate :: PROPERTY_RIGHTS_TEMPLATE_ID, $user_rights_template->get_rights_template_id());
 	    $condition   = new AndCondition($conditions);
 
-		return $this->database->delete($user_role->get_table_name(), $condition);
+		return $this->database->delete($user_rights_template->get_table_name(), $condition);
 	}
 
-	function create_user_role($user_role){
-		return $this->database->create($user_role);
+	function create_user_rights_template($user_rights_template){
+		return $this->database->create($user_rights_template);
 	}
 
 	function delete_all_users()
@@ -217,60 +217,60 @@ class DatabaseUserDataManager extends UserDataManager
 		*/
 	}
 
-	function retrieve_user_roles($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+	function retrieve_user_rights_templates($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(UserRole :: get_table_name(), $condition);
+		return $this->database->retrieve_objects(UserRightsTemplate :: get_table_name(), $condition);
 	}
 
-	function add_role_link($user, $role_id)
+	function add_rights_template_link($user, $rights_template_id)
 	{
 		$props = array();
-		$props[UserRole :: PROPERTY_USER_ID] = $user->get_id();
-		$props[UserRole :: PROPERTY_ROLE_ID] = $role_id;
+		$props[UserRightsTemplate :: PROPERTY_USER_ID] = $user->get_id();
+		$props[UserRightsTemplate :: PROPERTY_RIGHTS_TEMPLATE_ID] = $rights_template_id;
 		$this->database->get_connection()->loadModule('Extended');
-		return $this->database->get_connection()->extended->autoExecute($this->database->get_table_name(UserRole :: get_table_name()), $props, MDB2_AUTOQUERY_INSERT);
+		return $this->database->get_connection()->extended->autoExecute($this->database->get_table_name(UserRightsTemplate :: get_table_name()), $props, MDB2_AUTOQUERY_INSERT);
 	}
 
-	function delete_role_link($user, $role_id)
+	function delete_rights_template_link($user, $rights_template_id)
 	{
 		$conditions = array();
-		$conditions = new EqualityCondition(UserRole :: PROPERTY_USER_ID, $user->get_id());
-		$conditions = new EqualityCondition(UserRole :: PROPERTY_ROLE_ID, $role_id);
+		$conditions = new EqualityCondition(UserRightsTemplate :: PROPERTY_USER_ID, $user->get_id());
+		$conditions = new EqualityCondition(UserRightsTemplate :: PROPERTY_RIGHTS_TEMPLATE_ID, $rights_template_id);
 		$condition = new AndCondition($conditions);
 
-		return $this->database->delete(UserRole :: get_table_name(), $condition);
+		return $this->database->delete(UserRightsTemplate :: get_table_name(), $condition);
 	}
 
-	function update_role_links($user, $roles)
+	function update_rights_template_links($user, $rights_templates)
 	{
 		// Delete the no longer existing links
 		$conditions = array();
-		$conditions = new NotCondition(new InCondition(UserRole :: PROPERTY_ROLE_ID, $roles));
-		$conditions = new EqualityCondition(UserRole :: PROPERTY_USER_ID, $user->get_id());
+		$conditions = new NotCondition(new InCondition(UserRightsTemplate :: PROPERTY_RIGHTS_TEMPLATE_ID, $rights_templates));
+		$conditions = new EqualityCondition(UserRightsTemplate :: PROPERTY_USER_ID, $user->get_id());
 		$condition = new AndCondition($conditions);
 
-		$success = $this->database->delete(UserRole :: get_table_name(), $condition);
+		$success = $this->database->delete(UserRightsTemplate :: get_table_name(), $condition);
 		if (!$success)
 		{
 			return false;
 		}
 
-		// Get the group's roles
-		$condition = new EqualityCondition(UserRole :: PROPERTY_USER_ID, $user->get_id());
-		$user_roles = $this->retrieve_user_roles($condition);
-		$existing_roles = array();
+		// Get the group's rights_templates
+		$condition = new EqualityCondition(UserRightsTemplate :: PROPERTY_USER_ID, $user->get_id());
+		$user_rights_templates = $this->retrieve_user_rights_templates($condition);
+		$existing_rights_templates = array();
 
-		while($user_role = $user_roles->next_result())
+		while($user_rights_template = $user_rights_templates->next_result())
 		{
-			$existing_roles[] = $user_role->get_role_id();
+			$existing_rights_templates[] = $user_rights_template->get_rights_template_id();
 		}
 
 		// Add the new links
-		foreach ($roles as $role)
+		foreach ($rights_templates as $rights_template)
 		{
-			if (!in_array($role, $existing_roles))
+			if (!in_array($rights_template, $existing_rights_templates))
 			{
-				if (!$this->add_role_link($user, $role))
+				if (!$this->add_rights_template_link($user, $rights_template))
 				{
 					return false;
 				}

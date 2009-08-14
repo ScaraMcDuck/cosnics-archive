@@ -692,30 +692,30 @@ class User extends DataClass
 		return $gdm->retrieve_user_groups($this->get_id());
 	}
 	
-	function get_roles()
+	function get_rights_templates()
 	{
 		$udm = UserDataManager :: get_instance();
-		$condition = new EqualityCondition(UserRole :: PROPERTY_USER_ID, $this->get_id());
+		$condition = new EqualityCondition(UserRightsTemplate :: PROPERTY_USER_ID, $this->get_id());
 		
-		return $udm->retrieve_user_roles($condition);
+		return $udm->retrieve_user_rights_templates($condition);
 	}
 	
-	function add_role_link($role_id)
+	function add_rights_template_link($rights_template_id)
 	{
 		$udm = UserDataManager :: get_instance();
-		return $udm->add_role_link($this, $role_id);
+		return $udm->add_rights_template_link($this, $rights_template_id);
 	}
 	
-	function delete_role_link($role_id)
+	function delete_rights_template_link($rights_template_id)
 	{
 		$udm = UserDataManager :: get_instance();
-		return $udm->delete_role_link($this, $role_id);
+		return $udm->delete_rights_template_link($this, $rights_template_id);
 	}
 	
-	function update_role_links($roles)
+	function update_rights_template_links($rights_templates)
 	{
 		$udm = UserDataManager :: get_instance();
-		return $udm->update_role_links($this, $roles);
+		return $udm->update_rights_template_links($this, $rights_templates);
 	}
 	
 	function get_status_name()

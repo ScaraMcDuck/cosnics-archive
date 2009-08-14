@@ -329,30 +329,30 @@ class Group extends DataClass
         return true;
 	}
 	
-	function get_roles()
+	function get_rights_templates()
 	{
 		$gdm = $this->get_data_manager();
-		$condition = new EqualityCondition(GroupRole :: PROPERTY_GROUP_ID, $this->get_id());
+		$condition = new EqualityCondition(GroupRightsTemplate :: PROPERTY_GROUP_ID, $this->get_id());
 		
-		return $gdm->retrieve_group_roles($condition);
+		return $gdm->retrieve_group_rights_templates($condition);
 	}
 	
-	function add_role_link($role_id)
+	function add_rights_template_link($rights_template_id)
 	{
 		$gdm = $this->get_data_manager();
-		return $gdm->add_role_link($this, $role_id);
+		return $gdm->add_rights_template_link($this, $rights_template_id);
 	}
 	
-	function delete_role_link($role_id)
+	function delete_rights_template_link($rights_template_id)
 	{
 		$gdm = $this->get_data_manager();
-		return $gdm->delete_role_link($this, $role_id);
+		return $gdm->delete_rights_template_link($this, $rights_template_id);
 	}
 	
-	function update_role_links($roles)
+	function update_rights_template_links($rights_templates)
 	{
 		$gdm = $this->get_data_manager();
-		return $gdm->update_role_links($this, $roles);
+		return $gdm->update_rights_template_links($this, $rights_templates);
 	}
 	
 	function get_users($include_subgroups = false, $recursive_subgroups = false)

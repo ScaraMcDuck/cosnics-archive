@@ -234,17 +234,17 @@ abstract class UserDataManager
 	 */
 	abstract function is_username_available($username, $user_id = null);
 	
-	abstract function retrieve_user_roles($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_user_rights_templates($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	
-	abstract function create_user_role($user_role);
+	abstract function create_user_rights_template($user_rights_template);
 	
-	abstract function delete_user_roles($condition);
+	abstract function delete_user_rights_templates($condition);
 	
-	abstract function add_role_link($group, $role_id);
+	abstract function add_rights_template_link($group, $rights_template_id);
 	
-	abstract function delete_role_link($group, $role_id);
+	abstract function delete_rights_template_link($group, $rights_template_id);
 	
-	abstract function update_role_links($group, $roles);
+	abstract function update_rights_template_links($group, $rights_templates);
 	
 	abstract function get_database();
 	

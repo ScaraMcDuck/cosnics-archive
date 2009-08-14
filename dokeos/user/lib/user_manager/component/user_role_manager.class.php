@@ -4,11 +4,11 @@
  */
 require_once dirname(__FILE__).'/../user_manager.class.php';
 require_once dirname(__FILE__).'/../user_manager_component.class.php';
-require_once dirname(__FILE__).'/../../forms/user_role_manager_form.class.php';
+require_once dirname(__FILE__).'/../../forms/user_rights_template_manager_form.class.php';
 require_once dirname(__FILE__).'/../../user_data_manager.class.php';
 require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 
-class UserManagerUserRoleManagerComponent extends UserManagerComponent
+class UserManagerUserRightsTemplateManagerComponent extends UserManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
@@ -32,20 +32,20 @@ class UserManagerUserRoleManagerComponent extends UserManagerComponent
 		$user = $this->retrieve_user($user_id);
 
         $trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_USER_USER_ID => $user_id)), $user->get_fullname()));
-		$trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_USER_USER_ID => $user_id)), Translation :: get('ModifyUserRoles')));
+		$trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_USER_USER_ID => $user_id)), Translation :: get('ModifyUserRightsTemplates')));
 
-		$form = new UserRoleManagerForm($user, $this->get_user(), $this->get_url(array(UserManager :: PARAM_USER_USER_ID => $user_id)));
+		$form = new UserRightsTemplateManagerForm($user, $this->get_user(), $this->get_url(array(UserManager :: PARAM_USER_USER_ID => $user_id)));
 
 		if($form->validate())
 		{
-			$success = $form->update_user_roles();
-			$this->redirect(Translation :: get($success ? 'UserRolesChanged' : 'UserRolesNotChanged'), ($success ? false : true), array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
+			$success = $form->update_user_rights_templates();
+			$this->redirect(Translation :: get($success ? 'UserRightsTemplatesChanged' : 'UserRightsTemplatesNotChanged'), ($success ? false : true), array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
 		}
 		else
 		{
 			$this->display_header($trail);
 
-			echo sprintf(Translation :: get('ModifyRolesForUser'), $user->get_fullname());
+			echo sprintf(Translation :: get('ModifyRightsTemplatesForUser'), $user->get_fullname());
 
 			$form->display();
 			$this->display_footer();

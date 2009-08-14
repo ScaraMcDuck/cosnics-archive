@@ -49,17 +49,17 @@ class GroupManagerViewerComponent extends GroupManagerComponent
 			echo '</div>';
 
 			$rdm = RightsDataManager :: get_instance();
-			$group_roles = $group->get_roles();
+			$group_rights_templates = $group->get_rights_templates();
 
-			if($group_roles->size() > 0)
+			if($group_rights_templates->size() > 0)
 			{
 				echo '<div class="clear"></div><div class="learning_object" style="background-image: url('. Theme :: get_common_image_path() .'place_rights.png);">';
-				echo '<div class="title">'. Translation :: get('Roles') .'</div>';
+				echo '<div class="title">'. Translation :: get('RightsTemplates') .'</div>';
 				echo '<ul>';
-				while ($group_role = $group_roles->next_result())
+				while ($group_rights_template = $group_rights_templates->next_result())
 				{
-					$role = $rdm->retrieve_role($group_role->get_role_id());
-					echo '<li>' . $role->get_name() . '</li>';
+					$rights_template = $rdm->retrieve_rights_template($group_rights_template->get_rights_template_id());
+					echo '<li>' . $rights_template->get_name() . '</li>';
 				}
 				echo '</ul>';
 				echo '</div>';
@@ -124,7 +124,7 @@ class GroupManagerViewerComponent extends GroupManagerComponent
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', $this->get_group_delete_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddUsers'), Theme :: get_common_image_path().'action_subscribe.png', $this->get_group_suscribe_user_browser_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageRoles'), Theme :: get_common_image_path().'action_rights.png', $this->get_manage_roles_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageRightsTemplates'), Theme :: get_common_image_path().'action_rights.png', $this->get_manage_rights_templates_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 
 		$condition = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $group->get_id());

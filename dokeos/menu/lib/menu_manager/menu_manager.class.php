@@ -117,45 +117,6 @@ class MenuManager extends CoreApplication
         return MenuDataManager :: get_instance()->retrieve_navigation_item_at_sort($parent, $sort, $direction);
     }
 
-    function is_allowed($right, $locations = array())
-    {
-        $user = $this->get_user();
-        
-        if (is_object($user) && $user->is_platform_admin())
-        {
-            return true;
-        }
-        
-        if (count($locations))
-        {
-            $location_string = self :: APPLICATION_NAME . '|' . implode('|', $locations);
-        }
-        else
-        {
-            $location_string = self :: APPLICATION_NAME;
-        }
-        $location = RightsManager :: get_location_id_from_short_string($location_string);
-        
-        if (is_object($user))
-        {
-            if ($groupreluser = GroupsManager :: retrieve_group_rel_user($user->get_id(), $location->get_id()))
-            {
-                $grouprole = GroupsManager :: retrieve_group_role($groupreluser->get_group_id(), $location->get_id());
-                $role_id = $grouprole->get_role_id();
-            }
-            else
-            {
-                $role_id = UserManager :: get_user_role_id($user, $location);
-            }
-        }
-        else
-        {
-            $role_id = 1;
-        }
-        
-        return RightsManager :: is_allowed($right, $role_id, $location->get_id());
-    }
-
     public function get_application_platform_admin_links()
     {
         $links = array();

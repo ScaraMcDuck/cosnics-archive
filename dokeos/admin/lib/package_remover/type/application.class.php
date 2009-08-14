@@ -222,7 +222,7 @@ class PackageApplicationRemover extends PackageRemover
         }
         else
         {
-            if (! $rdm->delete_orphaned_role_right_locations())
+            if (! $rdm->delete_orphaned_rights_templates_right_locations())
             {
                 $this->add_message(Translation :: get('DeletingOrphanedRoleRightLocationsFailed'), self :: TYPE_WARNING);
             }
