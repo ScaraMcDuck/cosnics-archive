@@ -46,7 +46,15 @@ class ReservationsManagerCategoryQuotaBoxDeleterComponent extends ReservationsMa
 				$box = $rdm->retrieve_quota_box_rel_categories(new EqualityCondition(QuotaBoxRelCategory :: PROPERTY_ID, $id))->next_result();
 				$category = $box->get_category_id();
 				$quota_box = $box->get_quota_box_id();
-				$bool &= $box->delete();
+				
+				if(!$box->delete()) 
+	   			{
+	   				$bool = false;
+	   			}
+	   			else 
+	   			{
+	   				Events :: trigger_event('delete_quota_box_category', 'reservations', array('target_id' => $id, 'user_id' => $this->get_user_id()));
+	   			}
 				
 				$subcats = Category :: retrieve_sub_categories($category, true);
 				foreach($subcats as $subcat)
@@ -58,7 +66,15 @@ class ReservationsManagerCategoryQuotaBoxDeleterComponent extends ReservationsMa
 					
 					$box = $rdm->retrieve_quota_box_rel_categories($condition)->next_result();
 					if(!box) break;
-					$bool &= $box->delete();
+					
+					if(!$box->delete()) 
+		   			{
+		   				$bool = false;
+		   			}
+		   			else 
+		   			{
+		   				Events :: trigger_event('delete_quota_box', 'reservations', array('target_id' => $box->get_id(), 'user_id' => $this->get_user_id()));
+		   			}
 				}
 			}
 			

@@ -42,8 +42,16 @@ class ReservationsManagerReservationDeleterComponent extends ReservationsManager
 				$reservation = new Reservation();
 				$reservation->set_id($id);
 				
-    			$reservation->set_status(Reservation :: STATUS_DELETED);
-    			if(!$reservation->update()) $bool = false;
+    			//$reservation->set_status(Reservation :: STATUS_DELETED);
+    			
+    			if(!$reservation->delete()) 
+    			{
+    				$bool = false;
+    			}
+    			else 
+    			{
+    				Events :: trigger_event('delete_reservation', 'reservations', array('target_id' => $id, 'user_id' => $this->get_user_id()));
+    			}
 			}
 			
 			if(count($ids) == 1)

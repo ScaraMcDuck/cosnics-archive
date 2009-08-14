@@ -91,6 +91,10 @@ class QuotaBoxForm extends FormValidator {
 		
 		$succes = $quota_box->create();
 		$this->update_quota_rel_quota_box($values, $quota_box);
+		
+		if($succes)
+			Events :: trigger_event('create_quota_box', 'reservations', array('target_id' => $quota_box->get_id(), 'user_id' => $this->user->get_id()));
+		
 		return $succes;
 		
 	}
@@ -105,6 +109,10 @@ class QuotaBoxForm extends FormValidator {
 		
 		$succes = $quota_box->update();
 		$this->update_quota_rel_quota_box($values, $quota_box);
+		
+		if($succes)
+			Events :: trigger_event('update_quota_box', 'reservations', array('target_id' => $quota_box->get_id(), 'user_id' => $this->user->get_id()));
+		
 		return $succes;
     }
     

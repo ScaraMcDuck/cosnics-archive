@@ -170,7 +170,7 @@ class ReservationsManagerPoolSearcherComponent extends ReservationsManagerCompon
 			{
 				foreach($subs as $sub)
 				{
-					$subscription = $this->create_subscription($sub['res'], $sub['start_date'], $sub['stop_date'], $item);
+					$this->create_subscription($sub['res'], $sub['start_date'], $sub['stop_date'], $item);
 				}
 				return 'SubscriptionsCreated';
 			}
@@ -225,7 +225,13 @@ class ReservationsManagerPoolSearcherComponent extends ReservationsManagerCompon
 //				return null;
 //		}
 		
-		$subscription->create();
+		$succes = $subscription->create();
+		
+		if($succes)
+		{
+			Events :: trigger_event('create_subscription', 'reservations', array('target_id' => $subscription->get_id(), 'user_id' => $this->get_user_id()));
+		}
+		
 		return $subscription;
 	}
 

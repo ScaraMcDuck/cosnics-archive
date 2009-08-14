@@ -159,7 +159,13 @@ class CategoryQuotaBoxForm extends FormValidator {
 	    		$quota_box_rel_category = new QuotaBoxRelCategory();
 		    	$quota_box_rel_category->set_category_id($category_id);
 		    	$quota_box_rel_category->set_quota_box_id($quota_box_id);
-				$succes &= $quota_box_rel_category->create();
+		    	
+		    	$suc = $quota_box_rel_category->create();
+		    	
+		    	if($succes)
+					Events :: trigger_event('create_quota_box_category', 'reservations', array('target_id' => $quota_box_rel_category->get_id(), 'user_id' => $this->user->get_id()));
+		    	
+				$succes &= $suc;
     		}
 	    		
     		$succes &= $this->update_selection_for_category($values, $quota_box_rel_category);

@@ -79,7 +79,13 @@ class CategoryForm extends FormValidator {
 		$category->set_name($this->exportValue(Category :: PROPERTY_NAME));
 		$pool = $this->exportValue(Category :: PROPERTY_POOL);
 		$category->set_pool($pool?$pool:0);
-		return $category->create();
+		
+		$succes = $category->create();
+		
+		if($succes)
+			Events :: trigger_event('create_category', 'reservations', array('target_id' => $category->get_id(), 'user_id' => $this->user->get_id()));
+
+		return $succes; 
 	}
 
     function update_category()
@@ -88,7 +94,12 @@ class CategoryForm extends FormValidator {
 		$category->set_name($this->exportValue(Category :: PROPERTY_NAME));
 		$pool = $this->exportValue(Category :: PROPERTY_POOL);
 		$category->set_pool($pool?$pool:0);
-		return $category->update();
+		$succes = $category->update();
+		
+		if($succes)
+			Events :: trigger_event('update_category', 'reservations', array('target_id' => $category->get_id(), 'user_id' => $this->user->get_id()));
+		
+		return $succes;
     }
 
 	/**

@@ -33,13 +33,21 @@ class ReservationsManagerQuotaBoxDeleterComponent extends ReservationsManagerCom
 			}
 			
 			$bool = true;
-			$db = ReservationsDataManager :: get_instance();
 			
 			foreach($ids as $id)
 			{
     			$box = new QuotaBox();
     			$box->set_id($id);
-    			$bool &= $box->delete();
+    			
+				if(!$box->delete()) 
+    			{
+    				$bool = false;
+    			}
+    			else 
+    			{
+    				Events :: trigger_event('delete_quota_box', 'reservations', array('target_id' => $id, 'user_id' => $this->get_user_id()));
+    			}
+    			
 			}
 			
 			if(count($ids) == 1)

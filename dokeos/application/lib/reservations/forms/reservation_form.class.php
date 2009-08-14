@@ -141,6 +141,9 @@ class ReservationForm extends FormValidator {
 		$res = $this->reservation;
 		$success = $res->create();
 		
+		if($success)
+			Events :: trigger_event('create_reservation', 'reservations', array('target_id' => $res->get_id(), 'user_id' => $this->user->get_id()));
+		
 		$values = $this->exportValues();
 		if($values['repeat'] == 1)
 		{
@@ -173,7 +176,15 @@ class ReservationForm extends FormValidator {
 				$status = $this->allow_create_reservation($reservation);
 	
 				if($status == 1)
-					$reservation->create();
+				{
+					$suc = $reservation->create();
+					if($suc)
+					{
+						Events :: trigger_event('create_reservation', 'reservations', array('target_id' => $reservation->get_id(), 'user_id' => $this->user->get_id()));
+					}
+					
+					$success &= $suc;
+				}
 					
 			}
 		}
@@ -257,7 +268,12 @@ class ReservationForm extends FormValidator {
 
     function update_reservation()
     {	
-		return $this->reservation->update();
+		$succes = $this->reservation->update();
+		
+		if($succes)
+			Events :: trigger_event('update_reservation', 'reservations', array('target_id' => $this->reservation->get_id(), 'user_id' => $this->user->get_id()));
+		
+		return $succes;
     }
 
 	/**

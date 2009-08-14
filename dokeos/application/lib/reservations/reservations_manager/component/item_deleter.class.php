@@ -41,8 +41,16 @@ class ReservationsManagerItemDeleterComponent extends ReservationsManagerCompone
     			
     			if($category == -1) $category = $item->get_category();
     			
-    			$item->set_status(Item :: STATUS_DELETED);
-    			if(!$item->update()) $bool = false;
+    			/*$item->set_status(Item :: STATUS_DELETED);*/
+    			
+    			if(!$item->delete()) 
+    			{
+    				$bool = false;
+    			}
+    			else 
+    			{
+    				Events :: trigger_event('delete_item', 'reservations', array('target_id' => $id, 'user_id' => $this->get_user_id()));
+    			}
     			
 			}
 			
@@ -50,7 +58,6 @@ class ReservationsManagerItemDeleterComponent extends ReservationsManagerCompone
 				$message = $bool ? 'ItemDeleted' : 'ItemNotDeleted';
 			else
 				$message = $bool ? 'ItemsDeleted' : 'ItemsNotDeleted';
-			
 			
 			$this->redirect(Translation :: get($message), ($bool ? false : true), 
 				array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS,

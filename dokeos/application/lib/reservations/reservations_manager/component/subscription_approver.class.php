@@ -42,7 +42,14 @@ class ReservationsManagerSubscriptionApproverComponent extends ReservationsManag
 				if($reservation_id == 0) $reservation_id = $subscription->get_reservation_id();
 
     			$subscription->set_accepted(1);
-    			if(!$subscription->update()) $bool = false;
+    			if(!$subscription->update()) 
+    			{
+    				$bool = false;
+    			}
+    			else 
+    			{
+    				Events :: trigger_event('approve_subscription', 'reservations', array('target_id' => $id, 'user_id' => $this->get_user_id()));
+    			}
 			}
 			
 			if(count($ids) == 1)

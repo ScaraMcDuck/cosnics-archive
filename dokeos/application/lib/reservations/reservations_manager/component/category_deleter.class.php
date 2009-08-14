@@ -33,7 +33,6 @@ class ReservationsManagerCategoryDeleterComponent extends ReservationsManagerCom
 			
 			$bool = true;
 			$parent = -1;
-			$db = ReservationsDataManager :: get_instance();
 			
 			foreach($ids as $id)
 			{
@@ -42,20 +41,28 @@ class ReservationsManagerCategoryDeleterComponent extends ReservationsManagerCom
     			
     			if($parent == -1) $parent = $category->get_parent();
     			
-    			$category->set_status(Category :: STATUS_DELETED);
+    			/*$category->set_status(Category :: STATUS_DELETED);
     			
     			$db->clean_display_order($category);
     			
     			$category->set_display_order(0);
-    			if(!$category->update()) $bool = false;
+    			if(!$category->update()) $bool = false;*/
+    			
+    			if(!$category->delete())
+    			{
+    				$bool = false;
+    			}
+    			else 
+    			{
+    				Events :: trigger_event('delete_category', 'reservations', array('target_id' => $category->get_id(), 'user_id' => $this->get_user_id()));
+    			}
 			}
 			
 			if(count($ids) == 1)
 				$message = $bool ? 'CategoryDeleted' : 'CategoryNotDeleted';
 			else
 				$message = $bool ? 'CategoriesDeleted' : 'CategoriesNotDeleted';
-			
-			
+				
 			$this->redirect(Translation :: get($message), ($bool ? false : true), 
 				array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_CATEGORIES,
 					  ReservationsManager :: PARAM_CATEGORY_ID => $parent));
