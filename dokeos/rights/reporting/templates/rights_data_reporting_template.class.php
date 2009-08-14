@@ -2,7 +2,7 @@
 /**
  * @author Michael Kyndt
  */
-require_once Path :: get_reporting_path(). 'lib/reporting_rights_template.class.php';
+require_once Path :: get_reporting_path(). 'lib/reporting_template.class.php';
 class RightsDataReportingTemplate extends ReportingTemplate
 {
 	function RightsDataReportingTemplate($parent,$id,$params)
@@ -34,16 +34,16 @@ class RightsDataReportingTemplate extends ReportingTemplate
      */
     function to_html()
     {
-    	//rights_template header
+    	//template header
         $html[] = $this->get_header();
 
-        //rights_template menu
+        //template menu
         //$html[] = $this->get_menu();
 
         //show visible blocks
         $html[] = $this->get_visible_reporting_blocks();
 
-    	//rights_template footer
+    	//template footer
         $html[] = $this->get_footer();
 
     	return implode("\n", $html);
