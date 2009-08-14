@@ -50,7 +50,7 @@ abstract class RightsDataManager
         return self :: $instance;
     }
 
-    abstract function create_rolerightlocation($rolerightlocation);
+    abstract function create_rights_templaterightlocation($rights_templaterightlocation);
 
     /**
      * Creates a storage unit
@@ -64,22 +64,22 @@ abstract class RightsDataManager
     abstract function retrieve_location_id_from_location_string($location);
 
     /**
-	 * retrieves the role and right location
+	 * retrieves the rights_template and right location
 	 *
 	 * @param int $right_id
-	 * @param int $role_id
+	 * @param int $rights_template_id
 	 * @param int $location_id
-	 * @return RoleRightLocation
+	 * @return RightsTemplateRightLocation
 	 */
-    abstract function retrieve_role_right_location($right, $role_id, $location_id);
+    abstract function retrieve_rights_template_right_location($right, $rights_template_id, $location_id);
 
     abstract function retrieve_location($id);
 
     abstract function retrieve_right($id);
 
-    abstract function retrieve_role($id);
+    abstract function retrieve_rights_template($id);
 
-    abstract function retrieve_roles($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+    abstract function retrieve_rights_templates($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
     abstract function retrieve_rights($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
@@ -93,14 +93,14 @@ abstract class RightsDataManager
 
     abstract function move_location($location, $new_parent_id, $new_previous_id = 0);
 
-    abstract function update_role($role);
+    abstract function update_rights_template($rights_template);
 
-    abstract function delete_role($role);
+    abstract function delete_rights_template($rights_template);
 
     abstract function delete_locations($condition = null);
 
-    abstract function delete_orphaned_role_right_locations();
+    abstract function delete_orphaned_rights_template_right_locations();
 
-    abstract function retrieve_shared_learning_objects($roles,$rights);
+    abstract function retrieve_shared_learning_objects($rights_templates,$rights);
 }
 ?>

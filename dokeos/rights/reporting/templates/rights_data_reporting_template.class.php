@@ -2,16 +2,16 @@
 /**
  * @author Michael Kyndt
  */
-require_once Path :: get_reporting_path(). 'lib/reporting_template.class.php';
+require_once Path :: get_reporting_path(). 'lib/reporting_rights_template.class.php';
 class RightsDataReportingTemplate extends ReportingTemplate
 {
 	function RightsDataReportingTemplate($parent,$id,$params)
 	{
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("RightsUsersPerRole"),
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("RightsUsersPerRightsTemplate"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("RightsNoOfRoles"),
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("RightsNoOfRightsTemplates"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("RightsGroupsPerRole"),
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("RightsGroupsPerRightsTemplate"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
 
         parent :: __construct($parent,$id,$params);
@@ -34,16 +34,16 @@ class RightsDataReportingTemplate extends ReportingTemplate
      */
     function to_html()
     {
-    	//template header
+    	//rights_template header
         $html[] = $this->get_header();
 
-        //template menu
+        //rights_template menu
         //$html[] = $this->get_menu();
 
         //show visible blocks
         $html[] = $this->get_visible_reporting_blocks();
 
-    	//template footer
+    	//rights_template footer
         $html[] = $this->get_footer();
 
     	return implode("\n", $html);

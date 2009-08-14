@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../rights_manager.class.php';
 require_once dirname(__FILE__).'/../rights_manager_component.class.php';
 require_once dirname(__FILE__).'/../../rights_data_manager.class.php';
 require_once dirname(__FILE__).'/../../rights_utilities.class.php';
-require_once Path :: get_admin_path() . 'lib/rights_template_manager/rights_template_manager.class.php';
+require_once Path :: get_admin_path() . 'lib/rights_rights_template_manager/rights_rights_template_manager.class.php';
 /**
  * Admin component
  */

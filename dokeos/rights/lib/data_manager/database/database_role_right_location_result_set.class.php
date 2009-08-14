@@ -7,7 +7,7 @@ require_once dirname(__FILE__).'/../../../../common/database/result_set.class.ph
 /**
  * This class represents a resultset which represents a set of courses.
  */
-class DatabaseRoleRightLocationResultSet extends ResultSet {
+class DatabaseRightsTemplateRightLocationResultSet extends ResultSet {
 	/**
 	 * The datamanager used to retrieve objects from the repository
 	 */
@@ -23,7 +23,7 @@ class DatabaseRoleRightLocationResultSet extends ResultSet {
 	 * @param DB_result $handle The handle to retrieve records from a database
 	 * resultset
 	 */
-    function DatabaseRoleRightLocationResultSet($data_manager, $handle)
+    function DatabaseRightsTemplateRightLocationResultSet($data_manager, $handle)
     {
     	$this->data_manager = $data_manager;
     	$this->handle = $handle;
@@ -35,7 +35,7 @@ class DatabaseRoleRightLocationResultSet extends ResultSet {
     {
 		if ($record = $this->handle->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			return $this->data_manager->record_to_role_right_location($record);
+			return $this->data_manager->record_to_rights_template_right_location($record);
 		}
     	return null;
     }

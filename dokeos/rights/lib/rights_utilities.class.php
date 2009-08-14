@@ -182,7 +182,7 @@ class RightsUtilities
 
 		if (isset($user))
 		{
-			$roles = array();
+			$rights_templates = array();
 
 			$user_groups = $user->get_groups();
 
@@ -190,26 +190,26 @@ class RightsUtilities
 			{
 				while ($group = $user_groups->next_result())
 				{
-					//$group_roles[] = $group->get_role();
-					$group_roles = $group->get_roles();
+					//$group_rights_templates[] = $group->get_rights_template();
+					$group_rights_templates = $group->get_rights_templates();
 
-					while ($group_role = $group_roles->next_result())
+					while ($group_rights_template = $group_rights_templates->next_result())
 					{
-						$roles[] = $group_role->get_role_id();
+						$rights_templates[] = $group_rights_template->get_rights_template_id();
 					}
 				}
 			}
 
-			// TODO: Do we want to seperate checks for group roles and user roles ? Not doing so may let user roles override group roles
+			// TODO: Do we want to seperate checks for group rights_templates and user rights_templates ? Not doing so may let user rights_templates override group rights_templates
 
-			$user_roles = $user->get_roles();
+			$user_rights_templates = $user->get_rights_templates();
 
-			while ($user_role = $user_roles->next_result())
+			while ($user_rights_template = $user_rights_templates->next_result())
 			{
-				$role = $user_role->get_role_id();
-				if (!in_array($role, $roles))
+				$rights_template = $user_rights_template->get_rights_template_id();
+				if (!in_array($rights_template, $rights_templates))
 				{
-					$roles[] = $role;
+					$rights_templates[] = $rights_template;
 				}
 			}
 		}
@@ -221,12 +221,12 @@ class RightsUtilities
 
 		$parents = $parents->as_array();
 
-		foreach($roles as $role)
+		foreach($rights_templates as $rights_template)
 		{
 
 			foreach($parents as $parent)
 			{
-				$has_right = $rdm->retrieve_role_right_location($right, $role, $parent->get_id())->get_value();
+				$has_right = $rdm->retrieve_rights_template_right_location($right, $rights_template, $parent->get_id())->get_value();
 
 				if ($has_right)
 				{
@@ -242,7 +242,7 @@ class RightsUtilities
 		return false;
 	}
 
-	function is_allowed_for_role($role, $right, $location, $application = 'admin')
+	function is_allowed_for_rights_template($rights_template, $right, $location, $application = 'admin')
 	{
 		$rdm = RightsDataManager :: get_instance();
 
@@ -250,7 +250,7 @@ class RightsUtilities
 
 		while($parent = $parents->next_result())
 		{
-			$has_right = $rdm->retrieve_role_right_location($right, $role, $parent->get_id())->get_value();
+			$has_right = $rdm->retrieve_rights_template_right_location($right, $rights_template, $parent->get_id())->get_value();
 
 			if ($has_right)
 			{
@@ -364,13 +364,13 @@ class RightsUtilities
 		return implode("\n", $html);
 	}
 
-	function invert_role_right_location($right, $role, $location)
+	function invert_rights_template_right_location($right, $rights_template, $location)
 	{
-		if (isset($role) && isset($right) && isset($location))
+		if (isset($rights_template) && isset($right) && isset($location))
 		{
-			$rolerightlocation = $this->retrieve_role_right_location($right, $role, $location->get_id());
-			$rolerightlocation->invert();
-			return $rolerightlocation->update();
+			$rights_templaterightlocation = $this->retrieve_rights_template_right_location($right, $rights_template, $location->get_id());
+			$rights_templaterightlocation->invert();
+			return $rights_templaterightlocation->update();
 		}
 		else
 		{
@@ -390,34 +390,34 @@ class RightsUtilities
 		return $location->update();
 	}
 
-	static function roles_for_element_finder($linked_roles)
+	static function rights_templates_for_element_finder($linked_rights_templates)
 	{
 		$rdm = RightsDataManager :: get_instance();
-		$roles = array();
+		$rights_templates = array();
 
-		while ($linked_role = $linked_roles->next_result())
+		while ($linked_rights_template = $linked_rights_templates->next_result())
 		{
-			$roles[] = $rdm->retrieve_role($linked_role->get_role_id());
+			$rights_templates[] = $rdm->retrieve_rights_template($linked_rights_template->get_rights_template_id());
 		}
 
 		$return = array();
 
-		foreach($roles as $role)
+		foreach($rights_templates as $rights_template)
 		{
-			$id = $role->get_id();
-			$return[$id] = self :: role_for_element_finder($role);
+			$id = $rights_template->get_id();
+			$return[$id] = self :: rights_template_for_element_finder($rights_template);
 		}
 
 		return $return;
 	}
 
-	static function role_for_element_finder($role)
+	static function rights_template_for_element_finder($rights_template)
 	{
 		$return = array ();
-		$return['id'] = $role->get_id();
-		$return['class'] = 'type type_role';
-		$return['title'] = $role->get_name();
-		$return['description'] = strip_tags($role->get_description());
+		$return['id'] = $rights_template->get_id();
+		$return['class'] = 'type type_rights_template';
+		$return['title'] = $rights_template->get_name();
+		$return['description'] = strip_tags($rights_template->get_description());
 		return $return;
 	}
 	

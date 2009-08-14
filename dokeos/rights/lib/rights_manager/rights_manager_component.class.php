@@ -28,14 +28,14 @@ abstract class RightsManagerComponent extends CoreApplicationComponent
 		return $this->get_parent()->retrieve_groups($condition, $offset, $count, $order_property, $order_direction);
 	}
 
-	function retrieve_roles($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_rights_templates($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return $this->get_parent()->retrieve_roles($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_rights_templates($condition, $offset, $count, $order_property, $order_direction);
 	}
 
-	function retrieve_role($id)
+	function retrieve_rights_template($id)
 	{
-		return $this->get_parent()->retrieve_role($id);
+		return $this->get_parent()->retrieve_rights_template($id);
 	}
 
 	function retrieve_rights($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
@@ -48,19 +48,19 @@ abstract class RightsManagerComponent extends CoreApplicationComponent
 		return $this->get_parent()->retrieve_locations($condition, $offset, $count, $order_property, $order_direction);
 	}
 
-	function retrieve_role_right_location($right_id, $role_id, $location_id)
+	function retrieve_rights_template_right_location($right_id, $rights_template_id, $location_id)
 	{
-		return $this->get_parent()->retrieve_role_right_location($right_id, $role_id, $location_id);
+		return $this->get_parent()->retrieve_rights_template_right_location($right_id, $rights_template_id, $location_id);
 	}
 
-	function retrieve_user_role($user_id, $location_id)
+	function retrieve_user_rights_template($user_id, $location_id)
 	{
-		return $this->get_parent()->retrieve_user_role($user_id, $location_id);
+		return $this->get_parent()->retrieve_user_rights_template($user_id, $location_id);
 	}
 
-	function retrieve_group_role($group_id, $location_id)
+	function retrieve_group_rights_template($group_id, $location_id)
 	{
-		return $this->get_parent()->retrieve_group_role($group_id, $location_id);
+		return $this->get_parent()->retrieve_group_rights_template($group_id, $location_id);
 	}
 
 	function retrieve_location($location_id)
@@ -73,9 +73,9 @@ abstract class RightsManagerComponent extends CoreApplicationComponent
 		return $this->get_parent()->count_users($conditions);
 	}
 
-	function delete_role($role)
+	function delete_rights_template($rights_template)
 	{
-		return $this->get_parent()->delete_role($role);
+		return $this->get_parent()->delete_rights_template($rights_template);
 	}
 
 	function count_groups($conditions = null)
@@ -83,9 +83,9 @@ abstract class RightsManagerComponent extends CoreApplicationComponent
 		return $this->get_parent()->count_groups($conditions);
 	}
 
-	function count_roles($conditions = null)
+	function count_rights_templates($conditions = null)
 	{
-		return $this->get_parent()->count_roles($conditions);
+		return $this->get_parent()->count_rights_templates($conditions);
 	}
 
 	/**
@@ -129,29 +129,29 @@ abstract class RightsManagerComponent extends CoreApplicationComponent
 		return $this->get_parent()->get_user_quota_url($user);
 	}
 
-	function get_user_roles_url($user)
+	function get_user_rights_templates_url($user)
 	{
-		return $this->get_parent()->get_user_roles_url($user);
+		return $this->get_parent()->get_user_rights_templates_url($user);
 	}
 
-	function get_group_roles_url($group)
+	function get_group_rights_templates_url($group)
 	{
-		return $this->get_parent()->get_group_roles_url($group);
+		return $this->get_parent()->get_group_rights_templates_url($group);
 	}
 
-	function get_role_editing_url($role)
+	function get_rights_template_editing_url($rights_template)
 	{
-		return $this->get_parent()->get_role_editing_url($role);
+		return $this->get_parent()->get_rights_template_editing_url($rights_template);
 	}
 
-	function get_role_deleting_url($role)
+	function get_rights_template_deleting_url($rights_template)
 	{
-		return $this->get_parent()->get_role_deleting_url($role);
+		return $this->get_parent()->get_rights_template_deleting_url($rights_template);
 	}
 
-	function is_allowed($right, $role_id, $location_id)
+	function is_allowed($right, $rights_template_id, $location_id)
 	{
-		return $this->get_parent()->is_allowed($right, $role_id, $location_id);
+		return $this->get_parent()->is_allowed($right, $rights_template_id, $location_id);
 	}
 }
 ?>

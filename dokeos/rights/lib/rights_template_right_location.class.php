@@ -9,12 +9,12 @@
 
 require_once Path :: get_common_path() . 'data_class.class.php';
 
-class RoleRightLocation extends DataClass
+class RightsTemplateRightLocation extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 	const PROPERTY_RIGHT_ID = 'right_id';
 	const PROPERTY_LOCATION_ID = 'location_id';
-	const PROPERTY_ROLE_ID = 'role_id';
+	const PROPERTY_RIGHTS_TEMPLATE_ID = 'rights_template_id';
 	const PROPERTY_VALUE = 'value';
 	
 	/**
@@ -23,7 +23,7 @@ class RoleRightLocation extends DataClass
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_RIGHT_ID, self :: PROPERTY_ROLE_ID, self :: PROPERTY_LOCATION_ID, self :: PROPERTY_VALUE);
+		return array (self :: PROPERTY_RIGHT_ID, self :: PROPERTY_RIGHTS_TEMPLATE_ID, self :: PROPERTY_LOCATION_ID, self :: PROPERTY_VALUE);
 	}
 	
 	/**
@@ -44,14 +44,14 @@ class RoleRightLocation extends DataClass
 		$this->set_default_property(self :: PROPERTY_RIGHT_ID, $right_id);
 	}
 	
-	function get_role_id()
+	function get_rights_template_id()
 	{
-		return $this->get_default_property(self :: PROPERTY_ROLE_ID);
+		return $this->get_default_property(self :: PROPERTY_RIGHTS_TEMPLATE_ID);
 	}
 	
-	function set_role_id($role_id)
+	function set_rights_template_id($rights_template_id)
 	{
-		$this->set_default_property(self :: PROPERTY_ROLE_ID, $role_id);
+		$this->set_default_property(self :: PROPERTY_RIGHTS_TEMPLATE_ID, $rights_template_id);
 	}	
 	
 	function get_location_id()
@@ -77,7 +77,7 @@ class RoleRightLocation extends DataClass
 	function create()
 	{
 		$rdm = RightsDataManager :: get_instance();
-		return $rdm->create_rolerightlocation($this);
+		return $rdm->create_rights_templaterightlocation($this);
 	}
 	
 	function invert()

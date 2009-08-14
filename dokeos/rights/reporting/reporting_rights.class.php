@@ -7,84 +7,84 @@ class ReportingRights {
     function ReportingRights() {
     }
 
-    public static function getUsersPerRole($params)
+    public static function getUsersPerRightsTemplate($params)
     {
         $rdm = RightsDataManager::get_instance();
         $udm = UserDataManager::get_instance();
 
-        $list = $rdm->retrieve_roles();
+        $list = $rdm->retrieve_rights_templates();
 
-        while ($role = $list->next_result()) {
-            $arr[$role->get_id()][0] = 0;
+        while ($rights_template = $list->next_result()) {
+            $arr[$rights_template->get_id()][0] = 0;
         }
 
-        $list = $udm->retrieve_user_roles();
+        $list = $udm->retrieve_user_rights_templates();
 
         while ($bla = $list->next_result()) {
-            $arr[$bla->get_role_id()][0]++;
+            $arr[$bla->get_rights_template_id()][0]++;
         }
 
         foreach ($arr as $key => $value) {
-            $arr[Translation :: get($rdm->retrieve_role($key)->get_name())] = $arr[$key];
+            $arr[Translation :: get($rdm->retrieve_rights_template($key)->get_name())] = $arr[$key];
             unset($arr[$key]);
         }
 
         return Reporting :: getSerieArray($arr);
-    }//getUsersPerRole
+    }//getUsersPerRightsTemplate
 
-    public static function getGroupsPerRole($params)
+    public static function getGroupsPerRightsTemplate($params)
     {
         $rdm = RightsDataManager::get_instance();
         $gdm = GroupDataManager::get_instance();
 
-        $list = $rdm->retrieve_roles();
+        $list = $rdm->retrieve_rights_templates();
 
-        while($role = $list->next_result())
+        while($rights_template = $list->next_result())
         {
-            $arr[$role->get_id()][0] = 0;
+            $arr[$rights_template->get_id()][0] = 0;
         }
 
-        $list = $gdm->retrieve_group_roles();
+        $list = $gdm->retrieve_group_rights_templates();
 
         while($group = $list->next_result())
         {
-            $arr[$group->get_role_id()][0]++;
+            $arr[$group->get_rights_template_id()][0]++;
         }
 
         $group = $gdm->retrieve_group(0);
 
         foreach ($arr as $key => $value) {
-            $arr[Translation :: get($rdm->retrieve_role($key)->get_name())] = $arr[$key];
+            $arr[Translation :: get($rdm->retrieve_rights_template($key)->get_name())] = $arr[$key];
             unset($arr[$key]);
         }
 
         return Reporting::getSerieArray($arr);
-    }//getgroupsperrole
+    }//getgroupsperrights_template
 
-    public static function getNoOfRoles($params)
+    public static function getNoOfRightsTemplates($params)
     {
         $rdm = RightsDataManager::get_instance();
 
-        $list = $rdm->retrieve_roles();
+        $list = $rdm->retrieve_rights_templates();
 
-        while ($role = $list->next_result()) {
-            $arr[Translation :: get('Roles')][0]++;
+        while ($rights_template = $list->next_result()) {
+            $arr[Translation :: get('RightsTemplates')][0]++;
         }
 
         return Reporting::getSerieArray($arr);
-    }//getnoofroles
+    }//getnoofrights_templates
 
-    public static function getRoles($params)
+    public static function getRightsTemplates($params)
     {
         $rdm = RightsDataManager::get_instance();
 
-        $list = $rdm->retrieve_roles();
+        $list = $rdm->retrieve_rights_templates();
 
-        while ($role = $list->next_result()) {
-            $arr[Translation :: get('Roles')][] = $role->get_name();
+        while ($rights_template = $list->next_result()) {
+            $arr[Translation :: get('RightsTemplates')][] = $rights_template->get_name();
         }
 
         return Reporting::getSerieArray($arr);
-    }//getroles
+    }//getrights_templates
 }
 ?>

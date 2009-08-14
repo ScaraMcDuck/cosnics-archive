@@ -9,16 +9,16 @@ require_once Path :: get_tracking_path() . 'lib/default_tracker.class.php';
 /**
  * This class tracks the login that a user uses
  */
-class RolesRightChangesTracker extends DefaultTracker
+class RightsTemplatesRightChangesTracker extends DefaultTracker
 {
     const CLASS_NAME = __CLASS__;
 
 	/**
 	 * Constructor sets the default values
 	 */
-    function RolesRightChangesTracker()
+    function RightsTemplatesRightChangesTracker()
     {
-    	parent :: MainTracker('roles_right_changes');
+    	parent :: MainTracker('rights_templates_right_changes');
     }
 
     /**

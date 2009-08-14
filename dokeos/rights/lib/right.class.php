@@ -3,7 +3,7 @@
  * @package users
  */
 /**
- *	This class represents a role. 
+ *	This class represents a rights_template. 
  *
  *	User objects have a number of default properties:
  *	- user_id: the numeric ID of the user;

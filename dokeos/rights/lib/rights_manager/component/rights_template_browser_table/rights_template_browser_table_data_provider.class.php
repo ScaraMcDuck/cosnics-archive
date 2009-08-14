@@ -9,14 +9,14 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table_
  * This class implements some functions to allow repository browser tables to
  * retrieve information about the learning objects to display.
  */
-class RoleBrowserTableDataProvider extends ObjectTableDataProvider
+class RightsTemplateBrowserTableDataProvider extends ObjectTableDataProvider
 {
   /**
    * Constructor
    * @param RepositoryManagerComponent $browser
    * @param Condition $condition
    */
-  function RoleBrowserTableDataProvider($browser, $condition)
+  function RightsTemplateBrowserTableDataProvider($browser, $condition)
   {
 		parent :: __construct($browser, $condition);
   }
@@ -33,7 +33,7 @@ class RoleBrowserTableDataProvider extends ObjectTableDataProvider
 		$order_property = $this->get_order_property($order_property);
 		$order_direction = $this->get_order_direction($order_direction);
        
-      return $this->get_browser()->retrieve_roles($this->get_condition(), $offset, $count, $order_property, $order_direction);
+      return $this->get_browser()->retrieve_rights_templates($this->get_condition(), $offset, $count, $order_property, $order_direction);
     }
   /**
    * Gets the number of learning objects in the table
@@ -41,7 +41,7 @@ class RoleBrowserTableDataProvider extends ObjectTableDataProvider
    */
     function get_object_count()
     {
-      return $this->get_browser()->count_roles($this->get_condition());
+      return $this->get_browser()->count_rights_templates($this->get_condition());
     }
 }
 ?>

@@ -2,12 +2,12 @@
 /**
  * @package repository.repositorymanager
  */
-require_once dirname(__FILE__).'/../../../role_table/default_role_table_column_model.class.php';
-require_once dirname(__FILE__).'/../../../role.class.php';
+require_once dirname(__FILE__).'/../../../rights_template_table/default_rights_template_table_column_model.class.php';
+require_once dirname(__FILE__).'/../../../rights_template.class.php';
 /**
  * Table column model for the user browser table
  */
-class RoleBrowserTableColumnModel extends DefaultRoleTableColumnModel
+class RightsTemplateBrowserTableColumnModel extends DefaultRightsTemplateTableColumnModel
 {
 	/**
 	 * The tables modification column
@@ -16,7 +16,7 @@ class RoleBrowserTableColumnModel extends DefaultRoleTableColumnModel
 	/**
 	 * Constructor
 	 */
-	function RoleBrowserTableColumnModel()
+	function RightsTemplateBrowserTableColumnModel()
 	{
 		parent :: __construct();
 		$this->set_default_order_column(1);

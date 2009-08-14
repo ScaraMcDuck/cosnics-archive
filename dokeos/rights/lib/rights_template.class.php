@@ -1,17 +1,17 @@
 <?php
 require_once Path :: get_user_path() . 'lib/user_data_manager.class.php';
 require_once Path :: get_user_path() . 'lib/user.class.php';
-require_once Path :: get_user_path() . 'lib/user_role.class.php';
+require_once Path :: get_user_path() . 'lib/user_rights_template.class.php';
 require_once Path :: get_group_path() . 'lib/group_data_manager.class.php';
 require_once Path :: get_group_path() . 'lib/group.class.php';
-require_once Path :: get_group_path() . 'lib/group_role.class.php';
+require_once Path :: get_group_path() . 'lib/group_rights_template.class.php';
 require_once Path :: get_common_path() . 'data_class.class.php';
 
 /**
  * @package users
  */
 /**
- *	This class represents a role.
+ *	This class represents a rights_template.
  *
  *	User objects have a number of default properties:
  *	- user_id: the numeric ID of the user;
@@ -102,14 +102,14 @@ class RightsTemplate extends DataClass
 	function get_users($user_condition, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
 		$udm = UserDataManager :: get_instance();
-		$condition = new EqualityCondition(UserRole :: PROPERTY_ROLE_ID, $this->get_id());
+		$condition = new EqualityCondition(UserRightsTemplate :: PROPERTY_RIGHTS_TEMPLATE_ID, $this->get_id());
 
-		$user_roles = $udm->retrieve_user_roles($condition);
+		$user_rights_templates = $udm->retrieve_user_rights_templates($condition);
 		$user_ids = array();
 
-		while($user_role = $user_roles->next_result())
+		while($user_rights_template = $user_rights_templates->next_result())
 		{
-			$user_ids[] = $user_role->get_user_id();
+			$user_ids[] = $user_rights_template->get_user_id();
 		}
 
 		$groups = $this->get_groups();
@@ -143,14 +143,14 @@ class RightsTemplate extends DataClass
 	function get_groups()
 	{
 		$gdm = GroupDataManager :: get_instance();
-		$condition = new EqualityCondition(GroupRole :: PROPERTY_ROLE_ID, $this->get_id());
+		$condition = new EqualityCondition(GroupRightsTemplate :: PROPERTY_RIGHTS_TEMPLATE_ID, $this->get_id());
 
-		$group_roles = $gdm->retrieve_group_roles($condition);
+		$group_rights_templates = $gdm->retrieve_group_rights_templates($condition);
 		$group_ids = array();
 
-		while($group_role = $group_roles->next_result())
+		while($group_rights_template = $group_rights_templates->next_result())
 		{
-			$group_ids[] = $group_role->get_group_id();
+			$group_ids[] = $group_rights_template->get_group_id();
 		}
 
 		if (count($group_ids) > 0)

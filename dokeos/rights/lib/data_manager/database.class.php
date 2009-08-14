@@ -3,18 +3,18 @@
  * @package users
  * @subpackage datamanager
  */
-require_once dirname(__FILE__).'/database/database_role_result_set.class.php';
+require_once dirname(__FILE__).'/database/database_rights_template_result_set.class.php';
 require_once dirname(__FILE__).'/database/database_right_result_set.class.php';
 require_once dirname(__FILE__).'/database/database_location_result_set.class.php';
-require_once dirname(__FILE__).'/database/database_role_right_location_result_set.class.php';
+require_once dirname(__FILE__).'/database/database_rights_template_right_location_result_set.class.php';
 require_once dirname(__FILE__).'/../rights_data_manager.class.php';
-require_once dirname(__FILE__).'/../role.class.php';
+require_once dirname(__FILE__).'/../rights_template.class.php';
 require_once dirname(__FILE__).'/../right.class.php';
 require_once dirname(__FILE__).'/../location.class.php';
-require_once dirname(__FILE__).'/../role_right_location.class.php';
+require_once dirname(__FILE__).'/../rights_template_right_location.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
-require_once Path :: get_user_path().'lib/user_role.class.php';
-require_once Path :: get_group_path().'lib/group_role.class.php';
+require_once Path :: get_user_path().'lib/user_rights_template.class.php';
+require_once Path :: get_group_path().'lib/group_rights_template.class.php';
 require_once 'MDB2.php';
 
 /**
@@ -149,29 +149,29 @@ class DatabaseRightsDataManager extends RightsDataManager
         return false;
     }
 
-    function update_role_right_location($rolerightlocation)
+    function update_rights_template_right_location($rights_templaterightlocation)
     {
-        $where = $this->escape_column_name(RoleRightLocation :: PROPERTY_RIGHT_ID).'='.$rolerightlocation->get_right_id() . ' AND ' . $this->escape_column_name(RoleRightLocation :: PROPERTY_LOCATION_ID).'='.$rolerightlocation->get_location_id() . ' AND ' . $this->escape_column_name(RoleRightLocation :: PROPERTY_ROLE_ID).'='.$rolerightlocation->get_role_id();
+        $where = $this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_RIGHT_ID).'='.$rights_templaterightlocation->get_right_id() . ' AND ' . $this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_LOCATION_ID).'='.$rights_templaterightlocation->get_location_id() . ' AND ' . $this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_RIGHTS_TEMPLATE_ID).'='.$rights_templaterightlocation->get_rights_template_id();
         $props = array();
-        $props[$this->escape_column_name(RoleRightLocation :: PROPERTY_VALUE)] = $rolerightlocation->get_value();
+        $props[$this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_VALUE)] = $rights_templaterightlocation->get_value();
         $this->connection->loadModule('Extended');
-        $this->connection->extended->autoExecute($this->get_table_name('role_right_location'), $props, MDB2_AUTOQUERY_UPDATE, $where);
+        $this->connection->extended->autoExecute($this->get_table_name('rights_template_right_location'), $props, MDB2_AUTOQUERY_UPDATE, $where);
 
         return true;
     }
 
-    function delete_role_right_location($rolerightlocation)
+    function delete_rights_template_right_location($rights_templaterightlocation)
     {
-        $query = 'DELETE FROM '.$this->escape_table_name('role_right_location').' WHERE '.$this->escape_column_name(RoleRightLocation :: PROPERTY_RIGHT_ID).'=? AND '.$this->escape_column_name(RoleRightLocation :: PROPERTY_ROLE_ID).'=? AND '.$this->escape_column_name(RoleRightLocation :: PROPERTY_LOCATION_ID).'=?';
+        $query = 'DELETE FROM '.$this->escape_table_name('rights_template_right_location').' WHERE '.$this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_RIGHT_ID).'=? AND '.$this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_RIGHTS_TEMPLATE_ID).'=? AND '.$this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_LOCATION_ID).'=?';
         $sth = $this->connection->prepare($query);
-        $res = $sth->execute(array($rolerightlocation->get_right_id(), $rolerightlocation->get_role_id(), $rolerightlocation->get_location_id()));
+        $res = $sth->execute(array($rights_templaterightlocation->get_right_id(), $rights_templaterightlocation->get_rights_template_id(), $rights_templaterightlocation->get_location_id()));
 
         return true;
     }
 
-    function delete_role_right_locations($condition)
+    function delete_rights_template_right_locations($condition)
     {
-        $query = 'DELETE FROM '. $this->escape_table_name('role_right_location');
+        $query = 'DELETE FROM '. $this->escape_table_name('rights_template_right_location');
 
         $params = array ();
         if (isset ($condition))
@@ -228,17 +228,17 @@ class DatabaseRightsDataManager extends RightsDataManager
         }
     }
 
-    function create_role($role)
+    function create_rights_template($rights_template)
     {
         $props = array();
-        foreach ($role->get_default_properties() as $key => $value)
+        foreach ($rights_template->get_default_properties() as $key => $value)
         {
             $props[$this->escape_column_name($key)] = $value;
         }
-        $props[$this->escape_column_name(Role :: PROPERTY_ID)] = $role->get_id();
+        $props[$this->escape_column_name(RightsTemplate :: PROPERTY_ID)] = $rights_template->get_id();
 
         $this->connection->loadModule('Extended');
-        if ($this->connection->extended->autoExecute($this->get_table_name('role'), $props, MDB2_AUTOQUERY_INSERT))
+        if ($this->connection->extended->autoExecute($this->get_table_name('rights_template'), $props, MDB2_AUTOQUERY_INSERT))
         {
             return true;
         }
@@ -248,18 +248,18 @@ class DatabaseRightsDataManager extends RightsDataManager
         }
     }
 
-    function create_rolerightlocation($rolerightlocation)
+    function create_rights_templaterightlocation($rights_templaterightlocation)
     {
         $props = array();
-        foreach ($rolerightlocation->get_default_properties() as $key => $value)
+        foreach ($rights_templaterightlocation->get_default_properties() as $key => $value)
         {
             $props[$this->escape_column_name($key)] = $value;
         }
-        $props[$this->escape_column_name(RoleRightLocation :: PROPERTY_RIGHT_ID)] = $rolerightlocation->get_right_id();
-        $props[$this->escape_column_name(RoleRightLocation :: PROPERTY_ROLE_ID)] = $rolerightlocation->get_role_id();
-        $props[$this->escape_column_name(RoleRightLocation :: PROPERTY_LOCATION_ID)] = $rolerightlocation->get_location_id();
+        $props[$this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_RIGHT_ID)] = $rights_templaterightlocation->get_right_id();
+        $props[$this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_RIGHTS_TEMPLATE_ID)] = $rights_templaterightlocation->get_rights_template_id();
+        $props[$this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_LOCATION_ID)] = $rights_templaterightlocation->get_location_id();
         $this->connection->loadModule('Extended');
-        if ($this->connection->extended->autoExecute($this->get_table_name('role_right_location'), $props, MDB2_AUTOQUERY_INSERT))
+        if ($this->connection->extended->autoExecute($this->get_table_name('rights_template_right_location'), $props, MDB2_AUTOQUERY_INSERT))
         {
             return true;
         }
@@ -270,9 +270,9 @@ class DatabaseRightsDataManager extends RightsDataManager
     }
 
     //Inherited.
-    function get_next_role_id()
+    function get_next_rights_template_id()
     {
-        return $this->connection->nextID($this->get_table_name('role'));
+        return $this->connection->nextID($this->get_table_name('rights_template'));
     }
 
     //Inherited.
@@ -330,36 +330,36 @@ class DatabaseRightsDataManager extends RightsDataManager
     }
 
     /**
-     * Parses a database record fetched as an associative array into a role.
+     * Parses a database record fetched as an associative array into a rights_template.
      * @param array $record The associative array.
-     * @return Role The role.
+     * @return RightsTemplate The rights_template.
      */
-    function record_to_role($record)
+    function record_to_rights_template($record)
     {
         if (!is_array($record) || !count($record))
         {
             throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
         }
         $defaultProp = array ();
-        foreach (Role :: get_default_property_names() as $prop)
+        foreach (RightsTemplate :: get_default_property_names() as $prop)
         {
             $defaultProp[$prop] = $record[$prop];
         }
-        return new Role($defaultProp);
+        return new RightsTemplate($defaultProp);
     }
 
-    function record_to_role_right_location($record)
+    function record_to_rights_template_right_location($record)
     {
         if (!is_array($record) || !count($record))
         {
             throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
         }
         $defaultProp = array ();
-        foreach (RoleRightLocation :: get_default_property_names() as $prop)
+        foreach (RightsTemplateRightLocation :: get_default_property_names() as $prop)
         {
             $defaultProp[$prop] = $record[$prop];
         }
-        return new RoleRightLocation($defaultProp);
+        return new RightsTemplateRightLocation($defaultProp);
     }
 
     /**
@@ -425,20 +425,20 @@ class DatabaseRightsDataManager extends RightsDataManager
     }
 
     /**
-     * retrieves the role and right location
+     * retrieves the rights_template and right location
      *
      * @param int $right_id
-     * @param int $role_id
+     * @param int $rights_template_id
      * @param int $location_id
-     * @return RoleRightLocation
+     * @return RightsTemplateRightLocation
      */
-    function retrieve_role_right_location($right_id, $role_id, $location_id)
+    function retrieve_rights_template_right_location($right_id, $rights_template_id, $location_id)
     {
-        $query = 'SELECT * FROM '.$this->escape_table_name('role_right_location');
+        $query = 'SELECT * FROM '.$this->escape_table_name('rights_template_right_location');
         $conditions = array();
 
         $conditions[] = new EqualityCondition('right_id', $right_id);
-        $conditions[] = new EqualityCondition('role_id', $role_id);
+        $conditions[] = new EqualityCondition('rights_template_id', $rights_template_id);
         $conditions[] = new EqualityCondition('location_id', $location_id);
 
         $condition = new AndCondition($conditions);
@@ -459,27 +459,27 @@ class DatabaseRightsDataManager extends RightsDataManager
         {
             $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
             $res->free();
-            return self :: record_to_role_right_location($record);
+            return self :: record_to_rights_template_right_location($record);
         }
         else
         {
             $defaultProperties = array();
 
-            $defaultProperties[RoleRightLocation :: PROPERTY_ROLE_ID] = $role_id;
-            $defaultProperties[RoleRightLocation :: PROPERTY_RIGHT_ID] = $right_id;
-            $defaultProperties[RoleRightLocation :: PROPERTY_LOCATION_ID] = $location_id;
-            $defaultProperties[RoleRightLocation :: PROPERTY_VALUE] = 0;
+            $defaultProperties[RightsTemplateRightLocation :: PROPERTY_RIGHTS_TEMPLATE_ID] = $rights_template_id;
+            $defaultProperties[RightsTemplateRightLocation :: PROPERTY_RIGHT_ID] = $right_id;
+            $defaultProperties[RightsTemplateRightLocation :: PROPERTY_LOCATION_ID] = $location_id;
+            $defaultProperties[RightsTemplateRightLocation :: PROPERTY_VALUE] = 0;
 
-            $rolerightlocation = new RoleRightLocation();
-            $rolerightlocation->set_default_properties($defaultProperties);
-            $rolerightlocation->create();
-            return $rolerightlocation;
+            $rights_templaterightlocation = new RightsTemplateRightLocation();
+            $rights_templaterightlocation->set_default_properties($defaultProperties);
+            $rights_templaterightlocation->create();
+            return $rights_templaterightlocation;
         }
     }
 
-    function retrieve_roles($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+    function retrieve_rights_templates($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
     {
-        $query = 'SELECT * FROM '. $this->escape_table_name('role');
+        $query = 'SELECT * FROM '. $this->escape_table_name('rights_template');
 
         $params = array ();
         if (isset ($condition))
@@ -507,7 +507,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         $this->connection->setLimit(intval($max_objects),intval($offset));
         $statement = $this->connection->prepare($query);
         $res = $statement->execute($params);
-        return new DatabaseRoleResultSet($this, $res);
+        return new DatabaseRightsTemplateResultSet($this, $res);
     }
 
     function retrieve_location($id)
@@ -532,15 +532,15 @@ class DatabaseRightsDataManager extends RightsDataManager
         return self :: record_to_right($record);
     }
 
-    function retrieve_role($id)
+    function retrieve_rights_template($id)
     {
-        $query = 'SELECT * FROM '.$this->escape_table_name('role') . ' WHERE '.$this->escape_column_name(Role :: PROPERTY_ID).'=?';;
+        $query = 'SELECT * FROM '.$this->escape_table_name('rights_template') . ' WHERE '.$this->escape_column_name(RightsTemplate :: PROPERTY_ID).'=?';;
         $this->connection->setLimit(1);
         $statement = $this->connection->prepare($query);
         $res = $statement->execute($id);
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
         $res->free();
-        return self :: record_to_role($record);
+        return self :: record_to_rights_template($record);
     }
 
     function retrieve_rights($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
@@ -631,9 +631,9 @@ class DatabaseRightsDataManager extends RightsDataManager
         return $record[0];
     }
 
-    function count_roles($condition = null)
+    function count_rights_templates($condition = null)
     {
-        $query = 'SELECT COUNT(*) FROM '.$this->escape_table_name('role');
+        $query = 'SELECT COUNT(*) FROM '.$this->escape_table_name('rights_template');
 
         $params = array();
 
@@ -920,43 +920,43 @@ class DatabaseRightsDataManager extends RightsDataManager
         return true;
     }
 
-    function update_role($role)
+    function update_rights_template($rights_template)
     {
-        $where = $this->escape_column_name(Role :: PROPERTY_ID).'='.$role->get_id();
+        $where = $this->escape_column_name(RightsTemplate :: PROPERTY_ID).'='.$rights_template->get_id();
         $props = array();
-        foreach ($role->get_default_properties() as $key => $value)
+        foreach ($rights_template->get_default_properties() as $key => $value)
         {
             $props[$this->escape_column_name($key)] = $value;
         }
         $this->connection->loadModule('Extended');
-        $this->connection->extended->autoExecute($this->get_table_name('role'), $props, MDB2_AUTOQUERY_UPDATE, $where);
+        $this->connection->extended->autoExecute($this->get_table_name('rights_template'), $props, MDB2_AUTOQUERY_UPDATE, $where);
         return true;
     }
 
-    function delete_role($role)
+    function delete_rights_template($rights_template)
     {
-    // Delete all role_right_locations for that specific role
-        $condition = new EqualityCondition(RoleRightLocation :: PROPERTY_ROLE_ID, $role->get_id());
-        $this->delete_role_right_locations($condition);
+    // Delete all rights_template_right_locations for that specific rights_template
+        $condition = new EqualityCondition(RightsTemplateRightLocation :: PROPERTY_RIGHTS_TEMPLATE_ID, $rights_template->get_id());
+        $this->delete_rights_template_right_locations($condition);
 
-        // Delete all links between this role and users
+        // Delete all links between this rights_template and users
         // Code comes here ...
         $udm = UserDataManager :: get_instance();
 
-        $condition = new EqualityCondition(UserRole :: PROPERTY_ROLE_ID, $role->get_id());
-        $udm->delete_user_roles($condition);
+        $condition = new EqualityCondition(UserRightsTemplate :: PROPERTY_RIGHTS_TEMPLATE_ID, $rights_template->get_id());
+        $udm->delete_user_rights_templates($condition);
 
-        // Delete all links between this role and groups
+        // Delete all links between this rights_template and groups
         // Code comes here ...
         $gdm = GroupDataManager :: get_instance();
 
-        $condition = new EqualityCondition(GroupRole :: PROPERTY_ROLE_ID, $role->get_id());
-        $gdm->delete_group_roles($condition);
+        $condition = new EqualityCondition(GroupRightsTemplate :: PROPERTY_RIGHTS_TEMPLATE_ID, $rights_template->get_id());
+        $gdm->delete_group_rights_templates($condition);
 
-        // Delete the actual role
-        $query = 'DELETE FROM '.$this->escape_table_name('role').' WHERE '.$this->escape_column_name(Role :: PROPERTY_ID).'=?';
+        // Delete the actual rights_template
+        $query = 'DELETE FROM '.$this->escape_table_name('rights_template').' WHERE '.$this->escape_column_name(RightsTemplate :: PROPERTY_ID).'=?';
         $sth = $this->connection->prepare($query);
-        $res = $sth->execute(array($role->get_id()));
+        $res = $sth->execute(array($rights_template->get_id()));
 
         return true;
     }
@@ -966,24 +966,24 @@ class DatabaseRightsDataManager extends RightsDataManager
         return $this->database->delete_objects(Location :: get_table_name(), $condition);
     }
 
-    function delete_orphaned_role_right_locations()
+    function delete_orphaned_rights_template_right_locations()
     {
-        $query = 'DELETE FROM '.$this->escape_table_name('role_right_location').' WHERE ';
-        $query .= $this->escape_column_name(RoleRightLocation :: PROPERTY_LOCATION_ID).' NOT IN (SELECT '.$this->escape_column_name(Location :: PROPERTY_ID).' FROM '.$this->escape_table_name('location').') OR ';
-        $query .= $this->escape_column_name(RoleRightLocation :: PROPERTY_ROLE_ID).' NOT IN (SELECT '.$this->escape_column_name(Role :: PROPERTY_ID).' FROM '.$this->escape_table_name('role').')';
+        $query = 'DELETE FROM '.$this->escape_table_name('rights_template_right_location').' WHERE ';
+        $query .= $this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_LOCATION_ID).' NOT IN (SELECT '.$this->escape_column_name(Location :: PROPERTY_ID).' FROM '.$this->escape_table_name('location').') OR ';
+        $query .= $this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_RIGHTS_TEMPLATE_ID).' NOT IN (SELECT '.$this->escape_column_name(RightsTemplate :: PROPERTY_ID).' FROM '.$this->escape_table_name('rights_template').')';
         $sth = $this->connection->prepare($query);
         return $sth->execute();
     }
 
-    function retrieve_shared_learning_objects($roles,$rights)
+    function retrieve_shared_learning_objects($rights_templates,$rights)
     {        
-        $query = 'SELECT * FROM '. $this->escape_table_name('role_right_location');
+        $query = 'SELECT * FROM '. $this->escape_table_name('rights_template_right_location');
 
         $subcondition = new EqualityCondition(Location :: PROPERTY_TYPE, 'learning_object');
         $conditions[] = new SubSelectcondition('location_id', Location :: PROPERTY_ID, $this->escape_table_name('location'), $subcondition);
-        $conditions[] = new InCondition(RoleRightLocation :: PROPERTY_ROLE_ID,$roles);
-        $conditions[] = new InCondition(RoleRightLocation :: PROPERTY_RIGHT_ID,$rights);
-        $conditions[] = new EqualityCondition(RoleRightLocation :: PROPERTY_VALUE,1);
+        $conditions[] = new InCondition(RightsTemplateRightLocation :: PROPERTY_RIGHTS_TEMPLATE_ID,$rights_templates);
+        $conditions[] = new InCondition(RightsTemplateRightLocation :: PROPERTY_RIGHT_ID,$rights);
+        $conditions[] = new EqualityCondition(RightsTemplateRightLocation :: PROPERTY_VALUE,1);
 
         $condition = new AndCondition($conditions);
 
@@ -996,7 +996,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 //        $this->connection->setLimit(intval($max_objects),intval($offset));
         $statement = $this->connection->prepare($query);
         $res = $statement->execute($params);
-        return new DatabaseRoleRightLocationResultSet($this, $res);
+        return new DatabaseRightsTemplateRightLocationResultSet($this, $res);
     }
 }
 ?>
