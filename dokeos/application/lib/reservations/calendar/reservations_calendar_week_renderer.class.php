@@ -231,10 +231,13 @@ class ReservationsCalendarWeekRenderer extends ReservationsCalendarRenderer
 			$start_date = DokeosUtilities :: time_from_datepicker($block['start_date']);
 			$end_date = DokeosUtilities :: time_from_datepicker($block['stop_date']);
 			$difference = $start_date - $prev_stop_date;
+			
+			$title = date('H:i',$start_date) . '-' . date('H:i',$end_date);
+			
 			if($difference > 0)
 			{
 				$width_block = ($difference / 7200) * 100;
-				$html[] = '<div style="float:left; position: relative; width: ' . $width_block . '%; height: 100%;">';
+				$html[] = '<div title="' . $title . '" style="float:left; position: relative; width: ' . $width_block . '%; height: 100%;">';
 				$html[] = '</div>';
 				$prev_stop_date = $start_date;
 			}
@@ -254,7 +257,7 @@ class ReservationsCalendarWeekRenderer extends ReservationsCalendarRenderer
 				$cursor = null;
 			}
 			
-			$html[] = '<div' . $link  . ' style="'. $cursor . 'float:left; position: relative; width: ' . $width . '%; height: 100%; background-color: '.$this->get_color(Translation :: get($block['type'])).';">';
+			$html[] = '<div title="' . $title . '"' . $link  . ' style="'. $cursor . 'float:left; position: relative; width: ' . $width . '%; height: 100%; background-color: '.$this->get_color(Translation :: get($block['type'])).';">';
 			$html[] = '</div>';
 			
 			$prev_stop_date = $end_date;
