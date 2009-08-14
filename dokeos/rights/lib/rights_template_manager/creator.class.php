@@ -8,7 +8,7 @@ require_once Path :: get_rights_path() . 'lib/forms/role_form.class.php';
 require_once Path :: get_rights_path() . 'lib/rights_data_manager.class.php';
 require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 
-class RightsManagerRoleCreatorComponent extends UserManagerComponent
+class RightsTemplateManagerCreatorComponent extends RightsTemplateManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.

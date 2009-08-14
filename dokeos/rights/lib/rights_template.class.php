@@ -34,7 +34,7 @@ require_once Path :: get_common_path() . 'data_class.class.php';
  *	@author Dieter De Neef
  */
 
-class Role extends DataClass
+class RightsTemplate extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 	const PROPERTY_NAME = 'name';

@@ -3,7 +3,7 @@ require_once dirname(__FILE__).'/../rights_manager.class.php';
 require_once dirname(__FILE__).'/../rights_manager_component.class.php';
 require_once dirname(__FILE__).'/role_browser_table/role_browser_table.class.php';
 
-class RightsManagerRoleDeleterComponent extends RightsManagerComponent
+class RightsTemplateManagerDeleterComponent extends RightsTemplateManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
