@@ -652,12 +652,13 @@ class User extends DataClass
 	{
 		$gdm = GroupDataManager :: get_instance();
 		
-		$groups = $gdm->retrieve_user_groups($this->get_id());
+		$user_groups = $gdm->retrieve_user_groups($this->get_id());
 		
 		$group_ids = array();
-		while($group = $groups->next_result())
+		while($user_group = $user_groups->next_result())
 		{
-			$group_ids[] = $group->get_group_id();
+			$group_ids[] = $user_group->get_group_id();
+			$group = $gdm->retrieve_group($user_group->get_group_id());
 			$subgroups = $group->get_parents(false);
     		
     		while ($subgroup = $subgroups->next_result())
