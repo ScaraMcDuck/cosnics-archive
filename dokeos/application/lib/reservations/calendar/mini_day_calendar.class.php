@@ -17,16 +17,23 @@ class MiniDayCalendar extends CalendarTable
 	 * The number of hours for one table cell.
 	 */
 	private $hour_step;
+	
+	
+	private $item_list;
+	
+	private $events;
+	
 	/**
 	 * Creates a new week calendar
 	 * @param int $display_time A time in the week to be displayed
 	 * @param int $hour_step The number of hours for one table cell. Defaults to
 	 * 2.
 	 */
-	function MiniDayCalendar($display_time,$hour_step = 2)
+	function MiniDayCalendar($display_time,$hour_step = 2, $item_list = array())
 	{
 		$this->navigation_html = '';
 		$this->hour_step = $hour_step;
+		$this->item_list = $item_list;
 		parent::CalendarTable($display_time);
 		$this->build_table();
 	}
@@ -61,14 +68,7 @@ class MiniDayCalendar extends CalendarTable
 	 */
 	private function build_table()
 	{
-		// Go 1 week back end them jump to the next monday to reach the first day of this week
-		$first_day = $this->get_start_time();
-
-		for($day = 0; $day < 1; $day++)
-		{
-			$week_day = strtotime('+'.$day.' days',$first_day);
-			$this->setCellContents($day+1, 0, Translation :: get(date('l',$week_day).'Long'));
-		}
+		$this->build_row_titles();
 		
 		$this->updateColAttributes(0, 'class="week_hours"');
 		$this->updateColAttributes(0,'style="height: 15px; width: 10px;"');
@@ -82,30 +82,39 @@ class MiniDayCalendar extends CalendarTable
 		$this->setColType(0,'th');
 	}
 	
+	private function build_row_titles()
+	{
+		foreach($this->item_list as $index => $item)
+			$this->setCellContents($index + 1, 0, $item->get_name());
+	}
+	
 	/**
 	 * Adds the events to the calendar
 	 */
 	private function add_events()
 	{
-		$events = $this->get_events_to_show();
+		$events = $this->events;
 		foreach ($events as $time => $items)
 		{
-			
 			$column = date('H',$time)/$this->hour_step +1;
-			$row = 1;
-			if($row == 0)
-			{
-				$row = 7;
-			}
 			foreach ($items as $item)
-			{
+			{ 
+				$content = $item['content'];
+				$row = $item['index'] + 1;
+	
 				$cell_content = $this->getCellContents($row, $column);
-				$cell_content .= $item;
+				$cell_content .= $content;
 				$this->setCellContents($row, $column, $cell_content);
 			}
 		}
 
 	}
+	
+	function add_event($item_index, $table_date, $content)
+	{
+		$this->events[$table_date][] = array('index' => $item_index, 'content' => $content);
+	}
+	
 	/**
 	 * Adds a navigation bar to the calendar
 	 * @param string $url_format The *TIME* in this string will be replaced by a

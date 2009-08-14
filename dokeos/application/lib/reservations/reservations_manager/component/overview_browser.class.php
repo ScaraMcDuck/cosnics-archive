@@ -20,6 +20,7 @@ class ReservationsManagerOverviewBrowserComponent extends ReservationsManagerCom
 	{ 
 		//Header
 		$trail = new BreadCrumbTrail();
+		$trail->add(new BreadCrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
 		$trail->add(new BreadCrumb($this->get_url(), Translation :: get('Statistics')));
 		
 		$this->display_header($trail);
@@ -109,19 +110,17 @@ class ReservationsManagerOverviewBrowserComponent extends ReservationsManagerCom
 		if($overview_items->size() == 0)
 			$this->display_message(Translation :: get('NoItemsSelected'));
 		
+		$ids = array();
+			
 		while($overview_item = $overview_items->next_result())
 		{
-			$item = $this->retrieve_items(new EqualityCondition(Item :: PROPERTY_ID, $overview_item->get_item_id()))->next_result();
-			if(!$item) continue;
-			
-			echo '<h3>' . $item->get_name() . '</h3>';
-			
-			$time = Request :: get('time');
-			$time = $time ? $time : time();
-			$calendar = new ReservationsCalendarDayRenderer($this, $time);
-			echo $calendar->render($overview_item->get_item_id());
-			echo '<div class="clear">&nbsp;</div><br />';
+			$ids[] = $overview_item->get_item_id(); 
 		}
+		
+		$time = Request :: get('time');
+		$time = $time ? $time : time();
+		$calendar = new ReservationsCalendarDayRenderer($this, $time);
+		echo $calendar->render($ids);
 	}
 
 }

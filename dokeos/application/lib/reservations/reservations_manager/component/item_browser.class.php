@@ -22,7 +22,7 @@ class ReservationsManagerItemBrowserComponent extends ReservationsManagerCompone
 	{
 		$trail = new BreadCrumbTrail();
 		$trail->add(new BreadCrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
-		$trail->add(new BreadCrumb($this->get_url(), Translation :: get('View items')));
+		$trail->add(new BreadCrumb($this->get_url(), Translation :: get('ViewItems')));
 		
 		$this->ab = $this->get_action_bar();
 		$menu = new ReservationsMenu($_GET[ReservationsManager :: PARAM_CATEGORY_ID], '?application=reservations&go=browse_items&category_id=%s');

@@ -14,202 +14,215 @@ class ReservationsCalendarDayRenderer extends ReservationsCalendarRenderer
 	/**
 	 * @see PersonalCalendarRenderer::render()
 	 */
-	public function render($item_id = null)
+	public function render($ids = null)
 	{
-		if(!$item_id) $item_id = Request :: get('item_id');
-		$calendar = new MiniDayCalendar($this->get_time(), 2);
+		if(!is_array($ids) || count($ids) == 0)
+			return;
+
+		$item_list = array(); 
+		$rdm = ReservationsDataManager :: get_instance();
+		$items = $rdm->retrieve_items(new InCondition(Item :: PROPERTY_ID, $ids));
+		while($item = $items->next_result())
+		{
+			$item_list[] = $item;
+		}
+			
+		$calendar = new MiniDayCalendar($this->get_time(), 2, $item_list);
 		$from_date = strtotime(date('Y-m-d 00:00:00', $this->get_time()));
 		$to_date = strtotime('-1 Second', strtotime('+1 Day', $from_date));
 		$now = time();
 		$html = array ();
 		
-		$base = $this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_CREATE_SUBSCRIPTION));
-
 		$db_from = DokeosUtilities :: to_db_date($from_date);
 		$db_to = DokeosUtilities :: to_db_date($to_date);
 		
-		$rdm = ReservationsDataManager :: get_instance();
-		$item = $rdm->retrieve_items(new EqualityCondition(Item :: PROPERTY_ID, $item_id))->next_result();
-		
-		if($item->get_blackout() == 1)
-		{ 
-			$times[] = array(
-					'start_date' => date("Y-m-d H:i", $from_date),
-					'stop_date' => date("Y-m-d H:i", $to_date),
-					'type' => 'Blackout'
-				);
-		}
-		else
+		foreach($item_list as $index => $item)
 		{
-		$bool = true;
-		
-		if(!$this->get_parent()->has_right('item', $item->get_id(), ReservationsRights :: VIEW_RIGHT))
-			$bool = false;
-
-		
-		$conditions[] = $rdm->get_reservations_condition($db_from, $db_to, $item_id);
-		$conditions[] = new EqualityCondition(Reservation :: PROPERTY_STATUS, Reservation :: STATUS_NORMAL);
-		$condition = new AndCondition($conditions);
-		
-		$reservations = $rdm->retrieve_reservations($condition);
-		//$reservations = $rdm->retrieve_reservations($rdm->get_reservations_condition($db_from, $db_to, $item_id));
-		while($reservation = $reservations->next_result())
-		{
-			$end_time = DokeosUtilities :: time_from_datepicker($reservation->get_stop_date());
-			$url = $base . '&reservation_id=' . $reservation->get_id();
+			$times = array();
 			
-			if($now > $end_time)
-			{
+			if($item->get_blackout() == 1)
+			{ 
 				$times[] = array(
-					'start_date' => $reservation->get_start_date(),
-					'stop_date' => $reservation->get_stop_date(),
-					'type' => 'Outofperiod'
-				);
+						'start_date' => date("Y-m-d H:i", $from_date),
+						'stop_date' => date("Y-m-d H:i", $to_date),
+						'type' => 'Blackout',
+						'item' => $index
+					);
 			}
 			else
 			{
-				$conditions = array();
-				$conditions[] = new EqualityCondition(Subscription :: PROPERTY_RESERVATION_ID, $reservation->get_id());
-				$conditions[] = new EqualityCondition(Subscription :: PROPERTY_STATUS, Subscription :: STATUS_NORMAL);
-				$condition = new AndCondition($conditions);
+	
+			$conditions = array();
+			$conditions[] = $rdm->get_reservations_condition($db_from, $db_to, $item->get_id());
+			$conditions[] = new EqualityCondition(Reservation :: PROPERTY_STATUS, Reservation :: STATUS_NORMAL);
+			$condition = new AndCondition($conditions);
+			
+			$reservations = $rdm->retrieve_reservations($condition);
+			//$reservations = $rdm->retrieve_reservations($rdm->get_reservations_condition($db_from, $db_to, $item_id));
+			while($reservation = $reservations->next_result())
+			{
+				$end_time = DokeosUtilities :: time_from_datepicker($reservation->get_stop_date());
 				
-				$subscriptions = $rdm->retrieve_subscriptions($condition);
-				if($reservation->get_type() != Reservation :: TYPE_TIMEPICKER)
+				if($now > $end_time)
 				{
-					if($subscriptions->size() == 0 || $subscriptions->size() < $reservation->get_max_users())
-					{
-						$times[] = array(
-							'start_date' => $reservation->get_start_date(),
-							'stop_date' => $reservation->get_stop_date(),
-							'type' => 'OpenReservation',
-						);
-					}
-					else
-					{
-						$times[] = array(
-							'start_date' => $reservation->get_start_date(),
-							'stop_date' => $reservation->get_stop_date(),
-							'type' => 'Reserved'
-						);
-					}
-					
+					$times[] = array(
+						'start_date' => $reservation->get_start_date(),
+						'stop_date' => $reservation->get_stop_date(),
+						'type' => 'Outofperiod',
+						'item' => $index
+					);
 				}
 				else
 				{
+					$conditions = array();
+					$conditions[] = new EqualityCondition(Subscription :: PROPERTY_RESERVATION_ID, $reservation->get_id());
+					$conditions[] = new EqualityCondition(Subscription :: PROPERTY_STATUS, Subscription :: STATUS_NORMAL);
+					$condition = new AndCondition($conditions);
 					
-					if($subscriptions->size() == 0)
+					$subscriptions = $rdm->retrieve_subscriptions($condition);
+					if($reservation->get_type() != Reservation :: TYPE_TIMEPICKER)
 					{
-						$times[] = array(
-							'start_date' => $reservation->get_start_date(),
-							'stop_date' => $reservation->get_stop_date(),
-							'type' => 'Timepicker',
-						);
+						if($subscriptions->size() == 0 || $subscriptions->size() < $reservation->get_max_users())
+						{
+							$times[] = array(
+								'start_date' => $reservation->get_start_date(),
+								'stop_date' => $reservation->get_stop_date(),
+								'type' => 'OpenReservation',
+								'item' => $index
+							);
+						}
+						else
+						{
+							$times[] = array(
+								'start_date' => $reservation->get_start_date(),
+								'stop_date' => $reservation->get_stop_date(),
+								'type' => 'Reserved',
+								'item' => $index
+							);
+						}
+						
 					}
 					else
 					{
-						$subs = array();
 						
-						while($subscription = $subscriptions->next_result())
+						if($subscriptions->size() == 0)
 						{
-							$subs[$subscription->get_start_time()] = $subscription->get_stop_time();
+							$times[] = array(
+								'start_date' => $reservation->get_start_date(),
+								'stop_date' => $reservation->get_stop_date(),
+								'type' => 'Timepicker',
+								'item' => $index
+							);
 						}
-						
-						ksort($subs, SORT_STRING);
-						
-						$previous_stop = $reservation->get_start_date();
-						
-						foreach($subs as $start => $stop)
+						else
 						{
-							$previous_stop_time = DokeosUtilities :: time_from_datepicker($previous_stop);
-							$start_time = DokeosUtilities :: time_from_datepicker($start);
-//							$stop_time = DokeosUtilities :: time_from_datepicker($stop);
+							$subs = array();
 							
-							if(($difference = ($start_time - $previous_stop_time)) > 0)
+							while($subscription = $subscriptions->next_result())
+							{
+								$subs[$subscription->get_start_time()] = $subscription->get_stop_time();
+							}
+							
+							ksort($subs, SORT_STRING);
+							
+							$previous_stop = $reservation->get_start_date();
+							
+							foreach($subs as $start => $stop)
+							{
+								$previous_stop_time = DokeosUtilities :: time_from_datepicker($previous_stop);
+								$start_time = DokeosUtilities :: time_from_datepicker($start);
+	//							$stop_time = DokeosUtilities :: time_from_datepicker($stop);
+								
+								if(($difference = ($start_time - $previous_stop_time)) > 0)
+								{
+									if($difference > ($reservation->get_timepicker_min() * 60))
+									{
+										$times[] = array(
+											'start_date' => $previous_stop,
+											'stop_date' => $start,
+											'type' => 'Timepicker',
+											'item' => $index
+										);
+									}
+									else
+									{
+										$times[] = array(
+											'start_date' => $previous_stop,
+											'stop_date' => $start,
+											'type' => 'TimepickerToSmall',
+											'item' => $index
+										);
+									}
+								}
+								
+								$times[] = array(
+									'start_date' => $start,
+									'stop_date' => $stop,
+									'type' => 'Reserved',
+									'item' => $index
+								);
+	
+								$previous_stop = $stop;
+								
+							}
+							
+							
+							$previous_stop_time = DokeosUtilities :: time_from_datepicker($previous_stop);
+							if(($difference = ($end_time - $previous_stop_time)) > 0)
 							{
 								if($difference > ($reservation->get_timepicker_min() * 60))
 								{
 									$times[] = array(
 										'start_date' => $previous_stop,
-										'stop_date' => $start,
+										'stop_date' => $reservation->get_stop_date(),
 										'type' => 'Timepicker',
+										'item' => $index
 									);
 								}
 								else
 								{
 									$times[] = array(
 										'start_date' => $previous_stop,
-										'stop_date' => $start,
+										'stop_date' => $reservation->get_stop_date(),
 										'type' => 'TimepickerToSmall',
+										'item' => $index
 									);
 								}
+								
 							}
-							
-							$times[] = array(
-								'start_date' => $start,
-								'stop_date' => $stop,
-								'type' => 'Reserved',
-							);
-
-							$previous_stop = $stop;
-							
-						}
-						
-						
-						$previous_stop_time = DokeosUtilities :: time_from_datepicker($previous_stop);
-						if(($difference = ($end_time - $previous_stop_time)) > 0)
-						{
-							if($difference > ($reservation->get_timepicker_min() * 60))
-							{
-								$times[] = array(
-									'start_date' => $previous_stop,
-									'stop_date' => $reservation->get_stop_date(),
-									'type' => 'Timepicker',
-								);
-							}
-							else
-							{
-								$times[] = array(
-									'start_date' => $previous_stop,
-									'stop_date' => $reservation->get_stop_date(),
-									'type' => 'TimepickerToSmall',
-								);
-							}
-							
 						}
 					}
 				}
-			}
-		}}
-
-			
-		$html = array();
+			}} 
 		
-		$start_time = $calendar->get_start_time();
-		$end_time = $calendar->get_end_time();
-		$table_date = $start_time;
+			$start_time = $calendar->get_start_time();
+			$end_time = $calendar->get_end_time();
+			$table_date = $start_time;
 		
-		while($table_date <= $to_date)
-		{
-			$next_table_date = strtotime('+'.$calendar->get_hour_step().' Hours',$table_date);
-			$blocks = array();
-			foreach($times as $time)
-			{ 
-				$start_date = DokeosUtilities :: time_from_datepicker($time['start_date']);
-				$end_date = DokeosUtilities :: time_from_datepicker($time['stop_date']);
-				if ($table_date < $start_date && $start_date < $next_table_date || $table_date <= $end_date && $end_date <= $next_table_date || $start_date <= $table_date && $next_table_date <= $end_date)
-				{ 
-					$blocks[] = $time;
+			while($table_date <= $to_date)
+			{
+				$next_table_date = strtotime('+'.$calendar->get_hour_step().' Hours',$table_date);
+				$blocks = array();
+				foreach($times as $time)
+				{
+					$start_date = DokeosUtilities :: time_from_datepicker($time['start_date']);
+					$end_date = DokeosUtilities :: time_from_datepicker($time['stop_date']);
+					if ($table_date < $start_date && $start_date < $next_table_date || $table_date <= $end_date && $end_date <= $next_table_date || $start_date <= $table_date && $next_table_date <= $end_date)
+					{ 
+						$blocks[] = $time;
+					}
 				}
+				
+				$content = $this->render_cell($blocks, $table_date, $calendar->get_hour_step());
+				$calendar->add_event($index, $table_date, $content);
+				
+				$table_date = $next_table_date;
 			}
-			
-			$content = $this->render_cell($blocks, $table_date, $calendar->get_hour_step());
-			$calendar->add_event($table_date, $content);
-			
-			$table_date = $next_table_date;
 		}
 		
+		$html = array();
+		
 		$parameters['time'] = '-TIME-';
-		$parameters['item_id'] = $item_id;
 		$calendar->add_calendar_navigation($this->get_parent()->get_url($parameters));
 		$html = $calendar->toHtml();
 		$html .= $this->build_legend();
