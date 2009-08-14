@@ -4,12 +4,12 @@
  * @package application.personal_calendar
  */
 require_once (dirname(__FILE__).'/reservations_calendar_renderer.class.php');
-require_once (Path :: get_application_library_path() . 'mini_week_calendar.class.php');
+require_once (dirname(__FILE__).'/mini_day_calendar.class.php');
 /**
  * This personal calendar renderer provides a tabular week view of the events in
  * the calendar.
  */
-class ReservationsCalendarWeekRenderer extends ReservationsCalendarRenderer
+class ReservationsCalendarDayRenderer extends ReservationsCalendarRenderer
 {
 	/**
 	 * @see PersonalCalendarRenderer::render()
@@ -17,9 +17,9 @@ class ReservationsCalendarWeekRenderer extends ReservationsCalendarRenderer
 	public function render($item_id = null)
 	{
 		if(!$item_id) $item_id = Request :: get('item_id');
-		$calendar = new MiniWeekCalendar($this->get_time(), 2);
-		$from_date = strtotime('Last Monday', strtotime('+1 Day',strtotime(date('Y-m-d', $this->get_time()))));
-		$to_date = strtotime('-1 Second', strtotime('Next Week', $from_date));
+		$calendar = new MiniDayCalendar($this->get_time(), 2);
+		$from_date = strtotime(date('Y-m-d 00:00:00', $this->get_time()));
+		$to_date = strtotime('-1 Second', strtotime('+1 Day', $from_date));
 		$now = time();
 		$html = array ();
 		
@@ -82,7 +82,6 @@ class ReservationsCalendarWeekRenderer extends ReservationsCalendarRenderer
 							'start_date' => $reservation->get_start_date(),
 							'stop_date' => $reservation->get_stop_date(),
 							'type' => 'OpenReservation',
-							'url' => $bool? $url:''
 						);
 					}
 					else
@@ -104,7 +103,6 @@ class ReservationsCalendarWeekRenderer extends ReservationsCalendarRenderer
 							'start_date' => $reservation->get_start_date(),
 							'stop_date' => $reservation->get_stop_date(),
 							'type' => 'Timepicker',
-							'url' => $bool? $url:''
 						);
 					}
 					else
@@ -134,7 +132,6 @@ class ReservationsCalendarWeekRenderer extends ReservationsCalendarRenderer
 										'start_date' => $previous_stop,
 										'stop_date' => $start,
 										'type' => 'Timepicker',
-										'url' => $bool? $url:''
 									);
 								}
 								else
@@ -167,7 +164,6 @@ class ReservationsCalendarWeekRenderer extends ReservationsCalendarRenderer
 									'start_date' => $previous_stop,
 									'stop_date' => $reservation->get_stop_date(),
 									'type' => 'Timepicker',
-									'url' => $bool? $url:''
 								);
 							}
 							else
