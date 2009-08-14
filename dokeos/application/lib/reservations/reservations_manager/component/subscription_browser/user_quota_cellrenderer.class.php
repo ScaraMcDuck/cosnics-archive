@@ -9,9 +9,21 @@ class UserQuotaCellRenderer
 		$this->browser = $browser;
 	}
 
-	function render_cell($property, $user_quota)
+	function render_cell($index, $user_quota)
 	{
-		return $user_quota[$property];
+		switch($index)
+		{
+			case 0: $data = $user_quota['days']; break;
+			case 1: $data = $user_quota['max_credits']; break;
+			case 2: $data = $user_quota['used_credits']; break;
+		}
+        
+        if (is_null($data))
+        {
+            $data = '-';
+        }
+        
+        return $data;
 	}
 
 	function get_properties()
