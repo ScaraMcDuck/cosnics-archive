@@ -83,7 +83,7 @@ class ReservationsManager extends WebApplication
 	const ACTION_UPDATE_CATEGORY_QUOTA_BOX = 'update_category_box';
 	const ACTION_DELETE_CATEGORY_QUOTA_BOX = 'delete_category_box';
 	
-	const ACTION_RESPONSIBLE_OVERVIEW = 'overview';
+	const ACTION_OVERVIEW = 'overview';
 	const ACTION_MANAGE_OVERVIEW = 'manage_overview';
 	
 	const ACTION_EDIT_RIGHTS = 'edit_rights';
@@ -229,8 +229,8 @@ class ReservationsManager extends WebApplication
 			case self :: ACTION_DELETE_CATEGORY_QUOTA_BOX :
 				$component = ReservationsManagerComponent :: factory('CategoryQuotaBoxDeleter', $this);
 				break;
-			case self :: ACTION_RESPONSIBLE_OVERVIEW :
-				$component = ReservationsManagerComponent :: factory('ResponsibleOverview', $this);
+			case self :: ACTION_OVERVIEW :
+				$component = ReservationsManagerComponent :: factory('OverviewBrowser', $this);
 				break;
 			case self :: ACTION_MANAGE_OVERVIEW :
 				$component = ReservationsManagerComponent :: factory('ManageOverview', $this);
@@ -271,7 +271,7 @@ class ReservationsManager extends WebApplication
 
 		$html[] = '<li class="tool_list_menu title">' . Translation :: get('Use') . '</li>';
 		$html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_browser.png)"><a href="' . $this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_SUBSCRIPTIONS)) . '">' . Translation :: get('MyReservations') . '</a></li>';
-		$html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_statistics.png)"><a href="' . $this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_RESPONSIBLE_OVERVIEW)) . '">' . Translation :: get('Statistics') . '</a></li>';
+		$html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_statistics.png)"><a href="' . $this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_OVERVIEW)) . '">' . Translation :: get('Statistics') . '</a></li>';
 		
 		$html[] = '<div class="splitter"></div>';
 		

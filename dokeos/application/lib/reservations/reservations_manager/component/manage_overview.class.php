@@ -16,7 +16,7 @@ class ReservationsManagerManageOverviewComponent extends ReservationsManagerComp
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_RESPONSIBLE_OVERVIEW)), Translation :: get('Statistics')));
+		$trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_OVERVIEW)), Translation :: get('Statistics')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ManageItems')));
 
 		$user = $this->get_user();
@@ -32,7 +32,7 @@ class ReservationsManagerManageOverviewComponent extends ReservationsManagerComp
 		if($form->validate())
 		{
 			$success = $form->update_overview();
-			$this->redirect(Translation :: get($success ? 'StatisticsListUpdated' : 'StatisticsListNotUpdated'), ($success ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_RESPONSIBLE_OVERVIEW));
+			$this->redirect(Translation :: get($success ? 'StatisticsListUpdated' : 'StatisticsListNotUpdated'), ($success ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_OVERVIEW));
 		}
 		else
 		{
