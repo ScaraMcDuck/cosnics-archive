@@ -46,7 +46,8 @@ class SubscriptionForm extends FormValidator
 
     function build_block_form()
     {	
-		$this->addElement('html', sprintf(Translation :: get('Confirm'),$this->reservation->get_start_date(),
+		//Please confirm your reservation from <b>%s</b> untill <b>%s</b> for item <b>%s</b>.
+    	$this->addElement('html', sprintf(Translation :: get('ConfirmSubscription'),$this->reservation->get_start_date(),
 						  $this->reservation->get_stop_date(), $this->item->get_name()));
 		
 		$start = $this->reservation->get_stop_date();
