@@ -39,9 +39,6 @@
 	<event name="approve_subscription">
 		<tracker name="reservations_changes" />
 	</event>
-	<event name="deny_subscription">
-		<tracker name="reservations_changes" />
-	</event>
 	<event name="create_quota">
 		<tracker name="reservations_changes" />
 	</event>
@@ -61,9 +58,6 @@
 		<tracker name="reservations_changes" />
 	</event>
 	<event name="create_quota_box_category">
-		<tracker name="reservations_changes" />
-	</event>
-	<event name="update_quota_box_category">
 		<tracker name="reservations_changes" />
 	</event>
 	<event name="delete_quota_box_category">

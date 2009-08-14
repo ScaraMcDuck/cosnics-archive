@@ -38,8 +38,15 @@ class ReservationsManagerSubscriptionDeleterComponent extends ReservationsManage
     			$subscriptions = $this->retrieve_subscriptions(new EqualityCondition(Subscription :: PROPERTY_ID, $id));
     			$subscription = $subscriptions->next_result();
 
-    			$subscription->set_status(Subscription :: STATUS_DELETED);
-    			if(!$subscription->update()) $bool = false;
+    			/*$subscription->set_status(Subscription :: STATUS_DELETED);*/
+    			if(!$subscription->delete()) 
+    			{
+    				$bool = false;
+    			}
+    			else 
+    			{
+    				Events :: trigger_event('delete_subscription', 'reservations', array('target_id' => $id, 'user_id' => $this->get_user_id()));
+    			}
     			
     			$subscriptionuser = new SubscriptionUser();
     			$subscriptionuser->set_subscription_id($subscription->get_id());

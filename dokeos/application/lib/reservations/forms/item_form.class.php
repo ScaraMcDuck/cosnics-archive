@@ -109,7 +109,12 @@ class ItemForm extends FormValidator {
 		
 		//$item->set_salto_id($this->exportValue(Item :: PROPERTY_SALTO_ID));
 		
-		return $item->create();
+		$succes = $item->create();
+		
+		if($succes)
+			Events :: trigger_event('create_item', 'reservations', array('target_id' => $item->get_id(), 'user_id' => $this->user->get_id()));
+		
+		return $succes;
 	}
 
     function update_item()
@@ -127,7 +132,12 @@ class ItemForm extends FormValidator {
 		
 		//$item->set_salto_id($this->exportValue(Item :: PROPERTY_SALTO_ID));
 		
-		return $item->update();
+		$succes = $item->update();
+		
+		if($succes)
+			Events :: trigger_event('update_item', 'reservations', array('target_id' => $item->get_id(), 'user_id' => $this->user->get_id()));
+		
+		return $succes;
     }
 
 	/**

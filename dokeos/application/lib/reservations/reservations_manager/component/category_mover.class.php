@@ -53,6 +53,9 @@ class ReservationsManagerCategoryMoverComponent extends ReservationsManagerCompo
 		{
 			$sucess = false;
 		}
+		
+		Events :: trigger_event('move_category', 'reservations', array('target_id' => $category_id, 'user_id' => $this->get_user_id()));
+		
 		$this->redirect(Translation :: get($sucess ? 'CategoryMoved' : 'CategoryNotMoved'), ($sucess ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_CATEGORIES, ReservationsManager :: PARAM_CATEGORY_ID => $category->get_parent()));
 	}
 }

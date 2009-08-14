@@ -119,6 +119,18 @@ class Category extends DataClass
 		return ReservationsDataManager :: get_instance();
 	}
 	
+	function delete()
+	{
+		$succes = parent :: delete();
+		$categories = $this->retrieve_sub_categories($this->get_id(), true);
+		foreach($categories as $category)
+		{
+			$succes &= $category->delete();
+		}
+		
+		return $succes;
+	}
+	
 	static function retrieve_sub_categories($category_id, $recursive = false)
 	{
 		$rdm = ReservationsDataManager :: get_instance();

@@ -19,7 +19,7 @@ class ReservationsChangesTracker extends DefaultTracker
 	/**
 	 * Constructor sets the default values
 	 */
-    function WeblcmsCourseChangesTracker()
+    function ReservationsChangesTracker()
     {
     	parent :: MainTracker('reservations_changes_tracker');
     }
@@ -32,7 +32,7 @@ class ReservationsChangesTracker extends DefaultTracker
     {
     	$target = $parameters['target_id'];
     	$target_reference = $parameters['target_reference_id'];
-    	$action_user = $parameters['action_user_id'];
+    	$action_user = $parameters['user_id'];
     	$action = $parameters['event'];
 
     	$this->set_user_id($action_user);
@@ -44,8 +44,10 @@ class ReservationsChangesTracker extends DefaultTracker
     		$this->set_target_reference_id($target_reference);
     	else
     		$this->set_target_reference_id(0);
-
+    		
     	$this->create();
+
+    	return $this;
     }
 
     /**

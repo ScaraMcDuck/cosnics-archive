@@ -77,7 +77,12 @@ class QuotaForm extends FormValidator {
 		$quota = $this->quota;
 		$quota->set_credits($this->exportValue(Quota :: PROPERTY_CREDITS));
 		$quota->set_time_unit($this->exportValue(Quota :: PROPERTY_TIME_UNIT));
-		return $quota->create();
+		$succes = $quota->create();
+		
+		if($succes)
+			Events :: trigger_event('create_quota', 'reservations', array('target_id' => $quota->get_id(), 'user_id' => $this->user->get_id()));
+		
+		return $succes;
 	}
 
     function update_quota()
@@ -85,7 +90,12 @@ class QuotaForm extends FormValidator {
 		$quota = $this->quota;
 		$quota->set_credits($this->exportValue(Quota :: PROPERTY_CREDITS));
 		$quota->set_time_unit($this->exportValue(Quota :: PROPERTY_TIME_UNIT));
-		return $quota->update();
+		$succes = $quota->update();
+		
+		if($succes)
+			Events :: trigger_event('update_quota', 'reservations', array('target_id' => $quota->get_id(), 'user_id' => $this->user->get_id()));
+		
+		return $succes;
     }
 
 	/**

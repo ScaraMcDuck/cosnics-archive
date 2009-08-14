@@ -40,7 +40,14 @@ class ReservationsManagerQuotaDeleterComponent extends ReservationsManagerCompon
     			$quota = new Quota();
     			$quota->set_id($id);
 
-    			if(!$quota->delete()) $bool = false;
+    			if(!$quota->delete()) 
+    			{
+    				$bool = false;
+    			}
+    			else 
+    			{
+    				Events :: trigger_event('delete_quota', 'reservations', array('target_id' => $id, 'user_id' => $this->get_user_id()));
+    			}
 			}
 			
 			if(count($ids) == 1)
