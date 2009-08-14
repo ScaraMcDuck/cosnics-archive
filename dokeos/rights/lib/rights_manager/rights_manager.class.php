@@ -17,13 +17,7 @@ class RightsManager extends CoreApplication
     const PARAM_COMPONENT_ACTION = 'action';
     const PARAM_SOURCE = 'source';
 
-    const PARAM_ROLE_ID = 'role';
-
     const ACTION_EDIT_RIGHTS   = 'edit';
-    const ACTION_BROWSE_ROLES  = 'browse_roles';
-    const ACTION_EDIT_ROLES    = 'edit_role';
-    const ACTION_DELETE_ROLES  = 'delete_role';
-    const ACTION_CREATE_ROLE   = 'create_role';
     const ACTION_REQUEST_RIGHT = 'request_rights';
 
     private $quota_url;

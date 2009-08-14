@@ -6,7 +6,7 @@ require_once Path :: get_rights_path() . 'lib/forms/role_form.class.php';
 /**
  * Weblcms component which allows the user to manage his or her user subscriptions
  */
-class RightsManagerRoleEditorComponent extends RightsManagerComponent
+class RightsTemplateManagerEditorComponent extends RightsTemplateManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
