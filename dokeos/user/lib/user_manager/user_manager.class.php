@@ -31,7 +31,7 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 	const ACTION_USER_QUOTA = 'quota';
 	const ACTION_RESET_PASSWORD = 'reset_password';
 	const ACTION_CHANGE_USER = 'change_user';
-	const ACTION_MANAGE_ROLES = 'manage_user_roles';
+	const ACTION_MANAGE_RIGHTS_TEMPLATES = 'manage_user_rights_templates';
     const ACTION_REPORTING = 'reporting';
 
 	const ACTION_VIEW_BUDDYLIST = 'buddy_view';
@@ -163,8 +163,8 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 			case self :: ACTION_CHANGE_USER :
 				$component = UserManagerComponent :: factory('ChangeUser', $this);
 				break;
-			case self :: ACTION_MANAGE_ROLES :
-				$component = UserManagerComponent :: factory('UserRoleManager', $this);
+			case self :: ACTION_MANAGE_RIGHTS_TEMPLATES :
+				$component = UserManagerComponent :: factory('UserRightsTemplateManager', $this);
 				break;
 			case self :: ACTION_VIEW_BUDDYLIST :
 				$component = UserManagerComponent :: factory('BuddyListViewer', $this);
@@ -319,9 +319,9 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_USER, self :: PARAM_USER_USER_ID => $user->get_id()));
 	}
 
-	function get_manage_roles_url($user)
+	function get_manage_rights_templates_url($user)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGE_ROLES, self :: PARAM_USER_USER_ID => $user->get_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGE_RIGHTS_TEMPLATES, self :: PARAM_USER_USER_ID => $user->get_id()));
 	}
 
 	function get_create_buddylist_category_url()

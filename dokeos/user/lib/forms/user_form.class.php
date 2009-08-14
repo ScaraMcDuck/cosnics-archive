@@ -135,36 +135,36 @@ class UserForm extends FormValidator {
 		$group[] =& $this->createElement('radio', 'send_mail',null,Translation :: get('No'),0);
 		$this->addGroup($group, 'mail', Translation :: get('SendMailToNewUser'), '&nbsp;');
 
-		// Roles element finder
+		// RightsTemplates element finder
 		$user = $this->user;
 
 		if ($this->form_type == self :: TYPE_EDIT)
 		{
-			$linked_roles = $user->get_roles();
-			$user_roles = RightsUtilities :: roles_for_element_finder($linked_roles);
+			$linked_rights_templates = $user->get_rights_templates();
+			$user_rights_templates = RightsUtilities :: rights_templates_for_element_finder($linked_rights_templates);
 		}
 		else
 		{
-			$user_roles = array();
+			$user_rights_templates = array();
 		}
 
-		$roles = RightsDataManager :: get_instance()->retrieve_roles();
-		while($role = $roles->next_result())
+		$rights_templates = RightsDataManager :: get_instance()->retrieve_rights_templates();
+		while($rights_template = $rights_templates->next_result())
 		{
-			$defaults[$role->get_id()] = array('title' => $role->get_name(), 'description', $role->get_description(), 'class' => 'role');
+			$defaults[$rights_template->get_id()] = array('title' => $rights_template->get_name(), 'description', $rights_template->get_description(), 'class' => 'rights_template');
 		}
 
-		$url = Path :: get(WEB_PATH).'rights/xml_feeds/xml_role_feed.php';
+		$url = Path :: get(WEB_PATH).'rights/xml_feeds/xml_rights_template_feed.php';
 		$locale = array ();
-		$locale['Display'] = Translation :: get('AddRoles');
+		$locale['Display'] = Translation :: get('AddRightsTemplates');
 		$locale['Searching'] = Translation :: get('Searching');
 		$locale['NoResults'] = Translation :: get('NoResults');
 		$locale['Error'] = Translation :: get('Error');
 		$hidden = true;
 
-		$elem = $this->addElement('element_finder', 'roles', null, $url, $locale, $user_roles);
+		$elem = $this->addElement('element_finder', 'rights_templates', null, $url, $locale, $user_rights_templates);
 		$elem->setDefaults($defaults);
-		$elem->setDefaultCollapsed(count($user_roles) == 0);
+		$elem->setDefaultCollapsed(count($user_rights_templates) == 0);
     }
 
     /**
@@ -257,7 +257,7 @@ class UserForm extends FormValidator {
 
 		$value = $user->update();
 
-		if (!$user->update_role_links($values['roles']))
+		if (!$user->update_rights_template_links($values['rights_templates']))
 		{
 			return false;
 		}
@@ -338,9 +338,9 @@ class UserForm extends FormValidator {
 
     		$value = $user->create();
 
-			foreach ($values['roles'] as $role_id)
+			foreach ($values['rights_templates'] as $rights_template_id)
 			{
-				$user->add_role_link($role_id);
+				$user->add_rights_template_link($rights_template_id);
 			}
 
     		if($value)

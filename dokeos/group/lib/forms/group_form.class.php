@@ -46,36 +46,36 @@ class GroupForm extends FormValidator {
 		$this->add_html_editor(Group :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
 		$this->addRule(Group :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		// Roles element finder
+		// RightsTemplates element finder
 		$group = $this->group;
 
 		if ($this->form_type == self :: TYPE_EDIT)
 		{
-			$linked_roles = $group->get_roles();
-			$group_roles = RightsUtilities :: roles_for_element_finder($linked_roles);
+			$linked_rights_templates = $group->get_rights_templates();
+			$group_rights_templates = RightsUtilities :: rights_templates_for_element_finder($linked_rights_templates);
 		}
 		else
 		{
-			$group_roles = array();
+			$group_rights_templates = array();
 		}
 
-		$roles = RightsDataManager :: get_instance()->retrieve_roles();
-		while($role = $roles->next_result())
+		$rights_templates = RightsDataManager :: get_instance()->retrieve_rights_templates();
+		while($rights_template = $rights_templates->next_result())
 		{
-			$defaults[$role->get_id()] = array('title' => $role->get_name(), 'description', $role->get_description(), 'class' => 'role');
+			$defaults[$rights_template->get_id()] = array('title' => $rights_template->get_name(), 'description', $rights_template->get_description(), 'class' => 'rights_template');
 		}
 
-		$url = Path :: get(WEB_PATH).'rights/xml_feeds/xml_role_feed.php';
+		$url = Path :: get(WEB_PATH).'rights/xml_feeds/xml_rights_template_feed.php';
 		$locale = array ();
-		$locale['Display'] = Translation :: get('AddRoles');
+		$locale['Display'] = Translation :: get('AddRightsTemplates');
 		$locale['Searching'] = Translation :: get('Searching');
 		$locale['NoResults'] = Translation :: get('NoResults');
 		$locale['Error'] = Translation :: get('Error');
 		$hidden = true;
 
-		$elem = $this->addElement('element_finder', 'roles', null, $url, $locale, $group_roles);
+		$elem = $this->addElement('element_finder', 'rights_templates', null, $url, $locale, $group_rights_templates);
 		$elem->setDefaults($defaults);
-		$elem->setDefaultCollapsed(count($group_roles) == 0);
+		$elem->setDefaultCollapsed(count($group_rights_templates) == 0);
 
 		//$this->addElement('submit', 'group_settings', 'OK');
     }
@@ -120,7 +120,7 @@ class GroupForm extends FormValidator {
     		$group->move($new_parent);
     	}
 
-		if (!$group->update_role_links($values['roles']))
+		if (!$group->update_rights_template_links($values['rights_templates']))
 		{
 			return false;
 		}
@@ -144,9 +144,9 @@ class GroupForm extends FormValidator {
 
    		$value = $group->create();
 
-		foreach ($values['roles'] as $role_id)
+		foreach ($values['rights_templates'] as $rights_template_id)
 		{
-			$group->add_role_link($role_id);
+			$group->add_rights_template_link($rights_template_id);
 		}
 
    		if($value)

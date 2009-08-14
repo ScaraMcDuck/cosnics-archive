@@ -83,15 +83,15 @@ abstract class GroupDataManager
 	
 	abstract function retrieve_user_groups($user_id);
 	
-	abstract function retrieve_group_roles($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null);
+	abstract function retrieve_group_rights_templates($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null);
 	
-	abstract function delete_group_roles($condition);
+	abstract function delete_group_rights_templates($condition);
 	
-	abstract function add_role_link($group, $role_id);
+	abstract function add_rights_template_link($group, $rights_template_id);
 	
-	abstract function delete_role_link($group, $role_id);
+	abstract function delete_rights_template_link($group, $rights_template_id);
 	
-	abstract function update_role_links($group, $roles);
+	abstract function update_rights_template_links($group, $rights_templates);
 	
 	abstract function add_nested_values($previous_visited, $number_of_elements = 1);
 	

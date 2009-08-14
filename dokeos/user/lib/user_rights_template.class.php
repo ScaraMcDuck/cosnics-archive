@@ -9,12 +9,12 @@
 
 require_once Path :: get_common_path() . 'data_class.class.php';
 
-class UserRole extends DataClass
+class UserRightsTemplate extends DataClass
 {
 	const CLASS_NAME					= __CLASS__;
 	
 	const PROPERTY_USER_ID = 'user_id';
-	const PROPERTY_ROLE_ID = 'role_id';
+	const PROPERTY_RIGHTS_TEMPLATE_ID = 'rights_template_id';
 
 	/**
 	 * Get the default properties of all users quota objects.
@@ -22,7 +22,7 @@ class UserRole extends DataClass
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_ROLE_ID);
+		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_RIGHTS_TEMPLATE_ID);
 	}
 	
 	/**
@@ -43,20 +43,20 @@ class UserRole extends DataClass
 		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
 	}
 	
-	function get_role_id()
+	function get_rights_template_id()
 	{
-		return $this->get_default_property(self :: PROPERTY_ROLE_ID);
+		return $this->get_default_property(self :: PROPERTY_RIGHTS_TEMPLATE_ID);
 	}
 	
-	function set_role_id($role_id)
+	function set_rights_template_id($rights_template_id)
 	{
-		$this->set_default_property(self :: PROPERTY_ROLE_ID, $role_id);
+		$this->set_default_property(self :: PROPERTY_RIGHTS_TEMPLATE_ID, $rights_template_id);
 	}	
 	
 	function create()
 	{
 		$udm = UserDataManager :: get_instance();
-		return $udm->create_user_role($this);
+		return $udm->create_user_rights_template($this);
 	}
 	
 	static function get_table_name()

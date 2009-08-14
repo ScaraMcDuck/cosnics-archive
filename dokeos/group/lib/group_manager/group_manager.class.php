@@ -46,7 +46,7 @@ class GroupManager extends CoreApplication
 	const ACTION_SUBSCRIBE_USER_TO_GROUP = 'subscribe';
 	const ACTION_SUBSCRIBE_USER_BROWSER = 'subscribe_browser';
 	const ACTION_UNSUBSCRIBE_USER_FROM_GROUP = 'unsubscribe';
-	const ACTION_MANAGE_ROLES = 'manage_group_roles';
+	const ACTION_MANAGE_RIGHTS_TEMPLATES = 'manage_group_rights_templates';
 
 	private $parameters;
 	private $search_parameters;
@@ -119,8 +119,8 @@ class GroupManager extends CoreApplication
 			case self :: ACTION_SUBSCRIBE_USER_BROWSER :
 				$component = GroupManagerComponent :: factory('SubscribeUserBrowser', $this);
 				break;
-			case self :: ACTION_MANAGE_ROLES :
-				$component = GroupManagerComponent :: factory('GroupRoleManager', $this);
+			case self :: ACTION_MANAGE_RIGHTS_TEMPLATES :
+				$component = GroupManagerComponent :: factory('GroupRightsTemplateManager', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_GROUPS);
@@ -417,9 +417,9 @@ class GroupManager extends CoreApplication
 		}
 	}
 
-	function get_manage_roles_url($group)
+	function get_manage_rights_templates_url($group)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGE_ROLES, self :: PARAM_GROUP_ID => $group->get_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGE_RIGHTS_TEMPLATES, self :: PARAM_GROUP_ID => $group->get_id()));
 	}
 
 	/**

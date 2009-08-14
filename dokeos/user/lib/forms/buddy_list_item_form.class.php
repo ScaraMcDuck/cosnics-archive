@@ -31,7 +31,7 @@ class BuddyListItemForm extends FormValidator
 
     	$this->addElement('select', 'category', Translation :: get('Category'), $cats);
 
-    	// Roles element finder
+    	// RightsTemplates element finder
 		$user = $this->user;
 
 		$url = Path :: get(WEB_PATH).'user/xml_feeds/xml_user_feed.php';

@@ -6,7 +6,7 @@ require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.
 require_once dirname(__FILE__).'/../group.class.php';
 require_once dirname(__FILE__).'/../group_data_manager.class.php';
 
-class GroupRoleManagerForm extends FormValidator
+class GroupRightsTemplateManagerForm extends FormValidator
 {
 	private $parent;
 	private $group;
@@ -16,9 +16,9 @@ class GroupRoleManagerForm extends FormValidator
 	 * Creates a new UserForm
 	 * Used by the admin to create/update a group
 	 */
-    function GroupRoleManagerForm($group, $form_group, $action)
+    function GroupRightsTemplateManagerForm($group, $form_group, $action)
     {
-    	parent :: __construct('group_role_manager_form', 'post', $action);
+    	parent :: __construct('group_rights_template_manager_form', 'post', $action);
 
     	$this->group = $group;
     	$this->form_group = $form_group;
@@ -31,27 +31,27 @@ class GroupRoleManagerForm extends FormValidator
      */
     function build_basic_form()
     {
-		// Roles element finder
+		// RightsTemplates element finder
 		$group = $this->group;
 
-		$linked_roles = $group->get_roles();
-		$group_roles = RightsUtilities :: roles_for_element_finder($linked_roles);
+		$linked_rights_templates = $group->get_rights_templates();
+		$group_rights_templates = RightsUtilities :: rights_templates_for_element_finder($linked_rights_templates);
 
-		$roles = RightsDataManager :: get_instance()->retrieve_roles();
-		while($role = $roles->next_result())
+		$rights_templates = RightsDataManager :: get_instance()->retrieve_rights_templates();
+		while($rights_template = $rights_templates->next_result())
 		{
-			$defaults[$role->get_id()] = array('title' => $role->get_name(), 'description', $role->get_description(), 'class' => 'role');
+			$defaults[$rights_template->get_id()] = array('title' => $rights_template->get_name(), 'description', $rights_template->get_description(), 'class' => 'rights_template');
 		}
 
-		$url = Path :: get(WEB_PATH).'rights/xml_feeds/xml_role_feed.php';
+		$url = Path :: get(WEB_PATH).'rights/xml_feeds/xml_rights_template_feed.php';
 		$locale = array ();
-		$locale['Display'] = Translation :: get('AddRoles');
+		$locale['Display'] = Translation :: get('AddRightsTemplates');
 		$locale['Searching'] = Translation :: get('Searching');
 		$locale['NoResults'] = Translation :: get('NoResults');
 		$locale['Error'] = Translation :: get('Error');
 		$hidden = true;
 
-		$elem = $this->addElement('element_finder', 'roles', null, $url, $locale, $group_roles);
+		$elem = $this->addElement('element_finder', 'rights_templates', null, $url, $locale, $group_rights_templates);
 		$elem->setDefaults($defaults);
 
 		// Submit button
@@ -67,11 +67,11 @@ class GroupRoleManagerForm extends FormValidator
     	$this->build_basic_form();
     }
 
-    function update_group_roles()
+    function update_group_rights_templates()
     {
     	$group = $this->group;
 		$values = $this->exportValues();
-		return $group->update_role_links($values['roles']);
+		return $group->update_rights_template_links($values['rights_templates']);
     }
 
 }

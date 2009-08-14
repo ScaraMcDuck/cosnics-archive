@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/../../common/global.inc.php';
 require_once Path :: get_rights_path() . 'lib/rights_data_manager.class.php';
 require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';
-require_once Path :: get_rights_path() . 'lib/role.class.php';
+require_once Path :: get_rights_path() . 'lib/rights_template.class.php';
 require_once Path :: get_library_path().'dokeos_utilities.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once Path :: get_library_path().'condition/not_condition.class.php';

@@ -10,12 +10,12 @@ require_once Path :: get_common_path() . 'data_class.class.php';
  *	@author Dieter De Neef
  */
 
-class GroupRole extends DataClass
+class GroupRightsTemplate extends DataClass
 {
 	const CLASS_NAME					= __CLASS__;
 	
 	const PROPERTY_GROUP_ID = 'group_id';
-	const PROPERTY_ROLE_ID = 'role_id';
+	const PROPERTY_RIGHTS_TEMPLATE_ID = 'rights_template_id';
 
 	/**
 	 * Get the default properties of all users quota objects.
@@ -23,7 +23,7 @@ class GroupRole extends DataClass
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_GROUP_ID, self :: PROPERTY_ROLE_ID);
+		return array (self :: PROPERTY_GROUP_ID, self :: PROPERTY_RIGHTS_TEMPLATE_ID);
 	}
 	
 	/**
@@ -44,20 +44,20 @@ class GroupRole extends DataClass
 		$this->set_default_property(self :: PROPERTY_GROUP_ID, $group_id);
 	}
 	
-	function get_role_id()
+	function get_rights_template_id()
 	{
-		return $this->get_default_property(self :: PROPERTY_ROLE_ID);
+		return $this->get_default_property(self :: PROPERTY_RIGHTS_TEMPLATE_ID);
 	}
 	
-	function set_role_id($role_id)
+	function set_rights_template_id($rights_template_id)
 	{
-		$this->set_default_property(self :: PROPERTY_ROLE_ID, $role_id);
+		$this->set_default_property(self :: PROPERTY_RIGHTS_TEMPLATE_ID, $rights_template_id);
 	}	
 	
 	function create()
 	{
 		$gdm = $this->get_data_manager();
-		return $gdm->create_group_role($this);
+		return $gdm->create_group_rights_template($this);
 	}
 	
 	static function get_table_name()

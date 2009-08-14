@@ -6,7 +6,7 @@ require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.
 require_once dirname(__FILE__).'/../user.class.php';
 require_once dirname(__FILE__).'/../user_data_manager.class.php';
 
-class UserRoleManagerForm extends FormValidator
+class UserRightsTemplateManagerForm extends FormValidator
 {
 	private $parent;
 	private $user;
@@ -16,9 +16,9 @@ class UserRoleManagerForm extends FormValidator
 	 * Creates a new UserForm
 	 * Used by the admin to create/update a user
 	 */
-    function UserRoleManagerForm($user, $form_user, $action)
+    function UserRightsTemplateManagerForm($user, $form_user, $action)
     {
-    	parent :: __construct('user_role_manager_form', 'post', $action);
+    	parent :: __construct('user_rights_template_manager_form', 'post', $action);
 
     	$this->user = $user;
     	$this->form_user = $form_user;
@@ -31,27 +31,27 @@ class UserRoleManagerForm extends FormValidator
      */
     function build_basic_form()
     {
-		// Roles element finder
+		// RightsTemplates element finder
 		$user = $this->user;
 
-		$linked_roles = $user->get_roles();
-		$user_roles = RightsUtilities :: roles_for_element_finder($linked_roles);
+		$linked_rights_templates = $user->get_rights_templates();
+		$user_rights_templates = RightsUtilities :: rights_templates_for_element_finder($linked_rights_templates);
 
-		$roles = RightsDataManager :: get_instance()->retrieve_roles();
-		while($role = $roles->next_result())
+		$rights_templates = RightsDataManager :: get_instance()->retrieve_rights_templates();
+		while($rights_template = $rights_templates->next_result())
 		{
-			$defaults[$role->get_id()] = array('title' => $role->get_name(), 'description', $role->get_description(), 'class' => 'role');
+			$defaults[$rights_template->get_id()] = array('title' => $rights_template->get_name(), 'description', $rights_template->get_description(), 'class' => 'rights_template');
 		}
 
-		$url = Path :: get(WEB_PATH).'rights/xml_feeds/xml_role_feed.php';
+		$url = Path :: get(WEB_PATH).'rights/xml_feeds/xml_rights_template_feed.php';
 		$locale = array ();
-		$locale['Display'] = Translation :: get('AddRoles');
+		$locale['Display'] = Translation :: get('AddRightsTemplates');
 		$locale['Searching'] = Translation :: get('Searching');
 		$locale['NoResults'] = Translation :: get('NoResults');
 		$locale['Error'] = Translation :: get('Error');
 		$hidden = true;
 
-		$elem = $this->addElement('element_finder', 'roles', null, $url, $locale, $user_roles);
+		$elem = $this->addElement('element_finder', 'rights_templates', null, $url, $locale, $user_rights_templates);
 		$elem->setDefaults($defaults);
 
 		// Submit button
@@ -67,11 +67,11 @@ class UserRoleManagerForm extends FormValidator
     	$this->build_basic_form();
     }
 
-    function update_user_roles()
+    function update_user_rights_templates()
     {
     	$user = $this->user;
 		$values = $this->exportValues();
-		return $user->update_role_links($values['roles']);
+		return $user->update_rights_template_links($values['rights_templates']);
     }
 
 }

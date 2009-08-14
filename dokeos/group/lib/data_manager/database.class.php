@@ -6,7 +6,7 @@
 require_once dirname(__FILE__).'/../group_data_manager.class.php';
 require_once dirname(__FILE__).'/../group.class.php';
 require_once dirname(__FILE__).'/../group_rel_user.class.php';
-require_once dirname(__FILE__).'/../group_role.class.php';
+require_once dirname(__FILE__).'/../group_rights_template.class.php';
 require_once Path :: get_library_path() . 'database/database.class.php';
 require_once 'MDB2.php';
 
@@ -27,7 +27,7 @@ class DatabaseGroupDataManager extends GroupDataManager
 
 	function initialize()
 	{
-		$this->database = new Database(array('group' => 'cg', 'group_rel_user' => 'cgru', 'group_role' => 'gr'));
+		$this->database = new Database(array('group' => 'cg', 'group_rel_user' => 'cgru', 'group_rights_template' => 'gr'));
 		$this->database->set_prefix('group_');
 	}
 
@@ -145,65 +145,65 @@ class DatabaseGroupDataManager extends GroupDataManager
 		return $this->database->create_storage_unit($name, $properties, $indexes);
 	}
 
-	function retrieve_group_roles($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+	function retrieve_group_rights_templates($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(GroupRole :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+		return $this->database->retrieve_objects(GroupRightsTemplate :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
 	}
 
-	function delete_group_roles($condition)
+	function delete_group_rights_templates($condition)
 	{
-		return $this->database->delete(GroupRole :: get_table_name(), $condition);
+		return $this->database->delete(GroupRightsTemplate :: get_table_name(), $condition);
 	}
 
-	function add_role_link($group, $role_id)
+	function add_rights_template_link($group, $rights_template_id)
 	{
 		$props = array();
-		$props[GroupRole :: PROPERTY_GROUP_ID] = $group->get_id();
-		$props[GroupRole :: PROPERTY_ROLE_ID] = $role_id;
+		$props[GroupRightsTemplate :: PROPERTY_GROUP_ID] = $group->get_id();
+		$props[GroupRightsTemplate :: PROPERTY_RIGHTS_TEMPLATE_ID] = $rights_template_id;
 		$this->database->get_connection()->loadModule('Extended');
-		return $this->database->get_connection()->extended->autoExecute($this->database->get_table_name(GroupRole :: get_table_name()), $props, MDB2_AUTOQUERY_INSERT);
+		return $this->database->get_connection()->extended->autoExecute($this->database->get_table_name(GroupRightsTemplate :: get_table_name()), $props, MDB2_AUTOQUERY_INSERT);
 	}
 
-	function delete_role_link($group, $role_id)
+	function delete_rights_template_link($group, $rights_template_id)
 	{
 		$conditions = array();
-		$conditions = new EqualityCondition(GroupRole :: PROPERTY_GROUP_ID, $group->get_id());
-		$conditions = new EqualityCondition(GroupRole :: PROPERTY_ROLE_ID, $role_id);
+		$conditions = new EqualityCondition(GroupRightsTemplate :: PROPERTY_GROUP_ID, $group->get_id());
+		$conditions = new EqualityCondition(GroupRightsTemplate :: PROPERTY_RIGHTS_TEMPLATE_ID, $rights_template_id);
 		$condition = new AndCondition($conditions);
 
-		return $this->database->delete(GroupRole :: get_table_name(), $condition);
+		return $this->database->delete(GroupRightsTemplate :: get_table_name(), $condition);
 	}
 
-	function update_role_links($group, $roles)
+	function update_rights_template_links($group, $rights_templates)
 	{
 		// Delete the no longer existing links
 		$conditions = array();
-		$conditions = new NotCondition(new InCondition(GroupRole :: PROPERTY_ROLE_ID, $roles));
-		$conditions = new EqualityCondition(GroupRole :: PROPERTY_GROUP_ID, $group->get_id());
+		$conditions = new NotCondition(new InCondition(GroupRightsTemplate :: PROPERTY_RIGHTS_TEMPLATE_ID, $rights_templates));
+		$conditions = new EqualityCondition(GroupRightsTemplate :: PROPERTY_GROUP_ID, $group->get_id());
 		$condition = new AndCondition($conditions);
 
-		$success = $this->database->delete(GroupRole :: get_table_name(), $condition);
+		$success = $this->database->delete(GroupRightsTemplate :: get_table_name(), $condition);
 		if (!$success)
 		{
 			return false;
 		}
 
-		// Get the group's roles
-		$condition = new EqualityCondition(GroupRole :: PROPERTY_GROUP_ID, $group->get_id());
-		$group_roles = $this->retrieve_group_roles($condition);
-		$existing_roles = array();
+		// Get the group's rights_templates
+		$condition = new EqualityCondition(GroupRightsTemplate :: PROPERTY_GROUP_ID, $group->get_id());
+		$group_rights_templates = $this->retrieve_group_rights_templates($condition);
+		$existing_rights_templates = array();
 
-		while($group_role = $group_roles->next_result())
+		while($group_rights_template = $group_rights_templates->next_result())
 		{
-			$existing_roles[] = $group_role->get_role_id();
+			$existing_rights_templates[] = $group_rights_template->get_rights_template_id();
 		}
 
 		// Add the new links
-		foreach ($roles as $role)
+		foreach ($rights_templates as $rights_template)
 		{
-			if (!in_array($role, $existing_roles))
+			if (!in_array($rights_template, $existing_rights_templates))
 			{
-				if (!$this->add_role_link($group, $role))
+				if (!$this->add_rights_template_link($group, $rights_template))
 				{
 					return false;
 				}
