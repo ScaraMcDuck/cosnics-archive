@@ -9,7 +9,7 @@ require_once 'Pager/Pager.php';
 /**
  * Component to delete an item
  */
-class ReservationsManagerResponsibleOverviewComponent extends ReservationsManagerComponent
+class ReservationsManagerOverviewBrowserComponent extends ReservationsManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
