@@ -14,7 +14,7 @@ class LaikaManagerBrowserComponent extends LaikaManagerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-				$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => LaikaManager :: ACTION_VIEW_HOME)), Translation :: get('Laika')));
+		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => LaikaManager :: ACTION_VIEW_HOME)), Translation :: get('Laika')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseResults')));
 
 		if (!LaikaRights :: is_allowed(LaikaRights :: VIEW_RIGHT, 'browser', 'laika_component'))

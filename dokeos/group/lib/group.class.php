@@ -142,10 +142,9 @@ class Group extends DataClass
 		}
 		
 		$parent_condition = new AndCondition($parent_conditions);
-		$order = array(Group :: PROPERTY_LEFT_VALUE);
-		$order_direction = array(SORT_DESC);
+		$order = new ObjectTableOrder(Group :: PROPERTY_LEFT_VALUE, SORT_DESC);
 			
-		return $gdm->retrieve_groups($parent_condition, null, null, $order, $order_direction);
+		return $gdm->retrieve_groups($parent_condition, null, null, $order);
 	}
 	
 	function is_child_of($parent_id)

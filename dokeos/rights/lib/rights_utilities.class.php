@@ -179,37 +179,69 @@ class RightsUtilities
 		{
 			return false;
 		}
+		
+		$parents = $parents->as_array();
 
 		if (isset($user))
 		{
-			$rights_templates = array();
-
+			
+			// Check right for the user's groups
 			$user_groups = $user->get_groups();
 
 			if (!is_null($user_groups))
 			{
 				while ($group = $user_groups->next_result())
-				{
-					//$group_rights_templates[] = $group->get_rights_template();
-					$group_rights_templates = $group->get_rights_templates();
-
-					while ($group_rights_template = $group_rights_templates->next_result())
+				{					
+					foreach($parents as $parent)
 					{
-						$rights_templates[] = $group_rights_template->get_rights_template_id();
+						$conditions = array();
+						$conditions[] = new EqualityCondition(GroupRightLocation :: PROPERTY_LOCATION_ID, $parent->get_id());
+						$conditions[] = new EqualityCondition(GroupRightLocation :: PROPERTY_RIGHT_ID, $right);
+						$conditions[] = new EqualityCondition(GroupRightLocation :: PROPERTY_GROUP_ID, $group->get_id());
+						$condition = new AndCondition($conditions);
+						
+						$rights = $rdm->retrieve_group_right_locations($condition, null, 1);
+		
+						if ($rights->size() > 0)
+						{
+							$has_right = $rights->next_result()->get_value();
+							
+							if ($has_right)
+							{
+								return true;
+							}
+						}
+						elseif(!$parent->inherits())
+						{
+							break;
+						}
 					}
 				}
 			}
 
-			// TODO: Do we want to seperate checks for group rights_templates and user rights_templates ? Not doing so may let user rights_templates override group rights_templates
-
-			$user_rights_templates = $user->get_rights_templates();
-
-			while ($user_rights_template = $user_rights_templates->next_result())
+			// Check right for the individual user
+			foreach($parents as $parent)
 			{
-				$rights_template = $user_rights_template->get_rights_template_id();
-				if (!in_array($rights_template, $rights_templates))
+				$conditions = array();
+				$conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_LOCATION_ID, $parent->get_id());
+				$conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_RIGHT_ID, $right);
+				$conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_USER_ID, $user->get_id());
+				$condition = new AndCondition($conditions);
+				
+				$rights = $rdm->retrieve_user_right_locations($condition, null, 1);
+				
+				if ($rights->size() > 0)
 				{
-					$rights_templates[] = $rights_template;
+					$has_right = $rights->next_result()->get_value();
+					
+					if ($has_right)
+					{
+						return true;
+					}
+				}
+				elseif(!$parent->inherits())
+				{
+					break;
 				}
 			}
 		}
@@ -217,26 +249,6 @@ class RightsUtilities
 		{
 			// TODO: Use anonymous user for this, he may or may not have some rights too
 			return false;
-		}
-
-		$parents = $parents->as_array();
-
-		foreach($rights_templates as $rights_template)
-		{
-
-			foreach($parents as $parent)
-			{
-				$has_right = $rdm->retrieve_rights_template_right_location($right, $rights_template, $parent->get_id())->get_value();
-
-				if ($has_right)
-				{
-					return true;
-				}
-				elseif(!$parent->inherits())
-				{
-					break;
-				}
-			}
 		}
 
 		return false;

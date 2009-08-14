@@ -296,7 +296,7 @@ class Location extends DataClass
 		$parent_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->get_application());
 		
 		$parent_condition = new AndCondition($parent_conditions);
-		$order[] = new ObjectTableOrder(Location :: PROPERTY_LEFT_VALUE);
+		$order[] = new ObjectTableOrder(Location :: PROPERTY_LEFT_VALUE, SORT_DESC);
 			
 		return $rdm->retrieve_locations($parent_condition, null, null, $order, $order_direction);
 	}

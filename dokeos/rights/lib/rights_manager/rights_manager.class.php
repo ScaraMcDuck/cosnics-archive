@@ -143,5 +143,25 @@ class RightsManager extends CoreApplication
     {
         return RightsDataManager :: get_instance()->retrieve_rights_template_right_location($right_id, $rights_template_id, $location_id);
     }
+    
+    function retrieve_user_right_locations($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    {
+        return RightsDataManager :: get_instance()->retrieve_user_right_locations($condition, $offset, $count, $order_property, $order_direction);
+    }
+    
+    function retrieve_group_right_locations($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    {
+        return RightsDataManager :: get_instance()->retrieve_group_right_locations($condition, $offset, $count, $order_property, $order_direction);
+    }
+    
+    function retrieve_user_right_location($id)
+    {
+        return RightsDataManager :: get_instance()->retrieve_user_right_location($id);
+    }
+    
+    function retrieve_group_right_location($id)
+    {
+        return RightsDataManager :: get_instance()->retrieve_group_right_location($id);
+    }
 }
 ?>
