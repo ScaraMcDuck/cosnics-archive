@@ -425,6 +425,7 @@ class Dokeos185Course extends ImportCourse
 		$lcms_course->create();
 		
 		//Add id references to temp table
+                $old_code = $this->get_code();
 		$mgdm->add_id_reference($old_code, $lcms_course->get_id(), 'weblcms_course');
 		unset($old_code);
 		unset($mgdm);

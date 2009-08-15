@@ -167,7 +167,7 @@ class DropBoxesMigrationWizardPage extends MigrationWizardPage
 		$this->passedtime = $this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
-		//$logger->write_text('dropboxes');
+		$logger->write_text('dropboxes');
 		
 		return true;
 	}
