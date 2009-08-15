@@ -386,34 +386,31 @@ class Dokeos185Course extends ImportCourse
 		//Course parameters
 		$mgdm = MigrationDataManager :: get_instance();
 		$lcms_course = new Course();
-		
-		$old_code = $this->get_code();		
-		/*while($mgdm->code_available('weblcms_course',$this->get_code()))
-		{
-			$this->set_code($this->get_code() . ($index ++));
-		}
-		
-		$lcms_course->set_id($this->get_code());*/
-		
-		//$lcms_course->set_db($this->get_db_name());
-		//$lcms_course->set_path($this->get_directory());
-		
+                
 		if($mgdm->is_language_available($this->get_course_language()))
 			$lcms_course->set_language($this->get_course_language());
 		else
 			$lcms_course->set_language('english');
 		
 		$lcms_course->set_name($this->get_title());
-		
-		$category_code = $mgdm->get_id_reference($this->get_category_code(), 'weblcms_course_category');
-		if($category_code)
-			$lcms_course->set_category($category_code);
+		$lcms_course->set_default_property('description', $this->get_description());
+		$category_id = $mgdm->get_id_reference($this->get_category_code(), 'weblcms_course_category');
+		echo $category_id;
+                if($category_id)
+			$lcms_course->set_category($category_id);
 		else
                         //get_first_course cat not yet implemented
 			//$lcms_course->set_category($mgdm->get_first_course_category());
 		unset($category_code);
 		$lcms_course->set_visibility($this->get_visibility());
-		$lcms_course->set_titular($this->get_tutor_name());                
+                //titular id
+                $udm = UserDataManager :: get_instance();
+                $titular = $udm->retrieve_user_by_username($this->get_tutor_name());                
+                if(!isset($titular))
+                    $titular_id = $titular->get_id();
+                else
+                    $titular_id = 0;
+		$lcms_course->set_titular($titular_id);
                 $this->check_visual_code($this->get_visual_code(),$lcms_course);
                 $lcms_course->set_extlink_name($this->get_department_name());
 		$lcms_course->set_extlink_url($this->get_department_url());

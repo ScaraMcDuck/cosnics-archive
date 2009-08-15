@@ -72,7 +72,7 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 			return false;
 		}
 		
-		//$logger->write_text('personalagendas');
+		$logger->write_text('personalagendas');
 		
 		if($this->command_execute)
 			require(dirname(__FILE__) . '/../../../../../settings.inc.php');
