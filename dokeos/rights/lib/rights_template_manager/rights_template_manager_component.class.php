@@ -12,5 +12,15 @@ class RightsTemplateManagerComponent extends SubManagerComponent
 	{
 		return $this->get_parent()->count_rights_templates($conditions);
 	}
+	
+	function get_rights_template_editing_url($rights_template)
+	{
+		return $this->get_parent()->get_rights_template_editing_url($rights_template);
+	}
+
+	function get_rights_template_deleting_url($rights_template)
+	{
+		return $this->get_parent()->get_rights_template_deleting_url($rights_template);
+	}
 }
 ?>

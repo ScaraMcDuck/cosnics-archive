@@ -16,6 +16,7 @@ class RightsTemplateManager extends SubManager
     const ACTION_EDIT_RIGHTS_TEMPLATE = 'edit';
     const ACTION_DELETE_RIGHTS_TEMPLATES = 'delete';
     const ACTION_CREATE_RIGHTS_TEMPLATE = 'create';
+    const ACTION_CONFIGURE_RIGHTS_TEMPLATES = 'configure';
 
     function RightsTemplateManager($rights_manager)
     {
@@ -32,7 +33,7 @@ class RightsTemplateManager extends SubManager
     {
         $rights_template_action = $this->get_parameter(self :: PARAM_RIGHTS_TEMPLATE_ACTION);
         
-        switch ($package_action)
+        switch ($rights_template_action)
         {
             case self :: ACTION_BROWSE_RIGHTS_TEMPLATES :
                 $component = RightsTemplateManagerComponent :: factory('Browser', $this);
@@ -45,6 +46,9 @@ class RightsTemplateManager extends SubManager
                 break;
             case self :: ACTION_CREATE_RIGHTS_TEMPLATE :
                 $component = RightsTemplateManagerComponent :: factory('Creator', $this);
+                break;
+            case self :: ACTION_CONFIGURE_RIGHTS_TEMPLATES :
+                $component = RightsTemplateManagerComponent :: factory('Configurer', $this);
                 break;
             default :
                 $component = RightsTemplateManagerComponent :: factory('Browser', $this);
@@ -66,7 +70,7 @@ class RightsTemplateManager extends SubManager
 
     function get_rights_template_editing_url($rights_template)
     {
-        return $this->get_url(array (self :: PARAM_RIGHTS_TEMPLATE_ACTION => self :: ACTION_EDIT_RIGHTS_TEMPLATES, self :: PARAM_RIGHTS_TEMPLATE_ID => $rights_template->get_id()));
+        return $this->get_url(array (self :: PARAM_RIGHTS_TEMPLATE_ACTION => self :: ACTION_EDIT_RIGHTS_TEMPLATE, self :: PARAM_RIGHTS_TEMPLATE_ID => $rights_template->get_id()));
     }
     
 	function retrieve_rights_templates($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)

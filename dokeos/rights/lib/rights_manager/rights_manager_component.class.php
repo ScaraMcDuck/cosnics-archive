@@ -139,16 +139,6 @@ abstract class RightsManagerComponent extends CoreApplicationComponent
 		return $this->get_parent()->get_group_rights_templates_url($group);
 	}
 
-	function get_rights_template_editing_url($rights_template)
-	{
-		return $this->get_parent()->get_rights_template_editing_url($rights_template);
-	}
-
-	function get_rights_template_deleting_url($rights_template)
-	{
-		return $this->get_parent()->get_rights_template_deleting_url($rights_template);
-	}
-
 	function is_allowed($right, $rights_template_id, $location_id)
 	{
 		return $this->get_parent()->is_allowed($right, $rights_template_id, $location_id);

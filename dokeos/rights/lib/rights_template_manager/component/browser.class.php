@@ -42,7 +42,7 @@ class RightsTemplateManagerBrowserComponent extends RightsTemplateManagerCompone
 
 	function get_user_html()
 	{
-		$table = new RightsTemplateBrowserTable($this, array(Application :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_RIGHTS_TEMPLATES), $this->get_condition());
+		$table = new RightsTemplateBrowserTable($this, array(Application :: PARAM_ACTION => RightsTemplateManager :: ACTION_BROWSE_RIGHTS_TEMPLATES), $this->get_condition());
 
 		$html = array();
 		$html[] = '<div style="float: right; width: 100%;">';
@@ -65,15 +65,16 @@ class RightsTemplateManagerBrowserComponent extends RightsTemplateManagerCompone
 
 	function get_rights_template()
 	{
-		return (Request :: get(RightsManager :: PARAM_RIGHTS_TEMPLATE_ID) ? Request :: get(RightsManager :: PARAM_RIGHTS_TEMPLATE_ID) : 0);
+		return (Request :: get(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID) ? Request :: get(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID) : 0);
 	}
 
 	function get_action_bar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-		$action_bar->set_search_url($this->get_url(array(RightsManager :: PARAM_RIGHTS_TEMPLATE_ID => $this->get_rights_template())));
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_CREATE_RIGHTS_TEMPLATE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->set_search_url($this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID => $this->get_rights_template())));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('NewRightsTemplate'), Theme :: get_image_path().'action_add_template.png', $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_CREATE_RIGHTS_TEMPLATE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path().'action_rights.png', $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_CONFIGURE_RIGHTS_TEMPLATES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 		return $action_bar;
 	}

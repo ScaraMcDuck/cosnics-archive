@@ -18,7 +18,7 @@ class RightsManager extends CoreApplication
     const PARAM_SOURCE = 'source';
 
     const ACTION_EDIT_RIGHTS = 'edit';
-    const ACTION_MANAGE_RIGHTS_TEMPLATES = 'rights_template';
+    const ACTION_MANAGE_RIGHTS_TEMPLATES = 'template';
     const ACTION_REQUEST_RIGHT = 'request_rights';
 
     private $quota_url;
