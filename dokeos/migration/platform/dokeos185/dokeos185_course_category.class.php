@@ -253,15 +253,15 @@ class Dokeos185CourseCategory extends ImportCourseCategory
 			$lcms_course_category->set_parent(0);
 		
 		//setters are not yet supported
-                /*$lcms_course_category->set_tree_pos($mgdm->get_next_position('weblcms_course_category','tree_pos'));
+                $lcms_course_category->set_default_property('tree_pos', $this->get_tree_pos());
 		
 		if($this->get_children_count())
-			$lcms_course_category->set_children_count($this->get_children_count());
+			$lcms_course_category->set_default_property('children_count',$this->get_children_count());
 		else
-			$lcms_course_category->set_children_count(0);
+			$lcms_course_category->set_default_property('children_count',0);
 			
-		$lcms_course_category->set_auth_course_child($this->get_auth_course_child()?1:0);
-		$lcms_course_category->set_auth_cat_child($this->get_auth_cat_child()?1:0);*/
+		$lcms_course_category->set_default_property('auth_course_child',$this->get_auth_course_child()?1:0);
+		$lcms_course_category->set_default_property('auth_cat_child',$this->get_auth_cat_child()?1:0);
 
 		//create course_category in database
 		$lcms_course_category->create();

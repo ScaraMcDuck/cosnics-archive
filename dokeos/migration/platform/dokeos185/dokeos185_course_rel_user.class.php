@@ -222,10 +222,17 @@ class Dokeos185CourseRelUser extends ImportCourseRelUser
 
 		//course_rel_user parameters
 		$lcms_course_rel_user = new CourseUserRelation();
-		
+
+                //Add id references to temp table
+                $old_code = $this->get_course_code();
+		$mgdm->add_id_reference($old_code, $lcms_course_category->get_id(), 'weblcms_course');
+		unset($old_code);
+
 		$course_code = $mgdm->get_id_reference($this->get_course_code(), 'weblcms_course');
 		if($course_code)
-			$lcms_course_rel_user->set_course($course_code);
+                    $lcms_course_rel_user->set_course($course_code);
+                else
+                    $lcms_course_rel_user->set_course(0);
 		unset($course_code);
 		$user_id = $mgdm->get_id_reference($this->get_user_id(), 'user_user');
 		if($user_id)
