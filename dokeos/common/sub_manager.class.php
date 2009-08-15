@@ -142,6 +142,11 @@ abstract class SubManager
     {
         return $this->get_parent()->get_path($path_type);
     }
+    
+    function get_application_name()
+    {
+        return $this->get_parent()->get_application_name();
+    }
 
     abstract function run();
 
