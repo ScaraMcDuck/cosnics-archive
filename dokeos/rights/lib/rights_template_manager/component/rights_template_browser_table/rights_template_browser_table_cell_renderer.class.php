@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/rights_template_browser_table_column_model.class.php';
 require_once dirname(__FILE__).'/../../../rights_template_table/default_rights_template_table_cell_renderer.class.php';
 require_once dirname(__FILE__).'/../../../rights_template.class.php';
-require_once dirname(__FILE__).'/../../rights_manager.class.php';
+require_once dirname(__FILE__).'/../../rights_template_manager.class.php';
 /**
  * Cell rendere for the learning object browser table
  */

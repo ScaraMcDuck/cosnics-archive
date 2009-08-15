@@ -2,12 +2,12 @@
 /**
  * @package user.usermanager
  */
-require_once dirname(__FILE__).'/../rights_manager.class.php';
-require_once dirname(__FILE__).'/../rights_manager_component.class.php';
+require_once dirname(__FILE__).'/../rights_template_manager.class.php';
+require_once dirname(__FILE__).'/../rights_template_manager_component.class.php';
 require_once dirname(__FILE__).'/../../rights_data_manager.class.php';
 require_once dirname(__FILE__).'/../../rights_utilities.class.php';
 
-class RightsManagerEditorComponent extends RightsManagerComponent
+class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComponent
 {
 	private $application;
 	private $location;
