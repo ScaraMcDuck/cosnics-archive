@@ -166,7 +166,7 @@ class LinksMigrationWizardPage extends MigrationWizardPage
 		//Close the logfile
 		$this->passedtime = $this->logfile->write_passed_time();
 		$this->logfile->close_file();
-		//$logger->write_text('links');
+		$logger->write_text('links');
 
 		return true;
 	}
