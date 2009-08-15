@@ -179,7 +179,7 @@ $lang['common']['Navigation'] = 'Navigation';
 $lang['common']['Information'] = 'Information';
 $lang['common']['CheckCASConfiguration'] = 'Check CAS Configuration';
 $lang['common']['CheckLDAPConfiguration'] = 'Check LDAP configuration';
-$lang['common']['ComponentFailedToLoad'] = 'Component failed to load';
+$lang['common']['ComponentFailedToLoad'] = 'This is embarrasing, but the component you were trying to access failed to load properly. If you\'re sure this was supposed to work, you may want to contact the platform administrator(s) and include the following details in your message.';
 $lang['common']['RemoveSelected'] = 'Remove selected';
 $lang['common']['Edit'] = 'Edit';
 $lang['common']['Update'] = 'Update';
@@ -228,4 +228,5 @@ $lang['common']['Links'] = 'Links';
 $lang['common']['Disabled'] = 'Disabled';
 $lang['common']['CourseAdministration'] = 'Course Administration';
 $lang['common']['Loading'] = 'Loading';
+$lang['common']['Stacktrace'] = 'Stacktrace';
 ?>

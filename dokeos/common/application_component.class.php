@@ -240,10 +240,24 @@ class ApplicationComponent
         
         if (! file_exists($file) || ! is_file($file))
         {
-            $message = Translation :: get('ComponentFailedToLoad') . ': ';
-            $message .= Translation :: get($manager_class) . ' ==> ';
-            $message .= Translation :: get($type);
-            Display :: error_message($message);
+        	$message = array();
+            $message[] = Translation :: get('ComponentFailedToLoad') . '<br /><br />';
+            $message[] = '<b>' . Translation :: get('File') . ':</b><br />';
+            $message[] = $file . '<br /><br />';
+            $message[] = '<b>' . Translation :: get('Stacktrace') . ':</b>';
+            $message[] = '<ul>';
+            $message[] = '<li>' . Translation :: get($manager_class) . '</li>';
+            $message[] = '<li>' . Translation :: get($type) . '</li>';
+            $message[] = '</ul>';
+            
+            $application_name = Application :: application_to_class($manager->get_application_name());
+            
+            $trail = new BreadcrumbTrail();
+            $trail->add(new Breadcrumb('#', Translation :: get($application_name)));
+            
+            Display :: header($trail);
+            Display :: error_message(implode("\n", $message));
+            Display :: footer();
             exit();
         }
         
