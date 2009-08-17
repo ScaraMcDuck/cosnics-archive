@@ -43,7 +43,7 @@ class ReservationsCalendarWeekRenderer extends ReservationsCalendarRenderer
 		{
 		$bool = true;
 		
-		if(!$this->get_parent()->has_right('item', $item->get_id(), ReservationsRights :: VIEW_RIGHT))
+		if(!$this->get_parent()->has_right('item', $item->get_id(), ReservationsRights :: MAKE_RESERVATION_RIGHT))
 			$bool = false;
 
 		

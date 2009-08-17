@@ -8,6 +8,8 @@ class ReservationsRights
 	const ADD_RIGHT		= '2';
 	const EDIT_RIGHT	= '3';
 	const DELETE_RIGHT	= '4';
+	const MANAGE_CATEGORIES_RIGHT = '5';
+	const MAKE_RESERVATION_RIGHT = '6';
 	
 	function get_available_rights()
 	{
