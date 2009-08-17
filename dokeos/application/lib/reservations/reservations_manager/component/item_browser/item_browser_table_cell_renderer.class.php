@@ -46,16 +46,7 @@ class ItemBrowserTableCellRenderer extends DefaultItemTableCellRenderer
 		
 		if(get_class($this->browser) == 'ReservationsManagerAdminItemBrowserComponent')
 		{
-			if($this->browser->has_right('item', $item->get_id(), ReservationsRights :: EDIT_RIGHT || $item->get_responsible() == $this->browser->get_user_id()))
-			{
-				$toolbar_data[] = array(
-						'href' => $this->browser->get_update_item_url($item->get_id(), $this->browser->get_category()),
-						'label' => Translation :: get('Edit'),
-						'img' => Theme :: get_common_image_path() . 'action_edit.png'
-				);
-			}
-			
-			if($this->browser->has_right('item', $item->get_id(), ReservationsRights :: DELETE_RIGHT || $item->get_responsible() == $this->browser->get_user_id()))
+			if($this->browser->has_right('item', $item->get_id(), ReservationsRights :: DELETE_RIGHT) || $item->get_responsible() == $this->browser->get_user_id())
 			{
 				$toolbar_data[] = array(
 						'href' => $this->browser->get_delete_item_url($item->get_id(), $this->browser->get_category()),
@@ -65,8 +56,14 @@ class ItemBrowserTableCellRenderer extends DefaultItemTableCellRenderer
 				);
 			}
 			
-			if($this->browser->has_right('item', $item->get_id(), ReservationsRights :: ADD_RIGHT || $item->get_responsible() == $this->browser->get_user_id()))
+			if($this->browser->has_right('item', $item->get_id(), ReservationsRights :: EDIT_RIGHT) || $item->get_responsible() == $this->browser->get_user_id())
 			{
+				$toolbar_data[] = array(
+						'href' => $this->browser->get_update_item_url($item->get_id(), $this->browser->get_category()),
+						'label' => Translation :: get('Edit'),
+						'img' => Theme :: get_common_image_path() . 'action_edit.png'
+				);
+				
 				$toolbar_data[] = array(
 					'href' => $this->browser->get_modify_rights_url('item', $item->get_id()),
 					'label' => Translation :: get('ModifyRights'),
