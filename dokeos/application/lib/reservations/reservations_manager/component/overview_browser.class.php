@@ -17,6 +17,9 @@ class ReservationsManagerOverviewBrowserComponent extends ReservationsManagerCom
 	/**
 	 * Runs this component and displays its output.
 	 */
+	
+	private $action_bar;
+	
 	function run()
 	{ 
 		//Header
@@ -26,11 +29,12 @@ class ReservationsManagerOverviewBrowserComponent extends ReservationsManagerCom
 		
 		$this->display_header($trail);
 		
-		echo $this->get_action_bar()->as_html() . '<br />';
-		
 		$current_action = Request :: get(self :: PARAM_CURRENT_ACTION);
 		$this->set_parameter(self :: PARAM_CURRENT_ACTION, $current_action);
 		$current_action = $current_action ? $current_action : 'day_view';
+		
+		$this->action_bar = $this->get_action_bar();		
+		echo $this->action_bar->as_html() . '<br />';
 		
 		echo '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
 		//$actions = array('day_view', 'week_view');
@@ -57,7 +61,13 @@ class ReservationsManagerOverviewBrowserComponent extends ReservationsManagerCom
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
+		if(Request :: get(self :: PARAM_CURRENT_ACTION) == 'list_view')
+		{
+			$action_bar->set_search_url($this->get_url());
+		}
+		
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageOverview'), Theme :: get_common_image_path().'action_statistics.png', $this->get_manage_overview_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
 		return $action_bar;
 	}
@@ -158,6 +168,19 @@ class ReservationsManagerOverviewBrowserComponent extends ReservationsManagerCom
 												  new InEqualityCondition(Subscription :: PROPERTY_START_TIME, InequalityCondition :: LESS_THAN_OR_EQUAL, $end));
 												  
 			$conditions[] = new OrCondition($conditions_time);
+			
+			$q = $this->action_bar->get_query();
+			if($q && $q != '')
+			{
+				$query_conditions = array();
+				
+				$query_conditions[] = new LikeCondition(Item :: PROPERTY_NAME, $q, Item :: get_table_name());
+				$query_conditions[] = new LikeCondition(User :: PROPERTY_FIRSTNAME, $q, User :: get_table_name());
+				$query_conditions[] = new LikeCondition(User :: PROPERTY_LASTNAME, $q, User :: get_table_name());
+				
+				$conditions[] = new OrCondition($query_conditions);
+			}
+			
 			$condition = new AndCondition($conditions); 
 		}		
 		
