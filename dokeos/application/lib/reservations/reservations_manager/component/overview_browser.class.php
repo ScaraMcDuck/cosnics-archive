@@ -143,9 +143,24 @@ class ReservationsManagerOverviewBrowserComponent extends ReservationsManagerCom
 		}
 		else 
 		{
-			$condition = new InCondition(Reservation :: PROPERTY_ITEM, $ids, Reservation :: get_table_name());
-		}
-
+			$conditions = array();
+			$conditions[] = new InCondition(Reservation :: PROPERTY_ITEM, $ids, Reservation :: get_table_name());
+			
+			$conditions_time = array();
+			$start = date('Y-m-d 00:00:00', time());
+			$end = date('Y-m-d 23:59:59', time());
+			$conditions_time[] = new AndCondition(new EqualityCondition(Reservation :: PROPERTY_TYPE, Reservation :: TYPE_BLOCK, Reservation :: get_table_name()),
+												  new InEqualityCondition(Reservation :: PROPERTY_START_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, $start, Reservation :: get_table_name()), 
+												  new InEqualityCondition(Reservation :: PROPERTY_START_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, $end, Reservation :: get_table_name()));												  
+			
+			$conditions_time[] = new AndCondition(new EqualityCondition(Reservation :: PROPERTY_TYPE, Reservation :: TYPE_TIMEPICKER, Reservation :: get_table_name()),
+												  new InEqualityCondition(Subscription :: PROPERTY_START_TIME, InequalityCondition :: GREATER_THAN_OR_EQUAL, $start), 
+												  new InEqualityCondition(Subscription :: PROPERTY_START_TIME, InequalityCondition :: LESS_THAN_OR_EQUAL, $end));
+												  
+			$conditions[] = new OrCondition($conditions_time);
+			$condition = new AndCondition($conditions); 
+		}		
+		
 		$table = new SubscriptionOverviewBrowserTable($this, $this->get_parameters(), $condition);
 		echo $table->as_html();
 	}
