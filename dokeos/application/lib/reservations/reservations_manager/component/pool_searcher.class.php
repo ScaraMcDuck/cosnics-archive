@@ -71,7 +71,7 @@ class ReservationsManagerPoolSearcherComponent extends ReservationsManagerCompon
 		
 		while($item = $items->next_result())
 		{ 
-			if($item->get_blackout() == 1 || !$this->has_right('item', $item->get_id(), ReservationsRights :: VIEW_RIGHT) || !$this->has_enough_credits_for($item, $start_date, $stop_date, $this->get_user_id())) continue;
+			if($item->get_blackout() == 1 || !$this->has_right('item', $item->get_id(), ReservationsRights :: MAKE_RESERVATION_RIGHT) || !$this->has_enough_credits_for($item, $start_date, $stop_date, $this->get_user_id())) continue;
 			
 //			$and_conditions = array();
 //			$and_conditions[] = new InEqualityCondition(Reservation :: PROPERTY_START_DATE, InEqualityCondition :: LESS_THAN_OR_EQUAL, $start_date);
