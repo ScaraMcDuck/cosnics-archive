@@ -212,13 +212,13 @@ abstract class UserDataManager
 		// TODO: Check if the user can be deleted (fe: can an admin delete another admin etc)
 
         //A check to not delete a user when he's an active teacher
-        {
-            $courses = WebLcmsDataManager :: get_instance()->retrieve_courses(new EqualityCondition(Course :: PROPERTY_TITULAR,$user->get_id()))->size();
-            if($courses>0)
-            return false;
-        }
+//        {
+//            $courses = WebLcmsDataManager :: get_instance()->retrieve_courses(new EqualityCondition(Course :: PROPERTY_TITULAR,$user->get_id()))->size();
+//            if($courses>0)
+//            return false;
+//        }
 
-        
+
 
         return true;
 	}
@@ -233,27 +233,27 @@ abstract class UserDataManager
 	 * @return boolean True if the username is available, false if not.
 	 */
 	abstract function is_username_available($username, $user_id = null);
-	
+
 	abstract function retrieve_user_rights_templates($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
-	
+
 	abstract function create_user_rights_template($user_rights_template);
-	
+
 	abstract function delete_user_rights_templates($condition);
-	
+
 	abstract function add_rights_template_link($group, $rights_template_id);
-	
+
 	abstract function delete_rights_template_link($group, $rights_template_id);
-	
+
 	abstract function update_rights_template_links($group, $rights_templates);
-	
+
 	abstract function get_database();
-	
+
 	abstract function get_next_buddy_list_category_id();
 	abstract function create_buddy_list_category($buddy_list_category);
 	abstract function update_buddy_list_category($buddy_list_category);
 	abstract function delete_buddy_list_category($buddy_list_category);
 	abstract function retrieve_buddy_list_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
-	
+
 	abstract function get_next_buddy_list_item_id();
 	abstract function create_buddy_list_item($buddy_list_item);
 	abstract function update_buddy_list_item($buddy_list_item);
