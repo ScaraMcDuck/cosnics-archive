@@ -32,7 +32,7 @@ class SubscriptionOverviewBrowserTableDataProvider extends ObjectTableDataProvid
     {
 		$order_property = $this->get_order_property($order_property);
 		$order_direction = $this->get_order_property($order_direction);
-        return $this->get_browser()->retrieve_subscriptions($this->get_condition(), $offset, $count, $order_property, $order_direction);
+        return ReservationsDataManager :: get_instance()->retrieve_overview_list_items($this->get_condition(), $offset, $count, $order_property, $order_direction);
      
     }
   /**
@@ -41,7 +41,7 @@ class SubscriptionOverviewBrowserTableDataProvider extends ObjectTableDataProvid
    */
     function get_object_count()
     {
-      return $this->get_browser()->count_subscriptions($this->get_condition());
+      return ReservationsDataManager :: get_instance()->count_overview_list_items($this->get_condition());
     }
 }
 ?>

@@ -127,8 +127,8 @@ class ReservationsManagerOverviewBrowserComponent extends ReservationsManagerCom
 
 	function display_list_view()
 	{
-		$condition = new EqualityCondition(OverviewItem :: PROPERTY_USER_ID, $this->get_user_id());
-		$overview_items = $this->retrieve_overview_items($condition);
+		$condition_ovv = new EqualityCondition(OverviewItem :: PROPERTY_USER_ID, $this->get_user_id());
+		$overview_items = $this->retrieve_overview_items($condition_ovv);
 
 		$ids = array();
 			
@@ -143,11 +143,7 @@ class ReservationsManagerOverviewBrowserComponent extends ReservationsManagerCom
 		}
 		else 
 		{
-			$db = ReservationsDataManager :: get_instance();
-			$table_name = $db->escape_table_name(Reservation :: get_table_name());
-			
-			$item_condition = new InCondition(Reservation :: PROPERTY_ITEM, $ids, $table_name);
-			$condition = new SubSelectCondition(Subscription :: PROPERTY_RESERVATION_ID, Reservation :: PROPERTY_ID, $table_name, $item_condition);
+			$condition = new InCondition(Reservation :: PROPERTY_ITEM, $ids, Reservation :: get_table_name());
 		}
 
 		$table = new SubscriptionOverviewBrowserTable($this, $this->get_parameters(), $condition);

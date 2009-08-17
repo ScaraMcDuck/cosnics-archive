@@ -580,5 +580,64 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 		
 		return 0;
 	}
+	
+	function count_overview_list_items($condition)
+	{
+		$sub_table = Subscription :: get_table_name();
+		$sub_alias = $this->db->get_alias($sub_table);
+		$sub_table = $this->escape_table_name($sub_table);
+		
+		$res_table = Reservation :: get_table_name();
+		$res_alias = $this->db->get_alias($res_table);
+		$res_table = $this->escape_table_name($res_table);
+		
+		$item_table = Item :: get_table_name();
+		$item_alias = $this->db->get_alias($item_table);
+		$item_table = $this->escape_table_name($item_table);
+		 
+		$user_table = User :: get_table_name();
+		$user_alias = $this->db->get_alias($user_table);
+		$user_table = 'user_user';
+		
+		$query = 'SELECT COUNT(*) FROM ' . $sub_table . ' AS ' . $sub_alias . 
+				 ' JOIN ' . $res_table . ' AS ' . $res_alias . ' ON ' . $sub_alias . '.reservation_id=' . $res_alias . '.id' .
+				 ' JOIN ' . $item_table . ' AS ' . $item_alias . ' ON ' . $res_alias . '.item=' . $item_alias . '.id' .
+				 ' JOIN ' . $user_table . ' AS ' . $user_alias . ' ON ' . $sub_alias . '.user_id=' . $user_alias . '.user_id';
+
+		$count = $this->db->count_result_set($query, Subscription :: get_table_name(), $condition);
+		
+		return $count;
+	}
+	
+	function retrieve_overview_list_items($condition, $offset, $count, $order_property, $order_direction)
+	{
+		$sub_table = Subscription :: get_table_name();
+		$sub_alias = $this->db->get_alias($sub_table);
+		$sub_table = $this->escape_table_name($sub_table);
+		
+		$res_table = Reservation :: get_table_name();
+		$res_alias = $this->db->get_alias($res_table);
+		$res_table = $this->escape_table_name($res_table);
+		
+		$item_table = Item :: get_table_name();
+		$item_alias = $this->db->get_alias($item_table);
+		$item_table = $this->escape_table_name($item_table);
+		
+		$user_table = User :: get_table_name();
+		$user_alias = $this->db->get_alias($user_table);
+		$user_table = 'user_user';
+		 
+		$query = 'SELECT ' . $sub_alias . '.* FROM ' . $sub_table . ' AS ' . $sub_alias . 
+				 ' JOIN ' . $res_table . ' AS ' . $res_alias . ' ON ' . $sub_alias . '.reservation_id=' . $res_alias . '.id' .
+				 ' JOIN ' . $item_table . ' AS ' . $item_alias . ' ON ' . $res_alias . '.item=' . $item_alias . '.id' .
+				 ' JOIN ' . $user_table . ' AS ' . $user_alias . ' ON ' . $sub_alias . '.user_id=' . $user_alias . '.user_id';
+
+		return $this->db->retrieve_result_set($query, Subscription :: get_table_name(), $condition, $offset, $count, $order_property, DokeosUtilities :: underscores_to_camelcase(Subscription :: get_table_name()));
+	}
+	
+	function get_alias($name)
+	{
+		return $this->db->get_alias($name);
+	}
 }
 ?>

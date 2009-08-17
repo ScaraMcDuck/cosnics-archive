@@ -32,19 +32,17 @@ class SubscriptionOverviewBrowserTableCellRenderer extends DefaultSubscriptionTa
 		{
 			$this->reservation = $this->browser->retrieve_reservations(new EqualityCondition(Reservation :: PROPERTY_ID, $subscription->get_reservation_id()))->next_result();
 		}
-		
+
 		if ($property = $column->get_name())
 		{
 			switch ($property)
-			{
-				case Translation :: get(DokeosUtilities :: underscores_to_camelcase(Subscription :: PROPERTY_USER_ID)) :
-					$user = UserDataManager :: get_instance()->retrieve_user($subscription->get_user_id());
-					return $user->get_fullname();
-				case Translation :: get(DokeosUtilities :: underscores_to_camelcase(Subscription :: PROPERTY_RESERVATION_ID)) :
-				{
+			{ 
+				case Item :: PROPERTY_NAME:
 					$item = $this->browser->retrieve_items(new EqualityCondition(Item :: PROPERTY_ID, $this->reservation->get_item()))->next_result();
 					return $item->get_name();
-				}
+				case User :: PROPERTY_FIRSTNAME:
+					$user = UserDataManager :: get_instance()->retrieve_user($subscription->get_user_id());
+					return $user->get_fullname();
 			}
 		}
 		
