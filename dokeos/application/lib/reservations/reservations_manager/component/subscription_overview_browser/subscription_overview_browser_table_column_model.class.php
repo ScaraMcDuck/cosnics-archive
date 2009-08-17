@@ -18,7 +18,7 @@ class SubscriptionOverviewBrowserTableColumnModel extends DefaultSubscriptionTab
 	 */
 	function SubscriptionOverviewBrowserTableColumnModel($browser)
 	{
-		parent :: ObjectTableColumnModel(self :: get_default_columns($browser), 1);
+		parent :: ObjectTableColumnModel(self :: get_default_columns($browser), 2);
 	}
 	
 	private static function get_default_columns($browser)
