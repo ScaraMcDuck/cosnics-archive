@@ -5,6 +5,7 @@ require_once dirname(__FILE__).'/../reservations_manager.class.php';
 require_once dirname(__FILE__).'/../reservations_manager_component.class.php';
 require_once dirname(__FILE__).'/../../calendar/reservations_calendar_week_renderer.class.php';
 require_once dirname(__FILE__).'/../../calendar/reservations_calendar_day_renderer.class.php';
+require_once dirname(__FILE__).'/subscription_overview_browser/subscription_overview_browser_table.class.php';
 require_once 'Pager/Pager.php';
 
 /**
@@ -28,11 +29,12 @@ class ReservationsManagerOverviewBrowserComponent extends ReservationsManagerCom
 		echo $this->get_action_bar()->as_html() . '<br />';
 		
 		$current_action = Request :: get(self :: PARAM_CURRENT_ACTION);
+		$this->set_parameter(self :: PARAM_CURRENT_ACTION, $current_action);
 		$current_action = $current_action ? $current_action : 'day_view';
 		
 		echo '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
-		$actions = array('day_view', 'week_view');
-		//$actions = array('day_view', 'week_view', 'list_view');
+		//$actions = array('day_view', 'week_view');
+		$actions = array('day_view', 'week_view', 'list_view');
 		//$actions = array('week_view', 'list_view');
 		foreach ($actions as $action)
 		{
@@ -123,5 +125,34 @@ class ReservationsManagerOverviewBrowserComponent extends ReservationsManagerCom
 		echo $calendar->render($ids);
 	}
 
+	function display_list_view()
+	{
+		$condition = new EqualityCondition(OverviewItem :: PROPERTY_USER_ID, $this->get_user_id());
+		$overview_items = $this->retrieve_overview_items($condition);
+
+		$ids = array();
+			
+		while($overview_item = $overview_items->next_result())
+		{
+			$ids[] = $overview_item->get_item_id(); 
+		}
+		
+		if(count($ids) == 0)
+		{
+			$condition = new EqualityCondition(Subscription :: PROPERTY_RESERVATION_ID, -1);
+		}
+		else 
+		{
+			$db = ReservationsDataManager :: get_instance();
+			$table_name = $db->escape_table_name(Reservation :: get_table_name());
+			
+			$item_condition = new InCondition(Reservation :: PROPERTY_ITEM, $ids, $table_name);
+			$condition = new SubSelectCondition(Subscription :: PROPERTY_RESERVATION_ID, Reservation :: PROPERTY_ID, $table_name, $item_condition);
+		}
+
+		$table = new SubscriptionOverviewBrowserTable($this, $this->get_parameters(), $condition);
+		echo $table->as_html();
+	}
+	
 }
 ?>

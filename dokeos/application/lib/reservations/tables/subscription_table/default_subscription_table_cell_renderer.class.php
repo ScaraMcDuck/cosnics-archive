@@ -20,6 +20,9 @@ class DefaultSubscriptionTableCellRenderer implements ObjectTableCellRenderer
 	{
 		
 	}
+	
+	protected $reservation;
+	
 	/**
 	 * Renders a table cell
 	 * @param LearningObjectTableColumnModel $column The column which should be
@@ -29,6 +32,11 @@ class DefaultSubscriptionTableCellRenderer implements ObjectTableCellRenderer
 	 */
 	function render_cell($column, $subscription)
 	{
+		if(!$this->reservation || $this->reservation->get_id() != $subscription->get_reservation_id())
+		{
+			$this->reservation = $this->browser->retrieve_reservations(new EqualityCondition(Reservation :: PROPERTY_ID, $subscription->get_reservation_id()))->next_result();
+		}
+		
 		if ($property = $column->get_name())
 		{
 			switch ($property)
@@ -40,8 +48,7 @@ class DefaultSubscriptionTableCellRenderer implements ObjectTableCellRenderer
 					return $user->get_fullname();
 				case Subscription :: PROPERTY_RESERVATION_ID :
 				{
-					$reservation = $this->browser->retrieve_reservations(new EqualityCondition(Reservation :: PROPERTY_ID, $subscription->get_reservation_id()))->next_result();
-					$item = $this->browser->retrieve_items(new EqualityCondition(Item :: PROPERTY_ID, $reservation->get_item()))->next_result();
+					$item = $this->browser->retrieve_items(new EqualityCondition(Item :: PROPERTY_ID, $this->reservation->get_item()))->next_result();
 					return $item->get_name();
 				}
 				case Subscription :: PROPERTY_START_TIME :
@@ -49,8 +56,7 @@ class DefaultSubscriptionTableCellRenderer implements ObjectTableCellRenderer
 					$t = $subscription->get_start_time();
 					if(!$t)
 					{
-						$reservation = $this->browser->retrieve_reservations(new EqualityCondition(Reservation :: PROPERTY_ID, $subscription->get_reservation_id()))->next_result();
-						$t = $reservation->get_start_date();
+						$t = $this->reservation->get_start_date();
 					}
 					return $t;
 				}
@@ -59,8 +65,7 @@ class DefaultSubscriptionTableCellRenderer implements ObjectTableCellRenderer
 					$t = $subscription->get_stop_time();
 					if(!$t)
 					{
-						$reservation = $this->browser->retrieve_reservations(new EqualityCondition(Reservation :: PROPERTY_ID, $subscription->get_reservation_id()))->next_result();
-						$t = $reservation->get_stop_date();
+						$t = $this->reservation->get_stop_date();
 					}
 					return $t;
 				}
