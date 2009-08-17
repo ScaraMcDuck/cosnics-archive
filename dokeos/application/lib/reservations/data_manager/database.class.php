@@ -59,6 +59,11 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 		return $this->db->get_next_id('reservation');
 	}
 	
+	function escape_table_name($name)
+	{
+		return $this->db->escape_table_name($name);
+	}
+	
 	function delete_reservation($reservation)
 	{
 		$condition = new EqualityCondition(Reservation :: PROPERTY_ID, $reservation->get_id());

@@ -18,6 +18,7 @@ class DefaultSubscriptionTableColumnModel extends ObjectTableColumnModel
 	{
 		parent :: __construct(self :: get_default_columns($browser), 2);
 	}
+	
 	/**
 	 * Gets the default columns for this model
 	 * @return LearningObjectTableColumn[]
@@ -30,7 +31,7 @@ class DefaultSubscriptionTableColumnModel extends ObjectTableColumnModel
 		{
 			$columns[] = new ObjectTableColumn(Subscription :: PROPERTY_USER_ID, true);
 		}
-		else
+		elseif(get_class($browser) == 'ReservationsManagerSubscriptionBrowserComponent')
 		{
 			$columns[] = new ObjectTableColumn(Subscription :: PROPERTY_RESERVATION_ID, true);
 		}
