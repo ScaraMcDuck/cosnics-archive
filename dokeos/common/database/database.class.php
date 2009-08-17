@@ -272,7 +272,7 @@ class Database
             return true;
         }
         else
-        {            
+        {
             return false;
         }
     }
@@ -298,21 +298,21 @@ class Database
 
         return true;
     }
-    
+
     function update_objects($table_name, $properties = array(), $condition, $offset = null, $max_objects = null, $order_by = array())
     {
     	if (count($properties) > 0)
     	{
     		$query = 'UPDATE ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name) . ' SET ';
-    		
+
     		$updates = array();
     		foreach($properties as $column => $property)
     		{
     			$updates[] = $this->escape_column_name($column) . '=' . $property;
     		}
-    
+
     		$query .= implode(", ", $updates);
-    		
+
     	    $params = array();
 	        if (isset($condition))
 	        {
@@ -320,9 +320,9 @@ class Database
 	            $query .= $translator->render_query($condition);
 	            $params = $translator->get_parameters();
 	        }
-	        
+
 			$orders = array();
-	        
+
 	        if (is_null($order_by))
 	        {
 	            $order_by = array();
@@ -331,7 +331,7 @@ class Database
 	        {
 	            $order_by = array($order_by);
 	        }
-	
+
 	        foreach($order_by as $order)
 	        {
 	            $orders[] = $this->escape_column_name($order->get_property(), ($order->alias_is_set() ? $order->get_alias() : $this->get_alias($table_name))) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
@@ -340,7 +340,7 @@ class Database
 	        {
 	            $query .= ' ORDER BY ' . implode(', ', $orders);
 	        }
-	        
+
 	        if ($max_objects > 0)
 	        {
             	$query .= ' LIMIT ' . $max_objects;
@@ -493,7 +493,7 @@ class Database
 //        dump('<strong>Statement</strong><br />' . $query . '<br /><br /><br />');
 //        dump($params);
 //        dump($order_by);
-        
+
         if (is_null($order_by))
         {
             $order_by = array();
