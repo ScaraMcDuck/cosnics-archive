@@ -41,7 +41,7 @@ class OverviewItemForm extends FormValidator
 		$locale['NoResults'] = Translation :: get('NoResults');
 		$locale['Error'] = Translation :: get('Error');
 		
-		$this->addElement('element_finder', 'items', '', $url, $locale, $item_list);
+		$this->addElement('element_finder', 'items', '', $url, $locale, $item_list, array('load_elements' => false));
     	
     	$this->addElement('html', '<div style="clear: both;"></div>');
 		$this->addElement('html', '</div>');

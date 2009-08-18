@@ -109,7 +109,7 @@ class CategoryQuotaBoxForm extends FormValidator {
 		$locale['NoResults'] = Translation :: get('NoResults');
 		$locale['Error'] = Translation :: get('Error');
 
-		$this->addElement('element_finder', 'users', Translation :: get('SelectUsersOrGroups'), $url, $locale, $defaults);
+		$this->addElement('element_finder', 'users', Translation :: get('SelectUsersOrGroups'), $url, $locale, $defaults, array('load_elements' => false));
 		
 		$this->addElement('html', '<div style="clear: both;"></div>');
 		$this->addElement('html', '</div>');

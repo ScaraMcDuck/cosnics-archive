@@ -11,7 +11,7 @@
 					name: '',
 					search: '',
 					nodesSelectable: false,
-					loadElements: true,
+					loadElements: false,
 					defaultQuery: ''
 			};
 			

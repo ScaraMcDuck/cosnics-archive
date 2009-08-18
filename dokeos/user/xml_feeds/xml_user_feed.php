@@ -72,7 +72,7 @@ function dump_tree($users)
 
 	while ($user = $users->next_result())
 	{
-		echo '<leaf id="'. $user->get_id(). '" classes="type type_user" title="'. htmlentities($user->get_fullname()). '" description="'. htmlentities($user->get_username()). '"/>'. "\n";
+		echo '<leaf id="'. $user->get_id(). '" classes="type type_user" title="'. htmlspecialchars($user->get_fullname()). '" description="'. htmlspecialchars($user->get_username()). '"/>'. "\n";
 	}
 
 	echo '</node>'. "\n";
