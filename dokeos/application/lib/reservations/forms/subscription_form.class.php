@@ -181,12 +181,12 @@ class SubscriptionForm extends FormValidator
 		$this->addElement('html', '<div class="configuration_form">');
 		$this->addElement('html', '<span class="category">' . Translation :: get('SelectUsers') . '</span>');
 		
-    	$userslist = UserDataManager :: get_instance()->retrieve_users();
+    	/*$userslist = UserDataManager :: get_instance()->retrieve_users();
     	while($user = $userslist->next_result())
     	{
     		if($user->get_id() != $this->user->get_id())
     			$users[$user->get_id()] = array('title' => $user->get_fullname(), 'description' => $user->get_fullname(), 'class' => 'user');
-    	}
+    	}*/
     	
     	//$this->addElement('advmultiselect', 'users', Translation :: get('SelectUsers'), 
 			//					  $users, array('style' => 'width:200px;'));
@@ -198,7 +198,7 @@ class SubscriptionForm extends FormValidator
 		$locale['NoResults'] = Translation :: get('NoResults');
 		$locale['Error'] = Translation :: get('Error');
 		
-		$elem = $this->addElement('element_finder', 'users', Translation :: get('SelectAdditionalUsers'), $url, $locale, array());
+		$elem = $this->addElement('element_finder', 'users', Translation :: get('SelectAdditionalUsers'), $url, $locale, array(), array('load_elements' => false));
     	$elem->excludeElements(array($this->user->get_id()));
 		
     	$this->addElement('html', '<div style="clear: both;"></div>');
