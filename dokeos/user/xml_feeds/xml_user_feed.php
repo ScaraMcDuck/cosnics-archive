@@ -44,7 +44,7 @@ if (Authentication :: is_valid())
 	}
 
 	$udm = UserDataManager :: get_instance();
-	$users = $udm->retrieve_users($condition);
+	$users = $udm->retrieve_users($user_condition, null, null, array(new ObjectTableOrder(User :: PROPERTY_LASTNAME), new ObjectTableOrder(User :: PROPERTY_FIRSTNAME)));
 }
 else
 {
