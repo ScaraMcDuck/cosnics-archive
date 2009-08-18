@@ -9,6 +9,7 @@
   <property name="exclude_displaymodes" type="text" length="500" notnull="0" default="" />
   <property name="width" type="text" length="10" notnull="1" default="500px" />
   <property name="height" type="text" length="10" notnull="1" default="300px" />
+  <property name="sortable" type="integer" length="1" notnull="0" default="0" />
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>

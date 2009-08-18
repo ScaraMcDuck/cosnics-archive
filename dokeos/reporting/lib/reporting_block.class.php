@@ -18,6 +18,7 @@ class ReportingBlock extends DataClass
     const PROPERTY_EXCLUDE_DISPLAYMODES = 'exclude_displaymodes';
     const PROPERTY_WIDTH = 'width';
     const PROPERTY_HEIGHT = 'height';
+    const PROPERTY_SORTABLE = 'sortalbe';
 
     private $data, $params;
 
@@ -27,7 +28,7 @@ class ReportingBlock extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_NAME, self :: PROPERTY_APPLICATION, self :: PROPERTY_FUNCTION, self :: PROPERTY_DISPLAYMODE, self :: PROPERTY_WIDTH, self :: PROPERTY_HEIGHT, self :: PROPERTY_EXCLUDE_DISPLAYMODES));
+        return parent :: get_default_property_names(array(self :: PROPERTY_NAME, self :: PROPERTY_APPLICATION, self :: PROPERTY_FUNCTION, self :: PROPERTY_DISPLAYMODE, self :: PROPERTY_WIDTH, self :: PROPERTY_HEIGHT, self :: PROPERTY_EXCLUDE_DISPLAYMODES, self :: PROPERTY_SORTABLE));
     }
     
 	/**
@@ -273,6 +274,21 @@ class ReportingBlock extends DataClass
     public function set_height($value)
     {
         $this->set_default_property(self :: PROPERTY_HEIGHT, $value);
+    }
+
+    public function get_sortable()
+    {
+        return $this->get_default_property(self :: PROPERTY_SORTABLE);
+    }
+
+    public function set_sortable($value)
+    {
+        $this->set_default_property(self :: PROPERTY_SORTABLE,$value);
+    }
+
+    public function is_sortable()
+    {
+        return $this->get_default_property(self :: PROPERTY_SORTABLE) == 1;
     }
 
     static function get_table_name()
