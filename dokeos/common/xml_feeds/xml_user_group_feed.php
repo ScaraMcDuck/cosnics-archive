@@ -27,7 +27,9 @@ if (Authentication :: is_valid())
     {
         $q = '*' . $query . '*';
         
-        $user_conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, $q);
+        $user_conditions[] = new OrCondition(array(new PatternMatchCondition(User :: PROPERTY_USERNAME, $q),
+        										   new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, $q),
+        										   new PatternMatchCondition(User :: PROPERTY_LASTNAME, $q)));
         $group_conditions[] = new PatternMatchCondition(Group :: PROPERTY_NAME, $q);
     }
     
@@ -92,7 +94,7 @@ if (Authentication :: is_valid())
     $udm = UserDataManager :: get_instance();
     $gdm = GroupDataManager :: get_instance();
     
-    $user_result_set = $udm->retrieve_users($user_condition);
+    $user_result_set = $udm->retrieve_users($user_condition, null, null, array(new ObjectTableOrder(User :: PROPERTY_LASTNAME), new ObjectTableOrder(User :: PROPERTY_FIRSTNAME)));
     
     $users = array();
     while ($user = $user_result_set->next_result())
@@ -101,7 +103,7 @@ if (Authentication :: is_valid())
     }
     
     $groups = array();
-    $group_result_set = $gdm->retrieve_groups($group_condition);
+    $group_result_set = $gdm->retrieve_groups($group_condition, null, null, array(new ObjectTableOrder(Group :: PROPERTY_NAME)));
     while ($group = $group_result_set->next_result())
     {
         $groups[] = $group;
@@ -124,7 +126,7 @@ function dump_tree($users, $groups)
             echo '<node id="user" classes="type_category unlinked" title="Users">', "\n";
             foreach ($users as $user)
             {
-                echo '<leaf id="user_' . $user->get_id() . '" classes="' . 'type type_user' . '" title="' . htmlentities($user->get_fullname()) . '" description="' . htmlentities($user->get_username()) . '"/>' . "\n";
+                echo '<leaf id="user_' . $user->get_id() . '" classes="' . 'type type_user' . '" title="' . htmlspecialchars($user->get_fullname()) . ' (' . htmlspecialchars($user->get_username()) . ')" description="' . htmlentities($user->get_username()) . '"/>' . "\n";
             }
             echo '</node>', "\n";
         }
@@ -134,7 +136,7 @@ function dump_tree($users, $groups)
             echo '<node id="group" classes="type_category unlinked" title="Groups">', "\n";
             foreach ($groups as $group)
             {
-                echo '<leaf id="group_' . $group->get_id() . '" classes="' . 'type type_group' . '" title="' . htmlentities($group->get_name()) . '" description="' . htmlentities($group->get_name()) . '"/>' . "\n";
+                echo '<leaf id="group_' . $group->get_id() . '" classes="' . 'type type_group' . '" title="' . htmlspecialchars($group->get_name()) . '" description="' . htmlspecialchars($group->get_name()) . '"/>' . "\n";
             }
             echo '</node>', "\n";
         }
