@@ -126,7 +126,7 @@ function dump_tree($users, $groups)
             echo '<node id="user" classes="type_category unlinked" title="Users">', "\n";
             foreach ($users as $user)
             {
-                echo '<leaf id="user_' . $user->get_id() . '" classes="' . 'type type_user' . '" title="' . htmlspecialchars($user->get_fullname()) . ' (' . htmlspecialchars($user->get_username()) . ')" description="' . htmlentities($user->get_username()) . '"/>' . "\n";
+                echo '<leaf id="user_' . $user->get_id() . '" classes="' . 'type type_user' . '" title="' . htmlspecialchars($user->get_fullname()) . '" description="' . htmlentities($user->get_username()) . '"/>' . "\n";
             }
             echo '</node>', "\n";
         }
