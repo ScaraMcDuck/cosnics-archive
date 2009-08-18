@@ -73,14 +73,14 @@ function dump_tree($users, $groups)
 		echo '<node id="user" class="type_category unlinked" title="Users">', "\n";
 		foreach ($users as $lo)
 		{
-			echo '<leaf id="user_'. $lo->get_id(). '" class="'. 'type type_user'. '" title="'. htmlentities($lo->get_username()). '" description="'. htmlentities($lo->get_firstname()) . ' ' . htmlentities($lo->get_lastname()) . '"/>'. "\n";
+			echo '<leaf id="user_'. $lo->get_id(). '" class="'. 'type type_user'. '" title="'. htmlspecialchars($lo->get_username()). '" description="'. htmlspecialchars($lo->get_firstname()) . ' ' . htmlentities($lo->get_lastname()) . '"/>'. "\n";
 		}
 		echo '</node>', "\n";
 		
 		echo '<node id="group" class="type_category unlinked" title="Groups">', "\n";
 		foreach ($groups as $group)
 		{
-			echo '<leaf id="group_'. $group->get_id(). '" class="'. 'type type_group'. '" title="'. htmlentities($group->get_name()). '" description="'. htmlentities($group->get_name()) . '"/>'. "\n";
+			echo '<leaf id="group_'. $group->get_id(). '" class="'. 'type type_group'. '" title="'. htmlspecialchars($group->get_name()). '" description="'. htmlspecialchars($group->get_name()) . '"/>'. "\n";
 		}
 		echo '</node>', "\n";
 		//echo '</node>';

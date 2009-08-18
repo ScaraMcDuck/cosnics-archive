@@ -51,7 +51,7 @@ class SubscriptionUserForm extends FormValidator
 		$locale['NoResults'] = Translation :: get('NoResults');
 		$locale['Error'] = Translation :: get('Error');
 		
-		$elem = $this->addElement('element_finder', 'users', null, $url, $locale, $user_list);
+		$elem = $this->addElement('element_finder', 'users', null, $url, $locale, $user_list, array('load_elements' => false));
 		$elem->excludeElements(array($this->user->get_id()));
     	
     	$this->addElement('html', '<div style="clear: both;"></div>');
