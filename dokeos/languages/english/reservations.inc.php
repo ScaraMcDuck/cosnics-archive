@@ -90,4 +90,15 @@ $lang['reservations']['ChooseTime2'] = 'Pick the time for item %s between: ';
 $lang['reservations']['ChooseTime'] = 'Pick the time for item %s. Make sure the time window is at least %s minutes and maximum %s minutes between';
 $lang['reservations']['and'] = 'and';
 $lang['reservations']['ConfirmSubscription'] = 'Please confirm your reservation from <b>%s</b> untill <b>%s</b> for item <b>%s</b>.';
+$lang['reservations']['ReservationId'] = 'Event';
+$lang['reservations']['StartTime'] = 'Start time';
+$lang['reservations']['StopTime'] = 'Stop time';
+$lang['reservations']['Accepted'] = 'Accepted';
+$lang['reservations']['DayViewTitle'] = 'Day';
+$lang['reservations']['WeekViewTitle'] = 'Week';
+$lang['reservations']['ListViewTitle'] = 'List';
+$lang['reservations']['TimeUnit'] = 'Time unit';
+$lang['reservations']['Time Unit (d)'] = 'Time unit (d)';
+$lang['reservations']['ViewQuota'] = 'View quota';
+$lang['reservations']['Days'] = 'Days';
 ?>
