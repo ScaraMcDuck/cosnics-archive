@@ -22,8 +22,10 @@ class ReportingWeblcms
 
         while($visittracker = $trackerdata->next_result())
         {
-            if(!isset($user))
+            if(!$user)
+            {
                 $user = $udm->retrieve_user($visittracker->get_user_id());
+            }
 
             $arr[Translation :: get('User')][] = $user->get_fullname();
             $arr[Translation :: get('LastAccess')][] = $visittracker->get_enter_date();
@@ -259,7 +261,7 @@ class ReportingWeblcms
         require_once Path :: get_user_path().'trackers/visit_tracker.class.php';
         $wdm = WeblcmsDataManager :: get_instance();
         $tracker = new VisitTracker();
-        $courses = $wdm->retrieve_courses();
+        $courses = $wdm->retrieve_courses(null,null,null,$params['order_by']);
 
         $arr[Translation :: get('Past24hr')][0] = 0;
         $arr[Translation :: get('PastWeek')][0] = 0;
@@ -314,7 +316,7 @@ class ReportingWeblcms
     public static function getMostActiveInactiveLastPublication($params)
     {
         $wdm = WeblcmsDataManager :: get_instance();
-        $courses = $wdm->retrieve_courses();
+        $courses = $wdm->retrieve_courses(null,null,null,$params['order_by']);
 
         $arr[Translation :: get('Past24hr')][0] = 0;
         $arr[Translation :: get('PastWeek')][0] = 0;
@@ -373,7 +375,7 @@ class ReportingWeblcms
         require_once Path :: get_user_path().'trackers/visit_tracker.class.php';
         $wdm = WeblcmsDataManager::get_instance();
         $tracker = new VisitTracker();
-        $courses = $wdm->retrieve_courses();
+        $courses = $wdm->retrieve_courses(null,null,null,$params['order_by']);
         while($course = $courses->next_result())
         {
             $lastaccess = Translation :: get('NeverAccessed');
@@ -474,7 +476,7 @@ class ReportingWeblcms
         $conditions = array();
         $conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
         $conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'learning_path');
-        $lops = $wdm->retrieve_learning_object_publications_new($condition);
+        $lops = $wdm->retrieve_learning_object_publications_new($condition,$params['order_by']);
 
         while($lop = $lops->next_result())
         {
@@ -614,7 +616,7 @@ class ReportingWeblcms
         require_once Path :: get_application_path().'lib/weblcms/data_manager/database.class.php';
         $wiki = RepositoryDataManager :: get_instance()->retrieve_learning_object($params['pid']);
 
-        $clois = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition(ComplexlearningObjectItem :: PROPERTY_PARENT, $wiki->get_id()))->as_array();
+        $clois = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition(ComplexlearningObjectItem :: PROPERTY_PARENT, $wiki->get_id()),$params['order_by'])->as_array();
 
         if(empty($clois))
             return Reporting::getSerieArray($arr);
@@ -660,7 +662,7 @@ class ReportingWeblcms
         }
         $conditions[] = new OrCondition($access);
 
-        $lops = $wdm->retrieve_learning_object_publications_new($condition);
+        $lops = $wdm->retrieve_learning_object_publications_new($condition, $params['order_by']);
 
         while($lop = $lops->next_result())
         {
@@ -741,6 +743,7 @@ class ReportingWeblcms
 
     public static function getPublicationAccess($params)
     {
+        require_once Path :: get_user_path().'trackers/visit_tracker.class.php';
         $course_id = $params[ReportingManager::PARAM_COURSE_ID];
         $user_id = $params[ReportingManager::PARAM_USER_ID];
         $pid = $params['pid'];
@@ -786,6 +789,9 @@ class ReportingWeblcms
         $condition = new PatternMatchCondition(VisitTracker::PROPERTY_LOCATION,'*pid='.$pid.'*');
 
         $order_by = new ObjectTableOrder(VisitTracker :: PROPERTY_ENTER_DATE, SORT_DESC);
+        if($params['order_by'])
+            $order_by = $params['order_by'];
+
         $trackerdata = $tracker->retrieve_tracker_items_result_set($condition,$order_by);
 
         while($value = $trackerdata->next_result())

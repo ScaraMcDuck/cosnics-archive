@@ -45,7 +45,13 @@ class ReportingTableFormatter extends ReportingFormatter {
         }
 
         $column = (isset($datadescription['default_sort_column']))?$datadescription['default_sort_column']:0;
-        $table = new SortableTableFromArray($data,$column,10,'table_'.$this->reporting_block->get_id());
+
+        if($this->reporting_block->is_sortable())
+            $table = new SortableTable('table_'.$this->reporting_block->get_id(),null,$this->reporting_block->get_function(),$column);
+        else
+            $table = new SortableTableFromArray($data,$column,10,'table_'.$this->reporting_block->get_id());
+            //Todo: not a sortable table
+        
         foreach ($_GET as $key => $value) {
             if(strstr($key, 'table_'.$this->reporting_block->get_id()))
                 Request :: set_get($key,null);
