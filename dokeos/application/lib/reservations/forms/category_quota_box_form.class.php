@@ -90,7 +90,7 @@ class CategoryQuotaBoxForm extends FormValidator {
 		{
 			$user = $udm->retrieve_user($rel_user->get_user_id());
 			$id = 'user_' . $user->get_id();
-			$defaults[$id] = array('id' => $id, 'title' => $user->get_username(), 'description' => $user->get_fullname(), 'class' => 'type type_group');
+			$defaults[$id] = array('id' => $id, 'title' => $user->get_fullname(), 'description' => $user->get_fullname(), 'class' => 'type type_group');
 		}
 		
     	$condition = new EqualityCondition(QuotaBoxRelCategoryRelGroup :: PROPERTY_QUOTA_BOX_REL_CATEGORY_ID, $this->quota_box_rel_category->get_id());
