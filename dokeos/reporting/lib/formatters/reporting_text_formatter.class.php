@@ -5,13 +5,15 @@
 * 
 * @author: Michael Kyndt
 */
-class ReportingTextFormatter extends ReportingFormatter {
+class ReportingTextFormatter extends ReportingFormatter
+{
     private $reporting_block;
 
     /**
      * @see Reporting Formatter -> to_html
      */
-    public function to_html() {
+    public function to_html()
+    {
         $all_data = $this->reporting_block->get_data();
         $data = $all_data[0];
         $datadescription = $all_data[1];
@@ -32,7 +34,8 @@ class ReportingTextFormatter extends ReportingFormatter {
         $start = $offset[0];
         $end = $offset[1];
 
-        if ($values > 1) {
+        if ($values > 1)
+        {
             while($count <= $values)
             {
                 if($count>=$start && $count <=$end)
@@ -47,7 +50,8 @@ class ReportingTextFormatter extends ReportingFormatter {
                 }
                 $count++;
             }
-        }else {
+        }else
+        {
             foreach ($data as $key => $value)
             {
                 $j = 0;
@@ -58,7 +62,7 @@ class ReportingTextFormatter extends ReportingFormatter {
                         $html[] = $datadescription["Description"]["Column".$j].': '.$key2;
                         $html[] = '<br />';
                     }else
-                    $html[] = $key2 . " ";
+                        $html[] = $key2 . " ";
                     $j++;
                 }
                 $html[] = "<br />";
@@ -68,7 +72,8 @@ class ReportingTextFormatter extends ReportingFormatter {
         return implode("\n", $html);
     }
 
-    public function ReportingTextFormatter(& $reporting_block) {
+    public function ReportingTextFormatter(& $reporting_block)
+    {
         $this->reporting_block = $reporting_block;
     }
 } //ReportingTextFormatter
