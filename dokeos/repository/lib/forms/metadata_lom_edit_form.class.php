@@ -492,8 +492,6 @@ class MetadataLOMEditForm extends FormValidator
 	        $concern = substr($concern, 0, stripos($concern, '['));
 	    }
 	    
-	    debug($concern);
-	    
 	    switch($concern)
 	    {
 	        case self :: LOM_GENERAL_IDENTIFIER:
@@ -596,7 +594,7 @@ class MetadataLOMEditForm extends FormValidator
 	{
 	    $action_value = Request :: post(self :: FORM_ACTION_VALUE);
 	    
-	    debug($action_value);
+	    //debug($action_value);
 	    
 	    $description_index = StringTool :: get_value_between_chars($action_value, 0);
 	    $string_index = StringTool :: get_value_between_chars($action_value, 1);
