@@ -11,56 +11,56 @@ require_once Path :: get_reporting_path().'lib/reporting_manager/reporting_manag
  */
 class ReportingTemplateRegistrationBrowserTableCellRenderer extends DefaultReportingTemplateRegistrationTableCellRenderer
 {
-	/**
-	 * The reporting template registration browser component
-	 */
-	private $browser;
-	
-	/**
-	 * Constructor
-	 * @param ReportingTemplateManagerBrowserComponent $browser
-	 */
-	function ReportingTemplateRegistrationBrowserTableCellRenderer($browser)
-	{
-		parent :: __construct();
-		$this->browser = $browser;
-	}
-	// Inherited
-	function render_cell($column, $reporting_template_registration)
-	{
-		if ($column === ReportingTemplateRegistrationBrowserTableColumnModel :: get_modification_column())
-		{
-			return $this->get_modification_links($reporting_template_registration);
-		}
-		
-		return parent :: render_cell($column, $reporting_template_registration);
-	}
-	/**
-	 * Gets the action links to display
-	 * @param ReportingTemplateRegistration $reporting_template_registration The template
+/**
+ * The reporting template registration browser component
+ */
+    private $browser;
+
+    /**
+     * Constructor
+     * @param ReportingTemplateManagerBrowserComponent $browser
+     */
+    function ReportingTemplateRegistrationBrowserTableCellRenderer($browser)
+    {
+        parent :: __construct();
+        $this->browser = $browser;
+    }
+    // Inherited
+    function render_cell($column, $reporting_template_registration)
+    {
+        if ($column === ReportingTemplateRegistrationBrowserTableColumnModel :: get_modification_column())
+        {
+            return $this->get_modification_links($reporting_template_registration);
+        }
+
+        return parent :: render_cell($column, $reporting_template_registration);
+    }
+    /**
+     * Gets the action links to display
+     * @param ReportingTemplateRegistration $reporting_template_registration The template
      * object for which the links should be returned
-	 * @return string A HTML representation of the action links
-	 */
-	private function get_modification_links($reporting_template_registration)
-	{
-		$toolbar_data = array();
+     * @return string A HTML representation of the action links
+     */
+    private function get_modification_links($reporting_template_registration)
+    {
+        $toolbar_data = array();
 
         //$viewing_url = ReportingManager::get_reporting_template_registration_url_content($this->browser,$reporting_template_registration->get_classname());
-		$viewing_url = $this->browser->get_reporting_template_registration_viewing_url($reporting_template_registration);
-		$toolbar_data[] = array(
-			'href' => $viewing_url,
-			'label' => Translation :: get('View'),
-			'img' => Theme :: get_common_image_path().'action_reporting.png',
-		);
+        $viewing_url = $this->browser->get_reporting_template_registration_viewing_url($reporting_template_registration);
+        $toolbar_data[] = array(
+            'href' => $viewing_url,
+            'label' => Translation :: get('View'),
+            'img' => Theme :: get_common_image_path().'action_reporting.png',
+        );
 
         $editing_url = $this->browser->get_reporting_template_registration_editing_url($reporting_template_registration);
-		$toolbar_data[] = array(
-			'href' => $editing_url,
-			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_image_path().'action_edit.png',
-		);
-		
-		return DokeosUtilities :: build_toolbar($toolbar_data);
-	}
+        $toolbar_data[] = array(
+            'href' => $editing_url,
+            'label' => Translation :: get('Edit'),
+            'img' => Theme :: get_common_image_path().'action_edit.png',
+        );
+
+        return DokeosUtilities :: build_toolbar($toolbar_data);
+    }
 }
 ?>
