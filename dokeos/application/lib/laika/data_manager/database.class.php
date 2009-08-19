@@ -101,13 +101,13 @@ class DatabaseLaikaDatamanager extends LaikaDatamanager
 
 	function retrieve_laika_questions($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(LaikaQuestion :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+		return $this->database->retrieve_objects(LaikaQuestion :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, LaikaQuestion :: CLASS_NAME);
 	}
 
     function retrieve_laika_question($id)
 	{
 		$condition = new EqualityCondition(LaikaQuestion :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(LaikaQuestion :: get_table_name(), $condition);
+		return $this->database->retrieve_object(LaikaQuestion :: get_table_name(), $condition, array(), array(), LaikaQuestion :: CLASS_NAME);
 	}
 
 	function create_laika_attempt($laika_attempt)
@@ -167,18 +167,18 @@ class DatabaseLaikaDatamanager extends LaikaDatamanager
 
 	function retrieve_laika_scales($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(LaikaScale :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+		return $this->database->retrieve_objects(LaikaScale :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, LaikaScale :: CLASS_NAME);
 	}
 
     function retrieve_laika_scale($id)
 	{
 		$condition = new EqualityCondition(LaikaScale :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(LaikaScale :: get_table_name(), $condition);
+		return $this->database->retrieve_object(LaikaScale :: get_table_name(), $condition, array(), array(), LaikaScale :: CLASS_NAME);
 	}
 
 	function retrieve_laika_results($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(LaikaResult :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+		return $this->database->retrieve_objects(LaikaResult :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, LaikaResult :: CLASS_NAME);
 	}
 
     function retrieve_laika_result($id)
@@ -211,18 +211,18 @@ class DatabaseLaikaDatamanager extends LaikaDatamanager
 
 	function retrieve_laika_clusters($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(LaikaCluster :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+		return $this->database->retrieve_objects(LaikaCluster :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, LaikaCluster :: CLASS_NAME);
 	}
 
     function retrieve_laika_cluster($id)
 	{
 		$condition = new EqualityCondition(LaikaCluster :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(LaikaCluster :: get_table_name(), $condition);
+		return $this->database->retrieve_object(LaikaCluster :: get_table_name(), $condition, array(), array(), LaikaCluster :: CLASS_NAME);
 	}
 
 	function retrieve_laika_calculated_results($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(LaikaCalculatedResult :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+		return $this->database->retrieve_objects(LaikaCalculatedResult :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, LaikaCalculatedResult :: CLASS_NAME);
 	}
 
 	function retrieve_laika_table_calculated_results($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
@@ -230,25 +230,25 @@ class DatabaseLaikaDatamanager extends LaikaDatamanager
 		$udm_database = UserDataManager :: get_instance()->get_database();
 		$connection = $this->database->get_connection();
 		$database = $this->database;
-		
+
 		$result_alias = $this->database->get_alias(LaikaCalculatedResult :: get_table_name());
 		$attempt_alias = $this->database->get_alias(LaikaAttempt :: get_table_name());
 		$user_alias = $udm_database->get_alias(User :: get_table_name());
-		
+
 //		$query = 'SELECT ' . $result_alias . '.*, ' . $udm_database->escape_column_name(User :: PROPERTY_USER_ID, $user_alias);
 		$query = 'SELECT ' . $result_alias . '.* ';
 		$query .= ' FROM '. $database->escape_table_name(LaikaCalculatedResult :: get_table_name()). ' AS ' . $result_alias;
 		$query .= ' JOIN ' . $database->escape_table_name(LaikaAttempt :: get_table_name()) . ' AS ' . $attempt_alias . ' ON ' . $database->escape_column_name(LaikaCalculatedResult :: PROPERTY_ATTEMPT_ID, $result_alias) . ' = ' . $database->escape_column_name(LaikaAttempt :: PROPERTY_ID, $attempt_alias);
 		$query .= ' JOIN ' . $udm_database->escape_table_name(User :: get_table_name()) . ' AS ' . $udm_database->get_alias(User :: get_table_name()) . ' ON ' . $database->escape_column_name(LaikaAttempt :: PROPERTY_USER_ID, $attempt_alias) . ' = ' . $udm_database->escape_column_name(User :: PROPERTY_USER_ID, $user_alias);
-		
-		return $this->database->retrieve_result_set($query, LaikaCalculatedResult :: get_table_name(), $condition, $offset, $maxObjects, $orderBy);
+
+		return $this->database->retrieve_result_set($query, LaikaCalculatedResult :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, LaikaCalculatedResult :: CLASS_NAME);
 	}
 
 	function count_laika_table_calculated_results($condition = null)
 	{
 		$udm_database = UserDataManager :: get_instance()->get_database();
 		$database = $this->database;
-		
+
 		$result_alias = $this->database->get_alias(LaikaCalculatedResult :: get_table_name());
 		$attempt_alias = $this->database->get_alias(LaikaAttempt :: get_table_name());
 		$user_alias = $udm_database->get_alias(User :: get_table_name());
@@ -256,36 +256,36 @@ class DatabaseLaikaDatamanager extends LaikaDatamanager
 		$query = 'SELECT COUNT(*)  FROM '. $database->escape_table_name(LaikaCalculatedResult :: get_table_name()). ' AS '. $result_alias;
 		$query .= ' JOIN ' . $database->escape_table_name(LaikaAttempt :: get_table_name()) . ' AS ' . $attempt_alias . ' ON ' . $database->escape_column_name(LaikaCalculatedResult :: PROPERTY_ATTEMPT_ID, $result_alias) . ' = ' . $database->escape_column_name(LaikaAttempt :: PROPERTY_ID, $attempt_alias);
 		$query .= ' JOIN ' . $udm_database->escape_table_name(User :: get_table_name()) . ' AS ' . $user_alias . ' ON ' . $database->escape_column_name(LaikaAttempt :: PROPERTY_USER_ID, $attempt_alias) . ' = ' . $udm_database->escape_column_name(User :: PROPERTY_USER_ID, $user_alias);
-		
+
 		return $database->count_result_set($query, LaikaCalculatedResult :: get_table_name(), $condition);
 	}
 
     function retrieve_laika_calculated_result($id)
 	{
 		$condition = new EqualityCondition(LaikaCalculatedResult :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(LaikaCalculatedResult :: get_table_name(), $condition);
+		return $this->database->retrieve_object(LaikaCalculatedResult :: get_table_name(), $condition, array(), array(), LaikaCalculatedResult :: CLASS_NAME);
 	}
 
 	function retrieve_laika_answers($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(LaikaAnswer :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+		return $this->database->retrieve_objects(LaikaAnswer :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, LaikaAnswer :: CLASS_NAME);
 	}
 
     function retrieve_laika_answer($id)
 	{
 		$condition = new EqualityCondition(LaikaAnswer :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(LaikaAnswer :: get_table_name(), $condition);
+		return $this->database->retrieve_object(LaikaAnswer :: get_table_name(), $condition, array(), array(), LaikaAnswer :: CLASS_NAME);
 	}
 
 	function retrieve_laika_attempts($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(LaikaAttempt :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+		return $this->database->retrieve_objects(LaikaAttempt :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, LaikaAttempt :: CLASS_NAME);
 	}
 
     function retrieve_laika_attempt($id)
 	{
 		$condition = new EqualityCondition(LaikaAttempt :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(LaikaAttempt :: get_table_name(), $condition);
+		return $this->database->retrieve_object(LaikaAttempt :: get_table_name(), $condition, array(), array(), LaikaAttempt :: CLASS_NAME);
 	}
 
 	function retrieve_percentile_codes($condition = null, $order_direction = SORT_ASC)
@@ -319,12 +319,12 @@ class DatabaseLaikaDatamanager extends LaikaDatamanager
 		{
 			$query .= 'HAVING '. $database->escape_column_name(LaikaAttempt :: PROPERTY_USER_ID) .' IN (';
 
-			$values = $condition->get_values();
+//			$values = $condition->get_values();
 			$placeholders = array();
 			foreach($users as $user)
 			{
 				$placeholders[] = '?';
-				$this->parameters[] = $user;
+				$params[] = $user;
 			}
 
 			$query .= implode(',', $placeholders).')';
