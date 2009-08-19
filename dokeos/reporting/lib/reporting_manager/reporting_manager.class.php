@@ -39,12 +39,12 @@ class ReportingManager extends CoreApplication
 
     function ReportingManager($user = null)
     {
-       parent :: __construct($user);
+        parent :: __construct($user);
     }
 
     function get_application_name()
     {
-    	return self :: APPLICATION_NAME;
+        return self :: APPLICATION_NAME;
     }
 
     /**
@@ -102,14 +102,14 @@ class ReportingManager extends CoreApplication
     {
         $links		= array();
         $links[]	= array('name' => Translation :: get('List'),
-							'description' => Translation :: get('ListDescription'),
-							'action' => 'list',
-							'url' => $this->get_link(array(Application :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)));
+            'description' => Translation :: get('ListDescription'),
+            'action' => 'list',
+            'url' => $this->get_link(array(Application :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)));
 
-		$info = parent :: get_application_platform_admin_links();
-		$info['links'] = $links;
+        $info = parent :: get_application_platform_admin_links();
+        $info['links'] = $links;
 
-		return $info;
+        return $info;
     }
 
     function get_reporting_template_registration_viewing_url($reporting_template_registration)
