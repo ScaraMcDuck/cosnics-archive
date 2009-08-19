@@ -11,24 +11,24 @@ require_once Path :: get_reporting_path().'lib/reporting_template_registration.c
  */
 class DefaultReportingTemplateRegistrationTableColumnModel extends ObjectTableColumnModel
 {
-	/**
-	 * Constructor
-	 */
-	function DefaultReportingTemplateRegistrationTableColumnModel()
-	{
-		parent :: __construct(self :: get_default_columns(), 1);
-	}
-	/**
-	 * Gets the default columns for this model
-	 * @return LearningObjectTableColumn[]
-	 */
-	private static function get_default_columns()
-	{
-		$columns = array();
+/**
+ * Constructor
+ */
+    function DefaultReportingTemplateRegistrationTableColumnModel()
+    {
+        parent :: __construct(self :: get_default_columns(), 1);
+    }
+    /**
+     * Gets the default columns for this model
+     * @return LearningObjectTableColumn[]
+     */
+    private static function get_default_columns()
+    {
+        $columns = array();
         $columns[] = new ObjectTableColumn(ReportingTemplateRegistration :: PROPERTY_APPLICATION);
-		$columns[] = new ObjectTableColumn(ReportingTemplateRegistration :: PROPERTY_TITLE);
-		$columns[] = new ObjectTableColumn(ReportingTemplateRegistration :: PROPERTY_DESCRIPTION);
-		return $columns;
-	}
+        $columns[] = new ObjectTableColumn(ReportingTemplateRegistration :: PROPERTY_TITLE);
+        $columns[] = new ObjectTableColumn(ReportingTemplateRegistration :: PROPERTY_DESCRIPTION);
+        return $columns;
+    }
 }
 ?>
