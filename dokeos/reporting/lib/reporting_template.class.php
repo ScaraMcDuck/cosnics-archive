@@ -12,7 +12,8 @@ require_once dirname(__FILE__) . '/reporting.class.php';
 
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
 
-abstract class ReportingTemplate {
+abstract class ReportingTemplate
+{
 
     const PARAM_VISIBLE = 'visible';
     const PARAM_DIMENSIONS = 'dimensions';
@@ -92,12 +93,12 @@ abstract class ReportingTemplate {
             $html[] = '</ul></li>';
             $html[] = '</ul>';
         }else if($orientation == Reporting::ORIENTATION_HORIZONTAL)
-        {
-            foreach($this->retrieve_reporting_blocks() as $key => $value)
             {
-                $html[] = '<a href="' . $this->parent->get_url(array('s' => $value[0]->get_name(),'template' => $this->get_registration_id())) . '">'.Translation :: get($value[0]->get_name()).'</a> | ';
+                foreach($this->retrieve_reporting_blocks() as $key => $value)
+                {
+                    $html[] = '<a href="' . $this->parent->get_url(array('s' => $value[0]->get_name(),'template' => $this->get_registration_id())) . '">'.Translation :: get($value[0]->get_name()).'</a> | ';
+                }
             }
-        }
         $html[] = '</div>';
         $html[] = '<br /><br />';
         return implode("\n", $html);
@@ -192,7 +193,7 @@ abstract class ReportingTemplate {
         $html[] = '</div><br /><br />';
 
         $html[] = $this->get_visible_reporting_blocks(true);
-    	return implode("\n", $html);
+        return implode("\n", $html);
     }
 
     /**
@@ -203,7 +204,7 @@ abstract class ReportingTemplate {
     {
         foreach($this->retrieve_reporting_blocks() as $key => $value)
         {
-            // check if reporting block is visible
+        // check if reporting block is visible
             if($value[1][self :: PARAM_VISIBLE] == self :: REPORTING_BLOCK_VISIBLE)
             {
                 if($export)
@@ -266,7 +267,8 @@ abstract class ReportingTemplate {
         $this->params = $params;
         foreach($this->retrieve_reporting_blocks() as $key => $value)
         {
-            foreach ($params as $key2 => $value2) {
+            foreach ($params as $key2 => $value2)
+            {
                 $value[0]->add_function_parameter($key2,$value2);
             }
         }
@@ -281,6 +283,6 @@ abstract class ReportingTemplate {
                 $value[0]->set_function_parameters($params);
             }
         }
-    }//set_reporting_block_parameters
+}//set_reporting_block_parameters
 }//ReportingTemplateProperties
 ?>

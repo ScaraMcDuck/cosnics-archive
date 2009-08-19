@@ -30,21 +30,21 @@ class ReportingBlock extends DataClass
     {
         return parent :: get_default_property_names(array(self :: PROPERTY_NAME, self :: PROPERTY_APPLICATION, self :: PROPERTY_FUNCTION, self :: PROPERTY_DISPLAYMODE, self :: PROPERTY_WIDTH, self :: PROPERTY_HEIGHT, self :: PROPERTY_EXCLUDE_DISPLAYMODES, self :: PROPERTY_SORTABLE));
     }
-    
-	/**
-	 * inherited
-	 */
-	function get_data_manager()
-	{
-		return ReportingDataManager :: get_instance();	
-	}
+
+    /**
+     * inherited
+     */
+    function get_data_manager()
+    {
+        return ReportingDataManager :: get_instance();
+    }
 
     /**
      * Retrieves the data for this block
      */
     private function retrieve_data()
     {
-        //require_once($this->get_applicationUrl());
+    //require_once($this->get_applicationUrl());
         $base_path = (WebApplication :: is_application($this->get_application()) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
 
         $file = $base_path . $this->get_application() . '/reporting/reporting_' . $this->get_application() . '.class.php';

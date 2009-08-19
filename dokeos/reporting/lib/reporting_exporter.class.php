@@ -7,7 +7,8 @@ require_once Path :: get_reporting_path().'lib/reporting.class.php';
 require_once Path :: get_reporting_path().'lib/reporting_formatter.class.php';
 require_once Path :: get_library_path().'export/export.class.php';
 
-class ReportingExporter {
+class ReportingExporter
+{
 
     private $parent;
     public function ReportingExporter($parent)
@@ -24,7 +25,7 @@ class ReportingExporter {
         {
             $displaymode = 'image';
             $test = ReportingFormatter::factory($rep_block)->to_link('SYS');
-            //$this->export_report($export, $link, $rep_block->get_name(), $displaymode);
+        //$this->export_report($export, $link, $rep_block->get_name(), $displaymode);
         }
         else
         {
@@ -36,8 +37,10 @@ class ReportingExporter {
             $orientation = $datadescription[Reporting::PARAM_ORIENTATION];
 
             $j = 0;
-            foreach ($data as $key => $value) {
-                foreach ($value as $key2 => $value2) {
+            foreach ($data as $key => $value)
+            {
+                foreach ($value as $key2 => $value2)
+                {
                     $value[$j] = $value[$key2];
                     unset($value[$key2]);
                     $j++;
@@ -46,15 +49,19 @@ class ReportingExporter {
                 $j=0;
             }
 
-            if($orientation == Reporting::ORIENTATION_HORIZONTAL) {
-                foreach ($data as $key => $value) {
+            if($orientation == Reporting::ORIENTATION_HORIZONTAL)
+            {
+                foreach ($data as $key => $value)
+                {
                     $datadescription["Description"][$j] = $value[0];
                     unset($value[0]);
                     $data[$key] = $value;
                     $j++;
                 }
-                foreach ($data as $key => $value) {
-                    foreach ($value as $key2 => $value2) {
+                foreach ($data as $key => $value)
+                {
+                    foreach ($value as $key2 => $value2)
+                    {
                         $data2[$key2-1][] = $value2;
                     }
                 }
@@ -62,29 +69,29 @@ class ReportingExporter {
             }
             $test = $data;
 
-            //dump($data);
-            //dump($test);
-            //            $series = sizeof($datadescription["Values"]);
-            //            if($series==1)
-            //            {
-            //                foreach($data as $key => $value)
-            //                {
-            //                    $single_serie = array();
-            //                    $single_serie[] = $value['Name'];
-            //                    $single_serie[] = strip_tags($value['Serie1']);
-            //                    $test[] = $single_serie;
-            //                }
-            //            }else
-            //            {
-            //                foreach ($data as $key => $value)
-            //                {
-            //                    $test[0][] = $value['Name'];
-            //                    for ($i = 1;$i<count($value);$i++)
-            //                    {
-            //                        $test[$i][] = strip_tags($value['Serie'.$i]);
-            //                    }
-            //                }
-            //            }
+        //dump($data);
+        //dump($test);
+        //            $series = sizeof($datadescription["Values"]);
+        //            if($series==1)
+        //            {
+        //                foreach($data as $key => $value)
+        //                {
+        //                    $single_serie = array();
+        //                    $single_serie[] = $value['Name'];
+        //                    $single_serie[] = strip_tags($value['Serie1']);
+        //                    $test[] = $single_serie;
+        //                }
+        //            }else
+        //            {
+        //                foreach ($data as $key => $value)
+        //                {
+        //                    $test[0][] = $value['Name'];
+        //                    for ($i = 1;$i<count($value);$i++)
+        //                    {
+        //                        $test[$i][] = strip_tags($value['Serie'.$i]);
+        //                    }
+        //                }
+        //            }
         }
         //        $test = '<html><head></head><body>';
         //$test = Reporting :: generate_block_export($rep_block, $params);
