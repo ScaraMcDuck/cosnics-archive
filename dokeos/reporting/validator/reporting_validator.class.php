@@ -34,19 +34,19 @@ class ReportingValidator extends Validator
     }
 
     private function get_required_course_property_names()
-	{
+    {
         return array(Course :: PROPERTY_CATEGORY, Course :: PROPERTY_SHOW_SCORE, Course :: PROPERTY_VISUAL);
-  	}
+    }
 
     private function get_required_course_rel_user_property_names()
-	{
+    {
         return array(CourseUserRelation :: PROPERTY_COURSE, CourseUserRelation :: PROPERTY_USER, CourseUserRelation :: PROPERTY_STATUS, CourseUserRelation :: PROPERTY_COURSE_GROUP, CourseUserRelation :: PROPERTY_TUTOR);
-  	}
+    }
 
     private function get_required_course_group_property_names()
-	{
+    {
         return array(CourseGroup ::PROPERTY_COURSE_CODE, CourseGroup :: PROPERTY_NAME, CourseGroup :: PROPERTY_SELF_REG, CourseGroup :: PROPERTY_SELF_UNREG);
-  	}
+    }
 
     function validate_retrieve(&$object)
     {}
@@ -63,7 +63,7 @@ class ReportingValidator extends Validator
     function validate_get_user_courses(&$input_user)
     {
         $this->errorSource = Translation :: get('ErrorRetrievingUserCourses');
-        
+
         if(empty($input_user[USER :: PROPERTY_USERNAME]))
         {
             $this->errorMessage = Translation :: get('UsernameIsRequired');
@@ -77,7 +77,7 @@ class ReportingValidator extends Validator
             return false;
         }
         else
-        $input_user[USER :: PROPERTY_USER_ID] = $user;
+            $input_user[USER :: PROPERTY_USER_ID] = $user;
 
         return true;
     }
@@ -99,7 +99,7 @@ class ReportingValidator extends Validator
             return false;
         }
         else
-        $input_course[Course :: PROPERTY_ID] = $course;
+            $input_course[Course :: PROPERTY_ID] = $course;
 
         return true;
     }
@@ -127,7 +127,7 @@ class ReportingValidator extends Validator
             return false;
         }
         else
-        $input_course[CourseUserRelation :: PROPERTY_COURSE] = $course;
+            $input_course[CourseUserRelation :: PROPERTY_COURSE] = $course;
 
         $user = $this->get_person_id($input_course[CourseUserRelation :: PROPERTY_USER]);
         if($user===false)
@@ -136,7 +136,7 @@ class ReportingValidator extends Validator
             return false;
         }
         else
-        $input_course[CourseUserRelation :: PROPERTY_USER] = $user;
+            $input_course[CourseUserRelation :: PROPERTY_USER] = $user;
 
         return true;
     }
@@ -170,7 +170,7 @@ class ReportingValidator extends Validator
             return false;
         }
         else
-        $input_course[LearningObjectPublicationUser :: PROPERTY_COURSE_ID] = $course;
+            $input_course[LearningObjectPublicationUser :: PROPERTY_COURSE_ID] = $course;
 
         $user = $this->get_person_id($input_course[LearningObjectPublicationUser :: PROPERTY_USER_ID]);
         if($user===false)
@@ -179,7 +179,7 @@ class ReportingValidator extends Validator
             return false;
         }
         else
-        $input_course[LearningObjectPublicationUser :: PROPERTY_USER_ID] = $user;
+            $input_course[LearningObjectPublicationUser :: PROPERTY_USER_ID] = $user;
 
         return true;
     }
@@ -201,7 +201,7 @@ class ReportingValidator extends Validator
             return false;
         }
         else
-        $user[User :: PROPERTY_USER_ID] = $user;
+            $user[User :: PROPERTY_USER_ID] = $user;
 
         return true;
     }
@@ -223,7 +223,7 @@ class ReportingValidator extends Validator
             return false;
         }
         else
-        $course[Course :: PROPERTY_ID] = $course;
+            $course[Course :: PROPERTY_ID] = $course;
 
         return true;
     }
@@ -240,7 +240,7 @@ class ReportingValidator extends Validator
         $user = $this->udm->retrieve_user_by_username($person_name);
         if(!empty($user))
         {
-           return $user->get_id();
+            return $user->get_id();
         }
         else
         {
@@ -253,7 +253,7 @@ class ReportingValidator extends Validator
         $course = $this->wdm->retrieve_course_by_visual_code($visual_code);
         if(!empty($course))
         {
-           return $course->get_default_property(Course :: PROPERTY_ID);
+            return $course->get_default_property(Course :: PROPERTY_ID);
         }
         else
         {
