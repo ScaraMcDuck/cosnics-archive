@@ -16,7 +16,7 @@ class ReportingTemplateRegistration extends DataClass
     const PROPERTY_CLASSNAME = 'class';
     const PROPERTY_PLATFORM = 'platform';
     const PROPERTY_DESCRIPTION = 'description';
-   
+
     /**
      * Get the default properties
      * @return array The property names.
@@ -25,14 +25,14 @@ class ReportingTemplateRegistration extends DataClass
     {
         return parent :: get_default_property_names(array(self :: PROPERTY_TITLE, self :: PROPERTY_APPLICATION, self :: PROPERTY_CLASSNAME, self :: PROPERTY_PLATFORM, self :: PROPERTY_DESCRIPTION));
     }
-    
-	/**
-	 * inherited
-	 */
-	function get_data_manager()
-	{
-		return ReportingDataManager :: get_instance();	
-	}
+
+    /**
+     * inherited
+     */
+    function get_data_manager()
+    {
+        return ReportingDataManager :: get_instance();
+    }
 
     /**
      * Checks if the reporting template registration is aplatform template.

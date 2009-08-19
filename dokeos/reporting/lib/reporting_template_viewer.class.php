@@ -3,7 +3,8 @@
  *
  * @author Michael Kyndt
  */
-class ReportingTemplateViewer {
+class ReportingTemplateViewer
+{
 
     private $parent;
     public function ReportingTemplateViewer($parent)
@@ -20,8 +21,8 @@ class ReportingTemplateViewer {
         $rpdm = ReportingDataManager :: get_instance();
         if(!$reporting_template_registration = $rpdm->retrieve_reporting_template_registration($reporting_template_registration_id))
         {
-			Display :: error_message(Translation :: get("NotFound"));
-			exit;
+            Display :: error_message(Translation :: get("NotFound"));
+            exit;
         }
 
         $this->show_reporting_template_by_name($reporting_template_registration->get_classname(), $params);
@@ -42,16 +43,16 @@ class ReportingTemplateViewer {
         //registration doesn't exist
         if(!isset($reporting_template_registration))
         {
-			Display :: error_message(Translation :: get("NotFound"));
-			exit;
+            Display :: error_message(Translation :: get("NotFound"));
+            exit;
         }
 
         //is platform template
         if ($reporting_template_registration->isPlatformTemplate() && !$this->parent->get_user()->is_platform_admin())
-		{
-			Display :: error_message(Translation :: get("NotAllowed"));
-			exit;
-		}
+        {
+            Display :: error_message(Translation :: get("NotAllowed"));
+            exit;
+        }
 
         $application = $reporting_template_registration->get_application();
         $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path().'lib/' : Path :: get(SYS_PATH));
@@ -61,9 +62,9 @@ class ReportingTemplateViewer {
         $template = new $classname($this->parent,$reporting_template_registration->get_id(),$params);
 
         if(Request :: get('s'))
-		{
+        {
             $template->show_reporting_block(Request :: get('s'));
-		}
+        }
         echo $template->to_html();
     }
 }
