@@ -74,11 +74,11 @@ class ReportingManagerBrowserComponent extends ReportingManagerComponent
         {
             if (isset($application) && $application == $application_links['application']['class'])
             {
-                //$html[] = '<div class="application_current">';
+            //$html[] = '<div class="application_current">';
             }
             else
             {
-                //$html[] = '<div class="application">';
+            //$html[] = '<div class="application">';
             }
             //$html[] = '<a id="'.$application_links['application']['class'].'" class="dock-item" href="'. $this->get_url(array(Application :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES, ReportingManager :: PARAM_APPLICATION => $application_links['application']['class'])) .'">';
             //$html[] = '<a class="dock-item" href="#tabs-'.$index.'" />';

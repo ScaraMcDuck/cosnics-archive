@@ -12,41 +12,41 @@ require_once dirname(__FILE__).'/../../reporting_manager.class.php';
  */
 class ReportingTemplateRegistrationBrowserTable extends ObjectTable
 {
-	const DEFAULT_NAME = 'reporting_template_registration_browser_table';
-	
-	/**
-	 * Constructor
-	 * @see LearningObjectTable::LearningObjectTable()
-	 */
-	function ReportingTemplateRegistrationBrowserTable($browser, $parameters, $condition)
-	{
-		$model = new ReportingTemplateRegistrationBrowserTableColumnModel();
-		$renderer = new ReportingTemplateRegistrationBrowserTableCellRenderer($browser);
-		$data_provider = new ReportingTemplateRegistrationBrowserTableDataProvider($browser, $condition);
-		parent :: __construct($data_provider, ReportingTemplateRegistrationBrowserTable :: DEFAULT_NAME, $model, $renderer);
-		$this->set_additional_parameters($parameters);
-		$this->set_default_row_count(20);
-	}
-	
-	function get_objects($offset, $count, $order_column, $order_direction)
-	{
-		$reporting_template_registrations = $this->get_data_provider()->get_objects($offset, $count, $this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0)), $order_direction);
+    const DEFAULT_NAME = 'reporting_template_registration_browser_table';
+
+    /**
+     * Constructor
+     * @see LearningObjectTable::LearningObjectTable()
+     */
+    function ReportingTemplateRegistrationBrowserTable($browser, $parameters, $condition)
+    {
+        $model = new ReportingTemplateRegistrationBrowserTableColumnModel();
+        $renderer = new ReportingTemplateRegistrationBrowserTableCellRenderer($browser);
+        $data_provider = new ReportingTemplateRegistrationBrowserTableDataProvider($browser, $condition);
+        parent :: __construct($data_provider, ReportingTemplateRegistrationBrowserTable :: DEFAULT_NAME, $model, $renderer);
+        $this->set_additional_parameters($parameters);
+        $this->set_default_row_count(20);
+    }
+    
+    function get_objects($offset, $count, $order_column, $order_direction)
+    {
+        $reporting_template_registrations = $this->get_data_provider()->get_objects($offset, $count, $this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0)), $order_direction);
         $table_data = array ();
-		$column_count = $this->get_column_model()->get_column_count();
-		while ($reporting_template_registration = $reporting_template_registrations->next_result())
-		{
-			$row = array ();
-			if ($this->has_form_actions())
-			{
-				$row[] = $reporting_template_registration->get_name();
-			}
-			for ($i = 0; $i < $column_count; $i ++)
-			{
-				$row[] = $this->get_cell_renderer()->render_cell($this->get_column_model()->get_column($i), $reporting_template_registration);
-			}
-			$table_data[] = $row;
-		}
-		return $table_data;
-	}
+        $column_count = $this->get_column_model()->get_column_count();
+        while ($reporting_template_registration = $reporting_template_registrations->next_result())
+        {
+            $row = array ();
+            if ($this->has_form_actions())
+            {
+                $row[] = $reporting_template_registration->get_name();
+            }
+            for ($i = 0; $i < $column_count; $i ++)
+            {
+                $row[] = $this->get_cell_renderer()->render_cell($this->get_column_model()->get_column($i), $reporting_template_registration);
+            }
+            $table_data[] = $row;
+        }
+        return $table_data;
+    }
 }
 ?>
