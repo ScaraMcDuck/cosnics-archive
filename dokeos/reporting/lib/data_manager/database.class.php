@@ -153,11 +153,11 @@ class DatabaseReportingDataManager extends ReportingDataManager
 
     function delete_orphaned_block_template_relations()
     {
-		$query = 'DELETE FROM '.$this->database->escape_table_name('reporting_template_registration_rel_reporting_block').' WHERE ';
-		$query .= $this->database->escape_column_name('reporting_template_registration_id') . ' NOT IN (SELECT ' . $this->database->escape_column_name(ReportingTemplateRegistration :: PROPERTY_ID) . ' FROM ' . $this->database->escape_table_name(ReportingTemplateRegistration :: get_table_name()) . ') OR ';
-		$query .= $this->database->escape_column_name('reporting_block_id').' NOT IN (SELECT ' . $this->database->escape_column_name(ReportingBlock :: PROPERTY_ID) . ' FROM ' . $this->database->escape_table_name(ReportingBlock :: get_table_name()) . ')';
-		$sth = $this->database->get_connection()->prepare($query);
-		return $sth->execute();
+        $query = 'DELETE FROM '.$this->database->escape_table_name('reporting_template_registration_rel_reporting_block').' WHERE ';
+        $query .= $this->database->escape_column_name('reporting_template_registration_id') . ' NOT IN (SELECT ' . $this->database->escape_column_name(ReportingTemplateRegistration :: PROPERTY_ID) . ' FROM ' . $this->database->escape_table_name(ReportingTemplateRegistration :: get_table_name()) . ') OR ';
+        $query .= $this->database->escape_column_name('reporting_block_id').' NOT IN (SELECT ' . $this->database->escape_column_name(ReportingBlock :: PROPERTY_ID) . ' FROM ' . $this->database->escape_table_name(ReportingBlock :: get_table_name()) . ')';
+        $sth = $this->database->get_connection()->prepare($query);
+        return $sth->execute();
     }
 }
 ?>
