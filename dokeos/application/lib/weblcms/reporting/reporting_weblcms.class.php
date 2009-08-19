@@ -11,13 +11,14 @@ class ReportingWeblcms
     {
     }
 
-    private static function visit_tracker_to_array($condition, $user)
+    private static function visit_tracker_to_array($condition, $user, $order_by)
     {
         require_once Path :: get_user_path().'trackers/visit_tracker.class.php';
         $tracker = new VisitTracker();
         $udm = UserDataManager::get_instance();
 
-        $order_by = new ObjectTableOrder(VisitTracker :: PROPERTY_ENTER_DATE, SORT_DESC);
+        if(!$order_by)
+            $order_by = new ObjectTableOrder(VisitTracker :: PROPERTY_ENTER_DATE, SORT_DESC);
         $trackerdata = $tracker->retrieve_tracker_items_result_set($condition, $order_by);
 
         while($visittracker = $trackerdata->next_result())
@@ -753,8 +754,8 @@ class ReportingWeblcms
 
         if(isset($user_id))
         {
-            $conditions[] = new PatternMatchCondition(VisitTracker::PROPERTY_LOCATION,'*pid='.$pid.'*');
-            $conditions[] = new EqualityCondition(VisitTracker::PROPERTY_USER_ID,$user_id);
+            $conditions[] = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION,'*pid='.$pid.'*');
+            $conditions[] = new EqualityCondition(VisitTracker :: PROPERTY_USER_ID,$user_id);
             $condition = new AndCondition($conditions);
         }
         else
@@ -763,7 +764,7 @@ class ReportingWeblcms
         }
         $user = $udm->retrieve_user($user_id);
 
-        $arr = self :: visit_tracker_to_array($condition,$user);
+        $arr = self :: visit_tracker_to_array($condition,$user,$params['order_by']);
         $description['default_sort_column'] = 1;
         return Reporting :: getSerieArray($arr,$description);
     }
