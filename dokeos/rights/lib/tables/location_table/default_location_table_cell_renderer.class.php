@@ -23,15 +23,14 @@ class DefaultLocationTableCellRenderer implements ObjectTableCellRenderer
 	 * @param Learning Object $learning_object The learning object to render
 	 * @return string A HTML representation of the rendered table cell
 	 */
-	function render_cell($column, $rights_template)
+	function render_cell($column, $location)
 	{
 		switch ($column->get_name())
 		{
-//			case RightsTemplate :: PROPERTY_NAME :
-//				return $rights_template->get_name();
-//			case RightsTemplate :: PROPERTY_DESCRIPTION :
-//				$description = strip_tags($rights_template->get_description());
-//				return DokeosUtilities::truncate_string($description,203);
+			case Location :: PROPERTY_LOCATION :
+				return $location->get_location();
+			case Location :: PROPERTY_TYPE :
+				return $location->get_type();
 			default :
 			    return '&nbsp;';
 		}

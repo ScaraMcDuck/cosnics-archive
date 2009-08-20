@@ -4,7 +4,7 @@
  */
 
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_cell_renderer.class.php';
-require_once dirname(__FILE__).'/../rights_template.class.php';
+require_once dirname(__FILE__).'/../../rights_template.class.php';
 /**
  * TODO: Add comment
  */

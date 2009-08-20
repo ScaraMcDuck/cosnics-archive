@@ -1,6 +1,6 @@
 <?php
 $this_section = 'rights';
- 
+
 require_once dirname(__FILE__).'/../../common/global.inc.php';
 require_once Path :: get_rights_path() . 'lib/rights_data_manager.class.php';
 require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';
@@ -33,12 +33,12 @@ if (isset($rights_template) && isset($right) && isset($location))
 	$rdm = RightsDataManager :: get_instance();
 	$location = $rdm->retrieve_location($location);
 	$rights_template = $rdm->retrieve_rights_template($rights_template);
-		
+
 	$locked_parent = $location->get_locked_parent();
-			
+
 	if (isset($locked_parent))
 	{
-		// TODO: In theory this shouldn't happen, but what if someone else does lock a parent at the same time ? This affects the entire page ... not limited to this functionality. 
+		// TODO: In theory this shouldn't happen, but what if someone else does lock a parent at the same time ? This affects the entire page ... not limited to this functionality.
 		//$value = $this->is_allowed($id, $rights_template->get_id(), $locked_parent->get_id());
 		//$html[] = '<a href="'. $this->get_url(array('application' => $this->application, 'location' => $locked_parent->get_id())) .'">' . ($value == 1 ? '<img src="'. Theme :: get_common_image_path() .'action_setting_true_locked.png" title="'. Translation :: get('LockedTrue') .'" />' : '<img src="'. Theme :: get_common_image_path() .'action_setting_false_locked.png" title="'. Translation :: get('LockedFalse') .'" />') . '</a>';
 	}
@@ -50,8 +50,8 @@ if (isset($rights_template) && isset($right) && isset($location))
 		{
 			if ($location->inherits())
 			{
-				$inherited_value = RightsUtilities :: is_allowed_for_rights_template($rights_template->get_id(), $right, $location, $location->get_application());
-				
+				$inherited_value = RightsUtilities :: is_allowed_for_rights_template($rights_template->get_id(), $right, $location);
+
 				if ($inherited_value)
 				{
 					echo 'rightInheritTrue';

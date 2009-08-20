@@ -172,7 +172,7 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 					{
 						if ($location->inherits())
 						{
-							$inherited_value = RightsUtilities :: is_allowed_for_rights_template($rights_template->get_id(), $id, $location, $this->application);
+							$inherited_value = RightsUtilities :: is_allowed_for_rights_template($rights_template->get_id(), $id, $location);
 
 							if ($inherited_value)
 							{
