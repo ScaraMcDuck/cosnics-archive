@@ -85,9 +85,9 @@ class GroupManagerBrowserComponent extends GroupManagerComponent
 			$or_conditions[] = new LikeCondition(Group :: PROPERTY_DESCRIPTION, $query);
 			$or_condition = new OrCondition($or_conditions);
 
-			$and_conditions[] = array();
-			$and_conditions = $condition;
-			$and_conditions = $or_condition;
+			$and_conditions = array();
+			$and_conditions[] = $condition;
+			$and_conditions[] = $or_condition;
 			$condition = new AndCondition($and_conditions);
 		}
 
