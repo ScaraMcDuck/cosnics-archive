@@ -282,7 +282,7 @@ class Location extends DataClass
 
 		$children_condition = new AndCondition($children_conditions);
 
-		return ($rdm->retrieve_locations($children_condition) > 0);
+		return ($rdm->count_locations($children_condition) > 0);
 	}
 
 	/**
