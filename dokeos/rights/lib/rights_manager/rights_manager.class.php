@@ -15,9 +15,7 @@ class RightsManager extends CoreApplication
     const PARAM_REMOVE_SELECTED = 'delete';
     const PARAM_FIRSTLETTER = 'firstletter';
     const PARAM_COMPONENT_ACTION = 'action';
-    const PARAM_SOURCE = 'source';
 
-    const ACTION_EDIT_RIGHTS = 'edit';
     const ACTION_MANAGE_RIGHTS_TEMPLATES = 'template';
     const ACTION_REQUEST_RIGHT = 'request_rights';
 
@@ -51,9 +49,6 @@ class RightsManager extends CoreApplication
         $component = null;
         switch ($action)
         {
-            case self :: ACTION_EDIT_RIGHTS :
-                $component = RightsManagerComponent :: factory('Editor', $this);
-                break;
             case self :: ACTION_MANAGE_RIGHTS_TEMPLATES :
                 $component = RightsManagerComponent :: factory('Templater', $this);
                 break;
@@ -61,8 +56,8 @@ class RightsManager extends CoreApplication
                 $component = RightsManagerComponent :: factory('RightRequester', $this);
                 break;
             default :
-                $this->set_action(self :: ACTION_EDIT_RIGHTS);
-                $component = RightsManagerComponent :: factory('Editor', $this);
+                $this->set_action(self :: ACTION_MANAGE_RIGHTS_TEMPLATES);
+                $component = RightsManagerComponent :: factory('Templater', $this);
         }
         $component->run();
     }
@@ -126,10 +121,6 @@ class RightsManager extends CoreApplication
             'description' => Translation :: get('GroupPermissionsDescription'),
             'action' => 'permission_group',
             'url' => '');
-        $links[]	= array('name' => Translation :: get('Rights'),
-            'description' => Translation :: get('RightsDescription'),
-            'action' => 'manage',
-            'url' => $this->get_link(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)));
 
         $info = parent :: get_application_platform_admin_links();
         $info['links'] = $links;
@@ -155,22 +146,22 @@ class RightsManager extends CoreApplication
     {
         return RightsDataManager :: get_instance()->retrieve_rights_template_right_location($right_id, $rights_template_id, $location_id);
     }
-    
+
     function retrieve_user_right_locations($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
     {
         return RightsDataManager :: get_instance()->retrieve_user_right_locations($condition, $offset, $count, $order_property, $order_direction);
     }
-    
+
     function retrieve_group_right_locations($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
     {
         return RightsDataManager :: get_instance()->retrieve_group_right_locations($condition, $offset, $count, $order_property, $order_direction);
     }
-    
+
     function retrieve_user_right_location($id)
     {
         return RightsDataManager :: get_instance()->retrieve_user_right_location($id);
     }
-    
+
     function retrieve_group_right_location($id)
     {
         return RightsDataManager :: get_instance()->retrieve_group_right_location($id);

@@ -132,7 +132,7 @@ class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
 					{
 						if ($location->inherits())
 						{
-							$inherited_value = RightsUtilities :: is_allowed_for_role($role->get_id(), $id, $location, $location->get_application());
+							$inherited_value = RightsUtilities :: is_allowed_for_rights_template($role->get_id(), $id, $location, $location->get_application());
 
 							if ($inherited_value)
 							{

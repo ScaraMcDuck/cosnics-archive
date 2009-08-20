@@ -47,7 +47,7 @@ class GroupManagerBrowserComponent extends GroupManagerComponent
 
 	function get_user_html()
 	{
-		$table = new GroupBrowserTable($this, array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS), $this->get_condition());
+		$table = new GroupBrowserTable($this, $this->get_parameters(), $this->get_condition());
 
 		$html = array();
 		$html[] = '<div style="float: right; width: 80%;">';
