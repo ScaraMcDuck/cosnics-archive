@@ -179,19 +179,19 @@ class RightsUtilities
 		{
 			return false;
 		}
-		
+
 		$parents = $parents->as_array();
 
 		if (isset($user))
 		{
-			
+
 			// Check right for the user's groups
 			$user_groups = $user->get_groups();
 
 			if (!is_null($user_groups))
 			{
 				while ($group = $user_groups->next_result())
-				{					
+				{
 					foreach($parents as $parent)
 					{
 						$conditions = array();
@@ -199,13 +199,13 @@ class RightsUtilities
 						$conditions[] = new EqualityCondition(GroupRightLocation :: PROPERTY_RIGHT_ID, $right);
 						$conditions[] = new EqualityCondition(GroupRightLocation :: PROPERTY_GROUP_ID, $group->get_id());
 						$condition = new AndCondition($conditions);
-						
+
 						$rights = $rdm->retrieve_group_right_locations($condition, null, 1);
-		
+
 						if ($rights->size() > 0)
 						{
 							$has_right = $rights->next_result()->get_value();
-							
+
 							if ($has_right)
 							{
 								return true;
@@ -227,13 +227,13 @@ class RightsUtilities
 				$conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_RIGHT_ID, $right);
 				$conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_USER_ID, $user->get_id());
 				$condition = new AndCondition($conditions);
-				
+
 				$rights = $rdm->retrieve_user_right_locations($condition, null, 1);
-				
+
 				if ($rights->size() > 0)
 				{
 					$has_right = $rights->next_result()->get_value();
-					
+
 					if ($has_right)
 					{
 						return true;
@@ -380,7 +380,9 @@ class RightsUtilities
 	{
 		if (isset($rights_template) && isset($right) && isset($location))
 		{
-			$rights_templaterightlocation = $this->retrieve_rights_template_right_location($right, $rights_template, $location->get_id());
+		    $rdm = RightsDataManager :: get_instance();
+
+			$rights_templaterightlocation = $rdm->retrieve_rights_template_right_location($right, $rights_template, $location);
 			$rights_templaterightlocation->invert();
 			return $rights_templaterightlocation->update();
 		}
@@ -432,7 +434,7 @@ class RightsUtilities
 		$return['description'] = strip_tags($rights_template->get_description());
 		return $return;
 	}
-	
+
 	function create_location($name, $application, $type = 'root', $identifier = 0, $inherit = 0, $parent = 0)
 	{
 		$location = new Location();
@@ -444,6 +446,6 @@ class RightsUtilities
 		$location->set_inherit($inherit);
 		return $location->create();
 	}
-	
+
 }
 ?>
