@@ -8,8 +8,15 @@
   <property name="left_value" type="integer" unsigned="1" notnull="1"/>
   <property name="right_value" type="integer" unsigned="1" notnull="1"/>
   <property name="sort" type="integer" unsigned="1" notnull="1"/>
+  <property name="code" type="text" length="15" />
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
+ </index>
+ <index name="parent">
+  <indexproperty name="parent"/>
+ </index>
+ <index name="code">
+  <indexproperty name="code"/>
  </index>
 </object>
