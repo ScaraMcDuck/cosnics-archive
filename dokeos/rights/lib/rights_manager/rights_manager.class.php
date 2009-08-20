@@ -1,7 +1,8 @@
 <?php
 
-require_once dirname(__FILE__).'/rights_manager_component.class.php';
-require_once dirname(__FILE__).'/../rights_data_manager.class.php';
+require_once Path :: get_rights_path() . 'lib/rights_manager/rights_manager_component.class.php';
+require_once Path :: get_rights_path() . 'lib/rights_data_manager.class.php';
+require_once Path :: get_rights_path() . 'lib/rights_template_manager/rights_template_manager.class.php';
 require_once Path :: get_library_path() . 'core_application.class.php';
 
 /**
@@ -17,6 +18,7 @@ class RightsManager extends CoreApplication
     const PARAM_COMPONENT_ACTION = 'action';
 
     const ACTION_MANAGE_RIGHTS_TEMPLATES = 'template';
+    const ACTION_MANAGE_USER_RIGHTS = 'user';
     const ACTION_REQUEST_RIGHT = 'request_rights';
 
     private $quota_url;
@@ -51,6 +53,9 @@ class RightsManager extends CoreApplication
         {
             case self :: ACTION_MANAGE_RIGHTS_TEMPLATES :
                 $component = RightsManagerComponent :: factory('Templater', $this);
+                break;
+            case self :: ACTION_MANAGE_USER_RIGHTS :
+                $component = RightsManagerComponent :: factory('User', $this);
                 break;
             case self :: ACTION_REQUEST_RIGHT :
                 $component = RightsManagerComponent :: factory('RightRequester', $this);
@@ -112,11 +117,11 @@ class RightsManager extends CoreApplication
         $links[]	= array('name' => Translation :: get('RightsTemplatePermissions'),
             'description' => Translation :: get('RightsTemplatePermissionsDescription'),
             'action' => 'permission_template',
-            'url' => '');
+            'url' => $this->get_link(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_CONFIGURE_RIGHTS_TEMPLATES)));
         $links[]	= array('name' => Translation :: get('UserPermissions'),
             'description' => Translation :: get('UserPermissionsDescription'),
             'action' => 'permission_user',
-            'url' => '');
+            'url' => $this->get_link(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS)));
         $links[]	= array('name' => Translation :: get('GroupPermissions'),
             'description' => Translation :: get('GroupPermissionsDescription'),
             'action' => 'permission_group',

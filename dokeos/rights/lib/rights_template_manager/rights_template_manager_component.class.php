@@ -38,19 +38,14 @@ class RightsTemplateManagerComponent extends SubManagerComponent
 		return $this->get_parent()->retrieve_location($location_id);
 	}
 
-	function is_allowed($right, $rights_template_id, $location_id)
+	function retrieve_rights_template_right_location($right, $rights_template_id, $location_id)
 	{
-		return $this->get_parent()->is_allowed($right, $rights_template_id, $location_id);
+		return $this->get_parent()->retrieve_rights_template_right_location($right, $rights_template_id, $location_id);
 	}
 
 	function retrieve_rights_template($id)
 	{
 		return $this->get_parent()->retrieve_rights_template($id);
-	}
-
-	function retrieve_rights_template_right_location($right_id, $rights_template_id, $location_id)
-	{
-		return $this->get_parent()->retrieve_rights_template_right_location($right_id, $rights_template_id, $location_id);
 	}
 }
 ?>
