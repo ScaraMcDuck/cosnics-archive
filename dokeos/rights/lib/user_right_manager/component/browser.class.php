@@ -53,17 +53,19 @@ class UserRightManagerBrowserComponent extends UserRightManagerComponent
 		}
 		else
 		{
+		    $conditions = array();
+   			$conditions[] = new EqualityCondition(Location :: PROPERTY_PARENT, 0);
+   			$conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->application);
+   			$condition = new AndCondition($conditions);
+   			$root = RightsDataManager :: get_instance()->retrieve_locations($condition, null, 1, array(new ObjectTableOrder(Location :: PROPERTY_LOCATION)))->next_result();
+
 			if (isset($location))
 			{
 			    $this->location = $this->retrieve_location($location);
 			}
 			else
 			{
-			    $conditions = array();
-    			$conditions[] = new EqualityCondition(Location :: PROPERTY_PARENT, 0);
-    			$conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->application);
-    			$condition = new AndCondition($conditions);
-    			$this->location = RightsDataManager :: get_instance()->retrieve_locations($condition, null, 1, array(new ObjectTableOrder(Location :: PROPERTY_LOCATION)))->next_result();
+			    $this->location = $root;
 			}
 
 //			$parent_conditions = array();
@@ -84,10 +86,10 @@ class UserRightManagerBrowserComponent extends UserRightManagerComponent
 
 			$this->display_header($trail);
 			echo $this->get_applications();
+
 			$url_format = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS, UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_BROWSE_USER_RIGHTS, UserRightManager :: PARAM_USER => $this->user->get_id(), UserRightManager :: PARAM_SOURCE => $this->application, UserRightManager :: PARAM_LOCATION => '%s'));
 			$url_format = str_replace('=%25s', '=%s', $url_format);
-//			echo $url_format;
-    		$location_menu = new LocationMenu($this->location->get_id(), $url_format);
+    		$location_menu = new LocationMenu($root->get_id(), $this->location->get_id(), $url_format);
     		echo '<div style="float: left; width: 18%; overflow: auto; height: 500px;">';
     		echo $location_menu->render_as_tree();
     		echo '</div>';

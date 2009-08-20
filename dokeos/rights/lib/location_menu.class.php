@@ -28,6 +28,8 @@ class LocationMenu extends HTML_Menu
 
 	private $exclude_children;
 
+	private $root_category;
+
 	private $current_category;
 
 	/**
@@ -41,10 +43,11 @@ class LocationMenu extends HTML_Menu
 	 * @param array $extra_items An array of extra tree items, added to the
 	 *                           root.
 	 */
-	function LocationMenu($current_category, $url_format = '?application=rights&go=browse&id=%s', $include_root = true, $exclude_children = false)
+	function LocationMenu($root_category, $current_category, $url_format = '?application=rights&go=browse&id=%s', $include_root = true, $exclude_children = false)
 	{
 		$this->include_root = $include_root;
 		$this->exclude_children = $exclude_children;
+		$this->root_category = $root_category;
 		$this->current_category = $current_category;
 
 		if ($current_category == '0')
@@ -68,9 +71,7 @@ class LocationMenu extends HTML_Menu
 		//return $xtmr->get_tree();
 
 		$include_root = $this->include_root;
-
-		$condition = new EqualityCondition(Group :: PROPERTY_PARENT, 0);
-		$location = RightsDataManager :: get_instance()->retrieve_locations($condition, null, 1, array(new ObjectTableOrder(Location :: PROPERTY_LOCATION)))->next_result();
+		$location = RightsDataManager :: get_instance()->retrieve_location($this->root_category);
 
 		if (!$include_root)
 		{
@@ -121,16 +122,25 @@ class LocationMenu extends HTML_Menu
 			{
 				$menu_item = array();
 				$menu_item['title'] = $location->get_location();
-				$menu_item['url'] = $this->get_url($location->get_id());
 
-				$sub_menu_items = $this->get_menu_items($location->get_id());
-
-				if(count($sub_menu_items) > 0)
+				if ($location->has_children())
 				{
-					$menu_item['sub'] = $sub_menu_items;
+				    $menu_item['url'] = $this->get_url($location->get_id());
+				    $sub_menu_items = $this->get_menu_items($location->get_id());
+
+    				if(count($sub_menu_items) > 0)
+    				{
+    					$menu_item['sub'] = $sub_menu_items;
+    				}
+
+    				$menu_item['class'] = 'category';
+				}
+				else
+				{
+				    $menu_item['url'] = '#';
+				    $menu_item['class'] = 'end_node';
 				}
 
-				$menu_item['class'] = 'category';
 				$menu_item[OptionsMenuRenderer :: KEY_ID] = $location->get_id();
 				$menu[$location->get_id()] = $menu_item;
 			}

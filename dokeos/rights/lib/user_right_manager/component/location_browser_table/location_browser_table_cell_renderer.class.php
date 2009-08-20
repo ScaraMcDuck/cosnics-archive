@@ -38,6 +38,20 @@ class LocationBrowserTableCellRenderer extends DefaultLocationTableCellRenderer
 		    return $this->get_rights_column_value($column, $location);
 		}
 
+	    switch ($column->get_name())
+        {
+            case Location :: PROPERTY_LOCATION :
+                if ($location->has_children())
+                {
+                    return '<a href="' . htmlentities($this->browser->get_url()) . '">' . parent :: render_cell($column, $location) . '</a>';
+                }
+                else
+                {
+                    return parent :: render_cell($column, $location);
+                }
+                break;
+        }
+
 		return parent :: render_cell($column, $location);
 	}
 	/**
