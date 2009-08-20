@@ -77,6 +77,11 @@ class RightsManager extends CoreApplication
         return RightsDataManager :: get_instance()->count_rights_templates($condition);
     }
 
+    function count_locations($condition = null)
+    {
+        return RightsDataManager :: get_instance()->count_locations($condition);
+    }
+
     function delete_rights_template($rights_template)
     {
         return RightsDataManager :: get_instance()->delete_rights_template($rights_template);
@@ -133,20 +138,6 @@ class RightsManager extends CoreApplication
         return $info;
     }
 
-    function get_location_id_from_short_string($location)
-    {
-        $location = 'platform|' . $location;
-        $rdm = RightsDataManager :: get_instance();
-        return $rdm->retrieve_location_id_from_location_string($location);
-    }
-
-    function is_allowed($right, $rights_template_id, $location_id)
-    {
-        $rdm = RightsDataManager :: get_instance();
-        $rights_templaterightlocation = $rdm->retrieve_rights_template_right_location($right, $rights_template_id, $location_id);
-        return $rights_templaterightlocation->get_value();
-    }
-
     function retrieve_rights_template_right_location($right_id, $rights_template_id, $location_id)
     {
         return RightsDataManager :: get_instance()->retrieve_rights_template_right_location($right_id, $rights_template_id, $location_id);
@@ -162,14 +153,14 @@ class RightsManager extends CoreApplication
         return RightsDataManager :: get_instance()->retrieve_group_right_locations($condition, $offset, $count, $order_property, $order_direction);
     }
 
-    function retrieve_user_right_location($id)
-    {
-        return RightsDataManager :: get_instance()->retrieve_user_right_location($id);
-    }
-
     function retrieve_group_right_location($id)
     {
         return RightsDataManager :: get_instance()->retrieve_group_right_location($id);
+    }
+
+    function retrieve_user_right_location($right_id, $user_id, $location_id)
+    {
+        return RightsDataManager :: get_instance()->retrieve_user_right_location($right_id, $user_id, $location_id);
     }
 }
 ?>

@@ -254,7 +254,7 @@ class RightsUtilities
 		return false;
 	}
 
-	function is_allowed_for_rights_template($rights_template, $right, $location, $application = 'admin')
+	function is_allowed_for_rights_template($rights_template, $right, $location)
 	{
 		$rdm = RightsDataManager :: get_instance();
 
@@ -263,6 +263,27 @@ class RightsUtilities
 		while($parent = $parents->next_result())
 		{
 			$has_right = $rdm->retrieve_rights_template_right_location($right, $rights_template, $parent->get_id())->get_value();
+
+			if ($has_right)
+			{
+				return true;
+			}
+			elseif(!$parent->inherits())
+			{
+				return false;
+			}
+		}
+
+		return false;
+	}
+
+	function is_allowed_for_user($user, $right, $location)
+	{
+		$parents = $location->get_parents();
+
+		while($parent = $parents->next_result())
+		{
+			$has_right = self :: get_user_right_location($right, $user, $parent->get_id());
 
 			if ($has_right)
 			{
@@ -445,6 +466,21 @@ class RightsUtilities
 		$location->set_identifier($identifier);
 		$location->set_inherit($inherit);
 		return $location->create();
+	}
+
+	function get_user_right_location($right_id, $user_id, $location_id)
+	{
+	    $rdm = RightsDataManager :: get_instance();
+	    $object = $rdm->retrieve_user_right_location($right_id, $user_id, $location_id);
+
+	    if ($object)
+	    {
+	        return $object->get_value();
+	    }
+	    else
+	    {
+	        return 0;
+	    }
 	}
 
 }

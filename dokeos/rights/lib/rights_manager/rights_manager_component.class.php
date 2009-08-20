@@ -88,6 +88,11 @@ abstract class RightsManagerComponent extends CoreApplicationComponent
 		return $this->get_parent()->count_rights_templates($conditions);
 	}
 
+	function count_locations($conditions = null)
+	{
+		return $this->get_parent()->count_locations($conditions);
+	}
+
 	/**
 	 * @see RightsManager::retrieve_user()
 	 */
@@ -139,9 +144,9 @@ abstract class RightsManagerComponent extends CoreApplicationComponent
 		return $this->get_parent()->get_group_rights_templates_url($group);
 	}
 
-	function is_allowed($right, $rights_template_id, $location_id)
+	function retrieve_user_right_location($right_id, $user_id, $location_id)
 	{
-		return $this->get_parent()->is_allowed($right, $rights_template_id, $location_id);
+		return $this->get_parent()->is_allowed($right_id, $user_id, $location_id);
 	}
 }
 ?>

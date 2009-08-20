@@ -978,7 +978,7 @@ class DatabaseRightsDataManager extends RightsDataManager
     }
 
     function retrieve_shared_learning_objects($rights_templates,$rights)
-    {        
+    {
         $query = 'SELECT * FROM '. $this->escape_table_name('rights_template_right_location');
 
         $subcondition = new EqualityCondition(Location :: PROPERTY_TYPE, 'learning_object');
@@ -1000,58 +1000,63 @@ class DatabaseRightsDataManager extends RightsDataManager
         $res = $statement->execute($params);
         return new DatabaseRightsTemplateRightLocationResultSet($this, $res);
     }
-    
+
     function create_user_right_location($user_right_location)
     {
         return $this->database->create($user_right_location);
     }
-    
+
     function create_group_right_location($group_right_location)
     {
         return $this->database->create($group_right_location);
     }
-    
+
     function delete_user_right_location($user_right_location)
     {
         $condition = new EqualityCondition(UserRightLocation :: PROPERTY_ID, $user_right_location->get_id());
         return $this->database->delete(UserRightLocation :: get_table_name(), $condition);
     }
-    
+
     function delete_group_right_location($group_right_location)
     {
         $condition = new EqualityCondition(GroupRightLocation :: PROPERTY_ID, $group_right_location->get_id());
         return $this->database->delete(GroupRightLocation :: get_table_name(), $condition);
     }
-    
+
     function update_user_right_location($user_right_location)
     {
         $condition = new EqualityCondition(UserRightLocation :: PROPERTY_ID, $user_right_location->get_id());
         return $this->database->update(UserRightLocation :: get_table_name(), $condition);
     }
-    
+
     function update_group_right_location($group_right_location)
     {
         $condition = new EqualityCondition(GroupRightLocation :: PROPERTY_ID, $group_right_location->get_id());
         return $this->database->update(GroupRightLocation :: get_table_name(), $condition);
     }
-    
-    function retrieve_user_right_location($id)
+
+    function retrieve_user_right_location($right_id, $user_id, $location_id)
     {
-        $condition = new EqualityCondition(UserRightLocation :: PROPERTY_ID, $id);
+        $conditions = array();
+        $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_RIGHT_ID, $right_id);
+        $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_USER_ID, $user_id);
+        $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_LOCATION_ID, $location_id);
+        $condition = new AndCondition($conditions);
+
         return $this->database->retrieve_object(UserRightLocation :: get_table_name(), $condition);
     }
-    
+
     function retrieve_group_right_location($id)
     {
         $condition = new EqualityCondition(GroupRightLocation :: PROPERTY_ID, $id);
         return $this->database->retrieve_object(GroupRightLocation :: get_table_name(), $condition);
     }
-    
+
     function retrieve_user_right_locations($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
     {
         return $this->database->retrieve_objects(UserRightLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
     }
-    
+
     function retrieve_group_right_locations($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
     {
         return $this->database->retrieve_objects(GroupRightLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);

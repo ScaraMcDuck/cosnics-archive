@@ -104,7 +104,7 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManagerComponent
 					{
 						if ($location->inherits())
 						{
-							$inherited_value = RightsUtilities :: is_allowed_for_rights_template($role->get_id(), $id, $location, $location->get_application());
+							$inherited_value = RightsUtilities :: is_allowed_for_rights_template($role->get_id(), $id, $location);
 
 							if ($inherited_value)
 							{
