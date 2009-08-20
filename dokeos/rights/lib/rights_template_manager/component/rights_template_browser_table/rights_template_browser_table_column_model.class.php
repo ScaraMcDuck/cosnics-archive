@@ -2,7 +2,7 @@
 /**
  * @package repository.repositorymanager
  */
-require_once dirname(__FILE__).'/../../../rights_template_table/default_rights_template_table_column_model.class.php';
+require_once dirname(__FILE__).'/../../../tables/rights_template_table/default_rights_template_table_column_model.class.php';
 require_once dirname(__FILE__).'/../../../rights_template.class.php';
 /**
  * Table column model for the user browser table
