@@ -79,7 +79,7 @@ class AdminManagerLogViewerComponent extends AdminManagerComponent
 			$files[$file] = $file;	
 		}
 		
-		$server_types = array('php' => Translation :: get('PHPErrorLog'), 'httpd' => Translation :: get('HTTPDErrorLog'));
+		$server_types = array('php' => Translation :: get('PHPErrorLog'), 'httpd' => Translation :: get('HTTPDErrorLog'), 'mysql' => Translation :: get('MYSQLErrorLog'));
 		
 		$form->addElement('select', 'type', '', $types, array('id' => 'type'));
 		$form->addElement('select', 'dokeos_type', '', $files, array('id' => 'dokeos_type'));
@@ -98,22 +98,23 @@ class AdminManagerLogViewerComponent extends AdminManagerComponent
     	if($type == 'dokeos')
     	{
     		$file = Path :: get(SYS_FILE_PATH) . 'logs/' . $dokeos_type;
+    		$message = Translation :: get('NoLogfilesFound');
     	}
     	else 
     	{
-    		$file = PlatformSetting :: get($server_type . '_location');
+    		$file = PlatformSetting :: get($server_type . '_error_location');
+    		$message = Translation :: get('ServerLogfileLocationNotDefined');
     	}
     	
-    	if(file_exists($file) && !is_dir($file))
-    	{
-    		$table = new HTML_Table(array('style' => 'background-color: lightblue; width: 100%;', 'cellspacing' => 0));
-    		$this->read_file($file, $table, $count);
-	    	echo $table->toHtml();
-    	}
-    	else 
-    	{
-    		echo '<div class="warning-message">' . Translation :: get('NoLogfilesFound') . '</div>';
-    	}
+   		if(!file_exists($file) || is_dir($file))
+   		{
+   			echo '<div class="warning-message">' . $message . '</div>';
+   			return;
+   		}
+    	
+    	$table = new HTML_Table(array('style' => 'background-color: lightblue; width: 100%;', 'cellspacing' => 0));
+    	$this->read_file($file, $table, $count);
+	    echo $table->toHtml();
     }
     
     function read_file($file, &$table, $count)

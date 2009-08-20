@@ -140,5 +140,10 @@
 			</setting>
 			<setting name="cas_log" field="text" default="" />
 		</category>
+		<category name="logfiles">
+			<setting name="php_error_location" field="text" default="" />
+			<setting name="httpd_error_location" field="text" default="" />
+			<setting name="mysql_error_location" field="text" default="" />
+		</category>
 	</settings>
 </application>
