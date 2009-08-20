@@ -50,6 +50,26 @@ class LocationBrowserTableCellRenderer extends DefaultLocationTableCellRenderer
                     return parent :: render_cell($column, $location);
                 }
                 break;
+            case Location :: PROPERTY_LOCKED :
+        		if ($location->is_locked())
+				{
+					return '<img src="' . htmlentities(Theme :: get_common_image_path() . 'action_lock.png') . '" alt="' . Translation :: get('Locked') . '" title="' . Translation :: get('Locked') . '" />';
+				}
+				else
+				{
+					return '<img src="' . htmlentities(Theme :: get_common_image_path() . 'action_unlock.png') . '" alt="' . Translation :: get('Unlocked') . '" title="' . Translation :: get('Unlocked') . '" />';
+				}
+            	break;
+            case Location :: PROPERTY_INHERIT :
+                if ($location->inherits())
+				{
+					return '<img src="' . htmlentities(Theme :: get_common_image_path() . 'action_setting_true_inherit.png') . '" alt="' . Translation :: get('Inherits') . '" title="' . Translation :: get('Inherits') . '" />';
+				}
+				else
+				{
+					return '<img src="' . htmlentities(Theme :: get_common_image_path() . 'action_setting_false_inherit.png') . '" alt="' . Translation :: get('DoesNotInherit') . '" title="' . Translation :: get('DoesNotInherit') . '" />';
+				}
+            	break;
         }
 
 		return parent :: render_cell($column, $location);

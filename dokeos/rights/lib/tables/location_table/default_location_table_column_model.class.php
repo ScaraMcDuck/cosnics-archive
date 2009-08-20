@@ -26,7 +26,9 @@ class DefaultLocationTableColumnModel extends ObjectTableColumnModel
 	{
 		$columns = array();
 		$columns[] = new ObjectTableColumn(Location :: PROPERTY_LOCATION);
-		$columns[] = new ObjectTableColumn(Location :: PROPERTY_TYPE);
+//		$columns[] = new ObjectTableColumn(Location :: PROPERTY_TYPE);
+//		$columns[] = new ObjectTableColumn(Location :: PROPERTY_LOCKED);
+//		$columns[] = new ObjectTableColumn(Location :: PROPERTY_INHERIT);
 		return $columns;
 	}
 }

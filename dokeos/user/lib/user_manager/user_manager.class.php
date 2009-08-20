@@ -319,9 +319,9 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_USER, self :: PARAM_USER_USER_ID => $user->get_id()));
 	}
 
-	function get_manage_rights_templates_url($user)
+	function get_manage_user_rights_url($user)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGE_RIGHTS_TEMPLATES, self :: PARAM_USER_USER_ID => $user->get_id()));
+		return $this->get_url(array (Application :: PARAM_APPLICATION => RightsManager :: APPLICATION_NAME, Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS, UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_BROWSE_USER_RIGHTS, UserRightManager :: PARAM_USER => $user->get_id()));
 	}
 
 	function get_create_buddylist_category_url()

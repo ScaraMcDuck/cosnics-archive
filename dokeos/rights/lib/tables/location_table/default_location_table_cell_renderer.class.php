@@ -31,6 +31,10 @@ class DefaultLocationTableCellRenderer implements ObjectTableCellRenderer
 				return $location->get_location();
 			case Location :: PROPERTY_TYPE :
 				return $location->get_type();
+			case Location :: PROPERTY_LOCKED :
+				return $location->get_locked();
+			case Location :: PROPERTY_INHERIT :
+				return $location->get_inherit();
 			default :
 			    return '&nbsp;';
 		}

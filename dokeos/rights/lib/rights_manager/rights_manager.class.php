@@ -3,6 +3,7 @@
 require_once Path :: get_rights_path() . 'lib/rights_manager/rights_manager_component.class.php';
 require_once Path :: get_rights_path() . 'lib/rights_data_manager.class.php';
 require_once Path :: get_rights_path() . 'lib/rights_template_manager/rights_template_manager.class.php';
+require_once Path :: get_rights_path() . 'lib/user_right_manager/user_right_manager.class.php';
 require_once Path :: get_library_path() . 'core_application.class.php';
 
 /**

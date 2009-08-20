@@ -8,9 +8,12 @@ require_once Path :: get_rights_path() . 'lib/rights_data_manager.class.php';
 require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';
 require_once Path :: get_rights_path() . 'lib/location_menu.class.php';
 require_once Path :: get_rights_path() . 'lib/user_right_manager/component/location_browser_table/location_browser_table.class.php';
+require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
 
 class UserRightManagerBrowserComponent extends UserRightManagerComponent
 {
+	private $action_bar;
+	
 	private $application;
 	private $location;
 	private $user;
@@ -84,8 +87,12 @@ class UserRightManagerBrowserComponent extends UserRightManagerComponent
 //				$trail->add(new Breadcrumb($this->get_url(array('location' => $parent->get_id())), $parent->get_location()));
 //			}
 
+			$this->action_bar = $this->get_action_bar();
+
 			$this->display_header($trail);
 			echo $this->get_applications();
+			
+			echo $this->action_bar->as_html() . '<br />';
 
 			$url_format = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS, UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_BROWSE_USER_RIGHTS, UserRightManager :: PARAM_USER => $this->user->get_id(), UserRightManager :: PARAM_SOURCE => $this->application, UserRightManager :: PARAM_LOCATION => '%s'));
 			$url_format = str_replace('=%25s', '=%s', $url_format);
@@ -106,7 +113,18 @@ class UserRightManagerBrowserComponent extends UserRightManagerComponent
 
 	function get_condition()
 	{
-	    return new EqualityCondition(Location :: PROPERTY_PARENT, $this->location->get_id());
+		$condition = new EqualityCondition(Location :: PROPERTY_PARENT, $this->location->get_id());
+
+		$query = $this->action_bar->get_query();
+		if(isset($query) && $query != '')
+		{
+			$and_conditions = array();
+			$and_conditions[] = $condition;
+			$and_conditions[] = new PatternMatchCondition(Location :: PROPERTY_LOCATION, '*' . $query . '*');
+			$condition = new AndCondition($and_conditions);
+		}
+
+		return $condition;
 	}
 
 	function get_source()
@@ -212,6 +230,15 @@ class UserRightManagerBrowserComponent extends UserRightManagerComponent
 		}
 
 		return $toolbar->as_html();
+	}
+	
+	function get_action_bar()
+	{
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+		$action_bar->set_search_url($this->get_url(array(UserRightManager :: PARAM_SOURCE => $this->application, UserRightManager :: PARAM_USER => $this->user->get_id(), UserRightManager :: PARAM_LOCATION => $this->location->get_id())));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('RootRights'), Theme :: get_common_image_path().'action_rights.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+
+		return $action_bar;
 	}
 }
 ?>
