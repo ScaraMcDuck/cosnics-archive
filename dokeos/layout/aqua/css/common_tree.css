@@ -170,7 +170,8 @@ ul.tree-menu li.current_path ul li.current_path div a.category
 
 ul.tree-menu li div a.end_node
 {
-	color: black;
+	color: #797268;
+	cursor: default;
 }
 
 /*************************************************
