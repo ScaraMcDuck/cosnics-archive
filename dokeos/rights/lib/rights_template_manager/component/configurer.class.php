@@ -30,12 +30,6 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 			case 'edit':
 				$this->edit_right();
 				break;
-			case 'lock':
-				$this->lock_location();
-				break;
-			case 'inherit':
-				$this->inherit_location();
-				break;
 			default :
 				$this->show_rights_list();
 		}
@@ -50,32 +44,6 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 		$success = RightsUtilities :: invert_rights_template_right_location($right, $rights_template, $location);
 
 		$this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_SOURCE => $this->application, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()));
-	}
-
-	function lock_location()
-	{
-		$location = $this->location;
-		$success = RightsUtilities :: switch_location_lock($location);
-
-		if ($location->is_locked())
-		{
-			$true_message = 'LocationLocked';
-			$false_message = 'LocactionNotLocked';
-		}
-		else
-		{
-			$true_message = 'LocationUnlocked';
-			$false_message = 'LocactionNotUnlocked';
-		}
-
-		$this->redirect(Translation :: get($success == true ? $true_message : $false_message), ($success == true ? false : true), array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_SOURCE => $this->application, 'location' => $location->get_id()));
-	}
-
-	function inherit_location()
-	{
-		$location = $this->location;
-		$success = RightsUtilities :: switch_location_inherit($location);
-		$this->redirect(Translation :: get($success == true ? 'LocationUpdated' : 'LocationNotUpdated'), ($success == true ? false : true), array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_SOURCE => $this->application, 'location' => $location->get_id()));
 	}
 
 	function show_rights_list()
@@ -219,21 +187,21 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 
 							if ($inherited_value)
 							{
-								$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsTemplateManager :: PARAM_COMPONENT_ACTION => 'edit', RightsTemplateManager :: PARAM_SOURCE => $this->application, 'rights_template_id' => $rights_template->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<div class="rightInheritTrue"></div></a>';
+								$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_SET_RIGHTS_TEMPLATES, 'rights_template_id' => $rights_template->get_id(), 'right_id' => $id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id())) .'">' . '<div class="rightInheritTrue"></div></a>';
 							}
 							else
 							{
-								$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsTemplateManager :: PARAM_COMPONENT_ACTION => 'edit', RightsTemplateManager :: PARAM_SOURCE => $this->application, 'rights_template_id' => $rights_template->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<div class="rightFalse"></div></a>';
+								$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_SET_RIGHTS_TEMPLATES, 'rights_template_id' => $rights_template->get_id(), 'right_id' => $id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id())) .'">' . '<div class="rightFalse"></div></a>';
 							}
 						}
 						else
 						{
-							$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsTemplateManager :: PARAM_COMPONENT_ACTION => 'edit', RightsTemplateManager :: PARAM_SOURCE => $this->application, 'rights_template_id' => $rights_template->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<div class="rightFalse"></div></a>';
+							$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_SET_RIGHTS_TEMPLATES, 'rights_template_id' => $rights_template->get_id(), 'right_id' => $id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id())) .'">' . '<div class="rightFalse"></div></a>';
 						}
 					}
 					else
 					{
-						$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsTemplateManager :: PARAM_COMPONENT_ACTION => 'edit', RightsTemplateManager :: PARAM_SOURCE => $this->application, 'rights_template_id' => $rights_template->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<div class="rightTrue"></div></a>';
+						$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_SET_RIGHTS_TEMPLATES, 'rights_template_id' => $rights_template->get_id(), 'right_id' => $id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id())) .'">' . '<div class="rightTrue"></div></a>';
 					}
 				}
 				$html[] = '</div>';
@@ -323,7 +291,7 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 			$parents_html = array();
 			while($parent = $parents->next_result())
 			{
-				$parents_html[] = '<a href="'. $this->get_url(array('application' => $this->application, 'location' => $parent->get_id())) .'">'. $parent->get_location() .'</a>';
+				$parents_html[] = '<a href="'. $this->get_url(array(RightsTemplateManager :: PARAM_SOURCE => $this->application, RightsTemplateManager :: PARAM_LOCATION => $parent->get_id())) .'">'. $parent->get_location() .'</a>';
 			}
 			$html[] = implode(', ', $parents_html);
 
@@ -341,7 +309,7 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 			$siblings_html = array();
 			while($sibling = $siblings->next_result())
 			{
-				$siblings_html[] = '<a href="'. $this->get_url(array('application' => $this->application, 'location' => $sibling->get_id())) .'">'. $sibling->get_location() .'</a>';
+				$siblings_html[] = '<a href="'. $this->get_url(array(RightsTemplateManager :: PARAM_SOURCE => $this->application, RightsTemplateManager :: PARAM_LOCATION => $sibling->get_id())) .'">'. $sibling->get_location() .'</a>';
 			}
 			$html[] = implode(', ', $siblings_html);
 
@@ -360,7 +328,7 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 			$children_html = array();
 			while($child = $children->next_result())
 			{
-				$children_html[] = '<a href="'. $this->get_url(array('application' => $this->application, 'location' => $child->get_id())) .'">'. $child->get_location() .'</a>';
+				$children_html[] = '<a href="'. $this->get_url(array(RightsTemplateManager :: PARAM_SOURCE => $this->application, RightsTemplateManager :: PARAM_LOCATION => $child->get_id())) .'">'. $child->get_location() .'</a>';
 			}
 			$html[] = implode(', ', $children_html);
 
@@ -391,22 +359,22 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 		{
 			if ($location->is_locked())
 			{
-				$toolbar->add_item(new ToolbarItem(Translation :: get('UnlockChildren'), Theme :: get_common_image_path() . 'action_unlock.png', $this->get_url(array(RightsTemplateManager :: PARAM_COMPONENT_ACTION => 'lock', RightsTemplateManager :: PARAM_SOURCE => $this->application, 'location' => $location->get_id()))));
+				$toolbar->add_item(new ToolbarItem(Translation :: get('UnlockChildren'), Theme :: get_common_image_path() . 'action_unlock.png', $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_UNLOCK_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()))));
 			}
 			else
 			{
-				$toolbar->add_item(new ToolbarItem(Translation :: get('LockChildren'), Theme :: get_common_image_path() . 'action_lock.png', $this->get_url(array(RightsTemplateManager :: PARAM_COMPONENT_ACTION => 'lock', RightsTemplateManager :: PARAM_SOURCE => $this->application, 'location' => $location->get_id()))));
+				$toolbar->add_item(new ToolbarItem(Translation :: get('LockChildren'), Theme :: get_common_image_path() . 'action_lock.png', $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_LOCK_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()))));
 			}
 
 			if (!$location->is_root())
 			{
 				if ($location->inherits())
 				{
-					$toolbar->add_item(new ToolbarItem(Translation :: get('LocationNoInherit'), Theme :: get_common_image_path() . 'action_setting_false_inherit.png', $this->get_url(array(RightsTemplateManager :: PARAM_COMPONENT_ACTION => 'inherit', RightsTemplateManager :: PARAM_SOURCE => $this->application, 'location' => $location->get_id()))));
+					$toolbar->add_item(new ToolbarItem(Translation :: get('Disinherit'), Theme :: get_common_image_path() . 'action_setting_false_inherit.png', $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_DISINHERIT_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()))));
 				}
 				else
 				{
-					$toolbar->add_item(new ToolbarItem(Translation :: get('LocationInherit'), Theme :: get_common_image_path() . 'action_setting_true_inherit.png', $this->get_url(array(RightsTemplateManager :: PARAM_COMPONENT_ACTION => 'inherit', RightsTemplateManager :: PARAM_SOURCE => $this->application, 'location' => $location->get_id()))));
+					$toolbar->add_item(new ToolbarItem(Translation :: get('Inherit'), Theme :: get_common_image_path() . 'action_setting_true_inherit.png', $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_INHERIT_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()))));
 				}
 			}
 		}
