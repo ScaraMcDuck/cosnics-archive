@@ -2,47 +2,61 @@
 /**
  * @package user.usermanager
  */
-require_once Path :: get_rights_path() . 'lib/rights_template_manager/rights_template_manager.class.php';
-require_once Path :: get_rights_path() . 'lib/rights_template_manager/rights_template_manager_component.class.php';
+require_once Path :: get_rights_path() . 'lib/user_right_manager/user_right_manager.class.php';
+require_once Path :: get_rights_path() . 'lib/user_right_manager/user_right_manager_component.class.php';
 require_once Path :: get_rights_path() . 'lib/rights_data_manager.class.php';
 require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';
 
-class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComponent
+class UserRightManagerBrowserComponent extends UserRightManagerComponent
 {
 	private $application;
 	private $location;
+	private $user;
 
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		$this->application = Request :: get(RightsTemplateManager :: PARAM_SOURCE);
-		$location = Request :: get(RightsTemplateManager :: PARAM_LOCATION);
+		$this->application = Request :: get(UserRightManager :: PARAM_SOURCE);
+		$location = Request :: get(UserRightManager :: PARAM_LOCATION);
+		$user = Request :: get(UserRightManager :: PARAM_USER);
+
+		$trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
+		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS)), Translation :: get('UserRights')));
+
+		if (!isset($user))
+		{
+			$this->display_header($trail);
+			$this->display_error_message(Translation :: get('NoUserSelected'));
+			$this->display_footer();
+			exit;
+		}
+		else
+		{
+		    $udm = UserDataManager :: get_instance();
+		    $this->user = $udm->retrieve_user($user);
+		    $trail->add(new Breadcrumb($this->get_url(array(UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_BROWSE_USER_RIGHTS)), $this->user->get_fullname()));
+		    $trail->add_help('rights general');
+		}
+
 		if (isset($location))
 		{
 			$this->location = $this->retrieve_location($location);
 		}
-		$this->show_rights_list();
-	}
-
-	function show_rights_list()
-	{
-		$trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES)), Translation :: get('RightsTemplates')));
-		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES)), Translation :: get('EditRights')));
-		$trail->add_help('rights general');
 
 		if (!isset($this->application) && !isset($this->location))
 		{
 			$this->display_header($trail);
+			echo $this->get_applications();
 			$this->display_warning_message(Translation :: get('SelectApplication'));
 			$this->display_footer();
 			exit;
 		}
 		else
 		{
+
 			if (!isset($this->application))
 			{
 				$this->application = 'admin';
@@ -91,7 +105,8 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 
 			if ($table)
 			{
-			    echo $this->get_modification_links();
+			    echo $this->get_applications();
+//			    echo $this->get_modification_links();
 			    echo $table;
     			echo $this->get_location_information();
     			echo $this->get_relations();
@@ -161,12 +176,12 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 				$html[] = '<div id="r_'. $id .'_'. $rights_template->get_id() .'_'. $location->get_id() .'" style="float: left; width: 24%; text-align: center;">';
 				if (isset($locked_parent))
 				{
-					$value = $this->retrieve_rights_template_right_location($id, $rights_template->get_id(), $locked_parent->get_id())->get_value();
+					$value = $this->is_allowed($id, $rights_template->get_id(), $locked_parent->get_id());
 					$html[] = '<a href="'. $this->get_url(array('application' => $this->application, 'location' => $locked_parent->get_id())) .'">' . ($value == 1 ? '<img src="'. Theme :: get_common_image_path() .'action_setting_true_locked.png" title="'. Translation :: get('LockedTrue') .'" />' : '<img src="'. Theme :: get_common_image_path() .'action_setting_false_locked.png" title="'. Translation :: get('LockedFalse') .'" />') . '</a>';
 				}
 				else
 				{
-					$value = $this->retrieve_rights_template_right_location($id, $rights_template->get_id(), $location->get_id())->get_value();
+					$value = $this->is_allowed($id, $rights_template->get_id(), $location->get_id());
 
 					if (!$value)
 					{
@@ -214,7 +229,7 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 
 		$html = array();
 
-		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/application.js' .'"></script>';
+		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/application.js');
 		$html[] = '<div class="configure">';
 
 		$the_applications = WebApplication :: load_all();
@@ -233,7 +248,7 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 
 			$application_name = Translation :: get(DokeosUtilities :: underscores_to_camelcase($the_application));
 
-			$html[] = '<a href="'. $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_SOURCE => $the_application)) .'">';
+			$html[] = '<a href="'. $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS, UserRightManager :: PARAM_USER => $this->user->get_id(), UserRightManager :: PARAM_SOURCE => $the_application)) .'">';
 			$html[] = '<img src="'. Theme :: get_image_path('admin') . 'place_' . $the_application .'.png" border="0" style="vertical-align: middle;" alt="' . $application_name . '" title="' . $application_name . '"/><br />'. $application_name;
 			$html[] = '</a>';
 			$html[] = '</div>';
@@ -329,12 +344,12 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 		return implode("\n", $html);
 	}
 
-	function display_header($trail, $helpitem)
-	{
-		$this->get_parent()->display_header($trail, $helpitem);
-		echo $this->get_applications();
-		echo '<div class="clear">&nbsp;</div>';
-	}
+//	function display_header($trail, $helpitem)
+//	{
+//		$this->get_parent()->display_header($trail, $helpitem);
+//		echo $this->get_applications();
+//		echo '<div class="clear">&nbsp;</div>';
+//	}
 
 	function get_modification_links()
 	{

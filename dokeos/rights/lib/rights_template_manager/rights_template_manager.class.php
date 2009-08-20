@@ -13,7 +13,6 @@ class RightsTemplateManager extends SubManager
     const PARAM_RIGHTS_TEMPLATE_ACTION = 'action';
     const PARAM_SOURCE = 'source';
     const PARAM_LOCATION = 'location';
-    const PARAM_COMPONENT_ACTION = 'component';
 
     const ACTION_BROWSE_RIGHTS_TEMPLATES = 'browse';
     const ACTION_EDIT_RIGHTS_TEMPLATE = 'edit';
@@ -119,11 +118,6 @@ class RightsTemplateManager extends SubManager
 	function retrieve_location($location_id)
 	{
 		return $this->get_parent()->retrieve_location($location_id);
-	}
-
-	function is_allowed($right, $rights_template_id, $location_id)
-	{
-		return $this->get_parent()->is_allowed($right, $rights_template_id, $location_id);
 	}
 
 	function retrieve_rights_template($id)
