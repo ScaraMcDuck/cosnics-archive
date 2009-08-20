@@ -224,6 +224,9 @@ else
 {
     Session :: unregister('request_uri');
 }
+
+set_error_handler(handle_error);
+
 // Log out
 if (Request :: get('logout'))
 {
@@ -291,5 +294,37 @@ function dump($variable)
     echo '<pre style="background-color: white; color: black; padding: 5px; margin: 0px;">';
     print_r($variable);
     echo '</pre>';
+}
+trigger_error('test', E_USER_ERROR);
+/**
+ * Error handling function
+ */
+function handle_error($errno, $errstr, $errfile, $errline)
+{
+	switch ($errno) 
+	{
+    case E_USER_ERROR:
+        write_error($errno, $errstr, $errfile, $errline);
+        break;
+    case E_USER_WARNING:
+        write_error($errno, $errstr, $errfile, $errline);
+        break;
+    case E_USER_NOTICE:
+        write_error($errno, $errstr, $errfile, $errline);
+    }
+
+    return true;
+}
+
+function write_error($errno, $errstr, $errfile, $errline)
+{
+	$path = Path :: get(SYS_FILE_PATH) . 'logs';
+	$file = $path . '/error_log_' . date('Ymd') . '.txt';
+	$fh = fopen($file, 'a');
+	
+	$message = date('[H:i:s] ', time()) . 'File: ' . $errfile . ' - Line: ' . $errline . ' - Message: ' . $errstr;
+	
+	fwrite($fh, $message . "\n");
+	fclose($fh);
 }
 ?>
