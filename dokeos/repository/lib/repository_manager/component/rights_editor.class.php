@@ -68,7 +68,7 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManagerComponent
 		{
 			if($right_name == 'ADD_RIGHT' || $right_name == 'EDIT_RIGHT' || $right_name == 'DELETE_RIGHT')
 				continue;
-				
+
 			$real_right_name = DokeosUtilities :: underscores_to_camelcase(strtolower($right_name));
 			$html[] = '<div style="float: left; width: 24%; text-align: center;">'. Translation :: get($real_right_name) .'</div>';
 			$rights_array[$right_id] = $right_name;
@@ -79,7 +79,7 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManagerComponent
 		$html[] = '</div>';
 		$html[] = '<div style="clear: both;"></div>';
 
-		$roles = $rdm->retrieve_roles();
+		$roles = $rdm->retrieve_rights_templates();
 		$locked_parent = $location->get_locked_parent();
 
 		while ($role = $roles->next_result())
@@ -93,18 +93,18 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManagerComponent
 				$html[] = '<div id="r_'. $id .'_'. $role->get_id() .'_'. $location->get_id() .'" style="float: left; width: 24%; text-align: center;">';
 				if (isset($locked_parent))
 				{
-					$value = $rdm->retrieve_role_right_location($id, $role->get_id(), $locked_parent->get_id())->get_value();
+					$value = $rdm->retrieve_rights_template_right_location($id, $role->get_id(), $locked_parent->get_id())->get_value();
 					$html[] = '<a href="'. $this->get_url(array('application' => $this->application, 'location' => $locked_parent->get_id())) .'">' . ($value == 1 ? '<img src="'. Theme :: get_common_image_path() .'action_setting_true_locked.png" title="'. Translation :: get('LockedTrue') .'" />' : '<img src="'. Theme :: get_common_image_path() .'action_setting_false_locked.png" title="'. Translation :: get('LockedFalse') .'" />') . '</a>';
 				}
 				else
 				{
-					$value = $rdm->retrieve_role_right_location($id, $role->get_id(), $location->get_id())->get_value();
+					$value = $rdm->retrieve_rights_template_right_location($id, $role->get_id(), $location->get_id())->get_value();
 
 					if (!$value)
 					{
 						if ($location->inherits())
 						{
-							$inherited_value = RightsUtilities :: is_allowed_for_role($role->get_id(), $id, $location, $location->get_application());
+							$inherited_value = RightsUtilities :: is_allowed_for_rights_template($role->get_id(), $id, $location, $location->get_application());
 
 							if ($inherited_value)
 							{

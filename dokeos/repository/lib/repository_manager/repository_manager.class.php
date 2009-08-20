@@ -1157,25 +1157,25 @@ class RepositoryManager extends CoreApplication
         $gdm = GroupDataManager :: get_instance();
         $rdm = RightsDataManager :: get_instance();
 
-        $role_cond = new EqualityCondition(Role :: PROPERTY_USER_ID, $user_id);
-        $user_roles = $udm->retrieve_user_roles($role_cond);
+        $role_cond = new EqualityCondition(RightsTemplate :: PROPERTY_USER_ID, $user_id);
+        $user_roles = $udm->retrieve_user_rights_templates($role_cond);
 
         while($user_role = $user_roles->next_result())
         {
-            if(!in_array($user_role->get_role_id(), $roles))
-                $roles[] = $user_role->get_role_id();
+            if(!in_array($user_role->get_rights_template_id(), $roles))
+                $roles[] = $user_role->get_rights_template_id();
         }
 
         $groups = $gdm->retrieve_user_groups($user_id);
 
         while($group = $groups->next_result())
         {
-            $group_roles_cond = new EqualityCondition(GroupRole :: PROPERTY_GROUP_ID, $group->get_group_id());
-            $group_roles = $gdm->retrieve_group_roles($group_roles_cond);
+            $group_roles_cond = new EqualityCondition(GroupRightsTemplate :: PROPERTY_GROUP_ID, $group->get_group_id());
+            $group_roles = $gdm->retrieve_group_rights_templates($group_roles_cond);
             while($group_role = $group_roles->next_result())
             {
-                if(!in_array($group_role->get_role_id(), $roles))
-                    $roles[] = $group_role->get_role_id();
+                if(!in_array($group_role->get_rights_template_id(), $roles))
+                    $roles[] = $group_role->get_rights_template_id();
             }
         }
 

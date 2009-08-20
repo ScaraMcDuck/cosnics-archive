@@ -1,7 +1,7 @@
 <?php
-require_once dirname(__FILE__).'/../rights_manager.class.php';
-require_once dirname(__FILE__).'/../rights_manager_component.class.php';
-require_once dirname(__FILE__).'/rights_template_browser_table/rights_template_browser_table.class.php';
+require_once Path :: get_rights_path() . 'lib/rights_template_manager/rights_template_manager.class.php';
+require_once Path :: get_rights_path() . 'lib/rights_template_manager/rights_template_manager_component.class.php';
+require_once Path :: get_rights_path() . 'lib/rights_template_manager/component/rights_template_browser_table/rights_template_browser_table.class.php';
 require_once Path :: get_rights_path() . 'lib/forms/rights_template_form.class.php';
 /**
  * Weblcms component which allows the user to manage his or her user subscriptions
@@ -15,11 +15,11 @@ class RightsTemplateManagerEditorComponent extends RightsTemplateManagerComponen
 	{
 		$trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('RightsTemplatesAndRights')));
-		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('EditRightsTemplate')));
+		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES)), Translation :: get('RightsTemplatesAndRights')));
+		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES)), Translation :: get('EditRightsTemplate')));
 		$trail->add_help('rights general');
 
-		$id = Request :: get(RightsManager :: PARAM_RIGHTS_TEMPLATE_ID);
+		$id = Request :: get(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID);
 
 		if ($id)
 		{
@@ -33,12 +33,12 @@ class RightsTemplateManagerEditorComponent extends RightsTemplateManagerComponen
 				exit;
 			}
 
-			$form = new RightsTemplateForm(RightsTemplateForm :: TYPE_EDIT, $rights_template, $this->get_url(array(RightsManager :: PARAM_RIGHTS_TEMPLATE_ID => $id)));
+			$form = new RightsTemplateForm(RightsTemplateForm :: TYPE_EDIT, $rights_template, $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID => $id)));
 
 			if($form->validate())
 			{
 				$success = $form->update_rights_template();
-				$this->redirect(Translation :: get($success ? 'RightsTemplateUpdated' : 'RightsTemplateNotUpdated'), ($success ? false : true), array(Application :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_RIGHTS_TEMPLATES));
+				$this->redirect(Translation :: get($success ? 'RightsTemplateUpdated' : 'RightsTemplateNotUpdated'), ($success ? false : true), array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_BROWSE_RIGHTS_TEMPLATES));
 			}
 			else
 			{

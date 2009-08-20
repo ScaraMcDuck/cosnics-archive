@@ -11,7 +11,10 @@ class RightsTemplateManager extends SubManager
 {
 	const PARAM_RIGHTS_TEMPLATE_ID = 'template';
     const PARAM_RIGHTS_TEMPLATE_ACTION = 'action';
-    
+    const PARAM_SOURCE = 'source';
+    const PARAM_LOCATION = 'location';
+    const PARAM_COMPONENT_ACTION = 'component';
+
     const ACTION_BROWSE_RIGHTS_TEMPLATES = 'browse';
     const ACTION_EDIT_RIGHTS_TEMPLATE = 'edit';
     const ACTION_DELETE_RIGHTS_TEMPLATES = 'delete';
@@ -21,7 +24,7 @@ class RightsTemplateManager extends SubManager
     function RightsTemplateManager($rights_manager)
     {
         parent :: __construct($rights_manager);
-        
+
         $rights_template_action = Request :: get(self :: PARAM_RIGHTS_TEMPLATE_ACTION);
         if ($rights_template_action)
         {
@@ -32,7 +35,7 @@ class RightsTemplateManager extends SubManager
     function run()
     {
         $rights_template_action = $this->get_parameter(self :: PARAM_RIGHTS_TEMPLATE_ACTION);
-        
+
         switch ($rights_template_action)
         {
             case self :: ACTION_BROWSE_RIGHTS_TEMPLATES :
@@ -54,7 +57,7 @@ class RightsTemplateManager extends SubManager
                 $component = RightsTemplateManagerComponent :: factory('Browser', $this);
                 break;
         }
-        
+
         $component->run();
     }
 
@@ -62,7 +65,7 @@ class RightsTemplateManager extends SubManager
     {
         return Path :: get_rights_path() . 'lib/rights_template_manager/component/';
     }
-    
+
     function get_rights_template_deleting_url($rights_template)
     {
         return $this->get_url(array (self :: PARAM_RIGHTS_TEMPLATE_ACTION => self :: ACTION_DELETE_RIGHTS_TEMPLATES, self :: PARAM_RIGHTS_TEMPLATE_ID => $rights_template->get_id()));
@@ -72,15 +75,45 @@ class RightsTemplateManager extends SubManager
     {
         return $this->get_url(array (self :: PARAM_RIGHTS_TEMPLATE_ACTION => self :: ACTION_EDIT_RIGHTS_TEMPLATE, self :: PARAM_RIGHTS_TEMPLATE_ID => $rights_template->get_id()));
     }
-    
+
 	function retrieve_rights_templates($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return $this->get_parent()->retrieve_rights_templates($condition, $offset, $count, $order_property, $order_direction);
 	}
-	
+
 	function count_rights_templates($conditions = null)
 	{
 		return $this->get_parent()->count_rights_templates($conditions);
+	}
+
+	function retrieve_locations($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		return $this->get_parent()->retrieve_locations($condition, $offset, $count, $order_property, $order_direction);
+	}
+
+	function count_locations($conditions = null)
+	{
+		return $this->get_parent()->count_locations($conditions);
+	}
+
+	function retrieve_location($location_id)
+	{
+		return $this->get_parent()->retrieve_location($location_id);
+	}
+
+	function is_allowed($right, $rights_template_id, $location_id)
+	{
+		return $this->get_parent()->is_allowed($right, $rights_template_id, $location_id);
+	}
+
+	function retrieve_rights_template($id)
+	{
+		return $this->get_parent()->retrieve_rights_template($id);
+	}
+
+	function retrieve_rights_template_right_location($right_id, $rights_template_id, $location_id)
+	{
+		return $this->get_parent()->retrieve_rights_template_right_location($right_id, $rights_template_id, $location_id);
 	}
 }
 ?>
