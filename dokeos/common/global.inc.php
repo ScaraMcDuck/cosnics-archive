@@ -295,7 +295,7 @@ function dump($variable)
     print_r($variable);
     echo '</pre>';
 }
-trigger_error('test', E_USER_ERROR);
+
 /**
  * Error handling function
  */
@@ -304,13 +304,13 @@ function handle_error($errno, $errstr, $errfile, $errline)
 	switch ($errno) 
 	{
     case E_USER_ERROR:
-        write_error($errno, $errstr, $errfile, $errline);
+        write_error('PHP Fatal error', $errstr, $errfile, $errline);
         break;
     case E_USER_WARNING:
-        write_error($errno, $errstr, $errfile, $errline);
+        write_error('PHP Warning', $errstr, $errfile, $errline);
         break;
     case E_USER_NOTICE:
-        write_error($errno, $errstr, $errfile, $errline);
+        write_error('PHP Notice', $errstr, $errfile, $errline);
     }
 
     return true;
@@ -322,7 +322,7 @@ function write_error($errno, $errstr, $errfile, $errline)
 	$file = $path . '/error_log_' . date('Ymd') . '.txt';
 	$fh = fopen($file, 'a');
 	
-	$message = date('[H:i:s] ', time()) . 'File: ' . $errfile . ' - Line: ' . $errline . ' - Message: ' . $errstr;
+	$message = date('[H:i:s] ', time()) . $errno . ' File: ' . $errfile . ' - Line: ' . $errline . ' - Message: ' . $errstr;
 	
 	fwrite($fh, $message . "\n");
 	fclose($fh);

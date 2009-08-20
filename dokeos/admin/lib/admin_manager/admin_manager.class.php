@@ -49,6 +49,7 @@ class AdminManager extends CoreApplication
     const ACTION_MANAGE_CATEGORIES = 'manage_categories';
     const ACTION_WHOIS_ONLINE = 'whois_online';
     const ACTION_DIAGNOSE = 'diagnose';
+    const ACTION_VIEW_LOGS = 'view_logs';
 
     /**
      * Constructor
@@ -100,6 +101,9 @@ class AdminManager extends CoreApplication
                 break;
             case self :: ACTION_MANAGE_PACKAGES :
                 $component = AdminManagerComponent :: factory('Packager', $this);
+                break;
+            case self :: ACTION_VIEW_LOGS :
+            	 $component = AdminManagerComponent :: factory('LogViewer', $this);
                 break;
             default :
                 $component = AdminManagerComponent :: factory('Browser', $this);
@@ -167,6 +171,7 @@ class AdminManager extends CoreApplication
         $links[] = array('name' => Translation :: get('SystemAnnouncements'), 'description' => Translation :: get('SystemAnnouncementsDescription'), 'action' => 'list', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)));
         $links[] = array('name' => Translation :: get('ManageCategories'), 'description' => Translation :: get('ManageCategoriesDescription'), 'action' => 'list', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_CATEGORIES)));
         $links[] = array('name' => Translation :: get('Diagnose'), 'description' => Translation :: get('DiagnoseDescription'), 'action' => 'information', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DIAGNOSE)));
+        $links[] = array('name' => Translation :: get('LogsViewer'), 'description' => Translation :: get('LogsViewerDescription'), 'action' => 'information', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_LOGS)));
 
         $admin_info = parent :: get_application_platform_admin_links();
         $admin_info['links'] = $links;
