@@ -12,6 +12,7 @@ require_once Path :: get_tracking_path() . 'lib/default_tracker.class.php';
 class LoginLogoutTracker extends DefaultTracker
 {
     const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'login_tracker';
 
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_DATE = 'date';
@@ -157,7 +158,7 @@ class LoginLogoutTracker extends DefaultTracker
 
 	static function get_table_name()
 	{
-		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+		return self :: TABLE_NAME;
 	}
 }
 ?>
