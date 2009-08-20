@@ -8,4 +8,7 @@
   <indexproperty name="user_id"/>
   <indexproperty name="group_id"/>
  </index>
+ <index name="group_id">
+ 	<indexproperty name="group_id" />
+ </index>
 </object>
