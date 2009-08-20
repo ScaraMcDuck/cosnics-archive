@@ -6,6 +6,7 @@ require_once Path :: get_rights_path() . 'lib/user_right_manager/user_right_mana
 require_once Path :: get_rights_path() . 'lib/user_right_manager/user_right_manager_component.class.php';
 require_once Path :: get_rights_path() . 'lib/rights_data_manager.class.php';
 require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';
+require_once Path :: get_rights_path() . 'lib/location_menu.class.php';
 
 class UserRightManagerBrowserComponent extends UserRightManagerComponent
 {
@@ -57,65 +58,69 @@ class UserRightManagerBrowserComponent extends UserRightManagerComponent
 		else
 		{
 
-			if (!isset($this->application))
-			{
-				$this->application = 'admin';
-			}
+//			if (!isset($this->application))
+//			{
+//				$this->application = 'admin';
+//			}
+//
+//			if (!isset($this->location))
+//			{
+//				$root_conditions = array();
+//				$root_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->application);
+//				$root_conditions[] = new EqualityCondition(Location :: PROPERTY_PARENT, 0);
+//
+//				$root_condition = new AndCondition($root_conditions);
+//
+//				$root = $this->retrieve_locations($root_condition, null, 1);
+//				if ($root->size() > 0)
+//				{
+//					$this->location = $this->retrieve_location($root->next_result()->get_id());
+//				}
+//				else
+//				{
+//					$this->display_header($trail);
+//					$this->display_warning_message(Translation :: get('NoSuchLocationAndOrApplication'));
+//					$this->display_footer();
+//					exit;
+//				}
+//			}
 
-			if (!isset($this->location))
-			{
-				$root_conditions = array();
-				$root_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->application);
-				$root_conditions[] = new EqualityCondition(Location :: PROPERTY_PARENT, 0);
-
-				$root_condition = new AndCondition($root_conditions);
-
-				$root = $this->retrieve_locations($root_condition, null, 1);
-				if ($root->size() > 0)
-				{
-					$this->location = $this->retrieve_location($root->next_result()->get_id());
-				}
-				else
-				{
-					$this->display_header($trail);
-					$this->display_warning_message(Translation :: get('NoSuchLocationAndOrApplication'));
-					$this->display_footer();
-					exit;
-				}
-			}
-
-			$parent_conditions = array();
-			$parent_conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN_OR_EQUAL, $this->location->get_left_value());
-			$parent_conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN_OR_EQUAL, $this->location->get_right_value());
-			$parent_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->application);
-
-			$parent_condition = new AndCondition($parent_conditions);
-			$order = array(new ObjectTableOrder(Location :: PROPERTY_LEFT_VALUE));
-			$order_direction = array(SORT_ASC);
-
-			$parents = $this->retrieve_locations($parent_condition, null, null, $order, $order_direction);
-
-			while($parent = $parents->next_result())
-			{
-				$trail->add(new Breadcrumb($this->get_url(array('location' => $parent->get_id())), $parent->get_location()));
-			}
+//			$parent_conditions = array();
+//			$parent_conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN_OR_EQUAL, $this->location->get_left_value());
+//			$parent_conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN_OR_EQUAL, $this->location->get_right_value());
+//			$parent_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->application);
+//
+//			$parent_condition = new AndCondition($parent_conditions);
+//			$order = array(new ObjectTableOrder(Location :: PROPERTY_LEFT_VALUE));
+//			$order_direction = array(SORT_ASC);
+//
+//			$parents = $this->retrieve_locations($parent_condition, null, null, $order, $order_direction);
+//
+//			while($parent = $parents->next_result())
+//			{
+//				$trail->add(new Breadcrumb($this->get_url(array('location' => $parent->get_id())), $parent->get_location()));
+//			}
 
 			$this->display_header($trail);
-			$table = $this->get_rights_table_html();
+//			$table = $this->get_rights_table_html();
 
-			if ($table)
-			{
-			    echo $this->get_applications();
-//			    echo $this->get_modification_links();
-			    echo $table;
-    			echo $this->get_location_information();
-    			echo $this->get_relations();
-    			echo RightsUtilities :: get_rights_legend();
-			}
-			else
-			{
-			    echo '<div class="warning-message">' . Translation :: get('NoRightsForApplication') . '</div>';
-			}
+//			if ($table)
+//			{
+//			    echo $this->get_applications();
+////			    echo $this->get_modification_links();
+//			    echo $table;
+//    			echo $this->get_location_information();
+//    			echo $this->get_relations();
+//    			echo RightsUtilities :: get_rights_legend();
+//			}
+//			else
+//			{
+//			    echo '<div class="warning-message">' . Translation :: get('NoRightsForApplication') . '</div>';
+//			}
+
+    		$location_menu = new LocationMenu('0');
+    		echo $location_menu->render_as_tree();
+
 			$this->display_footer();
 		}
 	}
