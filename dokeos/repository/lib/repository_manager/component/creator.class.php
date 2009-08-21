@@ -90,6 +90,11 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			{
 				$object = $lo_form->create_learning_object();
 
+				if(!$object)
+				{
+					$this->redirect(Translation :: get('FileCouldNotBeUploaded'), true, array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_CREATE_LEARNING_OBJECTS, 'type' => $type));
+				}
+				
 				if(!is_array($object) && ($object->is_complex_learning_object() || count($extra_params) == 2 || count($extra_params) == 3))
 				{
 					$parameters = array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BUILD_COMPLEX_LEARNING_OBJECT, ComplexBuilder :: PARAM_ROOT_LO => $object->get_id());
