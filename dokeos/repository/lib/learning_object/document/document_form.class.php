@@ -23,9 +23,9 @@ class DocumentForm extends LearningObjectForm
 		parent :: build_creation_form();
 		$post_max_size = ini_get('post_max_size');
 		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
-		$this->addElement('html', '<span style="margin-left: -38px">' . Translation :: get('MaxSize') . ': ' . $post_max_size . '</span>');
+		//$this->addElement('html', '<span style="margin-left: -38px">' . Translation :: get('MaxSize') . ': ' . $post_max_size . '</span>');
 		$this->addElement('upload_or_create', 'upload_or_create', sprintf(Translation :: get('FileName'), $post_max_size));
-		$this->addElement('checkbox','uncompress',Translation :: get('Uncompress'));
+		//$this->addElement('checkbox','uncompress',Translation :: get('Uncompress'), '', array('id' => 'uncompress'));
 		$this->addFormRule(array ($this, 'check_document_form'));
 		$this->addElement('category');
 	}
@@ -35,7 +35,7 @@ class DocumentForm extends LearningObjectForm
 		$post_max_size = ini_get('post_max_size');
 		
 		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
-		$this->addElement('html', '<span style="margin-left: -40px">' . Translation :: get('MaxSize') . ': ' . $post_max_size . '</span>');
+		//$this->addElement('html', '<span style="margin-left: -40px">' . Translation :: get('MaxSize') . ': ' . $post_max_size . '</span>');
 		$object = $this->get_learning_object();
 		if (DokeosUtilities :: is_html_document($object->get_path()))
 		{
@@ -96,7 +96,7 @@ class DocumentForm extends LearningObjectForm
 		$this->set_learning_object($object);
 		$document = parent :: create_learning_object();
 		
-		if($values['uncompress'])
+		if($values['uncompress'] && !$values['choice'])
 		{
 			$documents = array();
 			

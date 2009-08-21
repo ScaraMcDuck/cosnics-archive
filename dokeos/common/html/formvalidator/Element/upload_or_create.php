@@ -24,6 +24,7 @@
 require_once 'HTML/QuickForm/group.php';
 require_once 'HTML/QuickForm/radio.php';
 require_once 'HTML/QuickForm/file.php';
+require_once 'HTML/QuickForm/checkbox.php';
 /**
  * Form element to upload or create a document
  * This element contains 2 radio-
@@ -54,11 +55,12 @@ class HTML_QuickForm_upload_or_create extends HTML_QuickForm_group
      */
     function _createElements()
     {
-        $this->_elements[0] = new HTML_QuickForm_Radio('choice', '', Translation :: get('Upload'), '0', array('onclick' => 'javascript:editor_hide(\'editor_html_content\')'));
+        $this->_elements[0] = new HTML_QuickForm_Radio('choice', '', Translation :: get('Upload'), '0', array('onclick' => 'javascript:editor_hide(\'editor_html_content\'); javascript:uncompress_show(\'uncompress\')'));
         $this->_elements[0]->setChecked(true);
         $this->_elements[1] = new HTML_QuickForm_file('file', '');
-        $this->_elements[2] = new HTML_QuickForm_Radio('choice', '', Translation :: get('Create'), '1', array('onclick' => 'javascript:editor_show(\'editor_html_content\')'));
+        $this->_elements[2] = new HTML_QuickForm_Radio('choice', '', Translation :: get('Create'), '1', array('onclick' => 'javascript:editor_show(\'editor_html_content\'); javascript:editor_hide(\'uncompress\')'));
         $this->_elements[3] = new HTML_QuickForm_fckeditor_html_editor('html_content', '');
+        $this->_elements[4] = new HTML_QuickForm_checkbox('uncompress','', Translation :: get('Uncompress'), array('id' => 'uncompress'));
         $this->_elements[3]->fullPage = true;
     }
 
@@ -67,8 +69,11 @@ class HTML_QuickForm_upload_or_create extends HTML_QuickForm_group
      */
     function toHtml()
     {
-        $html[] = $this->_elements[0]->toHtml();
+    	$html[] = $this->_elements[0]->toHtml();
         $html[] = $this->_elements[1]->toHtml();
+        $html[] = '<div style="display: inline;" id="uncompress">';
+		$html[] = $this->_elements[4]->toHtml();
+        $html[] = '</div>';         
         $html[] = '<br />';
         $html[] = $this->_elements[2]->toHtml();
         $html[] = '<div style="margin-left:20px;display:block;" id="editor_html_content">';
@@ -88,6 +93,10 @@ class HTML_QuickForm_upload_or_create extends HTML_QuickForm_group
 					function editor_show(item) {
 						el = document.getElementById(item);
 						el.style.display='';
+					}
+					function uncompress_show(item) {
+						el = document.getElementById(item);
+						el.style.display='inline';
 					}
 					function editor_hide(item) {
 						el = document.getElementById(item);
