@@ -294,12 +294,12 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 
 	function delete_learning_object_publications($object_id)
 	{
-		return AssessmentDataManager :: get_instance()->delete_assessment_publications($object_id);
+		return AssessmentDataManager :: get_instance()->delete_learning_object_publications($object_id);
 	}
 
 	function update_learning_object_publication_id($publication_attr)
 	{
-		return AssessmentDataManager :: get_instance()->update_assessment_publication_id($publication_attr);
+		return AssessmentDataManager :: get_instance()->update_learning_object_publication_id($publication_attr);
 	}
 
 	function get_learning_object_publication_locations($learning_object)
