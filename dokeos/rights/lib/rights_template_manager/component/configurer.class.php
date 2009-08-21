@@ -91,7 +91,7 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 
 			if ($table)
 			{
-			    echo $this->get_modification_links();
+//			    echo $this->get_modification_links();
 			    echo $table;
     			echo $this->get_location_information();
     			echo $this->get_relations();
@@ -202,7 +202,7 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 			$html[] = '<div style="clear: both;"></div>';
 		}
 
-		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/rights_ajax.js' .'"></script>';
+		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_PATH) . 'rights/javascript/configure_rights_template.js' .'"></script>';
 		$html[] = '</div>';
 
 		return implode("\n", $html);
