@@ -64,9 +64,6 @@
 			<setting name="allow_learning_path_chapter_creation" field="checkbox" default="1">
 				<options type="static"><option name="allow_learning_path_chapter_creation" value="1" /></options>
 			</setting>
-			<setting name="allow_learning_path_item_creation" field="checkbox" default="0">
-				<options type="static"><option name="allow_learning_path_item_creation" value="1" /></options>
-			</setting>
 			<setting name="allow_link_creation" field="checkbox" default="1">
 				<options type="static"><option name="allow_link_creation" value="1" /></options>
 			</setting>
@@ -102,9 +99,6 @@
 			</setting>
 			<setting name="allow_portfolio_creation" field="checkbox" default="1">
 				<options type="static"><option name="allow_portfolio_creation" value="1" /></options>
-			</setting>
-			<setting name="allow_portfolio_item_creation" field="checkbox" default="0">
-				<options type="static"><option name="allow_portfolio_item_creation" value="1" /></options>
 			</setting>
             <setting name="allow_portfolio_creation" field="checkbox" default="1">
 				<options type="static"><option name="allow_portfolio_creation" value="1" /></options>
