@@ -15,6 +15,7 @@ class UserRightManager extends SubManager
     const PARAM_LOCATION = 'location';
 
     const ACTION_BROWSE_USER_RIGHTS = 'browse';
+    const ACTION_BROWSE_LOCATION_USER_RIGHTS = 'user';
     const ACTION_SET_USER_RIGHTS = 'set';
 
     function UserRightManager($rights_manager)
@@ -39,6 +40,9 @@ class UserRightManager extends SubManager
                 break;
             case self :: ACTION_SET_USER_RIGHTS :
                 $component = UserRightManagerComponent :: factory('Setter', $this);
+                break;
+            case self :: ACTION_BROWSE_LOCATION_USER_RIGHTS :
+                $component = UserRightManagerComponent :: factory('User', $this);
                 break;
             default :
                 $component = UserRightManagerComponent :: factory('Browser', $this);
@@ -71,6 +75,16 @@ class UserRightManager extends SubManager
 	function retrieve_user_right_location($right_id, $user_id, $location_id)
 	{
 		return $this->get_parent()->retrieve_user_right_location($right_id, $user_id, $location_id);
+	}
+	
+	function retrieve_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		return UserDataManager :: get_instance()->retrieve_users($condition, $offset, $count, $order_property, $order_direction);
+	}
+
+	function count_users($conditions = null)
+	{
+		return UserDataManager :: get_instance()->count_users($conditions);
 	}
 }
 ?>

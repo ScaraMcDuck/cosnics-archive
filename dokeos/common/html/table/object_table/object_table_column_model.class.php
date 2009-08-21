@@ -57,6 +57,16 @@ class ObjectTableColumnModel
     {
         return $this->columns[$index];
     }
+    
+    function get_columns()
+    {
+    	return $this->columns;
+    }
+    
+    function set_columns($columns)
+    {
+    	$this->columns = $columns;
+    }
 
     /**
      * Adds the given column at the end of the table.
