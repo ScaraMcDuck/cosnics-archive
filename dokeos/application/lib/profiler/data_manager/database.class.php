@@ -164,8 +164,13 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
                 $order = array();
                 for($i = 0; $i < count($order_property); $i ++)
                 {
-                    if ($order_property[$i] == 'application' || $order_property[$i] == 'location')
+                 	if ($order_property[$i] == 'application')
                     {
+                    }
+                    elseif ($order_property[$i] == 'location')
+                    {
+                        $order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(LearningObjectPublication :: PROPERTY_COURSE_ID) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                        $order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(LearningObjectPublication :: PROPERTY_TOOL) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
                     }
                     elseif ($order_property[$i] == 'title')
                     {
@@ -173,7 +178,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
                     }
                     else
                     {
-                        $order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name($order_property[$i], true) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                        //$order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name($order_property[$i], true) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
                         $order[] = self :: ALIAS_LEARNING_OBJECT_TABLE . '.' . $this->database->escape_column_name('title') . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
                     }
                 }
