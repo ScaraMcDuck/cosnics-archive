@@ -115,7 +115,7 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
 		);
 
 		$toolbar_data[] = array(
-			'href' => $this->browser->get_manage_rights_templates_url($group),
+			'href' => $this->browser->get_manage_group_rights_url($group),
 			'label' => Translation :: get('ManageRightsTemplates'),
 			'img' => Theme :: get_common_image_path().'action_rights.png'
 		);

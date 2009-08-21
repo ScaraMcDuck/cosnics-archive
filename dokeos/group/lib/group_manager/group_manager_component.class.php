@@ -99,9 +99,9 @@ abstract class GroupManagerComponent extends CoreApplicationComponent
 		return $this->get_parent()->get_group_viewing_url($group);
 	}
 
-	function get_group_rights_templates_url($group)
+	function get_manage_group_rights_url($group)
 	{
-		return $this->get_parent()->get_group_rights_templates_url($group);
+		return $this->get_parent()->get_manage_group_rights_url($group);
 	}
 
 	function get_group_rel_user_unsubscribing_url($groupreluser)

@@ -14,51 +14,6 @@ require_once 'XML/Unserializer.php';
 
 class RightsUtilities
 {
-    function install_initial_application_locations()
-    {
-		$core_applications = array('webservice','admin', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu');
-
-		foreach ($core_applications as $core_application)
-		{
-			// Add code here
-		}
-
-		$path = Path :: get_application_path() . 'lib/';
-		$applications = FileSystem :: get_directory_content($path, FileSystem :: LIST_DIRECTORIES, false);
-
-		foreach($applications as $application)
-		{
-			$toolPath = $path.'/'. $application .'/install';
-			if (is_dir($toolPath) && Application :: is_application_name($application))
-			{
-				$check_name = 'install_' . $application;
-				if (isset($values[$check_name]) && $values[$check_name] == '1')
-				{
-					$installer = Installer :: factory($application, $values);
-					$result = $installer->install();
-					$installer->create_root_rights_location();
-					$this->process_result($application, $result, $installer->retrieve_message());
-					unset($installer, $result);
-					flush();
-				}
-				else
-				{
-					// TODO: Does this work ?
-					$application_path = dirname(__FILE__).'/../../application/lib/' . $application . '/';
-					if (!FileSystem::remove($application_path))
-					{
-						$this->process_result($application, array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => Translation :: get('ApplicationRemoveFailed')));
-					}
-					else
-					{
-						$this->process_result($application, array(Installer :: INSTALL_SUCCESS => true, Installer :: INSTALL_MESSAGE => Translation :: get('ApplicationRemoveSuccess')));
-					}
-				}
-			}
-			flush();
-		}
-    }
-
     function create_application_root_location($application)
     {
     	$xml = self :: parse_locations_file($application);
@@ -87,8 +42,6 @@ class RightsUtilities
 	{
 		$base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
 		$file = $base_path . $application . '/rights/' . $application . '_locations.xml';
-
-		$result = array();
 
 		if (file_exists($file))
 		{
@@ -298,6 +251,27 @@ class RightsUtilities
 		return false;
 	}
 
+	function is_allowed_for_group($group, $right, $location)
+	{
+		$parents = $location->get_parents();
+
+		while($parent = $parents->next_result())
+		{
+			$has_right = self :: get_group_right_location($right, $group, $parent->get_id());
+
+			if ($has_right)
+			{
+				return true;
+			}
+			elseif(!$parent->inherits())
+			{
+				return false;
+			}
+		}
+
+		return false;
+	}
+
 	function move_multiple($locations, $new_parent_id, $new_previous_id = 0)
 	{
 		$rdm = RightsDataManager :: get_instance();
@@ -453,6 +427,34 @@ class RightsUtilities
 		}
 	}
 
+	function invert_group_right_location($right, $group, $location)
+	{
+		if (isset($group) && isset($right) && isset($location))
+		{
+		    $rdm = RightsDataManager :: get_instance();
+			$group_right_location = $rdm->retrieve_group_right_location($right, $group, $location);
+
+			if ($group_right_location)
+			{
+			    $group_right_location->invert();
+			    return $group_right_location->update();
+			}
+			else
+			{
+			    $group_right_location = new GroupRightLocation();
+			    $group_right_location->set_location_id($location);
+			    $group_right_location->set_right_id($right);
+			    $group_right_location->set_group_id($group);
+			    $group_right_location->set_value(1);
+			    return $group_right_location->create();
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 	function switch_location_lock($location)
 	{
 		$location->switch_lock();
@@ -523,23 +525,42 @@ class RightsUtilities
 	    }
 	}
 
-	function get_rights_icon($location_url, $rights_url, $locked_parent, $right, $user, $location)
+	function get_group_right_location($right_id, $group_id, $location_id)
 	{
-		$html[] = '<div id="r_'. $right .'_'. $user->get_id() .'_'. $location->get_id() .'" style="float: left; width: 24%; text-align: center;">';
+	    $rdm = RightsDataManager :: get_instance();
+	    $object = $rdm->retrieve_group_right_location($right_id, $group_id, $location_id);
+
+	    if ($object)
+	    {
+	        return $object->get_value();
+	    }
+	    else
+	    {
+	        return 0;
+	    }
+	}
+
+	function get_rights_icon($location_url, $rights_url, $locked_parent, $right, $object, $location)
+	{
+	    $type = DokeosUtilities :: camelcase_to_underscores(get_class($object));
+	    $get_function = 'get_' . $type . '_right_location';
+	    $allowed_function = 'is_allowed_for_' . $type;
+
+		$html[] = '<div id="r_'. $right .'_'. $object->get_id() .'_'. $location->get_id() .'" style="float: left; width: 24%; text-align: center;">';
 		if (isset($locked_parent))
 		{
-		    $value = RightsUtilities :: get_user_right_location($right, $user->get_id(), $locked_parent->get_id());
+		    $value = RightsUtilities :: $get_function($right, $object->get_id(), $locked_parent->get_id());
 			$html[] = '<a href="'. $location_url .'">' . ($value == 1 ? '<img src="'. Theme :: get_common_image_path() .'action_setting_true_locked.png" title="'. Translation :: get('LockedTrue') .'" />' : '<img src="'. Theme :: get_common_image_path() .'action_setting_false_locked.png" title="'. Translation :: get('LockedFalse') .'" />') . '</a>';
 		}
 		else
 		{
-		    $value = RightsUtilities :: get_user_right_location($right, $user->get_id(), $location->get_id());
+		    $value = RightsUtilities :: $get_function($right, $object->get_id(), $location->get_id());
 
 			if (!$value)
 			{
 				if ($location->inherits())
 				{
-					$inherited_value = RightsUtilities :: is_allowed_for_user($user->get_id(), $right, $location);
+					$inherited_value = RightsUtilities :: $allowed_function($object->get_id(), $right, $location);
 
 					if ($inherited_value)
 					{

@@ -14,13 +14,14 @@ require_once Path :: get_common_path() . 'data_class.class.php';
 
 class Group extends DataClass
 {
+    const CLASS_NAME = __CLASS__;
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_DESCRIPTION = 'description';
 	const PROPERTY_SORT = 'sort';
 	const PROPERTY_PARENT = 'parent';
 	const PROPERTY_LEFT_VALUE = 'left_value';
 	const PROPERTY_RIGHT_VALUE = 'right_value';
-	
+
 	/**
 	 * Get the default properties of all groups.
 	 * @return array The property names.
@@ -29,23 +30,23 @@ class Group extends DataClass
 	{
 		return parent :: get_default_property_names(array(self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_SORT, self :: PROPERTY_PARENT, self :: PROPERTY_LEFT_VALUE, self :: PROPERTY_RIGHT_VALUE));
 	}
-	
+
 	/*
 	 * Gets the table name for this class
 	 */
 	static function get_table_name()
 	{
-		return DokeosUtilities :: camelcase_to_underscores(__CLASS__);
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-	
+
 	/**
 	 * inherited
 	 */
 	function get_data_manager()
 	{
-		return GroupDataManager :: get_instance();	
+		return GroupDataManager :: get_instance();
 	}
-	
+
 	/**
 	 * Returns the name of this group.
 	 * @return String The name
@@ -54,7 +55,7 @@ class Group extends DataClass
 	{
 		return $this->get_default_property(self :: PROPERTY_NAME);
 	}
-	
+
 	/**
 	 * Returns the description of this group.
 	 * @return String The description
@@ -63,12 +64,12 @@ class Group extends DataClass
 	{
 		return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
 	}
-	
+
 	function get_sort()
 	{
 		return $this->get_default_property(self :: PROPERTY_SORT);
-	}		
-	
+	}
+
 	/**
 	 * Sets the name of this group.
 	 * @param String $name the name.
@@ -77,7 +78,7 @@ class Group extends DataClass
 	{
 		$this->set_default_property(self :: PROPERTY_NAME, $name);
 	}
-	
+
 	/**
 	 * Sets the description of this group.
 	 * @param String $description the description.
@@ -86,49 +87,49 @@ class Group extends DataClass
 	{
 		$this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
 	}
-	
+
 	function set_sort($sort)
 	{
 		$this->set_default_property(self :: PROPERTY_SORT, $sort);
 	}
-	
+
 	function get_parent()
 	{
 		return $this->get_default_property(self :: PROPERTY_PARENT);
 	}
-	
+
 	function set_parent($parent)
 	{
 		$this->set_default_property(self :: PROPERTY_PARENT, $parent);
 	}
-	
+
 	function get_left_value()
 	{
 		return $this->get_default_property(self :: PROPERTY_LEFT_VALUE);
 	}
-		
+
 	function set_left_value($left_value)
 	{
 		$this->set_default_property(self :: PROPERTY_LEFT_VALUE, $left_value);
 	}
-	
+
 	function get_right_value()
 	{
 		return $this->get_default_property(self :: PROPERTY_RIGHT_VALUE);
 	}
-		
+
 	function set_right_value($right_value)
 	{
 		$this->set_default_property(self :: PROPERTY_RIGHT_VALUE, $right_value);
 	}
-	
+
 	/**
-	 * Get all of the group's parents 
+	 * Get all of the group's parents
 	 */
 	function get_parents($include_self = true)
 	{
 		$gdm = $this->get_data_manager();
-		
+
 		$parent_conditions = array();
 		if ($include_self)
 		{
@@ -140,19 +141,19 @@ class Group extends DataClass
 			$parent_conditions[] = new InequalityCondition(Group :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN, $this->get_left_value());
 			$parent_conditions[] = new InequalityCondition(Group :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $this->get_right_value());
 		}
-		
+
 		$parent_condition = new AndCondition($parent_conditions);
 		$order = new ObjectTableOrder(Group :: PROPERTY_LEFT_VALUE, SORT_DESC);
-			
+
 		return $gdm->retrieve_groups($parent_condition, null, null, $order);
 	}
-	
+
 	function is_child_of($parent_id)
 	{
 		$gdm = $this->get_data_manager();
-		
+
 		$parent = $gdm->retrieve_group($parent_id);
-		
+
 		// TODO: What if $parent is invalid ? Return error
 
         // Check if the left and right value of the child are within the
@@ -164,55 +165,55 @@ class Group extends DataClass
 
         return false;
 	}
-	
+
 	function is_parent_of($child_id)
 	{
 		$gdm = $this->get_data_manager();
-		
+
 		$child = $gdm->retrieve_group($child_id);
 		return $child->is_child_of($this->get_id());
 	}
-	
+
 	/**
 	 * Get the groups on the same level with the same parent
 	 */
 	function get_siblings($include_self = true)
 	{
 		$gdm = $this->get_data_manager();
-		
+
 		$siblings_conditions = array();
 		$siblings_conditions[] = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_parent());
-		
+
 		if (!$include_self)
 		{
 			$siblings_conditions[] = new NotCondition(new EqualityCondition(Group :: PROPERTY_ID, $this->get_id()));
 		}
-		
+
 		$siblings_condition = new AndCondition($siblings_conditions);
-			
+
 		return $gdm->retrieve_groups($siblings_condition);
 	}
-	
+
 	function has_siblings()
 	{
 		$gdm = $this->get_data_manager();
-		
+
 		$siblings_conditions = array();
 		$siblings_conditions[] = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_parent());
 		$siblings_conditions[] = new NotCondition(new EqualityCondition(Group :: PROPERTY_ID, $this->get_id()));
-		
+
 		$siblings_condition = new AndCondition($siblings_conditions);
-			
+
 		return ($gdm->count_groups($siblings_condition) > 0);
 	}
-	
+
 	/**
 	 * Get the group's children
 	 */
 	function get_children($recursive = true)
 	{
 		$gdm = $this->get_data_manager();
-		
+
 		if ($recursive)
 		{
 			$children_conditions = array();
@@ -224,29 +225,29 @@ class Group extends DataClass
 		{
 			$children_condition = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_id());
 		}
-		
+
 		return $gdm->retrieve_groups($children_condition);
 	}
-	
+
 	function has_children()
 	{
 		$gdm = $this->get_data_manager();
 		$children_condition = new EqualityCondition(Location :: PROPERTY_PARENT, $this->get_id());
 		return ($gdm->count_groups($children_condition) > 0);
 	}
-	
+
 	function move($new_parent_id, $new_previous_id = 0)
 	{
 		$gdm = $this->get_data_manager();
-		
+
 		if (!$gdm->move_group($this, $new_parent_id, $new_previous_id))
 		{
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Instructs the Datamanager to delete this group.
 	 * @return boolean True if success, false otherwise.
@@ -254,13 +255,13 @@ class Group extends DataClass
 	function delete()
 	{
 		$gdm = $this->get_data_manager();
-		
+
 		// Delete the actual location
 		if (!$gdm->delete_group($this))
 		{
 			return false;
 		}
-		
+
 		// Update left and right values
 		if (!$gdm->delete_nested_values($this))
 		{
@@ -268,18 +269,18 @@ class Group extends DataClass
         	return false;
 		}
 	}
-	
+
 	function truncate()
 	{
 		return $this->get_data_manager()->truncate_group($this);
 	}
-	
+
 	function create($previous_id = 0)
 	{
 		$gdm = $this->get_data_manager();
-		
+
 		$parent_id = $this->get_parent();
-		
+
         $previous_visited = 0;
 
         if ($parent_id || $previous_id)
@@ -288,14 +289,14 @@ class Group extends DataClass
             {
             	$node = $gdm->retrieve_group($previous_id);
             	$parent_id = $node->get_parent();
-            	
+
             	// TODO: If $node is invalid, what then ?
             }
             else
             {
             	$node = $gdm->retrieve_group($parent_id);
             }
-            
+
             // Set the new location's parent id
             $this->set_parent($parent_id);
 
@@ -305,7 +306,7 @@ class Group extends DataClass
             // if $previous_id is given, we need to use the right-value
             // if only the $parent_id is given we need to use the left-value
             $previous_visited = $previous_id ? $node->get_right_value() : $node->get_left_value();
-            
+
             // Correct the left and right values wherever necessary.
             if (!$gdm->add_nested_values($previous_visited, 1))
             {
@@ -313,7 +314,7 @@ class Group extends DataClass
             	return false;
             }
         }
-        
+
         // Left and right values have been shifted so now we
         // want to really add the location itself, but first
         // we have to set it's left and right value.
@@ -324,57 +325,57 @@ class Group extends DataClass
         {
         	return false;
         }
-        
+
         return true;
 	}
-	
+
 	function get_rights_templates()
 	{
 		$gdm = $this->get_data_manager();
 		$condition = new EqualityCondition(GroupRightsTemplate :: PROPERTY_GROUP_ID, $this->get_id());
-		
+
 		return $gdm->retrieve_group_rights_templates($condition);
 	}
-	
+
 	function add_rights_template_link($rights_template_id)
 	{
 		$gdm = $this->get_data_manager();
 		return $gdm->add_rights_template_link($this, $rights_template_id);
 	}
-	
+
 	function delete_rights_template_link($rights_template_id)
 	{
 		$gdm = $this->get_data_manager();
 		return $gdm->delete_rights_template_link($this, $rights_template_id);
 	}
-	
+
 	function update_rights_template_links($rights_templates)
 	{
 		$gdm = $this->get_data_manager();
 		return $gdm->update_rights_template_links($this, $rights_templates);
 	}
-	
+
 	function get_users($include_subgroups = false, $recursive_subgroups = false)
 	{
 		$gdm = $this->get_data_manager();
-		
+
 		$groups = array();
 		$groups[] = $this->get_id();
-		
+
 		if ($include_subgroups)
 		{
 			$subgroups =  $this->get_subgroups($recursive_subgroups);
-			
+
 			foreach($subgroups as $subgroup)
 			{
 				$groups[] = $subgroup->get_id();
 			}
 		}
-		
+
 		$condition = new InCondition(GroupRelUser :: PROPERTY_GROUP_ID, $groups);
 		$group_rel_users = $gdm->retrieve_group_rel_users($condition);
 		$users = array();
-		
+
 		while ($group_rel_user = $group_rel_users->next_result())
 		{
 			$user_id = $group_rel_user->get_user_id();
@@ -383,21 +384,21 @@ class Group extends DataClass
 				$users[] = $user_id;
 			}
 		}
-		
+
 		return $users;
 	}
-	
+
 	function count_users($include_subgroups = false, $recursive_subgroups = false)
 	{
 		$users = $this->get_users($include_subgroups, $recursive_subgroups);
-		
+
 		return count($users);
 	}
-	
+
 	function get_subgroups($recursive = false)
 	{
 		$gdm = $this->get_data_manager();
-		
+
 		if ($recursive)
 		{
 			$children_conditions = array();
@@ -409,23 +410,23 @@ class Group extends DataClass
 		{
 			$children_condition = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_id());
 		}
-		
+
 		$groups = $gdm->retrieve_groups($children_condition);
-		
+
 		$subgroups = array();
-		
+
 		while ($group = $groups->next_result())
 		{
 			$subgroups[$group->get_id()] = $group;
 		}
-		
+
 		return $subgroups;
 	}
-	
+
 	function count_subgroups($recursive = false)
 	{
 		$gdm = $this->get_data_manager();
-		
+
 		if ($recursive)
 		{
 			return ($this->get_right_value() - $this->get_left_value() - 1) / 2;

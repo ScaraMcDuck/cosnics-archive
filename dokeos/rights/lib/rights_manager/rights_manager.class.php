@@ -4,6 +4,7 @@ require_once Path :: get_rights_path() . 'lib/rights_manager/rights_manager_comp
 require_once Path :: get_rights_path() . 'lib/rights_data_manager.class.php';
 require_once Path :: get_rights_path() . 'lib/rights_template_manager/rights_template_manager.class.php';
 require_once Path :: get_rights_path() . 'lib/user_right_manager/user_right_manager.class.php';
+require_once Path :: get_rights_path() . 'lib/group_right_manager/group_right_manager.class.php';
 require_once Path :: get_library_path() . 'core_application.class.php';
 
 /**
@@ -20,6 +21,7 @@ class RightsManager extends CoreApplication
 
     const ACTION_MANAGE_RIGHTS_TEMPLATES = 'template';
     const ACTION_MANAGE_USER_RIGHTS = 'user';
+    const ACTION_MANAGE_GROUP_RIGHTS = 'group';
     const ACTION_REQUEST_RIGHT = 'request_rights';
 
     private $quota_url;
@@ -57,6 +59,9 @@ class RightsManager extends CoreApplication
                 break;
             case self :: ACTION_MANAGE_USER_RIGHTS :
                 $component = RightsManagerComponent :: factory('User', $this);
+                break;
+            case self :: ACTION_MANAGE_GROUP_RIGHTS :
+                $component = RightsManagerComponent :: factory('Group', $this);
                 break;
             case self :: ACTION_REQUEST_RIGHT :
                 $component = RightsManagerComponent :: factory('RightRequester', $this);
@@ -154,9 +159,9 @@ class RightsManager extends CoreApplication
         return RightsDataManager :: get_instance()->retrieve_group_right_locations($condition, $offset, $count, $order_property, $order_direction);
     }
 
-    function retrieve_group_right_location($id)
+    function retrieve_group_right_location($right_id, $group_id, $location_id)
     {
-        return RightsDataManager :: get_instance()->retrieve_group_right_location($id);
+        return RightsDataManager :: get_instance()->retrieve_group_right_location($right_id, $group_id, $location_id);
     }
 
     function retrieve_user_right_location($right_id, $user_id, $location_id)
