@@ -122,6 +122,7 @@ class AdminManagerLogViewerComponent extends AdminManagerComponent
     	$fh = fopen($file, 'r');
     	$string = file_get_contents($file);
     	$lines = explode("\n", $string);
+    	$lines = array_reverse($lines);
     	
     	if($count == 'all' || count($lines) < $count)
     		$count = count($lines) - 1;
