@@ -60,8 +60,11 @@ class RepositoryFilterForm extends FormValidator
 		
 		$filters['c_1'] = '--------------------------';
 		
+		$hidden_types = array('learning_path_item', 'portfolio_item');
+		
 		for($i = 0; $i < count($registrations); $i++)
 		{
+			if(in_array($registrations[$i], $hidden_types)) continue;
 			$filters[$registrations[$i]] = Translation :: get(DokeosUtilities :: underscores_to_camelcase($registrations[$i] . 'TypeName'));
 		}
 		
