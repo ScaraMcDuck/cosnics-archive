@@ -105,7 +105,11 @@ class HTML_QuickForm_datepicker extends HTML_QuickForm_date
         }
         return $js;*/
     	
-    	return ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'html/formvalidator/Element/tbl_change.js');
+    	 $js =  '<script type="text/javascript">';
+         $js .= 'var path = \'' . Path :: get(WEB_LIB_PATH) . '\';';
+         $js .= '</script>';
+    	
+    	return $js . ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'html/formvalidator/Element/tbl_change.js');
     }
 
     /**
