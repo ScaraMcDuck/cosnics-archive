@@ -32,7 +32,7 @@ class LocationUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 			return $this->get_modification_links($user);
 		}
 		
-			if (LocationUserBrowserTableColumnModel :: is_rights_column($column))
+		if (LocationUserBrowserTableColumnModel :: is_rights_column($column))
 		{
 		    return $this->get_rights_column_value($column, $user);
 		}

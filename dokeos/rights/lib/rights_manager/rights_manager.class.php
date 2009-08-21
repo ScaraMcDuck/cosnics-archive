@@ -128,7 +128,7 @@ class RightsManager extends CoreApplication
         $links[]	= array('name' => Translation :: get('RightsTemplatePermissions'),
             'description' => Translation :: get('RightsTemplatePermissionsDescription'),
             'action' => 'permission_template',
-            'url' => $this->get_link(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_CONFIGURE_RIGHTS_TEMPLATES)));
+            'url' => $this->get_link(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_CONFIGURE_LOCATION_RIGHTS_TEMPLATES)));
         $links[]	= array('name' => Translation :: get('UserPermissions'),
             'description' => Translation :: get('UserPermissionsDescription'),
             'action' => 'permission_user',

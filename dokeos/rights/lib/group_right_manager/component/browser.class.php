@@ -209,45 +209,10 @@ class GroupRightManagerBrowserComponent extends GroupRightManagerComponent
 		return implode("\n", $html);
 	}
 
-	function get_modification_links()
-	{
-		$location = $this->location;
-		$locked_parent = $location->get_locked_parent();
-
-		$toolbar = new Toolbar();
-
-		if(!isset($locked_parent))
-		{
-			if ($location->is_locked())
-			{
-				$toolbar->add_item(new ToolbarItem(Translation :: get('UnlockChildren'), Theme :: get_common_image_path() . 'action_unlock.png', $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_UNLOCK_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()))));
-			}
-			else
-			{
-				$toolbar->add_item(new ToolbarItem(Translation :: get('LockChildren'), Theme :: get_common_image_path() . 'action_lock.png', $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_LOCK_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()))));
-			}
-
-			if (!$location->is_root())
-			{
-				if ($location->inherits())
-				{
-					$toolbar->add_item(new ToolbarItem(Translation :: get('Disinherit'), Theme :: get_common_image_path() . 'action_setting_false_inherit.png', $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_DISINHERIT_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()))));
-				}
-				else
-				{
-					$toolbar->add_item(new ToolbarItem(Translation :: get('Inherit'), Theme :: get_common_image_path() . 'action_setting_true_inherit.png', $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_INHERIT_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()))));
-				}
-			}
-		}
-
-		return $toolbar->as_html();
-	}
-
 	function get_action_bar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 		$action_bar->set_search_url($this->get_url(array(GroupRightManager :: PARAM_SOURCE => $this->application, GroupRightManager :: PARAM_GROUP => $this->group->get_id(), GroupRightManager :: PARAM_LOCATION => $this->location->get_id())));
-//		$action_bar->add_common_action(new ToolbarItem(Translation :: get('RootRights'), Theme :: get_common_image_path().'action_rights.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 		return $action_bar;
 	}

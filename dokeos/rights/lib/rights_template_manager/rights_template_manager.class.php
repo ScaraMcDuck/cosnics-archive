@@ -19,6 +19,7 @@ class RightsTemplateManager extends SubManager
     const ACTION_DELETE_RIGHTS_TEMPLATES = 'delete';
     const ACTION_CREATE_RIGHTS_TEMPLATE = 'create';
     const ACTION_CONFIGURE_RIGHTS_TEMPLATES = 'configure';
+    const ACTION_CONFIGURE_LOCATION_RIGHTS_TEMPLATES = 'template';
     const ACTION_LOCK_RIGHTS_TEMPLATES = 'lock';
     const ACTION_UNLOCK_RIGHTS_TEMPLATES = 'unlock';
     const ACTION_INHERIT_RIGHTS_TEMPLATES = 'inherit';
@@ -56,6 +57,9 @@ class RightsTemplateManager extends SubManager
                 break;
             case self :: ACTION_CONFIGURE_RIGHTS_TEMPLATES :
                 $component = RightsTemplateManagerComponent :: factory('Configurer', $this);
+                break;
+            case self :: ACTION_CONFIGURE_LOCATION_RIGHTS_TEMPLATES :
+                $component = RightsTemplateManagerComponent :: factory('RightsTemplater', $this);
                 break;
             case self :: ACTION_LOCK_RIGHTS_TEMPLATES :
                 $component = RightsTemplateManagerComponent :: factory('Locker', $this);
