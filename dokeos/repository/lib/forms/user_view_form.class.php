@@ -48,8 +48,12 @@ class UserViewForm extends FormValidator {
 		{
 			$dm = RepositoryDataManager :: get_instance();
 			$registrations = $dm->get_registered_types();
+			
+			$hidden_types = array('learning_path_item', 'portfolio_item');
+			
 			foreach($registrations as $registration)
 			{
+				if(in_array($registration, $hidden_types)) continue;
 				$learning_object_types[$registration] = Translation :: get(DokeosUtilities :: underscores_to_camelcase($registration) . 'TypeName');
 				//$defaults[] = $registration;
 			}
