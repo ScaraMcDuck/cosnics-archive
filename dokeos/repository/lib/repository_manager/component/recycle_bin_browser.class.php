@@ -6,6 +6,7 @@
 require_once dirname(__FILE__).'/../repository_manager.class.php';
 require_once dirname(__FILE__).'/../repository_manager_component.class.php';
 require_once dirname(__FILE__).'/recycle_bin_browser/recycle_bin_browser_table.class.php';
+require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 /**
  * Default repository manager component which allows the user to browse through
  * the different categories and learning objects in the repository.
@@ -22,24 +23,15 @@ class RepositoryManagerRecycleBinBrowserComponent extends RepositoryManagerCompo
 		$trail->add_help('repository recyclebin');
 
 		$this->display_header($trail, false, true);
+		
 		if (Request :: get(RepositoryManager :: PARAM_EMPTY_RECYCLE_BIN))
 		{
 			$this->empty_recycle_bin();
 			$this->display_message(htmlentities(Translation :: get('RecycleBinEmptied')));
 		}
-		$count = $this->display_learning_objects();
-		if ($count)
-		{
-			$toolbar_data = array();
-			$toolbar_data[] = array(
-				'href' => $this->get_url(array(RepositoryManager :: PARAM_EMPTY_RECYCLE_BIN => 1)),
-				'img' => Theme :: get_common_image_path().'treemenu/trash.png',
-				'label' => Translation :: get('EmptyRecycleBin'),
-				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL,
-				'confirm' => true
-			);
-			echo '<div style="text-align: right; margin-top: 1em;">'.DokeosUtilities :: build_toolbar($toolbar_data).'</div>';
-		}
+		
+		echo $this->get_action_bar()->as_html();
+		$this->display_learning_objects();
 		$this->display_footer();
 	}
 	/**
@@ -70,5 +62,14 @@ class RepositoryManagerRecycleBinBrowserComponent extends RepositoryManagerCompo
 		}
 		return $count;
 	}
+	
+	function get_action_bar()
+    {
+        $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('EmptyRecycleBin'), Theme :: get_common_image_path().'treemenu/trash.png', $this->get_url(array(RepositoryManager :: PARAM_EMPTY_RECYCLE_BIN => 1)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+
+        return $action_bar;
+    }
 }
 ?>
