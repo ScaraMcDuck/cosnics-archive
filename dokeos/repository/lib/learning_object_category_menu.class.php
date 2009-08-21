@@ -64,7 +64,11 @@ class LearningObjectCategoryMenu extends HTML_Menu
 	{
 		$menu = array();
 		$menu_item = array();
-		$menu_item['title'] = Translation :: get('MyRepository');
+		
+		$condition = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, 0);
+		$count = $this->data_manager->count_learning_objects(null, $condition);
+		
+		$menu_item['title'] = Translation :: get('MyRepository') . ' (' . $count . ')';
 		$menu_item['url'] = $this->get_category_url(0);
 		$sub_menu_items = $this->get_sub_menu_items(0);
 		if(count($sub_menu_items) > 0)
@@ -100,8 +104,11 @@ class LearningObjectCategoryMenu extends HTML_Menu
 		$categories = array ();
 		while ($category = $objects->next_result())
 		{
+			$condition = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $category->get_id());
+			$count = $this->data_manager->count_learning_objects(null, $condition);
+		
 			$menu_item = array();
-			$menu_item['title'] = $category->get_name();
+			$menu_item['title'] = $category->get_name() . ' (' . $count . ')';
 			$menu_item['url'] = $this->get_category_url($category->get_id());
 			$sub_menu_items = $this->get_sub_menu_items($category->get_id());
 			if(count($sub_menu_items) > 0)
@@ -135,8 +142,9 @@ class LearningObjectCategoryMenu extends HTML_Menu
         $breadcrumbs = $this->array_renderer->toArray();
         foreach ($breadcrumbs as $crumb)
         {
-            if($crumb['title'] == Translation :: get('MyRepository')) continue;
-            $trail->add(new Breadcrumb($crumb['url'], $crumb['title']));
+            $str = Translation :: get('MyRepository');
+        	if(substr($crumb['title'], 0, strlen($str)) == $str) continue;
+            $trail->add(new Breadcrumb($crumb['url'], substr($crumb['title'], 0, strpos($crumb['title'], '('))));
            
         }
         return $trail;

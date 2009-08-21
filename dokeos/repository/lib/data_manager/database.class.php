@@ -273,11 +273,10 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		$query .= ' JOIN ' . $this->escape_table_name('learning_object_version') . ' AS ' . self :: ALIAS_LEARNING_OBJECT_VERSION_TABLE . ' ON ' . self :: ALIAS_LEARNING_OBJECT_TABLE . '.' . LearningObject :: PROPERTY_ID . ' = ' . self :: ALIAS_LEARNING_OBJECT_VERSION_TABLE . '.' . LearningObject :: PROPERTY_ID;
 
-
 		$params = array ();
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator = new ConditionTranslator($this, $params);
             $query .= $translator->render_query($condition);
             $params = $translator->get_parameters();
 		}
