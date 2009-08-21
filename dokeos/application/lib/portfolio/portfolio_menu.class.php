@@ -85,7 +85,7 @@ class PortfolioMenu extends HTML_Menu
 
         $menu[] = $users;
 
-        $institution = array ();
+        /*$institution = array ();
         $institution['title'] = Translation :: get('Institution');
         $institution['url'] = $this->get_root_url();
         $institution['class'] = 'home';
@@ -94,7 +94,7 @@ class PortfolioMenu extends HTML_Menu
         if(count($subs) > 0)
         	$institution['sub'] = $subs;
 
-        $menu[] = $institution;
+        $menu[] = $institution;*/
 
         return $menu;
     }
