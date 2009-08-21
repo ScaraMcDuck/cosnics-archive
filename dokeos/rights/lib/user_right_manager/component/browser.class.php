@@ -7,7 +7,7 @@ require_once Path :: get_rights_path() . 'lib/user_right_manager/user_right_mana
 require_once Path :: get_rights_path() . 'lib/rights_data_manager.class.php';
 require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';
 require_once Path :: get_rights_path() . 'lib/location_menu.class.php';
-require_once Path :: get_rights_path() . 'lib/user_right_manager/component/location_browser_table/location_browser_table.class.php';
+require_once Path :: get_rights_path() . 'lib/user_right_manager/component/user_location_browser_table/user_location_browser_table.class.php';
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
 
 class UserRightManagerBrowserComponent extends UserRightManagerComponent
@@ -66,21 +66,11 @@ class UserRightManagerBrowserComponent extends UserRightManagerComponent
 		    $this->location = $root;
 		}
 
-//		$parent_conditions = array();
-//		$parent_conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN_OR_EQUAL, $this->location->get_left_value());
-//		$parent_conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN_OR_EQUAL, $this->location->get_right_value());
-//		$parent_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->application);
-//
-//		$parent_condition = new AndCondition($parent_conditions);
-//		$order = array(new ObjectTableOrder(Location :: PROPERTY_LEFT_VALUE));
-//		$order_direction = array(SORT_ASC);
-//
-//		$parents = $this->retrieve_locations($parent_condition, null, null, $order, $order_direction);
-//
-//		while($parent = $parents->next_result())
-//		{
-//			$trail->add(new Breadcrumb($this->get_url(array('location' => $parent->get_id())), $parent->get_location()));
-//		}
+		$parents = array_reverse($this->location->get_parents()->as_array());
+		foreach($parents as $parent)
+		{
+			$trail->add(new Breadcrumb($this->get_url(array('location' => $parent->get_id())), $parent->get_location()));
+		}
 
 		$this->action_bar = $this->get_action_bar();
 
@@ -97,7 +87,7 @@ class UserRightManagerBrowserComponent extends UserRightManagerComponent
     	$html[] = $location_menu->render_as_tree();
     	$html[] = '</div>';
 
-    	$table = new LocationBrowserTable($this, $this->get_parameters(), $this->get_condition($location));
+    	$table = new UserLocationBrowserTable($this, $this->get_parameters(), $this->get_condition($location));
 
     	$html[] = '<div style="float: right; width: 80%;">';
     	$html[] = $table->as_html();

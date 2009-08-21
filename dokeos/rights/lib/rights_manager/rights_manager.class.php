@@ -132,7 +132,7 @@ class RightsManager extends CoreApplication
         $links[]	= array('name' => Translation :: get('UserPermissions'),
             'description' => Translation :: get('UserPermissionsDescription'),
             'action' => 'permission_user',
-            'url' => $this->get_link(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS)));
+            'url' => $this->get_link(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS, UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_BROWSE_LOCATION_USER_RIGHTS)));
         $links[]	= array('name' => Translation :: get('GroupPermissions'),
             'description' => Translation :: get('GroupPermissionsDescription'),
             'action' => 'permission_group',

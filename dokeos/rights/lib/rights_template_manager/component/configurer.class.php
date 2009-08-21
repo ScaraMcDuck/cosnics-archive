@@ -89,7 +89,7 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 		$html[] = $this->get_applications();
 		$html[] = $this->action_bar->as_html() . '<br />';
 
-		$url_format = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_BROWSE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID => $this->rights_template->get_id(), RightsTemplateManager :: PARAM_SOURCE => $this->application, RightsTemplateManager :: PARAM_LOCATION => '%s'));
+		$url_format = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_CONFIGURE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID => $this->rights_template->get_id(), RightsTemplateManager :: PARAM_SOURCE => $this->application, RightsTemplateManager :: PARAM_LOCATION => '%s'));
 		$url_format = str_replace('=%25s', '=%s', $url_format);
     	$location_menu = new LocationMenu($root->get_id(), $this->location->get_id(), $url_format);
     	$html[] = '<div style="float: left; width: 18%; overflow: auto; height: 500px;">';
@@ -107,50 +107,6 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
     	echo implode("\n", $html);
 
 		$this->display_footer();
-	}
-
-	function get_root_rights_table()
-	{
-	    $rights = $this->get_rights();
-	    $location = $this->location;
-	    $locked_parent = $location->get_locked_parent();
-	    $rights_template = $this->rights_template;
-	    $html = array();
-
-	    $html[] = '<table class="data_table">';
-	    $html[] = '<thead>';
-	    $html[] = '<tr>';
-	    $html[] = '<th>' . Translation :: get('Root') . '</th>';
-
-	    foreach($rights as $right_name => $right_id)
-	    {
-            $column_name = Translation :: get(DokeosUtilities :: underscores_to_camelcase(strtolower($right_name)));
-            $html[] = '<th>' . $column_name . '</th>';
-	    }
-
-//	    $html[] = '<th></th>';
-	    $html[] = '</tr>';
-	    $html[] = '</th>';
-	    $html[] = '<tbody>';
-	    $html[] = '<tr>';
-	    $html[] = '<td>' . $this->location->get_location() . '</td>';
-
-	    $location_url = $this->get_url(array('application' => $this->application, 'location' => ($locked_parent ? $locked_parent->get_id() : $location->get_id())));
-
-		foreach($rights as $right_name => $right_id)
-	    {
-	        $html[] = '<td>';
-	        $rights_url = $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_SET_RIGHTS_TEMPLATES, 'rights_template_id' => $rights_template->get_id(), 'right_id' => $right_id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()));
-	        $html[] = RightsUtilities :: get_rights_icon($location_url, $rights_url, $locked_parent, $right_id, $rights_template, $location);
-	        $html[] = '</td>';
-	    }
-
-//	    $html[] = '<td></td>';
-	    $html[] = '</tr>';
-	    $html[] = '</table>';
-	    $html[] = '';
-
-	    return implode("\n", $html);
 	}
 
 	function get_condition($location)
