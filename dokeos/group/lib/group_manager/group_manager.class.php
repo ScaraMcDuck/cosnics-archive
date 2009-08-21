@@ -417,9 +417,9 @@ class GroupManager extends CoreApplication
 		}
 	}
 
-	function get_manage_rights_templates_url($group)
+	function get_manage_group_rights_url($group)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGE_RIGHTS_TEMPLATES, self :: PARAM_GROUP_ID => $group->get_id()));
+		return $this->get_url(array (Application :: PARAM_APPLICATION => RightsManager :: APPLICATION_NAME, Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS, GroupRightManager :: PARAM_GROUP_RIGHT_ACTION => GroupRightManager :: ACTION_BROWSE_GROUP_RIGHTS, GroupRightManager :: PARAM_GROUP => $group->get_id()));
 	}
 
 	/**

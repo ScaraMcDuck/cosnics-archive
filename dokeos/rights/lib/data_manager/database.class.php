@@ -282,6 +282,11 @@ class DatabaseRightsDataManager extends RightsDataManager
         return $this->connection->nextID($this->get_table_name('user_right_location'));
     }
 
+    function get_next_group_right_location_id()
+    {
+        return $this->connection->nextID($this->get_table_name('group_right_location'));
+    }
+
     //Inherited.
     function get_next_right_id()
     {
@@ -1051,9 +1056,14 @@ class DatabaseRightsDataManager extends RightsDataManager
         return $this->database->retrieve_object(UserRightLocation :: get_table_name(), $condition);
     }
 
-    function retrieve_group_right_location($id)
+    function retrieve_group_right_location($right_id, $group_id, $location_id)
     {
-        $condition = new EqualityCondition(GroupRightLocation :: PROPERTY_ID, $id);
+        $conditions = array();
+        $conditions[] = new EqualityCondition(GroupRightLocation :: PROPERTY_RIGHT_ID, $right_id);
+        $conditions[] = new EqualityCondition(GroupRightLocation :: PROPERTY_GROUP_ID, $group_id);
+        $conditions[] = new EqualityCondition(GroupRightLocation :: PROPERTY_LOCATION_ID, $location_id);
+        $condition = new AndCondition($conditions);
+
         return $this->database->retrieve_object(GroupRightLocation :: get_table_name(), $condition);
     }
 
