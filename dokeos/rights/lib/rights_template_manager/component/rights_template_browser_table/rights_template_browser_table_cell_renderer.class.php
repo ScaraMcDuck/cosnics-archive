@@ -44,6 +44,12 @@ class RightsTemplateBrowserTableCellRenderer extends DefaultRightsTemplateTableC
 	private function get_modification_links($rights_template)
 	{
 		$toolbar_data = array();
+		
+		$toolbar_data[] = array(
+			'href' => $this->browser->get_manage_rights_template_rights_url($rights_template),
+			'label' => Translation :: get('ManageRightsTemplates'),
+			'img' => Theme :: get_common_image_path().'action_rights.png'
+		);
 
 		$editing_url = $this->browser->get_rights_template_editing_url($rights_template);
 		$toolbar_data[] = array(
