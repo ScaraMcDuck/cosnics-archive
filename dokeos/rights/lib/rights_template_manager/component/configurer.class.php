@@ -202,7 +202,7 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 			$html[] = '<div style="clear: both;"></div>';
 		}
 
-		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_PATH) . 'rights/javascript/configure_rights_template.js' .'"></script>';
+		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'rights/javascript/configure_rights_template.js');
 		$html[] = '</div>';
 
 		return implode("\n", $html);
