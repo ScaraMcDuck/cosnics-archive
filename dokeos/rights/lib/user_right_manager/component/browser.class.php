@@ -13,7 +13,7 @@ require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.c
 class UserRightManagerBrowserComponent extends UserRightManagerComponent
 {
 	private $action_bar;
-	
+
 	private $application;
 	private $location;
 	private $user;
@@ -91,7 +91,7 @@ class UserRightManagerBrowserComponent extends UserRightManagerComponent
 
 			$this->display_header($trail);
 			echo $this->get_applications();
-			
+
 			echo $this->action_bar->as_html() . '<br />';
 
 			$url_format = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS, UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_BROWSE_USER_RIGHTS, UserRightManager :: PARAM_USER => $this->user->get_id(), UserRightManager :: PARAM_SOURCE => $this->application, UserRightManager :: PARAM_LOCATION => '%s'));
@@ -104,11 +104,62 @@ class UserRightManagerBrowserComponent extends UserRightManagerComponent
     		$table = new LocationBrowserTable($this, $this->get_parameters(), $this->get_condition());
 
     		echo '<div style="float: right; width: 80%;">';
+
+    		if ($this->location->get_parent() == 0)
+    		{
+    		    echo $this->get_root_rights_table();
+    		}
+
     		echo $table->as_html();
+    		echo RightsUtilities :: get_rights_legend();
     		echo '</div>';
 
 			$this->display_footer();
 		}
+	}
+
+	function get_root_rights_table()
+	{
+	    $rights = $this->get_rights();
+	    $location = $this->location;
+	    $locked_parent = $location->get_locked_parent();
+	    $user = $this->user;
+	    $html = array();
+
+	    $html[] = '<table class="data_table">';
+	    $html[] = '<thead>';
+	    $html[] = '<tr>';
+	    $html[] = '<th>' . Translation :: get('Root') . '</th>';
+
+	    foreach($rights as $right_name => $right_id)
+	    {
+            $column_name = Translation :: get(DokeosUtilities :: underscores_to_camelcase(strtolower($right_name)));
+            $html[] = '<th>' . $column_name . '</th>';
+	    }
+
+	    $html[] = '<th></th>';
+	    $html[] = '</tr>';
+	    $html[] = '</th>';
+	    $html[] = '<tbody>';
+	    $html[] = '<tr>';
+	    $html[] = '<td>' . $this->location->get_location() . '</td>';
+
+	    $location_url = $this->get_url(array('application' => $this->application, 'location' => ($locked_parent ? $locked_parent->get_id() : $location->get_id())));
+
+		foreach($rights as $right_name => $right_id)
+	    {
+	        $html[] = '<td>';
+	        $rights_url = $this->get_url(array(UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_SET_USER_RIGHTS, 'user_id' => $user->get_id(), 'right_id' => $right_id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()));
+	        $html[] = RightsUtilities :: get_rights_icon($location_url, $rights_url, $locked_parent, $right_id, $user, $location);
+	        $html[] = '</td>';
+	    }
+
+	    $html[] = '<td></td>';
+	    $html[] = '</tr>';
+	    $html[] = '</table>';
+	    $html[] = '';
+
+	    return implode("\n", $html);
 	}
 
 	function get_condition()
@@ -231,7 +282,7 @@ class UserRightManagerBrowserComponent extends UserRightManagerComponent
 
 		return $toolbar->as_html();
 	}
-	
+
 	function get_action_bar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
