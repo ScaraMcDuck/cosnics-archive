@@ -37,7 +37,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
         if(isset($query) && $query != '')
         {
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Search')));
-            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('SearchResultsFor').': '.$query));
+            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('SearchResultsFor') . ' ' .$query));
         }
 		
         $session_filter = Session :: retrieve('filter');

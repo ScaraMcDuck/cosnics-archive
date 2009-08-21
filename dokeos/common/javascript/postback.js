@@ -3,6 +3,11 @@
 	var handle_postback = function() 
 	{ 
 	   var form = $(this).closest("form");
+	   var value = $(this).attr('value');
+	 
+	   if(value == 'c_0' || value == 'c_1')
+		   return;
+	   
 	   $("button:submit", form).click();
 	} 
 

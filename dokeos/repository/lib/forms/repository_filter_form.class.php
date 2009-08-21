@@ -81,6 +81,7 @@ class RepositoryFilterForm extends FormValidator
 		{ 
 			$values = $this->exportValues();
 			$filter = $values[self :: FILTER_TYPE];
+			if($filter == 'c_0' || $filter == 'c_1') $filter = 0;
 			
 			if($this->validate())
 			{
