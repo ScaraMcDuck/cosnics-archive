@@ -56,6 +56,7 @@ class HotpotatoesForm extends LearningObjectForm
 		$this->add_textfield(Hotpotatoes :: PROPERTY_MAXIMUM_ATTEMPTS, Translation :: get('MaximumAttempts')); 
     	$this->addElement('html', Translation :: get('NoMaximumAttemptsFillIn0'));
     	$this->addElement('file', 'file', Translation :: get('ChangeHotpotatoes'));
+    	$this->addRule('file', Translation :: get('ThisFileIsRequired'), 'required');
     	$this->addElement('category');
 	}
 
@@ -67,7 +68,8 @@ class HotpotatoesForm extends LearningObjectForm
 		$object = new Hotpotatoes();
 		$values = $this->exportValues();
 		
-		$this->upload_file($object);
+		if(!$this->upload_file($object))
+			return false;
 		
 		$att = $values[Hotpotatoes :: PROPERTY_MAXIMUM_ATTEMPTS];
 		$object->set_maximum_attempts($att ? $att : 0);
@@ -90,7 +92,8 @@ class HotpotatoesForm extends LearningObjectForm
 		if(isset($_FILES['file']) && $_FILES['file']['name'] != '')
 		{
 			$object->delete_file();
-			$this->upload_file($object);
+			if(!$this->upload_file($object))
+				return false;
 		}
 		
 		$att = $values[Hotpotatoes :: PROPERTY_MAXIMUM_ATTEMPTS];
@@ -108,6 +111,11 @@ class HotpotatoesForm extends LearningObjectForm
 	
 	function upload_file($object)
 	{
+		if($_FILES['file']['error'] == '4')
+		{
+			return false;
+		}
+		
 		$path = $this->upload();
 		
 		//dump($_FILES['file']);
@@ -121,10 +129,12 @@ class HotpotatoesForm extends LearningObjectForm
 		{
 			$object->set_path($path);
 		}
+		
+		return true;
 	}
 	
 	function upload()
-	{
+	{  
 		$owner = $this->get_owner_id();
 		$filename = Filesystem :: create_unique_name(Path :: get(SYS_REPO_PATH).$owner, $_FILES['file']['name']);
 
