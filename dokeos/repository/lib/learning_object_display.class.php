@@ -81,7 +81,7 @@ abstract class LearningObjectDisplay
         $object = $this->get_learning_object();
         $html = array();
         $html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path() . 'learning_object/' .$object->get_icon_name().($object->is_latest_version() ? '' : '_na').'.png);">';
-        $html[] = '<div class="title">'. htmlentities($object->get_title()) .'</div>';
+        $html[] = '<div class="title">'. $object->get_title() .'</div>';
         $html[] = self::TITLE_MARKER;
         $html[] = $this->get_description();
         $html[] = '<div class="clear"></div>';
