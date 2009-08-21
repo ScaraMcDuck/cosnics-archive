@@ -2,14 +2,14 @@
 /**
  * @package repository.repositorymanager
  */
-require_once dirname(__FILE__).'/location_browser_table_column_model.class.php';
+require_once dirname(__FILE__).'/user_location_browser_table_column_model.class.php';
 require_once dirname(__FILE__).'/../../../tables/location_table/default_location_table_cell_renderer.class.php';
 require_once dirname(__FILE__).'/../../../location.class.php';
 require_once dirname(__FILE__).'/../../user_right_manager.class.php';
 /**
  * Cell rendere for the learning object browser table
  */
-class LocationBrowserTableCellRenderer extends DefaultLocationTableCellRenderer
+class UserLocationBrowserTableCellRenderer extends DefaultLocationTableCellRenderer
 {
 	/**
 	 * The repository browser component
@@ -20,7 +20,7 @@ class LocationBrowserTableCellRenderer extends DefaultLocationTableCellRenderer
 	 * Constructor
 	 * @param RepositoryManagerBrowserComponent $browser
 	 */
-	function LocationBrowserTableCellRenderer($browser)
+	function UserLocationBrowserTableCellRenderer($browser)
 	{
 		parent :: __construct();
 		$this->browser = $browser;
@@ -28,12 +28,12 @@ class LocationBrowserTableCellRenderer extends DefaultLocationTableCellRenderer
 	// Inherited
 	function render_cell($column, $location)
 	{
-		if ($column === LocationBrowserTableColumnModel :: get_modification_column())
+		if ($column === UserLocationBrowserTableColumnModel :: get_modification_column())
 		{
 			return $this->get_modification_links($location);
 		}
 
-		if (LocationBrowserTableColumnModel :: is_rights_column($column))
+		if (UserLocationBrowserTableColumnModel :: is_rights_column($column))
 		{
 		    return $this->get_rights_column_value($column, $location);
 		}

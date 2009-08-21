@@ -106,6 +106,11 @@ class UserRightManagerUserComponent extends UserRightManagerComponent
 	{
 	    return $this->application;
 	}
+	
+	function get_location()
+	{
+		return $this->location;
+	}
 
 	function get_rights()
 	{

@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/../../../location.class.php';
 /**
  * Table column model for the user browser table
  */
-class LocationBrowserTableColumnModel extends DefaultLocationTableColumnModel
+class UserLocationBrowserTableColumnModel extends DefaultLocationTableColumnModel
 {
     /**
      * The tables modification column
@@ -19,7 +19,7 @@ class LocationBrowserTableColumnModel extends DefaultLocationTableColumnModel
     /**
      * Constructor
      */
-    function LocationBrowserTableColumnModel($browser)
+    function UserLocationBrowserTableColumnModel($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

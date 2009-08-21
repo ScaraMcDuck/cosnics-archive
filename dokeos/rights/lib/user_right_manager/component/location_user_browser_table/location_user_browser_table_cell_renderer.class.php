@@ -31,6 +31,11 @@ class LocationUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 		{
 			return $this->get_modification_links($user);
 		}
+		
+			if (LocationUserBrowserTableColumnModel :: is_rights_column($column))
+		{
+		    return $this->get_rights_column_value($column, $user);
+		}
 
 		// Add special features here
 		switch ($column->get_name())
@@ -47,57 +52,29 @@ class LocationUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 	private function get_modification_links($user)
 	{
 		$toolbar_data = array();
-
-//		$toolbar_data[] = array(
-//			'href' => $this->browser->get_user_editing_url($user),
-//			'label' => Translation :: get('Edit'),
-//			'img' => Theme :: get_common_image_path().'action_edit.png'
-//		);
-//
-//		$toolbar_data[] = array(
-//			'href' => $this->browser->get_user_quota_url($user),
-//			'label' => Translation :: get('VersionQuota'),
-//			'img' => Theme :: get_common_image_path().'action_statistics.png'
-//		);
-//		
-//		$toolbar_data[] = array(
-//				'href' => $this->browser->get_manage_user_rights_url($user),
-//				'label' => Translation :: get('ManageRightsTemplates'),
-//				'img' => Theme :: get_common_image_path().'action_rights.png'
-//			);
-//
-//            $params = array();
-//            //$params[ReportingManager :: PARAM_APPLICATION] = "weblcms";
-//            //$params[ReportingManager :: PARAM_COURSE_ID] = $this->browser->get_course_id();
-//            $params[ReportingManager :: PARAM_USER_ID] = $user->get_id();
-//            //$url = ReportingManager :: get_reporting_template_registration_url_content($this->browser,'UserReportingTemplate',$params);
-//            //$url =
-//			//$unsubscribe_url = $this->browser->get_url($parameters);
-//			$toolbar_data[] = array(
-//				'href' => $this->browser->get_reporting_url('UserReportingTemplate',$params),
-//				'label' => Translation :: get('Report'),
-//				'img' => Theme :: get_common_image_path().'action_reporting.png'
-//			);
-//
-//		if($user->get_id() != Session :: get_user_id())
-//		{
-//			if(UserDataManager :: get_instance()->user_deletion_allowed($user))
-//			{
-//				$toolbar_data[] = array(
-//					'href' => $this->browser->get_user_delete_url($user),
-//					'label' => Translation :: get('Delete'),
-//					'img' => Theme :: get_common_image_path().'action_delete.png'
-//				);
-//			}
-//			
-//			$toolbar_data[] = array(
-//				'href' => $this->browser->get_change_user_url($user),
-//				'label' => Translation :: get('LoginAsUser'),
-//				'img' => Theme :: get_common_image_path().'action_login.png'
-//			);
-//		}
-
 		return DokeosUtilities :: build_toolbar($toolbar_data);
+	}
+	
+	private function get_rights_column_value($column, $user)
+	{
+	    $browser = $this->browser;
+	    $location = $browser->get_location();
+	    $locked_parent = $location->get_locked_parent();
+	    $rights = $browser->get_rights();
+	    $user_id = $user->get_id();
+
+	    $location_url = $browser->get_url(array('application' => $this->application, 'location' => ($locked_parent ? $locked_parent->get_id() : $location->get_id())));
+
+	    foreach($rights as $right_name => $right_id)
+	    {
+            $column_name = Translation :: get(DokeosUtilities :: underscores_to_camelcase(strtolower($right_name)));
+            if ($column->get_name() == $column_name)
+            {
+                $rights_url = $browser->get_url(array(UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager:: ACTION_SET_USER_RIGHTS, 'user_id' => $user_id, 'right_id' => $right_id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()));
+                return RightsUtilities :: get_rights_icon($location_url, $rights_url, $locked_parent, $right_id, $user, $location);
+            }
+	    }
+	    return '&nbsp;';
 	}
 }
 ?>
