@@ -66,7 +66,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			foreach ($this->get_learning_object_types(true) as $type)
 			{
 				$setting = PlatformSetting :: get('allow_' . $type . '_creation', 'repository');
-				if($setting)
+				if($setting || $this->get_user()->is_platform_admin())
 					$type_options[$type] = Translation :: get(LearningObject :: type_to_class($type).'TypeName');
 			}
 		//}
