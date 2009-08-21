@@ -24,6 +24,7 @@ class LocationRightsTemplateBrowserTableColumnModel extends DefaultRightsTemplat
 		parent :: __construct();
 		$this->browser = $browser;
 		$this->set_default_order_column(1);
+		$this->set_columns(array_splice($this->get_columns(), 0, 1));
 		$this->add_rights_columns();
 //		$this->add_column(self :: get_modification_column());
 	}
