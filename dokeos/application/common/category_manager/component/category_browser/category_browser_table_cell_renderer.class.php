@@ -79,7 +79,7 @@ class CategoryBrowserTableCellRenderer implements ObjectTableCellRenderer
 	{
 		$toolbar_data = array();
 		
-		if($this->browser->allowed_to_delete_category($category->get_id()))
+		if($this->browser->allowed_to_edit_category($category->get_id()))
 		{
 			$toolbar_data[] = array(
 					'href' => $this->browser->get_update_category_url($category->get_id()),

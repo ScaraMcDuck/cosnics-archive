@@ -50,5 +50,13 @@ class RepositoryCategoryManager extends CategoryManager
 		$wdm = RepositoryDataManager :: get_instance();
 		return $wdm->select_next_category_display_order($parent_id, Session :: get_user_id());
 	}
+	
+	function allowed_to_delete_category($category_id)
+	{
+		$condition = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $category_id);
+		$count = RepositoryDataManager :: get_instance()->count_learning_objects(null, $condition);
+		
+		return ($count == 0);
+	}
 }
 ?>
