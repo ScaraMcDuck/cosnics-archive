@@ -24,7 +24,7 @@ class LocationBrowserTableColumnModel extends DefaultLocationTableColumnModel
         parent :: __construct();
         $this->browser = $browser;
         $this->add_rights_columns();
-        $this->add_column(self :: get_modification_column());
+//        $this->add_column(self :: get_modification_column());
         $this->set_default_order_column(1);
     }
 

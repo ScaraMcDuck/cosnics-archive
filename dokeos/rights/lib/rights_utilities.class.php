@@ -402,10 +402,22 @@ class RightsUtilities
 		if (isset($rights_template) && isset($right) && isset($location))
 		{
 		    $rdm = RightsDataManager :: get_instance();
+			$rights_template_right_location = $rdm->retrieve_rights_template_right_location($right, $rights_template, $location);
 
-			$rights_templaterightlocation = $rdm->retrieve_rights_template_right_location($right, $rights_template, $location);
-			$rights_templaterightlocation->invert();
-			return $rights_templaterightlocation->update();
+			if ($rights_template_right_location)
+			{
+			    $rights_template_right_location->invert();
+			    return $rights_template_right_location->update();
+			}
+			else
+			{
+			    $rights_template_right_location = new RightsTemplateRightLocation();
+			    $rights_template_right_location->set_location_id($location);
+			    $rights_template_right_location->set_right_id($right);
+			    $rights_template_right_location->set_rights_template_id($rights_template);
+			    $rights_template_right_location->set_value(1);
+			    return $rights_template_right_location->create();
+			}
 		}
 		else
 		{
@@ -418,10 +430,22 @@ class RightsUtilities
 		if (isset($user) && isset($right) && isset($location))
 		{
 		    $rdm = RightsDataManager :: get_instance();
-
 			$user_right_location = $rdm->retrieve_user_right_location($right, $user, $location);
-			$user_right_location->invert();
-			return $user_right_location->update();
+
+			if ($user_right_location)
+			{
+			    $user_right_location->invert();
+			    return $user_right_location->update();
+			}
+			else
+			{
+			    $user_right_location = new UserRightLocation();
+			    $user_right_location->set_location_id($location);
+			    $user_right_location->set_right_id($right);
+			    $user_right_location->set_user_id($user);
+			    $user_right_location->set_value(1);
+			    return $user_right_location->create();
+			}
 		}
 		else
 		{

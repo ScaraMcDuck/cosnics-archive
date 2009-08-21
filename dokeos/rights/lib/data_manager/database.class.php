@@ -277,6 +277,11 @@ class DatabaseRightsDataManager extends RightsDataManager
         return $this->connection->nextID($this->get_table_name('rights_template'));
     }
 
+    function get_next_user_right_location_id()
+    {
+        return $this->connection->nextID($this->get_table_name('user_right_location'));
+    }
+
     //Inherited.
     function get_next_right_id()
     {

@@ -43,7 +43,7 @@ class LocationBrowserTableCellRenderer extends DefaultLocationTableCellRenderer
             case Location :: PROPERTY_LOCATION :
                 if ($location->has_children())
                 {
-                    return '<a href="' . htmlentities($this->browser->get_url()) . '">' . parent :: render_cell($column, $location) . '</a>';
+                    return '<a href="' . htmlentities($this->browser->get_url(array(UserRightManager :: PARAM_USER => $this->browser->get_current_user()->get_id(), UserRightManager :: PARAM_SOURCE => $location->get_application(), UserRightManager :: PARAM_LOCATION => $location->get_id()))) . '">' . parent :: render_cell($column, $location) . '</a>';
                 }
                 else
                 {
@@ -108,7 +108,7 @@ class LocationBrowserTableCellRenderer extends DefaultLocationTableCellRenderer
             $column_name = Translation :: get(DokeosUtilities :: underscores_to_camelcase(strtolower($right_name)));
             if ($column->get_name() == $column_name)
             {
-                $rights_url = $browser->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_SET_RIGHTS_TEMPLATES, 'user_id' => $user_id, 'right_id' => $right_id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()));
+                $rights_url = $browser->get_url(array(UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager:: ACTION_SET_USER_RIGHTS, 'user_id' => $user_id, 'right_id' => $right_id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()));
                 return RightsUtilities :: get_rights_icon($location_url, $rights_url, $locked_parent, $right_id, $browser->get_current_user(), $location);
             }
 	    }

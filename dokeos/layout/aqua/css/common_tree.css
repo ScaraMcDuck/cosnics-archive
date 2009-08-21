@@ -135,6 +135,11 @@ ul.tree-menu li div a.create
 	background-image: url(../img/common/treemenu/create.png);
 }
 
+ul.tree-menu li div a.rights
+{
+	background-image: url(../img/common/treemenu/rights.png);
+}
+
 ul.tree-menu li div a.import
 {
 	background-image: url(../img/common/treemenu/import.png);
