@@ -99,6 +99,11 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
     {
         $conditions[] = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $this->get_parent_id());
         $conditions[] = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->get_user_id());
+        
+        $types = array('learning_path_item', 'portfolio_item');
+        
+        foreach($types as $type)
+        	$conditions[] = new NotCondition(EqualityCondition(LearningObject :: PROPERTY_TYPE, $type));
 
         $query = $this->action_bar->get_query();
         if(isset($query) && $query != '')
