@@ -509,6 +509,21 @@ class RightsUtilities
 		$location->set_inherit($inherit);
 		return $location->create();
 	}
+	
+	function get_rights_template_right_location($right_id, $rights_template_id, $location_id)
+	{
+	    $rdm = RightsDataManager :: get_instance();
+	    $object = $rdm->retrieve_rights_template_right_location($right_id, $rights_template_id, $location_id);
+
+	    if ($object)
+	    {
+	        return $object->get_value();
+	    }
+	    else
+	    {
+	        return 0;
+	    }
+	}
 
 	function get_user_right_location($right_id, $user_id, $location_id)
 	{

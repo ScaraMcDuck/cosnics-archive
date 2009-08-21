@@ -48,14 +48,15 @@ class UserRightManagerBrowserComponent extends UserRightManagerComponent
 
 		if (!isset($this->application))
 		{
-			$this->display_header($trail);
-			echo $this->get_applications();
-			$this->display_warning_message(Translation :: get('SelectApplication'));
-			$this->display_footer();
-			exit;
+			$this->application = 'admin';
+//			$this->display_header($trail);
+//			echo $this->get_applications();
+//			$this->display_warning_message(Translation :: get('SelectApplication'));
+//			$this->display_footer();
+//			exit;
 		}
-		else
-		{
+//		else
+//		{
 		    $conditions = array();
    			$conditions[] = new EqualityCondition(Location :: PROPERTY_PARENT, 0);
    			$conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->application);
@@ -119,7 +120,7 @@ class UserRightManagerBrowserComponent extends UserRightManagerComponent
     		echo implode("\n", $html);
 
 			$this->display_footer();
-		}
+//		}
 	}
 
 	function get_root_rights_table()

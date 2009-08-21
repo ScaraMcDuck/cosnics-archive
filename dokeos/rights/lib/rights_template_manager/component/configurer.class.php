@@ -2,15 +2,21 @@
 /**
  * @package user.usermanager
  */
-require_once Path :: get_rights_path() . 'lib/rights_template_manager/rights_template_manager.class.php';
-require_once Path :: get_rights_path() . 'lib/rights_template_manager/rights_template_manager_component.class.php';
+require_once Path :: get_rights_path() . 'lib/user_right_manager/user_right_manager.class.php';
+require_once Path :: get_rights_path() . 'lib/user_right_manager/user_right_manager_component.class.php';
 require_once Path :: get_rights_path() . 'lib/rights_data_manager.class.php';
 require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';
+require_once Path :: get_rights_path() . 'lib/location_menu.class.php';
+require_once Path :: get_rights_path() . 'lib/rights_template_manager/component/rights_template_location_browser_table/rights_template_location_browser_table.class.php';
+require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
 
 class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComponent
 {
+	private $action_bar;
+
 	private $application;
 	private $location;
+	private $rights_template;
 
 	/**
 	 * Runs this component and displays its output.
@@ -19,96 +25,188 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 	{
 		$this->application = Request :: get(RightsTemplateManager :: PARAM_SOURCE);
 		$location = Request :: get(RightsTemplateManager :: PARAM_LOCATION);
-		if (isset($location))
-		{
-			$this->location = $this->retrieve_location($location);
-		}
-		$this->show_rights_list();
-	}
+		$rights_template = Request :: get(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID);
 
-	function show_rights_list()
-	{
 		$trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES)), Translation :: get('RightsTemplates')));
-		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES)), Translation :: get('EditRights')));
-		$trail->add_help('rights general');
 
-		if (!isset($this->application) && !isset($this->location))
+		if (!isset($rights_template))
 		{
 			$this->display_header($trail);
-			$this->display_warning_message(Translation :: get('SelectApplication'));
+			$this->display_error_message(Translation :: get('NoUserSelected'));
 			$this->display_footer();
 			exit;
 		}
 		else
 		{
-			if (!isset($this->application))
+		    $this->rights_template = $this->retrieve_rights_template($rights_template);
+		    $trail->add(new Breadcrumb($this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_BROWSE_RIGHTS_TEMPLATES)), $this->rights_template->get_name()));
+		    $trail->add_help('rights general');
+		}
+
+		if (!isset($this->application))
+		{
+			$this->application = 'admin';
+//			$this->display_header($trail);
+//			echo $this->get_applications();
+//			$this->display_warning_message(Translation :: get('SelectApplication'));
+//			$this->display_footer();
+//			exit;
+		}
+//		else
+//		{
+		    $conditions = array();
+   			$conditions[] = new EqualityCondition(Location :: PROPERTY_PARENT, 0);
+   			$conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->application);
+   			$condition = new AndCondition($conditions);
+   			$root = RightsDataManager :: get_instance()->retrieve_locations($condition, null, 1, array(new ObjectTableOrder(Location :: PROPERTY_LOCATION)))->next_result();
+
+			if (isset($location))
 			{
-				$this->application = 'admin';
-			}
-
-			if (!isset($this->location))
-			{
-				$root_conditions = array();
-				$root_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->application);
-				$root_conditions[] = new EqualityCondition(Location :: PROPERTY_PARENT, 0);
-
-				$root_condition = new AndCondition($root_conditions);
-
-				$root = $this->retrieve_locations($root_condition, null, 1);
-				if ($root->size() > 0)
-				{
-					$this->location = $this->retrieve_location($root->next_result()->get_id());
-				}
-				else
-				{
-					$this->display_header($trail);
-					$this->display_warning_message(Translation :: get('NoSuchLocationAndOrApplication'));
-					$this->display_footer();
-					exit;
-				}
-			}
-
-			$parent_conditions = array();
-			$parent_conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN_OR_EQUAL, $this->location->get_left_value());
-			$parent_conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN_OR_EQUAL, $this->location->get_right_value());
-			$parent_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->application);
-
-			$parent_condition = new AndCondition($parent_conditions);
-			$order = array(new ObjectTableOrder(Location :: PROPERTY_LEFT_VALUE));
-			$order_direction = array(SORT_ASC);
-
-			$parents = $this->retrieve_locations($parent_condition, null, null, $order, $order_direction);
-
-			while($parent = $parents->next_result())
-			{
-				$trail->add(new Breadcrumb($this->get_url(array('location' => $parent->get_id())), $parent->get_location()));
-			}
-
-			$this->display_header($trail);
-			$table = $this->get_rights_table_html();
-
-			if ($table)
-			{
-//			    echo $this->get_modification_links();
-			    echo $table;
-    			echo $this->get_location_information();
-    			echo $this->get_relations();
-    			echo RightsUtilities :: get_rights_legend();
+			    $this->location = $this->retrieve_location($location);
 			}
 			else
 			{
-			    echo '<div class="warning-message">' . Translation :: get('NoRightsForApplication') . '</div>';
+			    $this->location = $root;
 			}
+
+//			$parent_conditions = array();
+//			$parent_conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN_OR_EQUAL, $this->location->get_left_value());
+//			$parent_conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN_OR_EQUAL, $this->location->get_right_value());
+//			$parent_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->application);
+//
+//			$parent_condition = new AndCondition($parent_conditions);
+//			$order = array(new ObjectTableOrder(Location :: PROPERTY_LEFT_VALUE));
+//			$order_direction = array(SORT_ASC);
+//
+//			$parents = $this->retrieve_locations($parent_condition, null, null, $order, $order_direction);
+//
+//			while($parent = $parents->next_result())
+//			{
+//				$trail->add(new Breadcrumb($this->get_url(array('location' => $parent->get_id())), $parent->get_location()));
+//			}
+
+			$this->action_bar = $this->get_action_bar();
+
+			$this->display_header($trail);
+
+			$html = array();
+			$html[] = $this->get_applications();
+			$html[] = $this->action_bar->as_html() . '<br />';
+
+			$url_format = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_BROWSE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID => $this->rights_template->get_id(), RightsTemplateManager :: PARAM_SOURCE => $this->application, RightsTemplateManager :: PARAM_LOCATION => '%s'));
+			$url_format = str_replace('=%25s', '=%s', $url_format);
+    		$location_menu = new LocationMenu($root->get_id(), $this->location->get_id(), $url_format);
+    		$html[] = '<div style="float: left; width: 18%; overflow: auto; height: 500px;">';
+    		$html[] = $location_menu->render_as_tree();
+    		$html[] = '</div>';
+
+    		$table = new RightsTemplateLocationBrowserTable($this, $this->get_parameters(), $this->get_condition($location));
+
+    		$html[] = '<div style="float: right; width: 80%;">';
+
+//    		if ($this->location->get_parent() == 0)
+//    		{
+//    		    $html[] = $this->get_root_rights_table();
+//    		}
+
+    		$html[] = $table->as_html();
+    		$html[] = RightsUtilities :: get_rights_legend();
+    		$html[] = '</div>';
+    		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'rights/javascript/configure_rights_template.js');
+
+    		echo implode("\n", $html);
+
 			$this->display_footer();
-		}
+//		}
 	}
 
-	function get_rights_table_html()
+	function get_root_rights_table()
+	{
+	    $rights = $this->get_rights();
+	    $location = $this->location;
+	    $locked_parent = $location->get_locked_parent();
+	    $rights_template = $this->rights_template;
+	    $html = array();
+
+	    $html[] = '<table class="data_table">';
+	    $html[] = '<thead>';
+	    $html[] = '<tr>';
+	    $html[] = '<th>' . Translation :: get('Root') . '</th>';
+
+	    foreach($rights as $right_name => $right_id)
+	    {
+            $column_name = Translation :: get(DokeosUtilities :: underscores_to_camelcase(strtolower($right_name)));
+            $html[] = '<th>' . $column_name . '</th>';
+	    }
+
+//	    $html[] = '<th></th>';
+	    $html[] = '</tr>';
+	    $html[] = '</th>';
+	    $html[] = '<tbody>';
+	    $html[] = '<tr>';
+	    $html[] = '<td>' . $this->location->get_location() . '</td>';
+
+	    $location_url = $this->get_url(array('application' => $this->application, 'location' => ($locked_parent ? $locked_parent->get_id() : $location->get_id())));
+
+		foreach($rights as $right_name => $right_id)
+	    {
+	        $html[] = '<td>';
+	        $rights_url = $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_SET_RIGHTS_TEMPLATES, 'rights_template_id' => $rights_template->get_id(), 'right_id' => $right_id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()));
+	        $html[] = RightsUtilities :: get_rights_icon($location_url, $rights_url, $locked_parent, $right_id, $rights_template, $location);
+	        $html[] = '</td>';
+	    }
+
+//	    $html[] = '<td></td>';
+	    $html[] = '</tr>';
+	    $html[] = '</table>';
+	    $html[] = '';
+
+	    return implode("\n", $html);
+	}
+
+	function get_condition($location)
+	{
+	    if (!$location)
+	    {
+	        $conditions = array();
+	        $conditions[] = new EqualityCondition(Location :: PROPERTY_PARENT, 0);
+	        $conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->application);
+
+	        $condition = new AndCondition($conditions);
+
+	    }
+	    else
+	    {
+    		$condition = new EqualityCondition(Location :: PROPERTY_PARENT, $this->location->get_id());
+
+    		$query = $this->action_bar->get_query();
+    		if(isset($query) && $query != '')
+    		{
+    			$and_conditions = array();
+    			$and_conditions[] = $condition;
+    			$and_conditions[] = new PatternMatchCondition(Location :: PROPERTY_LOCATION, '*' . $query . '*');
+    			$condition = new AndCondition($and_conditions);
+    		}
+	    }
+
+		return $condition;
+	}
+
+	function get_source()
+	{
+	    return $this->application;
+	}
+
+	function get_current_rights_template()
+	{
+	    return $this->rights_template;
+	}
+
+	function get_rights()
 	{
 		$application = $this->application;
-		$location = $this->location;
 
 		$base_path = (WebApplication :: is_application($application) ? (Path :: get_application_path() . 'lib/' . $application . '/') : (Path :: get(SYS_PATH). $application . '/lib/'));
 		$class = $application . '_rights.class.php';
@@ -116,96 +214,18 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 
 		if(!file_exists($file))
 		{
-			return false;
+			$rights = array();
 		}
-
-		require_once($file);
-
-		// TODO: When PHP 5.3 gets released, replace this by $class :: get_available_rights()
-	    $reflect = new ReflectionClass(Application :: application_to_class($application) . 'Rights');
-	    $rights = $reflect->getConstants();
-	    // TODO: When PHP 5.3 gets released, replace this by $class :: get_available_rights()
-
-		$rights_array = array();
-
-		$html = array();
-
-		$html[] = '<div style="margin-bottom: 10px;">';
-		$html[] = '<div style="padding: 5px; border-bottom: 1px solid #DDDDDD;">';
-		$html[] = '<div style="float: left; width: 50%;"></div>';
-		$html[] = '<div style="float: right; width: 40%;">';
-
-		foreach($rights as $right_name => $right_id)
+		else
 		{
-			$real_right_name = DokeosUtilities :: underscores_to_camelcase(strtolower($right_name));
-			$html[] = '<div style="float: left; width: 24%; text-align: center;">'. Translation :: get($real_right_name) .'</div>';
-			$rights_array[$right_id] = $right_name;
+		    require_once($file);
+
+    		// TODO: When PHP 5.3 gets released, replace this by $class :: get_available_rights()
+    	    $reflect = new ReflectionClass(Application :: application_to_class($application) . 'Rights');
+    	    $rights = $reflect->getConstants();
 		}
 
-		$html[] = '</div>';
-		$html[] = '<div style="clear: both;"></div>';
-		$html[] = '</div>';
-		$html[] = '<div style="clear: both;"></div>';
-
-		$rights_templates = $this->retrieve_rights_templates();
-		$locked_parent = $location->get_locked_parent();
-
-		while ($rights_template = $rights_templates->next_result())
-		{
-			$html[] = '<div style="padding: 5px; border-bottom: 1px solid #DDDDDD;">';
-			$html[] = '<div style="float: left; width: 50%;">'. Translation :: get($rights_template->get_name()) .'</div>';
-			$html[] = '<div style="float: right; width: 40%;">';
-
-			foreach ($rights_array as $id => $name)
-			{
-				$html[] = '<div id="r_'. $id .'_'. $rights_template->get_id() .'_'. $location->get_id() .'" style="float: left; width: 24%; text-align: center;">';
-				if (isset($locked_parent))
-				{
-					$value = $this->retrieve_rights_template_right_location($id, $rights_template->get_id(), $locked_parent->get_id())->get_value();
-					$html[] = '<a href="'. $this->get_url(array('application' => $this->application, 'location' => $locked_parent->get_id())) .'">' . ($value == 1 ? '<img src="'. Theme :: get_common_image_path() .'action_setting_true_locked.png" title="'. Translation :: get('LockedTrue') .'" />' : '<img src="'. Theme :: get_common_image_path() .'action_setting_false_locked.png" title="'. Translation :: get('LockedFalse') .'" />') . '</a>';
-				}
-				else
-				{
-					$value = $this->retrieve_rights_template_right_location($id, $rights_template->get_id(), $location->get_id())->get_value();
-
-					if (!$value)
-					{
-						if ($location->inherits())
-						{
-							$inherited_value = RightsUtilities :: is_allowed_for_rights_template($rights_template->get_id(), $id, $location);
-
-							if ($inherited_value)
-							{
-								$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_SET_RIGHTS_TEMPLATES, 'rights_template_id' => $rights_template->get_id(), 'right_id' => $id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id())) .'">' . '<div class="rightInheritTrue"></div></a>';
-							}
-							else
-							{
-								$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_SET_RIGHTS_TEMPLATES, 'rights_template_id' => $rights_template->get_id(), 'right_id' => $id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id())) .'">' . '<div class="rightFalse"></div></a>';
-							}
-						}
-						else
-						{
-							$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_SET_RIGHTS_TEMPLATES, 'rights_template_id' => $rights_template->get_id(), 'right_id' => $id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id())) .'">' . '<div class="rightFalse"></div></a>';
-						}
-					}
-					else
-					{
-						$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_SET_RIGHTS_TEMPLATES, 'rights_template_id' => $rights_template->get_id(), 'right_id' => $id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id())) .'">' . '<div class="rightTrue"></div></a>';
-					}
-				}
-				$html[] = '</div>';
-			}
-
-			$html[] = '</div>';
-			$html[] = '<div style="clear: both;"></div>';
-			$html[] = '</div>';
-			$html[] = '<div style="clear: both;"></div>';
-		}
-
-		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'rights/javascript/configure_rights_template.js');
-		$html[] = '</div>';
-
-		return implode("\n", $html);
+		return $rights;
 	}
 
 	function get_applications()
@@ -214,7 +234,7 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 
 		$html = array();
 
-		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/application.js' .'"></script>';
+		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/application.js');
 		$html[] = '<div class="configure">';
 
 		$the_applications = WebApplication :: load_all();
@@ -233,7 +253,7 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 
 			$application_name = Translation :: get(DokeosUtilities :: underscores_to_camelcase($the_application));
 
-			$html[] = '<a href="'. $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_SOURCE => $the_application)) .'">';
+			$html[] = '<a href="'. $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID => $this->rights_template->get_id(), RightsTemplateManager :: PARAM_SOURCE => $the_application)) .'">';
 			$html[] = '<img src="'. Theme :: get_image_path('admin') . 'place_' . $the_application .'.png" border="0" style="vertical-align: middle;" alt="' . $application_name . '" title="' . $application_name . '"/><br />'. $application_name;
 			$html[] = '</a>';
 			$html[] = '</div>';
@@ -243,97 +263,6 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 		$html[] = '<div style="clear: both;"></div>';
 
 		return implode("\n", $html);
-	}
-
-	function get_location_information()
-	{
-		$location = $this->location;
-
-		$html = array();
-
-		$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'place_location.png);">';
-		$html[] = '<div class="title">'. Translation :: get('Location') .'</div>';
-
-		$html[] = Translation :: get('Application'). ': ' . Translation :: get(Application :: application_to_class($location->get_application())) . '<br />';
-		$html[] = Translation :: get('Type'). ': ' . DokeosUtilities :: underscores_to_camelcase($location->get_type()) . '<br />';
-		$html[] = Translation :: get('Name'). ': ' . $location->get_location() . '<br />';
-		$html[] = '</div>';
-
-		return implode("\n", $html);
-	}
-
-	function get_relations()
-	{
-		$html = array();
-
-		//$html[] = DokeosUtilities :: add_block_hider();
-		//$html[] = DokeosUtilities :: build_block_hider('location_relations');
-
-		$parents = $this->location->get_parents(false);
-
-		if ($parents->size() > 0)
-		{
-			$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'place_parents.png);">';
-			$html[] = '<div class="title">'. Translation :: get('Parents') .'</div>';
-
-			$parents_html = array();
-			while($parent = $parents->next_result())
-			{
-				$parents_html[] = '<a href="'. $this->get_url(array(RightsTemplateManager :: PARAM_SOURCE => $this->application, RightsTemplateManager :: PARAM_LOCATION => $parent->get_id())) .'">'. $parent->get_location() .'</a>';
-			}
-			$html[] = implode(', ', $parents_html);
-
-			$html[] = '</div>';
-		}
-
-		$siblings = $this->location->get_siblings(false);
-
-		if ($siblings->size() > 0)
-		{
-			$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'place_siblings.png);">';
-			$html[] = '<div class="title">'. Translation :: get('Siblings') .'</div>';
-			$html[] = '<ul class="rights_siblings">';
-
-			$siblings_html = array();
-			while($sibling = $siblings->next_result())
-			{
-				$siblings_html[] = '<a href="'. $this->get_url(array(RightsTemplateManager :: PARAM_SOURCE => $this->application, RightsTemplateManager :: PARAM_LOCATION => $sibling->get_id())) .'">'. $sibling->get_location() .'</a>';
-			}
-			$html[] = implode(', ', $siblings_html);
-
-			$html[] = '</ul>';
-			$html[] = '</div>';
-		}
-
-		$children = $this->location->get_children();
-
-		if ($children->size() > 0)
-		{
-			$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'place_children.png);">';
-			$html[] = '<div class="title">'. Translation :: get('Children') .'</div>';
-			$html[] = '<ul class="rights_children">';
-
-			$children_html = array();
-			while($child = $children->next_result())
-			{
-				$children_html[] = '<a href="'. $this->get_url(array(RightsTemplateManager :: PARAM_SOURCE => $this->application, RightsTemplateManager :: PARAM_LOCATION => $child->get_id())) .'">'. $child->get_location() .'</a>';
-			}
-			$html[] = implode(', ', $children_html);
-
-			$html[] = '</ul>';
-			$html[] = '</div>';
-		}
-
-		//$html[] = DokeosUtilities :: build_block_hider();
-
-		return implode("\n", $html);
-	}
-
-	function display_header($trail, $helpitem)
-	{
-		$this->get_parent()->display_header($trail, $helpitem);
-		echo $this->get_applications();
-		echo '<div class="clear">&nbsp;</div>';
 	}
 
 	function get_modification_links()
@@ -368,6 +297,15 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 		}
 
 		return $toolbar->as_html();
+	}
+
+	function get_action_bar()
+	{
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+		$action_bar->set_search_url($this->get_url(array(RightsTemplateManager :: PARAM_SOURCE => $this->application, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID => $this->rights_template->get_id(), RightsTemplateManager :: PARAM_LOCATION => $this->location->get_id())));
+//		$action_bar->add_common_action(new ToolbarItem(Translation :: get('RootRights'), Theme :: get_common_image_path().'action_rights.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+
+		return $action_bar;
 	}
 }
 ?>

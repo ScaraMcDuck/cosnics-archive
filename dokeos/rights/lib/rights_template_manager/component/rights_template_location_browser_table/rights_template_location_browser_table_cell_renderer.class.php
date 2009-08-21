@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/rights_template_location_browser_table_column_model.class.php';
 require_once dirname(__FILE__).'/../../../tables/location_table/default_location_table_cell_renderer.class.php';
 require_once dirname(__FILE__).'/../../../location.class.php';
-require_once dirname(__FILE__).'/../../group_right_manager.class.php';
+require_once dirname(__FILE__).'/../../rights_template_manager.class.php';
 /**
  * Cell rendere for the learning object browser table
  */
@@ -108,7 +108,7 @@ class RightsTemplateLocationBrowserTableCellRenderer extends DefaultLocationTabl
             $column_name = Translation :: get(DokeosUtilities :: underscores_to_camelcase(strtolower($right_name)));
             if ($column->get_name() == $column_name)
             {
-                $rights_url = $browser->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID_RIGHT_ACTION => RightsTemplateManager:: ACTION_SET_RIGHTS_TEMPLATE, 'rights_template_id' => $rights_template_id, 'right_id' => $right_id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()));
+                $rights_url = $browser->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager:: ACTION_SET_RIGHTS_TEMPLATES, 'rights_template_id' => $rights_template_id, 'right_id' => $right_id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()));
                 return RightsUtilities :: get_rights_icon($location_url, $rights_url, $locked_parent, $right_id, $browser->get_current_rights_template(), $location);
             }
 	    }

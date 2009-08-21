@@ -94,6 +94,11 @@ class RightsTemplateManager extends SubManager
     {
         return $this->get_url(array (self :: PARAM_RIGHTS_TEMPLATE_ACTION => self :: ACTION_EDIT_RIGHTS_TEMPLATE, self :: PARAM_RIGHTS_TEMPLATE_ID => $rights_template->get_id()));
     }
+    
+    function get_manage_rights_template_rights_url($rights_template)
+    {
+    	return $this->get_url(array (self :: PARAM_RIGHTS_TEMPLATE_ACTION => self :: ACTION_CONFIGURE_RIGHTS_TEMPLATES, self :: PARAM_RIGHTS_TEMPLATE_ID => $rights_template->get_id()));
+    }
 
 	function retrieve_rights_templates($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
