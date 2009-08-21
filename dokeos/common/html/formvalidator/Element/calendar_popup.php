@@ -139,7 +139,7 @@ table.calendar .monthyear a:hover {
     } // end if
 /* ]]> */
 </script>
-<script type="text/javascript" src="tbl_change.js.php"></script>
+<script type="text/javascript" src="tbl_change.js"></script>
 <script type="text/javascript">
 /* <![CDATA[ */
 var month_names = new Array(

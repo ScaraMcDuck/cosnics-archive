@@ -129,11 +129,16 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 
 		$applications = WebApplication::load_all_from_filesystem(true);
 		$apps = array();
+		
+		$location_count = 0;
+		
 		foreach($applications as $application_name)
 		{
 			$application = Application::factory($application_name);
 			$locations = $application->get_learning_object_publication_locations($this->learning_objects[0], $this->get_parent()->get_user());
 			if(count($locations) == 0) continue;
+			
+			$location_count += count($locations);
 
 			//$apps[] =
 
@@ -159,10 +164,17 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 			$this->addElement('html', '<div style="clear: both;"></div></div></div><br />');
 		}
 
-		$this->addElement('html', '<br /><br />');
-		//$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'));
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>', 'style=\'margin-left: -20%;\'');
-		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
+		if($location_count > 0)
+		{
+			$this->addElement('html', '<br /><br />');
+			//$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'));
+			$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>', 'style=\'margin-left: -20%;\'');
+			$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
+		}
+		else 
+		{
+			$this->addElement('html', '<div class="warning-message">' . Translation :: get('NoLocationsFound') . '</div>');
+		}
 
 		if(count($apps) > 1)
 		{

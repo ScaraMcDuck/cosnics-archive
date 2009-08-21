@@ -70,6 +70,9 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
 
 		$this->process_result($previous_application, true, $message);
 
+		$url = $this->parent->get_url(array(RepositoryManager :: PARAM_ACTION => null));
+		echo '<a href="' . $url . '">' . Translation :: get('GoBack') . '</a>';
+		
 		// Display the page footer
 		$this->parent->display_footer();
 	}

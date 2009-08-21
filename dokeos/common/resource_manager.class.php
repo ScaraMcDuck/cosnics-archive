@@ -44,7 +44,7 @@ class ResourceManager
         {
             case 'css' :
                 return '<link rel="stylesheet" type="text/css" href="' . htmlspecialchars($path) . '"/>';
-            case 'js' :
+            case 'js':
                 return '<script type="text/javascript" src="' . htmlspecialchars($path) . '"></script>';
             default :
                 die('Unknown resource type: ' . $path);
