@@ -100,50 +100,6 @@ class UserRightManagerBrowserComponent extends UserRightManagerComponent
 		$this->display_footer();
 	}
 
-	function get_root_rights_table()
-	{
-	    $rights = $this->get_rights();
-	    $location = $this->location;
-	    $locked_parent = $location->get_locked_parent();
-	    $user = $this->user;
-	    $html = array();
-
-	    $html[] = '<table class="data_table">';
-	    $html[] = '<thead>';
-	    $html[] = '<tr>';
-	    $html[] = '<th>' . Translation :: get('Root') . '</th>';
-
-	    foreach($rights as $right_name => $right_id)
-	    {
-            $column_name = Translation :: get(DokeosUtilities :: underscores_to_camelcase(strtolower($right_name)));
-            $html[] = '<th>' . $column_name . '</th>';
-	    }
-
-//	    $html[] = '<th></th>';
-	    $html[] = '</tr>';
-	    $html[] = '</th>';
-	    $html[] = '<tbody>';
-	    $html[] = '<tr>';
-	    $html[] = '<td>' . $this->location->get_location() . '</td>';
-
-	    $location_url = $this->get_url(array('application' => $this->application, 'location' => ($locked_parent ? $locked_parent->get_id() : $location->get_id())));
-
-		foreach($rights as $right_name => $right_id)
-	    {
-	        $html[] = '<td>';
-	        $rights_url = $this->get_url(array(UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_SET_USER_RIGHTS, 'user_id' => $user->get_id(), 'right_id' => $right_id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()));
-	        $html[] = RightsUtilities :: get_rights_icon($location_url, $rights_url, $locked_parent, $right_id, $user, $location);
-	        $html[] = '</td>';
-	    }
-
-//	    $html[] = '<td></td>';
-	    $html[] = '</tr>';
-	    $html[] = '</table>';
-	    $html[] = '';
-
-	    return implode("\n", $html);
-	}
-
 	function get_condition($location)
 	{
 	    if (!$location)
@@ -243,45 +199,10 @@ class UserRightManagerBrowserComponent extends UserRightManagerComponent
 		return implode("\n", $html);
 	}
 
-	function get_modification_links()
-	{
-		$location = $this->location;
-		$locked_parent = $location->get_locked_parent();
-
-		$toolbar = new Toolbar();
-
-		if(!isset($locked_parent))
-		{
-			if ($location->is_locked())
-			{
-				$toolbar->add_item(new ToolbarItem(Translation :: get('UnlockChildren'), Theme :: get_common_image_path() . 'action_unlock.png', $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_UNLOCK_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()))));
-			}
-			else
-			{
-				$toolbar->add_item(new ToolbarItem(Translation :: get('LockChildren'), Theme :: get_common_image_path() . 'action_lock.png', $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_LOCK_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()))));
-			}
-
-			if (!$location->is_root())
-			{
-				if ($location->inherits())
-				{
-					$toolbar->add_item(new ToolbarItem(Translation :: get('Disinherit'), Theme :: get_common_image_path() . 'action_setting_false_inherit.png', $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_DISINHERIT_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()))));
-				}
-				else
-				{
-					$toolbar->add_item(new ToolbarItem(Translation :: get('Inherit'), Theme :: get_common_image_path() . 'action_setting_true_inherit.png', $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_INHERIT_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()))));
-				}
-			}
-		}
-
-		return $toolbar->as_html();
-	}
-
 	function get_action_bar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 		$action_bar->set_search_url($this->get_url(array(UserRightManager :: PARAM_SOURCE => $this->application, UserRightManager :: PARAM_USER => $this->user->get_id(), UserRightManager :: PARAM_LOCATION => $this->location->get_id())));
-//		$action_bar->add_common_action(new ToolbarItem(Translation :: get('RootRights'), Theme :: get_common_image_path().'action_rights.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 		return $action_bar;
 	}
