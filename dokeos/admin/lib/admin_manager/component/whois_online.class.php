@@ -67,6 +67,8 @@ class AdminManagerWhoisOnlineComponent extends AdminManagerComponent
         
         if ($users)
             return new InCondition(User :: PROPERTY_USER_ID, $users);
+        else
+        	return new EqualityCondition(User :: PROPERTY_USER_ID, -1);
     }
 
     private function get_user_html($user_id)

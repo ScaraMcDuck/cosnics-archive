@@ -21,7 +21,7 @@ class OnlineTracker extends MainTracker
      */
     function OnlineTracker()
     {
-        parent :: MainTracker('online');
+        parent :: MainTracker('online_tracker');
     }
 
     /**
@@ -41,7 +41,6 @@ class OnlineTracker extends MainTracker
 
         $this->set_user_id($user);
         $this->set_last_access_date(DokeosUtilities :: to_db_date($time));
-
         $this->create(true);
     }
 
@@ -60,7 +59,7 @@ class OnlineTracker extends MainTracker
      * @see MainTracker :: empty_tracker
      */
     function empty_tracker_before_date($date)
-    {
+    { 
         $date = DokeosUtilities :: to_db_date($date);
         $condition = new InEqualityCondition(self :: PROPERTY_LAST_ACCESS_DATE, InEqualityCondition :: LESS_THAN_OR_EQUAL, $date);
         return $this->remove($condition);
