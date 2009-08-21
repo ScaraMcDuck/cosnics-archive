@@ -633,7 +633,9 @@ class WeblcmsManager extends WebApplication
 		$pub->set_hidden(false);
 		$pub->create();
 
-		return Translation :: get('PublicationCreated') . ': <b>' . Translation :: get('Course') . '</b>: ' . $course .
+		$course = $dm->retrieve_course($course);
+		
+		return Translation :: get('PublicationCreated') . ': <b>' . Translation :: get('Course') . '</b>: ' . $course->get_name() .
 			   ' - <b>' . Translation :: get('Tool') . '</b>: ' . $tool;
 	}
 
