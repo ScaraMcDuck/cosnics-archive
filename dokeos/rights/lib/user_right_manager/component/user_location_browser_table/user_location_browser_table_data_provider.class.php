@@ -9,14 +9,14 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table_
  * This class implements some functions to allow repository browser tables to
  * retrieve information about the learning objects to display.
  */
-class LocationBrowserTableDataProvider extends ObjectTableDataProvider
+class UserLocationBrowserTableDataProvider extends ObjectTableDataProvider
 {
   /**
    * Constructor
    * @param RepositoryManagerComponent $browser
    * @param Condition $condition
    */
-  function LocationBrowserTableDataProvider($browser, $condition)
+  function UserLocationBrowserTableDataProvider($browser, $condition)
   {
 		parent :: __construct($browser, $condition);
   }
