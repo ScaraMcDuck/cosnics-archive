@@ -43,7 +43,7 @@ class RightsTemplateLocationBrowserTableCellRenderer extends DefaultLocationTabl
             case Location :: PROPERTY_LOCATION :
                 if ($location->has_children())
                 {
-                    return '<a href="' . htmlentities($this->browser->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID => $this->browser->get_current_group()->get_id(), RightsTemplateManager :: PARAM_SOURCE => $location->get_application(), RightsTemplateManager :: PARAM_LOCATION => $location->get_id()))) . '">' . parent :: render_cell($column, $location) . '</a>';
+                    return '<a href="' . htmlentities($this->browser->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID => $this->browser->get_current_rights_template()->get_id(), RightsTemplateManager :: PARAM_SOURCE => $location->get_application(), RightsTemplateManager :: PARAM_LOCATION => $location->get_id()))) . '">' . parent :: render_cell($column, $location) . '</a>';
                 }
                 else
                 {
@@ -99,7 +99,7 @@ class RightsTemplateLocationBrowserTableCellRenderer extends DefaultLocationTabl
 	    $browser = $this->browser;
 	    $locked_parent = $location->get_locked_parent();
 	    $rights = $browser->get_rights();
-	    $group_id = $browser->get_current_group()->get_id();
+	    $rights_template_id = $browser->get_current_rights_template()->get_id();
 
 	    $location_url = $browser->get_url(array('application' => $this->application, 'location' => ($locked_parent ? $locked_parent->get_id() : $location->get_id())));
 
@@ -108,8 +108,8 @@ class RightsTemplateLocationBrowserTableCellRenderer extends DefaultLocationTabl
             $column_name = Translation :: get(DokeosUtilities :: underscores_to_camelcase(strtolower($right_name)));
             if ($column->get_name() == $column_name)
             {
-                $rights_url = $browser->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID_RIGHT_ACTION => RightsTemplateManager:: ACTION_SET_GROUP_RIGHTS, 'group_id' => $group_id, 'right_id' => $right_id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()));
-                return RightsUtilities :: get_rights_icon($location_url, $rights_url, $locked_parent, $right_id, $browser->get_current_group(), $location);
+                $rights_url = $browser->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID_RIGHT_ACTION => RightsTemplateManager:: ACTION_SET_RIGHTS_TEMPLATE, 'rights_template_id' => $rights_template_id, 'right_id' => $right_id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()));
+                return RightsUtilities :: get_rights_icon($location_url, $rights_url, $locked_parent, $right_id, $browser->get_current_rights_template(), $location);
             }
 	    }
 	    return '&nbsp;';
