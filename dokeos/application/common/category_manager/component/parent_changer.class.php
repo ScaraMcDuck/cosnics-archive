@@ -54,9 +54,9 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
 				
 				$this->clean_display_order_old_parent($parent);
 				
-				if(get_class($this->get_parent()) == 'RepositoryCategoryManager')
+				/*if(get_class($this->get_parent()) == 'RepositoryCategoryManager')
 					$this->repository_redirect(RepositoryManager :: ACTION_MANAGE_CATEGORIES, Translation :: get($success ? 'CategoryCreated' : 'CategoryNotCreated'), 0, ($success ? false : true), array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES, CategoryManager :: PARAM_CATEGORY_ID => $parent));
-				else
+				else*/
 					$this->redirect(Translation :: get($success ? 'CategoryMoved' : 'CategoryNotMoved'), ($success ? false : true), array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES, CategoryManager :: PARAM_CATEGORY_ID => $parent));
 			}
 			else

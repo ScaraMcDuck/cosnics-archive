@@ -291,6 +291,9 @@ abstract class RepositoryDataManager
 			$forbidden = array_merge($children, $versions);
 		}
 		
+		if($this->is_learning_object_included($object))
+			return false;
+		
 		$conditions = array();
 		$conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $object->get_id());
 		$conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $object->get_id());

@@ -24,7 +24,7 @@ class DocumentForm extends LearningObjectForm
 		$post_max_size = ini_get('post_max_size');
 		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
 		$this->addElement('html', '<span style="margin-left: -38px">' . Translation :: get('MaxSize') . ': ' . $post_max_size . '</span>');
-		$this->addElement('upload_or_create', 'upload_or_create', Translation :: get('FileName'));
+		$this->addElement('upload_or_create', 'upload_or_create', sprintf(Translation :: get('FileName'), $post_max_size));
 		$this->addElement('checkbox','uncompress',Translation :: get('Uncompress'));
 		$this->addFormRule(array ($this, 'check_document_form'));
 		$this->addElement('category');
@@ -46,7 +46,7 @@ class DocumentForm extends LearningObjectForm
 		}
 		else
 		{
-			$this->addElement('file', 'file', Translation :: get('FileName'));
+			$this->addElement('file', 'file', sprintf(Translation :: get('FileName'), $post_max_size));
 			$this->addRule('file', Translation :: get('DiskQuotaExceeded'), 'disk_quota');
 		}
 		$this->addElement('category');

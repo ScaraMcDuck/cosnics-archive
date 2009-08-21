@@ -29,12 +29,11 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 		{
 			$object = $this->retrieve_learning_object($id);
 			// TODO: Use Roles & Rights here.
-			if ($object->get_owner_id() != $this->get_user_id())
+			if ($object->get_owner_id() != $this->get_user_id() && 
+			    !$this->get_parent()->has_right($object, $this->get_user_id(), RepositoryRights :: VIEW_RIGHT))
 			{
 				$this->not_allowed();
-			}else
-                        if(!$this->get_parent()->has_right($object, $this->get_user_id(), RepositoryRights :: VIEW_RIGHT))
-                            $this->not_allowed();
+			}
 
 			$display = LearningObjectDisplay :: factory($object);
 			$trail = new BreadcrumbTrail(false);

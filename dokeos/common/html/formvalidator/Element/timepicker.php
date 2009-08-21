@@ -93,17 +93,17 @@ class HTML_QuickForm_timepicker extends HTML_QuickForm_date
      */
     function getElementJS()
     {
-        $js = '';
+        /*$js = '';
         //if(!defined('DATEPICKER_JAVASCRIPT_INCLUDED'))
         {
             //define('DATEPICKER_JAVASCRIPT_INCLUDED',1);
             $js = "\n";
             $js .= '<script src="';
             $js .= Path :: get(WEB_LIB_PATH) . 'html/formvalidator/Element/';
-            $js .= 'tbl_change.js.php" type="text/javascript"></script>';
+            $js .= 'tbl_change.js" type="text/javascript"></script>';
             $js .= "\n";
-        }
-        return $js;
+        }*/
+        return ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'html/formvalidator/Element/tbl_change.js');
     }
 
     /**

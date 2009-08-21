@@ -655,6 +655,13 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$res->free();
 		return $includes;
 	}
+	
+	function is_learning_object_included($object)
+	{
+		$condition = new EqualityCondition('include', $object->get_id());
+		$count = $this->database->count_objects('learning_object_include', $condition);
+		return ($count > 0); 
+	}
 
 	function retrieve_learning_object_versions ($object)
 	{
@@ -1497,10 +1504,10 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 	function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		/*if (!is_array($order_property))
+		if (is_a($order_property, 'ObjectTableOrder'))
 		{
 			$order_property = array($order_property);
-		}*/
+		}
 		
 		$order_property[] = new ObjectTableOrder('parent');
 		$order_property[] = new ObjectTableOrder('display_order');
