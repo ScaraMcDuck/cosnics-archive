@@ -101,65 +101,15 @@ class LocationBrowserTableCellRenderer extends DefaultLocationTableCellRenderer
 	    $rights = $browser->get_rights();
 	    $user_id = $browser->get_current_user()->get_id();
 
+	    $location_url = $browser->get_url(array('application' => $this->application, 'location' => ($locked_parent ? $locked_parent->get_id() : $location->get_id())));
+
 	    foreach($rights as $right_name => $right_id)
 	    {
             $column_name = Translation :: get(DokeosUtilities :: underscores_to_camelcase(strtolower($right_name)));
             if ($column->get_name() == $column_name)
             {
-                $html = array();
-
-				$html[] = '<div id="r_'. $right_id .'_'. $user_id .'_'. $location->get_id() .'" style="float: left; width: 24%; text-align: center;">';
-				if (isset($locked_parent))
-				{
-				    $value = RightsUtilities :: get_user_right_location($right_id, $user_id, $locked_parent->get_id());
-					$html[] = '<a href="'. $browser->get_url(array('application' => $this->application, 'location' => $locked_parent->get_id())) .'">' . ($value == 1 ? '<img src="'. Theme :: get_common_image_path() .'action_setting_true_locked.png" title="'. Translation :: get('LockedTrue') .'" />' : '<img src="'. Theme :: get_common_image_path() .'action_setting_false_locked.png" title="'. Translation :: get('LockedFalse') .'" />') . '</a>';
-				}
-				else
-				{
-				    $value = RightsUtilities :: get_user_right_location($right_id, $user_id, $location->get_id());
-
-					if (!$value)
-					{
-						if ($location->inherits())
-						{
-							$inherited_value = RightsUtilities :: is_allowed_for_user($user_id, $right_id, $location);
-
-							if ($inherited_value)
-							{
-								$html[] = '<a class="setRight" href="'. $browser->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_SET_RIGHTS_TEMPLATES, 'user_id' => $user_id, 'right_id' => $right_id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id())) .'">' . '<div class="rightInheritTrue"></div></a>';
-							}
-							else
-							{
-								$html[] = '<a class="setRight" href="'. $browser->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_SET_RIGHTS_TEMPLATES, 'user_id' => $user_id, 'right_id' => $right_id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id())) .'">' . '<div class="rightFalse"></div></a>';
-							}
-						}
-						else
-						{
-							$html[] = '<a class="setRight" href="'. $browser->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_SET_RIGHTS_TEMPLATES, 'user_id' => $user_id, 'right_id' => $right_id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id())) .'">' . '<div class="rightFalse"></div></a>';
-						}
-					}
-					else
-					{
-						$html[] = '<a class="setRight" href="'. $browser->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_SET_RIGHTS_TEMPLATES, 'user_id' => $user_id, 'right_id' => $right_id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id())) .'">' . '<div class="rightTrue"></div></a>';
-					}
-				}
-				$html[] = '</div>';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                return implode("\n", $html);
+                $rights_url = $browser->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_SET_RIGHTS_TEMPLATES, 'user_id' => $user_id, 'right_id' => $right_id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()));
+                return RightsUtilities :: get_rights_icon($location_url, $rights_url, $locked_parent, $right_id, $browser->get_current_user(), $location);
             }
 	    }
 	    return '&nbsp;';

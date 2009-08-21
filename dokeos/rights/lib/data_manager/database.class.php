@@ -1026,13 +1026,13 @@ class DatabaseRightsDataManager extends RightsDataManager
     function update_user_right_location($user_right_location)
     {
         $condition = new EqualityCondition(UserRightLocation :: PROPERTY_ID, $user_right_location->get_id());
-        return $this->database->update(UserRightLocation :: get_table_name(), $condition);
+        return $this->database->update($user_right_location, $condition);
     }
 
     function update_group_right_location($group_right_location)
     {
         $condition = new EqualityCondition(GroupRightLocation :: PROPERTY_ID, $group_right_location->get_id());
-        return $this->database->update(GroupRightLocation :: get_table_name(), $condition);
+        return $this->database->update($group_right_location, $condition);
     }
 
     function retrieve_user_right_location($right_id, $user_id, $location_id)

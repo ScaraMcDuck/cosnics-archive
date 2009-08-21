@@ -413,6 +413,22 @@ class RightsUtilities
 		}
 	}
 
+	function invert_user_right_location($right, $user, $location)
+	{
+		if (isset($user) && isset($right) && isset($location))
+		{
+		    $rdm = RightsDataManager :: get_instance();
+
+			$user_right_location = $rdm->retrieve_user_right_location($right, $user, $location);
+			$user_right_location->invert();
+			return $user_right_location->update();
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 	function switch_location_lock($location)
 	{
 		$location->switch_lock();
@@ -481,6 +497,48 @@ class RightsUtilities
 	    {
 	        return 0;
 	    }
+	}
+
+	function get_rights_icon($location_url, $rights_url, $locked_parent, $right, $user, $location)
+	{
+		$html[] = '<div id="r_'. $right .'_'. $user->get_id() .'_'. $location->get_id() .'" style="float: left; width: 24%; text-align: center;">';
+		if (isset($locked_parent))
+		{
+		    $value = RightsUtilities :: get_user_right_location($right, $user->get_id(), $locked_parent->get_id());
+			$html[] = '<a href="'. $location_url .'">' . ($value == 1 ? '<img src="'. Theme :: get_common_image_path() .'action_setting_true_locked.png" title="'. Translation :: get('LockedTrue') .'" />' : '<img src="'. Theme :: get_common_image_path() .'action_setting_false_locked.png" title="'. Translation :: get('LockedFalse') .'" />') . '</a>';
+		}
+		else
+		{
+		    $value = RightsUtilities :: get_user_right_location($right, $user->get_id(), $location->get_id());
+
+			if (!$value)
+			{
+				if ($location->inherits())
+				{
+					$inherited_value = RightsUtilities :: is_allowed_for_user($user->get_id(), $right, $location);
+
+					if ($inherited_value)
+					{
+						$html[] = '<a class="setRight" href="'. $rights_url .'">' . '<div class="rightInheritTrue"></div></a>';
+					}
+					else
+					{
+						$html[] = '<a class="setRight" href="'. $rights_url .'">' . '<div class="rightFalse"></div></a>';
+					}
+				}
+				else
+				{
+					$html[] = '<a class="setRight" href="'. $rights_url .'">' . '<div class="rightFalse"></div></a>';
+				}
+			}
+			else
+			{
+				$html[] = '<a class="setRight" href="'. $rights_url .'">' . '<div class="rightTrue"></div></a>';
+			}
+		}
+		$html[] = '</div>';
+
+		return implode("\n", $html);
 	}
 
 }
