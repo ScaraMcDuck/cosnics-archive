@@ -59,8 +59,8 @@ class UserLogin extends UserBlock
 		else
 		{
 			$user = $this->get_user();
-			
-			$html[] = '<br /><img src="'.$user->get_full_picture_url().'" max-height="200px";/>';
+	
+			$html[] = '<br /><img src="'.$user->get_full_picture_url().'" style="max-width:200px";/>';
 			$html[] = '<br />';
 			$html[] = '<br />';
 			$html[] = $user->get_fullname() . '<br />';
