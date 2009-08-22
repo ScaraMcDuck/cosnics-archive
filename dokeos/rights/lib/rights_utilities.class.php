@@ -600,6 +600,27 @@ class RightsUtilities
 
 		return implode("\n", $html);
 	}
+	
+	function get_available_rights($application)
+	{
+		$base_path = (WebApplication :: is_application($application) ? (Path :: get_application_path() . 'lib/' . $application . '/') : (Path :: get(SYS_PATH). $application . '/lib/'));
+		$class = $application . '_rights.class.php';
+		$file = $base_path . $class;
 
+		if(!file_exists($file))
+		{
+			$rights = array();
+		}
+		else
+		{
+		    require_once($file);
+
+    		// TODO: When PHP 5.3 gets released, replace this by $class :: get_available_rights()
+    	    $reflect = new ReflectionClass(Application :: application_to_class($application) . 'Rights');
+    	    $rights = $reflect->getConstants();
+		}
+
+		return $rights;
+	}
 }
 ?>

@@ -22,5 +22,15 @@ class GroupRightManagerComponent extends SubManagerComponent
 	{
 		return $this->get_parent()->retrieve_group_right_location($right_id, $group_id, $location_id);
 	}
+	
+	function retrieve_groups($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		return $this->get_parent()->retrieve_groups($condition, $offset, $count, $order_property, $order_direction);
+	}
+
+	function count_groups($conditions = null)
+	{
+		return $this->get_parent()->count_groups($conditions);
+	}
 }
 ?>

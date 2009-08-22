@@ -86,7 +86,8 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 		$this->display_header($trail);
 
 		$html = array();
-		$html[] = $this->get_applications();
+		$application_url = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID => $this->rights_template->get_id(), RightsTemplateManager :: PARAM_SOURCE => Application :: PLACEHOLDER_APPLICATION));
+		$html[] = Application :: get_selecter($application_url, $this->application);
 		$html[] = $this->action_bar->as_html() . '<br />';
 
 		$url_format = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_CONFIGURE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID => $this->rights_template->get_id(), RightsTemplateManager :: PARAM_SOURCE => $this->application, RightsTemplateManager :: PARAM_LOCATION => '%s'));
@@ -118,7 +119,6 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 	        $conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->application);
 
 	        $condition = new AndCondition($conditions);
-
 	    }
 	    else
 	    {
@@ -145,67 +145,6 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 	function get_current_rights_template()
 	{
 	    return $this->rights_template;
-	}
-
-	function get_rights()
-	{
-		$application = $this->application;
-
-		$base_path = (WebApplication :: is_application($application) ? (Path :: get_application_path() . 'lib/' . $application . '/') : (Path :: get(SYS_PATH). $application . '/lib/'));
-		$class = $application . '_rights.class.php';
-		$file = $base_path . $class;
-
-		if(!file_exists($file))
-		{
-			$rights = array();
-		}
-		else
-		{
-		    require_once($file);
-
-    		// TODO: When PHP 5.3 gets released, replace this by $class :: get_available_rights()
-    	    $reflect = new ReflectionClass(Application :: application_to_class($application) . 'Rights');
-    	    $rights = $reflect->getConstants();
-		}
-
-		return $rights;
-	}
-
-	function get_applications()
-	{
-		$application = $this->application;
-
-		$html = array();
-
-		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/application.js');
-		$html[] = '<div class="configure">';
-
-		$the_applications = WebApplication :: load_all();
-		$the_applications = array_merge(array('admin', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu', 'webservice', 'reporting'), $the_applications);
-
-		foreach ($the_applications as $the_application)
-		{
-			if (isset($application) && $application == $the_application)
-			{
-				$html[] = '<div class="application_current">';
-			}
-			else
-			{
-				$html[] = '<div class="application">';
-			}
-
-			$application_name = Translation :: get(DokeosUtilities :: underscores_to_camelcase($the_application));
-
-			$html[] = '<a href="'. $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID => $this->rights_template->get_id(), RightsTemplateManager :: PARAM_SOURCE => $the_application)) .'">';
-			$html[] = '<img src="'. Theme :: get_image_path('admin') . 'place_' . $the_application .'.png" border="0" style="vertical-align: middle;" alt="' . $application_name . '" title="' . $application_name . '"/><br />'. $application_name;
-			$html[] = '</a>';
-			$html[] = '</div>';
-		}
-
-		$html[] = '</div>';
-		$html[] = '<div style="clear: both;"></div>';
-
-		return implode("\n", $html);
 	}
 
 	function get_action_bar()

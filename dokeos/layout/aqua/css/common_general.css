@@ -2235,3 +2235,42 @@ Co-developed by Travis Nickels
 .fileUploadProgressBar {
 	background-color: #0099FF;
 }
+
+/************************
+ * APPLICATION SELECTER *
+ ************************/
+div.application_selecter
+{
+	clear: both;
+	text-align: center;
+}
+
+div.application_selecter div.application
+{
+	background-repeat: no-repeat;
+	background-position: center 10px;
+	background-color: #F6F6F6;
+
+	float: left;
+	margin: 0px 10px 10px 0px;
+	padding: 68px 20px 10px 20px;
+	-moz-border-radius: 5px;
+	-webkit-border--radius: 5px;
+	overflow: hidden;
+	
+	text-align: center;
+	font-weight: bold;
+	color: #565656;
+	font-size: 11px;
+	min-width: 60px;
+}
+
+div.application_selecter div.application:hover
+{
+	background-color: #e1eaf5;
+}
+
+div.application_selecter div.current
+{
+	background-color: #e1eaf5;
+}

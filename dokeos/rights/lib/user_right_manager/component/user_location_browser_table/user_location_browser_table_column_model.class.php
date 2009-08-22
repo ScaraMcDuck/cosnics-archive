@@ -48,7 +48,7 @@ class UserLocationBrowserTableColumnModel extends DefaultLocationTableColumnMode
 
     function add_rights_columns()
     {
-	    $rights = $this->browser->get_rights();
+	    $rights = RightsUtilities :: get_available_rights($this->browser->get_source());
 
         foreach ($rights as $right_name => $right_id)
         {

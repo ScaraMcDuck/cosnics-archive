@@ -38,6 +38,23 @@ abstract class CoreApplication extends Application
             return false;
         }
     }
+    
+    public static function get_list()
+    {
+    	$applications = array();
+    	$applications[] = 'admin';
+    	$applications[] = 'tracking';
+    	$applications[] = 'repository';
+    	$applications[] = 'user';
+    	$applications[] = 'group';
+    	$applications[] = 'rights';
+    	$applications[] = 'home';
+    	$applications[] = 'menu';
+    	$applications[] = 'webservice';
+    	$applications[] = 'reporting';
+    	
+    	return $applications;
+    }
 
     /**
      * Gets a link to the personal calendar application

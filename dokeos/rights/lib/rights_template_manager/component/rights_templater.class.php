@@ -61,7 +61,8 @@ class RightsTemplateManagerRightsTemplaterComponent extends RightsTemplateManage
 		$this->display_header($trail);
 
 		$html = array();
-		$html[] = $this->get_applications();
+		$application_url = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_SOURCE => Application :: PLACEHOLDER_APPLICATION));
+		$html[] = Application :: get_selecter($application_url, $this->application);
 		$html[] = $this->action_bar->as_html() . '<br />';
 
 		$url_format = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_CONFIGURE_LOCATION_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_SOURCE => $this->application, RightsTemplateManager :: PARAM_LOCATION => '%s'));
@@ -110,30 +111,6 @@ class RightsTemplateManagerRightsTemplaterComponent extends RightsTemplateManage
 	function get_location()
 	{
 		return $this->location;
-	}
-
-	function get_rights()
-	{
-		$application = $this->application;
-
-		$base_path = (WebApplication :: is_application($application) ? (Path :: get_application_path() . 'lib/' . $application . '/') : (Path :: get(SYS_PATH). $application . '/lib/'));
-		$class = $application . '_rights.class.php';
-		$file = $base_path . $class;
-
-		if(!file_exists($file))
-		{
-			$rights = array();
-		}
-		else
-		{
-		    require_once($file);
-
-    		// TODO: When PHP 5.3 gets released, replace this by $class :: get_available_rights()
-    	    $reflect = new ReflectionClass(Application :: application_to_class($application) . 'Rights');
-    	    $rights = $reflect->getConstants();
-		}
-
-		return $rights;
 	}
 
 	function get_applications()
