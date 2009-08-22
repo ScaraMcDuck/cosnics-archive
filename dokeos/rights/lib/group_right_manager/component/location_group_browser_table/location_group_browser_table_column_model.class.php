@@ -1,13 +1,13 @@
 <?php
 /**
- * @package users.lib.usermanager.component.admin_user_browser
+ * @package repository.repositorymanager
  */
-require_once Path :: get_user_path() . 'lib/user_table/default_user_table_column_model.class.php';
-require_once Path :: get_user_path() . 'lib/user.class.php';
+require_once Path :: get_group_path() . 'lib/group_table/default_group_table_column_model.class.php';
+require_once Path :: get_group_path() . 'lib/group.class.php';
 /**
  * Table column model for the user browser table
  */
-class LocationUserBrowserTableColumnModel extends DefaultUserTableColumnModel
+class LocationGroupBrowserTableColumnModel extends DefaultGroupTableColumnModel
 {
 	/**
 	 * The tables modification column
@@ -19,15 +19,16 @@ class LocationUserBrowserTableColumnModel extends DefaultUserTableColumnModel
 	/**
 	 * Constructor
 	 */
-	function LocationUserBrowserTableColumnModel($browser)
+	function LocationGroupBrowserTableColumnModel($browser)
 	{
 		parent :: __construct();
 		$this->browser = $browser;
-		$this->add_column(new ObjectTableColumn(User :: PROPERTY_USERNAME));
 		$this->set_default_order_column(1);
+		$this->set_columns(array_slice($this->get_columns(), 0, 1));
+		$this->add_column(new StaticTableColumn(Translation :: get('Users')));
+		$this->add_column(new StaticTableColumn(Translation :: get('Subgroups')));
 		$this->add_rights_columns();
 //		$this->add_column(self :: get_modification_column());
-		$this->set_columns(array_splice($this->get_columns(), 1));
 	}
 	/**
 	 * Gets the modification column

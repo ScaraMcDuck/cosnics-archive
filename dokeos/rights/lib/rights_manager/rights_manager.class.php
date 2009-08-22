@@ -136,7 +136,7 @@ class RightsManager extends CoreApplication
         $links[]	= array('name' => Translation :: get('GroupPermissions'),
             'description' => Translation :: get('GroupPermissionsDescription'),
             'action' => 'permission_group',
-            'url' => '');
+            'url' => $this->get_link(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS, GroupRightManager :: PARAM_GROUP_RIGHT_ACTION => GroupRightManager :: ACTION_BROWSE_LOCATION_GROUP_RIGHTS)));
 
         $info = parent :: get_application_platform_admin_links();
         $info['links'] = $links;

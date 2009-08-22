@@ -19,6 +19,8 @@ abstract class Application
     const PARAM_ERROR_MESSAGE = 'error_message';
     const PARAM_WARNING_MESSAGE = 'warning_message';
     const PARAM_APPLICATION = 'application';
+    
+    const PLACEHOLDER_APPLICATION = '__APPLICATION__';
 
     function Application($user)
     {
@@ -452,5 +454,39 @@ abstract class Application
     abstract function get_application_path($application_name);
 
     abstract function get_application_component_path();
+    
+    public static function get_selecter($url, $current_application = null)
+    {
+		$html = array();
+
+		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/application.js');
+		$html[] = '<div class="application_selecter">';
+
+		$the_applications = WebApplication :: load_all();
+		$the_applications = array_merge(CoreApplication :: get_list(), $the_applications);
+
+		foreach ($the_applications as $the_application)
+		{
+			if (isset($current_application) && $current_application == $the_application)
+			{
+				$type = 'application current';
+			}
+			else
+			{
+				$type = 'application';
+			}
+
+			$application_name = Translation :: get(DokeosUtilities :: underscores_to_camelcase($the_application));
+
+			$html[] = '<a href="'. str_replace(self :: PLACEHOLDER_APPLICATION, $the_application, $url) .'">';
+			$html[] = '<div class="'. $type .'" style="background-image: url('. Theme :: get_image_path('admin') . 'place_' . $the_application .'.png);">'. $application_name . '</div>';
+			$html[] = '</a>';
+		}
+
+		$html[] = '</div>';
+		$html[] = '<div style="clear: both;"></div>';
+
+		return implode("\n", $html);
+    }
 }
 ?>

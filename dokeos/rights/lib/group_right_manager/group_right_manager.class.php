@@ -15,6 +15,7 @@ class GroupRightManager extends SubManager
     const PARAM_LOCATION = 'location';
 
     const ACTION_BROWSE_GROUP_RIGHTS = 'browse';
+    const ACTION_BROWSE_LOCATION_GROUP_RIGHTS = 'group';
     const ACTION_SET_GROUP_RIGHTS = 'set';
 
     function GroupRightManager($rights_manager)
@@ -36,6 +37,9 @@ class GroupRightManager extends SubManager
         {
             case self :: ACTION_BROWSE_GROUP_RIGHTS :
                 $component = GroupRightManagerComponent :: factory('Browser', $this);
+                break;
+            case self :: ACTION_BROWSE_LOCATION_GROUP_RIGHTS :
+                $component = GroupRightManagerComponent :: factory('Group', $this);
                 break;
             case self :: ACTION_SET_GROUP_RIGHTS :
                 $component = GroupRightManagerComponent :: factory('Setter', $this);
@@ -71,6 +75,16 @@ class GroupRightManager extends SubManager
 	function retrieve_group_right_location($right_id, $group_id, $location_id)
 	{
 		return $this->get_parent()->retrieve_group_right_location($right_id, $group_id, $location_id);
+	}
+	
+	function retrieve_groups($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		return GroupDataManager :: get_instance()->retrieve_groups($condition, $offset, $count, $order_property, $order_direction);
+	}
+
+	function count_groups($conditions = null)
+	{
+		return GroupDataManager :: get_instance()->count_groups($conditions);
 	}
 }
 ?>

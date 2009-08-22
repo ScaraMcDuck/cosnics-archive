@@ -57,7 +57,7 @@ class LocationRightsTemplateBrowserTableCellRenderer extends DefaultRightsTempla
 	    $browser = $this->browser;
 	    $location = $browser->get_location();
 	    $locked_parent = $location->get_locked_parent();
-	    $rights = $browser->get_rights();
+	    $rights = RightsUtilities :: get_available_rights($this->browser->get_source());
 	    $rights_template_id = $rights_template->get_id();
 
 	    $location_url = $browser->get_url(array('application' => $this->application, 'location' => ($locked_parent ? $locked_parent->get_id() : $location->get_id())));

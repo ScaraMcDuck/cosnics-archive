@@ -1,16 +1,17 @@
 <?php
 /**
- * @package user.usermanager
+ * @package group.groupmanager
  */
-require_once Path :: get_rights_path() . 'lib/user_right_manager/user_right_manager.class.php';
-require_once Path :: get_rights_path() . 'lib/user_right_manager/user_right_manager_component.class.php';
+require_once Path :: get_rights_path() . 'lib/group_right_manager/group_right_manager.class.php';
+require_once Path :: get_rights_path() . 'lib/group_right_manager/group_right_manager_component.class.php';
 require_once Path :: get_rights_path() . 'lib/rights_data_manager.class.php';
 require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';
 require_once Path :: get_rights_path() . 'lib/location_right_menu.class.php';
-require_once Path :: get_rights_path() . 'lib/user_right_manager/component/location_user_browser_table/location_user_browser_table.class.php';
+require_once Path :: get_rights_path() . 'lib/group_right_manager/component/location_group_browser_table/location_group_browser_table.class.php';
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
+require_once PAth :: get_group_path() . '/lib/group_menu.class.php';
 
-class UserRightManagerUserComponent extends UserRightManagerComponent
+class GroupRightManagerGroupComponent extends GroupRightManagerComponent
 {
 	private $action_bar;
 
@@ -22,13 +23,13 @@ class UserRightManagerUserComponent extends UserRightManagerComponent
 	 */
 	function run()
 	{
-		$this->application = Request :: get(UserRightManager :: PARAM_SOURCE);
-		$location = Request :: get(UserRightManager :: PARAM_LOCATION);
-		$user = Request :: get(UserRightManager :: PARAM_USER);
+		$this->application = Request :: get(GroupRightManager :: PARAM_SOURCE);
+		$location = Request :: get(GroupRightManager :: PARAM_LOCATION);
+		$group = Request :: get(GroupRightManager :: PARAM_GROUP);
 
 		$trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS)), Translation :: get('UserRights')));
+		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS)), Translation :: get('GroupRights')));
 
 		if (!isset($this->application))
 		{
@@ -61,24 +62,29 @@ class UserRightManagerUserComponent extends UserRightManagerComponent
 		$this->display_header($trail);
 
 		$html = array();
-		$application_url = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS, UserRightManager :: PARAM_SOURCE => Application :: PLACEHOLDER_APPLICATION));
+		$application_url = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS, GroupRightManager :: PARAM_SOURCE => Application :: PLACEHOLDER_APPLICATION));
 		$html[] = Application :: get_selecter($application_url, $this->application);
 		$html[] = $this->action_bar->as_html() . '<br />';
 
-		$url_format = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS, UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_BROWSE_LOCATION_USER_RIGHTS, UserRightManager :: PARAM_SOURCE => $this->application, UserRightManager :: PARAM_LOCATION => '%s'));
+		$url_format = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS, GroupRightManager :: PARAM_GROUP_RIGHT_ACTION => GroupRightManager :: ACTION_BROWSE_LOCATION_GROUP_RIGHTS, GroupRightManager :: PARAM_SOURCE => $this->application, GroupRightManager :: PARAM_LOCATION => '%s'));
 		$url_format = str_replace('=%25s', '=%s', $url_format);
     	$location_menu = new LocationRightMenu($root->get_id(), $this->location->get_id(), $url_format);
     	$html[] = '<div style="float: left; width: 18%; overflow: auto; height: 500px;">';
     	$html[] = $location_menu->render_as_tree();
     	$html[] = '</div>';
 
-    	$table = new LocationUserBrowserTable($this, $this->get_parameters(), $this->get_condition());
-
-    	$html[] = '<div style="float: right; width: 80%;">';
+    	$html[] = '<div style="float: left; width: 62%; margin-left: 1%;">';
+    	$table = new LocationGroupBrowserTable($this, $this->get_parameters(), $this->get_condition());
     	$html[] = $table->as_html();
     	$html[] = RightsUtilities :: get_rights_legend();
     	$html[] = '</div>';
-    	$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'rights/javascript/configure_user.js');
+    	
+    	$html[] = '<div style="float: right; width: 18%; overflow: auto; height: 500px;">';
+		$group_menu = new GroupMenu($group);
+		$html[] = $group_menu->render_as_tree();
+    	$html[] = '</div>';
+    	
+    	$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'rights/javascript/configure_group.js');
 
     	echo implode("\n", $html);
 
@@ -116,7 +122,7 @@ class UserRightManagerUserComponent extends UserRightManagerComponent
 	function get_action_bar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-		$action_bar->set_search_url($this->get_url(array(UserRightManager :: PARAM_SOURCE => $this->application, UserRightManager :: PARAM_LOCATION => $this->location->get_id())));
+		$action_bar->set_search_url($this->get_url(array(GroupRightManager :: PARAM_SOURCE => $this->application, GroupRightManager :: PARAM_LOCATION => $this->location->get_id())));
 
 		return $action_bar;
 	}
