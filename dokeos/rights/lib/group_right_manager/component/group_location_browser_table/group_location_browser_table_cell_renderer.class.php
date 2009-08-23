@@ -108,7 +108,7 @@ class GroupLocationBrowserTableCellRenderer extends DefaultLocationTableCellRend
             $column_name = Translation :: get(DokeosUtilities :: underscores_to_camelcase(strtolower($right_name)));
             if ($column->get_name() == $column_name)
             {
-                $rights_url = $browser->get_url(array(GroupRightManager :: PARAM_GROUP_RIGHT_ACTION => GroupRightManager:: ACTION_SET_GROUP_RIGHTS, 'group_id' => $group_id, 'right_id' => $right_id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()));
+                $rights_url = $browser->get_url(array(GroupRightManager :: PARAM_GROUP_RIGHT_ACTION => GroupRightManager:: ACTION_SET_GROUP_RIGHTS, 'group_id' => $group_id, 'right_id' => $right_id, GroupRightManager :: PARAM_LOCATION => $location->get_id()));
                 return RightsUtilities :: get_rights_icon($location_url, $rights_url, $locked_parent, $right_id, $browser->get_current_group(), $location);
             }
 	    }

@@ -32,6 +32,11 @@ class LocationGroupBrowserTableCellRenderer extends DefaultGroupTableCellRendere
 		{
 			return $this->get_modification_links($group);
 		}
+		
+			if (LocationGroupBrowserTableColumnModel :: is_rights_column($column))
+		{
+		    return $this->get_rights_column_value($column, $group);
+		}
 
 		// Add special features here
 		switch ($column->get_name())
@@ -121,6 +126,28 @@ class LocationGroupBrowserTableCellRenderer extends DefaultGroupTableCellRendere
 //		);
 
 		return DokeosUtilities :: build_toolbar($toolbar_data);
+	}
+	
+	private function get_rights_column_value($column, $group)
+	{
+	    $browser = $this->browser;
+	    $location = $browser->get_location();
+	    $locked_parent = $location->get_locked_parent();
+	    $rights = RightsUtilities :: get_available_rights($this->browser->get_source());
+	    $group_id = $group->get_id();
+
+	    $location_url = $browser->get_url(array('application' => $this->application, 'location' => ($locked_parent ? $locked_parent->get_id() : $location->get_id())));
+
+	    foreach($rights as $right_name => $right_id)
+	    {
+            $column_name = Translation :: get(DokeosUtilities :: underscores_to_camelcase(strtolower($right_name)));
+            if ($column->get_name() == $column_name)
+            {
+                $rights_url = $browser->get_url(array(GroupRightManager :: PARAM_GROUP_RIGHT_ACTION => GroupRightManager:: ACTION_SET_GROUP_RIGHTS, 'group_id' => $group_id, 'right_id' => $right_id, GroupRightManager :: PARAM_LOCATION => $location->get_id()));
+                return RightsUtilities :: get_rights_icon($location_url, $rights_url, $locked_parent, $right_id, $group, $location);
+            }
+	    }
+	    return '&nbsp;';
 	}
 }
 ?>

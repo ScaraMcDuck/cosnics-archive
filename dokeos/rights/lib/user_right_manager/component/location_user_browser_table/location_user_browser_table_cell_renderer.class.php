@@ -70,7 +70,7 @@ class LocationUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
             $column_name = Translation :: get(DokeosUtilities :: underscores_to_camelcase(strtolower($right_name)));
             if ($column->get_name() == $column_name)
             {
-                $rights_url = $browser->get_url(array(UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager:: ACTION_SET_USER_RIGHTS, 'user_id' => $user_id, 'right_id' => $right_id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()));
+                $rights_url = $browser->get_url(array(UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager:: ACTION_SET_USER_RIGHTS, 'user_id' => $user_id, 'right_id' => $right_id, UserRightManager :: PARAM_LOCATION => $location->get_id()));
                 return RightsUtilities :: get_rights_icon($location_url, $rights_url, $locked_parent, $right_id, $user, $location);
             }
 	    }
