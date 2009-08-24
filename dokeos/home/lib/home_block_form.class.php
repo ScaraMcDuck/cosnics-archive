@@ -41,6 +41,9 @@ class HomeBlockForm extends FormValidator
         $this->addElement('text', HomeBlock :: PROPERTY_TITLE, Translation :: get('HomeBlockTitle'), array("size" => "50"));
         $this->addRule(HomeBlock :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
         
+        /*$this->addElement('select', HomeBlock :: PROPERTY_, Translation :: get('HomeBlockColumn'), $this->get_columns());
+        $this->addRule(HomeBlock :: PROPERTY_COLUMN, Translation :: get('ThisFieldIsRequired'), 'required');*/
+        
         $this->addElement('select', HomeBlock :: PROPERTY_COLUMN, Translation :: get('HomeBlockColumn'), $this->get_columns());
         $this->addRule(HomeBlock :: PROPERTY_COLUMN, Translation :: get('ThisFieldIsRequired'), 'required');
         
@@ -146,7 +149,15 @@ class HomeBlockForm extends FormValidator
         $column_options = array();
         while ($column = $columns->next_result())
         {
-            $column_options[$column->get_id()] = $column->get_title();
+            $condition = new EqualityCondition(HomeRow :: PROPERTY_ID, $column->get_row());
+        	$condition = new SubselectCondition(HomeTab :: PROPERTY_ID, HomeRow :: PROPERTY_TAB, 'home_' . HomeRow :: get_table_name(), $condition);
+        	
+        	$tab = HomeDataManager :: get_instance()->retrieve_home_tabs($condition)->next_result();
+        	
+        	if($tab)
+        		$name = Translation :: get('Tab') . ' ' . $tab->get_title() . ' :';
+        	
+        	$column_options[$column->get_id()] = $name . $column->get_title();
         }
         
         return $column_options;
