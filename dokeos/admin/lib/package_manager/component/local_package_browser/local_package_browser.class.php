@@ -86,7 +86,7 @@ class LocalPackageBrowser
                 $data[] = DokeosUtilities :: underscores_to_camelcase_with_spaces($installable_language);
                 
                 $toolbar_data = array();
-                $toolbar_data[] = array('href' => $this->manager->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE, PackageManager :: PARAM_SECTION => 'language', PackageManager :: PARAM_PACKAGE => $installable_language)), 'label' => Translation :: get('Install'), 'img' => Theme :: get_image_path() . 'action_install.png');
+                $toolbar_data[] = array('href' => $this->manager->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE, PackageManager :: PARAM_SECTION => 'language', PackageManager :: PARAM_PACKAGE => $installable_language, PackageManager :: PARAM_INSTALL_TYPE => 'local')), 'label' => Translation :: get('Install'), 'img' => Theme :: get_image_path() . 'action_install.png');
                 
                 $data[] = DokeosUtilities :: build_toolbar($toolbar_data);
                 

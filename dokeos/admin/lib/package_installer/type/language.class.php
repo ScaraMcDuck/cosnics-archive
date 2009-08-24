@@ -27,7 +27,9 @@ class PackageInstallerLanguageType extends PackageInstallerType
             return $this->get_parent()->installation_failed('dependencies', Translation :: get('PackageDependenciesFailed'));
         }
         
-        $this->cleanup();
+        //$this->cleanup();
+        
+        $this->get_source()->cleanup();
         
         return true;
     }
