@@ -22,6 +22,7 @@ class FillInBlanksQuestionForm extends LearningObjectForm
         $this->addElement('group', null, Translation :: get('UseSelectBox'), $type_options, '<br />', false);
 
         $this->addElement('textarea', 'answer', Translation :: get('QuestionText'), 'rows="10" class="answer"');
+        $this->addRule('answer', Translation :: get('ThisFieldIsRequired'), 'required');
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/fill_in_the_blanks.js'));
         $this->add_options();
         $this->addElement('category');
@@ -38,6 +39,7 @@ class FillInBlanksQuestionForm extends LearningObjectForm
         $this->addElement('group', null, Translation :: get('UseSelectBox'), $type_options, '<br />', false);
 
         $this->addElement('textarea', 'answer', Translation :: get('QuestionText'), 'rows="10" class="answer"');
+        $this->addRule('answer', Translation :: get('ThisFieldIsRequired'), 'required');
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/fill_in_the_blanks.js'));
         $this->setDefaults();
         $this->add_options();
