@@ -17,7 +17,7 @@ class AdminPortalHome extends AdminBlock
     {
         $html[] = $this->display_header();
         
-        $object_id = PlatformSetting :: get('portal_home');
+        /*$object_id = PlatformSetting :: get('portal_home');
         
         if (! isset($object_id) || $object_id == 0)
         {
@@ -27,6 +27,16 @@ class AdminPortalHome extends AdminBlock
         {
             $learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($object_id);
             $html[] = $learning_object->get_description();
+        }*/
+        
+        $portal_home = PlatformSetting :: get('portal_home');
+        if($portal_home == '')
+        {
+        	$html[] = Translation :: get('ConfigureBlockFirst');
+        }
+        else
+        {
+        	$html[] = $portal_home;
         }
         
         $html[] = $this->display_footer();
