@@ -125,7 +125,7 @@ class Diagnoser
         $array[] = $this->build_setting($status, '[INI]', 'short_open_tag', 'http://www.php.net/manual/en/ini.core.php#ini.short-open-tag', $setting, $req_setting, 'on_off', Translation :: get('ShortOpenTagInfo'));
         
         $setting = ini_get('magic_quotes_gpc');
-        $req_setting = 1;
+        $req_setting = 0;
         $status = $setting == $req_setting ? self :: STATUS_OK : self :: STATUS_ERROR;
         $array[] = $this->build_setting($status, '[INI]', 'magic_quotes_gpc', 'http://www.php.net/manual/en/ini.core.php#ini.magic_quotes_gpc', $setting, $req_setting, 'on_off', Translation :: get('MagicQuotesGpcInfo'));
         
@@ -192,13 +192,13 @@ class Diagnoser
         $array[] = $this->build_setting($status, '[SESSION]', 'session.gc_maxlifetime', 'http://www.php.net/manual/en/ini.core.php#session.gc-maxlifetime', $setting, $req_setting, null, Translation :: get('SessionGCMaxLifetimeInfo'));
         
         //Extensions
-        $extensions = array('gd' => 'http://www.php.net/gd', 'mysql' => 'http://www.php.net/mysql', 'pcre' => 'http://www.php.net/pcre', 'session' => 'http://www.php.net/session', 'standard' => 'http://www.php.net/spl', 'zlib' => 'http://www.php.net/zlib');
+        $extensions = array('gd' => 'http://www.php.net/gd', 'mysql' => 'http://www.php.net/mysql', 'pcre' => 'http://www.php.net/pcre', 'session' => 'http://www.php.net/session', 'standard' => 'http://www.php.net/spl', 'zlib' => 'http://www.php.net/zlib', 'xls' => 'http://be2.php.net/xsl');
         
         foreach ($extensions as $extension => $url)
         {
             $loaded = extension_loaded($extension);
             $status = $loaded ? self :: STATUS_OK : self :: STATUS_ERROR;
-            $array[] = $this->build_setting($status, '[EXTENSION]', Translation :: get('ExtensionLoaded') . ': ' . $extension, 'http://be.php.net/extension_loaded', $loaded, 1, 'yes_no', Translation :: get('ExtensionMustBeLoaded'));
+            $array[] = $this->build_setting($status, '[EXTENSION]', Translation :: get('ExtensionLoaded') . ': ' . $extension, $url, $loaded, 1, 'yes_no', Translation :: get('ExtensionMustBeLoaded'));
         }
         
         return $array;
