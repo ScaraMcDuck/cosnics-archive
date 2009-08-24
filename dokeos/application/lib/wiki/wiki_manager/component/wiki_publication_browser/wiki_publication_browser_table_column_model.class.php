@@ -41,7 +41,7 @@ class WikiPublicationBrowserTableColumnModel extends DefaultWikiPublicationTable
 		return self :: $modification_column;
 	}
 
-    public static function get_columns()
+    public function get_columns()
 	{
 		$columns = array();
 		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE);
