@@ -134,6 +134,10 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		foreach($directories as $index => $directory)
 		{
 			$path = $files_path . $directory;
+			
+			if(file_exists($path) && is_dir($path))
+				FileSystem :: remove($path);
+			
 			if (!FileSystem :: create_dir($path))
 			{
 				return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => Translation :: get('FoldersCreatedFailed'));

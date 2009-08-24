@@ -97,7 +97,7 @@ class Diagnoser
 
         $version = phpversion();
         $status = $version > '5.2' ? self :: STATUS_OK : self :: STATUS_ERROR;
-        $array[] = $this->build_setting($status, '[PHP]', 'phpversion()', 'http://www.php.net/manual/en/function.phpversion.php', phpversion(), '>= 5.2', null, Translation :: get('MysqlProtoInfo'));
+        $array[] = $this->build_setting($status, '[PHP]', 'phpversion()', 'http://www.php.net/manual/en/function.phpversion.php', phpversion(), '>= 5.2', null, Translation :: get('PHPVersionInfo'));
         
         $setting = ini_get('file_uploads');
         $req_setting = 1;
@@ -192,7 +192,7 @@ class Diagnoser
         $array[] = $this->build_setting($status, '[SESSION]', 'session.gc_maxlifetime', 'http://www.php.net/manual/en/ini.core.php#session.gc-maxlifetime', $setting, $req_setting, null, Translation :: get('SessionGCMaxLifetimeInfo'));
         
         //Extensions
-        $extensions = array('gd' => 'http://www.php.net/gd', 'mysql' => 'http://www.php.net/mysql', 'pcre' => 'http://www.php.net/pcre', 'session' => 'http://www.php.net/session', 'standard' => 'http://www.php.net/spl', 'zlib' => 'http://www.php.net/zlib', 'xls' => 'http://be2.php.net/xsl');
+        $extensions = array('gd' => 'http://www.php.net/gd', 'mysql' => 'http://www.php.net/mysql', 'pcre' => 'http://www.php.net/pcre', 'session' => 'http://www.php.net/session', 'standard' => 'http://www.php.net/spl', 'zlib' => 'http://www.php.net/zlib', 'xsl' => 'http://be2.php.net/xsl');
         
         foreach ($extensions as $extension => $url)
         {
@@ -253,7 +253,7 @@ class Diagnoser
      * Additional functions needed for fast integration
      */
     
-    function build_setting($status, $section, $title, $url, $current_value, $expected_value, $formatter, $comment)
+    function build_setting($status, $section, $title, $url, $current_value, $expected_value, $formatter, $comment, $img_path = null)
     {
         switch ($status)
         {
@@ -271,7 +271,12 @@ class Diagnoser
                 break;
         }
         
-        $image = '<img src="' . Theme :: get_common_image_path() . $img . '" alt="' . $status . '" />';
+        if(!$img_path)
+        { echo "test";
+        	$img_path = Theme :: get_common_image_path();
+        }
+        
+        $image = '<img src="' . $img_path . $img . '" alt="' . $status . '" />';
         $url = $this->get_link($title, $url);
         
         $formatted_current_value = $current_value;

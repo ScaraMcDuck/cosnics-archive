@@ -63,12 +63,13 @@ class SimpleTable extends HTML_Table
         $this->actionhandler = $actionhandler;
         $this->tablename = $tablename;
         
-        $this->tableform = new FormValidator($tablename);
+        if($this->actionhandler)
+        	$this->tableform = new FormValidator($tablename);
         
         $this->build_table();
         $this->altRowAttributes(0, array('class' => 'row_odd'), array('class' => 'row_even'), true);
         
-        if ($this->tableform->validate() && $this->actionhandler)
+        if ($this->actionhandler && $this->tableform->validate())
         {
             $this->actionhandler->handle_action($this->tableform->exportValues());
         }
