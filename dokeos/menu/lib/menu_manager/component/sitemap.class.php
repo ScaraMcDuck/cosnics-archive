@@ -21,6 +21,9 @@ class MenuManagerSitemapComponent extends MenuManagerComponent
             $html[] = '<div class="category">';
             $application = $root_item->get_application();
             
+            if(!WebApplication :: is_active($application))
+            	continue;
+            
             if (isset($application))
             {
                 if ($application == 'root')
@@ -49,6 +52,9 @@ class MenuManagerSitemapComponent extends MenuManagerComponent
                     while ($subitem = $subitems->next_result())
                     {
                         $application = $subitem->get_application();
+                        
+                        if(!WebApplication :: is_active($application))
+            				continue;
                         
                         if (isset($application))
                         {
