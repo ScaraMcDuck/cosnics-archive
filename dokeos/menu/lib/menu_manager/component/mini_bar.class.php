@@ -29,7 +29,7 @@ class MenuManagerMiniBarComponent extends MenuManagerComponent
         {
             $application = $root_item->get_application();
             
-            if(!WebApplication :: is_active($application))
+            if(WebApplication :: is_application($application) && !WebApplication :: is_active($application))
             	continue;
             
             if (isset($application))
@@ -67,7 +67,7 @@ class MenuManagerMiniBarComponent extends MenuManagerComponent
                     {
                         $application = $subitem->get_application();
                         
-                        if(!WebApplication :: is_active($application))
+                        if(WebApplication :: is_application($application) && !WebApplication :: is_active($application))
             				continue;
                         
                         if (isset($application))

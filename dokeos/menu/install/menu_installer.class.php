@@ -46,19 +46,46 @@ class MenuInstaller extends Installer
 
     function create_basic_menu()
     {
-        $applications = FileSystem :: get_directory_content(Path :: get_application_path() . 'lib/', FileSystem :: LIST_DIRECTORIES, false);
         $values = $this->values;
         
-        $menu_applications = array();
-        
-        foreach ($applications as $application)
+        $packages = $this->get_package_info();
+        foreach($packages as $category => $package)
         {
-            $menu_applications[$application] = DokeosUtilities :: underscores_to_camelcase_with_spaces($application);
+        	$navigation_item = new NavigationItem();
+            $navigation_item->set_title(Translation :: get(DokeosUtilities :: underscores_to_camelcase($category)));
+            $navigation_item->set_application('root');
+            $navigation_item->set_section('root');
+            $navigation_item->set_category(0);
+            $navigation_item->create();
+
+			$id = $navigation_item->get_id();
+            
+			$used = false;
+			
+            foreach($package as $application)
+            {
+            	$application_name = $application['name'];
+            	$application = $application['code'];
+            	
+            	if (isset($values['install_' . $application]))
+            	{
+            		$sub_nav_item = new NavigationItem();
+            		$sub_nav_item->set_title(Translation :: get(str_replace(' ', '', $application_name)));
+            		$sub_nav_item->set_application($application);
+           			$sub_nav_item->set_section($application);
+            		$sub_nav_item->set_category($id);
+            		$sub_nav_item->create();
+            		$used = true;
+            	}
+            }
+            
+            if(!$used)
+            {
+            	$navigation_item->delete();
+            }
         }
-        
-        ksort($menu_applications);
-        
-        foreach ($menu_applications as $application => $name)
+
+        /*foreach ($menu_applications as $application => $name)
         {
             // TODO: Temporary fix.
             if (isset($values['install_' . $application]) && $application != '.svn')
@@ -70,7 +97,7 @@ class MenuInstaller extends Installer
                 $navigation_item->set_category(0);
                 $navigation_item->create();
             }
-        }
+        }*/
         
         return true;
     }
@@ -79,5 +106,43 @@ class MenuInstaller extends Installer
     {
         return dirname(__FILE__);
     }
+    
+	function get_package_info()
+	{
+		$packages = array();
+		$applications = WebApplication :: load_all_from_filesystem(false);
+
+		foreach($applications as $application)
+		{			
+			$xml_data = file_get_contents(Path :: get_application_path() . 'lib/' . $application . '/package.info');
+			 
+			if ($xml_data)
+			{
+				$unserializer = new XML_Unserializer();
+				$unserializer->setOption(XML_UNSERIALIZER_OPTION_COMPLEXTYPE, 'array');
+				$unserializer->setOption(XML_UNSERIALIZER_OPTION_ATTRIBUTES_PARSE, true);
+				$unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);
+				$unserializer->setOption(XML_UNSERIALIZER_OPTION_GUESS_TYPES, true);
+				$unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array('package', 'dependency'));
+				 
+				// unserialize the document
+				$status = $unserializer->unserialize($xml_data);
+				 
+				if (!PEAR :: isError($status))
+				{
+					$data = $unserializer->getUnserializedData();
+					if (!isset($packages[$data['package'][0]['category']]))
+					{
+						$packages[$data['package'][0]['category']] = array();
+					}
+					$packages[$data['package'][0]['category']][] = $data['package'][0];
+				}
+			}
+		}
+		
+		ksort($packages);
+
+		return $packages;
+	}
 }
 ?>
