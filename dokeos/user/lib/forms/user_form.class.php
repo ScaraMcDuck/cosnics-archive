@@ -422,14 +422,25 @@ class UserForm extends FormValidator {
 	 */
 	function send_email($user)
 	{
-		global $rootWeb;
-		$firstname = $user->get_firstname();
-		$lastname = $user->get_lastname();
-		$username = $user->get_username();
-		$password = $this->unencryptedpass;
+		$options = array();
+		$options['firstname'] = $user->get_firstname();
+		$options['lastname'] = $user->get_lastname();
+		$options['username'] = $user->get_username();
+		$options['password'] = $this->unencryptedpass;
+		$options['site_name'] = PlatformSetting :: get('site_name');
+		$options['site_url'] = Path :: get(WEB_PATH);
+		$options['admin_firstname'] = PlatformSetting :: get('administrator_firstname');
+		$options['admin_surname'] = PlatformSetting :: get('administrator_surname');
+		$options['admin_telephone'] = PlatformSetting :: get('administrator_telephone');
+		$options['admin_email'] = PlatformSetting :: get('administrator_email');
 
-		$subject = '['.PlatformSetting :: get('site_name').'] '.Translation :: get('YourReg').' '.PlatformSetting :: get('site_name');
-		$body = Translation :: get('Dear')." ".stripslashes("$firstname $lastname").",\n\n".Translation :: get('YouAreReg')." ". PlatformSetting :: get('site_name') ." ".Translation :: get('Settings')." ". $username ."\n". ($password ? Translation :: get('Password')." : ".stripslashes($password) : '') ."\n\n" .Translation :: get('Address') ." ". PlatformSetting :: get('site_name') ." ". Translation :: get('Is') ." : ". Path :: get(WEB_PATH) ."\n\n". Translation :: get('Problem'). "\n\n". Translation :: get('Formula').",\n\n".PlatformSetting :: get('administrator_firstname')." ".PlatformSetting :: get('administrator_surname')."\n". Translation :: get('Manager'). " ".PlatformSetting :: get('site_name')."\nT. ".PlatformSetting :: get('administrator_telephone')."\n" .Translation :: get('Email') ." : ".PlatformSetting :: get('administrator_email');
+		$subject = Translation :: get('YourRegistrationOn') . $options['site_name'];
+		
+		$body = PlatformSetting :: get('email_template', 'user');
+		foreach($options as $option => $value)
+		{
+			$body = str_replace('[' . $option . ']', $value, $body);
+		}
 
 		$mail = Mail :: factory($subject, $body, $user->get_email(), PlatformSetting :: get('administrator_email'));
 		$mail->send();

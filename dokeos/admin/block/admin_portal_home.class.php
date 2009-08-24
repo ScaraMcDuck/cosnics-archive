@@ -32,7 +32,7 @@ class AdminPortalHome extends AdminBlock
         $portal_home = PlatformSetting :: get('portal_home');
         if($portal_home == '')
         {
-        	$html[] = Translation :: get('ConfigureBlockFirst');
+        	$html[] = Translation :: get('ConfigurePortalHomeFirst');
         }
         else
         {
