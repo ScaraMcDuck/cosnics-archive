@@ -49,7 +49,7 @@ class HomeManagerConfigurerComponent extends HomeManagerComponent
                 {
                     $success = $form->update_block_config();
                     //$this->redirect(Translation :: get($success ? 'BlockConfigUpdated' : 'BlockConfigNotUpdated'), ($success ? false : true), array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME));
-                    $message = ($success ? 'message=' : 'error_message') . Translation :: get($success ? 'BlockConfigUpdated' : 'BlockConfigNotUpdated');
+                    $message = ($success ? 'message=' : 'error_message=') . Translation :: get($success ? 'BlockConfigUpdated' : 'BlockConfigNotUpdated');
                     header('Location: index.php?' . $message);
                 }
                 else
