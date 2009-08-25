@@ -25,6 +25,7 @@ require_once "HTML/Table.php"; //See http://pear.php.net/package/HTML_Table
 require_once "Pager/Pager.php"; //See http://pear.php.net/package/Pager
 require_once "Pager/Sliding.php";
 require_once 'table_sort.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table_form_action.class.php';
 /**
  * This class allows you to display a sortable data-table. It is possible to
  * split the data in several pages.
@@ -258,21 +259,25 @@ class SortableTable extends HTML_Table
 									}
 								}
 							}
-							function anyCheckboxChecked(formName) {
-								var d = document[formName];
-								for (i = 0; i < d.elements.length; i++) {
-									if (d.elements[i].type == "checkbox" && d.elements[i].checked)
-										return true;
-								}
-								return false;
-							}
 							/* ]]> */
 							</script>';
+//                
+//							function anyCheckboxChecked(formName) {
+//								var d = document[formName];
+//								for (i = 0; i < d.elements.length; i++) {
+//									if (d.elements[i].type == "checkbox" && d.elements[i].checked)
+//										return true;
+//								}
+//								return false;
+//							}
+							
                 // Initially replaced $this->get_sortable_table_param_string with
                 // $this->get_sortable_table_param_string() .. but I doubt it should be there anyway? 
                 //$params = $this->get_sortable_table_param_string().'&amp;'.$this->get_additional_url_paramstring();
                 $params = $this->get_additional_url_paramstring();
-                $html[] = '<form method="post" action="' . $_SERVER['PHP_SELF'] . '?' . $params . '" name="form_' . $this->table_name . '"  onsubmit="return anyCheckboxChecked(\'form_' . $this->table_name . '\') &amp;&amp; confirm(\'' . addslashes(htmlentities(Translation :: get("ConfirmYourChoice"))) . '\');">';
+                //$html[] = '<form method="post" action="' . $_SERVER['PHP_SELF'] . '?' . $params . '" name="form_' . $this->table_name . '"  onsubmit="return anyCheckboxChecked(\'form_' . $this->table_name . '\') &amp;&amp; confirm(\'' . addslashes(htmlentities(Translation :: get("ConfirmYourChoice"))) . '\');">';
+                $html[] = '<form method="post" action="' . $_SERVER['PHP_SELF'] . '?' . $params . '" name="form_' . $this->table_name . '" class="table_form">';
+                $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/sortable_table.js');
             }
         }
         $html[] = $this->get_table_html();
@@ -287,10 +292,11 @@ class SortableTable extends HTML_Table
                 $html[] = '<a href="?' . $params . '&amp;' . $this->param_prefix . 'selectall=1" onclick="setCheckbox(\'form_' . $this->table_name . '\', true); return false;">' . Translation :: get('SelectAll') . '</a>';
                 $html[] = '&nbsp;-&nbsp;';
                 $html[] = '<a href="?' . $params . '"  onclick="setCheckbox(\'form_' . $this->table_name . '\', false); return false;">' . Translation :: get('UnSelectAll') . '</a> ';
-                $html[] = '<select name="' . $this->form_actions_select_name . '">';
-                foreach ($this->form_actions as $action => $label)
+                $html[] = '<select id="actions_' . $this->table_name . '" name="' . $this->form_actions_select_name . '">';
+                foreach ($this->form_actions as $form_action)
                 {
-                    $html[] = '<option value="' . $action . '">' . $label . '</option>';
+                    if(get_class($form_action) == 'ObjectTableFormAction')
+                  		$html[] = '<option value="' . $form_action->get_action() . '" class="' . ($form_action->get_confirm() ? 'confirm' : '') . '">' . $form_action->get_title() . '</option>';
                 }
                 $html[] = '</select>';
 //                $html[] = '<button class="normal start" type="submit" value="' . Translation :: get('Ok') . '">' . Translation :: get('Ok') . '</button>';
@@ -623,7 +629,7 @@ class SortableTable extends HTML_Table
         {
             if (strlen($row[0]) > 0)
             {
-                $row[0] = '<input type="checkbox" name="' . $this->checkbox_name . '[]" value="' . $row[0] . '"';
+                $row[0] = '<input class="' . $this->checkbox_name . '" type="checkbox" name="' . $this->checkbox_name . '[]" value="' . $row[0] . '"';
                 if (Request :: get($this->param_prefix . 'selectall'))
                 {
                     $row[0] .= ' checked="checked"';
