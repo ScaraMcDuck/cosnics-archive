@@ -614,7 +614,7 @@ class WeblcmsManager extends WebApplication
 		return $locations;
 	}
 
-	function publish_learning_object($learning_object, $location)
+	function publish_learning_object($learning_object, $location, $attributes)
 	{
 		$location_split = split('-', $location);
 		$course = $location_split[0];
@@ -630,7 +630,17 @@ class WeblcmsManager extends WebApplication
 		$pub->set_display_order_index($do);
 		$pub->set_publication_date(time());
 		$pub->set_modified_date(time());
-		$pub->set_hidden(false);
+		
+		$pub->set_hidden($attributes[LearningObjectPublication :: PROPERTY_HIDDEN]);
+		if(is_null($pub->is_hidden()))
+			$pub->set_hidden(0);
+			
+		if($attributes['forever'] == 0)
+		{
+			$pub->set_from_date(DokeosUtilities :: time_from_datepicker($attributes['from_date']));
+			$pub->set_to_date(DokeosUtilities :: time_from_datepicker($attributes['to_date']));
+		}
+		
 		$pub->create();
 
 		$course = $dm->retrieve_course($course);
@@ -638,6 +648,18 @@ class WeblcmsManager extends WebApplication
 		return Translation :: get('PublicationCreated') . ': <b>' . Translation :: get('Course') . '</b>: ' . $course->get_name() .
 			   ' - <b>' . Translation :: get('Tool') . '</b>: ' . $tool;
 	}
+	
+ 	function add_publication_attributes_elements($form)
+    {
+    	$form->addElement('category', Translation :: get('PublicationDetails'));
+    	$form->addElement('checkbox', self :: APPLICATION_NAME . '_opt_' . LearningObjectPublication :: PROPERTY_HIDDEN, Translation :: get('Hidden'));
+    	$form->add_forever_or_timewindow('PublicationPeriod', self :: APPLICATION_NAME . '_opt_');
+    	$form->addElement('category');
+    	$form->addElement('html', '<br />');
+    	
+    	$defaults['forever'] = 1;
+    	$form->setDefaults($defaults);
+    }
 
 	/**
 	 * Count the number of courses

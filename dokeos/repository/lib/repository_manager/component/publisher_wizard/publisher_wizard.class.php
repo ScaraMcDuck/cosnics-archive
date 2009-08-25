@@ -10,6 +10,8 @@ require_once dirname(__FILE__).'/pages/location_selection_publisher_wizard_page.
 
 require_once dirname(__FILE__).'/pages/publisher_wizard_process.class.php';
 require_once dirname(__FILE__).'/pages/publisher_wizard_display.class.php';
+
+
 /**
  *
  */

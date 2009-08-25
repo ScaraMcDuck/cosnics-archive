@@ -31,8 +31,27 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
 	{
 		$values = $page->controller->exportValues();
 
+		$locations = array();
+		$options = array();
+		
+		foreach($values as $index => $value)
+		{
+			$array = explode('_', $index);
+			$option = array_slice($array, 2);
+			$option = implode('_', $option);
+			
+			if($array[1] == 'opt')
+			{
+				$options[$array[0]][$option] = $value;
+			}
+			else 
+			{
+				$locations[$index] = $value;
+			}
+		}
+
 		// Display the page header
-		$this->parent->display_header($trail, false, true, 'repository publication wizard');
+		$this->parent->display_header(new BreadcrumbTrail(), false, true, 'repository publication wizard');
 
 		$previous_application = '';
 		$message = '';
@@ -44,7 +63,7 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
 		foreach($ids as $id)
 			$los[] = $this->parent->retrieve_learning_object($id);
 
-		foreach($values as $location => $value)
+		foreach($locations as $location => $value)
 		{
 			if($value == 1)
 			{
@@ -64,7 +83,7 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
 				$location = implode('_', $split);
 				$application = Application::factory($application_name);
 				foreach($los as $lo)
-					$message .= $application->publish_learning_object($lo, $location_id) . '<br />';
+					$message .= $application->publish_learning_object($lo, $location_id, $options[DokeosUtilities :: camelcase_to_underscores($application_name)]) . '<br />';
 			}
 		}
 
