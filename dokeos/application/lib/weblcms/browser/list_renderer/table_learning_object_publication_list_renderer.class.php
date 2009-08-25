@@ -30,13 +30,13 @@ class TableLearningObjectPublicationListRenderer extends LearningObjectPublicati
 		{
 			if($browser->is_allowed(EDIT_RIGHT))
 			{
-				$actions[Tool::ACTION_MOVE_SELECTED_TO_CATEGORY] = Translation :: get('Move');
+				$actions[] = new ObjectTableFormAction(Tool::ACTION_MOVE_SELECTED_TO_CATEGORY, Translation :: get('Move'), false);
 			}
 			if($browser->is_allowed(DELETE_RIGHT))
 			{
-				$actions[Tool::ACTION_DELETE] = Translation :: get('Delete');
+				$actions[] = new ObjectTableFormAction(Tool::ACTION_DELETE, Translation :: get('Delete'));
 			}
-			$this->table->set_form_actions($actions,'id',Tool::PARAM_ACTION);
+			$this->table->set_form_actions($actions,$name . '_id',Tool::PARAM_ACTION);
 		}
 	}
 	/**

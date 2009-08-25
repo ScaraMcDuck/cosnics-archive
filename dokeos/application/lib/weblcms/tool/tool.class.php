@@ -81,7 +81,7 @@ abstract class Tool
 	{
 		if (isset ($_POST['action']) || isset($_POST['tool_action']))
 		{
-			$ids = $_POST['id'];
+			$ids = $_POST['pubtbl_id'];
 
 			if (empty ($ids))
 			{
