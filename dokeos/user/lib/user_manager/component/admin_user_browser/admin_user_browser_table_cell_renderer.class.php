@@ -91,18 +91,24 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 				'img' => Theme :: get_common_image_path().'action_rights.png'
 			);
 
-            $params = array();
-            //$params[ReportingManager :: PARAM_APPLICATION] = "weblcms";
-            //$params[ReportingManager :: PARAM_COURSE_ID] = $this->browser->get_course_id();
-            $params[ReportingManager :: PARAM_USER_ID] = $user->get_id();
-            //$url = ReportingManager :: get_reporting_template_registration_url_content($this->browser,'UserReportingTemplate',$params);
-            //$url =
-			//$unsubscribe_url = $this->browser->get_url($parameters);
-			$toolbar_data[] = array(
-				'href' => $this->browser->get_reporting_url('UserReportingTemplate',$params),
-				'label' => Translation :: get('Report'),
-				'img' => Theme :: get_common_image_path().'action_reporting.png'
-			);
+        $params = array();
+        //$params[ReportingManager :: PARAM_APPLICATION] = "weblcms";
+        //$params[ReportingManager :: PARAM_COURSE_ID] = $this->browser->get_course_id();
+        $params[ReportingManager :: PARAM_USER_ID] = $user->get_id();
+        //$url = ReportingManager :: get_reporting_template_registration_url_content($this->browser,'UserReportingTemplate',$params);
+        //$url =
+		//$unsubscribe_url = $this->browser->get_url($parameters);
+		$toolbar_data[] = array(
+			'href' => $this->browser->get_reporting_url('UserReportingTemplate',$params),
+			'label' => Translation :: get('Report'),
+			'img' => Theme :: get_common_image_path().'action_reporting.png'
+		);
+		
+		$toolbar_data[] = array(
+			'href' => $this->browser->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_QUOTA, 'user_id' => $user->get_id())),
+			'label' => Translation :: get('ViewQuota'),
+			'img' => Theme :: get_common_image_path().'action_browser.png'
+		);
 
 		if($user->get_id() != Session :: get_user_id())
 		{

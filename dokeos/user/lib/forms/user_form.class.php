@@ -240,6 +240,8 @@ class UserForm extends FormValidator {
 	  	$user->set_phone($values[User :: PROPERTY_PHONE]);
 	  	$user->set_status(intval($values[User :: PROPERTY_STATUS]));
 	   	$user->set_version_quota(intval($values[User :: PROPERTY_VERSION_QUOTA]));
+	   	$user->set_database_quota(intval($values[User :: PROPERTY_DATABASE_QUOTA]));
+	   	$user->set_disk_quota(intval($values[User :: PROPERTY_DISK_QUOTA]));
 	   	$user->set_language($values[User :: PROPERTY_LANGUAGE]);
 
 		$user_can_have_theme = PlatformSetting :: get('allow_user_theme_selection', UserManager :: APPLICATION_NAME);

@@ -33,6 +33,7 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 	const ACTION_CHANGE_USER = 'change_user';
 	const ACTION_MANAGE_RIGHTS_TEMPLATES = 'manage_user_rights_templates';
     const ACTION_REPORTING = 'reporting';
+    const ACTION_VIEW_QUOTA = 'view_quota';
 
 	const ACTION_VIEW_BUDDYLIST = 'buddy_view';
 	const ACTION_CREATE_BUDDYLIST_CATEGORY = 'buddy_create_category';
@@ -192,6 +193,9 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 				break;
             case self :: ACTION_REPORTING:
                 $component = UserManagerComponent :: factory('Reporting',$this);
+                break;
+            case self :: ACTION_VIEW_QUOTA:
+            	$component = UserManagerComponent :: factory('QuotaViewer',$this);
                 break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_USERS);
