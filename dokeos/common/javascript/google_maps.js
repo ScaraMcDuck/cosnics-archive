@@ -1,13 +1,13 @@
 var geocoder;
 var map;
 
-function initialize() 
+function initialize(myZoom) 
 {
 	geocoder = new google.maps.Geocoder();
     var latlng = new google.maps.LatLng(-34.397, 150.644);
     var myOptions = 
     {
-      zoom: 12,
+      zoom: myZoom,
       center: latlng,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
