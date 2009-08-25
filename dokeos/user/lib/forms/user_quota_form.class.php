@@ -38,11 +38,25 @@ class UserQuotaForm extends FormValidator {
      */
     function build_basic_form()
     {
+    	$this->addElement('category', Translation :: get('GeneralQuota'));
+    	// Disk Quota
+		$this->addElement('text', User :: PROPERTY_DISK_QUOTA, Translation :: get('DiskQuota'), array("size" => "50"));
+		$this->addRule(User :: PROPERTY_DISK_QUOTA, Translation :: get('FieldMustBeNumeric'), 'numeric', null, 'server');
+		// Database Quota
+		$this->addElement('text', User :: PROPERTY_DATABASE_QUOTA, Translation :: get('DatabaseQuota'), array("size" => "50"));
+		$this->addRule(User :: PROPERTY_DATABASE_QUOTA, Translation :: get('FieldMustBeNumeric'), 'numeric', null, 'server');
+		// Version quota
+		$this->addElement('text', User :: PROPERTY_VERSION_QUOTA, Translation :: get('VersionQuota'), array("size" => "50"));
+		$this->addRule(User :: PROPERTY_VERSION_QUOTA, Translation :: get('FieldMustBeNumeric'), 'numeric', null, 'server');
+		$this->addElement('category');
+		
+		$this->addElement('category', Translation :: get('VersionQuota'));
     	foreach($this->learning_object_types as $type)
     	{
-    		$this->addElement('text', $type, Translation :: get($type), array("size" => "50"));
+    		$this->addElement('text', $type, Translation :: get(DokeosUtilities :: underscores_to_camelcase($type)), array("size" => "50"));
     		$this->addRule($type, Translation :: get('FieldMustBeNumeric'), 'numeric', null, 'server');
     	}
+    	$this->addElement('category');
     	
 		// Submit button
 		//$this->addElement('submit', 'quota_settings', 'OK');
@@ -87,6 +101,12 @@ class UserQuotaForm extends FormValidator {
     			}
     		}	
     	}
+    	
+    	$user->set_version_quota(intval($values[User :: PROPERTY_VERSION_QUOTA]));
+	   	$user->set_database_quota(intval($values[User :: PROPERTY_DATABASE_QUOTA]));
+	   	$user->set_disk_quota(intval($values[User :: PROPERTY_DISK_QUOTA]));
+	   	$user->update();
+    	
 		if ($failures != 0)
 		{
 			return false;
@@ -107,6 +127,11 @@ class UserQuotaForm extends FormValidator {
 	{
 		$user = $this->user;
 		$defaults[User :: PROPERTY_USER_ID] = $user->get_id();
+		
+		$defaults[User :: PROPERTY_VERSION_QUOTA] = $user->get_version_quota();
+		$defaults[User :: PROPERTY_DATABASE_QUOTA] = $user->get_database_quota();
+		$defaults[User :: PROPERTY_DISK_QUOTA] = $user->get_disk_quota();
+		
 		foreach ($this->learning_object_types as $type)
 		{
 			$defaults[$type] = $this->user->get_version_type_quota($type);
@@ -124,10 +149,12 @@ class UserQuotaForm extends FormValidator {
     	$learning_object_types = $rdm->get_registered_types();
     	$filtered_object_types = array();
     	
+    	$hidden_types = array('learning_path_item', 'portfolio_item');
+    	
 		foreach ($learning_object_types as $type)
 		{
 			$object = new AbstractLearningObject($type, $user->get_id());
-			if ($object->is_versionable())
+			if ($object->is_versionable() && !in_array($object->get_type(), $hidden_types))
 			{
 				$filtered_object_types[] = $type;
 			}
