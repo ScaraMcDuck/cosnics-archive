@@ -3,7 +3,10 @@
 /**
  * This abstract class defines a page which is used in a publisher wizard.
  */
-abstract class PublisherWizardPage extends HTML_QuickForm_Page
+
+require_once Path :: get_common_path() . 'html/formvalidator/form_validator_page.class.php';
+
+abstract class PublisherWizardPage extends FormValidatorPage
 {
 	/**
 	 * The repository tool in which the wizard runs.
@@ -13,7 +16,7 @@ abstract class PublisherWizardPage extends HTML_QuickForm_Page
 	public function PublisherWizardPage($name,$parent)
 	{
 		$this->parent = $parent;
-		parent::HTML_QuickForm_Page($name,'post');
+		parent:: __construct($name,'post');
 		$this->updateAttributes(array('action'=>$parent->get_url(array(RepositoryManager :: PARAM_LEARNING_OBJECT_ID => Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID)))));
 	}
 	/**

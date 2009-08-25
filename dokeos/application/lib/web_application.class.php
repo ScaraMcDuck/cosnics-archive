@@ -82,9 +82,13 @@ abstract class WebApplication extends Application
     	return array();
     }
 
-    function publish_learning_object($learning_object, $location)
+    function publish_learning_object($learning_object, $location, $attributes)
     {
     	return null;
+    }
+    
+    function add_publication_attributes_elements($form)
+    {
     }
 
     /**

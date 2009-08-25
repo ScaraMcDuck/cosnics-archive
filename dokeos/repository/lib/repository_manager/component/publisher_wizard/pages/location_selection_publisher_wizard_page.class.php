@@ -150,15 +150,17 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 			$this->addElement('html', '<div class="description"><br />');
 
 			$application_name = DokeosUtilities :: underscores_to_camelcase($application_name);
-
+			
+			$application->add_publication_attributes_elements($this);
+				
 			foreach($locations as $id => $location )
 			{
 				$cbname = $application_name . '_' . $id;
-				$this->addElement('checkbox', $cbname, '', $location);
+				$this->addElement('checkbox', $cbname, '', $location, array('style' => 'margin-left: 12px;'));
 				$appDefaults[$cbname] = '1';
 			}
 
-			$this->addElement('html', '<br /><br /><a href="?" style="margin-left: 5%" onclick="setCheckbox(\'' . $application_name . '\', true); return false;">'.Translation :: get('SelectAll').'</a>');
+			$this->addElement('html', '<br /><br /><a href="?" style="margin-left: 0%" onclick="setCheckbox(\'' . $application_name . '\', true); return false;">'.Translation :: get('SelectAll').'</a>');
 			$this->addElement('html', ' - <a href="?" onclick="setCheckbox(\'' . $application_name . '\', false); return false;">'.Translation :: get('UnSelectAll').'</a>');
 
 			$this->addElement('html', '<div style="clear: both;"></div></div></div><br />');
@@ -168,7 +170,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 		{
 			$this->addElement('html', '<br /><br />');
 			//$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'));
-			$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>', 'style=\'margin-left: -20%;\'');
+			$prevnext[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next').' >>', 'style=\'margin-left: -20%;\' class="positive finish"');
 			$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		}
 		else 
