@@ -68,6 +68,9 @@
 			<setting name="forum_active" field="checkbox" default="1">
 				<options type="static"><option name="forum_active" value="1" /></options>
 			</setting>
+			<setting name="geolocation_active" field="checkbox" default="1">
+				<options type="static"><option name="geolocation_active" value="1" /></options>
+			</setting>
 			<setting name="glossary_active" field="checkbox" default="1">
 				<options type="static"><option name="glossary_active" value="1" /></options>
 			</setting>

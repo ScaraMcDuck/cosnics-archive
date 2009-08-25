@@ -41,7 +41,7 @@ class PhysicalLocationDisplay extends LearningObjectDisplay
 		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/google_maps.js');
 		$html[] = '<div id="map_canvas" style="width:100%; border: 1px solid black; height:500px"></div>';
 		$html[] = '<script type="text/javascript">';
-		$html[] = 'initialize();';
+		$html[] = 'initialize(12);';
 		$html[] = 'codeAddress(\'' . $object->get_location() . '\', \'' . $object->get_title() . '\');'; 
 		$html[] = '</script>';
 		

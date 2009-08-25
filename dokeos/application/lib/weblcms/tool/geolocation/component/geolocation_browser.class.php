@@ -75,7 +75,7 @@ class GeolocationToolBrowserComponent extends GeolocationToolComponent
 				$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/google_maps.js');
 				$html[] = '<div id="map_canvas" style="border: 1px solid black; height:500px"></div>';
 				$html[] = '<script type="text/javascript">';
-				$html[] = 'initialize();';
+				$html[] = 'initialize(8);';
 				
 				while($publication = $publications->next_result())
 				{
