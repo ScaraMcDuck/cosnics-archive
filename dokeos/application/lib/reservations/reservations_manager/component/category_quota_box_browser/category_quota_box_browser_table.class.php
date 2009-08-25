@@ -29,7 +29,7 @@ class CategoryQuotaBoxBrowserTable extends ObjectTable
 		if($browser->get_user() && $browser->get_user()->is_platform_admin())
 		{
 			$actions = array();
-			$actions[ReservationsManager :: PARAM_REMOVE_SELECTED_CATEGORY_QUOTA_BOXES] = Translation :: get('RemoveSelected');
+			$actions[] = new ObjectTableFormAction(ReservationsManager :: PARAM_REMOVE_SELECTED_CATEGORY_QUOTA_BOXES, Translation :: get('RemoveSelected'));
 			$this->set_form_actions($actions);
 		}
 		

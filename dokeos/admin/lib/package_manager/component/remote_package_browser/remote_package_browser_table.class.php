@@ -26,7 +26,9 @@ class RemotePackageBrowserTable extends ObjectTable
         parent :: __construct($data_provider, RemotePackageBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $this->set_additional_parameters($parameters);
         $actions = array();
-        $actions[PackageManager :: PARAM_INSTALL_SELECTED] = Translation :: get('InstallSelected');
+        
+        $actions[] = new ObjectTableFormAction(AdminManager :: PARAM_INSTALL_SELECTED, Translation :: get('InstallSelected'), false);
+        
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
     }

@@ -24,7 +24,9 @@ class AlexiaPublicationBrowserTable extends ObjectTable
         $data_provider = new AlexiaPublicationBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, AlexiaPublicationBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $actions = array();
-        $actions[AlexiaManager :: PARAM_DELETE_SELECTED] = Translation :: get('RemoveSelected');
+        
+        $actions[] = new ObjectTableFormAction(AlexiaManager :: PARAM_DELETE_SELECTED, Translation :: get('RemoveSelected'));
+        
         if ($browser->get_user()->is_platform_admin())
         {
             $this->set_form_actions($actions);

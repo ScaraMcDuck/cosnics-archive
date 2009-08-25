@@ -39,7 +39,7 @@ class RepositoryBrowserTable extends ObjectTable
 		if(get_class($browser) == 'RepositoryManagerComplexBrowserComponent')
 		{
 			$actions = array();
-			$actions[RepositoryManager :: PARAM_ADD_OBJECTS] = Translation :: get('AddObjects');
+			$actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_ADD_OBJECTS, Translation :: get('AddObjects'), false);
 		}
 		$this->set_additional_parameters($parameters);
 		$this->set_form_actions($actions);

@@ -28,14 +28,14 @@ class RepositorySharedLearningObjectsBrowserTable extends ObjectTable
 		if(get_class($browser) == 'RepositoryManagerBrowserComponent')
 		{
 			$actions = array();
-			$actions[RepositoryManager :: PARAM_RECYCLE_SELECTED] = Translation :: get('RemoveSelected');
-			$actions[RepositoryManager :: PARAM_MOVE_SELECTED] = Translation :: get('MoveSelected');
-			$actions[RepositoryManager :: PARAM_PUBLISH_SELECTED] = Translation :: get('PublishSelected');
+			//$actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_RECYCLE_SELECTED, Translation :: get('RemoveSelected'));
+			//$actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_MOVE_SELECTED, Translation :: get('MoveSelected'), false);
+			$actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_PUBLISH_SELECTED, Translation :: get('PublishSelected'), false);
 		}
 		if(get_class($browser) == 'RepositoryManagerComplexBrowserComponent')
 		{
 			$actions = array();
-			$actions[RepositoryManager :: PARAM_ADD_OBJECTS] = Translation :: get('AddObjects');
+			$actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_ADD_OBJECTS, Translation :: get('AddObjects'), false);
 		}
 		$this->set_additional_parameters($parameters);
 		$this->set_form_actions($actions);
