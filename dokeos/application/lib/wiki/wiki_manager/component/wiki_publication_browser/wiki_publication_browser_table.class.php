@@ -27,7 +27,9 @@ class WikiPublicationBrowserTable extends ObjectTable
 		parent :: __construct($data_provider, self :: DEFAULT_NAME, $model, $renderer);
 		$this->set_additional_parameters($parameters);
 		$actions = array();
-		$actions[WikiManager :: PARAM_DELETE_SELECTED_WIKI_PUBLICATIONS] = Translation :: get('RemoveSelected');
+		
+		$actions[] = new ObjectTableFormAction(WikiManager :: PARAM_DELETE_SELECTED_WIKI_PUBLICATIONS, Translation :: get('RemoveSelected'));
+		
 		$this->set_form_actions($actions);
 		$this->set_default_row_count(20);
 	}

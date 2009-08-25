@@ -36,7 +36,7 @@ class LearningObjectTable extends ObjectTable
 		if($parent->get_maximum_select() != RepoViewer :: SELECT_SINGLE)
 		{
 			$actions = array();
-			$actions[RepoViewer :: PARAM_PUBLISH_SELECTED] = Translation :: get('PublishSelected');
+			$actions[] = new ObjectTableFormAction(RepoViewer :: PARAM_PUBLISH_SELECTED, Translation :: get('PublishSelected'), false);
 		}
 		
 		$this->set_form_actions($actions);

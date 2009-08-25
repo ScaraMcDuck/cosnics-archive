@@ -37,7 +37,9 @@ class LearningPathPublicationTable extends ObjectTable
 		if($parent->is_allowed(EDIT_RIGHT))
 		{
 			$actions = array();
-			$actions[Tool :: ACTION_DELETE] = Translation :: get('RemoveSelected');
+			
+			$actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('RemoveSelected'));
+			
 		}
 		$this->set_form_actions($actions);
 	}

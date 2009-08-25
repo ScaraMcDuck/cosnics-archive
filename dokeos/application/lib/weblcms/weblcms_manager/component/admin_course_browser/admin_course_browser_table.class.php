@@ -24,7 +24,9 @@ class AdminCourseBrowserTable extends ObjectTable
 		$data_provider = new AdminCourseBrowserTableDataProvider($browser, $condition);
 		parent :: __construct($data_provider, AdminCourseBrowserTable :: DEFAULT_NAME, $model, $renderer);
 		$actions = array();
-		$actions[WeblcmsManager :: PARAM_REMOVE_SELECTED] = Translation :: get('RemoveSelected');
+		
+		$actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_REMOVE_SELECTED, Translation :: get('RemoveSelected'));
+		
 		//$this->set_form_actions($actions);
 		$this->set_default_row_count(20);
 	}

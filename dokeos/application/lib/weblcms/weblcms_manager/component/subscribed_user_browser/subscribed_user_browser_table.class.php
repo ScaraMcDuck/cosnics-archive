@@ -28,14 +28,16 @@ class SubscribedUserBrowserTable extends ObjectTable
 		$actions = array();
 		if (Request :: get(WeblcmsManager :: PARAM_TOOL_ACTION) != WeblcmsManager :: ACTION_SUBSCRIBE)
 		{
-			$actions[WeblcmsManager :: PARAM_UNSUBSCRIBE_SELECTED] = Translation :: get('UnsubscribeSelected');
+			$actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_UNSUBSCRIBE_SELECTED, Translation :: get('UnsubscribeSelected'), false);
 		}
 		else
 		{
-			$actions[WeblcmsManager :: PARAM_SUBSCRIBE_SELECTED_AS_STUDENT] = Translation :: get('SubscribeSelectedAsStudent');
-			$actions[WeblcmsManager :: PARAM_SUBSCRIBE_SELECTED_AS_ADMIN] = Translation :: get('SubscribeSelectedAsAdmin');
+			$actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_SUBSCRIBE_SELECTED_AS_STUDENT, Translation :: get('SubscribeSelectedAsStudent'), false);
+			$actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_SUBSCRIBE_SELECTED_AS_ADMIN, Translation :: get('SubscribeSelectedAsAdmin'), false);
 		}
-		$actions[UserTool::ACTION_USER_DETAILS] = Translation :: get('Details');
+		
+		//$actions[] = new ObjectTableFormAction(UserTool :: ACTION_USER_DETAILS, Translation :: get('Details'), false);
+		
 		if ($browser->get_course()->is_course_admin($browser->get_user()))
 		{
 			$this->set_form_actions($actions);

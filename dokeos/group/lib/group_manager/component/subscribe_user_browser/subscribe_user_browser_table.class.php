@@ -26,7 +26,9 @@ class SubscribeUserBrowserTable extends ObjectTable
 		parent :: __construct($data_provider, SubscribeUserBrowserTable :: DEFAULT_NAME, $model, $renderer);
 		$this->set_additional_parameters($parameters);
 		$actions = array();
-		$actions[GroupManager :: PARAM_SUBSCRIBE_SELECTED] = Translation :: get('Subscribe');
+		
+		$actions[] = new ObjectTableFormAction(GroupManager :: PARAM_SUBSCRIBE_SELECTED, Translation :: get('Subscribe'));
+		
 		$this->set_form_actions($actions);
 		$this->set_default_row_count(20);
 	}

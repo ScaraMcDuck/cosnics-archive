@@ -33,11 +33,11 @@ class ComplexBrowserTable extends ObjectTable
 		
 		if(get_parent_class($browser) == 'ComplexBuilder')
 		{
-			$actions[ComplexBuilder :: PARAM_DELETE_SELECTED_CLOI] = Translation :: get('RemoveSelected');
+			$actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_DELETE_SELECTED_CLOI, Translation :: get('RemoveSelected'));
 		}
 		else
 		{
-			$actions[RepositoryManager :: PARAM_REMOVE_SELECTED_CLOI] = Translation :: get('RemoveSelected');
+			$actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_REMOVE_SELECTED_CLOI, Translation :: get('RemoveSelected'));
 		}
 		
 		$this->set_form_actions($actions);

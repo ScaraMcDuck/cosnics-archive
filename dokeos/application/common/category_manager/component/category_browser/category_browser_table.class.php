@@ -29,8 +29,10 @@ class CategoryBrowserTable extends ObjectTable
 		if($browser->get_user() && $browser->get_user()->is_platform_admin())
 		{
 			$actions = array();
-			$actions[CategoryManager :: PARAM_REMOVE_SELECTED_CATEGORIES] = Translation :: get('RemoveSelected');
-			$actions[CategoryManager :: PARAM_MOVE_SELECTED_CATEGORIES] = Translation :: get('MoveSelected');
+			
+			$actions[] = new ObjectTableFormAction(CategoryManager :: PARAM_REMOVE_SELECTED_CATEGORIES, Translation :: get('RemoveSelected'));
+			$actions[] = new ObjectTableFormAction(CategoryManager :: PARAM_MOVE_SELECTED_CATEGORIES, Translation :: get('MoveSelected'), false);
+
 			$this->set_form_actions($actions);
 		}
 		
