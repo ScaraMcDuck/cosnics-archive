@@ -9,7 +9,8 @@
  *
  * @author pieter
  */
-class FeedbackManagerDeleterComponent extends FeedbackManagerComponent{
+class FeedbackManagerDeleterComponent extends FeedbackManagerComponent
+{
     function run()
     {
         //fouten opvang en id dynamisch ophalen
