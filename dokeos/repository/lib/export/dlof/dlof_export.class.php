@@ -35,7 +35,7 @@ class DlofExport extends LearningObjectExport
   		
   		if(!is_dir($temp_dir))
   		{
-  			mkdir($temp_dir, '0777', true);
+  			mkdir($temp_dir, 0777, true);
   		}
   		
   		$xml_path = $temp_dir . 'learning_object.xml';
