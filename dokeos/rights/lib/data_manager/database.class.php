@@ -987,15 +987,15 @@ class DatabaseRightsDataManager extends RightsDataManager
         return $sth->execute();
     }
 
-    function retrieve_shared_learning_objects($rights_templates,$rights)
+    function retrieve_shared_learning_objects_for_user($user_id,$rights)
     {
-        $query = 'SELECT * FROM '. $this->escape_table_name('rights_template_right_location');
+        $query = 'SELECT * FROM '. $this->escape_table_name('user_right_location');
 
         $subcondition = new EqualityCondition(Location :: PROPERTY_TYPE, 'learning_object');
         $conditions[] = new SubSelectcondition('location_id', Location :: PROPERTY_ID, $this->escape_table_name('location'), $subcondition);
-        $conditions[] = new InCondition(RightsTemplateRightLocation :: PROPERTY_RIGHTS_TEMPLATE_ID,$rights_templates);
-        $conditions[] = new InCondition(RightsTemplateRightLocation :: PROPERTY_RIGHT_ID,$rights);
-        $conditions[] = new EqualityCondition(RightsTemplateRightLocation :: PROPERTY_VALUE,1);
+        $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_USER_ID, $user_id);
+        $conditions[] = new InCondition(UserRightLocation :: PROPERTY_RIGHT_ID,$rights);
+        $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_VALUE,1);
 
         $condition = new AndCondition($conditions);
 
@@ -1008,7 +1008,31 @@ class DatabaseRightsDataManager extends RightsDataManager
 //        $this->connection->setLimit(intval($max_objects),intval($offset));
         $statement = $this->connection->prepare($query);
         $res = $statement->execute($params);
-        return new DatabaseRightsTemplateRightLocationResultSet($this, $res);
+        return new ObjectResultSet($this->database, $res, UserRightLocation :: CLASS_NAME);
+    }
+    
+ 	function retrieve_shared_learning_objects_for_groups($group_ids,$rights)
+    {
+        $query = 'SELECT * FROM '. $this->escape_table_name('group_right_location');
+
+        $subcondition = new EqualityCondition(Location :: PROPERTY_TYPE, 'learning_object');
+        $conditions[] = new SubSelectcondition('location_id', Location :: PROPERTY_ID, $this->escape_table_name('location'), $subcondition);
+        $conditions[] = new InCondition(GroupRightLocation :: PROPERTY_GROUP_ID, $group_ids);
+        $conditions[] = new InCondition(GroupRightLocation :: PROPERTY_RIGHT_ID,$rights);
+        $conditions[] = new EqualityCondition(GroupRightLocation :: PROPERTY_VALUE,1);
+
+        $condition = new AndCondition($conditions);
+
+        $params = array ();
+
+        $translator = new ConditionTranslator($this->database, $params);
+        $query .= $translator->render_query($condition);
+        $params = $translator->get_parameters();
+
+//        $this->connection->setLimit(intval($max_objects),intval($offset));
+        $statement = $this->connection->prepare($query);
+        $res = $statement->execute($params);
+        return new ObjectResultSet($this->database, $res, GroupRightLocation :: CLASS_NAME);
     }
 
     function create_user_right_location($user_right_location)

@@ -65,7 +65,9 @@ class LearningObjectCategoryMenu extends HTML_Menu
 		$menu = array();
 		$menu_item = array();
 		
-		$condition = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, 0);
+		$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, 0);
+		$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->owner);
+		$condition = new AndCondition($conditions);
 		$count = $this->data_manager->count_learning_objects(null, $condition);
 		
 		$menu_item['title'] = Translation :: get('MyRepository') . ' (' . $count . ')';
@@ -104,7 +106,10 @@ class LearningObjectCategoryMenu extends HTML_Menu
 		$categories = array ();
 		while ($category = $objects->next_result())
 		{
-			$condition = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $category->get_id());
+			$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $category->get_id());
+			$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->owner);
+			$condition = new AndCondition($conditions);
+			
 			$count = $this->data_manager->count_learning_objects(null, $condition);
 		
 			$menu_item = array();

@@ -117,52 +117,44 @@ class RepositoryManagerSharedLearningObjectsBrowserComponent extends RepositoryM
         }
 
         $rdm = RightsDataManager :: get_instance();
-        $udm = UserDataManager :: get_instance();
-        $gdm = GroupDataManager :: get_instance();
-
-        //retrieve the roles for this user and its groups
-        $role_cond = new EqualityCondition(RightsTemplate :: PROPERTY_USER_ID, $this->get_user_id());
-        $user_roles = $udm->retrieve_user_rights_templates($role_cond);
-
-        while($user_role = $user_roles->next_result())
+        
+        $user = $this->get_user();
+        $groups = $user->get_groups();
+        foreach($groups as $group)
         {
-            if(!in_array($user_role->get_rights_template_id(), $roles))
-                $roles[] = $user_role->get_rights_template_id();
-        }
-
-        $groups = $gdm->retrieve_user_groups($this->get_user_id());
-
-        while($group = $groups->next_result())
-        {
-            $group_roles_cond = new EqualityCondition(GroupRightsTemplate :: PROPERTY_GROUP_ID, $group->get_group_id());
-            $group_roles = $gdm->retrieve_group_rights_templates($group_roles_cond);
-            while($group_role = $group_roles->next_result())
-            {
-                if(!in_array($group_role->get_rights_template_id(), $roles))
-                    $roles[] = $group_role->get_rights_template_id();
-            }
+        	$group_ids[] = $group->get_id();
         }
 
         //retrieve all the rights
         $reflect = new ReflectionClass(Application :: application_to_class(RepositoryManager :: APPLICATION_NAME) . 'Rights');
         $rights_db = $reflect->getConstants();
 
-        foreach($rights_db as $right_name => $right_id)
+        foreach($rights_db as $right_id)
         {
             if($right_id != RepositoryRights :: VIEW_RIGHT && $right_id != RepositoryRights :: USE_RIGHT && $right_id != RepositoryRights :: REUSE_RIGHT)
                 continue;
             $rights[] = $right_id;
         }
 
+		$location_ids = array();
+        $shared_learning_objects = $rdm->retrieve_shared_learning_objects_for_user($user->get_id(),$rights);
 
-        $shared_learning_objects = $rdm->retrieve_shared_learning_objects($roles,$rights);
-
-        while($role_right_location = $shared_learning_objects->next_result())
+        while($user_right_location = $shared_learning_objects->next_result())
         {
-            if(!in_array($role_right_location->get_location_id(), $location_ids))
-                $location_ids[] = $role_right_location->get_location_id();
+            if(!in_array($user_right_location->get_location_id(), $location_ids))
+                $location_ids[] = $user_right_location->get_location_id();
 
-            $this->list[] = array('location_id' => $role_right_location->get_location_id(),'role' => $role_right_location->get_role_id(), 'right' => $role_right_location->get_right_id());
+            $this->list[] = array('location_id' => $user_right_location->get_location_id(),'user' => $user_right_location->get_user_id(), 'right' => $user_right_location->get_right_id());
+        }
+        
+     	$shared_learning_objects = $rdm->retrieve_shared_learning_objects_for_groups($group_ids,$rights);
+
+        while($group_right_location = $shared_learning_objects->next_result())
+        {
+            if(!in_array($group_right_location->get_location_id(), $location_ids))
+                $location_ids[] = $group_right_location->get_location_id();
+
+            $this->list[] = array('location_id' => $group_right_location->get_location_id(),'group' => $group_right_location->get_group_id(), 'right' => $group_right_location->get_right_id());
         }
 
         $location_cond = new InCondition('id',$location_ids);
@@ -183,7 +175,7 @@ class RepositoryManagerSharedLearningObjectsBrowserComponent extends RepositoryM
         }
 
         if($ids)
-            $conditions[] = new InCondition('id',$ids);
+            $conditions[] = new InCondition('id',$ids, LearningObject :: get_table_name());
 
 
         if($conditions)
@@ -191,7 +183,7 @@ class RepositoryManagerSharedLearningObjectsBrowserComponent extends RepositoryM
 
         if(!$condition)
         {
-            $condition = new EqualityCondition('id', -1);
+            $condition = new EqualityCondition('id', -1, LearningObject :: get_table_name());
         }
 
         return $condition;
