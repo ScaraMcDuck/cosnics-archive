@@ -14,7 +14,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManagerComponent
 	private $location;
 	private $type;
 	
-	const PARAM_TYPE = 'type';
+	const PARAM_TYPE = 're_type';
 	const TYPE_USER = 'user';
 	const TYPE_GROUP = 'group';
 

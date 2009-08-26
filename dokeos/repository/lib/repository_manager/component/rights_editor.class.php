@@ -4,7 +4,6 @@
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/../repository_manager_component.class.php';
-require_once dirname(__FILE__).'/../../repository_rights.class.php';
 require_once Path :: get_application_library_path() . 'rights_editor_manager/rights_editor_manager.class.php';
 
 /**
@@ -20,10 +19,6 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManagerComponent
 	{
 		$object = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
 		$location = RepositoryRights :: get_location_by_identifier('learning_object', $object);
-		
-		$trail = new BreadcrumbTrail(false);
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('EditRights')));
-
 		
 		$manager = new RightsEditorManager($this, $location);
 		$manager->run();
