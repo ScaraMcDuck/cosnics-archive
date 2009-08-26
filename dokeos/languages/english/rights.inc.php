@@ -18,4 +18,13 @@ $lang['rights']['RightsDescription'] = 'Rights description';
 $lang['rights']['RightRequest'] = 'Right request';
 $lang['rights']['RightRequestContent'] = ' ';
 $lang['rights']['NoRightsForApplication'] = 'No rights for this application';
+$lang['rights']['AddRight'] = 'Add';
+$lang['rights']['EditRight'] = 'Edit';
+$lang['rights']['DeleteRight'] = 'Delete';
+$lang['rights']['SearchRight'] = 'Search';
+$lang['rights']['UseRight'] = 'Use';
+$lang['rights']['ReuseRight'] = 'Reuse';
+$lang['rights']['Lastname'] = 'Last name';
+$lang['rights']['Firstname'] = 'First name';
+$lang['rights']['Username'] = 'Username';
 ?>
