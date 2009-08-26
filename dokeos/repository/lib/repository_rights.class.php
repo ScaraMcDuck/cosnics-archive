@@ -42,5 +42,31 @@ class RepositoryRights
 	{
 		return RightsUtilities :: get_root(RepositoryManager :: APPLICATION_NAME);
 	}
+	
+	function create_user_root($user)
+	{
+		$repository_root = self :: get_root_id();
+		
+		$user_root = new Location();
+		$user_root->set_location($user->get_username());
+		$user_root->set_application(RepositoryManager :: APPLICATION_NAME);
+		$user_root->set_type('user_root');
+		$user_root->set_identifier($user->get_id());
+		
+		$user_root->set_parent($repository_root);
+		if (!$user_root->create())
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	
+	function get_user_root_id($user_id)
+	{
+		return self :: get_location_id_by_identifier('user_root', $user_id);
+	}
 }
 ?>
