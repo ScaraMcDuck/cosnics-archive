@@ -98,6 +98,7 @@ class LearningObjectCategoryMenu extends HTML_Menu
 	 */
 	private function get_sub_menu_items($parent)
 	{
+		$conditions = array();
 		$conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_USER_ID, $this->owner);
 		$conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_PARENT, $parent);
 		$condition = new AndCondition($conditions);
@@ -106,6 +107,7 @@ class LearningObjectCategoryMenu extends HTML_Menu
 		$categories = array ();
 		while ($category = $objects->next_result())
 		{
+			$conditions = array();
 			$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $category->get_id());
 			$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->owner);
 			$condition = new AndCondition($conditions);

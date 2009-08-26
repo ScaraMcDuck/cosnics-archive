@@ -111,7 +111,7 @@ class DatabaseUserDataManager extends UserDataManager
 		$this->database->create($user);
 
 		// Create the user's root category for the repository
-		//RepositoryDataManager :: get_instance()->create_root_category($user->get_id());
+		RepositoryRights :: create_user_root($user);
 
 		return true;
 	}

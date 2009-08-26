@@ -34,7 +34,7 @@ require_once Path :: get_common_path() . 'data_class.class.php';
 
 class User extends DataClass
 {
-	const CLASS_NAME				= __CLASS__;
+	const CLASS_NAME = __CLASS__;
 	
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_LASTNAME = 'lastname';

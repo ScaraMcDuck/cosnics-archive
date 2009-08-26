@@ -649,16 +649,16 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 		$location->set_application(RepositoryManager :: APPLICATION_NAME);
 		$location->set_type('learning_object');
 		$location->set_identifier($this->get_id());
-
+		
 		$parent = $this->get_parent_id();
-		/*if ($parent == 0)
+		if ($parent == 0)
 		{
-			$parent = RepositoryRights :: get_root_id();
+			$parent = RepositoryRights :: get_user_root_id($this->get_owner_id());
 		}
 		else
 		{
 			$parent = RepositoryRights :: get_location_id_by_identifier('repository_category', $this->get_parent_id());
-		}*/
+		}
 
 		$location->set_parent($parent);
 		if (!$location->create())
