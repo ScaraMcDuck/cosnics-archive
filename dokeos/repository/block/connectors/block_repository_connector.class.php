@@ -18,8 +18,8 @@ class BlockRepositoryConnector
 		$options = array();
 		$rdm = RepositoryDataManager :: get_instance();
 		$condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
-		$objects = $rdm->retrieve_learning_objects('rss_feed', $condition); 
-		
+		$objects = $rdm->retrieve_learning_objects('rss_feed', $condition);
+
 		if($objects->size() == 0)
 		{
 			$options[0] = Translation :: get('CreateRssFeedFirst');
@@ -31,7 +31,7 @@ class BlockRepositoryConnector
 				$options[$object->get_id()] = $object->get_title();
 			}
 		}
-		
+
 		return $options;
 	}
 }
