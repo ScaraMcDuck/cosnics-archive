@@ -30,7 +30,7 @@ require_once 'MDB2.php';
 class DatabaseRepositoryDataManager extends RepositoryDataManager
 {
     const ALIAS_LEARNING_OBJECT_PUB_FEEDBACK_TABLE = 'lopf';
-	const ALIAS_LEARNING_OBJECT_TABLE = 'lo';
+	const ALIAS_LEARNING_OBJECT_TABLE = 'lect';
 	const ALIAS_LEARNING_OBJECT_VERSION_TABLE = 'lov';
 	const ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE = 'loa';
 	const ALIAS_TYPE_TABLE = 'tt';
@@ -174,7 +174,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator = new ConditionTranslator($this->database, $params);
             $query .= $translator->render_query($condition);
             $params = $translator->get_parameters();
 		}
@@ -276,7 +276,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this, $params);
+			$translator = new ConditionTranslator($this->database, $params);
             $query .= $translator->render_query($condition);
             $params = $translator->get_parameters();
 		}
