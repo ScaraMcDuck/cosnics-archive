@@ -148,14 +148,15 @@ class Group extends DataClass
 		return $gdm->retrieve_groups($parent_condition, null, null, $order);
 	}
 
-	function is_child_of($parent_id)
+	function is_child_of($parent)
 	{
-		$gdm = $this->get_data_manager();
-
-		$parent = $gdm->retrieve_group($parent_id);
+		if (!is_object($parent))
+	    {
+	        $gdm = $this->get_data_manager();
+	        $parent = $gdm->retrieve_group($parent);
+	    }
 
 		// TODO: What if $parent is invalid ? Return error
-
         // Check if the left and right value of the child are within the
         // left and right value of the parent, if so it is a child
         if ($this->get_left_value() > $parent->get_left_value() && $parent->get_right_value() > $this->get_right_value())
@@ -166,11 +167,13 @@ class Group extends DataClass
         return false;
 	}
 
-	function is_parent_of($child_id)
+	function is_parent_of($child)
 	{
-		$gdm = $this->get_data_manager();
-
-		$child = $gdm->retrieve_group($child_id);
+	    if (!is_object($child))
+	    {
+	        $gdm = $this->get_data_manager();
+	        $child = $gdm->retrieve_group($child);
+	    }
 
         if ($this->get_left_value() < $child->get_left_value() && $child->get_right_value() < $this->get_right_value())
         {
@@ -237,9 +240,11 @@ class Group extends DataClass
 
 	function has_children()
 	{
-		$gdm = $this->get_data_manager();
-		$children_condition = new EqualityCondition(Location :: PROPERTY_PARENT, $this->get_id());
-		return ($gdm->count_groups($children_condition) > 0);
+	    return !($this->get_left_value() == ($this->get_right_value() - 1));
+
+//		$gdm = $this->get_data_manager();
+//		$children_condition = new EqualityCondition(Location :: PROPERTY_PARENT, $this->get_id());
+//		return ($gdm->count_groups($children_condition) > 0);
 	}
 
 	function move($new_parent_id, $new_previous_id = 0)

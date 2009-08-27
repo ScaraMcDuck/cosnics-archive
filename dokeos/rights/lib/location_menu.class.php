@@ -67,10 +67,6 @@ class LocationMenu extends HTML_Menu
 
     function get_menu()
     {
-        //$xtmr = new XmlTreeMenuRenderer($this);
-        //return $xtmr->get_tree();
-
-
         $include_root = $this->include_root;
         $location = RightsDataManager :: get_instance()->retrieve_location($this->root_category);
 

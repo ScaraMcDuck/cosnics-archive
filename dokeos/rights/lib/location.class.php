@@ -195,14 +195,15 @@ class Location extends DataClass
 		return ($parent == 0);
 	}
 
-	function is_child_of($parent_id)
+	function is_child_of($parent)
 	{
-		$rdm = RightsDataManager :: get_instance();
-
-		$parent = $rdm->retrieve_location($parent_id);
+		if (!is_object($parent))
+	    {
+	        $rdm = RightsDataManager :: get_instance();
+	        $parent = $rdm->retrieve_group($parent);
+	    }
 
 		// TODO: What if $parent is invalid ? Return error
-
         // Check if the left and right value of the child are within the
         // left and right value of the parent, if so it is a child
         if ($this->get_left_value() > $parent->get_left_value() && $parent->get_right_value() > $this->get_right_value())
@@ -213,11 +214,13 @@ class Location extends DataClass
         return false;
 	}
 
-	function is_parent_of($child_id)
+	function is_parent_of($child)
 	{
-		$rdm = RightsDataManager :: get_instance();
-
-		$child = $rdm->retrieve_location($child_id);
+		if (!is_object($child))
+	    {
+	        $rdm = RightsDataManager :: get_instance();
+	        $child = $rdm->retrieve_location($child);
+	    }
 
         if ($this->get_left_value() < $child->get_left_value() && $child->get_right_value() < $this->get_right_value())
         {

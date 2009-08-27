@@ -46,11 +46,10 @@ class GroupMenu extends HTML_Menu
 		$this->include_root = $include_root;
 		$this->exclude_children = $exclude_children;
 
-		if ($current_category == '0')
+		if ($current_category == '0' || is_null($current_category))
 		{
 			$condition = new EqualityCondition(Group :: PROPERTY_PARENT, 0);
 			$group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, new ObjectTableOrder(Group :: PROPERTY_SORT))->next_result();
-
 			$this->current_category = $group;
 		}
 		else
@@ -123,14 +122,19 @@ class GroupMenu extends HTML_Menu
 				$menu_item['title'] = $group->get_name();
 				$menu_item['url'] = $this->get_url($group->get_id());
 
-				if ($group->is_parent_of($current_category->get_id()) || $group->get_id() == $current_category->get_id())
+				if ($group->is_parent_of($current_category) || $group->get_id() == $current_category->get_id())
 				{
-    				$sub_menu_items = $this->get_menu_items($group->get_id());
-
-    				if(count($sub_menu_items) > 0)
+    				if($group->has_children())
     				{
-    					$menu_item['sub'] = $sub_menu_items;
+    					$menu_item['sub'] = $this->get_menu_items($group->get_id());
     				}
+				}
+				else
+				{
+				    if ($group->has_children())
+				    {
+				        $menu_item['children'] = 'expand';
+				    }
 				}
 
 				$menu_item['class'] = 'category';
