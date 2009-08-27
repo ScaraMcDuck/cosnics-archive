@@ -5,6 +5,7 @@ require_once Path :: get_rights_path() . 'lib/rights_data_manager.class.php';
 require_once Path :: get_rights_path() . 'lib/rights_template_manager/rights_template_manager.class.php';
 require_once Path :: get_rights_path() . 'lib/user_right_manager/user_right_manager.class.php';
 require_once Path :: get_rights_path() . 'lib/group_right_manager/group_right_manager.class.php';
+require_once Path :: get_rights_path() . 'lib/location_manager/location_manager.class.php';
 require_once Path :: get_library_path() . 'core_application.class.php';
 
 /**
@@ -22,6 +23,7 @@ class RightsManager extends CoreApplication
     const ACTION_MANAGE_RIGHTS_TEMPLATES = 'template';
     const ACTION_MANAGE_USER_RIGHTS = 'user';
     const ACTION_MANAGE_GROUP_RIGHTS = 'group';
+    const ACTION_MANAGE_LOCATIONS = 'location';
     const ACTION_REQUEST_RIGHT = 'request_rights';
 
     private $quota_url;
@@ -62,6 +64,9 @@ class RightsManager extends CoreApplication
                 break;
             case self :: ACTION_MANAGE_GROUP_RIGHTS :
                 $component = RightsManagerComponent :: factory('Group', $this);
+                break;
+            case self :: ACTION_MANAGE_LOCATIONS :
+                $component = RightsManagerComponent :: factory('Locater', $this);
                 break;
             case self :: ACTION_REQUEST_RIGHT :
                 $component = RightsManagerComponent :: factory('RightRequester', $this);
@@ -121,6 +126,10 @@ class RightsManager extends CoreApplication
     public function get_application_platform_admin_links()
     {
         $links		= array();
+        $links[]	= array('name' => Translation :: get('Locations'),
+            'description' => Translation :: get('LocationsDescription'),
+            'action' => 'location',
+            'url' => $this->get_link(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_LOCATIONS)));
         $links[]	= array('name' => Translation :: get('RightsTemplates'),
             'description' => Translation :: get('RightsTemplatesDescription'),
             'action' => 'template',

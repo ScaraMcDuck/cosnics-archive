@@ -27,4 +27,5 @@ $lang['rights']['ReuseRight'] = 'Reuse';
 $lang['rights']['Lastname'] = 'Last name';
 $lang['rights']['Firstname'] = 'First name';
 $lang['rights']['Username'] = 'Username';
+$lang['rights']['Locked'] = 'Locked';
 ?>
