@@ -83,7 +83,7 @@ class LocationMenu extends HTML_Menu
             $menu = array();
 
             $root = array();
-            $root['title'] = Translation :: get('ApplicationRights');
+            $root['title'] = Translation :: get('ApplicationRoot');
             $root['url'] = $this->get_root_url();
             $root['class'] = 'rights';
             $menu[] = $root;

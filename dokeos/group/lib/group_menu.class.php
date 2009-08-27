@@ -45,28 +45,28 @@ class GroupMenu extends HTML_Menu
 	{
 		$this->include_root = $include_root;
 		$this->exclude_children = $exclude_children;
-		$this->current_category = $current_category;
 
 		if ($current_category == '0')
 		{
 			$condition = new EqualityCondition(Group :: PROPERTY_PARENT, 0);
 			$group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, new ObjectTableOrder(Group :: PROPERTY_SORT))->next_result();
 
-			$this->current_category = $group->get_id();
+			$this->current_category = $group;
+		}
+		else
+		{
+		    $this->current_category = GroupDataManager :: get_instance()->retrieve_group($current_category);
 		}
 
 		$this->urlFmt = $url_format;
 		$menu = $this->get_menu();
 		parent :: __construct($menu);
 		$this->array_renderer = new HTML_Menu_ArrayRenderer();
-		$this->forceCurrentUrl($this->get_url($current_category));
+		$this->forceCurrentUrl($this->get_url($this->current_category->get_id()));
 	}
 
 	function get_menu()
 	{
-		//$xtmr = new XmlTreeMenuRenderer($this);
-		//return $xtmr->get_tree();
-
 		$include_root = $this->include_root;
 
 		$condition = new EqualityCondition(Group :: PROPERTY_PARENT, 0);
@@ -117,17 +117,20 @@ class GroupMenu extends HTML_Menu
 		{
 			$group_id = $group->get_id();
 
-			if (!($exclude_children && $group_id == $current_category))
+			if (!($exclude_children && $group_id == $current_category->get_id()))
 			{
 				$menu_item = array();
 				$menu_item['title'] = $group->get_name();
 				$menu_item['url'] = $this->get_url($group->get_id());
 
-				$sub_menu_items = $this->get_menu_items($group->get_id());
-
-				if(count($sub_menu_items) > 0)
+				if ($group->is_parent_of($current_category->get_id()) || $group->get_id() == $current_category->get_id())
 				{
-					$menu_item['sub'] = $sub_menu_items;
+    				$sub_menu_items = $this->get_menu_items($group->get_id());
+
+    				if(count($sub_menu_items) > 0)
+    				{
+    					$menu_item['sub'] = $sub_menu_items;
+    				}
 				}
 
 				$menu_item['class'] = 'category';

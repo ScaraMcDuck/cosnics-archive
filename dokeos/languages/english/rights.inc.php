@@ -28,4 +28,5 @@ $lang['rights']['Lastname'] = 'Last name';
 $lang['rights']['Firstname'] = 'First name';
 $lang['rights']['Username'] = 'Username';
 $lang['rights']['Locked'] = 'Locked';
+$lang['rights']['ApplicationRoot'] = 'Root';
 ?>
