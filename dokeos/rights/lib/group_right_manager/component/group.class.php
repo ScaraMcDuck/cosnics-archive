@@ -50,7 +50,7 @@ class GroupRightManagerGroupComponent extends GroupRightManagerComponent
 		{
 		    $this->location = $root;
 		}
-		
+
 		$parents = array_reverse($this->location->get_parents()->as_array());
 		foreach($parents as $parent)
 		{
@@ -78,12 +78,12 @@ class GroupRightManagerGroupComponent extends GroupRightManagerComponent
     	$html[] = $table->as_html();
     	$html[] = RightsUtilities :: get_rights_legend();
     	$html[] = '</div>';
-    	
-//    	$html[] = '<div style="float: right; width: 18%; overflow: auto; height: 500px;">';
-//		$group_menu = new GroupMenu($group);
-//		$html[] = $group_menu->render_as_tree();
-//    	$html[] = '</div>';
-    	
+
+    	$html[] = '<div style="float: right; width: 18%; overflow: auto; height: 500px;">';
+		$group_menu = new GroupMenu($group);
+		$html[] = $group_menu->render_as_tree();
+    	$html[] = '</div>';
+
     	$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'rights/javascript/configure_group.js');
 
     	echo implode("\n", $html);
@@ -94,7 +94,7 @@ class GroupRightManagerGroupComponent extends GroupRightManagerComponent
 	function get_condition()
 	{
 		return null;
-		
+
     	$condition = new EqualityCondition(Location :: PROPERTY_PARENT, $this->location->get_id());
 
     	$query = $this->action_bar->get_query();
@@ -113,7 +113,7 @@ class GroupRightManagerGroupComponent extends GroupRightManagerComponent
 	{
 	    return $this->application;
 	}
-	
+
 	function get_location()
 	{
 		return $this->location;

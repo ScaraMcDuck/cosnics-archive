@@ -218,7 +218,13 @@ class Location extends DataClass
 		$rdm = RightsDataManager :: get_instance();
 
 		$child = $rdm->retrieve_location($child_id);
-		return $child->is_child_of($this->get_id());
+
+        if ($this->get_left_value() < $child->get_left_value() && $child->get_right_value() < $this->get_right_value())
+        {
+            return true;
+        }
+
+        return false;
 	}
 
 	/**

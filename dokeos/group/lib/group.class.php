@@ -171,7 +171,13 @@ class Group extends DataClass
 		$gdm = $this->get_data_manager();
 
 		$child = $gdm->retrieve_group($child_id);
-		return $child->is_child_of($this->get_id());
+
+        if ($this->get_left_value() < $child->get_left_value() && $child->get_right_value() < $this->get_right_value())
+        {
+            return true;
+        }
+
+        return false;
 	}
 
 	/**
