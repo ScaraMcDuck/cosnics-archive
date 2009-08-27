@@ -13,8 +13,6 @@ jQuery(document).ready(function($)
 		$(this).css('padding-bottom', '10px');
 		$(this).css('margin-top', '0px');
 		$(this).css('margin-bottom', '10px');
-		
-		this.prev().css('background-image', 'none');
 	});
 	
 	$('div.application').mouseout(function()

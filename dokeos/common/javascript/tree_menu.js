@@ -30,7 +30,9 @@ $(function () {
 	
 	function processTree()
 	{
-		$("ul li:last-child > div").addClass("last");
+		$("ul li:last-child > div").addClass("last"); 
+		$("ul li:last-child > div.expand").addClass("lastExpand");
+		$("ul li:last-child > div.expand").removeClass("expand");
 		$("ul li:last-child > ul").css("background-image", "none");
 		
 		$("ul li:not(:last-child):has(ul) > div").addClass("collapse");

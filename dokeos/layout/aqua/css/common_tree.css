@@ -161,6 +161,11 @@ ul.tree-menu li.current > div a.category
 	background-image: url(../img/common/treemenu/tree-folder-open.png);
 }
 
+ul.tree-menu li.current > div a.category
+{
+	text-decoration: underline;
+}
+
 /*
 ul.tree-menu li.current_path ul li div a.category
 {
