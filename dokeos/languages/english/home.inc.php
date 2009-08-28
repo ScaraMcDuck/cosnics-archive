@@ -70,4 +70,6 @@ $lang['home']['HomeTabTitle'] = 'Title';
 $lang['home']['HomeRowTab'] = 'Tab';
 $lang['home']['AddTab'] = 'Add tab';
 $lang['home']['Tab'] = 'Tab';
+$lang['home']['EnterUsername'] = 'Enter your username';
+$lang['home']['Password'] = 'Password';
 ?>
