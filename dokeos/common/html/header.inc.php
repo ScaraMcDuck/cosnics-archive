@@ -20,7 +20,7 @@ if (empty($document_language))
 
 $header = new Header($document_language);
 $header->add_default_headers();
-$header->set_page_title((empty($nameTools) ? '' : $nameTools . ' - ') . PlatformSetting :: get('site_name'));
+$header->set_page_title(PlatformSetting :: get('institution') . ' - ' . PlatformSetting :: get('site_name'));
 if (isset($httpHeadXtra) && $httpHeadXtra)
 {
     foreach ($httpHeadXtra as $thisHttpHead)
