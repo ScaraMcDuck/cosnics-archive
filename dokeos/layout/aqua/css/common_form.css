@@ -487,6 +487,16 @@ button.help, a.help_button
 	background-image: url(../img/common/buttons/button_help.png);
 }
 
+button.email, a.email_button
+{
+	background-image: url(../img/common/buttons/button_email.png);
+}
+
+button.email_go, a.email_go_button
+{
+	background-image: url(../img/common/buttons/button_email_go.png);
+}
+
 /*IE-fix to avoid adding unwanted margins to the form*/
 div.simple_search form
 {
