@@ -2,7 +2,7 @@
 require_once Path :: get_rights_path() . 'lib/rights_data_manager.class.php';
 require_once Path :: get_rights_path() . 'lib/location.class.php';
 require_once Path :: get_library_path() . 'configuration/configuration.class.php';
-require_once 'Tree/Tree.php';
+//require_once 'Tree/Tree.php';
 require_once 'XML/Unserializer.php';
 
 /*
@@ -509,7 +509,7 @@ class RightsUtilities
 		$location->set_inherit($inherit);
 		return $location->create();
 	}
-	
+
 	function get_rights_template_right_location($right_id, $rights_template_id, $location_id)
 	{
 	    $rdm = RightsDataManager :: get_instance();
@@ -600,7 +600,7 @@ class RightsUtilities
 
 		return implode("\n", $html);
 	}
-	
+
 	function get_available_rights($application)
 	{
 		$base_path = (WebApplication :: is_application($application) ? (Path :: get_application_path() . 'lib/' . $application . '/') : (Path :: get(SYS_PATH). $application . '/lib/'));

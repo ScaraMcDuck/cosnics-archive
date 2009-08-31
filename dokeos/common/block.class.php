@@ -149,16 +149,7 @@ class Block
 
     public function get_link($parameters = array (), $encode = false)
     {
-        $link = 'index_' . HomeManager :: APPLICATION_NAME . '.php';
-        if (count($parameters))
-        {
-            $link .= '?' . http_build_query($parameters);
-        }
-        if ($encode)
-        {
-            $link = htmlentities($link);
-        }
-        return $link;
+        return Redirect :: get_link(HomeManager :: APPLICATION_NAME, $parameters, array(), $encode, Redirect :: TYPE_CORE);
     }
 
     function display_footer()
