@@ -459,15 +459,15 @@ class LaikaGraphRenderer
 				$conditions[] = new InEqualityCondition(LaikaAttempt :: PROPERTY_DATE, InEqualityCondition :: GREATER_THAN_OR_EQUAL, $this->get_start_date(), LaikaAttempt :: get_table_name());
 				$conditions[] = new InEqualityCondition(LaikaAttempt :: PROPERTY_DATE, InEqualityCondition :: LESS_THAN_OR_EQUAL, $this->get_end_date(), LaikaAttempt :: get_table_name());
 
+				if ($attempt != self :: RENDER_ATTEMPT_ALL)
+				{
+					$conditions[] = $attempt_condition;
+				}
+
 				// Don't limit the groups when none were set
 				if (!is_null($group))
 				{
 					$conditions[] = $user_condition;
-				}
-
-				if ($attempt != self :: RENDER_ATTEMPT_ALL)
-				{
-					$conditions[] = $attempt_condition;
 				}
 
 				$condition = new AndCondition($conditions);

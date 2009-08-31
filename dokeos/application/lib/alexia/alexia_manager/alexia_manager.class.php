@@ -9,7 +9,7 @@ require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once dirname(__FILE__) . '/alexia_manager_component.class.php';
 require_once dirname(__FILE__) . '/component/alexia_publication_browser/alexia_publication_browser_table.class.php';
 require_once dirname(__FILE__) . '/../alexia_data_manager.class.php';
-//require_once dirname(__FILE__).'/../alexia_block.class.php';
+require_once dirname(__FILE__).'/../alexia_block.class.php';
 /**
  * This application gives each user the possibility to maintain a personal
  * calendar.
@@ -17,7 +17,7 @@ require_once dirname(__FILE__) . '/../alexia_data_manager.class.php';
 class AlexiaManager extends WebApplication
 {
 	const APPLICATION_NAME = 'alexia';
-	
+
 	const PARAM_DELETE_SELECTED = 'delete_selected';
 	const PARAM_ALEXIA_ID = 'publication';
 
@@ -36,7 +36,7 @@ class AlexiaManager extends WebApplication
 	public function AlexiaManager($user)
 	{
 		parent :: __construct($user);
-		
+
 		$this->parse_input_from_table();
 	}
 	/**
@@ -75,7 +75,16 @@ class AlexiaManager extends WebApplication
 		}
 		$component->run();
 	}
-	
+
+    /**
+	 * Renders the Alexia block and returns it.
+	 */
+	function render_block($block)
+	{
+		$alexia_block = AlexiaBlock :: factory($this, $block);
+		return $alexia_block->run();
+	}
+
     /**
      * Gets the url for viewing a profile publication
      * @param ProfilePublication
@@ -85,47 +94,47 @@ class AlexiaManager extends WebApplication
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_ALEXIA_ID => $alexia_publication->get_id()));
     }
-    
+
     function get_publication_editing_url($alexia_publication)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_PUBLICATION, self :: PARAM_ALEXIA_ID => $alexia_publication->get_id()));
     }
-    
+
     function get_introduction_editing_url($introduction)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_INTRODUCTION, self :: PARAM_ALEXIA_ID => $introduction->get_id()));
     }
-    
+
     function get_publication_deleting_url($alexia_publication)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_PUBLICATION, self :: PARAM_ALEXIA_ID => $alexia_publication->get_id()));
     }
-	
+
     function count_alexia_publications($condition = null)
     {
         $adm = AlexiaDataManager :: get_instance();
         return $adm->count_alexia_publications($condition);
     }
-    
+
     function retrieve_alexia_publication($id)
     {
         $adm = AlexiaDataManager :: get_instance();
         return $adm->retrieve_alexia_publication($id);
     }
-    
+
     function retrieve_alexia_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
     {
         $adm = AlexiaDataManager :: get_instance();
         return $adm->retrieve_alexia_publications($condition, $offset, $max_objects, $order_by, $order_dir);
     }
-    
+
 	/**
 	 * Parse the input from the sortable tables and process input accordingly
 	 */
 	private function parse_input_from_table()
 	{
 		$action = Request :: post('action');
-		
+
 		if (isset($action))
 		{
 			$selected_ids = Request :: post(AlexiaPublicationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX);
