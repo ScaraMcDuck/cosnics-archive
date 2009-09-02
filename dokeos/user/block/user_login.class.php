@@ -44,7 +44,7 @@ class UserLogin extends UserBlock
 				//$html[] = '<div class="menusection"><span class="menusectioncaption">'.Translation :: get('MenuUser').'</span><ul class="menulist">';
 				if (PlatformSetting :: get('allow_registration', 'user'))
 				{
-					$links[] = '<a href="index_user.php?go=register">'.Translation :: get('Reg').'</a>';
+					$links[] = '<a href="core.php?application=user&go=register">'.Translation :: get('Reg').'</a>';
 				}
 				if (PlatformSetting :: get('allow_password_retrieval', 'user'))
 				{
