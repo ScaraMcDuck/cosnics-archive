@@ -75,7 +75,7 @@ class ComplexBuilderDeleterComponent extends ComplexBuilderComponent
 				}
 			}
 			
-			$this->redirect(Translation :: get($message), $failures?true:false, array('go' => 'build_complex', ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO, ComplexBuilder :: PARAM_CLOI_ID => $parent_cloi, ComplexBuilder :: PARAM_ROOT_LO => $root, 'publish' => Request :: get('publish')));
+			$this->redirect(Translation :: get($message), $failures?true:false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO, ComplexBuilder :: PARAM_CLOI_ID => $parent_cloi, ComplexBuilder :: PARAM_ROOT_LO => $root, 'publish' => Request :: get('publish')));
 		}
 		else
 		{
