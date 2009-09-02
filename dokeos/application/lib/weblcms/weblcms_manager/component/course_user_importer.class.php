@@ -17,7 +17,9 @@ class WeblcmsManagerCourseUserImporterComponent extends WeblcmsManagerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']."?application=weblcms", Translation :: get('MyCourses')));
+		if($this->get_user()->is_platform_admin())
+			$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
+        $trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('Courses')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseUserImportCSV')));
         $trail->add_help('courses user_importer');
 
