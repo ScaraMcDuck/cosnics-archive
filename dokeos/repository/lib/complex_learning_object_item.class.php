@@ -146,6 +146,16 @@ class ComplexLearningObjectItem extends DataClass
 		return $rdm->create_complex_learning_object_item($this);
 	}
 	
+	function update()
+	{
+		return RepositoryDataManager :: get_instance()->update_complex_learning_object_item($this);
+	}
+	
+	function delete()
+	{
+		return RepositoryDataManager :: get_instance()->delete_complex_learning_object_item($this);
+	}
+	
 	/**
 	 * Determines whether this complex learning object is an extended complex learning object or not
 	 */

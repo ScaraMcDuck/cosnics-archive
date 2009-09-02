@@ -1203,7 +1203,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
+			$translator = new ConditionTranslator($this, $params);
             $query .= $translator->render_query($condition);
             $params = $translator->get_parameters();
 		}
@@ -1222,7 +1222,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$params = array ();
 			if (isset ($condition))
 			{
-				$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
+				$translator = new ConditionTranslator($this, $params);
 	            $query .= $translator->render_query($condition);
 	            $params = $translator->get_parameters();
 			}
