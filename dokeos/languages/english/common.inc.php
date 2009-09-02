@@ -815,4 +815,5 @@ $lang['common']['Section'] = 'Section';
 $lang['common']['Setting'] = 'Setting';
 $lang['common']['Current'] = 'Current';
 $lang['common']['Expected'] = 'Expected';
+$lang['common']['CourseAdministration'] = 'Course administration';
 ?>

@@ -25,7 +25,7 @@ class WikiPublicationTableColumnModel extends ObjectTableColumnModel {
 	 * @return array An array of all columns in this table.
 	 * @see LearningObjectTableColumn
 	 */
-	private static function get_columns()
+	function get_columns()
 	{
 		$columns = array();
 		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE);
