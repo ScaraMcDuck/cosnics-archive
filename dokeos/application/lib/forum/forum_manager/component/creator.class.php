@@ -25,11 +25,12 @@ class ForumManagerCreatorComponent extends ForumManagerComponent
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateForumPublication')));
 
         $object = Request :: get('object');
-        $pub = new RepoViewer($this, 'forum', true);
-
+		$pub = new RepoViewer($this, 'forum', true);
+		
         if(!isset($object))
         {
-            $html[] =  $pub->as_html();
+            
+        	$html[] =  $pub->as_html();
         }
         else
         {
