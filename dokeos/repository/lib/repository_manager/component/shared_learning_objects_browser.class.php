@@ -157,30 +157,34 @@ class RepositoryManagerSharedLearningObjectsBrowserComponent extends RepositoryM
             $this->list[] = array('location_id' => $group_right_location->get_location_id(),'group' => $group_right_location->get_group_id(), 'right' => $group_right_location->get_right_id());
         }
 
-        $location_cond = new InCondition('id',$location_ids);
-        $locations = $rdm->retrieve_locations($location_cond);
-
-        while($location = $locations->next_result())
+        
+        if(count($location_ids) > 0)
         {
-            $ids[] = $location->get_identifier();
-
-            foreach ($this->list as $key => $value)
-            {
-                if($value['location_id'] == $location->get_id())
-                {
-                    $value['learning_object'] = $location->get_identifier();
-                    $this->list[$key] = $value;
-                }
-            }
+	        $location_cond = new InCondition('id',$location_ids);
+        	$locations = $rdm->retrieve_locations($location_cond);
+	
+	        while($location = $locations->next_result())
+	        {
+	            $ids[] = $location->get_identifier();
+	
+	            foreach ($this->list as $key => $value)
+	            {
+	                if($value['location_id'] == $location->get_id())
+	                {
+	                    $value['learning_object'] = $location->get_identifier();
+	                    $this->list[$key] = $value;
+	                }
+	            }
+	        }
+	
+	        if($ids)
+	            $conditions[] = new InCondition('id',$ids, LearningObject :: get_table_name());
+	
+	
+	        if($conditions)
+	            $condition = new AndCondition($conditions);
         }
-
-        if($ids)
-            $conditions[] = new InCondition('id',$ids, LearningObject :: get_table_name());
-
-
-        if($conditions)
-            $condition = new AndCondition($conditions);
-
+        
         if(!$condition)
         {
             $condition = new EqualityCondition('id', -1, LearningObject :: get_table_name());
