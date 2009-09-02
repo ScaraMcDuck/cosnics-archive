@@ -117,7 +117,8 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 				$toolbar_data[] = array(
 					'href' => $this->browser->get_user_delete_url($user),
 					'label' => Translation :: get('Delete'),
-					'img' => Theme :: get_common_image_path().'action_delete.png'
+					'img' => Theme :: get_common_image_path().'action_delete.png',
+					'confirm' => true
 				);
 			}
 			
