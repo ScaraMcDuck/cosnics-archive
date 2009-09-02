@@ -63,6 +63,8 @@ class Footer
 
         $links = array();
 
+        $links[] = '<a href="' . $this->get_setting('institution_url', 'admin') . '" target="about:blank">' . $this->get_setting('institution', 'admin') . '</a>';
+        
         if ($this->get_setting('show_administrator_data', 'admin') == 'true')
         {
             $admin_data .= Translation :: get('Manager');
