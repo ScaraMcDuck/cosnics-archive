@@ -651,7 +651,7 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 		$location->set_identifier($this->get_id());
 		
 		$parent = $this->get_parent_id();
-		if ($parent == 0)
+		if (!$parent)
 		{
 			$parent = RepositoryRights :: get_user_root_id($this->get_owner_id());
 		}
