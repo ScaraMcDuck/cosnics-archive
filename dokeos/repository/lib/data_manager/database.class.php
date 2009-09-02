@@ -1724,5 +1724,14 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	    $condition = new EqualityCondition(LearningObjectMetadata :: PROPERTY_ID, $learning_object_metadata_catalog->get_id());
 		return $this->database->delete($learning_object_metadata_catalog->get_table_name(), $condition);
 	}
+	
+	function set_new_clo_version($lo_id, $new_lo_id)
+	{
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $lo_id);
+		$props = array();
+		$props[$this->database->escape_column_name(ComplexLearningObjectItem :: PROPERTY_PARENT)] = $new_lo_id;
+		$this->connection->loadModule('Extended');
+        return $this->connection->extended->autoExecute($this->get_table_name(ComplexLearningObjectItem :: get_table_name()), $props, MDB2_AUTOQUERY_UPDATE, $condition);
+	}
 }
 ?>
