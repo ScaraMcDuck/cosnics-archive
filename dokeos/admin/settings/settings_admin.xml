@@ -96,7 +96,6 @@
 			<setting name="permissions_new_files" field="text" default="0660" />
 		</category>
 		<category name="authentication">
-			</setting>
 			<setting name="enable_external_authentication" field="checkbox">
 				<options type="static">
 					<option name="enable_external_authentication" value="1" />

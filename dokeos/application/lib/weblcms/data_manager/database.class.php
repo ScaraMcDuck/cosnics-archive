@@ -1633,7 +1633,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $condition = new EqualityCondition(CourseModule :: PROPERTY_ID, $module_id);
         $properties = array(CourseModule :: PROPERTY_SECTION => $course_section_id);
     	
-    	return $this->database->update_objects(CourseSection :: get_table_name(), $properties, $condition);
+    	return $this->database->update_objects(CourseModule :: get_table_name(), $properties, $condition);
     }
 
     function update_course_section($course_section)
