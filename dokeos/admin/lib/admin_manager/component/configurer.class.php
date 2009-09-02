@@ -31,6 +31,7 @@ class AdminManagerConfigurerComponent extends AdminManagerComponent
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Settings')));
+        $trail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_WEB_APPLICATION => $application)), Translation :: get(DokeosUtilities :: underscores_to_camelcase($application))));
         $trail->add_help('administration');
         
         if (! AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT, 'settings', 'admin_manager_component'))
