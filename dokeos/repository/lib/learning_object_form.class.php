@@ -178,7 +178,7 @@ abstract class LearningObjectForm extends FormValidator
 
 		$this->addElement('category', Translation :: get('GeneralProperties'));
 		$this->build_basic_form();
-		if($object->is_versionable() && $this->allow_new_version)
+		if($object->is_versionable())// && $this->allow_new_version)
 		{
 			if ($object->get_version_count() < $quotamanager->get_max_versions($object->get_type()))
 			{
