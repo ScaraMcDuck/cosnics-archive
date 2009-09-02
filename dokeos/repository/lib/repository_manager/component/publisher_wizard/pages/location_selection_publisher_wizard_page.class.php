@@ -19,9 +19,9 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 		parent :: PublisherWizardPage($name, $parent);
 		$ids = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
 
-        $trail = new BreadCrumbTrail();
-        $trail->add(new Breadcrumb($this->get_parent()->get_url(), 'test'));
-
+		$trail = new BreadCrumbTrail(false);
+		$trail->add(new BreadCrumb($this->get_parent()->get_url(), Translation :: get('Publish')));
+		
 		if(empty($ids))
 		{
 			Request :: set_get('message', Translation :: get('NoObjectSelected'));
