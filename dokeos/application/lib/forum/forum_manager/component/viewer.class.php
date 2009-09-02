@@ -19,9 +19,10 @@ class ForumManagerViewerComponent extends ForumManagerComponent
     {
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_parent()->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('Browse')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewForum')));
-
+        
         $pid = Request :: get('pid');
+        $trail->add(new Breadcrumb($this->get_url(array('display_action' => 'view_forum', 'pid' => $pid)), Translation :: get('ViewForum')));
+        
         $cid = Request :: get('cid');
 
         $this->display_header($trail);

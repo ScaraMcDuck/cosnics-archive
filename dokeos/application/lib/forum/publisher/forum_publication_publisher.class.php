@@ -53,7 +53,7 @@ class ForumPublicationPublisher
             $message = Translation :: get('ObjectPublished');
         }
 
-        $this->parent->redirect($message, false);
+        $this->parent->redirect($message, false, array(ForumManager :: PARAM_ACTION => null));
     }
 }
 ?>
