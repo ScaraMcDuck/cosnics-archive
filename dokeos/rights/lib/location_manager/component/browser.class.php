@@ -28,11 +28,13 @@ class LocationManagerBrowserComponent extends LocationManagerComponent
 		$trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_LOCATIONS)), Translation :: get('Locations')));
+		
 
 		if (!isset($this->application))
 		{
 			$this->application = 'admin';
 		}
+		//$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_LOCATIONS, LocationManager :: PARAM_SOURCE => $this->application)), Translation :: get(DokeosUtilities :: underscores_to_camelcase($this->application))));
 
 	    $conditions = array();
    		$conditions[] = new EqualityCondition(Location :: PROPERTY_PARENT, 0);
