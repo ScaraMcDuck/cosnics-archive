@@ -11,7 +11,8 @@ require_once dirname(__FILE__).'/../category_manager/learning_object_publication
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once dirname(__FILE__).'/../tool/tool.class.php';
 require_once dirname(__FILE__).'/../tool_list_renderer.class.php';
-require_once dirname(__FILE__).'/../course/course.class.php';
+require_once dirname(__FILE__) . '/../course/course.class.php';
+require_once dirname(__FILE__) . '/../course/course_user_relation.class.php';
 require_once dirname(__FILE__).'/../course_group/course_group.class.php';
 require_once Path :: get_library_path().'condition/or_condition.class.php';
 require_once Path :: get_library_path().'condition/and_condition.class.php';
@@ -657,7 +658,7 @@ class WeblcmsManager extends WebApplication
     	$form->addElement('category');
     	$form->addElement('html', '<br />');
     	
-    	$defaults['forever'] = 1;
+    	$defaults[self :: APPLICATION_NAME . '_opt_forever'] = 1;
     	$form->setDefaults($defaults);
     }
 
