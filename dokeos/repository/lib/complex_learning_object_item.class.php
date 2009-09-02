@@ -12,6 +12,8 @@ require_once Path :: get_common_path() . 'data_class.class.php';
 
 class ComplexLearningObjectItem extends DataClass
 {
+	
+	const CLASS_NAME = __CLASS__;
 	const PROPERTY_REF = 'ref';
 	const PROPERTY_PARENT = 'parent';
 	const PROPERTY_USER_ID = 'user_id';
@@ -197,6 +199,11 @@ class ComplexLearningObjectItem extends DataClass
 		{ 
 			return new self ($defaultProperties, $additionalProperties); 
 		}
+	}
+	
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 
 }
