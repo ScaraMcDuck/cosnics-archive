@@ -51,7 +51,7 @@ class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioMana
 			{
 				$this->display_header($trail);
 				
-				$condition = new InCondition(LearningObject :: PROPERTY_ID, $object);
+				$condition = new InCondition(LearningObject :: PROPERTY_ID, $object, LearningObject :: get_table_name());
 	            $learning_objects = RepositoryDataManager :: get_instance()->retrieve_learning_objects(null, $condition);
 	
 	            $html[] = '<div class="learning_object padding_10">';

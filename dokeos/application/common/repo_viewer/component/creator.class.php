@@ -128,7 +128,7 @@ class RepoViewerCreatorComponent extends RepoViewerComponent
 			{
 				$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $learning_object->get_id()));
 				$_SESSION['redirect_url'] = $this->get_url($redirect_params);
-				header('Location: index_repository_manager.php?go=build_complex&publish=1&root_lo=' . $learning_object->get_id());
+				header('Location: core.php?&application=repository&go=build_complex&publish=1&root_lo=' . $learning_object->get_id());
 			}
 			else
 			{
