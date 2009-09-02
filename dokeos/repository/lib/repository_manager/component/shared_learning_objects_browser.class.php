@@ -27,18 +27,19 @@ class RepositoryManagerSharedLearningObjectsBrowserComponent extends RepositoryM
     function run()
     {
         $trail = new BreadcrumbTrail(false);
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('SharedObjects')));
         $trail->add_help('repository general');
 
         $this->action_bar = $this->get_action_bar();
         $this->form = new RepositoryFilterForm($this, $this->get_url());
         $output = $this->get_learning_objects_html();
 
-        $query = $this->action_bar->get_query();
-        if(isset($query) && $query != '')
-        {
-            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Search')));
-            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('SearchResultsFor').': '.$query));
-        }
+        //$query = $this->action_bar->get_query();
+        //if(isset($query) && $query != '')
+        //{
+            //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Search')));
+            //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('SearchResultsFor').': '.$query));
+        //}
 
         $session_filter = Session :: retrieve('filter');
 
