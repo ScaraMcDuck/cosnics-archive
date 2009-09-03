@@ -1,6 +1,5 @@
 <?php
 require_once Path :: get_library_path().'/html/action_bar/action_bar_renderer.class.php';
-require_once dirname(__FILE__).'/learning_path_publication_table/learning_path_publication_table.class.php';
 require_once dirname(__FILE__) . '/learning_path_browser/learning_path_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/learning_path_browser/learning_path_column_model.class.php';
 require_once dirname(__FILE__) . '/../../../browser/object_publication_table/object_publication_table.class.php';

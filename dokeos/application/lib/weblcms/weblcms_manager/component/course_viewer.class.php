@@ -374,7 +374,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
             if($display_title)
             {
                echo '<div style="float: left;">';
-                Display :: tool_title(htmlentities(Translation :: get($tool_class.'Title')));
+                Display :: tool_title(htmlentities(Translation :: get(DokeosUtilities :: underscores_to_camelcase($tool_class).'Title')));
                 echo '</div>';
             }
 
