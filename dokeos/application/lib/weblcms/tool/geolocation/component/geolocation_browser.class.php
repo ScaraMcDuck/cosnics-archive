@@ -3,6 +3,7 @@
 require_once dirname(__FILE__) . '/../geolocation_tool.class.php';
 require_once dirname(__FILE__) . '/../geolocation_tool_component.class.php';
 require_once dirname(__FILE__) . '/geolocation_browser/geolocation_browser.class.php';
+require_once dirname(__FILE__) . '/geolocation_browser/geolocation_cell_renderer.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 require_once Path :: get_repository_path() . 'lib/learning_object/physical_location/physical_location.class.php';
 require_once dirname(__FILE__) . '/../../../browser/object_publication_table/object_publication_table.class.php';
@@ -45,7 +46,7 @@ class GeolocationToolBrowserComponent extends GeolocationToolComponent
         }
         else 
         {
-        	$table = new ObjectPublicationTable($this, $this->get_user(), array('physical_location'), $this->get_condition());
+        	$table = new ObjectPublicationTable($this, $this->get_user(), array('physical_location'), $this->get_condition(), new GeolocationCellRenderer($this));
         	$html .= $table->as_html();
         }
         
