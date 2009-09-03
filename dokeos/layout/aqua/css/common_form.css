@@ -497,6 +497,11 @@ button.email_go, a.email_go_button
 	background-image: url(../img/common/buttons/button_email_go.png);
 }
 
+button.build, a.build_button
+{
+	background-image: url(../img/common/buttons/button_build.png);
+}
+
 /*IE-fix to avoid adding unwanted margins to the form*/
 div.simple_search form
 {
