@@ -4,6 +4,7 @@ require_once dirname(__FILE__) . '/../document_tool.class.php';
 require_once dirname(__FILE__) . '/../../../browser/object_publication_table/object_publication_table.class.php';
 require_once dirname(__FILE__) . '/../document_tool_component.class.php';
 require_once dirname(__FILE__) . '/document_viewer/document_browser.class.php';
+require_once dirname(__FILE__) . '/document_viewer/document_cell_renderer.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 require_once Path :: get_repository_path() . 'lib/learning_object/document/document.class.php';
 
@@ -33,25 +34,6 @@ class DocumentToolViewerComponent extends DocumentToolComponent
 
 		$this->action_bar = $this->get_action_bar();
 		$trail = new BreadcrumbTrail();
-
-        /*if(Request :: get('tool_action') == null && Request :: get('pid') == null)
-        {
-            $breadcrumbs = $browser->get_publication_category_tree()->get_breadcrumbs();
-            unset($breadcrumbs[0]);
-            foreach($breadcrumbs as $breadcrumb)
-            {
-                $trail->add(new BreadCrumb($breadcrumb['url'], $breadcrumb['title']));
-            }
-        }
-        elseif(Request :: get('pcattree') > 0)
-        {
-            foreach(Tool ::get_pcattree_parents(Request :: get('pcattree')) as $breadcrumb)
-            {
-                $trail->add(new BreadCrumb($this->get_url(), $breadcrumb->get_name()));
-            }
-        }*/
-  
-		
 		
         if(Request :: get('pid') != null)
         {
@@ -61,7 +43,7 @@ class DocumentToolViewerComponent extends DocumentToolComponent
         }
         else 
         {
-        	$table = new ObjectPublicationTable($this, $this->get_user(), array('document'), null);
+        	$table = new ObjectPublicationTable($this, $this->get_user(), array('document'), $this->get_condition(), new DocumentCellRenderer($this));
         	$tree = new LearningObjectPublicationCategoryTree($this, Request :: get('pcattree'));
         	$html = '<div style="width: 18%; overflow: auto; float:left;">';
 			$html .= $tree->as_html();
@@ -136,8 +118,8 @@ class DocumentToolViewerComponent extends DocumentToolComponent
 		$query = $this->action_bar->get_query();
 		if(isset($query) && $query != '')
 		{
-			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);
-			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query);
+			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query, LearningObject :: get_table_name());
+			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query, LearningObject :: get_table_name());
 			return new OrCondition($conditions);
 		}
 
