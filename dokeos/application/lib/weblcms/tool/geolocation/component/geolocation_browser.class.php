@@ -5,6 +5,7 @@ require_once dirname(__FILE__) . '/../geolocation_tool_component.class.php';
 require_once dirname(__FILE__) . '/geolocation_browser/geolocation_browser.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 require_once Path :: get_repository_path() . 'lib/learning_object/physical_location/physical_location.class.php';
+require_once dirname(__FILE__) . '/../../../browser/object_publication_table/object_publication_table.class.php';
 
 class GeolocationToolBrowserComponent extends GeolocationToolComponent
 {
@@ -32,13 +33,22 @@ class GeolocationToolBrowserComponent extends GeolocationToolComponent
 
 		$this->action_bar = $this->get_action_bar();
 
-		$browser = new GeolocationBrowser($this);
+		
 		$trail = new BreadcrumbTrail();
 
 		if(Request :: get('pid') != null)
         {
         	$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => GeolocationTool :: ACTION_BROWSE, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
+        	$browser = new GeolocationBrowser($this);
+        	$html = $browser->as_html();
+        	
         }
+        else 
+        {
+        	$table = new ObjectPublicationTable($this, $this->get_user(), array('physical_location'), $this->get_condition());
+        	$html .= $table->as_html();
+        }
+        
         $trail->add_help('courses geolocation tool');
 		$this->display_header($trail, true);
 
@@ -49,7 +59,7 @@ class GeolocationToolBrowserComponent extends GeolocationToolComponent
 				echo $this->display_introduction_text($this->introduction_text);
 			}
 		}
-        $html = $browser->as_html();
+        
 		echo $this->action_bar->as_html();
 		echo '<div id="action_bar_browser">';
 		echo $html;
@@ -127,13 +137,13 @@ class GeolocationToolBrowserComponent extends GeolocationToolComponent
 		return $action_bar;
 	}
 
-	function get_condition()
+function get_condition()
 	{
 		$query = $this->action_bar->get_query();
 		if(isset($query) && $query != '')
 		{
-			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);
-			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query);
+			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query, LearningObject :: get_table_name());
+			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query, LearningObject :: get_table_name());
 			return new OrCondition($conditions);
 		}
 
