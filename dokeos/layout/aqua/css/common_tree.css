@@ -358,6 +358,11 @@ ul.tree-menu li div a.type_group
 	background-image: url(../img/common/treemenu/group.png);
 }
 
+ul.tree-menu li div a.type_sts
+{
+	background-image: url(../img/common/treemenu/sts.png);
+}
+
 /*************
  * TOOL MENU *
  *************/
