@@ -29,7 +29,11 @@ class GlossaryToolViewerComponent extends GlossaryToolComponent
 		
 		$this->set_parameter(Tool :: PARAM_ACTION, GlossaryTool :: ACTION_VIEW_GLOSSARY);
 		
-		$this->display_header(new BreadcrumbTrail()); 
+		$trail = new BreadcrumbTrail();
+		$trail->add(new BreadCrumb($this->get_url(), Translation :: get('ViewGlossary')));
+		
+		$this->display_header($trail);
+		 
 		$display = ComplexDisplay :: factory($this, $object->get_type());
         $display->run();
         $this->display_footer();

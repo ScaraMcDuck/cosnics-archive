@@ -26,7 +26,7 @@ class GlossaryViewerTableColumnModel extends ObjectTableColumnModel {
 	 * @return array An array of all columns in this table.
 	 * @see LearningObjectTableColumn
 	 */
-	private static function get_columns()
+	function get_columns()
 	{
 		$columns = array();
 		$columns[] = new StaticTableColumn(Translation :: get(DokeosUtilities :: underscores_to_camelcase(GlossaryItem :: PROPERTY_TITLE)));

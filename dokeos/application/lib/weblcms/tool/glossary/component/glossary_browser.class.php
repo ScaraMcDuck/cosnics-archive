@@ -2,9 +2,10 @@
 
 require_once dirname(__FILE__) . '/../glossary_tool.class.php';
 require_once dirname(__FILE__) . '/../glossary_tool_component.class.php';
-require_once dirname(__FILE__) . '/glossary_browser/glossary_browser.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 require_once Path :: get_repository_path() . 'lib/learning_object/glossary/glossary.class.php';
+require_once dirname(__FILE__) . '/../../../browser/object_publication_table/object_publication_table.class.php';
+require_once dirname(__FILE__) . '/glossary_browser/glossary_cell_renderer.class.php';
 
 class GlossaryToolBrowserComponent extends GlossaryToolComponent
 {
@@ -32,7 +33,7 @@ class GlossaryToolBrowserComponent extends GlossaryToolComponent
 
 		$this->action_bar = $this->get_action_bar();
 
-		$browser = new GlossaryBrowser($this);
+		
 		$trail = new BreadcrumbTrail();
 		$trail->add_help('courses glossary tool');
 
@@ -48,7 +49,9 @@ class GlossaryToolBrowserComponent extends GlossaryToolComponent
 			}
 		}
 		echo $this->action_bar->as_html();
-		echo $browser->as_html();
+		
+		$table = new ObjectPublicationTable($this, $this->get_user(), array('glossary'), $this->get_condition(), new GlossaryCellRenderer($this));
+		echo $table->as_html();
 
 		$this->display_footer();
 	}
@@ -82,8 +85,8 @@ class GlossaryToolBrowserComponent extends GlossaryToolComponent
 		$query = $this->action_bar->get_query();
 		if(isset($query) && $query != '')
 		{
-			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);
-			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query);
+			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query, LearningObject :: get_table_name());
+			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query, LearningObject :: get_table_name());
 			return new OrCondition($conditions);
 		}
 
