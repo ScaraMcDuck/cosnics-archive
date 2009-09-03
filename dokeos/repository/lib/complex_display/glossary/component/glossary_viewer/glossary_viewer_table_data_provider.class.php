@@ -40,8 +40,8 @@ class GlossaryViewerTableDataProvider extends ObjectTableDataProvider
     	$order_property = $this->get_order_property($order_property);
     	$order_direction = $this->get_order_direction($order_direction);
     	$dm = RepositoryDataManager :: get_instance();
-    	
-    	return ($dm->retrieve_complex_learning_object_items($this->parent->get_condition()));
+    
+    	return ($dm->retrieve_complex_learning_object_items($this->parent->get_condition(), $order_property, $order_direction, $offset, $count));
     }
     
     function get_object_count()

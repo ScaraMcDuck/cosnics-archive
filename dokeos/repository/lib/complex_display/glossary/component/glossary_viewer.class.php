@@ -116,7 +116,7 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplayComponent
 	
 	function get_condition()
 	{
-		return new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, Request :: get('pid'));
+		return new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, Request :: get('pid'), ComplexLearningObjectItem :: get_table_name());
 	}
 }
 
