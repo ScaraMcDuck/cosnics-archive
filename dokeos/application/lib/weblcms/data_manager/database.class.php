@@ -198,24 +198,33 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $publication_alias = $this->database->get_alias(LearningObjectPublication :: get_table_name());
         $publication_user_alias = $this->database->get_alias('learning_object_publication_user');
         $publication_group_alias = $this->database->get_alias('learning_object_publication_course_group');
+        $lo_table_alias = RepositoryDataManager :: get_instance()->get_database()->get_alias('learning_object');
 
         $query = 'SELECT DISTINCT ' . $publication_alias . '.* FROM ' . $this->database->escape_table_name(LearningObjectPublication :: get_table_name()) . ' AS ' . $publication_alias;
         $query .= ' LEFT JOIN ' . $this->database->escape_table_name('learning_object_publication_user') . ' AS ' . $publication_user_alias . ' ON ' . $publication_alias . '.id = ' . $publication_user_alias . '.publication';
         $query .= ' LEFT JOIN ' . $this->database->escape_table_name('learning_object_publication_course_group') . ' AS ' . $publication_group_alias . ' ON ' . $publication_alias . '.id = ' . $publication_group_alias . '.publication';
+        $query .= ' JOIN ' . RepositoryDataManager :: get_instance()->get_database()->escape_table_name('learning_object') . ' AS ' . $lo_table_alias . ' ON ' . $publication_alias . '.learning_object = ' . $lo_table_alias . '.id';
 
         return $this->database->retrieve_result_set($query, LearningObjectPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
+    function get_alias($name)
+    {
+    	return $this->database->get_alias($name);
+    }
+    
     function count_learning_object_publications_new($condition)
     {
         $publication_alias = $this->database->get_alias(LearningObjectPublication :: get_table_name());
         $publication_user_alias = $this->database->get_alias('learning_object_publication_user');
         $publication_group_alias = $this->database->get_alias('learning_object_publication_course_group');
-
+		$lo_table_alias = RepositoryDataManager :: get_instance()->get_database()->get_alias('learning_object');
+        
         $query = 'SELECT COUNT(*) FROM ' . $this->database->escape_table_name(LearningObjectPublication :: get_table_name()) . ' AS ' . $publication_alias;
         $query .= ' LEFT JOIN ' . $this->database->escape_table_name('learning_object_publication_user') . ' AS ' . $publication_user_alias . ' ON ' . $publication_alias . '.id = ' . $publication_user_alias . '.publication';
         $query .= ' LEFT JOIN ' . $this->database->escape_table_name('learning_object_publication_course_group') . ' AS ' . $publication_group_alias . ' ON ' . $publication_alias . '.id = ' . $publication_group_alias . '.publication';
-
+		$query .= ' JOIN ' . RepositoryDataManager :: get_instance()->get_database()->escape_table_name('learning_object') . ' AS ' . $lo_table_alias . ' ON ' . $publication_alias . '.learning_object = ' . $lo_table_alias . '.id';
+        
         return $this->database->count_result_set($query, LearningObjectPublication :: get_table_name(), $condition);
     }
 
