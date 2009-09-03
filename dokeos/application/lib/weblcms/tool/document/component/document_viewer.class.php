@@ -32,11 +32,9 @@ class DocumentToolViewerComponent extends DocumentToolComponent
 		$this->introduction_text = $publications->next_result();
 
 		$this->action_bar = $this->get_action_bar();
-
-		$browser = new DocumentBrowser($this);
 		$trail = new BreadcrumbTrail();
 
-        if(Request :: get('tool_action') == null && Request :: get('pid') == null)
+        /*if(Request :: get('tool_action') == null && Request :: get('pid') == null)
         {
             $breadcrumbs = $browser->get_publication_category_tree()->get_breadcrumbs();
             unset($breadcrumbs[0]);
@@ -51,13 +49,28 @@ class DocumentToolViewerComponent extends DocumentToolComponent
             {
                 $trail->add(new BreadCrumb($this->get_url(), $breadcrumb->get_name()));
             }
-        }
-        //dump($browser->get_publication_category_tree()->get_breadcrumbs());
-        //dump(Tool ::get_pcattree_parents(Request :: get('pcattree')));
+        }*/
+  
+		
+		
         if(Request :: get('pid') != null)
         {
         	$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => DocumentTool ::ACTION_VIEW_DOCUMENTS, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
+			$browser = new DocumentBrowser($this, 'document');
+			$html = $browser->as_html();   	
         }
+        else 
+        {
+        	$table = new ObjectPublicationTable($this, $this->get_user(), array('document'), null);
+        	$tree = new LearningObjectPublicationCategoryTree($this, Request :: get('pcattree'));
+        	$html = '<div style="width: 18%; overflow: auto; float:left;">';
+			$html .= $tree->as_html();
+			$html .= '</div>';
+			$html .= '<div style="width: 80%; overflow: auto;">';
+			$html .= $table->as_html();
+			$html .= '</div>';
+        }
+        
         $trail->add_help('courses document tool');
 		$this->display_header($trail, true);
 
@@ -68,18 +81,8 @@ class DocumentToolViewerComponent extends DocumentToolComponent
 				echo $this->display_introduction_text($this->introduction_text);
 			}
 		}
-        $html = $browser->as_html();
 		echo $this->action_bar->as_html();
-		echo '<div id="action_bar_browser">';
 		echo $html;
-		
-		echo '<br /><br />';
-		
-		$table = new ObjectPublicationTable($this, $this->get_user(), array('document'), null);
-		echo $table->as_html();
-		
-		echo '</div>';
-
 		$this->display_footer();
 	}
 
@@ -140,40 +143,5 @@ class DocumentToolViewerComponent extends DocumentToolComponent
 
 		return null;
 	}
-
-	/*function display_introduction_text()
-	{
-		$html = array();
-
-		$introduction_text = $this->introduction_text;
-
-		if($introduction_text)
-		{
-
-			$tb_data[] = array(
-				'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
-				'label' => Translation :: get('Edit'),
-				'img' => Theme :: get_common_image_path() . 'action_edit.png',
-				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
-			);
-
-			$tb_data[] = array(
-				'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
-				'label' => Translation :: get('Delete'),
-				'img' => Theme :: get_common_image_path() . 'action_delete.png',
-				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
-			);
-
-			$html[] = '<div class="learning_object">';
-			$html[] = '<div class="description">';
-			$html[] = $introduction_text->get_learning_object()->get_description();
-			$html[] = '</div>';
-			$html[] = DokeosUtilities :: build_toolbar($tb_data) . '<div class="clear"></div>';
-			$html[] = '</div>';
-			$html[] = '<br />';
-		}
-
-		return implode("\n",$html);
-	}*/
 }
 ?>

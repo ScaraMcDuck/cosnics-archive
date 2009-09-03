@@ -29,11 +29,13 @@ class ObjectPublicationTableColumnModel extends ObjectTableColumnModel
 	 */
 	function get_columns()
 	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		
 		$columns = array();
-		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE, true, LearningObject :: get_table_name());
-		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION, true, LearningObject :: get_table_name());
-		$columns[] = new ObjectTableColumn(LearningObjectPublication :: PROPERTY_PUBLICATION_DATE, true, LearningObjectPublication :: get_table_name());
-		$columns[] = new ObjectTableColumn(LearningObjectPublication :: PROPERTY_PUBLISHER_ID, true, LearningObjectPublication :: get_table_name());
+		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE, true, $wdm->get_alias(LearningObject :: get_table_name()));
+		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION, true, $wdm->get_alias(LearningObject :: get_table_name()));
+		$columns[] = new ObjectTableColumn(LearningObjectPublication :: PROPERTY_PUBLICATION_DATE, true, $wdm->get_alias(LearningObjectPublication :: get_table_name()));
+		$columns[] = new ObjectTableColumn(LearningObjectPublication :: PROPERTY_PUBLISHER_ID, true, $wdm->get_alias(LearningObjectPublication :: get_table_name()));
 		$columns[] = new ObjectTableColumn('published_for', false);
 		$columns[] = self :: get_action_column();
 		return $columns;

@@ -19,6 +19,7 @@ class ObjectPublicationTable extends ObjectTable
 		$data_provider = new ObjectPublicationTableDataProvider($parent, $owner, $types, $condition);
 		$column_model = new ObjectPublicationTableColumnModel();
 		$cell_renderer = new ObjectPublicationTableCellRenderer($parent);
+		//$cell_renderer->set_object_count($data_provider->get_object_count());
 		parent :: __construct($data_provider, ObjectPublicationTable :: DEFAULT_NAME, $column_model, $cell_renderer);
 		$actions = array();
 		

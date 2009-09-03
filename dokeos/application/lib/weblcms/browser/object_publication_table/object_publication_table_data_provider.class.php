@@ -51,7 +51,7 @@ class ObjectPublicationTableDataProvider extends ObjectTableDataProvider
     function get_publications($from, $count, $column, $direction)
     {
     	$datamanager = WeblcmsDataManager :: get_instance();
-		$publications = $datamanager->retrieve_learning_object_publications_new($this->get_conditions());
+		$publications = $datamanager->retrieve_learning_object_publications_new($this->get_conditions(), $column, $from, $count);
 		return $publications;
     }
     
