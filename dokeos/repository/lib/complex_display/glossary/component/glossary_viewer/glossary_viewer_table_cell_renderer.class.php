@@ -43,9 +43,9 @@ class GlossaryViewerTableCellRenderer extends DefaultLearningObjectTableCellRend
 
 		switch ($column->get_name())
 		{
-			case Translation :: get(ucfirst(GlossaryItem :: PROPERTY_TITLE)):
+			case GlossaryItem :: PROPERTY_TITLE:
 				return $this->glossary_item->get_title();
-			case Translation :: get(ucfirst(GlossaryItem :: PROPERTY_DESCRIPTION)):
+			case GlossaryItem :: PROPERTY_DESCRIPTION:
 				return strip_tags($this->glossary_item->get_description());
 		}
 	}

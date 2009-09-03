@@ -35,7 +35,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	const ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE = 'loa';
 	const ALIAS_TYPE_TABLE = 'tt';
 	const ALIAS_LEARNING_OBJECT_PARENT_TABLE = 'lop';
-	const ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE = 'cloi';
+	const ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE = 'coem';
 
 	/**
 	 * The database connection.
@@ -1398,6 +1398,11 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
                 $query .= ' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).' = '.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(ComplexLearningObjectItem :: PROPERTY_ID);
             }
 		}
+		$lo_alias = $this->get_database()->get_alias('learning_object');
+		$alias = self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE;
+		
+		$query .= ' JOIN ' . $this->escape_table_name('learning_object') . ' AS ' . $lo_alias . ' ON ' . $alias . '.ref=' . $lo_alias . '.id';
+		
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this->database, $params, null);
@@ -1405,14 +1410,15 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
             $params = $translator->get_parameters();
 		}
 
-		$order_by[] = new ObjectTableOrder(ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER);
+		$order_by[] = new ObjectTableOrder(ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER, SORT_ASC, $alias);
 		//$order_dir[] = SORT_ASC;
 		$order = array ();
 
 	    $orders = array();
         foreach($order_by as $order)
         {
-            $orders[] = $this->escape_column_name($order->get_property()) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+            $alias = $order->get_alias() ? $order->get_alias() . '.' : '';
+        	$orders[] = $this->escape_column_name($alias . $order->get_property()) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
         }
         if (count($orders))
         {
@@ -1422,7 +1428,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if ($max_objects < 0)
 		{
 			$max_objects = null;
-		}
+		} 
 		$this->connection->setLimit(intval($max_objects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
