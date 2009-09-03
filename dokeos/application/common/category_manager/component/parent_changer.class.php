@@ -114,7 +114,8 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
 	function clean_display_order_old_parent($parent)
 	{
 		$condition = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $parent);
-		$categories = $this->retrieve_categories($condition);
+
+		$categories = $this->retrieve_categories($condition, null, null, array(new ObjectTableOrder('display_order')));
 		
 		$i = 1;
 		
