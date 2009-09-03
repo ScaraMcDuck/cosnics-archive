@@ -1,6 +1,7 @@
 <?php
 
 require_once dirname(__FILE__) . '/../document_tool.class.php';
+require_once dirname(__FILE__) . '/../../../browser/object_publication_table/object_publication_table.class.php';
 require_once dirname(__FILE__) . '/../document_tool_component.class.php';
 require_once dirname(__FILE__) . '/document_viewer/document_browser.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
@@ -71,6 +72,12 @@ class DocumentToolViewerComponent extends DocumentToolComponent
 		echo $this->action_bar->as_html();
 		echo '<div id="action_bar_browser">';
 		echo $html;
+		
+		echo '<br /><br />';
+		
+		$table = new ObjectPublicationTable($this, $this->get_user(), array('document'), null);
+		echo $table->as_html();
+		
 		echo '</div>';
 
 		$this->display_footer();
