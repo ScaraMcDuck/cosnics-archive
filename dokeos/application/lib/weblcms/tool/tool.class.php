@@ -55,6 +55,7 @@ abstract class Tool
 
 	/**
 	 * The application that the tool is associated with.
+	 * @var WeblcmsManager
 	 */
 	private $parent;
 

@@ -13,7 +13,7 @@ class ForumTableColumnModel extends LearningObjectTableColumnModel {
 		parent :: __construct(self :: get_columns(), 3, SORT_DESC);
 	}
 
-	private static function get_columns()
+	function get_columns()
 	{
 		$columns = array();
 		$columns[] = new LearningObjectTableColumn(LearningObject :: PROPERTY_TYPE, true);

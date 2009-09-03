@@ -371,8 +371,8 @@ class WeblcmsManager extends WebApplication
 			echo '</select></form></div>';*/
             if($display_title)
             {
-               echo '<div style="float: left;">';
-                Display :: tool_title(htmlentities(Translation :: get($this->tool_class.'Title')));
+                echo '<div style="float: left;">';
+                Display :: tool_title(htmlentities(Translation :: get(DokeosUtilities :: underscores_to_camelcase($this->tool_class).'Title')));
                 echo '</div>';
             }
 
