@@ -14,12 +14,16 @@ class ObjectPublicationTable extends ObjectTable
 {
 	const DEFAULT_NAME = 'publication_table';
 
-	function ObjectPublicationTable($parent, $owner, $types, $condition)
+	function ObjectPublicationTable($parent, $owner, $types, $condition, $cell_renderer = null, $column_model = null)
 	{
 		$data_provider = new ObjectPublicationTableDataProvider($parent, $owner, $types, $condition);
-		$column_model = new ObjectPublicationTableColumnModel();
-		$cell_renderer = new ObjectPublicationTableCellRenderer($parent);
-		//$cell_renderer->set_object_count($data_provider->get_object_count());
+		
+		if(!$column_model)
+			$column_model = new ObjectPublicationTableColumnModel();
+			
+		if(!$cell_renderer)	
+			$cell_renderer = new ObjectPublicationTableCellRenderer($parent);
+			
 		parent :: __construct($data_provider, ObjectPublicationTable :: DEFAULT_NAME, $column_model, $cell_renderer);
 		$actions = array();
 		

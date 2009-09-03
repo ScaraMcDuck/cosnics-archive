@@ -10,7 +10,7 @@ require_once Path :: get_application_path().'lib/weblcms/trackers/weblcms_assess
  */
 class ObjectPublicationTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 {
-	private $browser;
+	protected $browser;
 	private $object_count;
 
 	function ObjectPublicationTableCellRenderer($browser)
