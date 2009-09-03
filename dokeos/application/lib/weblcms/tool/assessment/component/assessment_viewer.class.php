@@ -3,9 +3,11 @@
  * @package application.weblcms.tool.assessment.component
  */
 
-require_once dirname(__FILE__).'/assessment_publication_table/assessment_publication_table.class.php';
 require_once Path :: get_library_path().'/html/action_bar/action_bar_renderer.class.php';
 require_once dirname(__FILE__).'/../../../browser/learningobjectpublicationcategorytree.class.php';
+require_once dirname(__FILE__) . '/../../../browser/object_publication_table/object_publication_table.class.php';
+require_once dirname(__FILE__) . '/assessment_browser/assessment_cell_renderer.class.php';
+require_once dirname(__FILE__) . '/assessment_browser/assessment_column_model.class.php';
 
 /**
  * Represents the view component for the assessment tool.
@@ -58,8 +60,10 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
 
 		echo '</div>';
 		echo '<div style="width:80%; padding-left: 1%; float:right; ">';
-		$table = new AssessmentPublicationTable($this, $this->get_user(), array('assessment', 'survey', 'hotpotatoes'), null);
+		//$table = new AssessmentPublicationTable($this, $this->get_user(), array('assessment', 'survey', 'hotpotatoes'), null);
+		$table = new ObjectPublicationTable($this, $this->get_user(), array('assessment', 'survey', 'hotpotatoes'), $this->get_condition(), new AssessmentCellRenderer($this), new AssessmentColumnModel());
 		echo $table->as_html();
+		
 		echo '</div>';
 
 		$this->display_footer();
@@ -67,6 +71,14 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
 	
 	function get_condition()
 	{
+		$query = $this->action_bar->get_query();
+		if(isset($query) && $query != '')
+		{
+			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query, LearningObject :: get_table_name());
+			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query, LearningObject :: get_table_name());
+			return new OrCondition($conditions);
+		}
+
 		return null;
 	}
 

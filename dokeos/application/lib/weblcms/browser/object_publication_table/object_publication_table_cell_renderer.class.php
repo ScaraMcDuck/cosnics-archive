@@ -30,7 +30,7 @@ class ObjectPublicationTableCellRenderer extends DefaultLearningObjectTableCellR
 	{
 		if ($column === ObjectPublicationTableColumnModel :: get_action_column())
 		{
-			return $this->get_actions($publication);
+			return DokeosUtilities :: build_toolbar($this->get_actions($publication));
 		} 
 
 		switch($column->get_name())
@@ -189,7 +189,7 @@ class ObjectPublicationTableCellRenderer extends DefaultLearningObjectTableCellR
 			);
 
 		
-		return DokeosUtilities :: build_toolbar($actions);
+		return $actions;
 	}
 }
 ?>

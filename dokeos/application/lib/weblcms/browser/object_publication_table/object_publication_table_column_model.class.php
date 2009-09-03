@@ -18,9 +18,17 @@ class ObjectPublicationTableColumnModel extends ObjectTableColumnModel
 	/**
 	 * Constructor.
 	 */
-	function ObjectPublicationTableColumnModel()
+	function ObjectPublicationTableColumnModel($columns)
 	{
-		parent :: __construct(self :: get_columns(), 1, SORT_ASC);
+		if($columns)
+		{
+			parent :: __construct($columns, 1, SORT_ASC);
+		}
+		else 
+		{
+			parent :: __construct(self :: get_columns(), 1, SORT_ASC);		
+		}
+	
 	}
 	/**
 	 * Gets the columns of this table.
@@ -28,6 +36,13 @@ class ObjectPublicationTableColumnModel extends ObjectTableColumnModel
 	 * @see LearningObjectTableColumn
 	 */
 	function get_columns()
+	{
+		$columns = $this->get_basic_columns();
+		$columns[] = self :: get_action_column();
+		return $columns;
+	}
+	
+	function get_basic_columns()
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
 		
@@ -37,9 +52,9 @@ class ObjectPublicationTableColumnModel extends ObjectTableColumnModel
 		$columns[] = new ObjectTableColumn(LearningObjectPublication :: PROPERTY_PUBLICATION_DATE, true, $wdm->get_alias(LearningObjectPublication :: get_table_name()));
 		$columns[] = new ObjectTableColumn(LearningObjectPublication :: PROPERTY_PUBLISHER_ID, true, $wdm->get_alias(LearningObjectPublication :: get_table_name()));
 		$columns[] = new ObjectTableColumn('published_for', false);
-		$columns[] = self :: get_action_column();
 		return $columns;
 	}
+	
 	/**
 	 * Gets the column wich contains the action buttons.
 	 * @return LearningObjectTableColumn The action column.
