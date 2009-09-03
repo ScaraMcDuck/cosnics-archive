@@ -53,6 +53,7 @@ class GroupManagerBrowserComponent extends GroupManagerComponent
 		$html[] = '<div style="float: right; width: 80%;">';
 		$html[] = $table->as_html();
 		$html[] = '</div>';
+		$html[] = '<div class="clear"></div>';
 
 		return implode($html, "\n");
 	}

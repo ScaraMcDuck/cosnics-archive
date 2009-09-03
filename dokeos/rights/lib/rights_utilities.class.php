@@ -164,7 +164,8 @@ class RightsUtilities
 								return true;
 							}
 						}
-						elseif(!$parent->inherits())
+
+						if(!$parent->inherits())
 						{
 							break;
 						}
@@ -192,7 +193,8 @@ class RightsUtilities
 						return true;
 					}
 				}
-				elseif(!$parent->inherits())
+
+				if(!$parent->inherits())
 				{
 					break;
 				}
@@ -221,7 +223,8 @@ class RightsUtilities
 			{
 				return true;
 			}
-			elseif(!$parent->inherits())
+
+			if(!$parent->inherits())
 			{
 				return false;
 			}
@@ -242,7 +245,8 @@ class RightsUtilities
 			{
 				return true;
 			}
-			elseif(!$parent->inherits())
+
+			if(!$parent->inherits())
 			{
 				return false;
 			}
@@ -263,7 +267,8 @@ class RightsUtilities
 			{
 				return true;
 			}
-			elseif(!$parent->inherits())
+
+			if(!$parent->inherits())
 			{
 				return false;
 			}

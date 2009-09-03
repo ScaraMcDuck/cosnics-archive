@@ -21,6 +21,7 @@ class Group extends DataClass
 	const PROPERTY_PARENT = 'parent';
 	const PROPERTY_LEFT_VALUE = 'left_value';
 	const PROPERTY_RIGHT_VALUE = 'right_value';
+	const PROPERTY_CODE = 'code';
 
 	/**
 	 * Get the default properties of all groups.
@@ -28,7 +29,7 @@ class Group extends DataClass
 	 */
 	static function get_default_property_names()
 	{
-		return parent :: get_default_property_names(array(self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_SORT, self :: PROPERTY_PARENT, self :: PROPERTY_LEFT_VALUE, self :: PROPERTY_RIGHT_VALUE));
+		return parent :: get_default_property_names(array(self :: PROPERTY_NAME, self :: PROPERTY_CODE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_SORT, self :: PROPERTY_PARENT, self :: PROPERTY_LEFT_VALUE, self :: PROPERTY_RIGHT_VALUE));
 	}
 
 	/*
@@ -70,6 +71,11 @@ class Group extends DataClass
 		return $this->get_default_property(self :: PROPERTY_SORT);
 	}
 
+	function get_code()
+	{
+		return $this->get_default_property(self :: PROPERTY_CODE);
+	}
+
 	/**
 	 * Sets the name of this group.
 	 * @param String $name the name.
@@ -77,6 +83,11 @@ class Group extends DataClass
 	function set_name($name)
 	{
 		$this->set_default_property(self :: PROPERTY_NAME, $name);
+	}
+
+	function set_code($name)
+	{
+		$this->set_default_property(self :: PROPERTY_CODE, $name);
 	}
 
 	/**
