@@ -294,7 +294,7 @@ abstract class Tool
 					$trail->add($breadcrumb);
 			}
 		}
-		$this->parent->display_header($trail, false, $display_title, $help_item);
+		$this->parent->display_header($trail, false, $display_title);
 		//echo '<div class="clear"></div>';
 
 		if($this->parent->get_course()->get_tool_shortcut() == Course :: TOOL_SHORTCUT_ON)

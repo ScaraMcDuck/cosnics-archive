@@ -1,7 +1,9 @@
 <?php
-
 require_once Path :: get_library_path().'/html/action_bar/action_bar_renderer.class.php';
 require_once dirname(__FILE__).'/learning_path_publication_table/learning_path_publication_table.class.php';
+require_once dirname(__FILE__) . '/learning_path_browser/learning_path_cell_renderer.class.php';
+require_once dirname(__FILE__) . '/learning_path_browser/learning_path_column_model.class.php';
+require_once dirname(__FILE__) . '/../../../browser/object_publication_table/object_publication_table.class.php';
 
 class LearningPathToolBrowserComponent extends LearningPathToolComponent
 {
@@ -38,7 +40,8 @@ class LearningPathToolBrowserComponent extends LearningPathToolComponent
 		}
 
 		echo $this->action_bar->as_html();
-		$table = new LearningPathPublicationTable($this, $this->get_user(), array('learning_path'), null);
+		//$table = new LearningPathPublicationTable($this, $this->get_user(), array('learning_path'), null);
+		$table = new ObjectPublicationTable($this, $this->get_user(), array('learning_path'), $this->get_condition(), new LearningPathCellRenderer($this), new LearningPathColumnModel());
 		echo $table->as_html();
 
 		$this->display_footer();
@@ -80,39 +83,17 @@ class LearningPathToolBrowserComponent extends LearningPathToolComponent
 		return $action_bar;
 	}
 
-	/*function display_introduction_text()
+	function get_condition()
 	{
-		$html = array();
-
-		$introduction_text = $this->introduction_text;
-
-		if($introduction_text)
+		$query = $this->action_bar->get_query();
+		if(isset($query) && $query != '')
 		{
-
-			$tb_data[] = array(
-				'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
-				'label' => Translation :: get('Edit'),
-				'img' => Theme :: get_common_image_path() . 'action_edit.png',
-				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
-			);
-
-			$tb_data[] = array(
-				'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
-				'label' => Translation :: get('Delete'),
-				'img' => Theme :: get_common_image_path() . 'action_delete.png',
-				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
-			);
-
-			$html[] = '<div class="learning_object">';
-			$html[] = '<div class="description">';
-			$html[] = $introduction_text->get_learning_object()->get_description();
-			$html[] = '</div>';
-			$html[] = DokeosUtilities :: build_toolbar($tb_data) . '<div class="clear"></div>';
-			$html[] = '</div>';
-			$html[] = '<br />';
+			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query, LearningObject :: get_table_name());
+			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query, LearningObject :: get_table_name());
+			return new OrCondition($conditions);
 		}
 
-		return implode("\n",$html);
-	}*/
+		return null;
+	}
 }
 ?>
