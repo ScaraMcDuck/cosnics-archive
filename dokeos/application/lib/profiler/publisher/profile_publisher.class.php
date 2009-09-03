@@ -36,7 +36,7 @@ class ProfilePublisher
         
         if (count($ids) > 0)
         {
-            $condition = new InCondition(LearningObject :: PROPERTY_ID, $ids);
+            $condition = new InCondition(LearningObject :: PROPERTY_ID, $ids, LearningObject :: get_table_name());
             $learning_objects = RepositoryDataManager :: get_instance()->retrieve_learning_objects(null, $condition);
             //DokeosUtilities :: order_learning_objects_by_title($learning_objects);
             

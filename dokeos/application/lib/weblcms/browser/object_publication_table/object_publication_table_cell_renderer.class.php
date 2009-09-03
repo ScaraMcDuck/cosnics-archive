@@ -117,13 +117,13 @@ class ObjectPublicationTableCellRenderer extends DefaultLearningObjectTableCellR
 	{
 		if ($this->browser->is_allowed(EDIT_RIGHT)) 
 		{
-			$actions[] = array(
+			$actions['delete'] = array(
 				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_DELETE_PUBLICATION, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
 				'label' => Translation :: get('Delete'), 
 				'img' => Theme :: get_common_image_path().'action_delete.png'
 			);
 			
-			$actions[] = array(
+			$actions['edit'] = array(
 				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
 				'label' => Translation :: get('Edit'), 
 				'img' => Theme :: get_common_image_path().'action_edit.png'
@@ -167,13 +167,13 @@ class ObjectPublicationTableCellRenderer extends DefaultLearningObjectTableCellR
 //				);	
 //			}
 			
-			$actions[] = array(
+			$actions['visible'] = array(
 				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
 				'label' => Translation :: get('Visible'), 
 				'img' => Theme :: get_common_image_path().$img
 			);	
 			
-			$actions[] = array(
+			$actions['move'] = array(
 				'href' => $this->browser->get_url(array(AssessmentTool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
 				'label' => Translation :: get('Move'), 
 				'img' => Theme :: get_common_image_path().'action_move.png'
@@ -182,7 +182,7 @@ class ObjectPublicationTableCellRenderer extends DefaultLearningObjectTableCellR
 		} 
 		
 		$feedback_url = $this->browser->get_url(array (Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'));
-		$actions[] = array(
+		$actions['feedback'] = array(
 			'href' => $feedback_url, 
 			'label' => Translation :: get('Feedback'), 
 			'img' => Theme :: get_common_image_path().'action_browser.png'
