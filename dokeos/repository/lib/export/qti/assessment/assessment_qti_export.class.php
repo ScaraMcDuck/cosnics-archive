@@ -15,7 +15,7 @@ class AssessmentQtiExport extends QtiExport
 		$rdm = RepositoryDataManager :: get_instance();
 		$assessment = $this->get_learning_object();
 		$assessment_xml[] = $this->get_assessment_xml_header($assessment);
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id());
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id(), ComplexLearningObjectItem :: get_table_name());
 		$clo_questions = $rdm->retrieve_complex_learning_object_items($condition);
 		while ($clo_question = $clo_questions->next_result())
 		{

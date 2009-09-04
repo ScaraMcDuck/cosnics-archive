@@ -115,7 +115,7 @@ class DlofExport extends LearningObjectExport
 			$text = $doc->createTextNode('complex');
 			$type->appendChild($text);
 			
-			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $learning_object->get_id());
+			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $learning_object->get_id(), ComplexLearningObjectItem :: get_table_name());
 			$children = $this->rdm->retrieve_complex_learning_object_items($condition);
 			
 			if($children->size() > 0)

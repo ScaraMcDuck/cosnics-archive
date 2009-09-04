@@ -76,7 +76,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
     {
         $rdm = RepositoryDataManager :: get_instance();
 
-        $children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $forum->get_id()));
+        $children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $forum->get_id(), ComplexLearningObjectItem :: get_table_name()));
         while($child = $children->next_result())
         {
             $lo = $rdm->retrieve_learning_object($child->get_ref());
@@ -95,7 +95,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
         $rdm = RepositoryDataManager :: get_instance();
 
         $order_property[]=new ObjectTableOrder('add_date');
-        $children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $current_forum->get_id()), $order_property);
+        $children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $current_forum->get_id(), ComplexLearningObjectItem :: get_table_name()), $order_property);
         while($child = $children->next_result())
         {
             $lo = $rdm->retrieve_learning_object($child->get_ref());
@@ -182,8 +182,8 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
         {
             $title = '<a href="' . $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay::ACTION_VIEW_TOPIC,'pid' => $this->pid, 'cid' => $topic->get_id())) . '">' . $topic->get_ref()->get_title() . '</a>';
 
-            $count = $rdm->count_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $topic->get_ref()->get_id()));
-            $last_post = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $topic->get_ref()->get_id()), array(new ObjectTableOrder(ComplexLearningObjectItem :: PROPERTY_ADD_DATE, SORT_DESC)), array(), 0, 1 )->next_result();
+            $count = $rdm->count_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $topic->get_ref()->get_id(), ComplexLearningObjectItem :: get_table_name()));
+            $last_post = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $topic->get_ref()->get_id(), ComplexLearningObjectItem :: get_table_name()), array(new ObjectTableOrder(ComplexLearningObjectItem :: PROPERTY_ADD_DATE, SORT_DESC)), array(), 0, 1 )->next_result();
 
             $src = 'forum/topic_read.png';
             $hover = 'NoNewPosts';

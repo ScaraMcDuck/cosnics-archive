@@ -50,7 +50,7 @@ require_once dirname(__FILE__).'/../../../../trackers/assessment_question_attemp
 		$data['user'] = $this->export_user($user_assessment->get_user_id());
 		$data['total_score'] = $user_assessment->get_total_score();
 		$data['date_time_taken'] = $user_assessment->get_date();
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment_id);
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment_id, ComplexLearningObjectItem :: get_table_name());
 
 		$clo_questions = $this->rdm->retrieve_complex_learning_object_items($condition);
 		while ($clo_question = $clo_questions->next_result())

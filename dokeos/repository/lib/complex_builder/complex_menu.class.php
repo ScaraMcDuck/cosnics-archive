@@ -99,7 +99,7 @@ class ComplexMenu extends HTML_Menu
 	 */
 	private function get_menu_items($parent_id)
 	{
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $parent_id);
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $parent_id, ComplexLearningObjectItem :: get_table_name());
 		$datamanager = $this->dm;
 		$clois = $datamanager->retrieve_complex_learning_object_items($condition);
 

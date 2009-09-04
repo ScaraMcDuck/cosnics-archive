@@ -77,7 +77,7 @@ class Forum extends LearningObject
 
                 $children = $rdm->retrieve_last_post($this->get_id(),$child_id);
 		
-//		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->get_id());
+//		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexLearningObjectItem :: get_table_name());
 //
 //                $order_property[] = new ObjectTableOrder('add_date',SORT_DESC);
 //		$children = $rdm->retrieve_complex_learning_object_items($condition, $order_property,array(), 0, 1);

@@ -30,7 +30,7 @@ class RepositoryManagerComplexOrderMoverComponent extends RepositoryManagerCompo
             $cloi->set_display_order($new_place);
 
             $conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER, $new_place);
-            $conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $parent);
+            $conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $parent, ComplexLearningObjectItem :: get_table_name());
             $condition = new AndCondition($conditions);
             $items = $this->retrieve_complex_learning_object_items($condition);
             $new_cloi = $items->next_result();

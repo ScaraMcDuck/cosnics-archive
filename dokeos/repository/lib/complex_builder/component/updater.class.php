@@ -46,7 +46,7 @@ class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
 				$new_id = $lo->get_latest_version()->get_id();
 				$cloi->set_ref($new_id);
 				
-				$children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $old_id));
+				$children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $old_id, ComplexLearningObjectItem :: get_table_name()));
 				while($child = $children->next_result())
 				{
 					$child->set_parent($new_id);

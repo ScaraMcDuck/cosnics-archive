@@ -267,9 +267,9 @@ abstract class ComplexBuilder
 	{
 		if($this->get_cloi())
 		{
-			return new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->get_cloi()->get_ref());
+			return new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->get_cloi()->get_ref(), ComplexLearningObjectItem :: get_table_name());
 		}
-		return new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->get_root_lo()->get_id());
+		return new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->get_root_lo()->get_id(), ComplexLearningObjectItem :: get_table_name());
 	}
 
 	function get_clo_menu()

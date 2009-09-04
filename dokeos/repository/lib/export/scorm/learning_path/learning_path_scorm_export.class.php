@@ -43,7 +43,7 @@ class LearningPathScormExport extends ScormExport
 	
 	function export_learning_path($learning_path)
 	{
-		$chapters_cond = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $learning_path->get_id());
+		$chapters_cond = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $learning_path->get_id(), ComplexLearningObjectItem :: get_table_name());
 		$chapters_clos = $this->get_rdm()->retrieve_complex_learning_object_items($chapters_cond);
 		while ($chapter_clo = $chapters_clos->next_result())
 		{
@@ -71,7 +71,7 @@ class LearningPathScormExport extends ScormExport
 		$org_xml[] = '<item identifier="ITEM_'.$chapter->get_id().'" identifierref="RESOURCE_'.$chapter->get_id().'" isvisible="true">';
 		$org_xml[] = '<title>'.$chapter->get_title().'</title>';
 		
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $chapter->get_id());
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $chapter->get_id(), ComplexLearningObjectItem :: get_table_name());
 		$items = $this->get_rdm()->retrieve_complex_learning_object_items($condition);
 		while ($item_clo = $items->next_result())
 		{
