@@ -162,6 +162,8 @@ class ForumToolBrowserComponent extends ForumToolComponent
 				$title = '<span style="color: grey;">' . $title . '</span>';
 			}
 
+			$last_post = RepositoryDataManager::get_instance()->retrieve_complex_learning_object_item($publication->get_learning_object()->get_last_post());
+			
 			$table->setCellContents($row, 0, '<img title="' . Translation :: get('NoNewPosts') . '" src="' . Theme :: get_image_path() . 'forum/forum_read.png" />');
 			$table->setCellAttributes($row, 0, array('width' => 50, 'class' => 'row1', 'style' => 'height:50px;'));
 			$table->setCellContents($row, 1, $title);
@@ -170,7 +172,19 @@ class ForumToolBrowserComponent extends ForumToolComponent
 			$table->setCellAttributes($row, 2, array('class' => 'row2', 'align' => 'center'));
 			$table->setCellContents($row, 3, $forum->get_total_posts());
 			$table->setCellAttributes($row, 3, array('class' => 'row2', 'align' => 'center'));
-			$table->setCellContents($row, 4, '');
+			
+			if($last_post)
+            {
+                //$link = $this->get_url(array(ComplexDisplay::PARAM_DISPLAY_ACTION => ForumDisplay::ACTION_VIEW_TOPIC,'pid' => $this->pid, 'cid' => $last_post->get_id())) . '#post_' . $last_post->get_id();
+            	$table->setCellContents($row, 4, $last_post->get_add_date() . '<br />' . UserDataManager :: get_instance()->retrieve_user($last_post->get_user_id())->get_fullname());// .
+                                                 //' <a href="' . $link . '"><img title="' . Translation :: get('ViewLastPost') .
+                                                 //'" src="' . Theme :: get_image_path() . 'forum/icon_topic_latest.gif" /></a>');
+            }
+            else
+            {
+                $table->setCellContents($row, 4, '-');
+            }
+			
 			$table->setCellAttributes($row, 4, array('class' => 'row2'));
 			
 			if($this->allowed)

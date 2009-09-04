@@ -1271,7 +1271,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
+			$translator = new ConditionTranslator($this->database, $params);
             $query .= $translator->render_query($condition);
             $params = $translator->get_parameters();
 		}
@@ -1391,8 +1391,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 */
 	function retrieve_complex_learning_object_items($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1, $type = null)
 	{
-		$query = 'SELECT * FROM ' . $this->escape_table_name('complex_learning_object_item') . ' AS ' .
-				 self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE;
+		$alias = self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE;
+		
+		$query = 'SELECT ' . $alias . '.* FROM ' . $this->escape_table_name('complex_learning_object_item') . ' AS ' . $alias;
         $params = array ();
 
         if (isset ($type))
@@ -1404,7 +1405,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
             }
 		}
 		$lo_alias = $this->get_database()->get_alias('learning_object');
-		$alias = self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE;
+		
 		
 		$query .= ' JOIN ' . $this->escape_table_name('learning_object') . ' AS ' . $lo_alias . ' ON ' . $alias . '.ref=' . $lo_alias . '.id';
 		
@@ -1445,14 +1446,14 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	function select_next_display_order($parent_id)
 	{
 		$query = 'SELECT MAX(' . ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' .
-			$this->escape_table_name('complex_learning_object_item');
+			$this->escape_table_name('complex_learning_object_item') . ' AS ' . $this->get_alias('complex_learning_object_item');
 
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $parent_id, ComplexLearningObjectItem :: get_table_name());
 
 		$params = array ();
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
+			$translator = new ConditionTranslator($this->database, $params);
             $query .= $translator->render_query($condition);
             $params = $translator->get_parameters();
 		}
@@ -1652,7 +1653,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
         $query = 'SELECT * from '.$this->database->escape_table_name('complex_learning_object_item').
                  ' WHERE parent=? ORDER BY '.$this->database->escape_column_name('add_date').' DESC LIMIT 1';
         $statement = $this->database->get_connection()->prepare($query);
-        $res = $statement->execute($child_id);
+        $res = $statement->execute($forum_id);
         return new DatabaseComplexLearningObjectItemResultSet($this, $res, true);
     }
     

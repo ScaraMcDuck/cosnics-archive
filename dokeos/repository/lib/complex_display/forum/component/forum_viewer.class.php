@@ -298,9 +298,9 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
              if($last_post)
             {
                 //$link = $this->get_url(array(ComplexDisplay::PARAM_DISPLAY_ACTION => ForumDisplay::ACTION_VIEW_TOPIC,'pid' => $this->pid, 'cid' => $topic->get_id())) . '#post_' . $last_post->get_id();
-                $table->setCellContents($row, 4, $last_post->get_add_date() . '<br />' . $udm->retrieve_user($last_post->get_user_id())->get_fullname() .
-                                                 ' <a href="' . $link . '"><img title="' . Translation :: get('ViewLastPost') .
-                                                 '" src="' . Theme :: get_image_path() . 'forum/icon_topic_latest.gif" /></a>');
+                $table->setCellContents($row, 4, $last_post->get_add_date() . '<br />' . $udm->retrieve_user($last_post->get_user_id())->get_fullname());// .
+                                                 //' <a href="' . $link . '"><img title="' . Translation :: get('ViewLastPost') .
+                                                 //'" src="' . Theme :: get_image_path() . 'forum/icon_topic_latest.gif" /></a>');
             }
             else
             {

@@ -18,7 +18,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplayComponent
 
         $this->forum = RepositoryDataManager :: get_instance()->retrieve_learning_object($pid);
 
-        $lo = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition('id', $cid))->next_result()->get_ref();
+        $lo = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition('id', $cid, ComplexLearningObjectItem :: get_table_name()))->next_result()->get_ref();
         $this->retrieve_children($lo);
 
         $topic = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item($cid);

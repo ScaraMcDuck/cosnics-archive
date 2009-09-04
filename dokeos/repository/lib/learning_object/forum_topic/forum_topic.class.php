@@ -125,7 +125,7 @@ class ForumTopic extends LearningObject
 			$wrappers = $rdm->retrieve_complex_learning_object_items($condition);
 			
 			while($item = $wrappers->next_result())
-			{
+			{  
 				$lo = $rdm->retrieve_learning_object($item->get_parent());
 				$lo->recalculate_last_post();
 			}

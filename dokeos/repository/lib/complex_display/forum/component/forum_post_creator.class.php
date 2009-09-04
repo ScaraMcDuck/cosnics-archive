@@ -65,7 +65,7 @@ class ForumDisplayForumPostCreatorComponent extends ForumDisplayComponent
                 if($reply)
                     $cloi->set_reply_on_post($reply);
 
-                $cloi->create();
+                $cloi->create(); 
 		$this->my_redirect($pid, $cid);
             }
 
