@@ -106,16 +106,10 @@ class LearningObjectTableDataProvider extends ObjectTableDataProvider
 		        $or_conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query);
 		        $conditions[] = new OrCondition($or_conditions);
 		    }
-
-		    $cond = $this->form->get_filter_conditions();
-		    if($cond)
-		    {
-		        $conditions[] = $cond;
-		    }
 		
 		    $rdm = RightsDataManager :: get_instance();
 		      
-		    $user = $this->get_user();
+		    $user = $this->owner;
 		    $groups = $user->get_groups();
 		    foreach($groups as $group)
 		    {
