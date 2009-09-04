@@ -272,7 +272,7 @@ class Diagnoser
         }
         
         if(!$img_path)
-        { echo "test";
+        {
         	$img_path = Theme :: get_common_image_path();
         }
         

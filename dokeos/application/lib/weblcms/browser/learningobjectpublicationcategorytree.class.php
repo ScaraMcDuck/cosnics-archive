@@ -160,7 +160,7 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
      */
     private function get_category_url ($category_id)
     {
-        $this->url_params[$this->tree_id] = $category_id;
+        $this->url_params['pcattree'] = $category_id;
         return $this->browser->get_url($this->url_params);
     }
 
