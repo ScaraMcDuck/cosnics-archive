@@ -71,16 +71,11 @@ class Forum extends LearningObject
 		}
 	}
 	
-	function recalculate_last_post($child_id)
+	function recalculate_last_post()
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 
-                $children = $rdm->retrieve_last_post($this->get_id(),$child_id);
-		
-//		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexLearningObjectItem :: get_table_name());
-//
-//                $order_property[] = new ObjectTableOrder('add_date',SORT_DESC);
-//		$children = $rdm->retrieve_complex_learning_object_items($condition, $order_property,array(), 0, 1);
+        $children = $rdm->retrieve_last_post($this->get_id());
 		$lp = $children->next_result();
 		
 		$id = ($lp)?$lp->get_id():0;

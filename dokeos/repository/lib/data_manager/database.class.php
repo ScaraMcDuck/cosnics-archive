@@ -1648,11 +1648,15 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		return $statement->execute(array($user_view->get_id()));
 	}
 
-    function retrieve_last_post($forum_id,$child_id)
+    function retrieve_last_post($forum_id)
     {
-        $query = 'SELECT * from '.$this->database->escape_table_name('complex_learning_object_item').
-                 ' WHERE parent=? ORDER BY '.$this->database->escape_column_name('add_date').' DESC LIMIT 1';
-        $statement = $this->database->get_connection()->prepare($query);
+        $alias = $this->database->get_alias('complex_learning_object_item');
+    	$query = 'SELECT ' . $alias . '.* , fo.last_post, fot.last_post, cloi2.add_date from '.$this->database->escape_table_name('complex_learning_object_item') . ' AS ' . $alias . 
+                 ' LEFT JOIN ' . $this->database->escape_table_name('forum') . ' AS fo ON fo.id=' . $alias . '.ref' .
+    			 ' LEFT JOIN ' . $this->database->escape_table_name('forum_topic') . ' AS fot ON fot.id=' . $alias . '.ref' .
+    			 ' LEFT JOIN ' . $this->database->escape_table_name('complex_learning_object_item') . ' AS cloi2 ON cloi2.id=fo.last_post OR cloi2.id=fot.last_post' . 
+                 ' WHERE ' . $alias . '.parent=? ORDER BY '.$this->database->escape_column_name('cloi2.add_date').' DESC LIMIT 1';
+        $statement = $this->database->get_connection()->prepare($query); 
         $res = $statement->execute($forum_id);
         return new DatabaseComplexLearningObjectItemResultSet($this, $res, true);
     }
