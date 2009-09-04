@@ -23,7 +23,7 @@ class AssessmentDisplayAssessmentResultViewerComponent extends AssessmentDisplay
 			return;
 		}
 		
-		$condition = new InCondition(ComplexLearningObjectItem :: PROPERTY_ID, $question_cids);
+		$condition = new InCondition(ComplexLearningObjectItem :: PROPERTY_ID, $question_cids, ComplexLearningObjectItem :: get_table_name());
 		$questions_cloi = $rdm->retrieve_complex_learning_object_items($condition);
 
 		$total_score = 0;

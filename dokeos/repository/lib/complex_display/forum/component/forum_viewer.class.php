@@ -97,7 +97,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
         $order_property[]=new ObjectTableOrder('add_date');
         $children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $current_forum->get_id(), ComplexLearningObjectItem :: get_table_name()), $order_property);
         while($child = $children->next_result())
-        {
+        { 
             $lo = $rdm->retrieve_learning_object($child->get_ref());
             $child->set_ref($lo);
             if($lo->get_type() == 'forum_topic')
@@ -109,7 +109,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
                 $this->forums[] = $child;
             }
         }
-
+        
         $this->sort_topics();
     }
 

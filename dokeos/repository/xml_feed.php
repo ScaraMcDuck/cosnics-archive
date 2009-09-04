@@ -32,7 +32,7 @@ if (Authentication :: is_valid())
 		$c = array ();
 		foreach (Request :: get('exclude') as $id)
 		{
-			$c[] = new EqualityCondition(LearningObject :: PROPERTY_ID, $id);
+			$c[] = new EqualityCondition(LearningObject :: PROPERTY_ID, $id, LearningObject :: get_table_name());
 		}
 		$conditions[] = new NotCondition(new OrCondition($c));
 	}

@@ -17,7 +17,7 @@ class SurveyDisplaySurveyResultViewerComponent extends SurveyDisplayComponent
 		$results = $this->get_parent()->get_parent()->retrieve_assessment_results();
 		$question_cids = array_keys($results);
 		
-		$condition = new InCondition(ComplexLearningObjectItem :: PROPERTY_ID, $question_cids);
+		$condition = new InCondition(ComplexLearningObjectItem :: PROPERTY_ID, $question_cids, ComplexLearningObjectItem :: get_table_name());
 		$questions_cloi = $rdm->retrieve_complex_learning_object_items($condition);
 
 		$total_score = 0;
