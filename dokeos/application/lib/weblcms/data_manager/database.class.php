@@ -711,7 +711,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
         $condition = new AndCondition($conditions);
 
-        return $this->database->retrieve_object(CourseUserCategory :: get_table_name(), $condition, array(CourseUserCategory :: PROPERTY_SORT), $order_direction);
+        return $this->database->retrieve_object(CourseUserCategory :: get_table_name(), $condition, array(new ObjectTableOrder(CourseUserCategory :: PROPERTY_SORT, $order_direction)));
     }
 
     function retrieve_user_courses($condition = null, $offset = 0, $max_objects = -1, $order_by = null)
