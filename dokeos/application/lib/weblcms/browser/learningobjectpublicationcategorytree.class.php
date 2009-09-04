@@ -133,7 +133,7 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
         }
 
         $conditions[] = new OrCondition($access);
-        $subselect_condition = new EqualityCondition('type', $this->browser->get_parent()->get_tool_id());
+        $subselect_condition = new InCondition('type', $this->browser->get_allowed_types());
         $conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
 
         $condition = new AndCondition($conditions);
