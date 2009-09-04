@@ -286,24 +286,24 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
 
     function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
     {
-        return $this->database->retrieve_objects(ProfilerCategory :: get_table_name(), $condition, $offset, $count, $order_property, $order_direction);
+        return $this->database->retrieve_objects(ProfilerCategory :: get_table_name(), $condition, $offset, $count, $order_property, $order_direction, 'ProfilerCategory');
     }
 
     function select_next_category_display_order($parent_category_id)
     {
-        $query = 'SELECT MAX(' . ProfilerCategory :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . $this->database->escape_table_name('profiler_category');
+        $query = 'SELECT MAX(' . ProfilerCategory :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . $this->database->escape_table_name('category');
 
         $condition = new EqualityCondition(ProfilerCategory :: PROPERTY_PARENT, $parent_category_id);
         //print_r($condition);
         $params = array();
         if (isset($condition))
         {
-            $translator = new ConditionTranslator($this->database, $params, false);
+            $translator = new ConditionTranslator($this->database, $params);
             $query .= $translator->render_query($condition);
             $params = $translator->get_parameters();
         }
 
-        $sth = $this->database->get_connection()->prepare($query);
+        $sth = $this->database->get_connection()->prepare($query); dump($sth);
         $res = $sth->execute($params);
         $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
         $res->free();
