@@ -116,7 +116,7 @@ abstract class RepositoryDataManager
 	 */
 	function is_extended_type($type)
 	{
-		//echo $type;
+		//echo $type; echo "test";
 		$temp_class = LearningObject :: factory($type);
 		$has_additional_properties = count($temp_class->get_additional_property_names()) > 0;
 		unset($temp_class);
