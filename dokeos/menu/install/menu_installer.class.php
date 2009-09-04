@@ -56,6 +56,7 @@ class MenuInstaller extends Installer
             $navigation_item->set_application('root');
             $navigation_item->set_section('root');
             $navigation_item->set_category(0);
+            $navigation_item->set_is_category(1);
             $navigation_item->create();
 
 			$id = $navigation_item->get_id();
@@ -74,6 +75,7 @@ class MenuInstaller extends Installer
             		$sub_nav_item->set_application($application);
            			$sub_nav_item->set_section($application);
             		$sub_nav_item->set_category($id);
+            		$sub_nav_item->set_is_category(0);
             		$sub_nav_item->create();
             		$used = true;
             	}

@@ -13,6 +13,7 @@ class NavigationItem extends DataClass
     const PROPERTY_SECTION = 'section';
     const PROPERTY_EXTRA = 'extra';
     const PROPERTY_URL = 'url';
+    const PROPERTY_IS_CATEGORY = 'is_category';
 
     /**
      * Get the default properties of all user course categories.
@@ -20,7 +21,7 @@ class NavigationItem extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_CATEGORY, self :: PROPERTY_TITLE, self :: PROPERTY_SORT, self :: PROPERTY_APPLICATION, self :: PROPERTY_SECTION, self :: PROPERTY_EXTRA, self :: PROPERTY_URL));
+        return parent :: get_default_property_names(array(self :: PROPERTY_CATEGORY, self :: PROPERTY_TITLE, self :: PROPERTY_SORT, self :: PROPERTY_APPLICATION, self :: PROPERTY_SECTION, self :: PROPERTY_EXTRA, self :: PROPERTY_URL, self :: PROPERTY_IS_CATEGORY));
     }
     
 	/**
@@ -99,6 +100,16 @@ class NavigationItem extends DataClass
     function set_extra($extra)
     {
         $this->set_default_property(self :: PROPERTY_EXTRA, $extra);
+    }
+    
+ 	function get_is_category()
+    {
+        return $this->get_default_property(self :: PROPERTY_IS_CATEGORY);
+    }
+
+    function set_is_category($is_category)
+    {
+        $this->set_default_property(self :: PROPERTY_IS_CATEGORY, $is_category);
     }
     
     function create()

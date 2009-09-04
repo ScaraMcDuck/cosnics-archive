@@ -39,6 +39,8 @@ class MenuManager extends CoreApplication
     const ACTION_COMPONENT_EDIT_CATEGORY = 'edit';
     const ACTION_COMPONENT_DELETE_CATEGORY = 'delete';
     const ACTION_COMPONENT_MOVE_CATEGORY = 'move';
+    const ACTION_COMPONENT_CAT_EDIT = 'edit_category';
+    const ACTION_COMPONENT_CAT_ADD = 'add_category';
     
     private $parameters;
     private $user;
@@ -132,10 +134,20 @@ class MenuManager extends CoreApplication
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SORT_MENU, self :: PARAM_COMPONENT_ACTION => self :: ACTION_COMPONENT_ADD_CATEGORY));
     }
+    
+	function get_category_navigation_item_creation_url()
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SORT_MENU, self :: PARAM_COMPONENT_ACTION => self :: ACTION_COMPONENT_CAT_ADD));
+    }
 
     function get_navigation_item_editing_url($navigation_item)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SORT_MENU, self :: PARAM_COMPONENT_ACTION => self :: ACTION_COMPONENT_EDIT_CATEGORY, self :: PARAM_CATEGORY => $navigation_item->get_id()));
+		if($navigation_item->get_is_category())
+		{
+			return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SORT_MENU, self :: PARAM_COMPONENT_ACTION => self :: ACTION_COMPONENT_CAT_EDIT, self :: PARAM_CATEGORY => $navigation_item->get_id()));
+		}
+		
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SORT_MENU, self :: PARAM_COMPONENT_ACTION => self :: ACTION_COMPONENT_EDIT_CATEGORY, self :: PARAM_CATEGORY => $navigation_item->get_id()));
     }
 
     function get_navigation_item_deleting_url($navigation_item)
