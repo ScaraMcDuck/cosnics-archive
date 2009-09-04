@@ -48,6 +48,15 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 			echo $this->display_course_digest($courses, $course_category);
 		}
 
+		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' .'"></script>';
+
+		if($_SESSION['toolbar_state'] == 'hide')
+			$html[] = '<script type="text/javascript">var hide = "true";</script>';
+		else
+			$html[] = '<script type="text/javascript">var hide = "false";</script>';
+		
+		echo implode("\n", $html);
+		
 		echo '</div>';
 
 		$this->display_footer();
@@ -127,7 +136,8 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 		$html = array();
 		if($courses->size() > 0)
 		{
-			$html[] = '<div class="block" id="block_courses" style="background-image: url('.Theme :: get_image_path('weblcms').'block_weblcms.png);">';
+			$title = $course_category ? $course_category->get_title() : 'general';
+			$html[] = '<div class="block" id="courses_' . $title . '" style="background-image: url('.Theme :: get_image_path('weblcms').'block_weblcms.png);">';
 			$html[] = '<div class="title"><div style="float: left;">';
 
 			if (isset($course_category))
@@ -205,13 +215,9 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 			$html[] = '</div>';
 			$html[] = '</div>';
 			$html[] = '<br />';
-			$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' .'"></script>';
-
-			if($_SESSION['toolbar_state'] == 'hide')
-				$html[] = '<script type="text/javascript">var hide = "true";</script>';
-			else
-				$html[] = '<script type="text/javascript">var hide = "false";</script>';
+			
 		}
+		
 		return implode($html, "\n");
 	}
 }
