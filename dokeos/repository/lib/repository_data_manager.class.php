@@ -922,7 +922,7 @@ abstract class RepositoryDataManager
 
 	}
 
-    abstract function retrieve_last_post($forum_id,$child_id);
+    abstract function retrieve_last_post($forum_id);
     
     abstract function create_learning_object_metadata($learning_object_metadata);
     abstract function delete_learning_object_metadata($learning_object_metadata);
