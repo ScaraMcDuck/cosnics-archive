@@ -74,6 +74,11 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
     {
         return $this->database;
     }
+    
+    function get_alias($name)
+    {
+    	return $this->database->get_alias($name);
+    }
 
 	/**
 	 * This function can be used to handle some debug info from MDB2
@@ -1164,7 +1169,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 */
 	function update_complex_learning_object_item($clo_item)
 	{
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_ID, $clo_item->get_id());
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_ID, $clo_item->get_id(), ComplexLearningObjectItem :: get_table_name());
 
 		$props = array();
 		foreach ($clo_item->get_default_properties() as $key => $value)
@@ -1261,7 +1266,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$query = 'SELECT * FROM '.$this->escape_table_name('complex_learning_object_item').' AS '.
 				 self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE;
 
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_ID, $clo_item_id);
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_ID, $clo_item_id, ComplexLearningObjectItem :: get_table_name());
 
 		$params = array ();
 		if (isset ($condition))

@@ -164,7 +164,7 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 
     private function get_publication_from_clo_item($clo_item)
     {
-        $publication = $this->dm->retrieve_learning_objects(null, new EqualityCondition(LearningObject :: PROPERTY_ID,$clo_item->get_default_property(ComplexLearningObjectItem :: PROPERTY_REF)))->as_array();
+        $publication = $this->dm->retrieve_learning_objects(null, new EqualityCondition(LearningObject :: PROPERTY_ID,$clo_item->get_default_property(ComplexLearningObjectItem :: PROPERTY_REF), LearningObject :: get_table_name()))->as_array();
         return $publication[0];
     }
 }

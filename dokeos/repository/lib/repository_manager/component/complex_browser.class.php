@@ -316,7 +316,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 			$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_TYPE, 'none');
 
 		$conditions = array_merge($conditions, $this->retrieve_used_items($this->root_id));
-		$conditions[] = new NotCondition(new EqualityCondition(LearningObject :: PROPERTY_ID, $this->root_id));
+		$conditions[] = new NotCondition(new EqualityCondition(LearningObject :: PROPERTY_ID, $this->root_id, LearningObject :: get_table_name()));
 		return new AndCondition($conditions);
 	}
 
@@ -329,7 +329,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 		{
 			if($cloi->is_complex())
 			{
-				$conditions[] = new NotCondition(new EqualityCondition(LearningObject :: PROPERTY_ID, $cloi->get_ref()));
+				$conditions[] = new NotCondition(new EqualityCondition(LearningObject :: PROPERTY_ID, $cloi->get_ref(), LearningObject :: get_table_name()));
 				$conditions = array_merge($conditions, $this->retrieve_used_items($cloi->get_ref()));
 			}
 		}
