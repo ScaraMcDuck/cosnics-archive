@@ -229,5 +229,10 @@ abstract class ToolComponent
     {
         return $this->tool->get_access_details_toolbar_item($parent);
     }
+    
+ 	function get_allowed_types()
+ 	{
+ 		return $this->tool->get_allowed_types();
+ 	}
 
 }
