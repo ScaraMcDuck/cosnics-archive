@@ -1442,7 +1442,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$query = 'SELECT MAX(' . ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' .
 			$this->escape_table_name('complex_learning_object_item');
 
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $parent_id);
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $parent_id, ComplexLearningObjectItem :: get_table_name());
 
 		$params = array ();
 		if (isset ($condition))
@@ -1733,7 +1733,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	
 	function set_new_clo_version($lo_id, $new_lo_id)
 	{
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $lo_id);
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $lo_id, ComplexLearningObjectItem :: get_table_name());
 		$props = array();
 		$props[$this->database->escape_column_name(ComplexLearningObjectItem :: PROPERTY_PARENT)] = $new_lo_id;
 		$this->connection->loadModule('Extended');

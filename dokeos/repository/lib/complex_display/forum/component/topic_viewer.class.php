@@ -60,7 +60,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplayComponent
     {
         $rdm = RepositoryDataManager :: get_instance();
 
-        $children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $forum->get_id()));
+        $children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $forum->get_id(), ComplexLearningObjectItem :: get_table_name()));
         while($child = $children->next_result())
         {
             $lo = $rdm->retrieve_learning_object($child->get_ref());
@@ -78,7 +78,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplayComponent
     {
         $rdm = RepositoryDataManager :: get_instance();
 
-        $children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $lo), array(new ObjectTableOrder(ComplexLearningObjectItem :: PROPERTY_ADD_DATE, SORT_ASC)) );
+        $children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $lo, ComplexLearningObjectItem :: get_table_name()), array(new ObjectTableOrder(ComplexLearningObjectItem :: PROPERTY_ADD_DATE, SORT_ASC)) );
         while($child = $children->next_result())
         {
             $lo = $rdm->retrieve_learning_object($child->get_ref());

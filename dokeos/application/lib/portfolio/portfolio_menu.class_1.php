@@ -122,7 +122,7 @@ class PortfolioMenu extends HTML_Menu
     	$menu = array();
     	$rdm = RepositoryDataManager :: get_instance();
     	
-    	$children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $parent));
+    	$children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $parent, ComplexLearningObjectItem :: get_table_name()));
     	
     	while($child = $children->next_result())
     	{

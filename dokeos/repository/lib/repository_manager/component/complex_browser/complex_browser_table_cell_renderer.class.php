@@ -88,7 +88,7 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 			case Translation :: get('Subitems'):
 				if($cloi->is_complex())
 				{
-					$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $cloi->get_ref());
+					$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $cloi->get_ref(), ComplexLearningObjectItem :: get_table_name());
 					return $this->rdm->count_complex_learning_object_items($condition);
 				}
 				return 0;

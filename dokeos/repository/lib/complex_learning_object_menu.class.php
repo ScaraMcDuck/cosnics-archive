@@ -97,7 +97,7 @@ class ComplexLearningObjectMenu extends HTML_Menu
 	 */
 	private function get_menu_items($cloi)
 	{
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $cloi);
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $cloi, ComplexLearningObjectItem :: get_table_name());
 		$datamanager = $this->dm;
 		$objects = $datamanager->retrieve_complex_learning_object_items($condition);
 		

@@ -91,7 +91,7 @@ class ResultsCsvExport extends ResultsExport
 		$this->currentrow[self :: PROPERTY_RESULT] = $user_assessment->get_total_score();
 		$this->currentrow[self :: PROPERTY_DATE_TIME_TAKEN] = $user_assessment->get_date();
 		
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment_id);
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment_id, ComplexLearningObjectItem :: get_table_name());
 		$clo_questions = $this->rdm->retrieve_complex_learning_object_items($condition);
 		while ($clo_question = $clo_questions->next_result())
 		{

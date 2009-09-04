@@ -39,7 +39,7 @@ class ComplexWikiPage extends ComplexLearningObjectItem
 	{
 		if($this->get_is_homepage())
 		{
-			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->get_parent());
+			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->get_parent(), ComplexLearningObjectItem :: get_table_name());
 			//$conditions[] = new EqualityCondition(ComplexWikiPage :: PROPERTY_IS_HOMEPAGE, 1);
 			//$condition = new AndCondition($conditions);
 		

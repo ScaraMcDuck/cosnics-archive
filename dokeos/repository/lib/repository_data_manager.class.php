@@ -296,7 +296,7 @@ abstract class RepositoryDataManager
 		
 		$conditions = array();
 		$conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $object->get_id());
-		$conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $object->get_id());
+		$conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $object->get_id(), ComplexLearningObjectItem :: get_table_name());
 		$condition = new OrCondition($conditions);
 		$count_wrapper_items = $this->count_complex_learning_object_items($condition);
 		if($count_wrapper_items > 0)
@@ -310,7 +310,7 @@ abstract class RepositoryDataManager
 		if($count_learning_path_wrapper_items > 0)
 			return false;
 	
-		$count_children = $this->count_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $object->get_id()));
+		$count_children = $this->count_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $object->get_id(), ComplexLearningObjectItem :: get_table_name()));
 		if($count_children > 0)
 			return false;
 			
@@ -330,7 +330,7 @@ abstract class RepositoryDataManager
 
 	function copy_complex_children($clo)
 	{
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $clo->get_id());
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $clo->get_id(), ComplexLearningObjectItem :: get_table_name());
 		$items = $this->retrieve_complex_learning_object_items($condition);
 		while($item = $items->next_result())
 		{
@@ -860,7 +860,7 @@ abstract class RepositoryDataManager
 	function delete_clois_for_learning_object($learning_object)
 	{
 		$conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $learning_object->get_id());
-		$conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $learning_object->get_id());
+		$conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $learning_object->get_id(), ComplexLearningObjectItem :: get_table_name());
 		$condition = new OrCondition($conditions);
 		
 		return $this->delete_complex_learning_object_items($condition);

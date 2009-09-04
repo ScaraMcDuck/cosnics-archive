@@ -34,7 +34,7 @@ class ComplexDisplayUpdaterComponent extends ComplexDisplayComponent
 					$cloi->set_ref($new_id);
 					$cloi->update();
 					
-					$children = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $old_id));
+					$children = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $old_id, ComplexLearningObjectItem :: get_table_name()));
 					while($child = $children->next_result())
 					{
 						$child->set_parent($new_id);

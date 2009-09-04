@@ -40,7 +40,7 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplayComponent
 		}
 		else
 		{ 
-            $children = $dm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $object->get_id()));
+            $children = $dm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $object->get_id(), ComplexLearningObjectItem :: get_table_name()));
             while($child = $children->next_result())
     		{
     			$lo = $dm->retrieve_learning_object($child->get_ref());

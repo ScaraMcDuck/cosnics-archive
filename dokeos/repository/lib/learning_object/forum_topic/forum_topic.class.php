@@ -110,7 +110,7 @@ class ForumTopic extends LearningObject
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->get_id());
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexLearningObjectItem :: get_table_name());
 		$children = $rdm->retrieve_complex_learning_object_items($condition, array(new ObjectTableOrder('add_date')), array(SORT_DESC), 0, 1);
 		$lp = $children->next_result();
 		

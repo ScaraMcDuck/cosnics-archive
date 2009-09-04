@@ -123,7 +123,7 @@ class RepositoryManagerLearningObjectSelectorComponent extends RepositoryManager
 	{
 		$conditions = array();
 
-		$clois = $this->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $cloi_id));
+		$clois = $this->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $cloi_id, ComplexLearningObjectItem :: get_table_name()));
 		while($cloi = $clois->next_result())
 		{
 			if($cloi->is_complex())
