@@ -33,7 +33,7 @@ class CourseGroupToolManageSubscriptionsComponent extends CourseGroupToolCompone
 			else
 				$message = 'MaximumAmountOfMembersReached';
 
-			$this->redirect(Translation :: get($message));
+			$this->redirect(Translation :: get($message), !$succes, array(CourseGroupTool :: PARAM_ACTION => CourseGroupTool :: ACTION_UNSUBSCRIBE));
 		}
 		else
 		{

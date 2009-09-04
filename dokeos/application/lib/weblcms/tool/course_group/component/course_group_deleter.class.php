@@ -29,7 +29,7 @@ class CourseGroupToolDeleterComponent extends CourseGroupToolComponent
 			}
 
 			$message = Translation :: get('CourseGroupsDeleted');
-			$this->redirect($message, '', array('course_group' => null));
+			$this->redirect($message, '', array('course_group' => null, CourseGroupTool :: PARAM_ACTION => null));
 
 		}
 		else

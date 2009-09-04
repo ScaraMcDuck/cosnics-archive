@@ -84,16 +84,18 @@ class CourseGroupSubscriptionsForm extends FormValidator
     		}
     	}
 
-    	if(count($values['users']) > $this->course_group->get_max_number_of_members() )
+    	if(($this->course_group->get_max_number_of_members() > 0) && (count($values['users']) > $this->course_group->get_max_number_of_members()))
     	{
     		return false;
     	}
-
+    	
+		$succes = true;
+		
     	if(count($subs) > 0)
     	{
     		$succes = $this->course_group->unsubscribe_users($subs);
     	}
-
+		
     	if(count($creation) > 0)
     	{
     		$succes &= $this->course_group->subscribe_users($creation);

@@ -28,8 +28,10 @@ class CourseGroupToolEditorComponent extends CourseGroupToolComponent
 		$form = new CourseGroupForm(CourseGroupForm :: TYPE_EDIT, $course_group, $this->get_url(array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_EDIT_COURSE_GROUP, CourseGroupTool :: PARAM_COURSE_GROUP => $course_group_id)));
 		if ($form->validate())
 		{
-			$form->update_course_group();
-			$this->redirect(Translation :: get('CourseGroupUpdated'));
+			$succes = $form->update_course_group();
+			$message = $succes ? 'CourseGroupUpdated' : 'CourseGroupNotUpdated'; 
+			
+			$this->redirect(Translation :: get($message), !$succes, array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_VIEW_GROUPS));
 		}
 		else
 		{
