@@ -50,6 +50,12 @@ class BlogBrowser extends LearningObjectPublicationBrowser
 
 		$this->set_publication_list_renderer($renderer);
 	}
+	
+	function get_allowed_types()
+	{
+		return $this->get_parent()->get_allowed_types();
+	}
+	
 	/**
 	 * Retrieves the publications
 	 * @return array An array of LearningObjectPublication objects
