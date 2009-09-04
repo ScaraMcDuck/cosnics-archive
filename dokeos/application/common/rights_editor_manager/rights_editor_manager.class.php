@@ -14,6 +14,8 @@ class RightsEditorManager extends SubManager
     const ACTION_BROWSE_RIGHTS = 'browse';
     const ACTION_SET_USER_RIGHTS = 'set_user_rights';
     const ACTION_SET_GROUP_RIGHTS = 'set_group_rights';
+    
+    const PARAM_GROUP = 'group';
 
     private $location;
     

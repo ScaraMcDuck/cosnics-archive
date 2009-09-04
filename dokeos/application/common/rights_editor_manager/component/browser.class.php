@@ -7,6 +7,7 @@ require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';
 require_once dirname(__FILE__) . '/location_user_browser/location_user_browser_table.class.php';
 require_once dirname(__FILE__) . '/location_group_browser/location_group_browser_table.class.php';
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
+require_once PAth :: get_group_path() . '/lib/group_menu.class.php';
 
 class RightsEditorManagerBrowserComponent extends RightsEditorManagerComponent
 {
@@ -43,15 +44,27 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManagerComponent
 		if($this->type == self :: TYPE_USER)
 		{
     		$table = new LocationUserBrowserTable($this, $this->get_parameters(), $this->get_condition());
+    		$html[] = $table->as_html();
     		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'rights/javascript/configure_user.js');
 		}
 		else
 		{
 			$table = new LocationGroupBrowserTable($this, $this->get_parameters(), $this->get_condition());
+			$html[] = '<div style="float: left; width: 18%; overflow: auto; height: 500px;">';
+			
+			$group = Request :: get(RightsEditorManager :: PARAM_GROUP);
+			
+			$group_menu = new GroupMenu($group, 'core.php?go=rights&application=repository&category=' . Request :: get('category') . '&re_type=group&object=' . Request :: get('object') . '&group=%s');
+			$html[] = $group_menu->render_as_tree();
+			
+			$html[] = '</div>';
+			$html[] = '<div style="float: right; width: 80%;">';
+			$html[] = $table->as_html();
+			$html[] = '</div>';
 			$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'rights/javascript/configure_group.js');
 		}
 		
-    	$html[] = $table->as_html();
+    	
     	$html[] = RightsUtilities :: get_rights_legend();
 
     	echo implode("\n", $html);
@@ -101,6 +114,23 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManagerComponent
     		}
     	}
 
+    	if($this->type == self :: TYPE_GROUP)
+    	{
+    		$group = Request :: get(RightsEditorManager :: PARAM_GROUP) ? Request :: get(RightsEditorManager :: PARAM_GROUP) : 0;
+    		$parent_condition = new EqualityCondition(Group :: PROPERTY_PARENT, $group);
+    		if($condition)
+    		{
+    			$conditions = array();
+    			$conditions[] = $condition;
+    			$conditions[] = $parent_condition;
+    			$condition = new AndCondition($conditions);
+    		}
+    		else
+    		{
+    			$condition = $parent_condition;
+    		}
+    	}
+    	
 		return $condition;
 	}
 

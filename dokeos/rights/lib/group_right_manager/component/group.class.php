@@ -80,7 +80,7 @@ class GroupRightManagerGroupComponent extends GroupRightManagerComponent
     	$html[] = '</div>';
 
     	$html[] = '<div style="float: right; width: 18%; overflow: auto; height: 500px;">';
-		$group_menu = new GroupMenu($group);
+		$group_menu = new GroupMenu($group, 'core.php?go=group&action=group&application=rights&group=%s');
 		$html[] = $group_menu->render_as_tree();
     	$html[] = '</div>';
 
@@ -93,19 +93,18 @@ class GroupRightManagerGroupComponent extends GroupRightManagerComponent
 
 	function get_condition()
 	{
-		return null;
-
-    	$condition = new EqualityCondition(Location :: PROPERTY_PARENT, $this->location->get_id());
-
+    	$group = Request :: get(GroupRightManager :: PARAM_GROUP) ? Request :: get(GroupRightManager :: PARAM_GROUP) : 0;
+		$conditions[] =new EqualityCondition(Group :: PROPERTY_PARENT, $group);
+    	
     	$query = $this->action_bar->get_query();
     	if(isset($query) && $query != '')
     	{
-    		$and_conditions = array();
-    		$and_conditions[] = $condition;
-    		$and_conditions[] = new PatternMatchCondition(Location :: PROPERTY_LOCATION, '*' . $query . '*');
-    		$condition = new AndCondition($and_conditions);
+    		$conditions[] = new PatternMatchCondition(Group :: PROPERTY_NAME, '*' . $query . '*');
+    		
     	}
-
+   
+		$condition = new AndCondition($conditions);
+		
 		return $condition;
 	}
 
