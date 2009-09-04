@@ -586,7 +586,7 @@ abstract class Tool
         $parent = WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication_category($pcattree);
         $parents[] = $parent;
 
-        while($parent->get_parent() != 0)
+        while($parent && $parent->get_parent() != 0)
         {
             $parent = WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication_category($parent->get_parent());
             $parents[] = $parent;

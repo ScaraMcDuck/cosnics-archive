@@ -38,6 +38,11 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 		$this->set_publication_list_renderer($renderer);
 
 	}
+	
+	function get_allowed_types()
+	{
+		return $this->get_parent()->get_allowed_types();
+	}
 
 	function get_publications($from, $count, $column, $direction)
 	{
