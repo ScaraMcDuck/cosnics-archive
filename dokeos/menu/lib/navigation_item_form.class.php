@@ -141,6 +141,7 @@ class NavigationItemForm extends FormValidator
         
         $menuitem->set_extra($values[NavigationItem :: PROPERTY_EXTRA]);
         $menuitem->set_category($values[NavigationItem :: PROPERTY_CATEGORY]);
+        $menuitem->set_is_category(0);
         
         return $menuitem->update();
     }
@@ -173,13 +174,16 @@ class NavigationItemForm extends FormValidator
         
         $menuitem->set_category($values[NavigationItem :: PROPERTY_CATEGORY]);
         $menuitem->set_extra($values[NavigationItem :: PROPERTY_EXTRA]);
+        $menuitem->set_is_category(0);
         
         return $menuitem->create();
     }
 
     function get_categories()
     {
-        $condition = new EqualityCondition(NavigationItem :: PROPERTY_CATEGORY, 0);
+        $conditions[] = new EqualityCondition(NavigationItem :: PROPERTY_CATEGORY, 0);
+        $conditions[] = new EqualityCondition(NavigationItem :: PROPERTY_IS_CATEGORY, 1);
+        $condition = new AndCondition($conditions);
         
         $items = MenuDataManager :: get_instance()->retrieve_navigation_items($condition, null, null, new ObjectTableOrder(NavigationItem :: PROPERTY_SORT));
         $item_options = array();

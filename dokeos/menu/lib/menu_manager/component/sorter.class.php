@@ -6,6 +6,7 @@ require_once dirname(__FILE__) . '/navigation_item_browser/navigation_item_brows
 require_once dirname(__FILE__) . '/../menu_manager.class.php';
 require_once dirname(__FILE__) . '/../menu_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../navigation_item_form.class.php';
+require_once dirname(__FILE__) . '/../../navigation_item_category_form.class.php';
 require_once dirname(__FILE__) . '/../../navigation_item_menu.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 
@@ -52,6 +53,10 @@ class MenuManagerSorterComponent extends MenuManagerComponent
             case 'add' :
                 $this->add_navigation_item();
                 break;
+            case 'add_category' :
+            	$this->add_category_navigation_item();
+            case 'edit_category' : 
+            	$this->edit_category_navigation_item();
             case 'move' :
                 $this->move_navigation_item();
                 break;
@@ -95,7 +100,8 @@ class MenuManagerSorterComponent extends MenuManagerComponent
         $category = (isset($this->category) ? $this->category : 0);
         $action_bar->set_search_url($this->get_url(array('category' => $category)));
         
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path() . 'action_create.png', $this->get_navigation_item_creation_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('AddItem'), Theme :: get_common_image_path() . 'action_create.png', $this->get_navigation_item_creation_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('AddCategory'), Theme :: get_common_image_path() . 'action_category.png', $this->get_category_navigation_item_creation_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array('category' => $category)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         return $action_bar;
@@ -159,7 +165,7 @@ class MenuManagerSorterComponent extends MenuManagerComponent
             $trail = new BreadcrumbTrail();
             $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
             $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU)), Translation :: get('Menu')));
-            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('AddMenuManagerCategory')));
+            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('AddMenuManagerItem')));
             $trail->add_help('menu general');
             
             $this->display_header($trail);
@@ -173,11 +179,70 @@ class MenuManagerSorterComponent extends MenuManagerComponent
         }
     }
 
+    function add_category_navigation_item()
+    {
+    	$menucategory = new NavigationItem();
+        $form = new NavigationItemCategoryForm(NavigationItemCategoryForm :: TYPE_CREATE, $menucategory, $this->get_url(array(MenuManager :: PARAM_COMPONENT_ACTION => MenuManager :: ACTION_COMPONENT_CAT_ADD)));
+        
+        if ($form->validate())
+        {
+            $success = $form->create_navigation_item();
+            $this->redirect(Translation :: get($success ? 'MenuManagerCategoryAdded' : 'MenuManagerCategoryNotAdded'), ($success ? false : true), array(MenuManager :: PARAM_CATEGORY => $form->get_navigation_item()->get_category()));
+        }
+        else
+        {
+            $trail = new BreadcrumbTrail();
+            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
+            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU)), Translation :: get('Menu')));
+            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('AddMenuManagerCategory')));
+            $trail->add_help('menu general');
+            
+            $this->display_header($trail);
+            echo '<div style="float: left; width: 12%; overflow:auto;">';
+            echo $this->get_menu()->render_as_tree();
+            echo '</div>';
+            echo '<div style="float: right; width: 85%;">';
+            $form->display();
+            echo '</div>';
+            $this->display_footer();
+        }
+    }
+    
     function edit_navigation_item()
     {
         $menucategory = $this->retrieve_navigation_item($this->category);
         
         $form = new NavigationItemForm(NavigationItemForm :: TYPE_EDIT, $menucategory, $this->get_url(array(MenuManager :: PARAM_COMPONENT_ACTION => MenuManager :: ACTION_COMPONENT_EDIT_CATEGORY, MenuManager :: PARAM_CATEGORY => $menucategory->get_id())));
+        
+        if ($form->validate())
+        {
+            $success = $form->update_navigation_item();
+            $this->redirect(Translation :: get($success ? 'MenuManagerCategoryUpdated' : 'MenuManagerCategoryNotUpdated'), ($success ? false : true), array(MenuManager :: PARAM_CATEGORY => $form->get_navigation_item()->get_category()));
+        }
+        else
+        {
+            $trail = new BreadcrumbTrail();
+            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
+            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU)), Translation :: get('Menu')));
+            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateMenuManagerItem')));
+            $trail->add_help('menu general');
+            
+            $this->display_header($trail);
+            echo '<div style="float: left; width: 12%; overflow:auto;">';
+            echo $this->get_menu()->render_as_tree();
+            echo '</div>';
+            echo '<div style="float: right; width: 85%;">';
+            $form->display();
+            echo '</div>';
+            $this->display_footer();
+        }
+    }
+    
+    function edit_category_navigation_item()
+    {
+    	$menucategory = $this->retrieve_navigation_item($this->category);
+        
+        $form = new NavigationItemCategoryForm(NavigationItemCategoryForm :: TYPE_EDIT, $menucategory, $this->get_url(array(MenuManager :: PARAM_COMPONENT_ACTION => MenuManager :: ACTION_COMPONENT_CAT_EDIT, MenuManager :: PARAM_CATEGORY => $menucategory->get_id())));
         
         if ($form->validate())
         {

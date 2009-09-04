@@ -66,6 +66,11 @@ abstract class MenuManagerComponent extends CoreApplicationComponent
     {
         return $this->get_parent()->get_navigation_item_creation_url();
     }
+    
+	function get_category_navigation_item_creation_url()
+    {
+         return $this->get_parent()->get_category_navigation_item_creation_url();
+    }
 
     function get_navigation_item_editing_url($navigation_item)
     {
