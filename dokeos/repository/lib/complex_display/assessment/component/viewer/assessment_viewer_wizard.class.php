@@ -30,9 +30,24 @@ class AssessmentViewerWizard extends HTML_QuickForm_Controller
 	}
 	
 	function addpages()
-	{
+	{ 
+		//unset($_SESSION['questions']);
+		
 		$assessment = $this->assessment;
-		$total_questions = RepositoryDataManager :: get_instance()->count_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id(), ComplexLearningObjectItem :: get_table_name()));
+		if($assessment->get_random_questions() == 0)
+		{
+			$total_questions = RepositoryDataManager :: get_instance()->count_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id(), ComplexLearningObjectItem :: get_table_name()));
+			$_SESSION['questions'] = 'all';
+		}
+		else 
+		{
+			if(!isset($_SESSION['questions']))
+			{
+				$_SESSION['questions'] = $this->get_random_questions();
+			}
+			
+			$total_questions = $assessment->get_random_questions();
+		}
 		$questions_per_page = $assessment->get_questions_per_page();
 		
 		if($questions_per_page == 0)
@@ -47,15 +62,23 @@ class AssessmentViewerWizard extends HTML_QuickForm_Controller
 		for($i = 1; $i <= $this->total_pages; $i++ )
 			$this->addPage(new QuestionsAssessmentViewerWizardPage('question_page_' . $i, $this, $i));
 			
-		if(!isset($_SESSION['questions']))
-			$_SESSION['questions'] = 'all';
-			
 	}
 	
 	function get_questions($page_number)
 	{
 		$assessment = $this->assessment;
 		$questions_per_page = $this->assessment->get_questions_per_page();
+		
+		if($_SESSION['questions'] == 'all')
+		{
+			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id(), ComplexLearningObjectItem :: get_table_name());
+		}
+		else
+		{
+			$random_questions = $_SESSION['questions'];
+
+			$condition = new InCondition(ComplexLearningObjectItem :: PROPERTY_ID, $random_questions, ComplexLearningObjectItem :: get_table_name());
+		}
 		
 		if($questions_per_page == 0)
 		{
@@ -67,8 +90,33 @@ class AssessmentViewerWizard extends HTML_QuickForm_Controller
 			$start = (($page_number - 1) * $questions_per_page);
 			$stop = $questions_per_page;
 		}
-		$questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id(), ComplexLearningObjectItem :: get_table_name()), array(), array(), $start, $stop);
+		
+		$questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition, array(), array(), $start, $stop);
+		
 		return $questions;
+	}
+	
+	function get_random_questions()
+	{
+		$questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->assessment->get_id(), ComplexLearningObjectItem :: get_table_name()));
+		while($question = $questions->next_result())
+		{
+			$question_list[] = $question;
+		}
+
+		$random_questions = array();
+		
+		$count = count($question_list);
+		
+		for($i = 0; $i < $this->assessment->get_random_questions(); $i++)
+		{
+			$random_number = rand(0, $count - 1);
+			$random_questions[] = $question_list[$random_number]->get_id();
+			unset($question_list[$random_number]);
+			$count = count($question_list);
+		}
+	
+		return $random_questions;
 	}
 	
 	function get_parent()
