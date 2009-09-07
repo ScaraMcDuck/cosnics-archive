@@ -10,6 +10,7 @@ class AssessmentBuilder extends ComplexBuilder
 	const ACTION_SELECT_QUESTIONS = 'select_questions';
 	const PARAM_ADD_SELECTED_QUESTIONS = 'add_selected_questions';
 	const PARAM_QUESTION_ID = 'question';
+	const PARAM_ASSESSMENT_ID = 'assessment';
 	
 	function AssessmentBuilder($parent)
 	{

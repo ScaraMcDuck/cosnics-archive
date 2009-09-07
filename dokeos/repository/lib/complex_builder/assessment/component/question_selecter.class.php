@@ -8,9 +8,21 @@ class AssessmentBuilderQuestionSelecterComponent extends AssessmentBuilderCompon
 {
 	function run()
 	{
-		$question_ids = Request :: get(AssessmentBuilder :: PARAM_QUESTION_ID);
-		if(!is_array($question_ids))
-			$question_ids = array($question_ids);
+		$assessment_id = Request :: get(AssessmentBuilder :: PARAM_ASSESSMENT_ID);
+		if($assessment_id)
+		{
+			$clois = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment_id, ComplexLearningObjectItem :: get_table_name()));
+			while($cloi = $clois->next_result())
+			{
+				$question_ids[] = $cloi->get_ref();
+			}
+		}
+		else 
+		{
+			$question_ids = Request :: get(AssessmentBuilder :: PARAM_QUESTION_ID);
+			if(!is_array($question_ids))
+				$question_ids = array($question_ids);
+		}
 		
 		if(count($question_ids) == 0)
 		{
