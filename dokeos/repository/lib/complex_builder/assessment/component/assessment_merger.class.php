@@ -4,6 +4,7 @@ require_once dirname(__FILE__) . '/../assessment_builder_component.class.php';
 require_once dirname(__FILE__) . '/../../complex_repo_viewer.class.php';
 require_once dirname(__FILE__) . '/assessment_merger/object_browser_table.class.php';
 require_once Path :: get_repository_path() . '/lib/learning_object/assessment/assessment.class.php';
+require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 
 class AssessmentBuilderAssessmentMergerComponent extends AssessmentBuilderComponent
 {
@@ -31,10 +32,12 @@ class AssessmentBuilderAssessmentMergerComponent extends AssessmentBuilderCompon
 		{
 			$selected_assessment = RepositoryDataManager :: get_instance()->retrieve_learning_object($object, 'assessment');
 			$display = LearningObjectDisplay :: factory($selected_assessment);
+			$bar = $this->get_action_bar($selected_assessment);
 			
 			//$html[] = '<h3>' . Translation :: get('SelectedAssessment') . '</h3>';
 			$html[] = $display->get_full_html();
 			$html[] = '<br />';
+			$html[] = $bar->as_html();
 			$html[] = '<h3>' . Translation :: get('SelectQuestions') . '</h3>';
 			
 			$params = array(ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), 'publish' => Request :: get('publish'));
@@ -55,9 +58,17 @@ class AssessmentBuilderAssessmentMergerComponent extends AssessmentBuilderCompon
 		return $condition;
 	}
 	
-	function get_question_selector_url($question_id)
+	function get_question_selector_url($question_id, $assessment_id)
 	{
-		return $this->get_url(array(AssessmentBuilder :: PARAM_BUILDER_ACTION => AssessmentBuilder :: ACTION_SELECT_QUESTIONS, AssessmentBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), 'publish' => Request :: get('publish'), AssessmentBuilder :: PARAM_QUESTION_ID => $question_id));
+		return $this->get_url(array(AssessmentBuilder :: PARAM_BUILDER_ACTION => AssessmentBuilder :: ACTION_SELECT_QUESTIONS, AssessmentBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), 'publish' => Request :: get('publish'), AssessmentBuilder :: PARAM_QUESTION_ID => $question_id, AssessmentBuilder :: PARAM_ASSESSMENT_ID => $assessment_id));
+	}
+	
+	function get_action_bar($selected_assessment)
+	{
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('AddAllQuestions'), Theme :: get_common_image_path().'action_add.png', $this->get_question_selector_url(null, $selected_assessment->get_id())));
+		
+		return $action_bar;
 	}
 }
 
