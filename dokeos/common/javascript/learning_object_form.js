@@ -1,5 +1,5 @@
-$(function () {
-
+$(function () 
+{
 	var timer;
 	
 	function check_for_existing_names(e, ui)
@@ -27,4 +27,4 @@ $(function () {
 		});
 	});
 
-})(jQuery);
+})
