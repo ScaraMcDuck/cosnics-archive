@@ -28,7 +28,7 @@ class AssessmentResultsTableDetailColumnModel extends ObjectTableColumnModel {
 	 * @return array An array of all columns in this table.
 	 * @see LearningObjectTableColumn
 	 */
-	private static function get_columns()
+	function get_columns()
 	{
 		$columns = array();
 		$columns[] = new StaticTableColumn(Translation :: get(WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID));

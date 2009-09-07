@@ -55,6 +55,7 @@ class QuestionsAssessmentViewerWizardPage extends AssessmentViewerWizardPage
 		$i = (($this->page_number - 1) * $this->get_parent()->get_assessment()->get_questions_per_page()) + 1;
 
 		while($question = $this->questions->next_result())
+		//foreach($this->questions as $question)
 		{
 			$question_display = QuestionDisplay :: factory($this, $question, $i);
 			$question_display->display();

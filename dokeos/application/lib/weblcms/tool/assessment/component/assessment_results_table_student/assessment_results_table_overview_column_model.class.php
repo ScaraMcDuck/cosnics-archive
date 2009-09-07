@@ -26,7 +26,7 @@ class AssessmentResultsTableOverviewStudentColumnModel extends ObjectTableColumn
 	 * @return array An array of all columns in this table.
 	 * @see LearningObjectTableColumn
 	 */
-	private static function get_columns()
+	function get_columns()
 	{
 		$columns = array();
 		$columns[] = new StaticTableColumn(Translation :: get(Assessment :: PROPERTY_ASSESSMENT_TYPE));

@@ -45,8 +45,17 @@ class AssessmentViewerWizardProcess extends HTML_QuickForm_Action
 
 		$rdm = RepositoryDataManager :: get_instance();
 
-		$questions_cloi = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(
-			ComplexLearningObjectItem :: PROPERTY_PARENT, $this->parent->get_assessment()->get_id()));
+		$assessment = $this->parent->get_assessment();
+		if($assessment->get_random_questions() == 0)
+		{
+			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id(), ComplexLearningObjectItem :: get_table_name());
+		}
+		else
+		{
+			$condition = new InCondition(ComplexLearningObjectItem :: PROPERTY_ID, $_SESSION['questions'], ComplexLearningObjectItem :: get_table_name()); 
+		}
+		
+		$questions_cloi = $rdm->retrieve_complex_learning_object_items($condition);
 
 		$question_number = 1;
 		$total_score = 0;
@@ -94,6 +103,8 @@ class AssessmentViewerWizardProcess extends HTML_QuickForm_Action
 		echo implode("\n", $html);
 		
 		$this->parent->get_parent()->finish_assessment($percent);
+		
+		unset($_SESSION['questions']);
 		
 		$back_url = $this->parent->get_parent()->get_go_back_url();
 		
