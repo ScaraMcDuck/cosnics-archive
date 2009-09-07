@@ -21,6 +21,7 @@ class Assessment extends LearningObject
 	const PROPERTY_MAXIMUM_ATTEMPTS = 'max_attempts';
 	const PROPERTY_QUESTIONS_PER_PAGE = 'questions_per_page';
 	const PROPERTY_MAXIMUM_TIME = 'max_time';
+	const PROPERTY_RANDOM_QUESTIONS = 'random_questions';
 
 	static function get_additional_property_names()
 	{
@@ -28,7 +29,8 @@ class Assessment extends LearningObject
 		self :: PROPERTY_ASSESSMENT_TYPE,
 		self :: PROPERTY_MAXIMUM_ATTEMPTS,
 		self :: PROPERTY_QUESTIONS_PER_PAGE,
-		self :: PROPERTY_MAXIMUM_TIME
+		self :: PROPERTY_MAXIMUM_TIME,
+		self :: PROPERTY_RANDOM_QUESTIONS
 		);
 	}
 
@@ -70,6 +72,16 @@ class Assessment extends LearningObject
 	function set_questions_per_page($value)
 	{
 		$this->set_additional_property(self :: PROPERTY_QUESTIONS_PER_PAGE, $value);
+	}
+	
+	function get_random_questions()
+	{
+		return $this->get_additional_property(self :: PROPERTY_RANDOM_QUESTIONS);
+	}
+
+	function set_random_questions($random_questions)
+	{
+		$this->set_additional_property(self :: PROPERTY_RANDOM_QUESTIONS, $random_questions);
 	}
 
 	function get_allowed_types()
