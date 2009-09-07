@@ -14,6 +14,7 @@ class AssessmentForm extends LearningObjectForm
 	const UNLIMITED_ATTEMPTS = 'unlimited_attempts';
 	const ALL_QUESTIONS = 'all_questions';
 	const UNLIMITED_TIME = 'unlimited_time';
+	const RANDOM_QUESTIONS = 'random';
 
 	function set_csv_values($valuearray)
 	{
@@ -38,6 +39,8 @@ class AssessmentForm extends LearningObjectForm
 			$defaults[self :: ALL_QUESTIONS] = ($defaults[Assessment :: PROPERTY_QUESTIONS_PER_PAGE] > 0 ? 1 : 0);
 			$defaults[Assessment :: PROPERTY_MAXIMUM_TIME] = $object->get_maximum_time();
 			$defaults[self :: UNLIMITED_TIME] = ($defaults[Assessment :: PROPERTY_MAXIMUM_TIME] > 0 ? 1 : 0);
+			$defaults[Assessment :: PROPERTY_RANDOM_QUESTIONS] = $object->get_random_questions(); 
+			$defaults[self :: RANDOM_QUESTIONS] = ($defaults[Assessment :: PROPERTY_RANDOM_QUESTIONS] > 0 ? 1 : 0);
 		}
 		else
 		{
@@ -45,6 +48,7 @@ class AssessmentForm extends LearningObjectForm
 			$defaults[self :: UNLIMITED_ATTEMPTS] = 0;
 			$defaults[self :: ALL_QUESTIONS] = 0;
 			$defaults[self :: UNLIMITED_TIME] = 0;
+			$defaults[self :: RANDOM_QUESTIONS] = 0;
 		}
 	
 		parent :: setDefaults($defaults);
@@ -84,6 +88,15 @@ class AssessmentForm extends LearningObjectForm
 		$this->addElement('html','<div style="margin-left: 25px; display: block;" id="'. self :: UNLIMITED_TIME .'_window">');
 		$this->add_textfield(Assessment :: PROPERTY_MAXIMUM_TIME, null, false);
 		$this->addElement('html','</div>');
+		
+		// Random questions
+		$choices = array();
+		$choices[] = $this->createElement('radio', self :: RANDOM_QUESTIONS, '', Translation :: get('AllQuestions'), 0, array ('onclick' => 'javascript:window_hide(\''. self :: RANDOM_QUESTIONS .'_window\')', 'id' => self :: RANDOM_QUESTIONS));
+		$choices[] = $this->createElement('radio', self :: RANDOM_QUESTIONS, '', Translation :: get('RandomQuestions'), 1, array ('onclick' => 'javascript:window_show(\''. self :: RANDOM_QUESTIONS .'_window\')'));
+		$this->addGroup($choices, null, Translation :: get('AmountOfRandomQuestions'),'<br />',false);
+		$this->addElement('html','<div style="margin-left: 25px; display: block;" id="'. self :: RANDOM_QUESTIONS .'_window">');
+		$this->add_textfield(Assessment :: PROPERTY_RANDOM_QUESTIONS, null, false);
+		$this->addElement('html','</div>');
 
     	$this->addElement('category');
 
@@ -105,6 +118,12 @@ class AssessmentForm extends LearningObjectForm
 					if (". self :: UNLIMITED_TIME .".checked)
 					{
 						window_hide('". self :: UNLIMITED_TIME ."_window');
+					}
+					
+					var ". self :: RANDOM_QUESTIONS ." = document.getElementById('". self :: RANDOM_QUESTIONS ."');
+					if (". self :: RANDOM_QUESTIONS .".checked)
+					{
+						window_hide('". self :: RANDOM_QUESTIONS ."_window');
 					}
 
 					function window_show(item) {
@@ -158,6 +177,15 @@ class AssessmentForm extends LearningObjectForm
 		$this->add_textfield(Assessment :: PROPERTY_MAXIMUM_TIME, null, false);
 		$this->addElement('html','</div>');
 
+		// Random questions
+		$choices = array();
+		$choices[] = $this->createElement('radio', self :: RANDOM_QUESTIONS, '', Translation :: get('AllQuestions'), 0, array ('onclick' => 'javascript:window_hide(\''. self :: RANDOM_QUESTIONS .'_window\')', 'id' => self :: RANDOM_QUESTIONS));
+		$choices[] = $this->createElement('radio', self :: RANDOM_QUESTIONS, '', Translation :: get('RandomQuestions'), 1, array ('onclick' => 'javascript:window_show(\''. self :: RANDOM_QUESTIONS .'_window\')'));
+		$this->addGroup($choices, null, Translation :: get('AmountOfRandomQuestions'),'<br />',false);
+		$this->addElement('html','<div style="margin-left: 25px; display: block;" id="'. self :: RANDOM_QUESTIONS .'_window">');
+		$this->add_textfield(Assessment :: PROPERTY_RANDOM_QUESTIONS, null, false);
+		$this->addElement('html','</div>');
+		
     	$this->addElement('category');
 
 		$this->addElement('html',"<script type=\"text/javascript\">
@@ -178,6 +206,12 @@ class AssessmentForm extends LearningObjectForm
 					if (". self :: UNLIMITED_TIME .".checked)
 					{
 						window_hide('". self :: UNLIMITED_TIME ."_window');
+					}
+					
+					var ". self :: RANDOM_QUESTIONS ." = document.getElementById('". self :: RANDOM_QUESTIONS ."');
+					if (". self :: RANDOM_QUESTIONS .".checked)
+					{
+						window_hide('". self :: RANDOM_QUESTIONS ."_window');
 					}
 
 					function window_show(item) {
@@ -212,6 +246,10 @@ class AssessmentForm extends LearningObjectForm
 		$object->set_maximum_time($values[Assessment :: PROPERTY_MAXIMUM_TIME]);
 		if ($object->get_maximum_time() == null)
 			$object->set_maximum_time(0);
+			
+		$object->set_random_questions($values[Assessment :: PROPERTY_RANDOM_QUESTIONS]);
+		if ($object->get_random_questions() == null)
+			$object->set_random_questions(0);
 
 		$ass_types = $object->get_types();
 		$object->set_assessment_type($ass_types[$values[Assessment :: PROPERTY_ASSESSMENT_TYPE]]);
@@ -239,6 +277,10 @@ class AssessmentForm extends LearningObjectForm
 		else 
 			$object->set_maximum_time($values[Assessment :: PROPERTY_MAXIMUM_TIME]);
 
+		$object->set_random_questions($values[Assessment :: PROPERTY_RANDOM_QUESTIONS]);
+		if ($object->get_random_questions() == null)
+			$object->set_random_questions(0);
+			
 		$ass_types = $object->get_types();
 		$object->set_assessment_type($ass_types[$values[Assessment :: PROPERTY_ASSESSMENT_TYPE]]);
 

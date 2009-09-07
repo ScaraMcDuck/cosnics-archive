@@ -6,6 +6,7 @@
   <property name="max_attempts" type="integer" unsigned="1" notnull="1" default="0"/>
   <property name="questions_per_page" type="integer" unsigned="1" notnull="1" default="0" />
   <property name="max_time" type="integer" unsigned="1" notnull="1" default="0" />
+  <property name="random_questions" type="integer" unsigned="1" notnull="1" default="0" />
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
