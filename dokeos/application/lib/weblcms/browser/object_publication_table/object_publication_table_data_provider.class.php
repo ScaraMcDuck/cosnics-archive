@@ -106,8 +106,8 @@ class ObjectPublicationTableDataProvider extends ObjectTableDataProvider
 		$subselect_conditions = array();
 		$subselect_conditions[] = $this->get_subselect_condition();
 		$subselect_condition = new AndCondition($subselect_conditions);
-		$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
-		
+		$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition, LearningObjectPublication :: get_table_name());
+	
 		if($this->condition)
 			$conditions[] = $this->condition;
 			
