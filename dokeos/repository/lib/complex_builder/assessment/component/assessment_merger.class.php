@@ -52,8 +52,8 @@ class AssessmentBuilderAssessmentMergerComponent extends AssessmentBuilderCompon
 	
 	function get_condition($selected_assessment)
 	{
-		$sub_condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $selected_assessment->get_id(), ComplexLearningObjectItem :: get_table_name());
-		$condition = new SubselectCondition(LearningObject :: PROPERTY_ID, ComplexLearningObjectItem :: PROPERTY_REF, ComplexLearningObjectItem :: get_table_name(), $sub_condition, LearningObject :: get_table_name());
+		$sub_condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $selected_assessment->get_id());
+		$condition = new SubselectCondition(LearningObject :: PROPERTY_ID, ComplexLearningObjectItem :: PROPERTY_REF, RepositoryDataManager :: get_instance()->escape_table_name(ComplexLearningObjectItem :: get_table_name()), $sub_condition, LearningObject :: get_table_name());
 		
 		return $condition;
 	}

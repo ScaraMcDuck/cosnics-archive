@@ -31,7 +31,7 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
 		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'assessment');
 		
 		$subselect_condition = new EqualityCondition('type', 'introduction');
-		$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
+		$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition, LearningObjectPublication :: get_table_name());
 		$condition = new AndCondition($conditions);
 		
 		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications_new($condition);

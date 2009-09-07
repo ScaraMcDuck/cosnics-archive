@@ -170,16 +170,12 @@ class ConditionTranslator
 			$value = $condition->get_value();
 			$table = $condition->get_storage_unit_value();
 			$name_table = $condition->get_storage_unit_name();
-			$etable = $this->data_manager->escape_table_name($table);
-			//$etable = $table;
+			//$etable = $this->data_manager->escape_table_name($table);
+			$etable = $table;
 			$sub_condition = $condition->get_condition();
 
 			$alias = $this->data_manager->get_alias($table);
-			if(!$name_table)
-			{
-				$alias_name = $alias;
-			}
-			else
+			if($name_table)
 			{
 				$alias_name = $this->data_manager->get_alias($name_table);
 			}
