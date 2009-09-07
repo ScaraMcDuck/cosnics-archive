@@ -24,23 +24,29 @@ class SubselectCondition implements Condition
     /**
      * Table
      */
-    private $storage_unit;
+    private $storage_unit_value;
 
     /**
      * Condition
      */
     private $condition;
+    
+    /**
+     * The table for the name
+     */
+    private $storage_unit_name;
 
     /**
      * Constructor
      * @param string $name
      * @param array $values
      */
-    function SubselectCondition($name, $value, $storage_unit, $condition)
+    function SubselectCondition($name, $value, $storage_unit_value, $condition, $storage_unit_name)
     {
         $this->name = $name;
         $this->value = $value;
-        $this->storage_unit = $storage_unit;
+        $this->storage_unit_value = $storage_unit_value;
+        $this->storage_unit_name = $storage_unit_name;
         $this->condition = $condition;
     }
 
@@ -66,9 +72,18 @@ class SubselectCondition implements Condition
      * Gets the storage_unit name for this subselect condition
      * @return string
      */
-    function get_storage_unit()
+    function get_storage_unit_value()
     {
-        return $this->storage_unit;
+        return $this->storage_unit_value;
+    }
+    
+	/**
+     * Gets the storage_unit name for the name
+     * @return string
+     */
+    function get_storage_unit_name()
+    {
+        return $this->storage_unit_name;
     }
 
     /**
@@ -90,7 +105,7 @@ class SubselectCondition implements Condition
             $where = ' WHERE ' . $this->get_condition();
         }
 
-        return $this->get_name() . ' IN (SELECT ' . $this->get_value() . ' FROM ' . $this->get_storage_unit() . $where . ')';
+        return $this->get_name() . ' IN (SELECT ' . $this->get_value() . ' FROM ' . $this->get_storage_unit_value() . $where . ')';
     }
 }
 ?>

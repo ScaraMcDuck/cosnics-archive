@@ -28,12 +28,23 @@ class AssessmentBuilderBrowserComponent extends AssessmentBuilderComponent
 		echo $display->get_full_html();
 
 		echo '<br />';
-		echo $this->get_creation_links($assessment);
+		echo $this->get_creation_links($assessment, array(), $this->get_additional_links());
 		echo '<div class="clear">&nbsp;</div><br />';
 
 		echo $this->get_clo_table_html(false, new AssessmentBrowserTableColumnModel(false), new AssessmentBrowserTableCellRenderer($this->get_parent(), $this->get_clo_table_condition()));
 
 		$this->display_footer();
+	}
+	
+	function get_additional_links()
+	{
+		$link['type'] = 'Assessment';
+		$link['url'] = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => AssessmentBuilder :: ACTION_MERGE_ASSESSMENT, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), 'publish' => Request :: get('publish')));
+		$link['title'] =Translation :: get('Merge' . LearningObject :: type_to_class('Assessment') . 'TypeName');
+		
+		$links[] = $link;
+		
+		return $links;
 	}
 }
 

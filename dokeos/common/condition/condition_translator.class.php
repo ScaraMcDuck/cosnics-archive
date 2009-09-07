@@ -168,15 +168,24 @@ class ConditionTranslator
 
 			$name = $condition->get_name();
 			$value = $condition->get_value();
-			$table = $condition->get_storage_unit();
-			//$etable = $this->data_manager->escape_table_name($table);
-			$etable = $table;
+			$table = $condition->get_storage_unit_value();
+			$name_table = $condition->get_storage_unit_name();
+			$etable = $this->data_manager->escape_table_name($table);
+			//$etable = $table;
 			$sub_condition = $condition->get_condition();
 
 			$alias = $this->data_manager->get_alias($table);
+			if(!$name_table)
+			{
+				$alias_name = $alias;
+			}
+			else
+			{
+				$alias_name = $this->data_manager->get_alias($name_table);
+			}
 
 			$this->storage_unit = $alias;
-			$string = $this->data_manager->escape_column_name($name, $storage_unit) . ' IN ( SELECT ' . $this->data_manager->escape_column_name($value, $alias) . ' FROM ' . $etable . ' AS ' . $alias;
+			$string = $this->data_manager->escape_column_name($name, $alias_name) . ' IN ( SELECT ' . $this->data_manager->escape_column_name($value, $alias) . ' FROM ' . $etable . ' AS ' . $alias;
 
 			if ($sub_condition)
 			{
