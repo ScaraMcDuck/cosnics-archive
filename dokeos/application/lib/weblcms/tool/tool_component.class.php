@@ -234,5 +234,10 @@ abstract class ToolComponent
  	{
  		return $this->tool->get_allowed_types();
  	}
+ 	
+ 	function get_complex_builder_url($pid)
+ 	{
+ 		return $this->tool->get_complex_builder_url($pid);
+ 	}
 
 }

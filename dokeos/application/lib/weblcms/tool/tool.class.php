@@ -46,6 +46,7 @@ abstract class Tool
 	const ACTION_VIEW_ATTACHMENT = 'view_attachment';
     const ACTION_FEEDBACK_CLOI = 'feedback_cloi';
     const ACTION_VIEW_REPORTING_TEMPLATE = 'view_reporting_template';
+    const ACTION_BUILD_COMPLEX_LEARNING_OBJECT = 'builder';
 
 
 	/**
@@ -214,6 +215,9 @@ abstract class Tool
             case self :: ACTION_VIEW_REPORTING_TEMPLATE:
                 $component = ToolComponent::factory('', 'AccessDetailsViewer', $this);
                 break;
+            case self :: ACTION_BUILD_COMPLEX_LEARNING_OBJECT:
+            	$component = ToolComponent::factory('', 'ComplexBuilder', $this);
+                break;
 		}
 		if($component)
 		{
@@ -263,7 +267,7 @@ abstract class Tool
 			default: $title = $this->parent->get_course()->get_visual(); break;
 		}
 
-		$trail->add(new Breadcrumb($this->get_url(array('go' => null, 'tool' => null, 'course' => null)), Translation :: get('MyCourses')));
+		$trail->add(new Breadcrumb($this->get_url(array('go' => null, 'tool' => null, 'course' => null, 'pid' => null)), Translation :: get('MyCourses')));
 		$trail->add(new Breadcrumb($this->get_url(array('tool' => null, 'tool_action' => null, 'pid' => null)), $title));
 
 		// TODO: do this by overriding display_header in the course_group tool
@@ -579,6 +583,11 @@ abstract class Tool
         {
             return new ToolbarItem('');
         }
+    }
+    
+    function get_complex_builder_url($pid)
+    {
+    	return $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BUILD_COMPLEX_LEARNING_OBJECT, Tool :: PARAM_PUBLICATION_ID => $pid));
     }
 
     static function get_pcattree_parents($pcattree)
