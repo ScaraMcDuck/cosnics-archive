@@ -63,7 +63,6 @@ class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
 
 			$this->redirect(Translation :: get('LearningObjectUpdated'), false,
 					array_merge($parameters, array(
-						'go' => 'build_complex',
 						ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO,
 						'publish' => Request :: get('publish')
 					)));

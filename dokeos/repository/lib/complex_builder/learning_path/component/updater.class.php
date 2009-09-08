@@ -69,7 +69,6 @@ class LearningPathBuilderUpdaterComponent extends LearningPathBuilderComponent
 
 			$this->redirect(Translation :: get('LearningObjectUpdated'), false,
 					array_merge($parameters, array(
-						'go' => 'build_complex',
 						LearningPathBuilder :: PARAM_BUILDER_ACTION => LearningPathBuilder :: ACTION_BROWSE_CLO,
 						'publish' => Request :: get('publish')
 					)));
