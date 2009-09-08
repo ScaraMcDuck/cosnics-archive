@@ -443,7 +443,7 @@ class User extends DataClass
 	 */
 	function has_picture()
 	{
-		return strlen($this->get_picture_uri()) > 0;
+		return ((strlen($this->get_picture_uri()) > 0) && (file_exists(Path :: get(SYS_USER_PATH).$this->get_picture_uri())));
 	}
 	
 	function get_full_picture_url()
