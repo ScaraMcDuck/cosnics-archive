@@ -37,9 +37,9 @@ class BreadcrumbTrail
         $this->help_items = $help_items;
     }
 
-    function remove($breadcrumb)
+    function remove($breadcrumb_index)
     {
-        // TODO: Write function to remove a specific element
+        unset($this->breadcrumbtrail[$breadcrumb_index]);
     }
 
     function get_first()

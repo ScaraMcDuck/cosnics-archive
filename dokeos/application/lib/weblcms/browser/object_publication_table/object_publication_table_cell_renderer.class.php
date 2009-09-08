@@ -129,6 +129,15 @@ class ObjectPublicationTableCellRenderer extends DefaultLearningObjectTableCellR
 				'img' => Theme :: get_common_image_path().'action_edit.png'
 			);
 			
+			if($publication->get_learning_object()->is_complex_learning_object())
+			{
+				$actions['build'] = array(
+					'href' => $this->browser->get_complex_builder_url($publication->get_id()), 
+					'label' => Translation :: get('BuildComplex'), 
+					'img' => Theme :: get_common_image_path().'action_bar.png'
+				);
+			}
+			
 			$img = 'action_visible.png';
 			if ($publication->is_hidden())
 			{
