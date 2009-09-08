@@ -69,7 +69,6 @@ class PortfolioBuilderUpdaterComponent extends PortfolioBuilderComponent
 
 			$this->redirect(Translation :: get('LearningObjectUpdated'), false,
 					array_merge($parameters, array(
-						'go' => 'build_complex',
 						PortfolioBuilder :: PARAM_BUILDER_ACTION => PortfolioBuilder :: ACTION_BROWSE_CLO,
 						'publish' => Request :: get('publish')
 					)));

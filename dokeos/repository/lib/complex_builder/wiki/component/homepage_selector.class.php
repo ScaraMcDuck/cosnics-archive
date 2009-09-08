@@ -17,7 +17,6 @@ class WikiBuilderHomepageSelectorComponent extends WikiBuilderComponent
 		
 		$this->redirect(Translation :: get('HomepageSelected'), false, 
 			array(
-				'go' => 'build_complex',
 				ComplexBuilder :: PARAM_ROOT_LO => $root->get_id(),
 				ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO,
 				'publish' => Request :: get('publish')

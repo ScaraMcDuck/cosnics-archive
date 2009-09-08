@@ -31,7 +31,7 @@ class ComplexBuilderMoverComponent extends ComplexBuilderComponent
 			$new_place = ($display_order + ($direction == RepositoryManager :: PARAM_DIRECTION_UP?-1:1));
 			$cloi->set_display_order($new_place);
 			
-			$conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER, $new_place);
+			$conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER, $new_place, ComplexLearningObjectItem :: get_table_name());
 			$conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $parent, ComplexLearningObjectItem :: get_table_name());
 			$condition = new AndCondition($conditions);
 			$items = $rdm->retrieve_complex_learning_object_items($condition);
@@ -46,8 +46,7 @@ class ComplexBuilderMoverComponent extends ComplexBuilderComponent
 			if($parent == $root) $parent = null;
 			
 			$this->redirect($succes?Translation :: get('ComplexLearningObjectItemsMoved'):Translation :: get('ComplexLearningObjectItemsNotMoved'), false, 
-				array('go' => 'build_complex',
-					  ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO,  
+				array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO,  
 				      ComplexBuilder :: PARAM_ROOT_LO => $root,
 				      ComplexBuilder :: PARAM_CLOI_ID => $parent_cloi, 
 				      'publish' => Request :: get('publish')));
