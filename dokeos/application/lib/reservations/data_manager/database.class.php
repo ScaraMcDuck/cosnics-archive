@@ -558,7 +558,9 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 		
 		if(is_null($id))
 		{
-			$groups = GroupDataManager :: get_instance()->retrieve_group_rel_users(new EqualityCondition(GroupRelUser :: PROPERTY_USER_ID, $user_id));
+			//$groups = GroupDataManager :: get_instance()->retrieve_group_rel_users(new EqualityCondition(GroupRelUser :: PROPERTY_USER_ID, $user_id));
+			$user = UserDataManager :: get_instance()->retrieve_user($user_id);
+			$groups = $user->get_groups();
 			while($group = $groups->next_result())
 			{
 				$query = 'SELECT quota_box_id FROM reservations_quota_box_rel_category WHERE category_id = ? AND id IN (SELECT quota_box_rel_category_id FROM 
@@ -566,7 +568,7 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 			
 				$this->db->get_connection()->setLimit(intval(0),intval(1));
 				$statement = $this->db->get_connection()->prepare($query);
-				$res = $statement->execute(array($category_id, $user_id));
+				$res = $statement->execute(array($category_id, $group->get_id()));
 				$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 				
 				$id = $record['quota_box_id'];
