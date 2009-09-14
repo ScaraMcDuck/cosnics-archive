@@ -6,6 +6,7 @@ require_once dirname(__FILE__).'/../reservations_manager_component.class.php';
 require_once dirname(__FILE__).'/../../calendar/reservations_calendar_week_renderer.class.php';
 require_once dirname(__FILE__).'/../../calendar/reservations_calendar_day_renderer.class.php';
 require_once dirname(__FILE__).'/subscription_overview_browser/subscription_overview_browser_table.class.php';
+require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
 require_once 'Pager/Pager.php';
 
 /**

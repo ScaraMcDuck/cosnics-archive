@@ -27,7 +27,7 @@ class ReservationsManagerAdminItemBrowserComponent extends ReservationsManagerCo
 		
 		$this->display_header($trail);
 		echo $this->ab->as_html() . '<br />';
-		echo '<div style="float: left; padding-right: 18px; overflow: auto;">' . $menu->render_as_tree() . '</div>';
+		echo '<div style="float: left; width: 18%; overflow: auto;">' . $menu->render_as_tree() . '</div>';
 		echo '<div style="float: right; width: 80%;">';
 		echo $this->get_user_html();
 		echo '</div>';
