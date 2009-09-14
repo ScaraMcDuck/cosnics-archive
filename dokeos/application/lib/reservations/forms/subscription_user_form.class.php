@@ -37,7 +37,7 @@ class SubscriptionUserForm extends FormValidator
 		while($selected_user = $selected_users->next_result())
 		{
 			$user = UserDataManager :: get_instance()->retrieve_user($selected_user->get_user_id());
-			$user_list[$user->get_id()] = array('id' => $user->get_id(), 'title' => $user->get_fullname(), 'description' => $user->get_fullname(), 'class' => 'user');
+			$user_list[$user->get_id()] = array('id' => htmlentities($user->get_id(), ENT_COMPAT, 'UTF-8'), 'title' => htmlentities($user->get_fullname(), ENT_COMPAT, 'UTF-8'), 'description' => $user->get_fullname(), 'class' => 'user');
 		}
     	
     	$url = Path :: get(WEB_PATH).'user/xml_feeds/xml_user_feed.php';

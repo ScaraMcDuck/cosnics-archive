@@ -90,7 +90,7 @@ class CategoryQuotaBoxForm extends FormValidator {
 		{
 			$user = $udm->retrieve_user($rel_user->get_user_id());
 			$id = 'user_' . $user->get_id();
-			$defaults[$id] = array('id' => $id, 'title' => $user->get_fullname(), 'description' => $user->get_fullname(), 'class' => 'type type_group');
+			$defaults[$id] = array('id' => $id, 'title' => htmlentities($user->get_fullname(), ENT_COMPAT, 'UTF-8'), 'description' => htmlentities($user->get_fullname(), ENT_COMPAT, 'UTF-8'), 'class' => 'type type_group');
 		}
 		
     	$condition = new EqualityCondition(QuotaBoxRelCategoryRelGroup :: PROPERTY_QUOTA_BOX_REL_CATEGORY_ID, $this->quota_box_rel_category->get_id());
@@ -99,7 +99,7 @@ class CategoryQuotaBoxForm extends FormValidator {
 		{
 			$group = $gdm->retrieve_group($rel_group->get_group_id());
 			$id = 'group_' . $group->get_id();
-			$defaults[$id] = array('id' => $id, 'title' => $group->get_name(), 'description' => $group->get_name(), 'class' => 'type type_group');
+			$defaults[$id] = array('id' => $id, 'title' => htmlentities($group->get_name(), ENT_COMPAT, 'UTF-8'), 'description' => htmlentities($group->get_name(), ENT_COMPAT, 'UTF-8'), 'class' => 'type type_group');
 		}
 		
 		//$url = Path :: get(WEB_PATH).'application/lib/reservations/xml_feeds/users_groups_xml_feed.php';
