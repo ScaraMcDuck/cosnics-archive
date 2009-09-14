@@ -102,7 +102,8 @@ class CategoryQuotaBoxForm extends FormValidator {
 			$defaults[$id] = array('id' => $id, 'title' => $group->get_name(), 'description' => $group->get_name(), 'class' => 'type type_group');
 		}
 		
-		$url = Path :: get(WEB_PATH).'application/lib/reservations/xml_feeds/users_groups_xml_feed.php';
+		//$url = Path :: get(WEB_PATH).'application/lib/reservations/xml_feeds/users_groups_xml_feed.php';
+		$url = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
 		$locale = array ();
 		$locale['Display'] = Translation :: get('SelectRecipients');
 		$locale['Searching'] = Translation :: get('Searching');
