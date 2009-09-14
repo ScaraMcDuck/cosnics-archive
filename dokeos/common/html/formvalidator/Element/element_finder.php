@@ -12,7 +12,8 @@ require_once Path :: get_library_path() . 'resource_manager.class.php';
  */
 class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 {
-    const DEFAULT_HEIGHT = 150;
+    const DEFAULT_HEIGHT = 300;
+	const DEFAULT_WIDTH = 310;
     
     private static $initialized;
     
@@ -23,6 +24,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
     private $default_collapsed;
     
     private $height;
+	private $width;
     
     private $exclude;
     
@@ -37,6 +39,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
         $this->locale = $locale;
         $this->exclude = array();
         $this->height = self :: DEFAULT_HEIGHT;
+		$this->width = self :: DEFAULT_WIDTH;
         $this->search_url = $search_url;
         $this->options = $options;
         $this->build_elements();
@@ -57,6 +60,11 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
     {
         return $this->height;
     }
+	
+	function getWidth()
+    {
+        return $this->width;
+    }
 
     function excludeElements($excluded_ids)
     {
@@ -71,6 +79,11 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
     function setHeight($height)
     {
         $this->height = $height;
+    }
+	
+	function setWidth($width)
+    {
+        $this->height = $width;
     }
 
     private function build_elements()
@@ -128,6 +141,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
         $html[] = '<div class="element_finder" id="' . $id . '" style="' . ($this->isCollapsed() ? ' display: none;' : '') . '">';
         $html[] = $this->_elements[0]->toHTML();
         
+
         // Search
         $html[] = '<div class="element_finder_search">';
         $this->_elements[1]->setValue('');
@@ -140,7 +154,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
         
         // Inactive
         $html[] = '<div class="element_finder_inactive">';
-        $html[] = '<div id="elf_' . $this->getName() . '_inactive" class="inactive_elements" style="height: ' . $this->getHeight() . 'px; overflow: auto;">';
+        $html[] = '<div id="elf_' . $this->getName() . '_inactive" class="inactive_elements" style="height: ' . $this->getHeight() . 'px; width: ' . $this->getWidth() . 'px; overflow: auto;">';
         $html[] = '</div>';
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
@@ -158,7 +172,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 
         // Active
         $html[] = '<div class="element_finder_active">';
-        $html[] = '<div id="elf_' . $this->getName() . '_active" class="active_elements" style="height: ' . $this->getHeight() . 'px; overflow: auto;"></div>';
+        $html[] = '<div id="elf_' . $this->getName() . '_active" class="active_elements" style="height: ' . $this->getHeight() . 'px; width: ' . $this->getWidth() . 'px; overflow: auto;"></div>';
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
         
