@@ -31,7 +31,7 @@
  <index name="external_uid" type="unique">
   <indexproperty name="external_uid"/>
  </index>
- <index name="official_code" type="unique">
+ <index name="official_code">
   <indexproperty name="official_code"/>
  </index>
  <index name="user_id" type="primary">

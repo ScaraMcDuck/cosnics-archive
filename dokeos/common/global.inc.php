@@ -177,7 +177,8 @@ else
 	- full fake register globals block
 	--------------------------------------------
 	*/
-    error_reporting(E_COMPILE_ERROR | E_ERROR | E_CORE_ERROR);
+    //error_reporting(E_COMPILE_ERROR | E_ERROR | E_CORE_ERROR);
+	error_reporting(E_ALL & ~ E_NOTICE);
 }
 
 /*
