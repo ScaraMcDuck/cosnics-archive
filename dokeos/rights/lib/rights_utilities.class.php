@@ -111,7 +111,8 @@ class RightsUtilities
 		$conditions = array();
 		$conditions[] = new EqualityCondition('identifier', $location);
 		$conditions[] = new EqualityCondition('type', $type);
-
+		$conditions[] = new EqualityCondition('application', $application);
+		
 		$condition = new AndCondition($conditions);
 
 		$location_set = $rdm->retrieve_locations($condition, 0, 1);
