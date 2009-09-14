@@ -119,7 +119,10 @@ class RequirementsInstallWizardPage extends InstallWizardPage
         $array = array();
         $diagnoser = new Diagnoser();
         
-        $path = Path :: get(WEB_LAYOUT_PATH) . 'aqua/img/common/';
+        $urlAppendPath = str_replace('/install/index.php', '', $_SERVER['PHP_SELF']);
+		$path = 'http://'.$_SERVER['HTTP_HOST'].$urlAppendPath.'/';
+		
+        $path .= '/layout/aqua/img/common/';
         
         /*$writable_folders = array('/files', '/files/archive', '/files/fckeditor', '/files/garbage', '/files/logs' 
         						  , '/files/repository/', '/files/temp', '/files/scorm', '/files/userpictures', 
