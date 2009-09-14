@@ -29,9 +29,9 @@ class UserQuotaCellRenderer
 	function get_properties()
 	{
 		return array(
-					'days',
-					'max_credits',
-					'used_credits'
+					'Days',
+					'MaxCredits',
+					'UsedCredits'
 			);
 	}
 	

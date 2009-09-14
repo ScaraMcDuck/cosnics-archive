@@ -101,4 +101,6 @@ $lang['reservations']['TimeUnit'] = 'Time unit';
 $lang['reservations']['Time Unit (d)'] = 'Time unit (d)';
 $lang['reservations']['ViewQuota'] = 'View quota';
 $lang['reservations']['Days'] = 'Days';
+$lang['reservations']['MaxCredits'] = 'Max credits';
+$lang['reservations']['UsedCredits'] = 'Used credits';
 ?>
