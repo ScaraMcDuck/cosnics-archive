@@ -133,16 +133,6 @@ class Group extends DataClass
 	{
 		$this->set_default_property(self :: PROPERTY_RIGHT_VALUE, $right_value);
 	}
-	
-	function get_code()
-	{
-		return $this->get_default_property(self :: PROPERTY_CODE);
-	}
-
-	function set_code($code)
-	{
-		$this->set_default_property(self :: PROPERTY_CODE);, $code);
-	}
 
 	/**
 	 * Get all of the group's parents
