@@ -72,7 +72,8 @@ class UserRightManagerUserComponent extends UserRightManagerComponent
     	$html[] = $location_menu->render_as_tree();
     	$html[] = '</div>';
 
-    	$table = new LocationUserBrowserTable($this, $this->get_parameters(), $this->get_condition());
+    	$params = array(GroupRightManager :: PARAM_SOURCE => $this->application, GroupRightManager :: PARAM_LOCATION => $this->location->get_id());
+    	$table = new LocationUserBrowserTable($this, array_merge($this->get_parameters(), $params), $this->get_condition());
 
     	$html[] = '<div style="float: right; width: 80%;">';
     	$html[] = $table->as_html();
@@ -87,17 +88,18 @@ class UserRightManagerUserComponent extends UserRightManagerComponent
 
 	function get_condition()
 	{
-		return null;
+		//return null;
 		
-    	$condition = new EqualityCondition(Location :: PROPERTY_PARENT, $this->location->get_id());
+    	//$condition = new EqualityCondition(Location :: PROPERTY_PARENT, $this->location->get_id());
 
     	$query = $this->action_bar->get_query();
     	if(isset($query) && $query != '')
     	{
-    		$and_conditions = array();
-    		$and_conditions[] = $condition;
-    		$and_conditions[] = new PatternMatchCondition(Location :: PROPERTY_LOCATION, '*' . $query . '*');
-    		$condition = new AndCondition($and_conditions);
+    		$or_conditions = array();
+    		$or_conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*', User :: get_table_name());
+    		$or_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*', User :: get_table_name());
+    		$or_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*', User :: get_table_name());
+    		$condition = new OrCondition($or_conditions);
     	}
 
 		return $condition;
@@ -117,7 +119,8 @@ class UserRightManagerUserComponent extends UserRightManagerComponent
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 		$action_bar->set_search_url($this->get_url(array(UserRightManager :: PARAM_SOURCE => $this->application, UserRightManager :: PARAM_LOCATION => $this->location->get_id())));
-
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(GroupRightManager :: PARAM_SOURCE => $this->application, GroupRightManager :: PARAM_LOCATION => $this->location->get_id())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		
 		return $action_bar;
 	}
 }

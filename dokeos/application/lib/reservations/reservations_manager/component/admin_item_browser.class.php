@@ -78,14 +78,33 @@ class ReservationsManagerAdminItemBrowserComponent extends ReservationsManagerCo
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
 		$action_bar->set_search_url($this->get_url(array(ReservationsManager :: PARAM_CATEGORY_ID => $this->get_category())));
-		if($this->has_right('category', $this->get_category(), ReservationsRights :: ADD_RIGHT))
+		
+		if($this->get_category() == 0)
+		{
+			$bool = $this->has_right('root', 0, ReservationsRights :: ADD_RIGHT);
+		}
+		else 
+		{
+			$bool = $this->has_right('category', $this->get_category(), ReservationsRights :: ADD_RIGHT);
+		}
+		
+		if($bool)
 		{
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_create_item_url($this->get_category()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
 		
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
-		if($this->has_right('category', $this->get_category(), ReservationsRights :: EDIT_RIGHT))
+		if($this->get_category() == 0)
+		{
+			$bool = $this->has_right('root', 0, ReservationsRights :: EDIT_RIGHT);
+		}
+		else 
+		{
+			$bool = $this->has_right('category', $this->get_category(), ReservationsRights :: EDIT_RIGHT);
+		}
+		
+		if($bool)
 		{
 			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Blackout'), Theme :: get_common_image_path().'action_lock.png', $this->get_blackout_category_url($this->get_category(), 1), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('UnBlackout'), Theme :: get_common_image_path().'action_unlock.png', $this->get_blackout_category_url($this->get_category(), 0), ToolbarItem :: DISPLAY_ICON_AND_LABEL));

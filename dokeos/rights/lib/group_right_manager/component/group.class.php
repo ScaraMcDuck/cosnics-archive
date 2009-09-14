@@ -62,19 +62,20 @@ class GroupRightManagerGroupComponent extends GroupRightManagerComponent
 		$this->display_header($trail);
 
 		$html = array();
-		$application_url = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS, GroupRightManager :: PARAM_SOURCE => Application :: PLACEHOLDER_APPLICATION));
+		$application_url = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS, GroupRightManager :: PARAM_SOURCE => Application :: PLACEHOLDER_APPLICATION, GroupRightManager :: PARAM_GROUP => Request :: get(GroupRightManager :: PARAM_GROUP)));
 		$html[] = Application :: get_selecter($application_url, $this->application);
 		$html[] = $this->action_bar->as_html() . '<br />';
 
-		$url_format = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS, GroupRightManager :: PARAM_GROUP_RIGHT_ACTION => GroupRightManager :: ACTION_BROWSE_LOCATION_GROUP_RIGHTS, GroupRightManager :: PARAM_SOURCE => $this->application, GroupRightManager :: PARAM_LOCATION => '%s'));
+		$url_format = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS, GroupRightManager :: PARAM_GROUP_RIGHT_ACTION => GroupRightManager :: ACTION_BROWSE_LOCATION_GROUP_RIGHTS, GroupRightManager :: PARAM_SOURCE => $this->application, GroupRightManager :: PARAM_GROUP => Request :: get(GroupRightManager :: PARAM_GROUP), GroupRightManager :: PARAM_LOCATION => '%s'));
 		$url_format = str_replace('=%25s', '=%s', $url_format);
     	$location_menu = new LocationRightMenu($root->get_id(), $this->location->get_id(), $url_format);
     	$html[] = '<div style="float: left; width: 18%; overflow: auto; height: 500px;">';
     	$html[] = $location_menu->render_as_tree();
     	$html[] = '</div>';
 
+		$params = array(GroupRightManager :: PARAM_SOURCE => $this->application, GroupRightManager :: PARAM_LOCATION => $this->location->get_id(), GroupRightManager :: PARAM_GROUP => Request :: get(GroupRightManager :: PARAM_GROUP));
     	$html[] = '<div style="float: left; width: 62%; margin-left: 1%;">';
-    	$table = new LocationGroupBrowserTable($this, $this->get_parameters(), $this->get_condition());
+    	$table = new LocationGroupBrowserTable($this, array_merge($this->get_parameters(), $params), $this->get_condition());
     	$html[] = $table->as_html();
     	$html[] = RightsUtilities :: get_rights_legend();
     	$html[] = '</div>';
@@ -121,8 +122,9 @@ class GroupRightManagerGroupComponent extends GroupRightManagerComponent
 	function get_action_bar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-		$action_bar->set_search_url($this->get_url(array(GroupRightManager :: PARAM_SOURCE => $this->application, GroupRightManager :: PARAM_LOCATION => $this->location->get_id())));
-
+		$action_bar->set_search_url($this->get_url(array(GroupRightManager :: PARAM_SOURCE => $this->application, GroupRightManager :: PARAM_LOCATION => $this->location->get_id(), GroupRightManager :: PARAM_GROUP => Request :: get(GroupRightManager :: PARAM_GROUP))));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(GroupRightManager :: PARAM_SOURCE => $this->application, GroupRightManager :: PARAM_LOCATION => $this->location->get_id(), GroupRightManager :: PARAM_GROUP => Request :: get(GroupRightManager :: PARAM_GROUP))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		
 		return $action_bar;
 	}
 }
