@@ -561,20 +561,23 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 			//$groups = GroupDataManager :: get_instance()->retrieve_group_rel_users(new EqualityCondition(GroupRelUser :: PROPERTY_USER_ID, $user_id));
 			$user = UserDataManager :: get_instance()->retrieve_user($user_id);
 			$groups = $user->get_groups();
-			while($group = $groups->next_result())
+			if($groups)
 			{
-				$query = 'SELECT quota_box_id FROM reservations_quota_box_rel_category WHERE category_id = ? AND id IN (SELECT quota_box_rel_category_id FROM 
-				  		  reservations_quota_box_rel_category_rel_group WHERE group_id = ?);';
-			
-				$this->db->get_connection()->setLimit(intval(0),intval(1));
-				$statement = $this->db->get_connection()->prepare($query);
-				$res = $statement->execute(array($category_id, $group->get_id()));
-				$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+				while($group = $groups->next_result())
+				{
+					$query = 'SELECT quota_box_id FROM reservations_quota_box_rel_category WHERE category_id = ? AND id IN (SELECT quota_box_rel_category_id FROM 
+					  		  reservations_quota_box_rel_category_rel_group WHERE group_id = ?);';
 				
-				$id = $record['quota_box_id'];
-				
-				if(!is_null($id))
-					return $id;
+					$this->db->get_connection()->setLimit(intval(0),intval(1));
+					$statement = $this->db->get_connection()->prepare($query);
+					$res = $statement->execute(array($category_id, $group->get_id()));
+					$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+					
+					$id = $record['quota_box_id'];
+					
+					if(!is_null($id))
+						return $id;
+				}
 			}
 		}
 		else
