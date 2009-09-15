@@ -21,7 +21,7 @@ if(!CoreApplication :: is_active($application_name))
 Translation :: set_application($this_section);
 Theme :: set_application($this_section);
 
-if (!Authentication :: is_valid() && !(Request :: get('application') == 'user' && (Request :: get(Application :: PARAM_ACTION) == UserManager :: ACTION_REGISTER_USER || Request :: get(Application :: PARAM_ACTION) == UserManager :: ACTION_RESET_PASSWORD)))
+if (!Authentication :: is_valid() && !(Request :: get('application') == 'user' && (Request :: get(Application :: PARAM_ACTION) == UserManager :: ACTION_REGISTER_USER || Request :: get(Application :: PARAM_ACTION) == UserManager :: ACTION_RESET_PASSWORD)) && !(Request :: get('application') == 'admin' && (Request :: get(Application :: PARAM_ACTION) == AdminManager :: ACTION_WHOIS_ONLINE)))
 {
 	Display :: not_allowed();
 }
