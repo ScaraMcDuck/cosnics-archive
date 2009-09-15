@@ -125,14 +125,14 @@ class RepoViewerCreatorComponent extends RepoViewerComponent
 				$learning_object = $form->create_learning_object();
 			//$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $learning_object->get_id(), RepoViewer :: PARAM_ACTION => 'publicationcreator', RepoViewer :: PARAM_EDIT => $edit));
 			//$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $learning_object->get_id(), RepoViewer :: PARAM_EDIT => $edit));
-			if(!is_array($learning_object) && $learning_object->is_complex_learning_object() && $this->redirect_complex($learning_object->get_type()))
+			/*if(!is_array($learning_object) && $learning_object->is_complex_learning_object() && $this->redirect_complex($learning_object->get_type()))
 			{
 				$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $learning_object->get_id()));
 				$_SESSION['redirect_url'] = $this->get_url($redirect_params);
 				header('Location: core.php?&application=repository&go=build_complex&publish=1&root_lo=' . $learning_object->get_id());
 			}
 			else
-			{
+			{*/
 				if(is_array($learning_object))
 				{
 					$ids = array();
@@ -146,7 +146,7 @@ class RepoViewerCreatorComponent extends RepoViewerComponent
 				
 				$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $ids));
 				$this->redirect(null, false, $redirect_params);
-			}
+			//}
 		}
 		else
 		{
