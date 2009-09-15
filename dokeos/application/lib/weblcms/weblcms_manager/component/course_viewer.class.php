@@ -33,21 +33,24 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 	{
 		$this->load_rights();
 		
-		$studentview = Request :: get('studentview');
-		if(is_null($studentview))
+		if($this->is_teacher())
 		{
-			$studentview = Session :: retrieve('studentview');
-		}
-		
-		if($studentview == 1)
-		{
-			Session :: register('studentview', 1);
-			$this->set_rights_for_student();
-		}
-		else
-		{
-			Session :: unregister('studentview');
-			$this->set_rights_for_teacher();
+			$studentview = Request :: get('studentview');
+			if(is_null($studentview))
+			{
+				$studentview = Session :: retrieve('studentview');
+			}
+			
+			if($studentview == 1)
+			{
+				Session :: register('studentview', 1);
+				$this->set_rights_for_student();
+			}
+			else
+			{
+				Session :: unregister('studentview');
+				$this->set_rights_for_teacher();
+			}
 		}
 		
 		$trail = new BreadcrumbTrail();
@@ -351,7 +354,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 		}
 		Display :: header($breadcrumbtrail);
 
-		if($this->is_teacher())
+		if($this->is_teacher() && PlatformSetting :: get('allow_student_view', 'weblcms') == 1)
 		{
 			echo '<div style="float: right;">';
 

@@ -371,13 +371,13 @@ class UserForm extends FormValidator {
 			$expiration_date = $user->get_expiration_date();
 			if ($expiration_date != 0)
 			{
-				$defaults[self :: PARAM_FOREVER] = 0;
+				$defaults['ExpirationDate' . self :: PARAM_FOREVER] = 0;
 				$defaults['from_date'] = $user->get_activation_date();
 				$defaults['to_date'] = $user->get_expiration_date();
 			}
 			else
 			{
-				$defaults[self :: PARAM_FOREVER] = 1;
+				$defaults['ExpirationDate' . self :: PARAM_FOREVER] = 1;
 			}
 
 			$defaults['pw']['pass'] = 2;
@@ -387,7 +387,10 @@ class UserForm extends FormValidator {
 		}
 		else
 		{
-			$defaults[self :: PARAM_FOREVER] = 1;
+			$defaults['ExpirationDate' . self :: PARAM_FOREVER] = 1;
+			
+			//$defaults['from_date'] = time();
+			$defaults['ExpirationDate' . 'to_date'] = DokeosUtilities :: to_db_date(strtotime('+ ' . intval(PlatformSetting :: get('days_valid', 'user')) . 'Days', time()));
 			$defaults['pw']['pass'] = $user->get_password();
 
 			$defaults[User :: PROPERTY_DATABASE_QUOTA] = '300';
