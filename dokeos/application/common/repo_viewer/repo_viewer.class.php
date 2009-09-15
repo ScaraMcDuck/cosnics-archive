@@ -305,5 +305,11 @@ class RepoViewer
 	{
 		$this->excluded_objects = $excluded_objects;
 	}
+	
+	function any_object_selected()
+	{
+		$object = Request :: get('object');
+		return isset($object);
+	}
 }
 ?>

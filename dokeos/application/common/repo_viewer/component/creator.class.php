@@ -112,7 +112,8 @@ class RepoViewerCreatorComponent extends RepoViewerComponent
 	/*
 	 * Handles the displaying and validating of a create/edit learning object form
 	 */
-	private function handle_form($form, $edit = 0) {
+	private function handle_form($form, $edit = 0) 
+	{
 		if ($form->validate())
 		{
 			if ($edit)

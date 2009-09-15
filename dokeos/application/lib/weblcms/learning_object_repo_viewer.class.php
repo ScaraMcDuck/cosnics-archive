@@ -37,14 +37,14 @@ class LearningObjectRepoViewer extends RepoViewer
 		$this->parse_input_from_table();
 	}
 
-	function get_redirect_complex($type)
+	function redirect_complex($type)
 	{
-		switch ($type)
+		/*switch ($type)
 		{
 			case 'forum_topic':
 				return false;
 			default: return true;
-		}
+		}*/ return false;
 	}
 	
 	/**
