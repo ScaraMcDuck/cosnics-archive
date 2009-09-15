@@ -197,7 +197,7 @@ class DocumentForm extends LearningObjectForm
 			$path = $owner.'/'.$filename;
 			$full_path = $this->get_upload_path().$path;
 			move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "'.$full_path.'"');
-			chmod($full_path, 0777);
+			chmod($full_path, intval(PlatformSetting :: get('permissions_new_files')));
 		}
 		$object->set_path($path);
 		$object->set_filename($filename);
@@ -252,18 +252,21 @@ class DocumentForm extends LearningObjectForm
 				{
 					$errors['uncompress'] = Translation :: get('UncompressNotAvailableForThisFile');
 				}
-				/*$type = strrchr($_FILES['file']['name'], '.')
+				
+				$array = explode('.', $_FILES['file']['name']);
+				$type = $array[count($array) - 1];
 				if(!$fields['uncompress'] && !$this->allow_file_type($type))
 				{
-					if(PlatformSetting :: get('filter_behavior') == 'remove')
-						$errors['upload_or_create'] = Translation :: get('FileTypeNotAllowed');
-					else
+					if(PlatformSetting :: get('rename_instead_of_disallow') == 1)
 					{
 						$name = $_FILES['file']['name'];
-						$_FILES['file']['name'] = substr($name, 0, strpos($name, $type)) . PlatformSetting :: get('replacement_extension')
+						$_FILES['file']['name'] = $name . '.' . PlatformSetting :: get('replacement_extension');
 					}
-				}*/
-				//TODO: Add a check to see if the uncompressed file doesn't take to much disk space
+					else
+					{
+						$errors['upload_or_create'] = Translation :: get('FileTypeNotAllowed');
+					}
+				}
 			}
 			else
 			{

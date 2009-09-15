@@ -84,15 +84,12 @@
 			</setting>
 			<setting name="blacklist" field="text" default="" />
 			<setting name="whitelist" field="text" default="" />
-			<setting name="filter_behavior" field="radio" default="remove">
+			<setting name="rename_instead_of_disallow" field="checkbox">
 				<options type="static">
-					<option name="remove" value="remove" />
-					<option name="rename" value="rename" />
+					<option name="rename_instead_of_disallow" value="1" />
 				</options>
 			</setting>
 			<setting name="replacement_extension" field="text" default="" />
-			<setting name="permissions_new_directories" field="text"
-				default="0770" />
 			<setting name="permissions_new_files" field="text" default="0660" />
 		</category>
 		<category name="authentication">
