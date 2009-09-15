@@ -30,7 +30,6 @@ class AssessmentToolPublisherComponent extends AssessmentToolComponent
 
 		$pub = new LearningObjectRepoViewer($this, array('assessment', 'survey', 'hotpotatoes'), true, RepoViewer :: SELECT_MULTIPLE);
 
-		//dump($object);
 		if(!$pub->any_object_selected())
 		{
 			$this->display_header($trail, true);
@@ -40,22 +39,11 @@ class AssessmentToolPublisherComponent extends AssessmentToolComponent
 		else
 		{
 			$object_id = Request :: get('object');
-			/*if(!is_array($object_id) && Request :: get('repoviewer_action') == 'creator')
-			{
-				Request :: set_get('publish', 1) ;
-				$_SESSION['redirect_url'] = $this->get_url(array('tool_action' => null));
-				Request :: set_get(ComplexBuilder :: PARAM_ROOT_LO, $object_id);
 			
-				$complex_builder = ComplexBuilder :: factory($this);
-				$complex_builder->run();	
-			}
-			else 
-			{*/
-				$publisher = new LearningObjectPublisher($pub);
-				$this->display_header($trail, true);
-				echo $publisher->get_publications_form($object_id);
-				$this->display_footer();
-			//}
+			$publisher = new LearningObjectPublisher($pub);
+			$this->display_header($trail, true);
+			echo $publisher->get_publications_form($object_id);
+			$this->display_footer();
 		}
 	}
 }
