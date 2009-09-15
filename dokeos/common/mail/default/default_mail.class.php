@@ -27,6 +27,12 @@ class DefaultMail extends Mail
             $headers[] = 'From: ' . $this->get_from();
             $headers[] = 'Reply-To: ' . $this->get_from();
         }
+        
+        if(PlatformSetting :: get('no_reply_email'))
+        {
+        	$headers[] = 'From: ' . PlatformSetting :: get('no_reply_email');
+        }
+        
         $headers = implode("\n", $headers);
         return mail(implode(',', $this->get_to()), $this->get_subject(), $this->get_message(), $headers);
     }

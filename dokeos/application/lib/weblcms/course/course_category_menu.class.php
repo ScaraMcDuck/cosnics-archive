@@ -87,7 +87,11 @@ class CourseCategoryMenu extends HTML_Menu
 		foreach ($categories[$parent] as $index => $category)
 		{
 			$menu_item = array();
-			$menu_item['title'] = $category->get_name();
+			
+			$wdm = WeblcmsDataManager :: get_instance();
+			$count = $wdm->count_courses(new EqualityCondition(Course :: PROPERTY_CATEGORY, $category->get_id()));
+			
+			$menu_item['title'] = $category->get_name() . ' (' . $count . ')';
 			if (Request :: get(Application :: PARAM_ACTION) == WeblcmsManager :: ACTION_COURSE_CATEGORY_MANAGER)
 			{
 				$menu_item['url'] = $this->get_category_url($category->get_id());

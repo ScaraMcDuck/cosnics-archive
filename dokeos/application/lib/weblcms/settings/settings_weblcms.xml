@@ -28,19 +28,6 @@
 					<option name="false" value="0" />
 				</options>
 			</setting>
-	    	<setting name="default_forum_view" field="radio" default="flat">
-				<options type="static">
-					<option name="flat" value="flat" />
-					<option name="threaded" value="threaded" />
-					<option name="nested" value="nested" />
-				</options>
-			</setting>
-			<setting name="allow_change_forum_view" field="radio" default="1">
-				<options type="static">
-					<option name="true" value="1" />
-					<option name="false" value="0" />
-				</options>
-			</setting>
 			<setting name="announcement_active" field="checkbox" default="1">
 				<options type="static"><option name="announcement_active" value="1" /></options>
 			</setting>
@@ -199,25 +186,7 @@
 					<option name="false" value="0" />
 				</options>
 			</setting>
-			<setting name="show_empty_course_categories" field="radio" default="1">
-				<options type="static">
-					<option name="true" value="1" />
-					<option name="false" value="0" />
-				</options>
-			</setting>
 			<setting name="show_back_link" field="radio" default="1">
-				<options type="static">
-					<option name="true" value="1" />
-					<option name="false" value="0" />
-				</options>
-			</setting>
-			<setting name="display_categories_on_homepage" field="radio" default="1">
-				<options type="static">
-					<option name="true" value="1" />
-					<option name="false" value="0" />
-				</options>
-			</setting>
-			<setting name="display_closed_courses" field="radio" default="1">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />
