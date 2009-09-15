@@ -117,7 +117,7 @@ class ReservationForm extends FormValidator {
     	
     	$this->addElement('checkbox', 'repeat', Translation :: get('Repeat'));
 	
-		$this->addElement('text', 'repeat_every', Translation :: get('Repeat Every'));
+		$this->addElement('text', 'repeat_every', Translation :: get('RepeatEvery'));
 		
 		$options = array( 1 => Translation :: get('Hour(s)'), 24 => Translation :: get('Day(s)'), 168 => Translation :: get('Week(s)'));
 		$this->addElement('select', 'repeat_every_select', '', $options);
