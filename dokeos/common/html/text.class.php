@@ -280,5 +280,18 @@ class Text
         
         return $link;
     }
+    
+    /**
+     * Function to recreate the charAt function from javascript
+     * Found at http://be.php.net/manual/en/function.substr.php#81491
+     *
+     * @param String $str
+     * @param Position $pos
+     * @return Char or -1
+     */
+	function char_at($str,$pos) 
+	{
+    	return (substr($str,$pos,1) !== false) ? substr($str,$pos,1) : -1;
+	}
 }
 ?>

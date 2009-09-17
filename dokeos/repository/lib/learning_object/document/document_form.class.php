@@ -51,6 +51,7 @@ class DocumentForm extends LearningObjectForm
 		}
 		$this->addElement('category');
 	}
+	
 	function setDefaults($defaults = array ())
 	{
 		$object = $this->get_learning_object();
@@ -61,8 +62,9 @@ class DocumentForm extends LearningObjectForm
 		$defaults['choice'] = 0;
 		parent :: setDefaults($defaults);
 	}
+	
 	function create_learning_object()
-	{
+	{ 
 		$owner = $this->get_owner_id();
 		$values = $this->exportValues();
 		$owner_path = $this->get_upload_path().$owner;
@@ -70,28 +72,42 @@ class DocumentForm extends LearningObjectForm
 		if ($values['choice'])
 		{
 			$filename = $values[Document :: PROPERTY_TITLE].'.html';
-			$filename = Filesystem::create_unique_name($this->get_upload_path().$owner, $filename);
-			$path = $owner.'/'.$filename;
-			$full_path = $this->get_upload_path().$path;
+			$hash = md5($filename);
+			
+			$path = $owner . '/' . Text :: char_at($hash, 0);
+			$full_path =  $this->get_upload_path() . $path;
+			
+			FileSystem :: create_dir($full_path);
+			$hash = Filesystem::create_unique_name($full_path, $hash);
+			
+			$path = $path . '/' . $hash;
+			$full_path = $full_path . '/' . $hash;
+			
 			Filesystem::write_to_file($full_path,$values['html_content']);
 		}
 		else
 		{
-			$filename = Filesystem::create_unique_name($this->get_upload_path().$owner, $_FILES['file']['name']);
-			$path = $owner.'/'.$filename;
-			$full_path = $this->get_upload_path().$path;
+			$filename = $_FILES['file']['name'];
+			$hash = md5($_FILES['file']['name']);
+		
+			$path = $owner . '/' . Text :: char_at($hash, 0);
+			$full_path =  $this->get_upload_path() . $path;
+			
+			FileSystem :: create_dir($full_path);
+			$hash = Filesystem::create_unique_name($full_path, $hash);
+
+			$path = $path . '/' . $hash;
+			$full_path = $full_path . '/' . $hash;
+			
 			move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "'.$full_path.'"');
 		}
 		
-		$setting = 0777;
-		/*$ad = PlatformSetting :: get('permissions_new_files');
-		if($ad && $ad != '')
-			$setting = $ad;*/
+		chmod($full_path, intval(PlatformSetting :: get('permissions_new_files')));
 		
-		chmod($full_path, $setting);
 		$object = new Document();
 		$object->set_path($path);
 		$object->set_filename($filename);
+		$object->set_hash($hash);
 		$object->set_filesize(Filesystem::get_disk_space($full_path));
 		$this->set_learning_object($object);
 		$document = parent :: create_learning_object();
@@ -99,7 +115,6 @@ class DocumentForm extends LearningObjectForm
 		if($values['uncompress'] && !$values['choice'])
 		{
 			$documents = array();
-			
 			$filecompression = Filecompression::factory();
 			$dir = $filecompression->extract_file($document->get_full_path());
 			$entries = Filesystem::get_directory_content($dir);
@@ -110,17 +125,6 @@ class DocumentForm extends LearningObjectForm
 				$url = str_replace(realpath($dir),'',realpath($entry));
 				if(is_dir($entry))
 				{
-					//Create a category in the repository
-					/*$object = new Category();
-					$this->set_learning_object($object);
-					$object = parent::create_learning_object();
-					$object->set_title(basename($url));
-					if(isset($created_directories[dirname($url)]))
-					{
-						$object->set_parent_id($created_directories[dirname($url)]);
-					}
-					$object->update();*/
-					
 					//Check for existing category
 					$condition = new EqualityCondition(RepositoryCategory :: PROPERTY_NAME, basename($url));
 					$categories = $wdm->retrieve_categories($condition);
@@ -141,12 +145,24 @@ class DocumentForm extends LearningObjectForm
 				elseif(is_file($entry))
 				{
 					//Create a document in the repository
-					$new_path = $owner_path.'/'.basename($entry);
-					Filesystem::copy_file($entry,$new_path);
+					$hash = md5(basename($entry));
+					$path = $owner . '/' . Text :: char_at($hash, 0);
+					$full_path =  $this->get_upload_path() . $path;
+					FileSystem :: create_dir($full_path);
+					
+					$hash = Filesystem::create_unique_name($owner_path, $hash);
+					$new_path = $path . '/' . $hash;
+					$full_path = $full_path . '/' . $hash;
+					
+					Filesystem::copy_file($entry, $full_path);
+					chmod($full_path, intval(PlatformSetting :: get('permissions_new_files')));
+					
 					$object = new Document();
-					$object->set_path($owner.'/'.basename($entry));
+					$object->set_path($new_path);
 					$object->set_filename(basename($entry));
 					$object->set_filesize(Filesystem::get_disk_space($new_path));
+					$object->set_hash($hash);
+					
 					$this->set_learning_object($object);
 					$object = parent :: create_learning_object();
 					$object->set_title(basename($url));
@@ -170,8 +186,8 @@ class DocumentForm extends LearningObjectForm
 	{
 		$object = $this->get_learning_object();
 		$values = $this->exportValues();
-		$path = $object->get_path();
-		$filename = $object->get_filename();
+		
+		
 		$owner = $object->get_owner_id();
 		$owner_path = $this->get_upload_path().$owner;
 		Filesystem::create_dir($owner_path);
@@ -247,14 +263,21 @@ class DocumentForm extends LearningObjectForm
 				{
 					$errors['upload_or_create'] = Translation :: get('DiskQuotaExceeded');
 				}
-				$filecompression = Filecompression::factory();
+				
+				/*$filecompression = Filecompression::factory(); dump($_FILES); exit();
 				if( $fields['uncompress'] && !$filecompression->is_supported_mimetype($_FILES['file']['type']))
 				{
-					$errors['uncompress'] = Translation :: get('UncompressNotAvailableForThisFile');
-				}
+					$errors['upload_or_create'] = Translation :: get('UncompressNotAvailableForThisFile');
+				}*/
 				
 				$array = explode('.', $_FILES['file']['name']);
 				$type = $array[count($array) - 1];
+				
+				if($type != 'zip')
+				{
+					$errors['upload_or_create'] = Translation :: get('UncompressNotAvailableForThisFile');
+				}
+				
 				if(!$fields['uncompress'] && !$this->allow_file_type($type))
 				{
 					if(PlatformSetting :: get('rename_instead_of_disallow') == 1)
@@ -313,6 +336,8 @@ class DocumentForm extends LearningObjectForm
 			{
 				return false;
 			}
+			
+			return true;
 		}
 		else
 		{
@@ -322,6 +347,8 @@ class DocumentForm extends LearningObjectForm
 			{
 				return true;
 			}
+			
+			return false;
 		}
 	}
 }
