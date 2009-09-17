@@ -16,6 +16,7 @@ class Document extends LearningObject
     const PROPERTY_PATH = 'path';
     const PROPERTY_FILENAME = 'filename';
     const PROPERTY_FILESIZE = 'filesize';
+    const PROPERTY_HASH = 'hash';
 
     function get_path()
     {
@@ -45,6 +46,16 @@ class Document extends LearningObject
     function set_filesize($filesize)
     {
         return $this->set_additional_property(self :: PROPERTY_FILESIZE, $filesize);
+    }
+    
+	function get_hash()
+    {
+        return $this->get_additional_property(self :: PROPERTY_HASH);
+    }
+
+    function set_hash($hash)
+    {
+        return $this->set_additional_property(self :: PROPERTY_HASH, $hash);
     }
 
     function delete()
@@ -159,7 +170,7 @@ class Document extends LearningObject
 
     static function get_additional_property_names()
     {
-        return array(self :: PROPERTY_FILENAME, self :: PROPERTY_FILESIZE, self :: PROPERTY_PATH);
+        return array(self :: PROPERTY_FILENAME, self :: PROPERTY_FILESIZE, self :: PROPERTY_PATH, self :: PROPERTY_HASH);
     }
 }
 ?>
