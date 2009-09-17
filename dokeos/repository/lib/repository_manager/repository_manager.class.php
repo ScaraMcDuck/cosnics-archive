@@ -68,6 +68,7 @@ class RepositoryManager extends CoreApplication
     const PARAM_DIRECTION_DOWN = 'down';
     const PARAM_ADD_OBJECTS = 'add_objects';
     const PARAM_DELETE_SELECTED_USER_VIEW = 'delete_user_view';
+    
 
 	/**#@-*/
    /**#@+
@@ -106,7 +107,8 @@ class RepositoryManager extends CoreApplication
     const ACTION_BUILD_COMPLEX_LEARNING_OBJECT = 'build_complex';
     const ACTION_VIEW_REPO = 'repo_viewer';
     const ACTION_REUSE_LEARNING_OBJECT = 'reuse_learning_object';
-
+	const ACTION_DOWNLOAD_DOCUMENT = 'document_downloader';
+    
     const ACTION_BROWSE_USER_VIEWS = 'browse_views';
     const ACTION_CREATE_USER_VIEW = 'create_view';
     const ACTION_DELETE_USER_VIEW = 'delete_view';
@@ -244,6 +246,9 @@ class RepositoryManager extends CoreApplication
                 break;
             case self :: ACTION_MANAGE_CATEGORIES :
                 $component = RepositoryManagerComponent :: factory('CategoryManager', $this);
+                break;
+            case self :: ACTION_DOWNLOAD_DOCUMENT :
+            	$component = RepositoryManagerComponent :: factory('DocumentDownloader', $this);
                 break;
             case self :: ACTION_BROWSE_USER_VIEWS :
                 $component = RepositoryManagerComponent :: factory('UserViewBrowser', $this);
@@ -985,6 +990,12 @@ class RepositoryManager extends CoreApplication
         $info = parent :: get_application_platform_admin_links();
         $info['search'] = $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS));
         return $info;
+    }
+    
+    static function get_document_downloader_url($document_id)
+    {
+    	$parameters = array(self :: PARAM_ACTION => self :: ACTION_DOWNLOAD_DOCUMENT, self :: PARAM_LEARNING_OBJECT_ID => $document_id);
+    	return Redirect :: get_link(self :: APPLICATION_NAME, $parameters, null, null, Redirect :: TYPE_CORE);
     }
 
     function count_complex_learning_object_items($condition)
