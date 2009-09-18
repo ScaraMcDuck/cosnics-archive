@@ -273,7 +273,7 @@ abstract class ReservationsDataManager
 		foreach($quotas as $quota)
 		{
 			if($quota->get_time_unit() < $days) continue;
-			$credits = 0;
+			//$credits = 0;
 			
 			$max_start_time = strtotime('+' . $quota->get_time_unit() . ' days', $min_start_time);
 			$max_start = DokeosUtilities :: to_db_date($max_start_time);
@@ -291,9 +291,10 @@ abstract class ReservationsDataManager
 		$start_stamp = DokeosUtilities :: time_from_datepicker($start_date);
 		$stop_stamp = DokeosUtilities :: time_from_datepicker($stop_date);
 		
-		$days = ($stop_stamp - $start_stamp) / 3600;
+		$days = ($start_stamp - time()) / (3600 * 24);
 		
-		$needed_credits = $days * $item->get_credits();
+		$time = $stop_stamp - $start_stamp;
+		$needed_credits = $time * $item->get_credits();
 		
 		if(!$this->used_quota[$item->get_category()])
 			$this->used_quota[$item->get_category()] = $this->calculate_used_quota($days, $item->get_category(), $user_id);
