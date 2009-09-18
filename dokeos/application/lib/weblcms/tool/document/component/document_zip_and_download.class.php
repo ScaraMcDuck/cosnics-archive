@@ -17,10 +17,11 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
 		}
 		$trail = new BreadcrumbTrail();
 		$trail->add_help('courses document tool');
-		$this->display_header($trail, true);
+		//$this->display_header($trail, true);
 		$archive_url = $this->create_document_archive();
-		echo Display :: normal_message('<a href="'.$archive_url.'">'.Translation :: get('Download').'</a>',true);
-		$this->display_footer();
+	
+		$this->send_as_download($archive_url);
+		FileSystem :: remove($archive_url);
 	}
 
 	private function create_document_archive()
@@ -52,12 +53,15 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
 			$conditions[] = new InCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $category_id);
 			
 			$access = array();
-			$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
-			$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('learning_object_publication_course_group'));
-			if (!empty($user_id) || !empty($course_groups))
+			if (!empty($user_id))
 			{
-				$access[] = new AndCondition(array(new EqualityCondition('user', null, $datamanager->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('learning_object_publication_course_group'))));
+				$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
 			}
+			if(!empty($course_groups))
+			{
+				$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('learning_object_publication_course_group'));
+			}
+			
 			$conditions[] = new OrCondition($access);
 			
 			$subselect_condition = new EqualityCondition('type', 'document');
@@ -70,13 +74,13 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
 				$document = $publication->get_learning_object();
 				$document_path = $document->get_full_path();
 				$archive_file_location = $dir.'/'.Filesystem::create_unique_name($dir,$document->get_filename());
-				Filesystem::copy_file($document->get_full_path(),$archive_file_location);
+				Filesystem::copy_file($document_path,$archive_file_location);
 			}
 		}
 		$compression = FileCompression::factory();
 		$archive_file = $compression->create_archive($target_path);
 		Filesystem::remove($target_path);
-		$archive_url = Path :: get(WEB_PATH).str_replace(DIRECTORY_SEPARATOR,'/',str_replace(realpath($this->get_parent()->get_path(SYS_PATH)),'',$archive_file));
+		$archive_url = Path :: get(SYS_PATH).str_replace(DIRECTORY_SEPARATOR,'/',str_replace(realpath($this->get_parent()->get_path(SYS_PATH)),'',$archive_file));
 		return $archive_url;
 	}
 	/**
@@ -115,6 +119,35 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
 		}
 		return $category_folder_mapping;
 	}
+	
+	function send_as_download($file)
+    {
+        header('Expires: Wed, 01 Jan 1990 00:00:00 GMT');
+        header('Cache-Control: public');
+        header('Pragma: no-cache');
+        header('Content-type: application/octet-stream');
+        //header('Content-Type: application/force-download');
+        header('Content-length: ' . filesize($file));
+        if (preg_match("/MSIE 5.5/", $_SERVER['HTTP_USER_AGENT']))
+        {
+            header('Content-Disposition: filename=files.zip');
+        }
+        else
+        {
+            header('Content-Disposition: attachment; filename=files.zip');
+        }
+        if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE'))
+        {
+            header('Pragma: ');
+            header('Cache-Control: ');
+            header('Cache-Control: public'); // IE cannot download from sessions without a cache
+        }
+        header('Content-Description: files.zip');
+        header('Content-transfer-encoding: binary');
+        $fp = fopen($file, 'r');
+        fpassthru($fp);
+        return true;
+    }
 }
 
 ?>
