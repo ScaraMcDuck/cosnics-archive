@@ -18,10 +18,14 @@ class DocumentDisplay extends LearningObjectDisplay
 
 		$url = RepositoryManager :: get_document_downloader_url($object->get_id());
 		
-		if(substr($name, -3) == 'jpg' || substr($name, -4) == 'jpeg' || substr($name, -3) == 'bmp' || substr($name, -3) == 'png')
-			$html = preg_replace('|</div>\s*$|s', '<a href="'.htmlentities($url).'"><img style="max-width: 100%" src="' . $object->get_url() . '" /></a></div>' , $html);
+		if(strtolower(substr($name, -3)) == 'jpg' || strtolower(substr($name, -4)) == 'jpeg' || strtolower(substr($name, -3)) == 'bmp' || strtolower(substr($name, -3)) == 'png')
+		{
+			$html = preg_replace('|</div>\s*$|s', '<a href="'.htmlentities($url).'"><img style="max-width: 100%" src="' . $url . '" /></a></div>' , $html);
+		}
 		else
+		{
 			$html = preg_replace('|</div>\s*$|s', '<div class="document_link" style="margin-top: 1em;"><a href="'.htmlentities($url).'">'.htmlentities($object->get_filename()).'</a> ('.Filesystem::format_file_size($object->get_filesize()).')</div></div>', $html);
+		}
 		
 		return $html;
 	}
