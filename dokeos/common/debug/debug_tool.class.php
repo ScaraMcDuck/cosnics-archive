@@ -51,7 +51,7 @@ class DebugTool
         }
         elseif(is_object($object))
         {
-            echo get_class($object);
+            echo print_r($object);
         }
         else 
         {

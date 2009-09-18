@@ -26,6 +26,44 @@ class StringTool
         return strrpos($string, $end) === strlen($string) - strlen($end);
     }
     
+	
+    /**
+     * Ensure a string starts with another given string
+     * 
+     * @param $string The string that must start with a leading string
+     * @param $leading_string The string to add at the beginning of the main string if necessary 
+     * @return string
+     */
+	function ensure_start_with($string, $leading_string)
+	{
+	    if(StringTool :: start_with($string, $leading_string))
+	    {
+	        return $string;
+	    }
+	    else
+	    {
+	        return $leading_string . $string;
+	    }
+	}
+	
+	/**
+	 * Remove a trailing string from a string if it exists
+	 * @param $string The string that must be shortened if it ends with a trailing string
+	 * @param $trailing_string The trailing string
+	 * @return string
+	 */
+	function remove_trailing($string, $trailing_string)
+	{
+	    if(StringTool :: end_with($string, $trailing_string))
+	    {
+	        return substr($string, 0, strlen($string) - strlen($trailing_string));
+	    }
+	    else
+	    {
+	        return $string;
+	    }
+	}
+	
 	/**
      * Return the string found between two characters. 
      * 

@@ -228,7 +228,10 @@ class XMLTool
 	    {
 	        foreach ($node_list as $node_to_delete) 
 	        {
-	        	$node_to_delete->parentNode->removeChild($node_to_delete);
+	            if(isset($node_to_delete->parentNode))
+	            {
+	                $node_to_delete->parentNode->removeChild($node_to_delete);
+	            }
 	        }
 	    }
     }
