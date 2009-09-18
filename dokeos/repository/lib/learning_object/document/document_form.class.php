@@ -290,7 +290,7 @@ class DocumentForm extends LearningObjectForm
 				$array = explode('.', $_FILES['file']['name']);
 				$type = $array[count($array) - 1];
 				
-				if($type != 'zip')
+				if(isset($fields['uncompress']) && $type != 'zip')
 				{
 					$errors['upload_or_create'] = Translation :: get('UncompressNotAvailableForThisFile');
 				}
