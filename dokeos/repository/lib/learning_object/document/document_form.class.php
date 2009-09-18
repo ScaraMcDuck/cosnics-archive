@@ -198,9 +198,16 @@ class DocumentForm extends LearningObjectForm
 				Filesystem::remove($this->get_upload_path().$object->get_path());
 			}
 
-			$filename = Filesystem::create_unique_name($this->get_upload_path().$owner, $object->get_title() . '.html');
-			$path = $owner.'/'.$filename;
-			$full_path = $this->get_upload_path().$path;
+			$filename = $object->get_title() . '.html';
+			$hash = md5($filename);
+			$path = $owner . '/' . Text :: char_at($hash, 0);
+			$full_path =  $this->get_upload_path() . $path;
+			FileSystem :: create_dir($full_path);
+			
+			$hash = Filesystem::create_unique_name($full_path, $hash);
+			$path .= '/' . $hash;
+			$full_path .= '/' . $hash;
+			
 			Filesystem::write_to_file($full_path,$values['html_content']);
 		}
 		elseif (strlen($_FILES['file']['name']) > 0)
@@ -208,16 +215,26 @@ class DocumentForm extends LearningObjectForm
 			if ((isset($values['version']) && $values['version'] == 0) || !isset($values['version']))
 			{
 				Filesystem::remove($this->get_upload_path().$object->get_path());
+				
 			}
-			$filename = Filesystem::create_unique_name($this->get_upload_path().$owner, $_FILES['file']['name']);
-			$path = $owner.'/'.$filename;
-			$full_path = $this->get_upload_path().$path;
+			
+			$filename = $_FILES['file']['name'];
+			$hash = md5($filename);
+			$path = $owner . '/' . Text :: char_at($hash, 0);
+			$full_path =  $this->get_upload_path() . $path;
+			FileSystem :: create_dir($full_path);
+			
+			$hash = Filesystem::create_unique_name($full_path, $hash);
+			$path .= '/' . $hash;
+			$full_path .= '/' . $hash;
+			
 			move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "'.$full_path.'"');
 			chmod($full_path, intval(PlatformSetting :: get('permissions_new_files')));
 		}
 		$object->set_path($path);
 		$object->set_filename($filename);
-		$object->set_filesize(Filesystem::get_disk_space($this->get_upload_path().$object->get_path()));
+		$object->set_filesize(Filesystem::get_disk_space($full_path));
+		$object->set_hash($hash);
 		return parent :: update_learning_object();
 	}
 	/**
