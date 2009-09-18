@@ -79,25 +79,6 @@
 			<setting name="wiki_active" field="checkbox" default="1">
 				<options type="static"><option name="wiki_active" value="1" /></options>
 			</setting>
-			<setting name="allow_dropbox_overwrite" field="radio" default="1">
-				<options type="static">
-					<option name="true" value="1" />
-					<option name="false" value="0" />
-				</options>
-			</setting>
-			<setting name="display_small_month_calendar" field="radio" default="1">
-				<options type="static">
-					<option name="true" value="1" />
-					<option name="false" value="0" />
-				</options>
-			</setting>
-			<setting name="display_upcomming_events" field="radio" default="1">
-				<options type="static">
-					<option name="true" value="1" />
-					<option name="false" value="0" />
-				</options>
-			</setting>
-			<setting name="amount_of_upcomming_events" field="text" default="10" />
 		</category>
 	    <category name="course_specific_rights">
 	    	<setting name="allow_course_theme_selection" field="radio" default="0">
