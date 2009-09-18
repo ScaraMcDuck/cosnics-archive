@@ -35,6 +35,8 @@ class ReservationsManagerRightsEditorComponent extends ReservationsManagerCompon
 		
 		if($type == 'category')
 		{
+			$rights['VIEW_RIGHT'] = ReservationsRights :: VIEW_RIGHT;
+			$rights['MAKE_RESERVATION_RIGHT'] = ReservationsRights :: MAKE_RESERVATION_RIGHT;
 			$rights['ADD_RIGHT'] = ReservationsRights :: ADD_RIGHT;
 			$rights['EDIT_RIGHT'] = ReservationsRights :: EDIT_RIGHT;
 			$rights['DELETE_RIGHT'] = ReservationsRights :: DELETE_RIGHT;	

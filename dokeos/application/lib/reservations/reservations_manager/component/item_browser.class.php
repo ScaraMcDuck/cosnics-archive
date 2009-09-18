@@ -87,7 +87,7 @@ class ReservationsManagerItemBrowserComponent extends ReservationsManagerCompone
 	function get_poolform()
 	{
 		$category = $this->retrieve_categories(new EqualityCondition(Category :: PROPERTY_ID, $this->get_category()))->next_result();
-		if($category && $category->use_as_pool())
+		if($category && $category->use_as_pool() && $this->has_right('category', $category->get_id(), ReservationsRights :: MAKE_RESERVATION_RIGHT))
 		{
 			$form = new PoolForm($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_SEARCH_POOL, ReservationsManager :: PARAM_CATEGORY_ID => $this->get_category())), $this->get_user());
 			return $form;
