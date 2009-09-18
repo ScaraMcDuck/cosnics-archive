@@ -405,7 +405,7 @@ class ShibbolethAuthentication extends ExternalAuthentication
                  * Deletes all user_role and user_group relations for the user 
                  * before recreating them with his affiliation attribute
                  */
-                $user_roles = $user->get_roles();
+                //$user_roles = $user->get_roles();
                 $user_groups = $user->get_user_groups();
                 
                 if (isset($user_groups))
@@ -419,16 +419,16 @@ class ShibbolethAuthentication extends ExternalAuthentication
                     }
                 }
                 
-                if (isset($user_roles))
-                {
-                    while ($user_role = $user_roles->next_result())
-                    {
-                        if (! $user_role->delete())
-                        {
-                            echo 'Unable to clear user roles';
-                        }
-                    }
-                }
+//                if (isset($user_roles))
+//                {
+//                    while ($user_role = $user_roles->next_result())
+//                    {
+//                        if (! $user_role->delete())
+//                        {
+//                            echo 'Unable to clear user roles';
+//                        }
+//                    }
+//                }
                 
                 $user_mapping = $this->get_user_attribute_mapping();
                 $affiliation = $this->get_shibboleth_value($user_mapping[self :: PARAM_MAPPING_AFFILIATION]['name']);
@@ -487,7 +487,7 @@ class ShibbolethAuthentication extends ExternalAuthentication
                     }
                     
                     $groups = array();
-                    $roles = array();
+//                    $roles = array();
                     
                     foreach ($mapping_for_precedence as $attribute_value => $rights)
                     {
@@ -504,16 +504,16 @@ class ShibbolethAuthentication extends ExternalAuthentication
                                 }
                             }
                             
-                            /*
-                    	     * Find role mappings
-                    	     */
-                            foreach ($rights['role_id'] as $role_id)
-                            {
-                                if (! in_array($role_id, $roles))
-                                {
-                                    $roles[] = $role_id;
-                                }
-                            }
+//                            /*
+//                    	     * Find role mappings
+//                    	     */
+//                            foreach ($rights['role_id'] as $role_id)
+//                            {
+//                                if (! in_array($role_id, $roles))
+//                                {
+//                                    $roles[] = $role_id;
+//                                }
+//                            }
                             
                             $mapping_found = true;
                         }
@@ -538,19 +538,19 @@ class ShibbolethAuthentication extends ExternalAuthentication
                     }
                 }
                 
-                if (count($roles) > 0)
-                {
-                    /*
-                     * Create user_role records
-                     */
-                    foreach ($roles as $role_id)
-                    {
-                        if (! $user->add_role_link($role_id))
-                        {
-                            echo 'Unable to grant role ' . $role_id . ' to the user';
-                        }
-                    }
-                }
+//                if (count($roles) > 0)
+//                {
+//                    /*
+//                     * Create user_role records
+//                     */
+//                    foreach ($roles as $role_id)
+//                    {
+//                        if (! $user->add_role_link($role_id))
+//                        {
+//                            echo 'Unable to grant role ' . $role_id . ' to the user';
+//                        }
+//                    }
+//                }
                 
                 return true;
             }
