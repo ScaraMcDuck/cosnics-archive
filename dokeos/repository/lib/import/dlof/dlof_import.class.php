@@ -39,24 +39,24 @@ class DlofImport extends LearningObjectImport
 			foreach($files as $f)
 			{
 				$repdir = Path :: get(SYS_REPO_PATH);
-				$hash = md5($_FILES['file']['name']);
+				$hash = md5($f);
 		
-				$path = $user->get_id() . '/' . Text :: char_at($hash, 0);
-				$full_path =  $repdir . $path;
+				$usr_path = $user->get_id() . '/' . Text :: char_at($hash, 0);
+				$full_path =  $repdir . $usr_path;
 			
 				$hash = Filesystem :: create_unique_name($full_path, $hash);
 				
 				Filesystem :: copy_file($dir . 'data/' . $f, $full_path . '/' . $hash, false);
-				$this->files[$f] = array('hash' => $hash, 'path' => $full_path);
+				$this->files[$f] = array('hash' => $hash, 'path' => $usr_path . '/' . $hash);
 			}
 		}
-		
+
 		$doc = $this->doc;
 		$doc = new DOMDocument();
 		
 		$doc->load($path);
 		$learning_object = $doc->getElementsByTagname('learning_object')->item(0);
-		
+	
 		if($temp)
 		{
 			Filesystem :: remove($temp);
@@ -89,7 +89,7 @@ class DlofImport extends LearningObjectImport
 			$lo->set_parent_id($this->get_category());
 			
 			$extended = $learning_object->getElementsByTagName('extended')->item(0);
-			
+		
 			if($extended->hasChildNodes())
 			{
 				$nodes = $extended->childNodes;
@@ -107,8 +107,7 @@ class DlofImport extends LearningObjectImport
 					$additionalProperties['hash'] = $this->files[$filename]['hash'];
 					$additionalProperties['path'] = $this->files[$filename]['path'];
 				}
-				
-				
+
 				$lo->set_additional_properties($additionalProperties);
 			}
 			
