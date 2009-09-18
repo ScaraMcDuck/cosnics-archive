@@ -14,11 +14,11 @@ class DefaultMail extends Mail
     function send()
     {
         $headers = array();
-        foreach ($this->get_cc() as $index => $cc)
+        foreach ($this->get_cc() as $cc)
         {
             $headers[] = 'Cc: ' . $cc;
         }
-        foreach ($this->get_bcc() as $index => $bcc)
+        foreach ($this->get_bcc() as $bcc)
         {
             $headers[] = 'Bcc: ' . $bcc;
         }
@@ -28,10 +28,14 @@ class DefaultMail extends Mail
             $headers[] = 'Reply-To: ' . $this->get_from();
         }
         
-        if(PlatformSetting :: get('no_reply_email'))
+        if(is_null($this->get_from()))
         {
-        	$headers[] = 'From: ' . PlatformSetting :: get('no_reply_email');
+        	if(PlatformSetting :: get('no_reply_email'))
+        		$headers[] = 'From: ' . PlatformSetting :: get('no_reply_email');
+        	else 
+        		$headers[] = 'From: ' . PlatformSetting :: get('administrator_email');
         }
+      
         
         $headers = implode("\n", $headers);
         return mail(implode(',', $this->get_to()), $this->get_subject(), $this->get_message(), $headers);
