@@ -42,9 +42,9 @@ class DlofExport extends LearningObjectExport
 		//echo '<pre>' . htmlentities($this->doc->saveXML()); exit();
 		$this->doc->save($xml_path);
 			
-		foreach($this->files as $file)
+		foreach($this->files as $filename => $file)
 		{
-			$newfile = $temp_dir . 'data/' . basename($file);
+			$newfile = $temp_dir . 'data/' . basename($filename);
 			Filesystem :: copy_file($file, $newfile);
 		}
 		
@@ -81,7 +81,7 @@ class DlofExport extends LearningObjectExport
   		
   		if($learning_object->get_type() == 'document')
   		{
-  			$this->files[] = Path :: get(SYS_REPO_PATH) . $learning_object->get_owner_id() . '/' . $learning_object->get_filename();
+  			$this->files[$learning_object->get_filename()] = $learning_object->get_full_path();
   		}
   		
   		$extended = $doc->createElement('extended');
