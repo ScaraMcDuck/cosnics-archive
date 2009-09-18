@@ -251,7 +251,7 @@ class RegisterForm extends FormValidator {
 			$body = str_replace('[' . $option . ']', $value, $body);
 		}
 
-		$mail = Mail :: factory($subject, $body, $user->get_email(), PlatformSetting :: get('administrator_email'));
+		$mail = Mail :: factory($subject, $body, $user->get_email());
 		$mail->send();
 	}
 }
