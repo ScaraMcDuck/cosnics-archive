@@ -493,5 +493,49 @@ class Filesystem
             return true;
         }
     }
+
+    /**
+     * Call the chmod function on the given file path.
+     * The chmod value must be the octal value, with or without its leading zero
+     * 
+     * Ex:
+     * 		Filesystem :: chmod('/path/to/file', '666')		OK
+     * 		Filesystem :: chmod('/path/to/file', '0666')	OK
+     * 		Filesystem :: chmod('/path/to/file', 666)		OK
+     * 		Filesystem :: chmod('/path/to/file', 0666)		OK
+     * 
+     * Note:
+     * 		This function was written to facilitate the storage of a chmod value. 
+     * 		
+     * 		The PHP chmod value must be called with an octal number, but it is not easy 
+     * 		to store a value with a leading 0 that is a number and not a string.
+     * 
+     * 
+     * @param $file_path string Path to file or folder
+     * @param $chmod_value mixed The chmod value as a string or an integer
+     * @return void
+     */
+    public static function chmod($file_path, $chmod_value)
+    {
+        $new_chmod_value = null;
+        
+        if(is_integer($chmod_value))
+        {
+            $new_chmod_value = (int)$chmod_value;
+        }
+        elseif(is_string($chmod_value))
+        {
+            $new_chmod_value = intval($chmod_value);
+        }
+        
+        if(isset($new_chmod_value) && file_exists($file_path))
+        {
+            $new_chmod_value = octdec($new_chmod_value);
+            
+            chmod($file_path, $new_chmod_value);
+        }
+    }
+
+
 }
 ?>
