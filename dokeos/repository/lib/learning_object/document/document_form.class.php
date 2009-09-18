@@ -102,7 +102,8 @@ class DocumentForm extends LearningObjectForm
 			move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "'.$full_path.'"');
 		}
 		
-		chmod($full_path, intval(PlatformSetting :: get('permissions_new_files')));
+		$permissions_new_files = PlatformSetting :: get('permissions_new_files');
+		Filesystem :: chmod($full_path, $permissions_new_files);
 		
 		$object = new Document();
 		$object->set_path($path);
@@ -155,7 +156,7 @@ class DocumentForm extends LearningObjectForm
 					$full_path = $full_path . '/' . $hash;
 					
 					Filesystem::copy_file($entry, $full_path);
-					chmod($full_path, intval(PlatformSetting :: get('permissions_new_files')));
+					Filesystem :: chmod($full_path, $permissions_new_files);
 					
 					$object = new Document();
 					$object->set_path($new_path);
@@ -215,7 +216,6 @@ class DocumentForm extends LearningObjectForm
 			if ((isset($values['version']) && $values['version'] == 0) || !isset($values['version']))
 			{
 				Filesystem::remove($this->get_upload_path().$object->get_path());
-				
 			}
 			
 			$filename = $_FILES['file']['name'];
@@ -229,7 +229,7 @@ class DocumentForm extends LearningObjectForm
 			$full_path .= '/' . $hash;
 			
 			move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "'.$full_path.'"');
-			chmod($full_path, intval(PlatformSetting :: get('permissions_new_files')));
+			Filesystem :: chmod($full_path, PlatformSetting :: get('permissions_new_files'));
 		}
 		$object->set_path($path);
 		$object->set_filename($filename);
