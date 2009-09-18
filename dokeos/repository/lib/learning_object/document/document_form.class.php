@@ -160,7 +160,7 @@ class DocumentForm extends LearningObjectForm
 					$object = new Document();
 					$object->set_path($new_path);
 					$object->set_filename(basename($entry));
-					$object->set_filesize(Filesystem::get_disk_space($new_path));
+					$object->set_filesize(Filesystem::get_disk_space($full_path));
 					$object->set_hash($hash);
 					
 					$this->set_learning_object($object);
