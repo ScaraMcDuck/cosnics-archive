@@ -111,6 +111,9 @@ class IeeeLomDefaultMetadataGenerator
 	{
 		$this->ieeeLom->set_size($this->learning_object->get_filesize());
 		
+		$url = Path :: get(WEB_PATH) . RepositoryManager :: get_document_downloader_url($learning_object->get_id());
+		$this->ieeeLom->add_location($url);
+		
 		//TODO: FileInfo is an experimental extension of PHP.
 		//$finfo = finfo_open(FILEINFO_MIME,'C:/wamp/php/extras/magic');
 		//$lom->add_format(finfo_file($finfo, $learning_object->get_full_path()));
