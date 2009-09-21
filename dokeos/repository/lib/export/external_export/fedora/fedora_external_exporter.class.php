@@ -55,10 +55,12 @@ require_once Path :: get_plugin_path() . '/webservices/rest/client/rest_client.c
  * If such a class exists, it is used as form for the export.
  * If such a class doesn't exist, the basic 'ExternalExportExportForm' class is used for the export 
  * 
+ * 
  * CONFIGURATION
  * =============
  * 
  * For a complete list of configurable properties, see the 'ExternalExportFedora' class properties documentation
+ * 
  * 
  * AUTHENTIFICATION
  * ================
@@ -74,6 +76,25 @@ require_once Path :: get_plugin_path() . '/webservices/rest/client/rest_client.c
  * Note: 
  * 			the content of these files (at least the one containing the private key) is sensitive and must be protected (e.g. through .htaccess file) to be kept private 
  * 
+ * Target authentification
+ * -----------------------
+ * 
+ * If your Fedora server uses an SSL certificate signed by your own certificate CA, you can use this CA public certificate with your REST requests to authenticate the target server.
+ * 
+ * 
+ * EXAMPLE
+ * =======
+ * 
+ * These two SQL queries will store a example of export to a Fedora repository 
+ * 
+ * INSERT INTO `repository_external_export` (`id`, `title`, `description`, `type`, `catalog_name`, `metadata_xsl_filename`, `typed_external_export_id`, `enabled`, `created`) 
+ * VALUES
+ * (10, 'Fedora export test', 'An example of export to a Fedora repository. The Fedora main URL is fake and should be customized to suit your needs', 'fedora', 'fedora_test', NULL, 10, 1, NOW());
+ * 
+ * 
+ * INSERT INTO `repository_external_export_fedora` (`id`, `login`, `password`, `base_url`, `get_uid_rest_path`, `find_object_rest_path`, `ingest_rest_path`, `add_datastream_rest_path`, `client_certificate_file`, `client_certificate_key_file`, `client_certificate_key_password`, `target_ca_file`, `created`) 
+ * VALUES
+ * (10, 'fedoraAdmin', 'fedoraAdmin', 'https://yourserver.com/fedora', 'objects/nextPID?namespace=fedoratest&format=xml', 'objects?pid=true&query=pid%3D{pid}&resultFormat=xml', 'objects/{pid}?label={pid}', 'objects/{pid}/datastreams/{dsID}?controlGroup={controlGroup}&dsLabel={dsLabel}&mimeType={mimeType}', NULL, NULL, NULL, NULL, NOW());
  */
 class FedoraExternalExporter extends RestExternalExporter
 {
