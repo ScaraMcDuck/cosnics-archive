@@ -4,6 +4,7 @@
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/template_browser_table_cell_renderer.class.php';
+require_once dirname(__FILE__).'/template_browser_table_column_model.class.php';
 require_once dirname(__FILE__).'/../repository_browser_table.class.php';
 /**
  * Table to display a set of learning objects.
@@ -18,7 +19,7 @@ class TemplateBrowserTable extends RepositoryBrowserTable
 	 */
 	function TemplateBrowserTable($browser, $parameters, $condition)
 	{
-		$model = new RepositoryBrowserTableColumnModel();
+		$model = new TemplateBrowserTableColumnModel();
 		$renderer = new TemplateBrowserTableCellRenderer($browser);
 		$data_provider = new RepositoryBrowserTableDataProvider($browser, $condition);
 		parent :: ObjectTable($data_provider, TemplateBrowserTable :: DEFAULT_NAME, $model, $renderer);

@@ -17,22 +17,22 @@ class RepositoryManagerReuseLearningObjectComponent extends RepositoryManagerCom
 		$trail = new BreadcrumbTrail(false);
 		$trail->add_help('repository general');
 
-                $object = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
+        $object = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
 
-                $rdm = RepositoryDataManager :: get_instance();
+        $rdm = RepositoryDataManager :: get_instance();
 
-                $lo = $rdm->retrieve_learning_object($object);
+        $lo = $rdm->retrieve_learning_object($object);
 
-                $new_lo = $lo;
+        $new_lo = $lo;
 
-                $new_lo->set_owner_id($this->get_user_id());
+        $new_lo->set_owner_id($this->get_user_id());
 
-                dump($new_lo);
+        dump($new_lo);
 
-                if($new_lo->create())
-                {
-                    $this->redirect(Translation :: get('LearningObjectReused'), false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_SHARED_LEARNING_OBJECTS));
-                }
+        if($new_lo->create())
+        {
+            $this->redirect(Translation :: get('LearningObjectReused'), false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_SHARED_LEARNING_OBJECTS));
+        }
 	}
 }
 ?>

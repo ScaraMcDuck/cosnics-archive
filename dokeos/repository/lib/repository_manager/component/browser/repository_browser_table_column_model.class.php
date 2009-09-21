@@ -20,6 +20,8 @@ class RepositoryBrowserTableColumnModel extends DefaultLearningObjectTableColumn
 	{
 		parent :: __construct();
 		$this->set_default_order_column(0);
+		$this->add_column(new ObjectTableColumn(LearningObject :: PROPERTY_MODIFICATION_DATE));
+		$this->add_column(new StaticTableColumn(Translation :: get('Versions')));
 		$this->add_column(self :: get_modification_column());
 	}
 	/**

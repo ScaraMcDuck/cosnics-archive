@@ -41,7 +41,7 @@ class RepositoryManagerTemplateBrowserComponent extends RepositoryManagerCompone
     function get_condition()
     {
     	$conditions = array();
-    	$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, -1);
+    	$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, 0);
     	
      	$query = $this->action_bar->get_query();
         if(isset($query) && $query != '')

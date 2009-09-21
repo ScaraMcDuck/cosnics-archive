@@ -44,8 +44,8 @@ class DefaultLearningObjectTableColumnModel extends ObjectTableColumnModel
 		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TYPE);
 		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE);
 		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION);
-		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_MODIFICATION_DATE);
-		$columns[] = new StaticTableColumn(Translation :: get('Versions'));
+		/*$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_MODIFICATION_DATE);
+		$columns[] = new StaticTableColumn(Translation :: get('Versions'));*/
 		return $columns;
 	}
 }

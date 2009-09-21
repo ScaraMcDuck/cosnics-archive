@@ -157,92 +157,94 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 
 	private function get_action_bar($object)
 	{
-		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-
-		$edit_url = $this->get_learning_object_editing_url($object);
-		if (isset($edit_url))
+		if($object->get_owner_id() == $this->get_user_id())
 		{
-			$recycle_url = $this->get_learning_object_recycling_url($object);
-			$in_recycle_bin = false;
-			if (isset($recycle_url))
+			$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+	
+			$edit_url = $this->get_learning_object_editing_url($object);
+			if (isset($edit_url))
 			{
-				$action_bar->add_common_action(new ToolbarItem(Translation :: get('Remove'), Theme :: get_common_image_path().'action_recycle_bin.png', $recycle_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
-			}
-			else
-			{
-				$delete_url = $this->get_learning_object_deletion_url($object);
-				if (isset($delete_url))
+				$recycle_url = $this->get_learning_object_recycling_url($object);
+				$in_recycle_bin = false;
+				if (isset($recycle_url))
 				{
-					$recycle_bin_button = new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', $delete_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true);
-					$in_recycle_bin = true;
+					$action_bar->add_common_action(new ToolbarItem(Translation :: get('Remove'), Theme :: get_common_image_path().'action_recycle_bin.png', $recycle_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
 				}
 				else
 				{
-					$recycle_bin_button = new ToolbarItem(Translation :: get('Remove'), Theme :: get_common_image_path().'action_recycle_bin_na.png');
+					$delete_url = $this->get_learning_object_deletion_url($object);
+					if (isset($delete_url))
+					{
+						$recycle_bin_button = new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', $delete_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true);
+						$in_recycle_bin = true;
+					}
+					else
+					{
+						$recycle_bin_button = new ToolbarItem(Translation :: get('Remove'), Theme :: get_common_image_path().'action_recycle_bin_na.png');
+					}
 				}
-			}
-
-			if(!$in_recycle_bin)
-			{
-				$delete_link_url = $this->get_learning_object_delete_publications_url($object);
-
-				if (!isset($recycle_url))
+	
+				if(!$in_recycle_bin)
 				{
-					$force_delete_button = new ToolbarItem(Translation :: get('Unlink'), Theme :: get_common_image_path().'action_unlink.png', $delete_link_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true);
-				}
-
-				$edit_url = $this->get_learning_object_editing_url($object);
-				if (isset($edit_url))
-				{
-					$action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $edit_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+					$delete_link_url = $this->get_learning_object_delete_publications_url($object);
+	
+					if (!isset($recycle_url))
+					{
+						$force_delete_button = new ToolbarItem(Translation :: get('Unlink'), Theme :: get_common_image_path().'action_unlink.png', $delete_link_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true);
+					}
+	
+					$edit_url = $this->get_learning_object_editing_url($object);
+					if (isset($edit_url))
+					{
+						$action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $edit_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+					}
+					else
+					{
+						$action_bar->add_common_action(new ToolbarItem(Translation :: get('EditNA'), Theme :: get_common_image_path().'action_edit_na.png'));
+					}
+	
+					if(isset($recycle_bin_button))
+					{
+						$action_bar->add_common_action($recycle_bin_button);
+					}
+	
+					if (isset($force_delete_button))
+					{
+						$action_bar->add_common_action($force_delete_button);
+					}
+	
+					$dm = RepositoryDataManager::get_instance();
+					if($dm->get_number_of_categories($this->get_user_id()) > 1)
+					{
+						$move_url = $this->get_learning_object_moving_url($object);
+						$action_bar->add_common_action(new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path().'action_move.png', $move_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
+					}
+	
+					$metadata_url = $this->get_learning_object_metadata_editing_url($object);
+					$action_bar->add_common_action(new ToolbarItem(Translation :: get('Metadata'), Theme :: get_common_image_path().'action_metadata.png', $metadata_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
+	
+					$rights_url = $this->get_learning_object_rights_editing_url($object);
+					$action_bar->add_common_action(new ToolbarItem(Translation :: get('Rights'), Theme :: get_common_image_path().'action_rights.png', $rights_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
+	
+					if($object->is_complex_learning_object())
+					{
+						$clo_url = $this->get_browse_complex_learning_object_url($object);
+						$action_bar->add_common_action(new ToolbarItem(Translation :: get('BrowseComplex'), Theme :: get_common_image_path().'action_browser.png', $clo_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
+					}
 				}
 				else
 				{
-					$action_bar->add_common_action(new ToolbarItem(Translation :: get('EditNA'), Theme :: get_common_image_path().'action_edit_na.png'));
-				}
-
-				if(isset($recycle_bin_button))
-				{
-					$action_bar->add_common_action($recycle_bin_button);
-				}
-
-				if (isset($force_delete_button))
-				{
-					$action_bar->add_common_action($force_delete_button);
-				}
-
-				$dm = RepositoryDataManager::get_instance();
-				if($dm->get_number_of_categories($this->get_user_id()) > 1)
-				{
-					$move_url = $this->get_learning_object_moving_url($object);
-					$action_bar->add_common_action(new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path().'action_move.png', $move_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
-				}
-
-				$metadata_url = $this->get_learning_object_metadata_editing_url($object);
-				$action_bar->add_common_action(new ToolbarItem(Translation :: get('Metadata'), Theme :: get_common_image_path().'action_metadata.png', $metadata_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
-
-				$rights_url = $this->get_learning_object_rights_editing_url($object);
-				$action_bar->add_common_action(new ToolbarItem(Translation :: get('Rights'), Theme :: get_common_image_path().'action_rights.png', $rights_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
-
-				if($object->is_complex_learning_object())
-				{
-					$clo_url = $this->get_browse_complex_learning_object_url($object);
-					$action_bar->add_common_action(new ToolbarItem(Translation :: get('BrowseComplex'), Theme :: get_common_image_path().'action_browser.png', $clo_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
+					$restore_url = $this->get_learning_object_restoring_url($object);
+					$action_bar->add_common_action(new ToolbarItem(Translation :: get('Restore'), Theme :: get_common_image_path().'action_restore.png', $restore_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
+					if(isset($recycle_bin_button))
+					{
+						$action_bar->add_common_action($recycle_bin_button);
+					}
 				}
 			}
-			else
-			{
-				$restore_url = $this->get_learning_object_restoring_url($object);
-				$action_bar->add_common_action(new ToolbarItem(Translation :: get('Restore'), Theme :: get_common_image_path().'action_restore.png', $restore_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
-				if(isset($recycle_bin_button))
-				{
-					$action_bar->add_common_action($recycle_bin_button);
-				}
-			}
+	
+			return $action_bar;
 		}
-
-		return $action_bar;
-
 
 	}
 
