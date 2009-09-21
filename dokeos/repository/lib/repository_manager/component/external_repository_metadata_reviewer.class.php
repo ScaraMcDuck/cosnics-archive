@@ -2,7 +2,7 @@
 require_once dirname(__FILE__) . '/external_repository_export_component.class.php';
 require_once dirname(__FILE__) . '/external_repository_export_export.class.php';
 require_once dirname(__FILE__) . '/../../forms/external_export_browser_form.class.php';
-require_once Path :: get_common_path() . 'external_export/base_external_exporter.class.php';
+require_once Path :: get_repository_path() . '/lib/export/external_export/base_external_exporter.class.php';
 
 class RepositoryManagerExternalRepositoryMetadataReviewerComponent extends RepositoryManagerMetadataComponent 
 {

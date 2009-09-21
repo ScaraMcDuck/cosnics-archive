@@ -7,6 +7,9 @@ class RepositoryManagerExternalRepositoryExportExportComponent extends Repositor
 {
     const PARAM_FORCE_EXPORT = 'force_export';
     
+    private $header_is_displayed = false;
+    
+    
 	function run() 
 	{
 	    if($this->check_learning_object_from_params())
@@ -40,14 +43,17 @@ class RepositoryManagerExternalRepositoryExportExportComponent extends Repositor
             	        {
                 	        $exporter = BaseExternalExporter :: get_instance($export);
                 	        
-                	        $this->display_header($trail, false, true);
-                	        
                 	        if($exporter->export($learning_object))
                 	        {
+                	            $this->display_header($trail, false, true);
                 	            
                 	            $repository_uid = $exporter->get_existing_repository_uid($learning_object);
                 	            
                 	            $form->display_export_success($repository_uid);
+                	        }
+                	        else
+                	        {
+                	           throw new Exception('An error occured during the export');
                 	        }
             	        }
             	        else
@@ -59,6 +65,7 @@ class RepositoryManagerExternalRepositoryExportExportComponent extends Repositor
         	    }
         	    catch(Exception $ex)
         	    {
+        	        $this->display_header($trail, false, true);
         	        $this->display_error_message($ex->getMessage());
         	    }
         	    
@@ -75,6 +82,14 @@ class RepositoryManagerExternalRepositoryExportExportComponent extends Repositor
 		}   
 	}
 	
+	public function display_header($breadcrumbtrail, $display_search = false, $display_menu = true, $helpitem = null)
+	{
+	    if($this->header_is_displayed === false)
+	    {
+	        parent :: display_header($breadcrumbtrail, $display_search, $display_menu, $helpitem);
+	        $this->header_is_displayed = true;
+	    }
+	}
 	
 }
 ?>
