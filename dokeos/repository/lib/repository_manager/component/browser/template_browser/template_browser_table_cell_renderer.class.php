@@ -55,7 +55,12 @@ class TemplateBrowserTableCellRenderer extends DefaultLearningObjectTableCellRen
      */
     private function get_modification_links($learning_object)
     {
-       $toolbar_data[] = array('href' => $this->browser->get_copy_learning_object_url($learning_object->get_id(), $this->browser->get_user_id()), 'img' => Theme :: get_common_image_path() . 'export_unknown.png', 'label' => Translation :: get('CopyToRepository'));
+        $toolbar_data[] = array('href' => $this->browser->get_copy_learning_object_url($learning_object->get_id(), $this->browser->get_user_id()), 'img' => Theme :: get_common_image_path() . 'export_unknown.png', 'label' => Translation :: get('CopyToRepository'));
+        
+        if($this->browser->get_user()->is_platform_admin())
+        {
+        	$toolbar_data[] = array('href' => $this->browser->get_delete_template_url($learning_object->get_id()), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'label' => Translation :: get('DeleteFromTemplates'));
+        }
        
         return DokeosUtilities :: build_toolbar($toolbar_data);
     }

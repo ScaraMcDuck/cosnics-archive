@@ -116,6 +116,7 @@ class RepositoryManager extends CoreApplication
 	const ACTION_BROWSE_TEMPLATES = 'templates';
 	const ACTION_COPY_LEARNING_OBJECT = 'lo_copy';
 	const ACTION_IMPORT_TEMPLATE = 'import_template';
+	const ACTION_DELETE_TEMPLATE = 'delete_template';
     
     const ACTION_BROWSE_USER_VIEWS = 'browse_views';
     const ACTION_CREATE_USER_VIEW = 'create_view';
@@ -305,6 +306,9 @@ class RepositoryManager extends CoreApplication
                 break;
             case self :: ACTION_IMPORT_TEMPLATE :
             	$component = RepositoryManagerComponent :: factory('TemplateImporter', $this);
+                break;
+            case self :: ACTION_DELETE_TEMPLATE :
+            	$component = RepositoryManagerComponent :: factory('TemplateDeleter', $this);
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_LEARNING_OBJECTS);
@@ -1200,6 +1204,11 @@ class RepositoryManager extends CoreApplication
     function get_import_template_url()
     {
     	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE));
+    }
+    
+ 	function get_delete_template_url($template_id)
+    {
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_TEMPLATE, self :: PARAM_LEARNING_OBJECT_ID => $template_id));
     }
     
     function get_reuse_learning_object_url($learning_object)
