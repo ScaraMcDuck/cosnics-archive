@@ -9,6 +9,7 @@
  * @author Dieter De Neef
  */
 require_once dirname(__FILE__) . '/metadata_component.class.php';
+require_once dirname(__FILE__) . '/../../external_export.class.php';
 
 /**
  * Repository manager component to edit the metadata of a learning object.
@@ -23,13 +24,12 @@ class RepositoryManagerMetadataEditorComponent extends RepositoryManagerMetadata
 		$trail = new BreadcrumbTrail(false);
 		$trail->add_help('repository metadata');
 
-		$id = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
-		if (isset($id) && is_numeric($id))
+		if($this->check_learning_object_from_params())
 		{
-			$object  = $this->retrieve_learning_object($id);
+			$learning_object = $this->get_learning_object_from_params(); 
 			
-            $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager::PARAM_LEARNING_OBJECT_ID => $id)), $object->get_title()));
-            $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager :: ACTION_EDIT_LEARNING_OBJECT_METADATA, RepositoryManager::PARAM_LEARNING_OBJECT_ID => $id)), Translation :: translate('Metadata')));
+            $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager::PARAM_LEARNING_OBJECT_ID => $learning_object->get_id())), $learning_object->get_title()));
+            $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager :: ACTION_EDIT_LEARNING_OBJECT_METADATA, RepositoryManager::PARAM_LEARNING_OBJECT_ID => $learning_object->get_id())), Translation :: translate('Metadata')));
 			
             $metadata_type = $this->get_metadata_type();
 			
@@ -39,8 +39,8 @@ class RepositoryManagerMetadataEditorComponent extends RepositoryManagerMetadata
             {
                 case self :: METADATA_FORMAT_LOM:
                                         
-                    $mapper = new IeeeLomMapper($object);
-                    $form = new MetadataLOMEditForm($id, $mapper, $this->get_url(array(RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $id)), $this->get_catalogs());
+                    $mapper = new IeeeLomMapper($learning_object);
+                    $form = new MetadataLOMEditForm($learning_object->get_id(), $mapper, $this->get_url(array(RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id())), $this->get_catalogs());
                     break;
                 
                 /*
@@ -49,20 +49,19 @@ class RepositoryManagerMetadataEditorComponent extends RepositoryManagerMetadata
                  */
             }
             
+            $this->display_header($trail, false, true);
+            
             if(isset($form))
             {
                 $form->build_editing_form();
                 
                 if($form->must_save())
                 {
-                    $this->display_header($trail, false, true);
-                    
                     if(isset($mapper))
                     {
-                        $this->render_action_bar($id);
+                        $this->render_action_bar($learning_object->get_id());
                         
-                        $result = $mapper->save_submitted_values($form->getSubmitValues());
-                        if(!$result)
+                        if(!$mapper->save_submitted_values($form->getSubmitValues()))
                         {
                             $this->display_error_message($mapper->get_errors_as_html());
                         }
@@ -78,24 +77,22 @@ class RepositoryManagerMetadataEditorComponent extends RepositoryManagerMetadata
                     {
                         $this->display_error_message(Translation :: translate('MetadataMapperNotFound'));
                     }
-                    
-                    $this->display_footer();
                 }
                 else
                 {
-                    $this->display_header($trail, false, true);
-
-                    $this->render_action_bar($id);
+                    $this->render_action_bar($learning_object->get_id());
                     $form->display();
-                    
-                    $this->display_footer();    
                 }
+                
+                
             }
 		}
 		else
 		{
 			throw new Exception(Translation :: get('InvalidURLException'));
 		}
+		
+		$this->display_footer();
 	}
 	
 
@@ -106,7 +103,13 @@ class RepositoryManagerMetadataEditorComponent extends RepositoryManagerMetadata
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 		$action_bar->add_common_action(new ToolbarItem('XML', Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array('go'=> RepositoryManager :: ACTION_VIEW_LEARNING_OBJECT_METADATA, RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $id))));
-
+		
+		$external_repositories = ExternalExport :: retrieve_external_export();
+		if(count($external_repositories) > 0)
+		{
+		    $action_bar->add_common_action(new ToolbarItem('ExternalRepository', Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array('go'=> RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_BROWSE, RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $id))));
+		}
+		
 		echo $action_bar->as_html();
 	}
 	

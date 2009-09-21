@@ -9,6 +9,7 @@ require_once dirname(__FILE__).'/learning_object.class.php';
 require_once dirname(__FILE__).'/complex_learning_object_item.class.php';
 require_once dirname(__FILE__).'/learning_object_metadata.class.php';
 require_once dirname(__FILE__).'/learning_object_metadata_catalog.class.php';
+require_once dirname(__FILE__).'/catalog.class.php';
 require_once dirname(__FILE__).'/data_manager/database/database_learning_object_result_set.class.php';
 require_once Path :: get_application_path() . 'lib/web_application.class.php';
 require_once Path :: get_home_path() . 'lib/home_data_manager.class.php';
@@ -930,6 +931,12 @@ abstract class RepositoryDataManager
     abstract function retrieve_learning_object_metadata($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null);
     abstract function get_next_learning_object_metadata_id();
     
-    abstract function retrieve_learning_object_metadata_catalog($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null);
+    //abstract function retrieve_learning_object_metadata_catalog($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null);
+    
+    abstract function retrieve_external_export($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null);
+    abstract function retrieve_external_export_fedora($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null);
+
+    abstract function retrieve_catalog($query, $table_name, $condition = null, $offset = null, $max_objects = null, $order_by = null);
+    
 }
 ?>

@@ -24,34 +24,36 @@ class IeeeLomDateTime extends IeeeLomTime
         }
         
         $hour = $this->get_hour(true);
-        if(isset($hour))
-        {
-            $time_str = 'T' . $hour;
-        }
-        
         $min = $this->get_min(true);
-        if(isset($min))
+        $sec = $this->get_sec(true);
+        
+        if(isset($hour) || (isset($hour) && isset($min)) || (isset($hour) && isset($min) && isset($sec)) )
         {
-            if(strlen($time_str) > 0)
+            if(isset($hour))
+            {
+                $time_str = 'T' . $hour;
+            }
+            else
+            {
+                $time_str = 'T00';
+            }
+            
+            if(isset($min))
             {
                 $time_str .= ':' . $min;
             }
             else
             {
-                $time_str = 'T00:' . $min;
+                $time_str .= ':00';
             }
-        }
-        
-        $sec = $this->get_sec(true);
-        if(isset($sec))
-        {
-            if(strlen($time_str) > 0)
+            
+            if(isset($sec))
             {
                 $time_str .= ':' . $sec;
             }
             else
             {
-                $time_str = 'T00:00:' . $sec;
+                $time_str .= ':00';
             }
         }
         
@@ -66,7 +68,7 @@ class IeeeLomDateTime extends IeeeLomTime
     /**
      * Set the the instance datetime value
      * 
-     * @param $date_string Date in format accepted by strtotime() 
+     * @param $date_string string Date in format accepted by strtotime() 
      */
     public function set_datetime_from_string($date_string)
     {

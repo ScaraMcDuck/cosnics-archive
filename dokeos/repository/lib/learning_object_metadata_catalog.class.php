@@ -20,9 +20,9 @@ class LearningObjectMetadataCatalog extends RepositoryDataClass
     const CATALOG_MIN              = 'min';
     const CATALOG_SEC              = 'sec';
     
-	function LearningObjectMetadataCatalog($id = null, $defaultProperties = array ())
+	function LearningObjectMetadataCatalog($defaultProperties = array ())
 	{
-	    parent :: __construct($id, $defaultProperties);
+	    parent :: __construct($defaultProperties);
 	}
 	
 	/*************************************************************************/

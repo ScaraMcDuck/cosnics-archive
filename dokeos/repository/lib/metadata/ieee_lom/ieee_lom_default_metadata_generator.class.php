@@ -79,9 +79,9 @@ class IeeeLomDefaultMetadataGenerator
 			$versionowner = $this->user_data_manager->retrieve_user($version->get_owner_id());
 			
 			$vcard = new Contact_Vcard_Build();
-			$vcard->addEmail(        $versionowner->get_email());
+			$vcard->addEmail($versionowner->get_email());
 			$vcard->setFormattedName($versionowner->get_firstname() . ' ' . $versionowner->get_lastname());
-			$vcard->setName(         $versionowner->get_lastname() . ' ' . $versionowner->get_firstname());
+			$vcard->setName($versionowner->get_lastname(), $versionowner->get_firstname(), null, null, null);
 			$this->ieeeLom->add_contribute(new IeeeLomVocabulary($versionowner == $owner ? 'author' : 'editor'), $vcard->fetch(), new IeeeLomDateTime($version->get_creation_date()));
 		}
 	}
@@ -93,7 +93,7 @@ class IeeeLomDefaultMetadataGenerator
 	    
 	    $vcard = new Contact_Vcard_Build();
 		$vcard->setFormattedName(PlatformSetting :: get('institution',     'admin'));
-		$vcard->setName(         PlatformSetting :: get('site_name',       'admin'));
+		$vcard->setName(         PlatformSetting :: get('site_name',       'admin'), null, null, null, null);
 		$vcard->addOrganization( PlatformSetting :: get('institution',     'admin'));
 		$vcard->setURL(          PlatformSetting :: get('institution_url', 'admin'));
 		$this->ieeeLom->add_metadata_contribute(new IeeeLomVocabulary('creator'), $vcard->fetch(), new IeeeLomDateTime(date('Y-m-d\TH:i:sO')));

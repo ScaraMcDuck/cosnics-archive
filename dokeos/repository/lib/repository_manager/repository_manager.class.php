@@ -107,7 +107,11 @@ class RepositoryManager extends CoreApplication
     const ACTION_BUILD_COMPLEX_LEARNING_OBJECT = 'build_complex';
     const ACTION_VIEW_REPO = 'repo_viewer';
     const ACTION_REUSE_LEARNING_OBJECT = 'reuse_learning_object';
-	const ACTION_DOWNLOAD_DOCUMENT = 'document_downloader';
+    const ACTION_DOWNLOAD_DOCUMENT = 'document_downloader';
+    const ACTION_EXTERNAL_REPOSITORY_BROWSE          = 'ext_rep_browse';
+    const ACTION_EXTERNAL_REPOSITORY_EXPORT          = 'ext_rep_export';
+    const ACTION_EXTERNAL_REPOSITORY_METADATA_REVIEW = 'ext_rep_metadata_review';
+    const ACTION_EXTERNAL_REPOSITORY_CATALOG         = 'ext_rep_catalog';
 	const ACTION_BROWSE_TEMPLATES = 'templates';
     
     const ACTION_BROWSE_USER_VIEWS = 'browse_views';
@@ -278,9 +282,22 @@ class RepositoryManager extends CoreApplication
             case self :: ACTION_REUSE_LEARNING_OBJECT :
                 $component = RepositoryManagerComponent :: factory('ReuseLearningObject', $this);
                 break;
+            case self :: ACTION_EXTERNAL_REPOSITORY_BROWSE :
+                $component = RepositoryManagerComponent :: factory('ExternalRepositoryExportBrowser', $this);
+                break;
+            case self :: ACTION_EXTERNAL_REPOSITORY_EXPORT :
+                $component = RepositoryManagerComponent :: factory('ExternalRepositoryExportExport', $this);
+                break;
+            case self :: ACTION_EXTERNAL_REPOSITORY_METADATA_REVIEW :
+                $component = RepositoryManagerComponent :: factory('ExternalRepositoryMetadataReviewer', $this);
+                break;
+            case self :: ACTION_EXTERNAL_REPOSITORY_CATALOG :
+                $component = RepositoryManagerComponent :: factory('ExternalRepositoryExportCatalog', $this);
+                break;
             case self :: ACTION_BROWSE_TEMPLATES :
             	$component = RepositoryManagerComponent :: factory('TemplateBrowser', $this);
                 break;
+                
             default :
                 $this->set_action(self :: ACTION_BROWSE_LEARNING_OBJECTS);
                 $component = RepositoryManagerComponent :: factory('Browser', $this);
@@ -1117,6 +1134,12 @@ class RepositoryManager extends CoreApplication
         return $rdm->retrieve_learning_object_metadata_catalog($condition, $offset, $max_objects, $order_property, $order_direction);
     }
 
+    function retrieve_external_export($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    {
+        $rdm = RepositoryDataManager :: get_instance();
+        return $rdm->retrieve_external_export($condition, $offset, $max_objects, $order_property, $order_direction);
+    }
+    
     /**
      * Renders the users block and returns it.
      */

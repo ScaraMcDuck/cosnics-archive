@@ -1701,10 +1701,10 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	    return $this->connection->nextID($this->get_table_name('learning_object_metadata'));
 	}
 	
-	function retrieve_learning_object_metadata_catalog($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
-	{
-		return $this->database->retrieve_objects(LearningObjectMetadataCatalog :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
-	}
+//	function retrieve_learning_object_metadata_catalog($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+//	{
+//		return $this->database->retrieve_objects(LearningObjectMetadataCatalog :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+//	}
 	
 	function get_next_learning_object_metadata_catalog_id()
 	{
@@ -1749,5 +1749,55 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$this->connection->loadModule('Extended');
         return $this->connection->extended->autoExecute($this->get_table_name(ComplexLearningObjectItem :: get_table_name()), $props, MDB2_AUTOQUERY_UPDATE, $condition);
 	}
+	
+	function retrieve_external_export($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+	{
+		return $this->database->retrieve_objects(ExternalExport :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+	}
+	
+	function retrieve_external_export_fedora($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+	{
+		return $this->database->retrieve_objects(ExternalExportFedora :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+	}
+	
+	function retrieve_catalog($query, $table_name, $condition = null, $offset = null, $max_objects = null, $order_by = null)
+	{
+	    /*
+	     * Get 'catalog' alias and add it to the query in order to support WHERE and ORDER BY clause 
+	     */
+	    $after_from_position = stripos($query, 'from') + 4;
+	    $sub_query = trim(substr($query, $after_from_position)); 
+	    
+	    if(stripos($sub_query, ' ') !== false)
+	    {
+	        $real_table_name = trim(substr($sub_query, 0, stripos($query, ' ')));
+	    }
+	    else
+	    {
+	        $real_table_name = $sub_query;
+	    }
+	    
+	    $after_table_position = stripos($query, $real_table_name) + strlen($real_table_name);
+	    
+	    $alias = $this->database->get_alias('Catalog');
+	    
+	    $query = substr($query, 0, $after_table_position) . ' AS ' . $alias . ' ' . substr($query, $after_table_position);
+	    
+	    //debug($query);
+	    
+	    if(isset($condition))
+	    {
+	        $condition->set_storage_unit($alias);
+	    }
+	    
+	    if(isset($order_by))
+	    {
+	        $order_by->set_alias($alias);
+	    }
+	    
+	    return $this->database->retrieve_result_set($query, $table_name, $condition, $offset, $max_objects, $order_by);
+	}
+	
+	
 }
 ?>

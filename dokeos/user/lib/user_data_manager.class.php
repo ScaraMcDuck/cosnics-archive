@@ -105,6 +105,7 @@ abstract class UserDataManager
 	/**
 	 * Retrieves a user.
 	 * @param $id the user ID to retrieve the info from
+	 * @return User
 	 */
 	abstract function retrieve_user($id);
 	/**
