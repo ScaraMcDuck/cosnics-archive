@@ -34,8 +34,8 @@ class RepositoryManagerTemplateDeleterComponent extends RepositoryManagerCompone
 					$failures++;
 				}
 			}
-
-			if ($failures)
+	
+			if ($failures > 0)
 			{
 				if (count($ids) == 1)
 				{
@@ -58,7 +58,7 @@ class RepositoryManagerTemplateDeleterComponent extends RepositoryManagerCompone
 				}
 			}
 
-			$this->redirect(Translation :: get($message), false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_TEMPLATES));
+			$this->redirect(Translation :: get($message), ($failures > 0), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_TEMPLATES));
 		}
 		else
 		{

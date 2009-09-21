@@ -414,44 +414,32 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			return false;
 		}
 		// Delete children
-		$condition = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $object->get_id());
-		$children = $this->retrieve_learning_objects(null, $condition, array (), array (), 0, -1, LearningObject :: STATE_RECYCLED)->as_array();
-		$children_deleted = true;
-		foreach ($children as $index => $child)
-		{
-			$child_deleted = $this->delete_learning_object($child);
-			$children_deleted = $children_deleted && $child_deleted;
-		}
-		// If all children deleted -> delete object
-		if ($children_deleted)
-		{
-			// Delete all attachments (only the links, not the actual objects)
-			$query = 'DELETE FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('learning_object').'=? OR '.$this->escape_column_name('attachment').'=?';
-			$sth = $this->connection->prepare($query);
-			$res = $sth->execute(array($object->get_id(), $object->get_id()));
+		
+		// Delete all attachments (only the links, not the actual objects)
+		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('learning_object').'=? OR '.$this->escape_column_name('attachment').'=?';
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute(array($object->get_id(), $object->get_id()));
 
-			// Delete object
-			$query = 'DELETE FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
+		// Delete object
+		$query = 'DELETE FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
+		$statement = $this->connection->prepare($query);
+		$statement->execute($object->get_id());
+
+		// Delete entry in version table
+		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_version').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).'=?';
+		$statement = $this->connection->prepare($query);
+		$statement->execute($object->get_object_number());
+
+		if ($object->is_extended())
+		{
+			$query = 'DELETE FROM '.$this->escape_table_name($object->get_type()).' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
 			$statement = $this->connection->prepare($query);
 			$statement->execute($object->get_id());
-
-			// Delete entry in version table
-			$query = 'DELETE FROM '.$this->escape_table_name('learning_object_version').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).'=?';
-			$statement = $this->connection->prepare($query);
-			$statement->execute($object->get_object_number());
-
-			if ($object->is_extended())
-			{
-				$query = 'DELETE FROM '.$this->escape_table_name($object->get_type()).' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
-				$statement = $this->connection->prepare($query);
-				$statement->execute($object->get_id());
-			}
-			$query = 'UPDATE '.$this->escape_table_name('learning_object').' SET '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'='.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'-1 WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'>?';
-			$statement = $this->connection->prepare($query);
-			$statement->execute($object->get_display_order_index());
-			return true;
 		}
-		return false;
+		$query = 'UPDATE '.$this->escape_table_name('learning_object').' SET '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'='.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'-1 WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'>?';
+		$statement = $this->connection->prepare($query);
+		$statement->execute($object->get_display_order_index());
+		return true;
 	}
 
 	// Inherited.

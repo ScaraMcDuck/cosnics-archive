@@ -35,6 +35,12 @@ class RepositoryBrowserTable extends ObjectTable
 			$actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_RECYCLE_SELECTED, Translation :: get('RemoveSelected'));
 			$actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_MOVE_SELECTED, Translation :: get('MoveSelected'), false);
 			$actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_PUBLISH_SELECTED, Translation :: get('PublishSelected'), false);
+			
+			if($browser->get_user()->is_platform_admin())
+			{
+				$actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_COPY_TO_TEMPLATES, Translation :: get('CopySelectedToTemplates'), false);
+			}
+			
 		}
 		if(get_class($browser) == 'RepositoryManagerComplexBrowserComponent')
 		{
