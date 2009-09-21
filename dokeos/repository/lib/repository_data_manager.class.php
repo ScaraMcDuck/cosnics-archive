@@ -258,6 +258,9 @@ abstract class RepositoryDataManager
 	 */
 	function learning_object_deletion_allowed($object, $type = null, $user)
 	{
+		if($object->get_owner_id() == 0)
+			return true;
+			
 		$homeportal = PlatformSetting :: get('portal_home');
 		if($object->get_id() == $homeportal)
 			return false;

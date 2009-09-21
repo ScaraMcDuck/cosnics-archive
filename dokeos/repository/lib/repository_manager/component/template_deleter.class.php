@@ -30,8 +30,19 @@ class RepositoryManagerTemplateDeleterComponent extends RepositoryManagerCompone
 				$lo = $this->retrieve_learning_object($lo_id);
 				
 				if(!$lo->delete())
+				/*{
+					//$failures++;
+				}*/
+				
+				$or_conditions = array();
+				$or_conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $lo_id, ComplexLearningObjectItem :: get_table_name());
+				$or_conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $lo_id);
+				
+				$condition = new OrCondition($or_conditions);
+				$clois = $this->retrieve_complex_learning_object_items($condition);
+				while($cloi = $clois->next_result())
 				{
-					$failures++;
+					$cloi->delete();
 				}
 			}
 	
