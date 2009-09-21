@@ -2,7 +2,80 @@
 require_once Path :: get_repository_path() . '/lib/export/external_export/rest_external_exporter.class.php';
 require_once Path :: get_plugin_path() . '/webservices/rest/client/rest_client.class.php';
 
-class FedoraExternalExporter extends RestExternalExporter  
+/**
+ * This class is a basic implementation of learning object export to a Fedora repository (http://www.fedora-commons.org)
+ * The export configuration are stored in the 'repository_external_export' and 'repository_external_export_fedora' tables of the datasource.
+ * 
+ * 
+ * BASIC FEATURES
+ * ==============
+ * 
+ * This export implements the following features (see the 'export' function):
+ * 
+ * - Check if the Learning Object has already been exported to the Fedora repository by checking if it already has an identifier for this external repository in its metadata
+ * 		- if not, retrieve a new uid from the repository (through the REST API) and store it in the LO metadata
+ * 		
+ * 		Note: this Fedora uid will allow to differentiate NEW objects from objects to UPDATE in Fedora  
+ * 
+ * - Check if minimum required metadata are available.
+ * 		- if some required metadata are missing, the metadata edition form is shown.
+ * 
+ * 		Note: 	By default, this check always returns true. If you need to implement you own check, create your own Fedora export class inheriting from 'FedoraExternalExporter'
+ * 				and override the 'check_required_metadata' function
+ * 
+ * - Create a new object in the Fedora repository if it doesn't exist yet
+ * - Create a datastream called 'LOM' containing the LOM-XML of the learning object
+ * - Create a datastream called 'OBJECT' with the learning object content
+ * 
+ * 
+ * ADDING SPECIFIC FEATURES
+ * ========================
+ * 
+ * Exporter
+ * --------
+ * If you need to implement specific business logic during the export to your Fedora repository, you can create your own export class inheriting from 'FedoraExternalExporter' 
+ * and override the functions you need to customize.
+ * 
+ * In order to be called automatically, you own class name should start with the camelized version of the 'catalog_name' field value of the repository_external_export table in the datasource.
+ *  
+ * For example, if the 'catalog_name' value is 'my_export' and the export 'type' field is 'fedora', the export logic will try to find a class called 'MyExportExternalExporter'
+ * in /dokeos/repository/lib/export/external_export/fedora/custom/my_export_external_exporter.class.php. 
+ * If such a class exists, it is used as exporter for the export.
+ * If such a class doesn't exist, the basic 'FedoraExternalExporter' class is used for the export 
+ * 
+ * Form
+ * ----
+ * If you need to implement a specific form before running the export, you can create your own export form class inheriting from 'ExternalExportExportForm' 
+ * and override the functions you need to customize.
+ * 
+ * Similarly to the Exporter class, the form class name should start with the camelized version of the 'catalog_name' field value of the repository_external_export table in the datasource.
+ * 
+ * For example, if the 'catalog_name' value is 'my_export' and the export 'type' field is 'fedora', the export logic will try to find a class called 'MyExportExternalExportForm'
+ * in /dokeos/repository/lib/export/external_export/fedora/custom/my_export_external_export_form.class.php.
+ * If such a class exists, it is used as form for the export.
+ * If such a class doesn't exist, the basic 'ExternalExportExportForm' class is used for the export 
+ * 
+ * CONFIGURATION
+ * =============
+ * 
+ * For a complete list of configurable properties, see the 'ExternalExportFedora' class properties documentation
+ * 
+ * AUTHENTIFICATION
+ * ================
+ * 
+ * Some of the REST requests sent by the exporter need to provide credentials to Fedora. The login + password are retrieved from the 'repository_external_export_fedora' table.
+ * 
+ * Certificate based client authentification
+ * -----------------------------------------
+ * 
+ * It is possible to specify a client certificate to send with the REST requests. The client certificate and the certificate key can be specified as path(es) to the file(s).
+ * These pathes are relative to the '/dokeos/repository/lib/export/external_export/ssl' folder.
+ * 
+ * Note: 
+ * 			the content of these files (at least the one containing the private key) is sensitive and must be protected (e.g. through .htaccess file) to be kept private 
+ * 
+ */
+class FedoraExternalExporter extends RestExternalExporter
 {
     const DATASTREAM_LOM_NAME        = 'LOM';
     const DATASTREAM_LO_CONTENT_NAME = 'OBJECT';
@@ -34,7 +107,7 @@ class FedoraExternalExporter extends RestExternalExporter
         	    $this->prepare_export($learning_object);
         	    
         	    /*
-        	     * Check if the object exists already in Fedora
+        	     * Check if the object already exists in Fedora
         	     * - if not, create it
         	     */
         	    if($this->check_object_exists($learning_object))
