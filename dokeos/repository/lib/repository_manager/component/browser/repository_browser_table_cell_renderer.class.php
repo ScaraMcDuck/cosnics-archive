@@ -82,6 +82,11 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
             {
                 $toolbar_data[] = array('href' => $this->browser->get_browse_complex_learning_object_url($learning_object), 'img' => Theme :: get_common_image_path() . 'action_browser.png', 'label' => Translation :: get('BrowseComplex'));
             }
+            
+            if($this->browser->get_user()->is_platform_admin())
+            {
+            	$toolbar_data[] = array('href' => $this->browser->get_copy_learning_object_url($learning_object->get_id(), 0), 'img' => Theme :: get_common_image_path() . 'export_unknown.png', 'label' => Translation :: get('CopyToTemplates'));
+            }
 
             return DokeosUtilities :: build_toolbar($toolbar_data);
         }

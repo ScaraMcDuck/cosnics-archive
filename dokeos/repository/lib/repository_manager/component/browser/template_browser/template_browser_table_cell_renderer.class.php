@@ -26,7 +26,7 @@ class TemplateBrowserTableCellRenderer extends DefaultLearningObjectTableCellRen
     // Inherited
     function render_cell($column, $learning_object)
     {
-        if ($column === RepositoryBrowserTableColumnModel :: get_modification_column())
+        if ($column === TemplateBrowserTableColumnModel :: get_modification_column())
         {
             return $this->get_modification_links($learning_object);
         }
@@ -34,9 +34,13 @@ class TemplateBrowserTableCellRenderer extends DefaultLearningObjectTableCellRen
         switch ($column->get_name())
         {
             case LearningObject :: PROPERTY_TITLE :
+                /*$title = parent :: render_cell($column, $learning_object);
+                $title_short = DokeosUtilities :: truncate_string($title, 53, false);
+                return $title_short;*/
+            	 case LearningObject :: PROPERTY_TITLE :
                 $title = parent :: render_cell($column, $learning_object);
                 $title_short = DokeosUtilities :: truncate_string($title, 53, false);
-                return $title_short;
+                return '<a href="' . htmlentities($this->browser->get_learning_object_viewing_url($learning_object)) . '" title="' . $title . '">' . $title_short . '</a>';
             case LearningObject :: PROPERTY_MODIFICATION_DATE :
                 return Text :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $learning_object->get_modification_date());
         }
@@ -51,7 +55,9 @@ class TemplateBrowserTableCellRenderer extends DefaultLearningObjectTableCellRen
      */
     private function get_modification_links($learning_object)
     {
-        return null;
+       $toolbar_data[] = array('href' => $this->browser->get_copy_learning_object_url($learning_object->get_id(), $this->browser->get_user_id()), 'img' => Theme :: get_common_image_path() . 'export_unknown.png', 'label' => Translation :: get('CopyToRepository'));
+       
+        return DokeosUtilities :: build_toolbar($toolbar_data);
     }
 }
 ?>

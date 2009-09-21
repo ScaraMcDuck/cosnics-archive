@@ -68,6 +68,7 @@ class RepositoryManager extends CoreApplication
     const PARAM_DIRECTION_DOWN = 'down';
     const PARAM_ADD_OBJECTS = 'add_objects';
     const PARAM_DELETE_SELECTED_USER_VIEW = 'delete_user_view';
+    const PARAM_TARGET_USER = 'target';
     
 
 	/**#@-*/
@@ -113,6 +114,7 @@ class RepositoryManager extends CoreApplication
     const ACTION_EXTERNAL_REPOSITORY_METADATA_REVIEW = 'ext_rep_metadata_review';
     const ACTION_EXTERNAL_REPOSITORY_CATALOG         = 'ext_rep_catalog';
 	const ACTION_BROWSE_TEMPLATES = 'templates';
+	const ACTION_COPY_LEARNING_OBJECT = 'lo_copy';
     
     const ACTION_BROWSE_USER_VIEWS = 'browse_views';
     const ACTION_CREATE_USER_VIEW = 'create_view';
@@ -297,7 +299,9 @@ class RepositoryManager extends CoreApplication
             case self :: ACTION_BROWSE_TEMPLATES :
             	$component = RepositoryManagerComponent :: factory('TemplateBrowser', $this);
                 break;
-                
+            case self :: ACTION_COPY_LEARNING_OBJECT :
+            	$component = RepositoryManagerComponent :: factory('LearningObjectCopier', $this);
+                break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_LEARNING_OBJECTS);
                 $component = RepositoryManagerComponent :: factory('Browser', $this);
@@ -1175,6 +1179,12 @@ class RepositoryManager extends CoreApplication
         return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_USER_VIEW,
         self :: PARAM_USER_VIEW => $user_view_id));
     }
+    
+    function get_copy_learning_object_url($lo_id, $to_user_id)
+    {
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COPY_LEARNING_OBJECT, self :: PARAM_LEARNING_OBJECT_ID => $lo_id,
+    								self :: PARAM_TARGET_USER => $to_user_id));
+    }
 
     function get_reuse_learning_object_url($learning_object)
     {
@@ -1202,6 +1212,9 @@ class RepositoryManager extends CoreApplication
         $gdm = GroupDataManager :: get_instance();
         $rdm = RightsDataManager :: get_instance();
 
+        $lo = $this->retrieve_learning_object($learning_object->get_id());
+        if($lo->get_owner_id() == 0) return true;
+        
         $role_cond = new EqualityCondition(RightsTemplate :: PROPERTY_USER_ID, $user_id);
         $user_roles = $udm->retrieve_user_rights_templates($role_cond);
 

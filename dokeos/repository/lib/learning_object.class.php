@@ -644,6 +644,9 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 			return false;
 		}
 
+		if($this->get_owner_id() == 0)
+			return true;
+		
 		$location = new Location();
 		$location->set_location($this->get_title());
 		$location->set_application(RepositoryManager :: APPLICATION_NAME);
@@ -678,7 +681,38 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 		$this->set_id($id);
 		$object_number = $dm->get_next_learning_object_number();
 		$this->set_object_number($object_number);
-		return $dm->create_learning_object($this, 'new');
+		
+		if (!$dm->create_learning_object($this, 'new'))
+		{
+			return false;
+		}
+
+		if($this->get_owner_id() == 0)
+			return true;
+		
+		$location = new Location();
+		$location->set_location($this->get_title());
+		$location->set_application(RepositoryManager :: APPLICATION_NAME);
+		$location->set_type('learning_object');
+		$location->set_identifier($this->get_id());
+		
+		$parent = $this->get_parent_id();
+		if (!$parent)
+		{
+			$parent = RepositoryRights :: get_user_root_id($this->get_owner_id());
+		}
+		else
+		{
+			$parent = RepositoryRights :: get_location_id_by_identifier('repository_category', $this->get_parent_id());
+		}
+
+		$location->set_parent($parent);
+		if (!$location->create())
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
