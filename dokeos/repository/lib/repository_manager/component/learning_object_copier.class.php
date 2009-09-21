@@ -44,7 +44,7 @@ class RepositoryManagerLearningObjectCopierComponent extends RepositoryManagerCo
     		
     		if($lo->is_complex_learning_object())
     		{
-    			RepositoryDataManager :: get_instance()->copy_complex_learning_object($lo);
+    			$this->copy_complex_children($lo_id, $lo->get_id(), $target_user);
     		}
     	}
     	
@@ -69,6 +69,29 @@ class RepositoryManagerLearningObjectCopierComponent extends RepositoryManagerCo
     	
     	
     }
+    
+	function copy_complex_children($old_parent_id, $new_parent_id, $target_user)
+	{
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $old_parent_id, ComplexLearningObjectItem :: get_table_name());
+		$items = $this->retrieve_complex_learning_object_items($condition);
+		while($item = $items->next_result())
+		{
+			$lo = $this->retrieve_learning_object($item->get_ref());
+			$lo->set_owner_id($target_user);
+			$lo->set_parent_id(0);
+			$lo->create();
+			
+			$nitem = new ComplexLearningObjectItem();
+			$nitem->set_user_id($item->get_user_id());
+			$nitem->set_display_order($item->get_display_order());
+			$nitem->set_parent($new_parent_id);
+			$nitem->set_ref($lo->get_id());
+			$nitem->create();
+			
+			$this->copy_complex_children($item->get_ref(), $lo->get_id(), $target_user);
+			
+		}
+	}
 
 }
 ?>
