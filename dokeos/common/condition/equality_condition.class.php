@@ -66,6 +66,16 @@ class EqualityCondition implements Condition
     }
 
     /**
+     * Set the storage unit 
+     * @param $storage_unit string
+     * @return void
+     */
+    function set_storage_unit($storage_unit)
+    {
+        return $this->storage_unit = $storage_unit;
+    }
+    
+    /**
      * Gets a string representation of this condition
      * @return string
      */

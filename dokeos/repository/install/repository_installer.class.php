@@ -91,7 +91,7 @@ class RepositoryInstaller extends Installer
 	                       array('name' => 'Italian', 'value' => 'it'),
 	                       array('name' => 'Spanish', 'value' => 'es'));
 	    
-        $this->add_metadata_catalog_type(LearningObjectMetadataCatalog :: CATALOG_LANGUAGE, $languages);
+        $this->add_metadata_catalog_type(Catalog :: CATALOG_LOM_LANGUAGE, $languages);
       
         /** ROLES **/
 	    $roles = array( array('name' => 'author',                 'value' => 'author'),
@@ -110,7 +110,7 @@ class RepositoryInstaller extends Installer
                         array('name' => 'instructional_designer', 'value' => 'instructional_designer'),
                         array('name' => 'subject_matter_expert',  'value' => 'subject_matter_expert'));
 	                   
-        $this->add_metadata_catalog_type(LearningObjectMetadataCatalog :: CATALOG_ROLE, $roles);
+        $this->add_metadata_catalog_type(Catalog :: CATALOG_LOM_ROLE, $roles);
         
 	    $this->add_message(self :: TYPE_NORMAL, Translation :: translate('MetadataCatalogCreated'));
 	    

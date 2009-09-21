@@ -11,9 +11,9 @@ class LearningObjectMetadata extends RepositoryDataClass
 	const PROPERTY_PROPERTY        = 'property';
 	const PROPERTY_VALUE           = 'value';
 	
-	function LearningObjectMetadata($id = null, $defaultProperties = array ())
+	function LearningObjectMetadata($defaultProperties = array ())
 	{
-	    parent :: __construct($id, $defaultProperties);
+	    parent :: __construct($defaultProperties);
 	}
 	
 	/*************************************************************************/

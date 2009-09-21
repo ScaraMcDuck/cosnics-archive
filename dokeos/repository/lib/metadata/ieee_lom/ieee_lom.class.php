@@ -66,6 +66,12 @@ class IeeeLom
 		$xpath = new DOMXPath($this->dom);
 		return $xpath->query($query);
 	}
+	
+	private function delete_nodes($query)
+	{
+	    XMLTool :: delete_element_by_xpath($this->dom, $query);
+	}
+	
 	/**
 	 * Creates all nodes in the given path if they're not available yet
 	 * @param string $path
@@ -132,6 +138,12 @@ class IeeeLom
 			$new_node = $this->dom->createElement($node, htmlspecialchars($value));
 			$node = $this->get_node($path);
 			$node->appendChild($new_node);
+			
+			return $new_node;
+		}
+		else
+		{
+		    return null;
 		}
 	}
 	/**
@@ -319,6 +331,11 @@ class IeeeLom
 	     return $identifiers;
 	}
 	
+	function clear_general_identifier()
+	{
+	    $this->delete_nodes('/lom/general/identifier');
+	}
+	
 	
 	/**
 	 * 1.2 Title
@@ -336,6 +353,12 @@ class IeeeLom
 	    //debug($titles);   
 	    return $titles;
 	}
+	
+	function clear_general_title()
+	{
+	    $this->delete_nodes('/lom/general/title');
+	}
+	
 	
 	/**
 	 * return the titles of the LOM document
@@ -386,8 +409,20 @@ class IeeeLom
 	 */
 	function add_language($language)
 	{
-		$this->add_node_value('/lom/general', 'language', $language);
+		return $this->add_node_value('/lom/general', 'language', $language);
 	}
+	
+	function get_languages()
+	{
+	    return $this->get_nodes('/lom/general/language');
+	}
+	
+	function clear_general_language()
+	{
+	    $this->delete_nodes('/lom/general/language');
+	}
+	
+	
 	/**
 	 * 1.4 Description
 	 * @param LangString $langstring
@@ -415,14 +450,19 @@ class IeeeLom
 	        return null;
 	    }
 	}
-	
-	
+
 	function get_descriptions()
 	{
 	    //debug($this->dom);
 	    $descriptions = $this->get_langstring_nodes('/lom/general/description');
 	    return $descriptions;
 	}
+	
+	function clear_general_description()
+	{
+	    $this->delete_nodes('/lom/general/description');
+	}
+	
 	
 	/**
 	 * 1.5  Keyword
@@ -513,7 +553,7 @@ class IeeeLom
 		return $contribute_node;
 	}
 	
-	public function add_lifeCycle_entity($contribute_index, $entity_value)
+	public function add_lifeCycle_entity($contribute_index = 0, $entity_value)
 	{
 	    //debug($this->dom);
 	    $contribute_node = $this->get_node('/lom/lifeCycle/contribute[' . ($contribute_index + 1) . ']');
@@ -545,7 +585,11 @@ class IeeeLom
 	    //debug($parent_node);
     }
 	
-	
+	public function clear_lifeCycle_contribution()
+	{
+	    $this->delete_nodes('/lom/lifeCycle/contribute');
+	}
+    
 	function get_contribute()
 	{
 	     $contributes = $this->get_langstring_nodes('/lom/lifeCycle/contribute');
@@ -832,6 +876,11 @@ class IeeeLom
 	function get_rights_description()
 	{
 	    return $this->get_langstring_nodes('/lom/rights/description/string');
+	}
+	
+	function clear_rights_description()
+	{
+	    $this->delete_nodes('/lom/rights/description');
 	}
 	
 	// End of implementation IEEE LOM standard

@@ -289,10 +289,11 @@ abstract class MetadataMapper
 	/**
 	 * Generates the metadata for the setted LearningObject and print it in the page 
 	 * 
-	 * @param $format_for_html_page bool Indicates wether the printed metadata must be formatted to be included in a HTML page
+	 * @param $format_for_html_page boolean Indicates wether the printed metadata must be formatted to be included in a HTML page
+	 * @param $return_document bolean Indicates wether the generated document must be printed in the response page or returned
 	 * @return void
 	 */
-	abstract function export_metadata($format_for_html_page = false);
+	abstract function export_metadata($format_for_html_page = false, $return_document = false);
     
 }
 ?>

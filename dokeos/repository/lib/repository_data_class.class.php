@@ -16,6 +16,22 @@ abstract class RepositoryDataClass extends DataClass
 		
 	}
 	
+	/**
+	 * @param $name The name of the object property to get
+	 * @param $default_value A default value is the $name property is not set
+	 * @see dokeos/common/DataClass#get_default_property($name)
+	 */
+	function get_default_property($name, $default_value = null)
+	{
+		$value = parent :: get_default_property($name);
+		
+		if(!isset($value) && isset($default_value))
+		{
+		    $value = $default_value;
+		}
+		
+		return $value;
+	}
 	
 	/*************************************************************************/
 	
