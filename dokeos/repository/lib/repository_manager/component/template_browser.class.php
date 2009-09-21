@@ -9,10 +9,12 @@ require_once dirname(__FILE__).'/../repository_manager.class.php';
 require_once dirname(__FILE__).'/../repository_manager_component.class.php';
 require_once dirname(__FILE__) . '/browser/template_browser/template_browser_table.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
+require_once dirname(__FILE__).'/../../forms/repository_filter_form.class.php';
 
 class RepositoryManagerTemplateBrowserComponent extends RepositoryManagerComponent
 {
     private $action_bar;
+    private $form;
     
 	/**
      * Runs this component and displays its output.
@@ -20,13 +22,31 @@ class RepositoryManagerTemplateBrowserComponent extends RepositoryManagerCompone
     function run()
     {
     	$this->action_bar = $this->get_action_bar();
-    
+    	$this->form = new RepositoryFilterForm($this, $this->get_url());
+    	
     	$trail = new BreadcrumbTrail(false);
     	$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseTemplates')));
     	
+    	$output = $this->get_table_html();
+    	
+   		$session_filter = Session :: retrieve('filter');
+        
+        if($session_filter != null && !$session_filter == 0)
+        {
+            if(is_numeric($session_filter))
+            {
+                $condition = new EqualityCondition(UserView :: PROPERTY_ID, $session_filter);
+                $user_view = RepositoryDataManager::get_instance()->retrieve_user_views($condition)->next_result();
+                $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Filter') . ': ' . $user_view->get_name()));
+            }
+            else
+                $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Filter') . ': ' . DokeosUtilities :: underscores_to_camelcase(($session_filter))));
+        }
+    	
     	$this->display_header($trail);
     	echo $this->action_bar->as_html();
-    	echo $this->get_table_html();
+    	echo '<br />' . $this->form->display() . '<br />';
+    	echo $output;
     	$this->display_footer();
     }
     
@@ -42,6 +62,12 @@ class RepositoryManagerTemplateBrowserComponent extends RepositoryManagerCompone
     {
     	$conditions = array();
     	$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, 0);
+    	
+    	$cond = $this->form->get_filter_conditions();
+        if($cond)
+        {
+            $conditions[] = $cond;
+        }
     	
      	$query = $this->action_bar->get_query();
         if(isset($query) && $query != '')
