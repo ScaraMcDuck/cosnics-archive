@@ -387,5 +387,11 @@ abstract class RepositoryManagerComponent extends CoreApplicationComponent
     {
     	return $this->get_parent()->get_copy_learning_object_url($lo_id, $to_user_id);
     }
+    
+    function get_delete_template_url($template_id)
+    {
+    	return $this->get_parent()->get_delete_template_url($template_id);
+    }
 }
+
 ?>
