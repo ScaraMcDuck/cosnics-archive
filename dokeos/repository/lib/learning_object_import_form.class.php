@@ -112,6 +112,9 @@ class LearningObjectImportForm extends FormValidator
 	 */
 	function display()
 	{
+		if($this->get_user()->get_id() == 0)
+			return parent :: display();
+			
 		$quotamanager = new QuotaManager($this->get_user());
 		if ($quotamanager->get_available_database_space() <= 0)
 		{

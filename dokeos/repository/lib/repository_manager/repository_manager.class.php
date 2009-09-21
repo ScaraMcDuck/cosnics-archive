@@ -115,6 +115,7 @@ class RepositoryManager extends CoreApplication
     const ACTION_EXTERNAL_REPOSITORY_CATALOG         = 'ext_rep_catalog';
 	const ACTION_BROWSE_TEMPLATES = 'templates';
 	const ACTION_COPY_LEARNING_OBJECT = 'lo_copy';
+	const ACTION_IMPORT_TEMPLATE = 'import_template';
     
     const ACTION_BROWSE_USER_VIEWS = 'browse_views';
     const ACTION_CREATE_USER_VIEW = 'create_view';
@@ -301,6 +302,9 @@ class RepositoryManager extends CoreApplication
                 break;
             case self :: ACTION_COPY_LEARNING_OBJECT :
             	$component = RepositoryManagerComponent :: factory('LearningObjectCopier', $this);
+                break;
+            case self :: ACTION_IMPORT_TEMPLATE :
+            	$component = RepositoryManagerComponent :: factory('TemplateImporter', $this);
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_LEARNING_OBJECTS);
@@ -1020,7 +1024,14 @@ class RepositoryManager extends CoreApplication
     public function get_application_platform_admin_links()
     {
         $info = parent :: get_application_platform_admin_links();
+        
+        $links[]	= array('name' => Translation :: get('ImportTemplate'),
+            'description' => Translation :: get('ImportTemplateDescription'),
+            'action' => 'import',
+            'url' => $this->get_link(array(Application :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE)));
+        
         $info['search'] = $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS));
+        $info['links'] = $links;
         return $info;
     }
     
@@ -1141,7 +1152,7 @@ class RepositoryManager extends CoreApplication
     function retrieve_external_export($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
     {
         $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->retrieve_external_export($condition, $offset, $max_objects, $order_property, $order_direction);
+        return $rdm->retrieve_external_export($condition, $offset, $count, $order_property, $order_direction);
     }
     
     /**
@@ -1186,6 +1197,11 @@ class RepositoryManager extends CoreApplication
     								self :: PARAM_TARGET_USER => $to_user_id));
     }
 
+    function get_import_template_url()
+    {
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE));
+    }
+    
     function get_reuse_learning_object_url($learning_object)
     {
         return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_REUSE_LEARNING_OBJECT, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
