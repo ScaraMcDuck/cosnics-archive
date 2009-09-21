@@ -16,6 +16,7 @@ require_once Path :: get_library_path().'condition/or_condition.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once Path :: get_library_path() . 'html/table/object_table/object_table.class.php';
 require_once dirname(__FILE__).'/component/browser/repository_browser_table.class.php';
+require_once dirname(__FILE__).'/component/browser/template_browser/template_browser_table.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 require_once dirname(__FILE__).'/../repository_block.class.php';
@@ -69,6 +70,9 @@ class RepositoryManager extends CoreApplication
     const PARAM_ADD_OBJECTS = 'add_objects';
     const PARAM_DELETE_SELECTED_USER_VIEW = 'delete_user_view';
     const PARAM_TARGET_USER = 'target';
+    const PARAM_DELETE_TEMPLATES = 'delete_templates';
+    const PARAM_COPY_FROM_TEMPLATES = 'copy_template';
+    const PARAM_COPY_TO_TEMPLATES = 'copy_to_template';
     
 
 	/**#@-*/
@@ -333,6 +337,17 @@ class RepositoryManager extends CoreApplication
             {
                 $selected_ids = array ($selected_ids);
             }
+            
+       		$template_ids = $_POST[TemplateBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+            if (empty ($template_ids))
+            {
+                $template_ids = array ();
+            }
+            elseif (!is_array($template_ids))
+            {
+                $template_ids = array ($template_ids);
+            }
+            
             switch ($_POST['action'])
             {
                 case self :: PARAM_RECYCLE_SELECTED :
@@ -369,6 +384,20 @@ class RepositoryManager extends CoreApplication
                     $this->set_action(self :: ACTION_DELETE_USER_VIEW);
                     Request :: set_get(self :: PARAM_USER_VIEW,$selected_ids);
                     break;
+                case self :: PARAM_COPY_TO_TEMPLATES:
+                	$this->set_action(self :: ACTION_COPY_LEARNING_OBJECT);
+                	Request :: set_get(self :: PARAM_LEARNING_OBJECT_ID, $selected_ids);
+                	Request :: set_get(self :: PARAM_TARGET_USER, 0);
+                	break;
+                case self :: PARAM_COPY_FROM_TEMPLATES:
+                	$this->set_action(self :: ACTION_COPY_LEARNING_OBJECT);
+                	Request :: set_get(self :: PARAM_LEARNING_OBJECT_ID, $template_ids);
+                	Request :: set_get(self :: PARAM_TARGET_USER, $this->get_user_id());
+                	break;
+                case self :: PARAM_DELETE_TEMPLATES:
+                	$this->set_action(self :: ACTION_DELETE_TEMPLATE);
+                	Request :: set_get(self :: PARAM_LEARNING_OBJECT_ID, $template_ids);
+                	break;
             }
         }
     }

@@ -25,7 +25,8 @@ class TemplateBrowserTable extends RepositoryBrowserTable
 		parent :: ObjectTable($data_provider, TemplateBrowserTable :: DEFAULT_NAME, $model, $renderer);
 		
 		$actions = array();
-		//$actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_RECYCLE_SELECTED, Translation :: get('RemoveSelected'));
+		$actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_DELETE_TEMPLATES, Translation :: get('RemoveSelected'));
+		$actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_COPY_FROM_TEMPLATES, Translation :: get('CopySelectedToRepository'), false);
 		$this->set_form_actions($actions);
 		
 		$this->set_additional_parameters($parameters);
