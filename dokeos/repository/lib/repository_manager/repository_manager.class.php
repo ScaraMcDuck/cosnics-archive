@@ -108,6 +108,7 @@ class RepositoryManager extends CoreApplication
     const ACTION_VIEW_REPO = 'repo_viewer';
     const ACTION_REUSE_LEARNING_OBJECT = 'reuse_learning_object';
 	const ACTION_DOWNLOAD_DOCUMENT = 'document_downloader';
+	const ACTION_BROWSE_TEMPLATES = 'templates';
     
     const ACTION_BROWSE_USER_VIEWS = 'browse_views';
     const ACTION_CREATE_USER_VIEW = 'create_view';
@@ -276,6 +277,9 @@ class RepositoryManager extends CoreApplication
                 break;
             case self :: ACTION_REUSE_LEARNING_OBJECT :
                 $component = RepositoryManagerComponent :: factory('ReuseLearningObject', $this);
+                break;
+            case self :: ACTION_BROWSE_TEMPLATES :
+            	$component = RepositoryManagerComponent :: factory('TemplateBrowser', $this);
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_LEARNING_OBJECTS);
@@ -893,6 +897,12 @@ class RepositoryManager extends CoreApplication
             $create['title'] = Translation :: get('Create');
             $create['url'] = $this->get_learning_object_creation_url();
             $create['class'] = 'create';
+            
+            $templates = array ();
+            $templates['title'] = Translation :: get('BrowseTemplates');
+            $templates['url'] = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_TEMPLATES));
+            $templates['class'] = 'item';
+            
             $import = array ();
             $import['title'] = Translation :: get('Import');
             $import['url'] = $this->get_learning_object_importing_url();
@@ -933,6 +943,7 @@ class RepositoryManager extends CoreApplication
             $extra_items[] = $pub;
             $extra_items[] = $trash;
             $extra_items[] = $create;
+            $extra_items[] = $templates;
             $extra_items[] = $import;
             $extra_items[] = $quota;
             $extra_items[] = $uv;
