@@ -4,7 +4,8 @@ require_once dirname(__FILE__).'/../learning_object_export.class.php';
 require_once Path :: get_plugin_path() . 'icalcreator/iCalcreator.class.php';
 
 /**
- * Exports learning object to the dokeos learning object format (xml)
+ * Exports learning object to the ical format (xml)
+ * @see http://www.kigkonsult.se/iCalcreator/docs/using.html
  */
 class IcalExport extends LearningObjectExport
 {

@@ -73,9 +73,69 @@ class IcalImport extends LearningObjectImport
 				$time = strtotime($end);
 				$calendar_event->set_end_date($time);
 			}
+			
+			if(substr($line, 0, 5) == 'RRULE')
+			{
+				$rule = substr($line, 6);
+				$parameters = explode(";", $rule);
+				foreach($parameters as $i => $parameter)
+				{
+					$parameter_array = explode("=", $parameter);
+					$parameters[$parameter_array[0]] = $parameter_array[1];
+					unset($parameters[$i]);
+				}
+				
+				if(isset($parameters['INTERVAL']))
+				{
+					if($parameters['INTERVAL'] == 2 && $parameters['FREQ'] == 'WEEKLY')
+					{
+						$calendar_event->set_repeat_type(CalendarEvent :: REPEAT_TYPE_BIWEEK);
+					}
+				}
+				else 
+				{
+					if($parameters['FREQ'] == 'DAILY')
+					{
+						if($parameters['BYDAY'] == 'MO,TU,WE,TH,FR')
+						{
+							$calendar_event->set_repeat_type(CalendarEvent :: REPEAT_TYPE_WEEKDAYS);
+						}
+						else 
+						{
+							$calendar_event->set_repeat_type(CalendarEvent :: REPEAT_TYPE_DAY);
+						}
+					}
+					
+					if($parameters['FREQ'] == 'WEEKLY')
+					{
+						$calendar_event->set_repeat_type(CalendarEvent :: REPEAT_TYPE_WEEK);
+					}
+					
+					if($parameters['FREQ'] == 'MONTHLY')
+					{
+						$calendar_event->set_repeat_type(CalendarEvent :: REPEAT_TYPE_MONTH);
+					}
+					
+					if($parameters['FREQ'] == 'YEARLY')
+					{
+						$calendar_event->set_repeat_type(CalendarEvent :: REPEAT_TYPE_YEAR);
+					}
+				}
+				
+				if($calendar_event->repeats())
+				{
+					$calendar_event->set_repeat_from($calendar_event->get_start_date());
+					
+					if(isset($parameters['UNTIL']))
+					{
+						$calendar_event->set_repeat_to(strtotime($parameters['UNTIL']));
+					}
+				}
+				
+			}
 
 		}
-		
+
 		$calendar_event->create();
 		$this->calendar_event_ids[] = $calendar_event->get_id();
 		
