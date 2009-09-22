@@ -92,5 +92,10 @@ abstract class PersonalCalendarManagerComponent extends WebApplicationComponent
 	{
 		return $this->get_parent()->get_user_info($user_id);
 	}
+	
+	function get_ical_export_url($publication)
+	{
+		return $this->get_parent()->get_ical_export_url($publication);
+	}
 }
 ?>

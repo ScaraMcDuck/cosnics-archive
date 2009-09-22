@@ -107,8 +107,10 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManagerComp
         $back = $this->get_url();
         $edit_url = $this->get_publication_editing_url($event);
         $delete_url = $this->get_publication_deleting_url($event);
+        $ical_url = $this->get_ical_export_url($event);
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Back'), Theme :: get_common_image_path().'action_prev.png', $back));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ExportIcal'), Theme :: get_common_image_path().'export_csv.png', $ical_url));
         
     	$user = $this->get_user();
     	
