@@ -19,7 +19,7 @@ class IcalExport extends LearningObjectExport
 	public function export_learning_object()
 	{
 		$learning_object = $this->get_learning_object();
-		$file = Path :: get(SYS_TEMP_PATH). $learning_object->get_owner_id() . '/export_ical_' . $learning_object->get_id() . '.ical';
+		$file = Path :: get(SYS_TEMP_PATH). $learning_object->get_owner_id() . '/export_ical_' . $learning_object->get_id() . '.ics';
         
         // TODO: Get language isocode for iCal export
         //define('ICAL_LANG',api_get_language_isocode());
@@ -32,29 +32,9 @@ class IcalExport extends LearningObjectExport
         
         $vevent = new vevent();
         $vevent->setProperty('summary', mb_convert_encoding($learning_object->get_title(), 'UTF-8'));
-        
-        list($y, $m, $d, $h, $M, $s) = preg_split('/[\s:-]/', $learning_object->get_start_date());
-        $vevent->setProperty('dtstart', array('year' => $y, 'month' => $m, 'day' => $d, 'hour' => $h, 'min' => $M, 'sec' => $s));
-        
-        if ($learning_object->get_end_date())
-        {
-            $y2 = $y;
-            $m2 = $m;
-            $d2 = $d;
-            $h2 = $h;
-            $M2 = $M + 15;
-            $s2 = $s;
-            if ($M2 > 60)
-            {
-                $M2 = $M2 - 60;
-                $h2 += 1;
-            }
-        }
-        else
-        {
-            list($y2, $m2, $d2, $h2, $M2, $s2) = preg_split('/[\s:-]/', $learning_object->get_end_date());
-        }
-        $vevent->setProperty('dtend', array('year' => $y2, 'month' => $m2, 'day' => $d2, 'hour' => $h2, 'min' => $M2, 'sec' => $s2));
+
+        $vevent->setProperty('dtstart', $this->get_date_as_array($learning_object->get_start_date()));
+        $vevent->setProperty('dtend', $this->get_date_as_array($learning_object->get_end_date()));
         
         //$vevent->setProperty('LOCATION', $learning_object->get_location());
         $vevent->setProperty('description', mb_convert_encoding($learning_object->get_description(), 'UTF-8'));
@@ -73,6 +53,18 @@ class IcalExport extends LearningObjectExport
         fclose($handle);
       
       	return $file;
+	}
+	
+	function get_date_as_array($date)
+	{
+		$y = date('Y', $date);
+        $m = date('m', $date);
+        $d = date('d', $date);
+        $h = date('H', $date);
+        $M = date('i', $date);
+        $s = date('s', $date);
+        
+        return array('year' => $y, 'month' => $m, 'day' => $d, 'hour' => $h, 'min' => $M, 'sec' => $s);
 	}
 
 }
