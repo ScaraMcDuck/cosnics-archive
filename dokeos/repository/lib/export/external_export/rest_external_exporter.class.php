@@ -109,7 +109,7 @@ abstract class RestExternalExporter extends BaseExternalExporter
     	     */
     	    $document = new DOMDocument();
         
-    	    if(strlen($response_content) > 0)
+    	    if(strlen($response_content) > 0 && StringTool :: start_with($response_content, '<?xml'))
     	    {
         	    set_error_handler(array($this, 'handle_xml_error'));
         	    $document->loadXML($response_content);
@@ -149,10 +149,19 @@ abstract class RestExternalExporter extends BaseExternalExporter
 	
 	protected function get_file_mimetype($path_to_file)
 	{
-	    $path_info = pathinfo($path_to_file);
-	    
-	    //TODO: get the mime type from to the file content
-	    return $this->get_mimetype_from_extension($path_info['extension']);
+	    if(function_exists('finfo_open'))
+	    {
+	        /*
+	         * PHP >= 5.3 or PECL fileinfo installed
+	         */
+	        $handle = finfo_open(FILEINFO_MIME);
+	        return finfo_file($handle, $file);
+	    }
+	    else
+	    {
+	        $path_info = pathinfo($path_to_file);
+	        return $this->get_mimetype_from_extension($path_info['extension']);
+	    }
 	}
 	
 	protected function get_mimetype_from_extension($extension)
@@ -190,7 +199,9 @@ abstract class RestExternalExporter extends BaseExternalExporter
                 return 'image/tiff';
             case 'bmp':
                 return 'image/bmp';
-                
+            
+            default:
+                return null;
         }
 	}
     

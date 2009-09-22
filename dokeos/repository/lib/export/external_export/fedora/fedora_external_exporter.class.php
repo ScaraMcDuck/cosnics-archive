@@ -38,8 +38,8 @@ require_once Path :: get_plugin_path() . '/webservices/rest/client/rest_client.c
  * 
  * In order to be called automatically, you own class name should start with the camelized version of the 'catalog_name' field value of the repository_external_export table in the datasource.
  *  
- * For example, if the 'catalog_name' value is 'my_export' and the export 'type' field is 'fedora', the export logic will try to find a class called 'MyExportExternalExporter'
- * in /dokeos/repository/lib/export/external_export/fedora/custom/my_export_external_exporter.class.php. 
+ * For example, if the 'catalog_name' value is 'fedora_test' and the export 'type' field is 'fedora', the export logic will try to find a class called 'FedoraTestExternalExporter'
+ * in /dokeos/repository/lib/export/external_export/fedora/custom/fedora_test_external_exporter.class.php. 
  * If such a class exists, it is used as exporter for the export.
  * If such a class doesn't exist, the basic 'FedoraExternalExporter' class is used for the export 
  * 
@@ -50,8 +50,8 @@ require_once Path :: get_plugin_path() . '/webservices/rest/client/rest_client.c
  * 
  * Similarly to the Exporter class, the form class name should start with the camelized version of the 'catalog_name' field value of the repository_external_export table in the datasource.
  * 
- * For example, if the 'catalog_name' value is 'my_export' and the export 'type' field is 'fedora', the export logic will try to find a class called 'MyExportExternalExportForm'
- * in /dokeos/repository/lib/export/external_export/fedora/custom/my_export_external_export_form.class.php.
+ * For example, if the 'catalog_name' value is 'fedora_test' and the export 'type' field is 'fedora', the export logic will try to find a class called 'FedoraTestExternalExportForm'
+ * in /dokeos/repository/lib/export/external_export/fedora/custom/fedora_test_external_export_form.class.php.
  * If such a class exists, it is used as form for the export.
  * If such a class doesn't exist, the basic 'ExternalExportExportForm' class is used for the export 
  * 
@@ -69,23 +69,25 @@ require_once Path :: get_plugin_path() . '/webservices/rest/client/rest_client.c
  * 
  * Certificate based client authentification
  * -----------------------------------------
- * 
  * It is possible to specify a client certificate to send with the REST requests. The client certificate and the certificate key can be specified as path(es) to the file(s).
  * These pathes are relative to the '/dokeos/repository/lib/export/external_export/ssl' folder.
  * 
  * Note: 
- * 			the content of these files (at least the one containing the private key) is sensitive and must be protected (e.g. through .htaccess file) to be kept private 
+ * 			The content of these files (at least the one containing the private key) is sensitive and must be protected (e.g. through .htaccess file) to be kept private
+   			The settings regarding certificates will work only if the 'libcurl' extension is installed
  * 
  * Target authentification
  * -----------------------
- * 
  * If your Fedora server uses an SSL certificate signed by your own certificate CA, you can use this CA public certificate with your REST requests to authenticate the target server.
+ * 
+ * Note:	
+ * 			The settings regarding certificates will work only if the 'libcurl' extension is installed
  * 
  * 
  * EXAMPLE
  * =======
  * 
- * These two SQL queries will store a example of export to a Fedora repository 
+ * These two SQL queries will store an example of export to a Fedora repository working with the test custom classes provided 
  * 
  * INSERT INTO `repository_external_export` (`id`, `title`, `description`, `type`, `catalog_name`, `metadata_xsl_filename`, `typed_external_export_id`, `enabled`, `created`) 
  * VALUES
@@ -289,9 +291,8 @@ class FedoraExternalExporter extends RestExternalExporter
 	        $keys = array_keys($data_to_send['file']);
 	        if(count($keys) > 0)
 	        {
-	            $path_to_file = $data_to_send['file'][$keys[0]];
-	            $mime_type = $this->get_file_mimetype($path_to_file);
-
+	            $mime_type = isset($data_to_send['mime_type']) ? $data_to_send['mime_type'] : null;
+	            
 	            if(isset($mime_type) && strlen($mime_type) > 0)
 	            {
 	                $add_ds_path = str_replace('{mimeType}', $mime_type, $add_ds_path);
@@ -379,6 +380,25 @@ class FedoraExternalExporter extends RestExternalExporter
 	    $data_to_send         = array();
 	    $data_to_send['file'] = array(basename($learning_object->get_full_path()) => '@' . $learning_object->get_full_path());
 
+	    $mime_type = $this->get_file_mimetype($data_to_send['file']);
+	    
+	    if(!isset($mime_type))
+	    {
+	        /*
+	         * Get the file extension from the filename stored in datasource
+	         * and get the corresponding mime type
+	         */
+	        $filename = $learning_object->get_filename();
+	        $path_info = pathinfo($filename);
+	        
+	        $mime_type = $this->get_mimetype_from_extension($path_info['extension']);
+	    }
+	    
+	    if(isset($mime_type))
+	    {
+	        $data_to_send['mime_type'] = $mime_type;
+	    }
+	    
 	    return $data_to_send;
 	}
 	
