@@ -8,11 +8,8 @@ require_once Path :: get_plugin_path() . 'icalcreator/iCalcreator.class.php';
  */
 class IcalExport extends LearningObjectExport
 {
-	private $rdm;
-	
 	function IcalExport($learning_object)
 	{
-		$this->rdm = RepositoryDataManager :: get_instance();
 		parent :: __construct($learning_object);	
 	}
 	

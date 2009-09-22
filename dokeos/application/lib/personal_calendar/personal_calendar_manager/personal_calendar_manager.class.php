@@ -28,6 +28,7 @@ class PersonalCalendarManager extends WebApplication
 	const ACTION_EDIT_PUBLICATION = 'edit';
 	const ACTION_VIEW_ATTACHMENT = 'view_attachment';
 	const ACTION_EXPORT_ICAL = 'export_ical';
+	const ACTION_IMPORT_ICAL = 'import_ical';
 	
 	const ACTION_RENDER_BLOCK = 'block';
 
@@ -68,6 +69,9 @@ class PersonalCalendarManager extends WebApplication
 				break;
 			case self :: ACTION_EXPORT_ICAL :
 				$component = PersonalCalendarManagerComponent :: factory('IcalExporter', $this);
+				break;
+			case self :: ACTION_IMPORT_ICAL :
+				$component = PersonalCalendarManagerComponent :: factory('IcalImporter', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_CALENDAR);
@@ -357,6 +361,14 @@ class PersonalCalendarManager extends WebApplication
 		$parameters = array();
 		$parameters[self :: PARAM_CALENDAR_EVENT_ID] = $publication->get_id();
 		$parameters[self :: PARAM_ACTION] = self :: ACTION_EXPORT_ICAL;
+
+		return $this->get_url($parameters);
+	}
+	
+	function get_ical_import_url()
+	{
+		$parameters = array();
+		$parameters[self :: PARAM_ACTION] = self :: ACTION_IMPORT_ICAL;
 
 		return $this->get_url($parameters);
 	}
