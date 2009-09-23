@@ -77,12 +77,12 @@ class IcalImport extends LearningObjectImport
 			if(substr($line, 0, 5) == 'RRULE')
 			{
 				$rule = substr($line, 6);
-				$parameters = explode(";", $rule);
-				foreach($parameters as $i => $parameter)
+				$parameters_list = explode(";", $rule);
+				$parameters = array();
+				foreach($parameters_list as $parameter)
 				{
 					$parameter_array = explode("=", $parameter);
 					$parameters[$parameter_array[0]] = $parameter_array[1];
-					unset($parameters[$i]);
 				}
 				
 				if(isset($parameters['INTERVAL']))
