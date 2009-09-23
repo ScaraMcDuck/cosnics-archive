@@ -14,7 +14,7 @@ class LearningObjectPublicationCategory extends PlatformCategory
 {
 	const CLASS_NAME = __CLASS__;
 	
-	const PROPERTY_COURSE = 'course';
+	const PROPERTY_COURSE = 'course_id';
 	const PROPERTY_TOOL = 'tool';
 	const PROPERTY_ALLOW_CHANGE = 'allow_change'; 
 	

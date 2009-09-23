@@ -2,11 +2,11 @@
 <object name="learning_object_publication">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="learning_object" type="integer"  unsigned="1" notnull="1"/>
-  <property name="course" type="integer" notnull="1"/>
-  <property name="tool" type="text" length="255" notnull="1"/>
+  <property name="learning_object_id" type="integer"  unsigned="1" notnull="1"/>
+  <property name="course_id" type="integer" notnull="1"/>
+  <property name="tool" type="text" length="255" fixed="true" notnull="1"/>
   <property name="parent_id" type="integer" unsigned="1" notnull="1"/>
-  <property name="category" type="integer" unsigned="1" notnull="1"/>
+  <property name="category_id" type="integer" unsigned="1" notnull="1"/>
   <!--
   from_date & end_date are defined as integers here. Shouldn't they be
   defined as timestamp like in the learning_object.xml file? Maybe this has to
@@ -15,13 +15,13 @@
   -->
   <property name="from_date" type="integer" unsigned="1" notnull="1"/>
   <property name="to_date" type="integer" unsigned="1" notnull="1"/>
-  <property name="hidden" type="integer" length="1" unsigned="1" notnull="1"/>
-  <property name="publisher" type="integer" unsigned="1" notnull="1"/>
+  <property name="hidden" type="boolean" notnull="1"/>
+  <property name="publisher_id" type="integer" unsigned="1" notnull="1"/>
   <property name="published" type="integer" unsigned="1" notnull="1"/>
   <property name="modified" type="integer" unsigned="1" notnull="1"/>
   <property name="display_order" type="integer" unsigned="1" notnull="1"/>
-  <property name="email_sent" type="integer" length="1" unsigned="1" notnull="1"/>
-  <property name="show_on_homepage" type="integer" length="1" unsigned="1" notnull="1"/>
+  <property name="email_sent" type="boolean" notnull="1"/>
+  <property name="show_on_homepage" type="boolean" notnull="1"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
@@ -36,16 +36,16 @@
  <index name="hidden">
   <indexproperty name="hidden"/>
  </index>
- <index name="course">
-  <indexproperty name="course"/>
+ <index name="course_id">
+  <indexproperty name="course_id"/>
  </index>
- <index name="category">
-  <indexproperty name="category"/>
+ <index name="category_id">
+  <indexproperty name="category_id"/>
  </index>
  <index name="tool">
   <indexproperty name="tool"/>
  </index>
- <index name="publisher">
-  <indexproperty name="publisher"/>
+ <index name="publisher_id">
+  <indexproperty name="publisher_id"/>
  </index>
 </object>

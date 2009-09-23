@@ -17,7 +17,7 @@ class CourseModule extends DataClass
 	/**
 	 * CourseModule properties
 	 */
-	const PROPERTY_COURSE_CODE = 'course_code';
+	const PROPERTY_COURSE_CODE = 'course_id';
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_VISIBLE = 'visible';
 	const PROPERTY_SECTION = 'section';

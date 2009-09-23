@@ -41,7 +41,7 @@ class Course extends DataClass
 	const PROPERTY_LANGUAGE = 'course_language';
 	const PROPERTY_EXTLINK_URL = 'department_url';
 	const PROPERTY_EXTLINK_NAME = 'department_name';
-	const PROPERTY_CATEGORY = 'category';
+	const PROPERTY_CATEGORY = 'category_id';
 	const PROPERTY_VISIBILITY = 'visibility';
 	const PROPERTY_SUBSCRIBE_ALLOWED = 'subscribe';
 	const PROPERTY_UNSUBSCRIBE_ALLOWED = 'unsubscribe';

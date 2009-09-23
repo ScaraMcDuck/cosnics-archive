@@ -31,7 +31,7 @@ class CourseUserRelation extends DataClass
 {
     const CLASS_NAME = __CLASS__;
 
-	const PROPERTY_COURSE = 'course_code';
+	const PROPERTY_COURSE = 'course_id';
 	const PROPERTY_USER = 'user_id';
 	const PROPERTY_STATUS = 'status';
 	const PROPERTY_ROLE = 'role';
