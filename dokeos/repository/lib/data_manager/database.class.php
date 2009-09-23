@@ -1508,7 +1508,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$order_property = array($order_property);
 		}
 		
-		$order_property[] = new ObjectTableOrder('parent');
+		$order_property[] = new ObjectTableOrder('parent_id');
 		$order_property[] = new ObjectTableOrder('display_order');
 		return $this->database->retrieve_objects('repository_category', $condition, $offset, $count, $order_property, $order_direction);
 	}

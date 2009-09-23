@@ -95,7 +95,7 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 	const PROPERTY_OWNER_ID = 'owner_id';
 	const PROPERTY_TITLE = 'title';
 	const PROPERTY_DESCRIPTION = 'description';
-	const PROPERTY_PARENT_ID = 'parent';
+	const PROPERTY_PARENT_ID = 'parent_id';
 	const PROPERTY_DISPLAY_ORDER_INDEX = 'display_order';
 	const PROPERTY_CREATION_DATE = 'created';
 	const PROPERTY_MODIFICATION_DATE = 'modified';
