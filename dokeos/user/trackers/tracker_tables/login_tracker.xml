@@ -4,8 +4,8 @@
   <property name="id" type="integer" unsigned="1" notnull="1" />
   <property name="user_id" type="integer" unsigned="1" notnull="1" />
   <property name="date" type="timestamp" notnull="1" />
-  <property name="ip" type="text" length="50" notnull="1" />
-  <property name="type" type="text" length="50" notnull="1" default="login" />
+  <property name="ip" type="text" length="50" fixed="true" notnull="1" />
+  <property name="type" type="text" length="50" fixed="true" notnull="1" default="login" />
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
