@@ -30,7 +30,7 @@ class Survey extends LearningObject
 		);
 	}
 	
-	const TYPE_SURVEY = 'survey';
+	const TYPE_SURVEY = 4;
 	
 	function get_assessment_type()
 	{

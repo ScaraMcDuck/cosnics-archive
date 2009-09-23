@@ -6,9 +6,9 @@ class LearningObjectPubFeedback extends LearningObject
 {
 	const CLASS_NAME = __CLASS__;
     const PROPERTY_ID = 'id';
-	const PROPERTY_PUBLICATION_ID = 'pid';
-	const PROPERTY_CLOI_ID = 'cid';
-	const PROPERTY_FEEDBACK_ID = 'fid';
+	const PROPERTY_PUBLICATION_ID = 'publication_id';
+	const PROPERTY_CLOI_ID = 'complex_learning_object_id';
+	const PROPERTY_FEEDBACK_ID = 'feedback_id';
 
 	/**
 	 * Default properties of the learning_object_feedback object, stored in an associative

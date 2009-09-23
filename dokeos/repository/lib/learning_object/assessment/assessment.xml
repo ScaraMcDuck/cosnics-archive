@@ -2,7 +2,7 @@
 <object name="assessment">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="assessment_type" type="text" notnull="1"/>
+  <property name="assessment_type" type="integer" unsigned="1" notnull="1"/>
   <property name="max_attempts" type="integer" unsigned="1" notnull="1" default="0"/>
   <property name="questions_per_page" type="integer" unsigned="1" notnull="1" default="0" />
   <property name="max_time" type="integer" unsigned="1" notnull="1" default="0" />

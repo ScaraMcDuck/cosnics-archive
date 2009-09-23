@@ -2,7 +2,7 @@
 <object name="complex_forum_topic">
 <properties>
   <property name="id" type="integer"  unsigned="1" notnull="1"/>
-  <property name="type" type="integer"/>
+  <property name="type" type="integer" length="1"/>
 </properties>
 <index name="id" type="primary">
   <indexproperty name="id"/>

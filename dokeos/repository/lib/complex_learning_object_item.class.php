@@ -14,8 +14,8 @@ class ComplexLearningObjectItem extends DataClass
 {
 	
 	const CLASS_NAME = __CLASS__;
-	const PROPERTY_REF = 'ref';
-	const PROPERTY_PARENT = 'parent';
+	const PROPERTY_REF = 'ref_id';
+	const PROPERTY_PARENT = 'parent_id';
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_DISPLAY_ORDER = 'display_order';
 	const PROPERTY_ADD_DATE = 'add_date';

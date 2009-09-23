@@ -23,7 +23,7 @@ class AssessmentAttemptsTemplate extends ReportingTemplate
         
         $this->action_bar->add_common_action(new ToolbarItem(Translation :: get('DeleteAllResults'), Theme :: get_common_image_path().'action_delete.png', $params['url'] . '&delete=aid_' . $pid, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
-        if($this->assessment->get_assessment_type() == 'Assignment')
+        if($this->assessment->get_assessment_type() == Assessment :: TYPE_ASSIGNMENT)
         	$this->action_bar->add_common_action(new ToolbarItem(Translation :: get('DownloadDocuments'), Theme :: get_common_image_path().'action_export.png', $parent->get_download_documents_url($this->pub), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 	}
 

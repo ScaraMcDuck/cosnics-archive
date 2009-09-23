@@ -3,7 +3,7 @@
  <properties>
   <property name="id" type="integer" notnull="1" default="0"/>
   <property name="user_id" type="integer" notnull="1" default="0"/>
-  <property name="name" type="text" length="100" notnull="1" default=""/>
+  <property name="name" type="text" length="100" fixed="true" notnull="1" default=""/>
   <property name="description" type="text"/>
  </properties>
  <index name="id" type="primary">

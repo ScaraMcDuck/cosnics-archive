@@ -2,7 +2,7 @@
 <object name="system_announcement">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="icon" type="text" notnull="1"/>
+  <property name="icon" type="integer" unsigned="1" notnull="1"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>

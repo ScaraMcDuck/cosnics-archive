@@ -11,7 +11,7 @@ class ForumTopic extends LearningObject
 {
 	const PROPERTY_LOCKED = 'locked';
 	const PROPERTY_TOTAL_POSTS = 'total_posts';
-	const PROPERTY_LAST_POST = 'last_post';
+	const PROPERTY_LAST_POST = 'last_post_id';
 
 	function create()
 	{

@@ -5,7 +5,7 @@ class LearningObjectMetadata extends RepositoryDataClass
 {
 	const CLASS_NAME = __CLASS__;
 	
-	const PROPERTY_LEARNING_OBJECT = 'learning_object';
+	const PROPERTY_LEARNING_OBJECT = 'learning_object_id';
 	const PROPERTY_OVERRIDE_ID     = 'override_id';
 	const PROPERTY_TYPE            = 'type';
 	const PROPERTY_PROPERTY        = 'property';

@@ -12,6 +12,13 @@ class SystemAnnouncement extends LearningObject
 {
 	const PROPERTY_ICON = 'icon';
 
+	const ICON_CONFIRMATION = 1;
+	const ICON_ERROR = 2;
+	const ICON_WARNING = 3;
+	const ICON_STOP = 4;
+	const ICON_QUESTION = 5;
+	const ICON_CONFIG = 6;
+	
 	function get_icon () {
 		return $this->get_additional_property(self :: PROPERTY_ICON);
 	}
@@ -24,18 +31,40 @@ class SystemAnnouncement extends LearningObject
 	}
 	function get_icon_name()
 	{
-		return 'system_announcement_' . $this->get_icon();
+		switch($this->get_icon)
+		{
+			case self :: ICON_CONFIRMATION :
+				$icon = 'confirmation';
+				break;
+			case self :: ICON_ERROR :
+				$icon = 'error';
+				break;
+			case self :: ICON_WARNING :
+				$icon = 'warning';
+				break;
+			case self :: ICON_STOP :
+				$icon = 'stop';
+				break;
+			case self :: ICON_QUESTION :
+				$icon = 'question';
+				break;
+			case self :: ICON_CONFIG :
+				$icon = 'config';
+				break;
+		}
+		
+		return 'system_announcement_' . $icon;
 	}
 	static function get_possible_icons()
 	{
 		$icons = array();
 		
-		$icons['confirmation'] = Translation :: get('Confirmation');
-		$icons['error'] = Translation :: get('Error');
-		$icons['warning'] = Translation :: get('Warning');
-		$icons['stop'] = Translation :: get('Stop');
-		$icons['question'] = Translation :: get('Question');
-		$icons['config'] = Translation :: get('Config');
+		$icons[self :: ICON_CONFIRMATION] = Translation :: get('Confirmation');
+		$icons[self :: ICON_CONFIRMATION] = Translation :: get('Error');
+		$icons[self :: ICON_CONFIRMATION] = Translation :: get('Warning');
+		$icons[self :: ICON_CONFIRMATION] = Translation :: get('Stop');
+		$icons[self :: ICON_CONFIRMATION] = Translation :: get('Question');
+		$icons[self :: ICON_CONFIRMATION] = Translation :: get('Config');
 		
 		return $icons;
 	}

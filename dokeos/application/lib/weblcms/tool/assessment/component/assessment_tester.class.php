@@ -76,7 +76,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 
 		// Executing assessment
 		
-		if($this->assessment->get_assessment_type() == 'hotpotatoes')
+		if($this->assessment->get_assessment_type() == Hotpotatoes :: TYPE_HOTPOTATOES)
 		{
 			$this->display_header(new BreadcrumbTrail());
 

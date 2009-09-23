@@ -18,7 +18,7 @@ class Hotpotatoes extends LearningObject
 		return array(self :: PROPERTY_PATH, self :: PROPERTY_MAXIMUM_ATTEMPTS);
 	}
 	
-	const TYPE_HOTPOTATOES = 'hotpotatoes';
+	const TYPE_HOTPOTATOES = 3;
 	
 	function get_assessment_type()
 	{

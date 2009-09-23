@@ -2,7 +2,7 @@
 <object name="rdevent">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="event_id" type="integer" unsigned="1" length="20" />
+  <property name="event_id" type="integer" unsigned="1" />
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
