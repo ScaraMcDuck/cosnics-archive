@@ -4,8 +4,8 @@
   <property name="id" type="integer" unsigned="1" notnull="1"/>
   <property name="user_id" type="integer" notnull="1" default="0" />
   <property name="survey_id" type="integer" notnull="1" />
-  <property name="invitation_code" type="text" notnull="1" />
-  <property name="email" type="text" notnull="0" />
+  <property name="invitation_code" type="text" length="255" fixed="true" notnull="1" />
+  <property name="email" type="text" notnull="0" length="255" fixed="true" />
   <property name="valid" type="integer" notnull="1" />
  </properties>
  <index name="id" type="primary">

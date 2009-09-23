@@ -19,7 +19,7 @@ class CourseGroup
 	const CLASS_NAME = __CLASS__;
 
 	const PROPERTY_ID = 'id';
-	const PROPERTY_COURSE_CODE = 'course_code';
+	const PROPERTY_COURSE_CODE = 'course_id';
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_MAX_NUMBER_OF_MEMBERS = 'max_number_of_members';
 	const PROPERTY_DESCRIPTION = 'description';

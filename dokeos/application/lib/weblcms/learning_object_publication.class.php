@@ -20,15 +20,15 @@ class LearningObjectPublication extends DataClass
     /**#@+
      * Constant defining a property of the publication
      */
-    const PROPERTY_LEARNING_OBJECT_ID = 'learning_object';
-    const PROPERTY_COURSE_ID = 'course';
+    const PROPERTY_LEARNING_OBJECT_ID = 'learning_object_id';
+    const PROPERTY_COURSE_ID = 'course_id';
     const PROPERTY_TOOL = 'tool';
     const PROPERTY_PARENT_ID = 'parent_id';
-    const PROPERTY_CATEGORY_ID = 'category';
+    const PROPERTY_CATEGORY_ID = 'category_id';
     const PROPERTY_FROM_DATE = 'from_date';
     const PROPERTY_TO_DATE = 'to_date';
     const PROPERTY_HIDDEN = 'hidden';
-    const PROPERTY_PUBLISHER_ID = 'publisher';
+    const PROPERTY_PUBLISHER_ID = 'publisher_id';
     const PROPERTY_PUBLICATION_DATE = 'published';
     const PROPERTY_MODIFIED_DATE = 'modified';
     const PROPERTY_DISPLAY_ORDER_INDEX = 'display_order';

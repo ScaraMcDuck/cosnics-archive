@@ -17,7 +17,7 @@ class LearningObjectPublicationCourseGroup extends DataClass
 	/**
 	 * LearningObjectPublicationCourseGroup properties
 	 */
-	const PROPERTY_PUBLICATION = 'publication';
+	const PROPERTY_PUBLICATION = 'publication_id';
 	const PROPERTY_COURSE_GROUP_ID = 'course_group_id';
 
 	/**

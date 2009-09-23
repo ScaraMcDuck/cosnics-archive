@@ -16,7 +16,7 @@ class CourseSection extends DataClass
 	const TYPE_LINK = '2';
 	const TYPE_ADMIN = '3';
 	
-	const PROPERTY_COURSE_CODE = 'course_code';
+	const PROPERTY_COURSE_CODE = 'course_id';
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_TYPE = 'type';
 	const PROPERTY_VISIBLE = 'visible';

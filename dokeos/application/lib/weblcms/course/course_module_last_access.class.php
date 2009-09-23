@@ -17,7 +17,7 @@ class CourseModuleLastAccess extends DataClass
 	/**
 	 * CourseModuleLastAccess properties
 	 */
-	const PROPERTY_COURSE_CODE = 'course_code';
+	const PROPERTY_COURSE_CODE = 'course_id';
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_MODULE_NAME = 'module_name';
 	const PROPERTY_CATEGORY_ID = 'category_id';
