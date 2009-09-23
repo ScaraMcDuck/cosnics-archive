@@ -7,7 +7,7 @@
   <property name="start_time" type="integer" unsigned="1" notnull="1" />
   <property name="total_time" type="integer" unsigned="1" notnull="1" />
   <property name="score" type="integer" unsigned="1" notnull="1" default="0"/>
-  <property name="status" type="text" length="50" notnull="1" default="incomplete"/>
+  <property name="status" type="text" length="50" fixed="true" notnull="1" default="incomplete"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
