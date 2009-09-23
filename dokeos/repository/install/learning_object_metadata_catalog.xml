@@ -2,9 +2,9 @@
 <object name="learning_object_metadata_catalog">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="type" notnull="1" type="text" length="50" />
-  <property name="value" notnull="1" type="text" length="50" />
-  <property name="name" notnull="1" type="text" length="50" />
+  <property name="type" notnull="1" type="text" length="50" fixed="true" />
+  <property name="value" notnull="1" type="text" length="50" fixed="true" />
+  <property name="name" notnull="1" type="text" length="50" fixed="true" />
   <property name="sort" type="integer" unsigned="1" notnull="1" />
   <property name="created" type="timestamp"/>
   <property name="modified" type="timestamp"/>

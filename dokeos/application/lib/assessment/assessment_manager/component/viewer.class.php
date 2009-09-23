@@ -82,7 +82,7 @@ class AssessmentManagerViewerComponent extends AssessmentManagerComponent
 		
 		// Executing assessment
 		
-		if($this->assessment->get_assessment_type() == 'hotpotatoes')
+		if($this->assessment->get_assessment_type() == Hotpotatoes :: TYPE_HOTPOTATOES)
 		{
 			$this->display_header($trail);
 

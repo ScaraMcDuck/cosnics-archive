@@ -66,7 +66,7 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultLearningObjectTabl
 		$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($user_assessment->get_assessment_id());
 		$assessment = $pub->get_learning_object();
 
-		if ($assessment->get_assessment_type() != 'hotpotatoes')
+		if ($assessment->get_assessment_type() != Hotpotatoes :: TYPE_HOTPOTATOES)
 		{
 			$actions[] = array(
 				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),

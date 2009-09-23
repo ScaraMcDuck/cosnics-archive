@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../../learning_object.class.php';
  */
 class PortfolioItem extends LearningObject
 {
-	const PROPERTY_REFERENCE = 'reference';
+	const PROPERTY_REFERENCE = 'reference_id';
 
 	static function get_additional_property_names()
 	{

@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/../../complex_learning_object_item.class.php'
 
 class ComplexForumPost extends ComplexLearningObjectItem
 {
-	const PROPERTY_REPLY_ON_POST = 'reply_on_post';
+	const PROPERTY_REPLY_ON_POST = 'reply_on_post_id';
 	
 	function get_reply_on_post()
 	{

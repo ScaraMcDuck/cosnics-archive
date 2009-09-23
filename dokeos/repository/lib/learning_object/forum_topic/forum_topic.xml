@@ -2,9 +2,9 @@
 <object name="forum_topic">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="locked" type="integer"/>
+  <property name="locked" type="boolean" default="0"/>
   <property name="total_posts" type="integer" unsigned="1" default="0"/>
-  <property name="last_post" type="integer" unsigned="1" default="0"/>
+  <property name="last_post_id" type="integer" unsigned="1" default="0"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>

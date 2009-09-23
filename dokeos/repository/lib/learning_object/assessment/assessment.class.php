@@ -12,8 +12,8 @@ class Assessment extends LearningObject
 {
 	const PROPERTY_ASSESSMENT_TYPE = 'assessment_type';
 
-	const TYPE_EXERCISE = 'exercise';
-	const TYPE_ASSIGNMENT = 'assignment';
+	const TYPE_EXERCISE = 1;
+	const TYPE_ASSIGNMENT = 2;
 
 	const PROPERTY_TIMES_TAKEN = 'times_taken';
 	const PROPERTY_AVERAGE_SCORE = 'average_score';

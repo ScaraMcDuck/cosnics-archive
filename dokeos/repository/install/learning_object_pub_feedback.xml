@@ -2,9 +2,9 @@
 <object name="learning_object_pub_feedback">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="pid" type="integer" unsigned="1" notnull="1"/>
-  <property name="cid" type="integer"/>
-  <property name="fid" type="integer"/>
+  <property name="publication_id" type="integer" unsigned="1" notnull="1"/>
+  <property name="complex_learning_object_id" type="integer" unsigned="1" notnull="1"/>
+  <property name="feedback_id" type="integer" unsigned="1" notnull="1"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>

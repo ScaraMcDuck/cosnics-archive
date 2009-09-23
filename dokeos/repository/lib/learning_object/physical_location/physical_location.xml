@@ -2,7 +2,7 @@
 <object name="physical_location">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="location" type="text" notnull="1"/>
+  <property name="location" type="text" length="255" fixed="true" notnull="1"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>

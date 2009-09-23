@@ -2,10 +2,10 @@
 <object name="learning_object_metadata">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="learning_object" type="integer" unsigned="1" notnull="1"/>
+  <property name="learning_object_id" type="integer" unsigned="1" notnull="1"/>
   <property name="override_id" type="integer" unsigned="1" notnull="1"/>
-  <property name="type" notnull="1" type="text" length="50"/>
-  <property name="property" notnull="1" type="text" length="256"/>
+  <property name="type" notnull="1" type="text" length="50" fixed="true"/>
+  <property name="property" notnull="1" type="text" length="255" fixed="true"/>
   <property name="value" notnull="1" type="text" />
   <property name="created" type="timestamp"/>
   <property name="modified" type="timestamp"/>
@@ -13,8 +13,8 @@
  <index name="id" type="primary">
   <indexproperty name="id"/>
  </index>
- <index name="learning_object" type="unique">
-  <indexproperty name="learning_object"/>
+ <index name="learning_object_id" type="unique">
+  <indexproperty name="learning_object_id"/>
   <indexproperty name="property"/>
  </index>
 </object>
