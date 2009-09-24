@@ -10,9 +10,38 @@ require_once Path :: get_library_path() . 'filecompression/filecompression.class
  */
 class DlofImport extends LearningObjectImport
 {
+	/**
+	 * @var RepositoryDataManager
+	 */
 	private $rdm;
+	
+	/**
+	 * The imported xml file
+	 * @var DomDOCUMENT
+	 */
 	private $doc;
+	
+	/**
+	 * Array of files that are created (hash + path)
+	 * @var Array 
+	 */
 	private $files;
+	
+	/**
+	 * The reference to store the file id's of each learning_object and the new learning_object
+	 * @var Array of INT
+	 */
+	private $learning_object_reference;
+	
+	/**
+	 * The array where the subitems are stored untill all the learning objects are created
+	 * With this array the wrappers will then be created
+	 * 
+	 * Example:
+	 * 
+	 * $lo_subitems['object0'] = array(0 => array(id => 'object1', properties => array()));
+	 */
+	private $lo_subitems;
 	
 	function DlofImport($learning_object_file, $user, $category)
 	{
@@ -22,7 +51,6 @@ class DlofImport extends LearningObjectImport
 	
 	public function import_learning_object()
 	{
-		$file = $this->get_learning_object_file();
 		$user = $this->get_user();
 		
 		$zip = Filecompression :: factory();
@@ -50,28 +78,38 @@ class DlofImport extends LearningObjectImport
 				$this->files[$f] = array('hash' => $hash, 'path' => $usr_path . '/' . $hash);
 			}
 		}
-
+		
 		$doc = $this->doc;
 		$doc = new DOMDocument();
 		
 		$doc->load($path);
-		$learning_object = $doc->getElementsByTagname('learning_object')->item(0);
-	
+		$learning_objects = $doc->getElementsByTagname('learning_object');
+
+		foreach($learning_objects as $lo)
+		{ 
+			$this->create_learning_object($lo);
+		}
+
+		$this->create_complex_wrappers();
+		
 		if($temp)
 		{
 			Filesystem :: remove($temp);
 		}
 		
-		return $this->create_learning_object($learning_object);
+		exit();
+		return true;
 	}
 	
 	public function create_learning_object($learning_object)
 	{
-		//$lotype = $learning_object->getAttribute('type');
+		$id = $learning_object->getAttribute('id');
+		if(isset($this->learning_object_reference[$id]))
+			return;
+		
 		if($learning_object->hasChildNodes())
 		{ 
 			$general = $learning_object->getElementsByTagName('general')->item(0);
-			
 			$type = $general->getElementsByTagName('type')->item(0)->nodeValue;
 			$title = $general->getElementsByTagName('title')->item(0)->nodeValue;
 			$description = $general->getElementsByTagName('description')->item(0)->nodeValue;
@@ -111,7 +149,10 @@ class DlofImport extends LearningObjectImport
 				$lo->set_additional_properties($additionalProperties);
 			}
 			
+			//$lo->set_id('test');
 			$lo->create_all();
+			
+			$this->learning_object_reference[$id] = $lo->get_id();
 			
 			$subitems = $learning_object->getElementsByTagName('sub_items')->item(0);
 			$children = $subitems->childNodes;
@@ -120,33 +161,48 @@ class DlofImport extends LearningObjectImport
 				$subitem = $children->item($i);
 				if($subitem->nodeName == "#text") continue;
 				
-				$learning_object = $subitem->getElementsByTagname('learning_object')->item(0);
-				$childlo = $this->create_learning_object($learning_object);
+				if($subitem->hasAttributes())
+				{ 
+					$properties = array();
+
+					foreach ($subitem->attributes as $attrName => $attrNode) 
+					{
+						if($attrName == 'idref')
+						{
+							$idref = $attrNode->value;
+						}
+						else
+						{ 
+							$properties[$attrName] = $attrNode->value;
+						}
+					}
+				}
+				
+				$this->lo_subitems[$id][] = array('id' => $idref, 'properties' => $properties);
+			}
+		}
+	}
+	
+	function create_complex_wrappers()
+	{
+		foreach($this->lo_subitems as $parent_id => $children)
+		{
+			$real_parent_id = $this->learning_object_reference[$parent_id];
+			foreach($children as $child)
+			{
+				$real_child_id = $this->learning_object_reference[$child['id']];
+				
+				$childlo = $this->rdm->retrieve_learning_object($real_child_id);
 				
 				$cloi = ComplexLearningObjectItem :: factory($childlo->get_type());
 	
 				$cloi->set_ref($childlo->get_id());
 				$cloi->set_user_id($this->get_user()->get_id());
-				$cloi->set_parent($lo->get_id());
-				$cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($lo->get_id()));
-				
-				if($subitem->hasAttributes())
-				{ 
-					$additionalProperties = array();
-
-					foreach ($subitem->attributes as $attrName => $attrNode) 
-					{
-						$additionalProperties[$attrName] = $attrNode->value;
-					}
-
-					$cloi->set_additional_properties($additionalProperties);
-				}
-				
+				$cloi->set_parent($real_parent_id);
+				$cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($real_parent_id));
+				$cloi->set_additional_properties($child['properties']);
 				$cloi->create();
-				
 			}
-			
-			return $lo;
 		}
 	}
 }

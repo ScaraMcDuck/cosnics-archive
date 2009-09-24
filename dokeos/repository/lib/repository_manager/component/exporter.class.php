@@ -17,42 +17,68 @@ class RepositoryManagerExporterComponent extends RepositoryManagerComponent
 	 */
 	function run()
 	{
-		$id = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
+		$ids = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
 		
-		if($id)
+		if($ids)
 		{
-			$lo = $this->retrieve_learning_object($id);
-			$exporter = LearningObjectExport :: factory('dlof', $lo);
-			$path = $exporter->export_learning_object($lo);
+			if(!is_array($ids))
+				$ids = array($ids);
 			
-			header('Expires: Wed, 01 Jan 1990 00:00:00 GMT');
-			header('Cache-Control: public');
-			header('Pragma: no-cache');
-			header('Content-type: application/octet-stream');
-			header('Content-length: '.filesize($path));
-			
-			if (preg_match("/MSIE 5.5/", $_SERVER['HTTP_USER_AGENT']))
+			if(count($ids) > 0)
 			{
-				header('Content-Disposition: filename= '.basename($path));
+				if($ids[0] == 'all')
+				{
+					$condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->get_user_id());
+				}
+				else 
+				{
+					$condition = new InCondition(LearningObject :: PROPERTY_ID, $ids, LearningObject :: get_table_name());
+				}
+				
+				$los = $this->retrieve_learning_objects(null, $condition);
+				while($lo = $los->next_result())
+				{
+					$learning_objects[] = $lo;
+				}
+				
+				$exporter = LearningObjectExport :: factory('dlof', $learning_objects);
+				$path = $exporter->export_learning_object();
+				
+				header('Expires: Wed, 01 Jan 1990 00:00:00 GMT');
+				header('Cache-Control: public');
+				header('Pragma: no-cache');
+				header('Content-type: application/octet-stream');
+				header('Content-length: '.filesize($path));
+				
+				if (preg_match("/MSIE 5.5/", $_SERVER['HTTP_USER_AGENT']))
+				{
+					header('Content-Disposition: filename=learning_objects.dlof');
+				}
+				else
+				{
+					header('Content-Disposition: attachment; filename=learning_objects.dlof');
+				}
+				
+				if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE'))
+				{
+					header('Pragma: ');
+					header('Cache-Control: ');
+					header('Cache-Control: public'); // IE cannot download from sessions without a cache
+				}
+				
+				header('Content-Description: learning_objects.dlof');
+				header('Content-transfer-encoding: binary');
+				$fp = fopen($path, 'r');
+				fpassthru($fp);
+				fclose($fp);
+				Filesystem :: remove($path);
 			}
 			else
 			{
-				header('Content-Disposition: attachment; filename= '.basename($path));
+				$this->display_header();
+				$this->display_error_message(Translation :: get('NoObjectsSelected'));
+				$this->display_footer();
 			}
-			
-			if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE'))
-			{
-				header('Pragma: ');
-				header('Cache-Control: ');
-				header('Cache-Control: public'); // IE cannot download from sessions without a cache
-			}
-			
-			header('Content-Description: '.basename($path));
-			header('Content-transfer-encoding: binary');
-			$fp = fopen($path, 'r');
-			fpassthru($fp);
-			fclose($fp);
-			Filesystem :: remove($path);
 		}
 	}
 }
