@@ -3,7 +3,7 @@
  <properties>
   <property name="reporting_template_registration_id" type="integer" unsigned="1" notnull="1" />
   <property name="reporting_block_id" type="integer" unsigned="1" notnull="1" />
-  <property name="active" type="integer" unsigned="1" notnull="1" default="1"/>
+  <property name="active" type="boolean" default="1"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="reporting_template_registration_id"/>
