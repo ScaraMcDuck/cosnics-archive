@@ -13,7 +13,7 @@ class WebconferenceGroup extends DataClass
     /**
      * WebconferenceGroup properties
      */
-    const PROPERTY_WEBCONFERENCE = 'webconference';
+    const PROPERTY_WEBCONFERENCE = 'webconference_id';
     const PROPERTY_GROUP_ID = 'group_id';
 
     /**

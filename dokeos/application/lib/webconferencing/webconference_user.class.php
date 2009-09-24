@@ -13,8 +13,8 @@ class WebconferenceUser extends DataClass
     /**
      * WebconferenceUser properties
      */
-    const PROPERTY_WEBCONFERENCE = 'webconference';
-    const PROPERTY_USER = 'user';
+    const PROPERTY_WEBCONFERENCE = 'webconference_id';
+    const PROPERTY_USER = 'user_id';
 
     /**
      * Get the default properties
