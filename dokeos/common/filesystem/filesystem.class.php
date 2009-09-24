@@ -132,7 +132,10 @@ class Filesystem
             while (file_exists($desired_path . '/' . $new_filename))
             {
                 $file_parts = explode('.', $filename);
-                $new_filename = array_shift($file_parts) . ($index ++) . '.' . implode('.', $file_parts);
+                if(count($file_parts) > 1)
+                	$new_filename = array_shift($file_parts) . ($index ++) . '.' . implode('.', $file_parts);
+                else
+                	$new_filename = array_shift($file_parts) . ($index ++);
             }
             return $new_filename;
         }

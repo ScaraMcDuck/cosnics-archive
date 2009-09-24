@@ -5,7 +5,7 @@
   <property name="path" type="text" length="50" fixed="true" notnull="1"/>
   <property name="filename" type="text" length="50" fixed="true" notnull="1"/>
   <property name="filesize" type="integer" unsigned="1" notnull="1"/>
-  <property name="hash" type="text" length="32" fixed="true" notnull="1"/>
+  <property name="hash" type="text" length="50" fixed="true" notnull="1"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
