@@ -12,7 +12,7 @@ require_once Path :: get_common_path() . 'data_class.class.php';
 
 class Item extends DataClass
 {
-	const PROPERTY_CATEGORY = 'category';
+	const PROPERTY_CATEGORY = 'category_id';
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_DESCRIPTION = 'description';
 	const PROPERTY_RESPONSIBLE = 'responsible';
@@ -20,7 +20,7 @@ class Item extends DataClass
 	const PROPERTY_BLACKOUT = 'blackout';
 	const PROPERTY_STATUS = 'status';
 	const PROPERTY_SALTO_ID = 'salto_id';
-	const PROPERTY_CREATOR = 'creator';
+	const PROPERTY_CREATOR = 'creator_id';
 	
 	const STATUS_NORMAL = 0;
 	const STATUS_DELETED = 1;

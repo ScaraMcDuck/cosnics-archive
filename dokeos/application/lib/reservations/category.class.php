@@ -14,7 +14,7 @@ require_once Path :: get_common_path() . 'data_class.class.php';
 class Category extends DataClass
 {
 	const PROPERTY_NAME = 'name';
-	const PROPERTY_PARENT = 'parent';
+	const PROPERTY_PARENT = 'parent_id';
 	const PROPERTY_DISPLAY_ORDER = 'display_order';
 	const PROPERTY_POOL = 'pool';
 	const PROPERTY_STATUS = 'status';

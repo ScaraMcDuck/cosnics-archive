@@ -6,7 +6,7 @@
   <property name="reservation_id" type="integer" unsigned="1" notnull="1"/>
   <property name="start_time" type="timestamp" />
   <property name="stop_time" type="timestamp" />
-  <property name="accepted" type="integer" unsigned="1" notnull="1"/>
+  <property name="accepted" type="boolean" default="0"/>
   <property name="status" type="integer" unsigned="1" default="0" />
   <property name="weight" type="decimal" default="0" />
   <property name="quota_box" type="integer" unsigned="1" default="0" />
