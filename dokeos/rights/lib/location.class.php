@@ -13,10 +13,10 @@ class Location extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 
-	const PROPERTY_LOCATION = 'location';
+	const PROPERTY_LOCATION = 'location_id';
 	const PROPERTY_LEFT_VALUE = 'left_value';
 	const PROPERTY_RIGHT_VALUE = 'right_value';
-	const PROPERTY_PARENT = 'parent';
+	const PROPERTY_PARENT = 'parent_id';
 	const PROPERTY_APPLICATION  = 'application';
 	const PROPERTY_TYPE  = 'type';
 	const PROPERTY_IDENTIFIER  = 'identifier';
