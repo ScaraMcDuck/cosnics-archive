@@ -353,6 +353,10 @@ class LearningObjectPublication extends DataClass
     {
         $dm = WeblcmsDataManager :: get_instance();
         $id = $dm->get_next_learning_object_publication_id();
+        
+        if(is_null($this->get_category_id()))
+        	$this->set_category_id(0);
+        
         $this->set_id($id);
         return $dm->create_learning_object_publication($this);
     }
