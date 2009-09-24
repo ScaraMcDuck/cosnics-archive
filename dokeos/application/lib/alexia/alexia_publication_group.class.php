@@ -18,7 +18,7 @@ class AlexiaPublicationGroup extends DataClass
 	/**
 	 * AlexiaPublicationGroup properties
 	 */
-	const PROPERTY_PUBLICATION = 'publication';
+	const PROPERTY_PUBLICATION = 'publication_id';
 	const PROPERTY_GROUP_ID = 'group_id';
 
 	/**
