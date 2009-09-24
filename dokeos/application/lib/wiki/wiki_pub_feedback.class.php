@@ -7,8 +7,8 @@ class WikiPubFeedback extends LearningObject
 	const CLASS_NAME = __CLASS__;
     const PROPERTY_ID = 'id';
 	const PROPERTY_WIKI_PUBLICATION_ID = 'wiki_publication_id';
-	const PROPERTY_CLOI_ID = 'cid';
-	const PROPERTY_FEEDBACK_ID = 'fid';
+	const PROPERTY_CLOI_ID = 'complex_id';
+	const PROPERTY_FEEDBACK_ID = 'feedback_id';
 
 	/**
 	 * Default properties of the learning_object_feedback object, stored in an associative

@@ -3,8 +3,8 @@
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
   <property name="wiki_publication_id" type="integer" unsigned="1" notnull="1"/>
-  <property name="cid" type="integer"/>
-  <property name="fid" type="integer"/>
+  <property name="complex_id" type="integer"/>
+  <property name="feedback_id" type="integer"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>

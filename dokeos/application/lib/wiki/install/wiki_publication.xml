@@ -2,17 +2,17 @@
 <object name="wiki_publication">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="learning_object" type="integer"  unsigned="1" notnull="1"/>
+  <property name="learning_object_id" type="integer"  unsigned="1" notnull="1"/>
   <property name="parent_id" type="integer" unsigned="1" notnull="1"/>
-  <property name="category" type="integer" unsigned="1" notnull="1"/>
+  <property name="category_id" type="integer" unsigned="1" notnull="1"/>
   <property name="from_date" type="integer" unsigned="1" notnull="1"/>
   <property name="to_date" type="integer" unsigned="1" notnull="1"/>
-  <property name="hidden" type="integer" length="1" unsigned="1" notnull="1"/>
-  <property name="publisher" type="integer" unsigned="1" notnull="1"/>
+  <property name="hidden" type="boolean" default="0"/>
+  <property name="publisher_id" type="integer" unsigned="1" notnull="1"/>
   <property name="published" type="integer" unsigned="1" notnull="1"/>
   <property name="modified" type="integer" unsigned="1" notnull="1"/>
   <property name="display_order" type="integer" unsigned="1" notnull="1"/>
-  <property name="email_sent" type="integer" length="1" unsigned="1" notnull="1"/>
+  <property name="email_sent" type="boolean" default="0"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
@@ -27,10 +27,10 @@
  <index name="hidden">
   <indexproperty name="hidden"/>
  </index>
- <index name="category">
-  <indexproperty name="category"/>
+ <index name="category_id">
+  <indexproperty name="category_id"/>
  </index>
- <index name="publisher">
-  <indexproperty name="publisher"/>
+ <index name="publisher_id">
+  <indexproperty name="publisher_id"/>
  </index>
 </object>
