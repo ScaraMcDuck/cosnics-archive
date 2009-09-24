@@ -5,7 +5,7 @@
   <property name="announcement_id" type="integer"  unsigned="1" notnull="1"/>
   <property name="publisher_id" type="integer" notnull="1"/>
   <property name="published" type="integer"  unsigned="1" notnull="1"/>
-  <property name="status" type="boolean"/>
+  <property name="status" type="integer" lenght="4" unsigned="1" notnull="1"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
