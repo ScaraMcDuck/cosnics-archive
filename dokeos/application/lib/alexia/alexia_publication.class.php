@@ -20,11 +20,11 @@ class AlexiaPublication extends DataClass
 	/**
 	 * AlexiaPublication properties
 	 */
-	const PROPERTY_LEARNING_OBJECT = 'learning_object';
+	const PROPERTY_LEARNING_OBJECT = 'object_id';
 	const PROPERTY_FROM_DATE = 'from_date';
 	const PROPERTY_TO_DATE = 'to_date';
 	const PROPERTY_HIDDEN = 'hidden';
-	const PROPERTY_PUBLISHER = 'publisher';
+	const PROPERTY_PUBLISHER = 'publisher_id';
 	const PROPERTY_PUBLISHED = 'published';
 
 	private $target_groups;

@@ -18,8 +18,8 @@ class AlexiaPublicationUser extends DataClass
 	/**
 	 * AlexiaPublicationUser properties
 	 */
-	const PROPERTY_PUBLICATION = 'publication';
-	const PROPERTY_USER = 'user';
+	const PROPERTY_PUBLICATION = 'publication_id';
+	const PROPERTY_USER = 'user_id';
 
 	/**
 	 * Get the default properties
