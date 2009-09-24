@@ -13,7 +13,7 @@ class WebserviceCategory extends DataClass
 {
 	const CLASS_NAME = __CLASS__;	
 	const PROPERTY_NAME = 'name';
-	const PROPERTY_PARENT = 'parent';
+	const PROPERTY_PARENT = 'parent_id';
     const PROPERTY_LOCATION = 'location';
 	
 	/**
