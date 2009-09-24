@@ -10,7 +10,7 @@ class HomeTab extends DataClass
     const PROPERTY_ID = 'id';
     const PROPERTY_TITLE = 'title';
     const PROPERTY_SORT = 'sort';
-    const PROPERTY_USER = 'user';
+    const PROPERTY_USER = 'user_id';
 
     private $defaultProperties;
 

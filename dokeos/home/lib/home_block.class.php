@@ -16,7 +16,7 @@ class HomeBlock extends DataClass
     const PROPERTY_APPLICATION = 'application';
     const PROPERTY_COMPONENT = 'component';
     const PROPERTY_VISIBILITY = 'visibility';
-    const PROPERTY_USER = 'user';
+    const PROPERTY_USER = 'user_id';
     
     /**
      * Get the default properties of all user course categories.

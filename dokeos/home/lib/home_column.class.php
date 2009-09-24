@@ -11,7 +11,7 @@ class HomeColumn extends DataClass
     const PROPERTY_SORT = 'sort';
     const PROPERTY_WIDTH = 'width';
     const PROPERTY_ROW = 'row';
-    const PROPERTY_USER = 'user';
+    const PROPERTY_USER = 'user_id';
 
     /**
      * Get the default properties of all user course categories.
