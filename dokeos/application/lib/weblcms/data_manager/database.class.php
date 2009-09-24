@@ -201,9 +201,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $lo_table_alias = RepositoryDataManager :: get_instance()->get_database()->get_alias('learning_object');
 
         $query = 'SELECT DISTINCT ' . $publication_alias . '.* FROM ' . $this->database->escape_table_name(LearningObjectPublication :: get_table_name()) . ' AS ' . $publication_alias;
-        $query .= ' LEFT JOIN ' . $this->database->escape_table_name('learning_object_publication_user') . ' AS ' . $publication_user_alias . ' ON ' . $publication_alias . '.id = ' . $publication_user_alias . '.publication';
-        $query .= ' LEFT JOIN ' . $this->database->escape_table_name('learning_object_publication_course_group') . ' AS ' . $publication_group_alias . ' ON ' . $publication_alias . '.id = ' . $publication_group_alias . '.publication';
-        $query .= ' JOIN ' . RepositoryDataManager :: get_instance()->get_database()->escape_table_name('learning_object') . ' AS ' . $lo_table_alias . ' ON ' . $publication_alias . '.learning_object = ' . $lo_table_alias . '.id';
+        $query .= ' LEFT JOIN ' . $this->database->escape_table_name('learning_object_publication_user') . ' AS ' . $publication_user_alias . ' ON ' . $publication_alias . '.id = ' . $publication_user_alias . '.publication_id';
+        $query .= ' LEFT JOIN ' . $this->database->escape_table_name('learning_object_publication_course_group') . ' AS ' . $publication_group_alias . ' ON ' . $publication_alias . '.id = ' . $publication_group_alias . '.publication_id';
+        $query .= ' JOIN ' . RepositoryDataManager :: get_instance()->get_database()->escape_table_name('learning_object') . ' AS ' . $lo_table_alias . ' ON ' . $publication_alias . '.learning_object_id = ' . $lo_table_alias . '.id';
 
         return $this->database->retrieve_result_set($query, LearningObjectPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
@@ -221,9 +221,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$lo_table_alias = RepositoryDataManager :: get_instance()->get_database()->get_alias('learning_object');
         
         $query = 'SELECT COUNT(*) FROM ' . $this->database->escape_table_name(LearningObjectPublication :: get_table_name()) . ' AS ' . $publication_alias;
-        $query .= ' LEFT JOIN ' . $this->database->escape_table_name('learning_object_publication_user') . ' AS ' . $publication_user_alias . ' ON ' . $publication_alias . '.id = ' . $publication_user_alias . '.publication';
-        $query .= ' LEFT JOIN ' . $this->database->escape_table_name('learning_object_publication_course_group') . ' AS ' . $publication_group_alias . ' ON ' . $publication_alias . '.id = ' . $publication_group_alias . '.publication';
-		$query .= ' JOIN ' . RepositoryDataManager :: get_instance()->get_database()->escape_table_name('learning_object') . ' AS ' . $lo_table_alias . ' ON ' . $publication_alias . '.learning_object = ' . $lo_table_alias . '.id';
+        $query .= ' LEFT JOIN ' . $this->database->escape_table_name('learning_object_publication_user') . ' AS ' . $publication_user_alias . ' ON ' . $publication_alias . '.id = ' . $publication_user_alias . '.publication_id';
+        $query .= ' LEFT JOIN ' . $this->database->escape_table_name('learning_object_publication_course_group') . ' AS ' . $publication_group_alias . ' ON ' . $publication_alias . '.id = ' . $publication_group_alias . '.publication_id';
+		$query .= ' JOIN ' . RepositoryDataManager :: get_instance()->get_database()->escape_table_name('learning_object') . ' AS ' . $lo_table_alias . ' ON ' . $publication_alias . '.learning_object_id = ' . $lo_table_alias . '.id';
         
         return $this->database->count_result_set($query, LearningObjectPublication :: get_table_name(), $condition);
     }
@@ -577,7 +577,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		    $sections[$section->get_type()][] = $section;
 		}
 
-        $query = 'SELECT * FROM ' . $this->database->escape_table_name('course_module') . ' WHERE course_code = ?';
+        $query = 'SELECT * FROM ' . $this->database->escape_table_name('course_module') . ' WHERE course_id = ?';
         $statement = $this->database->get_connection()->prepare($query);
         $res = $statement->execute($course_code);
         // If no modules are defined for this course -> insert them in database

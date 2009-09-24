@@ -125,11 +125,11 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
         $course_groups = $this->browser->get_course_groups();
 
         $access = array();
-        $access[] = new InCondition('user', $user_id, $dm->get_database()->get_alias('learning_object_publication_user'));
+        $access[] = new InCondition('user_id', $user_id, $dm->get_database()->get_alias('learning_object_publication_user'));
         $access[] = new InCondition('course_group_id', $course_groups, $dm->get_database()->get_alias('learning_object_publication_course_group'));
         if (!empty($user_id) || !empty($course_groups))
         {
-            $access[] = new AndCondition(array(new EqualityCondition('user', null, $dm->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $dm->get_database()->get_alias('learning_object_publication_course_group'))));
+            $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $dm->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $dm->get_database()->get_alias('learning_object_publication_course_group'))));
         }
 
         $conditions[] = new OrCondition($access);

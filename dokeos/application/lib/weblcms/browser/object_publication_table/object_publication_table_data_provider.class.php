@@ -70,7 +70,7 @@ class ObjectPublicationTableDataProvider extends ObjectTableDataProvider
     	$datamanager = WeblcmsDataManager :: get_instance();
 		if($this->parent->is_allowed(EDIT_RIGHT))
 		{
-			$user_id = array();
+			$user_id = null;
 			$course_groups = array();
 		}
 		else
@@ -93,10 +93,10 @@ class ObjectPublicationTableDataProvider extends ObjectTableDataProvider
 		$access = array();
 		if (!empty($user_id))
 		{
-			$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
+			$access[] = new EqualityCondition('user_id', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
 		}
 		
-		if(!empty($course_groups))
+		if(!empty($course_groups) && count($course_groups) > 0)
 		{
 			$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('learning_object_publication_course_group'));
 		}

@@ -878,7 +878,7 @@ class WeblcmsManager extends WebApplication
 
 			$conditions = array();
 			$conditions[] = new EqualityCondition('tool', $tool);
-			$conditions[] = new EqualityCondition('course', $this->get_course_id());
+			$conditions[] = new EqualityCondition('course_id', $this->get_course_id());
 			$conditions[] = new InequalityCondition('modified', InequalityCondition :: GREATER_THAN, $last_visit_date);
 
 			if ((!$this->get_course()->is_course_admin($this->get_user()) && !$this->get_user()->is_platform_admin()))
@@ -899,11 +899,11 @@ class WeblcmsManager extends WebApplication
 			$user_id = $this->get_user_id();
 
 			$access = array();
-			$access[] = new InCondition('user', $user_id, $wdm->get_database()->get_alias('learning_object_publication_user'));
+			$access[] = new InCondition('user_id', $user_id, $wdm->get_database()->get_alias('learning_object_publication_user'));
 			$access[] = new InCondition('course_group_id', $course_groups, $wdm->get_database()->get_alias('learning_object_publication_course_group'));
 			if (!empty($user_id) || !empty($course_groups))
 			{
-				$access[] = new AndCondition(array(new EqualityCondition('user', null, $wdm->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $wdm->get_database()->get_alias('learning_object_publication_course_group'))));
+				$access[] = new AndCondition(array(new EqualityCondition('user_id', null, $wdm->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $wdm->get_database()->get_alias('learning_object_publication_course_group'))));
 			}
 
 			$conditions[] = new OrCondition($access);
