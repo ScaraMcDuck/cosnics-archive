@@ -17,10 +17,10 @@ class WebserviceRegistration extends DataClass
 	
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_DESCRIPTION = 'description';
-	const PROPERTY_PARENT = 'parent';
+	const PROPERTY_PARENT = 'parent_id';
 	const PROPERTY_ACTIVE = 'active';
 	const PROPERTY_APPLICATION = 'application';	
-	const PROPERTY_CATEGORY = 'category';    
+	const PROPERTY_CATEGORY = 'category_id';    
 	
 	/**
 	 * Get the default properties of all webservices.
