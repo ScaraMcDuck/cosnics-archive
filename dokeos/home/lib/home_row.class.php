@@ -10,7 +10,7 @@ class HomeRow extends DataClass
     const PROPERTY_TITLE = 'title';
     const PROPERTY_SORT = 'sort';
     const PROPERTY_TAB = 'tab';
-    const PROPERTY_USER = 'user';
+    const PROPERTY_USER = 'user_id';
     
     /**
      * Get the default properties of all user course categories.
