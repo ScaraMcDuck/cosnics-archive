@@ -2,17 +2,20 @@
 <object name="location">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="location" type="text" length="250" notnull="1"/>
+  <property name="location_id" type="text" length="250" notnull="1"/>
   <property name="left_value" type="integer" unsigned="1" notnull="1"/>
   <property name="right_value" type="integer" unsigned="1" notnull="1"/>
-  <property name="parent" type="integer" unsigned="1" notnull="1" default=""/>
-  <property name="application" type="text" length="250" notnull="1"/>
-  <property name="type" type="text" length="250" notnull="1"/>
-  <property name="identifier" type="text" length="250" notnull="1"/>
+  <property name="parent_id" type="integer" unsigned="1" notnull="1" default=""/>
+  <property name="application" type="text" length="250" fixed="true"  notnull="1"/>
+  <property name="type" type="text" length="250" fixed="true" notnull="1"/>
+  <property name="identifier" type="text" length="250" fixed="true"  notnull="1"/>
   <property name="inherit" type="integer" length="1" notnull="1" unsigned="1" default="1"/>
-  <property name="locked" type="integer" length="1" notnull="1" unsigned="1" default="0"/>
+  <property name="locked" type="boolean" default="0"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
+ </index>
+  <index name="parent_id">
+  <indexproperty name="parent_id"/>
  </index>
 </object>
