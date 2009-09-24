@@ -17,7 +17,7 @@ class PortfolioPublicationGroup extends DataClass
 	/**
 	 * PortfolioPublicationGroup properties
 	 */
-	const PROPERTY_PORTFOLIO_PUBLICATION = 'portfolio_publication';
+	const PROPERTY_PORTFOLIO_PUBLICATION = 'portfolio_publication_id';
 	const PROPERTY_GROUP_ID = 'group_id';
 
 	/**

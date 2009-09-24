@@ -17,8 +17,8 @@ class PortfolioPublicationUser extends DataClass
 	/**
 	 * PortfolioPublicationUser properties
 	 */
-	const PROPERTY_PORTFOLIO_PUBLICATION = 'portfolio_publication';
-	const PROPERTY_USER = 'user';
+	const PROPERTY_PORTFOLIO_PUBLICATION = 'portfolio_publication_id';
+	const PROPERTY_USER = 'user_id';
 
 	/**
 	 * Get the default properties
