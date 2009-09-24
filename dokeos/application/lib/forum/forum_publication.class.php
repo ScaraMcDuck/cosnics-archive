@@ -18,7 +18,7 @@ class ForumPublication extends DataClass
 	 * ForumPublication properties
 	 */
 	const PROPERTY_FORUM_ID = 'forum_id';
-	const PROPERTY_AUTHOR = 'author';
+	const PROPERTY_AUTHOR = 'author_id';
 	const PROPERTY_DATE = 'date';
     const PROPERTY_HIDDEN = 'hidden';
     const PROPERTY_DISPLAY_ORDER = 'display_order';
