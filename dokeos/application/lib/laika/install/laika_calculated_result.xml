@@ -6,8 +6,8 @@
 		<property name="attempt_id" type="integer" unsigned="1" notnull="1"/>
 		<property name="scale_id" type="integer" unsigned="1" notnull="1"/>
 		<property name="result" type="integer" unsigned="1" notnull="1"/>
-		<property name="percentile" type="text" length="10"/>
-		<property name="percentile_code" type="text" length="10"/>
+		<property name="percentile" type="text" length="10" fixed="true"/>
+		<property name="percentile_code" type="text" length="10" fixed="true"/>
 	</properties>
 	<index name="id" type="primary">
 		<indexproperty name="id"/>
