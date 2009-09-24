@@ -17,13 +17,13 @@ class AssessmentPublication extends DataClass
 	/**
 	 * AssessmentPublication properties
 	 */
-	const PROPERTY_LEARNING_OBJECT = 'learning_object';
+	const PROPERTY_LEARNING_OBJECT = 'object_id';
 	const PROPERTY_FROM_DATE = 'from_date';
 	const PROPERTY_TO_DATE = 'to_date';
 	const PROPERTY_HIDDEN = 'hidden';
-	const PROPERTY_PUBLISHER = 'publisher';
+	const PROPERTY_PUBLISHER = 'publisher_id';
 	const PROPERTY_PUBLISHED = 'published';
-	const PROPERTY_CATEGORY = 'category';
+	const PROPERTY_CATEGORY = 'category_id';
 	
 	private $target_groups;
 	private $target_users;

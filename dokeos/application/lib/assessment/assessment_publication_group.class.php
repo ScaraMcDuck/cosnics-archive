@@ -17,7 +17,7 @@ class AssessmentPublicationGroup extends DataClass
 	/**
 	 * AssessmentPublicationGroup properties
 	 */
-	const PROPERTY_ASSESSMENT_PUBLICATION = 'assessment_publication';
+	const PROPERTY_ASSESSMENT_PUBLICATION = 'assessment_publication_id';
 	const PROPERTY_GROUP_ID = 'group_id';
 
 	/**

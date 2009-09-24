@@ -17,8 +17,8 @@ class AssessmentPublicationUser extends DataClass
 	/**
 	 * AssessmentPublicationUser properties
 	 */
-	const PROPERTY_ASSESSMENT_PUBLICATION = 'assessment_publication';
-	const PROPERTY_USER = 'user';
+	const PROPERTY_ASSESSMENT_PUBLICATION = 'assessment_publication_id';
+	const PROPERTY_USER = 'user_id';
 
 	/**
 	 * Get the default properties
