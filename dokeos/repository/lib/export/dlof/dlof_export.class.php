@@ -60,7 +60,7 @@ class DlofExport extends LearningObjectExport
 				
 			$this->render_learning_object($lo);
 		}
-  		
+  
   		$temp_dir = Path :: get(SYS_TEMP_PATH). $user . '/export_learning_objects/';
   		
   		if(!is_dir($temp_dir))
@@ -140,6 +140,7 @@ class DlofExport extends LearningObjectExport
   		$type = $doc->createAttribute('type');
 		$lo->appendChild($type);
   		
+		//Complex children (subitems)
 		if($learning_object->is_complex_learning_object())
 		{	
 			$text = $doc->createTextNode('complex');
@@ -181,6 +182,50 @@ class DlofExport extends LearningObjectExport
 		{
 			$text = $doc->createTextNode('simple');
 			$type->appendChild($text);
+		}
+
+		//Attachments
+		$attachments = $learning_object->get_attached_learning_objects();
+		if(count($attachments) > 0)
+		{
+			$attachments_element = $doc->createElement('attachments');
+			$lo->appendChild($attachments_element);	
+			
+			foreach($attachments as $attachment)
+			{
+				$attachment_element = $doc->createElement('attachment');
+				$attachments_element->appendChild($attachment_element);	
+				
+				$id_ref = $doc->createAttribute('idref');
+				$attachment_element->appendChild($id_ref);
+				
+				$id_ref_value = $doc->createTextNode('object' . $attachment->get_id());
+				$id_ref->appendChild($id_ref_value);
+				
+				$this->render_learning_object($attachment);
+			}
+		}
+		
+		//Includes
+		$includes = $learning_object->get_included_learning_objects();
+		if(count($includes) > 0)
+		{
+			$includes_element = $doc->createElement('includes');
+			$lo->appendChild($includes_element);	
+			
+			foreach($includes as $include)
+			{
+				$include_element = $doc->createElement('include');
+				$includes_element->appendChild($include_element);	
+				
+				$id_ref = $doc->createAttribute('idref');
+				$include_element->appendChild($id_ref);
+				
+				$id_ref_value = $doc->createTextNode('object' . $include->get_id());
+				$id_ref->appendChild($id_ref_value);
+				
+				$this->render_learning_object($include);
+			}
 		}
 	}
 }

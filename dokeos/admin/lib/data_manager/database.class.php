@@ -98,10 +98,10 @@ class DatabaseAdminDataManager extends AdminDataManager
     {
         // Delete existing target users and groups
         $parameters['id'] = $system_announcement_publication->get_id();
-        $query = 'DELETE FROM ' . $this->database->escape_table_name('system_announcement_publication_user') . ' WHERE system_announcement_publication = ?';
+        $query = 'DELETE FROM ' . $this->database->escape_table_name('system_announcement_publication_user') . ' WHERE system_announcement_publication_id = ?';
         $statement = $this->database->get_connection()->prepare($query);
         $statement->execute($parameters['id']);
-        $query = 'DELETE FROM ' . $this->database->escape_table_name('system_announcement_publication_group') . ' WHERE system_announcement_publication = ?';
+        $query = 'DELETE FROM ' . $this->database->escape_table_name('system_announcement_publication_group') . ' WHERE system_announcement_publication_id = ?';
         $statement = $this->database->get_connection()->prepare($query);
         $statement->execute($parameters['id']);
 
@@ -111,15 +111,15 @@ class DatabaseAdminDataManager extends AdminDataManager
         foreach ($users as $user_id)
         {
             $props = array();
-            $props[$this->database->escape_column_name('system_announcement_publication')] = $system_announcement_publication->get_id();
-            $props[$this->database->escape_column_name('user')] = $user_id;
+            $props[$this->database->escape_column_name('system_announcement_publication_id')] = $system_announcement_publication->get_id();
+            $props[$this->database->escape_column_name('user_id')] = $user_id;
             $this->database->get_connection()->extended->autoExecute($this->database->get_table_name('system_announcement_publication_user'), $props, MDB2_AUTOQUERY_INSERT);
         }
         $groups = $system_announcement_publication->get_target_groups();
         foreach ($groups as $group_id)
         {
             $props = array();
-            $props[$this->database->escape_column_name('system_announcement_publication')] = $system_announcement_publication->get_id();
+            $props[$this->database->escape_column_name('system_announcement_publication_id')] = $system_announcement_publication->get_id();
             $props[$this->database->escape_column_name('group_id')] = $group_id;
             $this->database->get_connection()->extended->autoExecute($this->database->get_table_name('system_announcement_publication_group'), $props, MDB2_AUTOQUERY_INSERT);
         }
@@ -204,15 +204,15 @@ class DatabaseAdminDataManager extends AdminDataManager
             foreach ($users as $user_id)
             {
                 $props = array();
-                $props[$this->database->escape_column_name('system_announcement_publication')] = $system_announcement_publication->get_id();
-                $props[$this->database->escape_column_name('user')] = $user_id;
+                $props[$this->database->escape_column_name('system_announcement_publication_id')] = $system_announcement_publication->get_id();
+                $props[$this->database->escape_column_name('user_id')] = $user_id;
                 $this->database->get_connection()->extended->autoExecute($this->database->get_table_name('system_announcement_publication_user'), $props, MDB2_AUTOQUERY_INSERT);
             }
             $groups = $system_announcement_publication->get_target_groups();
             foreach ($groups as $group_id)
             {
                 $props = array();
-                $props[$this->database->escape_column_name('system_announcement_publication')] = $system_announcement_publication->get_id();
+                $props[$this->database->escape_column_name('system_announcement_publication_id')] = $system_announcement_publication->get_id();
                 $props[$this->database->escape_column_name('group_id')] = $group_id;
                 $this->database->get_connection()->extended->autoExecute($this->database->get_table_name('system_announcement_publication_group'), $props, MDB2_AUTOQUERY_INSERT);
             }
@@ -248,7 +248,7 @@ class DatabaseAdminDataManager extends AdminDataManager
 
     function retrieve_system_announcement_publication_target_groups($system_announcement_publication)
     {
-        $query = 'SELECT * FROM ' . $this->database->escape_table_name('system_announcement_publication_group') . ' WHERE system_announcement_publication = ?';
+        $query = 'SELECT * FROM ' . $this->database->escape_table_name('system_announcement_publication_group') . ' WHERE system_announcement_publication_id = ?';
         $sth = $this->database->get_connection()->prepare($query);
         $res = $sth->execute($system_announcement_publication->get_id());
 
@@ -263,7 +263,7 @@ class DatabaseAdminDataManager extends AdminDataManager
 
     function retrieve_system_announcement_publication_target_users($system_announcement_publication)
     {
-        $query = 'SELECT * FROM ' . $this->database->escape_table_name('system_announcement_publication_user') . ' WHERE system_announcement_publication = ?';
+        $query = 'SELECT * FROM ' . $this->database->escape_table_name('system_announcement_publication_user') . ' WHERE system_announcement_publication_id = ?';
         $sth = $this->database->get_connection()->prepare($query);
         $res = $sth->execute($system_announcement_publication->get_id());
 
@@ -380,7 +380,7 @@ class DatabaseAdminDataManager extends AdminDataManager
         }
         else
         {
-            $query = 'SELECT * FROM ' . $this->database->get_table_name('system_announcement_publication') . ' WHERE ' . $this->database->escape_column_name('learning_object') . '=?';
+            $query = 'SELECT * FROM ' . $this->database->get_table_name('system_announcement_publication') . ' WHERE ' . $this->database->escape_column_name('object_id') . '=?';
             $statement = $this->database->get_connection()->prepare($query);
             $res = $statement->execute($object_id);
         }
