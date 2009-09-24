@@ -2,15 +2,15 @@
 <object name="announcement_distribution">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="announcement" type="integer"  unsigned="1" notnull="1"/>
-  <property name="publisher" type="integer" notnull="1"/>
+  <property name="announcement_id" type="integer"  unsigned="1" notnull="1"/>
+  <property name="publisher_id" type="integer" notnull="1"/>
   <property name="published" type="integer"  unsigned="1" notnull="1"/>
-  <property name="status" type="integer"  unsigned="1" notnull="1"/>
+  <property name="status" type="boolean"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
  </index>
  <index name="publisher">
-  <indexproperty name="publisher"/>
+  <indexproperty name="publisher_id"/>
  </index>
 </object>
