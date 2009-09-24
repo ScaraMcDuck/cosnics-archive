@@ -43,6 +43,26 @@ class DlofImport extends LearningObjectImport
 	 */
 	private $lo_subitems;
 	
+	/**
+	 * The array where the attachments are stored untill all the learning objects are created
+	 * With this array the attachment links will be created
+	 * 
+	 * Example:
+	 * 
+	 * $lo_attachments['object0'] = array(0 => 'object1', 1 => 'object2'));
+	 */
+	private $lo_attachments;
+	
+	/**
+	 * The array where the includes are stored untill all the learning objects are created
+	 * With this array the include links will be created
+	 * 
+	 * Example:
+	 * 
+	 * $lo_includes['object0'] = array(0 => 'object1', 1 => 'object2'));
+	 */
+	private $lo_includes;
+	
 	function DlofImport($learning_object_file, $user, $category)
 	{
 		$this->rdm = RepositoryDataManager :: get_instance();
@@ -91,6 +111,8 @@ class DlofImport extends LearningObjectImport
 		}
 
 		$this->create_complex_wrappers();
+		$this->create_attachments();
+		$this->create_includes();
 		
 		if($temp)
 		{
@@ -153,6 +175,7 @@ class DlofImport extends LearningObjectImport
 			
 			$this->learning_object_reference[$id] = $lo->get_id();
 			
+			// Complex children
 			$subitems = $learning_object->getElementsByTagName('sub_items')->item(0);
 			$children = $subitems->childNodes;
 			for($i = 0; $i < $children->length; $i++)
@@ -179,6 +202,32 @@ class DlofImport extends LearningObjectImport
 				
 				$this->lo_subitems[$id][] = array('id' => $idref, 'properties' => $properties);
 			}
+			
+			// Attachments
+			$attachments = $learning_object->getElementsByTagName('attachments')->item(0);
+			$children = $attachments->childNodes;
+			for($i = 0; $i < $children->length; $i++)
+			{
+				$attachment = $children->item($i);
+				if($attachment->nodeName == "#text") continue;
+				
+				$idref = $attachment->getAttribute('idref');
+				$this->lo_attachments[$id][] = $idref;
+				
+			}
+			
+			// Includes
+			$includes = $learning_object->getElementsByTagName('includes')->item(0);
+			$children = $includes->childNodes;
+			for($i = 0; $i < $children->length; $i++)
+			{
+				$include = $children->item($i);
+				if($include->nodeName == "#text") continue;
+				
+				$idref = $include->getAttribute('idref');
+				$this->lo_includes[$id][] = $idref;
+				
+			}
 		}
 	}
 	
@@ -201,6 +250,34 @@ class DlofImport extends LearningObjectImport
 				$cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($real_parent_id));
 				$cloi->set_additional_properties($child['properties']);
 				$cloi->create();
+			}
+		}
+	}
+	
+	function create_attachments()
+	{
+		foreach($this->lo_attachments as $lo_id => $children)
+		{
+			$real_lo_id = $this->learning_object_reference[$lo_id];
+			$lo = $this->rdm->retrieve_learning_object($real_lo_id);
+			
+			foreach($children as $child)
+			{
+				$lo->attach_learning_object($this->learning_object_reference[$child]);
+			}
+		}
+	}
+	
+	function create_includes()
+	{
+		foreach($this->lo_includes as $lo_id => $children)
+		{
+			$real_lo_id = $this->learning_object_reference[$lo_id];
+			$lo = $this->rdm->retrieve_learning_object($real_lo_id);
+			
+			foreach($children as $child)
+			{
+				$lo->include_learning_object($this->learning_object_reference[$child]);
 			}
 		}
 	}
