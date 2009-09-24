@@ -71,10 +71,10 @@ class DlofExport extends LearningObjectExport
   		$xml_path = $temp_dir . 'learning_object.xml';
 		$this->doc->save($xml_path);
 		
-		foreach($this->files as $filename => $file)
+		foreach($this->files as $hash => $path)
 		{
-			$newfile = $temp_dir . 'data/' . basename($filename);
-			Filesystem :: copy_file($file, $newfile);
+			$newfile = $temp_dir . 'data/' . $hash;
+			Filesystem :: copy_file($path, $newfile);
 		}
 		
 		$zip = Filecompression :: factory();
@@ -122,7 +122,7 @@ class DlofExport extends LearningObjectExport
   		
   		if($learning_object->get_type() == 'document')
   		{
-  			$this->files[$learning_object->get_filename()] = $learning_object->get_full_path();
+  			$this->files[$learning_object->get_hash()] = $learning_object->get_full_path();
   		}
   		
   		$extended = $doc->createElement('extended');
