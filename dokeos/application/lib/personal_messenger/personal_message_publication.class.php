@@ -28,9 +28,9 @@ class PersonalMessagePublication extends DataClass
 
 	const PROPERTY_PERSONAL_MESSAGE = 'personal_message';
 	const PROPERTY_STATUS = 'status';
-	const PROPERTY_USER = 'user';
-	const PROPERTY_SENDER = 'sender';
-	const PROPERTY_RECIPIENT = 'recipient';
+	const PROPERTY_USER = 'user_id';
+	const PROPERTY_SENDER = 'sender_id';
+	const PROPERTY_RECIPIENT = 'recipient_id';
 	const PROPERTY_PUBLISHED = 'published';
 	
 	/**
