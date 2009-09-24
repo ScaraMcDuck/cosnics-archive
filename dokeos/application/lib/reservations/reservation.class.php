@@ -12,7 +12,7 @@ require_once Path :: get_common_path() . 'data_class.class.php';
 
 class Reservation extends DataClass
 {
-	const PROPERTY_ITEM = 'item';
+	const PROPERTY_ITEM = 'item_id';
 	const PROPERTY_TYPE = 'type';
 	const PROPERTY_START_DATE = 'start_date';
 	const PROPERTY_STOP_DATE = 'stop_date';
