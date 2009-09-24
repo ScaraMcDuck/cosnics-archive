@@ -97,7 +97,6 @@ class DlofImport extends LearningObjectImport
 			Filesystem :: remove($temp);
 		}
 		
-		exit();
 		return true;
 	}
 	

@@ -102,8 +102,8 @@ class DlofExport extends LearningObjectExport
   		$id = $doc->createAttribute('id');
   		$lo->appendChild($id);
   		
-  		$id_value = $doc->createTextNode($learning_object->get_id());
-  		$id->appendChild('object' . $id_value);
+  		$id_value = $doc->createTextNode('object' . $learning_object->get_id());
+  		$id->appendChild($id_value);
   		
   		$export_prop = array(LearningObject :: PROPERTY_TYPE, LearningObject :: PROPERTY_TITLE, LearningObject :: PROPERTY_DESCRIPTION, LearningObject :: PROPERTY_COMMENT,
   						  	 LearningObject :: PROPERTY_CREATION_DATE, LearningObject :: PROPERTY_MODIFICATION_DATE);
