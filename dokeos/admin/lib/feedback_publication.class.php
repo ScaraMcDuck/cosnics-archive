@@ -18,9 +18,9 @@ class FeedbackPublication extends DataClass
     const CLASS_NAME				= __CLASS__;
 
 	const PROPERTY_APPLICATION		= 'application';
-	const PROPERTY_PID              = 'pid';
-	const PROPERTY_CID              = 'cid';
-    const PROPERTY_FID              = 'fid';
+	const PROPERTY_PID              = 'publication_id';
+	const PROPERTY_CID              = 'complex_id';
+    const PROPERTY_FID              = 'feedback_id';
     const PROPERTY_TEXT              = 'text';
 
 	/**

@@ -2,10 +2,10 @@
 <object name="feedback_publication">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="application" type="text" length="30"/>
-  <property name="pid" type="integer" length="10" unsigned="1"/>
-  <property name="cid" type="integer" length="10" unsigned="1"/>
-  <property name="fid" type="integer" length="10" unsigned="1"/>
+  <property name="application" type="text" length="30" fixed="true"/>
+  <property name="publication_id" type="integer" length="10" unsigned="1"/>
+  <property name="complex_id" type="integer" length="10" unsigned="1"/>
+  <property name="feedback_id" type="integer" length="10" unsigned="1"/>
   <!--
   <property name="created" type="date" unsigned="1"/>
   <property name="userid" type="integer" length="10" unsigned="1" notnull="1"/>

@@ -2,15 +2,14 @@
 <object name="system_announcement_publication">
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1" />
-		<property name="learning_object" type="integer" notnull="1" />
+		<property name="object_id" type="integer" notnull="1" />
 		<property name="from_date" type="integer" notnull="1" />
 		<property name="to_date" type="integer" notnull="1" />
-		<property name="hidden" type="integer" length="1" />
-		<property name="publisher" type="integer" notnull="1" />
+		<property name="hidden" type="boolean" />
+		<property name="publisher_id" type="integer" notnull="1" />
 		<property name="published" type="integer" notnull="1" />
 		<property name="modified" type="integer" notnull="1" />
-		<property name="email_sent" type="integer" length="1"
-			notnull="1" />
+		<property name="email_sent" type="boolean" />
 	</properties>
 	<index name="id" type="primary">
 		<indexproperty name="id" />
