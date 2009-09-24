@@ -4,9 +4,9 @@
   <property name="id" type="integer" unsigned="1" notnull="1"/>
   <property name="personal_message" type="integer" unsigned="1" notnull="1"/>
   <property name="status" type="integer" length="1" unsigned="1" notnull="1"/>
-  <property name="user" type="integer" unsigned="1" notnull="1"/>
-  <property name="sender" type="integer" unsigned="1" notnull="1"/>
-  <property name="recipient" type="integer" unsigned="1" notnull="1"/>
+  <property name="user_id" type="integer" unsigned="1" notnull="1"/>
+  <property name="sender_id" type="integer" unsigned="1" notnull="1"/>
+  <property name="recipient_id" type="integer" unsigned="1" notnull="1"/>
   <property name="published" type="integer" unsigned="1" notnull="1"/>
  </properties>
  <index name="id" type="primary">
