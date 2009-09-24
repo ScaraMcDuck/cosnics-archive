@@ -23,10 +23,10 @@ class ProfilePublication extends DataClass
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'publication';
     
-    const PROPERTY_PROFILE = 'profile';
-    const PROPERTY_PUBLISHER = 'publisher';
+    const PROPERTY_PROFILE = 'profile_id';
+    const PROPERTY_PUBLISHER = 'publisher_id';
     const PROPERTY_PUBLISHED = 'published';
-    const PROPERTY_CATEGORY = 'category';
+    const PROPERTY_CATEGORY = 'category_id';
  
     /**
      * Get the default properties of all ProfilePublications.
