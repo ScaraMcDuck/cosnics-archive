@@ -23,8 +23,8 @@ class CalendarEventPublication extends DataClass
 	const CLASS_NAME = __CLASS__;
 	const TABLE_NAME = 'publication';
 
-	const PROPERTY_CALENDAR_EVENT = 'calendar_event';
-	const PROPERTY_PUBLISHER = 'publisher';
+	const PROPERTY_CALENDAR_EVENT = 'calendar_event_id';
+	const PROPERTY_PUBLISHER = 'publisher_id';
 	const PROPERTY_PUBLISHED = 'published';
 
 	private $target_groups;
