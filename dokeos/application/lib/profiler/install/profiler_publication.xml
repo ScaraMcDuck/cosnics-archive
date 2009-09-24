@@ -2,12 +2,12 @@
 <object name="publication">
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1" />
-		<property name="profile" type="integer" unsigned="1" notnull="1" />
-		<property name="publisher" type="integer" unsigned="1"
+		<property name="profile_id" type="integer" unsigned="1" notnull="1" />
+		<property name="publisher_id" type="integer" unsigned="1"
 			notnull="1" />
 		<property name="published" type="integer" unsigned="1"
 			notnull="1" />
-		<property name="category" type="integer" unsigned="1"
+		<property name="category_id" type="integer" unsigned="1"
 			notnull="1" />
 	</properties>
 	<index name="id" type="primary">
