@@ -2,11 +2,11 @@
 <object name="validation">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="application" type="text" length="30"/>
-  <property name="pid" type="integer" length="10" unsigned="1"/>
-  <property name="cid" type="integer" length="10" unsigned="1"/>
-  <property name="validated" type="integer"/>
-  <property name="owner" type="integer" unsigned="1" notnull="1" />
+  <property name="application" type="text" length="30" fixed="true"/>
+  <property name="publication_id" type="integer" length="10" unsigned="1"/>
+  <property name="complex_id" type="integer" length="10" unsigned="1"/>
+  <property name="validated" type="boolean"/>
+  <property name="owner_id" type="integer" unsigned="1" notnull="1" />
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>

@@ -12,11 +12,11 @@ class SystemAnnouncementPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     
-    const PROPERTY_LEARNING_OBJECT_ID = 'learning_object';
+    const PROPERTY_LEARNING_OBJECT_ID = 'object_id';
     const PROPERTY_FROM_DATE = 'from_date';
     const PROPERTY_TO_DATE = 'to_date';
     const PROPERTY_HIDDEN = 'hidden';
-    const PROPERTY_PUBLISHER = 'publisher';
+    const PROPERTY_PUBLISHER = 'publisher_id';
     const PROPERTY_PUBLISHED = 'published';
     const PROPERTY_MODIFIED = 'modified';
     const PROPERTY_EMAIL_SENT = 'email_sent';
