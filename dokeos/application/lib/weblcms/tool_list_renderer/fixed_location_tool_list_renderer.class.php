@@ -90,7 +90,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 
 		echo '<div id="coursecode" style="display: none;">' . $this->course->get_id() . '</div>';
 
-		$sections = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('course_code', $this->course->get_id()));
+		$sections = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('course_id', $this->course->get_id()));
 		while($section = $sections->next_result())
 		{
 			if ($section->get_type() == CourseSection :: TYPE_LINK)

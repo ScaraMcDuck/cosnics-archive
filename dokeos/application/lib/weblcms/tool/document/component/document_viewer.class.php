@@ -38,11 +38,11 @@ class DocumentToolViewerComponent extends DocumentToolComponent
         if(Request :: get('pid') != null)
         {
         	$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => DocumentTool ::ACTION_VIEW_DOCUMENTS, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
-			$browser = new DocumentBrowser($this, 'document');
+			$browser = new DocumentBrowser($this, 'document'); 
 			$html = $browser->as_html();   	
         }
         else 
-        {
+        { 
         	$table = new ObjectPublicationTable($this, $this->get_user(), array('document'), $this->get_condition(), new DocumentCellRenderer($this));
         	$tree = new LearningObjectPublicationCategoryTree($this, Request :: get('pcattree'));
         	$html = '<div style="width: 18%; overflow: auto; float:left;">';

@@ -70,7 +70,7 @@ class ReportingWeblcms
         $conditions = array();
         $conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course_id);
         $access = array();
-        $access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
+        $access[] = new InCondition('user_id', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
         $access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('learning_object_publication_course_group'));
         if (!empty($user_id))
         {
