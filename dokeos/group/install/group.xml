@@ -4,7 +4,7 @@
   <property name="id" type="integer" unsigned="1" notnull="1"/>
   <property name="name" type="text" length="255"/>
   <property name="description" type="text"/>
-  <property name="parent" type="integer" unsigned="1" notnull="1"/>
+  <property name="parent_id" type="integer" unsigned="1" notnull="1"/>
   <property name="left_value" type="integer" unsigned="1" notnull="1"/>
   <property name="right_value" type="integer" unsigned="1" notnull="1"/>
   <property name="sort" type="integer" unsigned="1" notnull="1"/>
@@ -13,8 +13,8 @@
  <index name="id" type="primary">
   <indexproperty name="id"/>
  </index>
- <index name="parent">
-  <indexproperty name="parent"/>
+ <index name="parent_id">
+  <indexproperty name="parent_id"/>
  </index>
  <index name="code">
   <indexproperty name="code"/>

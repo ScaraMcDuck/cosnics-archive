@@ -18,7 +18,7 @@ class Group extends DataClass
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_DESCRIPTION = 'description';
 	const PROPERTY_SORT = 'sort';
-	const PROPERTY_PARENT = 'parent';
+	const PROPERTY_PARENT = 'parent_id';
 	const PROPERTY_LEFT_VALUE = 'left_value';
 	const PROPERTY_RIGHT_VALUE = 'right_value';
 	const PROPERTY_CODE = 'code';
