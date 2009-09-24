@@ -6,7 +6,7 @@ class NavigationItem extends DataClass
 {
     const CLASS_NAME = __CLASS__;
 
-    const PROPERTY_CATEGORY = 'category';
+    const PROPERTY_CATEGORY = 'category_id';
     const PROPERTY_TITLE = 'title';
     const PROPERTY_SORT = 'sort';
     const PROPERTY_APPLICATION = 'application';
