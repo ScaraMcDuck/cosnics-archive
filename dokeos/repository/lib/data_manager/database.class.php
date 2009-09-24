@@ -416,7 +416,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		// Delete children
 		
 		// Delete all attachments (only the links, not the actual objects)
-		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('learning_object').'=? OR '.$this->escape_column_name('attachment').'=?';
+		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('learning_object_id').'=? OR '.$this->escape_column_name('attachment_id').'=?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute(array($object->get_id(), $object->get_id()));
 
@@ -493,7 +493,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 //		$mail->send();
 
 		// Delete all attachments (only the links, not the actual objects)
-		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('attachment').'=?';
+		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('attachment_id').'=?';
 		$sth = $this->connection->prepare($query);
 
 		if ($sth->execute($object->get_id()))
@@ -620,7 +620,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	function retrieve_attached_learning_objects ($object)
 	{
 		$id = $object->get_id();
-		$query = 'SELECT '.$this->escape_column_name('attachment').' FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('learning_object').'=?';
+		$query = 'SELECT '.$this->escape_column_name('attachment_id').' FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('learning_object_id').'=?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($id);
 		$attachments = array();
@@ -636,7 +636,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	function retrieve_included_learning_objects ($object)
 	{
 		$id = $object->get_id();
-		$query = 'SELECT '.$this->escape_column_name('include').' FROM '.$this->escape_table_name('learning_object_include').' WHERE '.$this->escape_column_name('learning_object').'=?';
+		$query = 'SELECT '.$this->escape_column_name('include_id').' FROM '.$this->escape_table_name('learning_object_include').' WHERE '.$this->escape_column_name('learning_object_id').'=?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($id);
 		$includes = array();
@@ -650,7 +650,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	
 	function is_learning_object_included($object)
 	{
-		$condition = new EqualityCondition('include', $object->get_id());
+		$condition = new EqualityCondition('include_id', $object->get_id());
 		$count = $this->database->count_objects('learning_object_include', $condition);
 		return ($count > 0); 
 	}
@@ -687,8 +687,8 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	function attach_learning_object ($object, $attachment_id)
 	{
 		$props = array();
-		$props['learning_object'] = $object->get_id();
-		$props['attachment'] = $attachment_id;
+		$props['learning_object_id'] = $object->get_id();
+		$props['attachment_id'] = $attachment_id;
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->get_table_name('learning_object_attachment'), $props, MDB2_AUTOQUERY_INSERT);
 	}
@@ -696,7 +696,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	// Inherited.
 	function detach_learning_object ($object, $attachment_id)
 	{
-		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('learning_object').'=? AND '.$this->escape_column_name('attachment').'=?';
+		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('learning_object_id').'=? AND '.$this->escape_column_name('attachment_id').'=?';
 		$statement = $this->connection->prepare($query);
 		$affectedRows = $statement->execute(array ($object->get_id(), $attachment_id));
 		return ($affectedRows > 0);
@@ -706,8 +706,8 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	function include_learning_object ($object, $include_id)
 	{
 		$props = array();
-		$props['learning_object'] = $object->get_id();
-		$props['include'] = $include_id;
+		$props['learning_object_id'] = $object->get_id();
+		$props['include_id'] = $include_id;
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->get_table_name('learning_object_include'), $props, MDB2_AUTOQUERY_INSERT);
 	}
@@ -715,7 +715,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	// Inherited.
 	function exclude_learning_object ($object, $include_id)
 	{
-		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_include').' WHERE '.$this->escape_column_name('learning_object').'=? AND '.$this->escape_column_name('include').'=?';
+		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_include').' WHERE '.$this->escape_column_name('learning_object_id').'=? AND '.$this->escape_column_name('include_id').'=?';
 		$statement = $this->connection->prepare($query);
 		$affectedRows = $statement->execute(array ($object->get_id(), $include_id));
 		return ($affectedRows > 0);
@@ -1083,7 +1083,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 	function is_attached ($object, $type = null)
 	{
-		$query = 'SELECT COUNT('.$this->escape_column_name("learning_object").') FROM '.$this->escape_table_name('learning_object_attachment').' AS '.self :: ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE .' WHERE '. self :: ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE . '.attachment';
+		$query = 'SELECT COUNT('.$this->escape_column_name("learning_object_id").') FROM '.$this->escape_table_name('learning_object_attachment').' AS '.self :: ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE .' WHERE '. self :: ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE . '.attachment_id';
 		if (isset($type))
 		{
 			$query.= '=?';
@@ -1395,7 +1395,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$lo_alias = $this->get_database()->get_alias('learning_object');
 		
 		
-		$query .= ' JOIN ' . $this->escape_table_name('learning_object') . ' AS ' . $lo_alias . ' ON ' . $alias . '.ref=' . $lo_alias . '.id';
+		$query .= ' JOIN ' . $this->escape_table_name('learning_object') . ' AS ' . $lo_alias . ' ON ' . $alias . '.ref_id=' . $lo_alias . '.id';
 		
 		if (isset ($condition))
 		{
