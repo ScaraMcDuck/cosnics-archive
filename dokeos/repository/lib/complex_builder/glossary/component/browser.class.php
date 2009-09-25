@@ -11,7 +11,7 @@ class GlossaryBuilderBrowserComponent extends GlossaryBuilderComponent
 		$glossary = $this->get_root_lo();
 
 		$trail = new BreadcrumbTrail(false);
-		//$trail->add(new Breadcrumb($this->get_url(array('builder_action' => null, Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS)), Translation :: get('Repository')));
+		//$trail->add(new Breadcrumb($this->get_url(array('builder_action' => null, Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('Repository')));
 		$trail->add(new Breadcrumb($this->get_url(array(ComplexBuilder :: PARAM_ROOT_LO => $glossary->get_id())), $glossary->get_title()));
 		$trail->add_help('repository glossary builder');
 

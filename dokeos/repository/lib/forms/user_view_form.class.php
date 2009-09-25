@@ -106,7 +106,7 @@ class UserViewForm extends FormValidator {
     	{    		
     		$conditions = array();
     		$conditions[] = new EqualityCondition(UserViewRelContentObject :: PROPERTY_VIEW_ID, $user_view->get_id());
-    		$conditions[] = new EqualityCondition(UserViewRelContentObject :: PROPERTY_LEARNING_OBJECT_TYPE, $type);
+    		$conditions[] = new EqualityCondition(UserViewRelContentObject :: PROPERTY_CONTENT_OBJECT_TYPE, $type);
     		$condition = new AndCondition($conditions);
  
     		$lo_type = $dm->retrieve_user_view_rel_content_objects($condition)->next_result(); 

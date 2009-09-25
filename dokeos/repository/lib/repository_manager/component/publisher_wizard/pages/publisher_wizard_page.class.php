@@ -17,7 +17,7 @@ abstract class PublisherWizardPage extends FormValidatorPage
 	{
 		$this->parent = $parent;
 		parent:: __construct($name,'post');
-		$this->updateAttributes(array('action'=>$parent->get_url(array(RepositoryManager :: PARAM_LEARNING_OBJECT_ID => Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID)))));
+		$this->updateAttributes(array('action'=>$parent->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID)))));
 	}
 	/**
 	 * Returns the repository tool in which this wizard runs

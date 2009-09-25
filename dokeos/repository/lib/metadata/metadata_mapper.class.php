@@ -66,7 +66,7 @@ abstract class MetadataMapper
 	protected function retrieve_content_object_additional_metadata($content_object)
 	{
 	    $id = $content_object->get_id(); 
-	    $conditions = new EqualityCondition(ContentObjectMetadata :: PROPERTY_LEARNING_OBJECT, $id);
+	    $conditions = new EqualityCondition(ContentObjectMetadata :: PROPERTY_CONTENT_OBJECT, $id);
 	    
 	    $additional_metadata = $this->repository_data_manager->retrieve_content_object_metadata($conditions, null, null, null, null);
 	    $additional_metadata_array = array();
@@ -89,7 +89,7 @@ abstract class MetadataMapper
 	protected function retrieve_existing_metadata($field_name, $start_like, $metadata_type)
     {
         $conditions   = array();
-        $conditions[] = new EqualityCondition(ContentObjectMetadata :: PROPERTY_LEARNING_OBJECT, $this->content_object->get_id());
+        $conditions[] = new EqualityCondition(ContentObjectMetadata :: PROPERTY_CONTENT_OBJECT, $this->content_object->get_id());
         $conditions[] = new EqualityCondition(ContentObjectMetadata :: PROPERTY_TYPE, $metadata_type);
         $conditions[] = new LikeCondition($field_name, $start_like);
         $condition    = new AndCondition($conditions);

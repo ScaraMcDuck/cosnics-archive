@@ -422,7 +422,7 @@ class DatabaseAdminDataManager extends AdminDataManager
 
     public function any_content_object_is_published($object_ids)
     {
-        $condition = new InCondition(SystemAnnouncementPublication :: PROPERTY_LEARNING_OBJECT_ID, $object_ids);
+        $condition = new InCondition(SystemAnnouncementPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_ids);
         return $this->database->count_objects('system_announcement_publication', $condition) >= 1;
     }
 
@@ -434,7 +434,7 @@ class DatabaseAdminDataManager extends AdminDataManager
 
     public function delete_content_object_publications($object_id)
     {
-        $condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_LEARNING_OBJECT_ID, $object_id);
+        $condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_id);
         $this->database->delete('system_announcement_publication', $condition);
     }
 

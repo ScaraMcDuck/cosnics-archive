@@ -17,7 +17,7 @@ if (Authentication :: is_valid())
     $adm = AdminDataManager :: get_instance();
 
     $conditions = array();
-    $conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_LEARNING_OBJECT);
+    $conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_CONTENT_OBJECT);
     $conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, 'template');
     $condition = new AndCondition($conditions);
 

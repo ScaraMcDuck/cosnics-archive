@@ -24,7 +24,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 	 */
 	function run()
 	{
-		$id = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
+		$id = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
 		if ($id)
 		{
 			$object = $this->retrieve_content_object($id);
@@ -94,11 +94,11 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					$version_data[] = $display->get_version_as_html($version_entry);
 				}
 
-				$form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_COMPARE, $object, 'compare', 'post', $this->get_url(array(RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $object->get_id())), array('version_data' => $version_data));
+				$form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_COMPARE, $object, 'compare', 'post', $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $object->get_id())), array('version_data' => $version_data));
 				if ($form->validate())
 				{
 					$params = $form->compare_content_object();
-					$params[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_COMPARE_LEARNING_OBJECTS;
+					$params[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_COMPARE_CONTENT_OBJECTS;
 					$this->redirect(null, false, $params);
 				}
 				else

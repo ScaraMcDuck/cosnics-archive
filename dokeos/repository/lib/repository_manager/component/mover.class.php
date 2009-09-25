@@ -27,7 +27,7 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 		$trail = new BreadcrumbTrail(false);
 		$trail->add_help('repository general');
 
-		$ids = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
+		$ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
 		if (!empty ($ids))
 		{
 			if (!is_array($ids))
@@ -43,12 +43,12 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 				$this->tree[] = Translation :: get('Repository');
 
 			$this->get_categories_for_select(0, $parent);
-			$form = new FormValidator('move', 'post', $this->get_url(array (RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $ids)));
-			$form->addElement('select', RepositoryManager :: PARAM_DESTINATION_LEARNING_OBJECT_ID, Translation :: get('NewCategory'), $this->tree);
+			$form = new FormValidator('move', 'post', $this->get_url(array (RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $ids)));
+			$form->addElement('select', RepositoryManager :: PARAM_DESTINATION_CONTENT_OBJECT_ID, Translation :: get('NewCategory'), $this->tree);
 			$form->addElement('submit', 'submit', Translation :: get('Move'));
 			if ($form->validate())
 			{
-				$destination = $form->exportValue(RepositoryManager :: PARAM_DESTINATION_LEARNING_OBJECT_ID);
+				$destination = $form->exportValue(RepositoryManager :: PARAM_DESTINATION_CONTENT_OBJECT_ID);
 				$failures = 0;
 				foreach ($ids as $id)
 				{
@@ -103,7 +103,7 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 				}
 
 				$parameters = array();
-                $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS;
+                $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;
                 $parameters[RepositoryManager :: PARAM_CATEGORY_ID] = $object->get_parent_id();
 				$this->redirect(Translation :: get($message), ($failures ? true : false), $parameters);
 			}
@@ -114,9 +114,9 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 				//$form->accept($renderer);
 
                 if(count($ids)==1)
-                    $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager::ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager::PARAM_LEARNING_OBJECT_ID => $ids)), $this->retrieve_content_object($ids)->get_title()));
+                    $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager::ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager::PARAM_CONTENT_OBJECT_ID => $ids)), $this->retrieve_content_object($ids)->get_title()));
                 else
-                    $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager::ACTION_BROWSE_LEARNING_OBJECTS), Translation :: get('Objects'))));
+                    $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager::ACTION_BROWSE_CONTENT_OBJECTS), Translation :: get('Objects'))));
 
 				$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Move')));
 				$this->display_header($trail, false, true);

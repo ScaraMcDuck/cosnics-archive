@@ -16,7 +16,7 @@ class RepositoryManagerRestorerComponent extends RepositoryManagerComponent
 	 */
 	function run()
 	{
-		$ids = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
+		$ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
 		if (!empty($ids))
 		{
 			if (!is_array($ids))
@@ -72,7 +72,7 @@ class RepositoryManagerRestorerComponent extends RepositoryManagerComponent
 				}
 			}
 
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_RECYCLED_CONTENT_OBJECTS));
 		}
 		else
 		{

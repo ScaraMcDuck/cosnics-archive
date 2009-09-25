@@ -104,7 +104,7 @@ class LocalPackageBrowser
         $object_path = Path :: get_repository_path() . 'lib/content_object/';
         $object_folders = Filesystem :: get_directory_content($object_path, Filesystem :: LIST_DIRECTORIES, false);
         
-        $condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_LEARNING_OBJECT);
+        $condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_CONTENT_OBJECT);
         $registrations = AdminDataManager :: get_instance()->retrieve_registrations($condition);
         $installed_objects = array();
         

@@ -62,7 +62,7 @@ abstract class PackageRemover
                 case Registration :: TYPE_APPLICATION :
                     $info_path = Path :: get_application_path() . 'lib/' . $registration->get_name() . '/package.info';
                     break;
-                case Registration :: TYPE_LEARNING_OBJECT :
+                case Registration :: TYPE_CONTENT_OBJECT :
                     $info_path = Path :: get_repository_path() . 'lib/content_object/' . $registration->get_name() . '/package.info';
                     break;
             }
@@ -231,7 +231,7 @@ abstract class PackageRemover
             case Registration :: TYPE_APPLICATION :
                 $dependency_type = 'applications';
                 break;
-            case Registration :: TYPE_LEARNING_OBJECT :
+            case Registration :: TYPE_CONTENT_OBJECT :
                 $dependency_type = 'content_objects';
                 break;
         }

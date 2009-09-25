@@ -180,7 +180,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 
 	function any_content_object_is_published($object_ids)
 	{
-		$condition = new InCondition(PortfolioPublication :: PROPERTY_LEARNING_OBJECT, $object_ids);
+		$condition = new InCondition(PortfolioPublication :: PROPERTY_CONTENT_OBJECT, $object_ids);
         return $this->database->count_objects(PortfolioPublication :: get_table_name(), $condition) >= 1;
 	}
 
@@ -201,8 +201,8 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
                     }
                     elseif ($order_property[$i] == 'location')
                     {
-                        //$order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_COURSE_ID) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
-                        //$order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_TOOL) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                        //$order[] = self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_COURSE_ID) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                        //$order[] = self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_TOOL) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
                     }
                     elseif ($order_property[$i] == 'title')
                     {
@@ -224,7 +224,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
         }
         else
         {
-            $query = 'SELECT * FROM ' . $this->database->escape_table_name('portfolio_publication') . ' WHERE ' . $this->database->escape_column_name(PortfolioPublication :: PROPERTY_LEARNING_OBJECT) . '=?';
+            $query = 'SELECT * FROM ' . $this->database->escape_table_name('portfolio_publication') . ' WHERE ' . $this->database->escape_column_name(PortfolioPublication :: PROPERTY_CONTENT_OBJECT) . '=?';
             $statement = $this->database->get_connection()->prepare($query);
             $param = $object_id;
         }
@@ -240,7 +240,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
             //TODO: i8n location string
             $info->set_location(Translation :: get('MyPortfolio'));
             $info->set_url('run.php?application=portfolio&go=view_portfolio&user_id=' . Session :: get_user_id() . '&pid=' . $record[PortfolioPublication :: PROPERTY_ID]);
-            $info->set_publication_object_id($record[PortfolioPublication :: PROPERTY_LEARNING_OBJECT]);
+            $info->set_publication_object_id($record[PortfolioPublication :: PROPERTY_CONTENT_OBJECT]);
 
             $publication_attr[] = $info;
         }
@@ -265,7 +265,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
         //TODO: i8n location string
         $publication_attr->set_location(Translation :: get('MyPortfolio'));
         $publication_attr->set_url('run.php?application=portfolio&go=view_portfolio&user_id=' . Session :: get_user_id() . '&pid=' . $record[PortfolioPublication :: PROPERTY_ID]);
-        $publication_attr->set_publication_object_id($record[PortfolioPublication :: PROPERTY_LEARNING_OBJECT]);
+        $publication_attr->set_publication_object_id($record[PortfolioPublication :: PROPERTY_CONTENT_OBJECT]);
 
         return $publication_attr;
 	}
@@ -278,7 +278,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 
 	function delete_content_object_publications($object_id)
 	{
-		$condition = new EqualityCondition(PortfolioPublication :: PROPERTY_LEARNING_OBJECT, $object_id);
+		$condition = new EqualityCondition(PortfolioPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
         $publications = $this->retrieve_portfolio_publications($condition);
         
         $succes = true;
@@ -295,7 +295,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 	{
 	 	$where = $this->database->escape_column_name(PortfolioPublication :: PROPERTY_ID) . '=' . $publication_attr->get_id();
         $props = array();
-        $props[$this->database->escape_column_name(PortfolioPublication :: PROPERTY_LEARNING_OBJECT)] = $publication_attr->get_publication_object_id();
+        $props[$this->database->escape_column_name(PortfolioPublication :: PROPERTY_CONTENT_OBJECT)] = $publication_attr->get_publication_object_id();
         $this->database->get_connection()->loadModule('Extended');
         if ($this->database->get_connection()->extended->autoExecute($this->database->get_table_name('portfolio_publication'), $props, MDB2_AUTOQUERY_UPDATE, $where))
         {

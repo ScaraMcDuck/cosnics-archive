@@ -20,7 +20,7 @@ class RepositoryManagerDocumentDownloaderComponent extends RepositoryManagerComp
 	 */
 	function run()
 	{
-		$object_id = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
+		$object_id = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
 		if(!$object_id)
 		{
 			$this->display_header();

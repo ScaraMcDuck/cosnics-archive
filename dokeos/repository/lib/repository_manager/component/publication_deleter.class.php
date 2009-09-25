@@ -18,7 +18,7 @@ class RepositoryManagerPublicationDeleterComponent extends RepositoryManagerComp
 	 */
 	function run()
 	{
-		$id = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
+		$id = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
 		if (!empty ($id))
 		{
 			$failures = 0;
@@ -60,7 +60,7 @@ class RepositoryManagerPublicationDeleterComponent extends RepositoryManagerComp
 			{
 				$message = 'SelectedObjectUnlinked';
 			}
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS));
 		}
 		else
 		{

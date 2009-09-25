@@ -13,8 +13,8 @@ class RepositoryManagerExternalRepositoryMetadataReviewerComponent extends Repos
     	    $content_object = $this->get_content_object_from_params();
     	    
     	    $trail = new BreadcrumbTrail(false);
-    	    $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $content_object->get_id())), $content_object->get_title()));
-    	    $trail->add(new BreadCrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_BROWSE, RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $content_object->get_id())), Translation :: translate('ExternalExport')));
+    	    $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id())), $content_object->get_title()));
+    	    $trail->add(new BreadCrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_BROWSE, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id())), Translation :: translate('ExternalExport')));
 	    
 		    $metadata_type = $this->get_metadata_type();
 			
@@ -25,7 +25,7 @@ class RepositoryManagerExternalRepositoryMetadataReviewerComponent extends Repos
                 case self :: METADATA_FORMAT_LOM:
                                         
                     $mapper = new IeeeLomMapper($content_object);
-                    $form = new MetadataLOMEditForm($content_object->get_id(), $mapper, $this->get_url(array(RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $content_object->get_id(), RepositoryManagerExternalRepositoryExportComponent :: PARAM_EXPORT_ID => Request :: get(RepositoryManagerExternalRepositoryExportComponent :: PARAM_EXPORT_ID))), $this->get_catalogs());
+                    $form = new MetadataLOMEditForm($content_object->get_id(), $mapper, $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(), RepositoryManagerExternalRepositoryExportComponent :: PARAM_EXPORT_ID => Request :: get(RepositoryManagerExternalRepositoryExportComponent :: PARAM_EXPORT_ID))), $this->get_catalogs());
                     break;
                 
                 /*
@@ -62,7 +62,7 @@ class RepositoryManagerExternalRepositoryMetadataReviewerComponent extends Repos
                             Redirect :: url(array(Application :: PARAM_APPLICATION => RepositoryManager :: APPLICATION_NAME, 
                                                     Application :: PARAM_ACTION => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_EXPORT, 
                                                     RepositoryManagerExternalRepositoryExportComponent :: PARAM_EXPORT_ID => Request :: get(RepositoryManagerExternalRepositoryExportComponent :: PARAM_EXPORT_ID), 
-                                                    RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $content_object->get_id(), 
+                                                    RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(), 
                                                     RepositoryManagerExternalRepositoryExportExportComponent :: PARAM_FORCE_EXPORT => 1));
                         
 //                        $form->set_constant_values($mapper->get_constant_values(), true);
@@ -97,7 +97,7 @@ class RepositoryManagerExternalRepositoryMetadataReviewerComponent extends Repos
 	 */
 	function get_metadata_type()
 	{
-	    $metadata_type = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE); 
+	    $metadata_type = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE); 
         if(!isset($metadata_type))
         {
             $metadata_type = self :: METADATA_FORMAT_LOM;

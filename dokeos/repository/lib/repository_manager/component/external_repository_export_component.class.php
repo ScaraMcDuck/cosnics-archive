@@ -42,7 +42,7 @@ class RepositoryManagerExternalRepositoryExportComponent extends RepositoryManag
 		/*
 	     * Check if the learning object is given in the URL params  
 	     */
-	    $lo_id = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
+	    $lo_id = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
 	    
 	    if(isset($lo_id) && is_numeric($lo_id))
 	    {
@@ -91,7 +91,7 @@ class RepositoryManagerExternalRepositoryExportComponent extends RepositoryManag
 		    if($with_error_display)
 		    {
 		        $trail = new BreadcrumbTrail(false);
-    		    $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager::PARAM_LEARNING_OBJECT_ID => $content_object->get_id())), $content_object->get_title()));
+    		    $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager::PARAM_CONTENT_OBJECT_ID => $content_object->get_id())), $content_object->get_title()));
     		        
 		        $this->not_allowed($trail);
 		    }

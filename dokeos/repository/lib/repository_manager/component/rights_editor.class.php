@@ -17,7 +17,7 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManagerComponent
 	 */
 	function run()
 	{
-		$object = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
+		$object = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
 		$location = RepositoryRights :: get_location_by_identifier('content_object', $object);
 		
 		$manager = new RightsEditorManager($this, $location);
@@ -41,7 +41,7 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManagerComponent
 	
 	function get_url($parameters)
 	{
-		$parameters[RepositoryManager :: PARAM_LEARNING_OBJECT_ID] = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
+		$parameters[RepositoryManager :: PARAM_CONTENT_OBJECT_ID] = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
 		
 		return parent :: get_url($parameters);
 	}
@@ -49,7 +49,7 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManagerComponent
 	function get_parameters()
 	{
 		$parameters = parent :: get_parameters();
-		$parameters[RepositoryManager :: PARAM_LEARNING_OBJECT_ID] = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
+		$parameters[RepositoryManager :: PARAM_CONTENT_OBJECT_ID] = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
 		return $parameters;
 	}
 

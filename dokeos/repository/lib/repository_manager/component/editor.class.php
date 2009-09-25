@@ -24,7 +24,7 @@ class RepositoryManagerEditorComponent extends RepositoryManagerComponent
 		$trail = new BreadcrumbTrail(false);
 		$trail->add_help('repository general');
 
-		$id = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
+		$id = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
 		if ($id)
 		{
 			$object = $this->retrieve_content_object($id);
@@ -36,27 +36,27 @@ class RepositoryManagerEditorComponent extends RepositoryManagerComponent
 			elseif (!$object->is_latest_version())
 			{
                 $parameters = array();
-                $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS;
+                $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;
                 $parameters[RepositoryManager :: PARAM_CATEGORY_ID] = $object->get_parent_id();
 
 				$this->redirect(Translation :: get('EditNotAllowed'), true, $parameters);
 			}
-			$form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $object, 'edit', 'post', $this->get_url(array (RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $id)));
+			$form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $object, 'edit', 'post', $this->get_url(array (RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $id)));
 			if ($form->validate())
 			{
 				$success = $form->update_content_object();
 				$category_id = $object->get_parent_id();
 
                 $parameters = array();
-                $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS;
+                $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;
                 $parameters[RepositoryManager :: PARAM_CATEGORY_ID] = $category_id;
 
 				$this->redirect(Translation :: get($success == ContentObjectForm :: RESULT_SUCCESS ? 'ObjectUpdated' : 'ObjectUpdateFailed'), ($success == ContentObjectForm :: RESULT_SUCCESS ? false : true), $parameters);
 			}
 			else
 			{
-                $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager::ACTION_VIEW_LEARNING_OBJECTS,RepositoryManager::PARAM_LEARNING_OBJECT_ID => $id)), $object->get_title()));
-				$trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_LEARNING_OBJECT_ID => $id)), Translation :: get('Edit')));
+                $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager::ACTION_VIEW_CONTENT_OBJECTS,RepositoryManager::PARAM_CONTENT_OBJECT_ID => $id)), $object->get_title()));
+				$trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_CONTENT_OBJECT_ID => $id)), Translation :: get('Edit')));
 				$this->display_header($trail, false, true);
 				$form->display();
 				$this->display_footer();

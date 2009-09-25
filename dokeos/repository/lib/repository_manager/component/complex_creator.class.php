@@ -56,7 +56,7 @@ class RepositoryManagerComplexCreatorComponent extends RepositoryManagerComponen
 					$cloi = $cloi_form->get_complex_content_object_item();
 					$root_id = $root_id?$root_id:$cloi->get_id();
 					if($cloi->is_complex()) $id = $cloi->get_ref(); else $id = $cloi->get_parent();
-					$this->redirect(Translation :: get('ObjectCreated'), false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $id,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
+					$this->redirect(Translation :: get('ObjectCreated'), false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $id,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
 				}
 				else
 				{
@@ -71,11 +71,11 @@ class RepositoryManagerComplexCreatorComponent extends RepositoryManagerComponen
 				$cloi->create();
 				$root_id = $root_id?$root_id:$cloi->get_id();
 				if($cloi->is_complex()) $id = $cloi->get_ref(); else $id = $cloi->get_parent();
-				$this->redirect(Translation :: get('ObjectCreated'), false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $id,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
+				$this->redirect(Translation :: get('ObjectCreated'), false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $id,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
 			}
 		}
 		else
-			$this->redirect(Translation :: get('ObjectCreated'), false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $ref,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $ref, 'publish' => Request :: get('publish')));
+			$this->redirect(Translation :: get('ObjectCreated'), false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $ref,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $ref, 'publish' => Request :: get('publish')));
 	}
 }
 ?>

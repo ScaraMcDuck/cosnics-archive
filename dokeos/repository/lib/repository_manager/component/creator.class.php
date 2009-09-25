@@ -57,8 +57,8 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			$root = $this->retrieve_content_object($root_id);
 			if(!Request :: get('publish'))
 			{
-				$trail->add(new Breadcrumb($this->get_link(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $root_id)), $root->get_title()));
-				$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $clo_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id)), Translation :: get('ViewComplexContentObject')));
+				$trail->add(new Breadcrumb($this->get_link(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $root_id)), $root->get_title()));
+				$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $clo_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id)), Translation :: get('ViewComplexContentObject')));
 			}
 		}
 		else
@@ -74,17 +74,17 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 		$type_form = new FormValidator('create_type', 'post', $this->get_url($extra_params));
 
 		asort($type_options);
-		$type_form->addElement('select', RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE, Translation :: get('CreateANew'), $type_options, array('class' => 'learning-object-creation-type postback'));
+		$type_form->addElement('select', RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE, Translation :: get('CreateANew'), $type_options, array('class' => 'learning-object-creation-type postback'));
 		$type_form->addElement('style_submit_button', 'submit', Translation :: get('Select'), array('class' => 'normal select'));
 		$type_form->addElement('html', '<br /><br />' . ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/postback.js'));
 
-		$type = ($type_form->validate() ? $type_form->exportValue(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE) : Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE));
+		$type = ($type_form->validate() ? $type_form->exportValue(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE) : Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE));
 
 		if ($type)
 		{
 			$category = Request :: get(RepositoryManager :: PARAM_CATEGORY_ID);
 			$object = new AbstractContentObject($type, $this->get_user_id(), $category);
-			$lo_form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_CREATE, $object, 'create', 'post', $this->get_url(array_merge($extra_params,array(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE => $type))), null);
+			$lo_form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_CREATE, $object, 'create', 'post', $this->get_url(array_merge($extra_params,array(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE => $type))), null);
 
 			if ($lo_form->validate())
 			{
@@ -92,12 +92,12 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 
 				if(!$object)
 				{
-					$this->redirect(Translation :: get('FileCouldNotBeUploaded'), true, array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_CREATE_LEARNING_OBJECTS, 'type' => $type));
+					$this->redirect(Translation :: get('FileCouldNotBeUploaded'), true, array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_CREATE_CONTENT_OBJECTS, 'type' => $type));
 				}
 				
 				if(!is_array($object) && ($object->is_complex_content_object() || count($extra_params) == 2 || count($extra_params) == 3))
 				{
-					$parameters = array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BUILD_COMPLEX_LEARNING_OBJECT, ComplexBuilder :: PARAM_ROOT_LO => $object->get_id());
+					$parameters = array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT, ComplexBuilder :: PARAM_ROOT_LO => $object->get_id());
 					$filter = array('category');
 					$this->redirect(null, false, $parameters, $filter);
 				}
@@ -113,7 +113,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 					}
 
 					$parameters = array();
-					$parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS;
+					$parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;
 					$parameters[RepositoryManager :: PARAM_CATEGORY_ID] = $parent;
 					$this->redirect(Translation :: get('ObjectCreated'), false, $parameters);
 				}
@@ -216,7 +216,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			$setting = PlatformSetting :: get('allow_' . $type . '_creation', 'repository');
 			if($setting)
 			{
-				$object[] = '<a href="'. $this->get_url(array(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE => $type)) .'"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
+				$object[] = '<a href="'. $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE => $type)) .'"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
 				$object[] = Translation :: get(ContentObject :: type_to_class($type).'TypeName');
 				$object[] = '</div></a>';
 			}

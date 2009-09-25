@@ -20,7 +20,7 @@ class ContentObjectPublication extends DataClass
     /**#@+
      * Constant defining a property of the publication
      */
-    const PROPERTY_LEARNING_OBJECT_ID = 'content_object_id';
+    const PROPERTY_CONTENT_OBJECT_ID = 'content_object_id';
     const PROPERTY_COURSE_ID = 'course_id';
     const PROPERTY_TOOL = 'tool';
     const PROPERTY_PARENT_ID = 'parent_id';
@@ -43,7 +43,7 @@ class ContentObjectPublication extends DataClass
 
     static function get_default_property_names()
     {
-       return parent :: get_default_property_names(array(self :: PROPERTY_LEARNING_OBJECT_ID, self :: PROPERTY_COURSE_ID, self :: PROPERTY_TOOL, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CATEGORY_ID, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER_ID, self :: PROPERTY_PUBLICATION_DATE, self :: PROPERTY_MODIFIED_DATE, self :: PROPERTY_DISPLAY_ORDER_INDEX, self :: PROPERTY_EMAIL_SENT, self :: PROPERTY_SHOW_ON_HOMEPAGE));
+       return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT_ID, self :: PROPERTY_COURSE_ID, self :: PROPERTY_TOOL, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CATEGORY_ID, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER_ID, self :: PROPERTY_PUBLICATION_DATE, self :: PROPERTY_MODIFIED_DATE, self :: PROPERTY_DISPLAY_ORDER_INDEX, self :: PROPERTY_EMAIL_SENT, self :: PROPERTY_SHOW_ON_HOMEPAGE));
     }
     
 	/**
@@ -60,7 +60,7 @@ class ContentObjectPublication extends DataClass
      */
     function get_content_object_id()
     {
-        return $this->get_default_property(self :: PROPERTY_LEARNING_OBJECT_ID);
+        return $this->get_default_property(self :: PROPERTY_CONTENT_OBJECT_ID);
     }
 
     /**
@@ -253,7 +253,7 @@ class ContentObjectPublication extends DataClass
 
     function set_content_object_id($content_object_id)
     {
-        $this->set_default_property(self :: PROPERTY_LEARNING_OBJECT_ID, $content_object_id);
+        $this->set_default_property(self :: PROPERTY_CONTENT_OBJECT_ID, $content_object_id);
     }
 
     function set_course_id($course)

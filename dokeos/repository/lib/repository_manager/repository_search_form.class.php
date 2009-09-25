@@ -149,7 +149,7 @@ class RepositorySearchForm extends FormValidator
 		asort($types);
 		$this->frozen_elements[] = $this->addElement('text', self :: PARAM_TITLE_SEARCH_QUERY, Translation :: get('Title'), 'size="60" style="width: 100%"');
 		$this->frozen_elements[] = $this->addElement('text', self :: PARAM_DESCRIPTION_SEARCH_QUERY, Translation :: get('Description'), 'size="60" style="width: 100%"');
-		$this->frozen_elements[] = $this->addElement('select', RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE, Translation :: get('Type'), $types, 'multiple="multiple" size="5" style="width: 100%"');
+		$this->frozen_elements[] = $this->addElement('select', RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE, Translation :: get('Type'), $types, 'multiple="multiple" size="5" style="width: 100%"');
 		$scope_buttons = array ();
 		$scope_buttons[] = $this->createElement('radio', null, null, Translation :: get('EntireRepository'), self :: SEARCH_SCOPE_REPOSITORY);
 		$scope_buttons[] = $this->createElement('radio', null, null, Translation :: get('CurrentCategoryOnly'), self :: SEARCH_SCOPE_CATEGORY);
@@ -283,13 +283,13 @@ class RepositorySearchForm extends FormValidator
 	 */
 	private function get_types()
 	{
-		if(Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE))
+		if(Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE))
 		{
-			$types = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE);
+			$types = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE);
 		}
 		else
 		{
-			$types = $_POST[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE];
+			$types = $_POST[RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE];
 		}
 		return (is_array($types) && count($types) ? $types : null);
 	}

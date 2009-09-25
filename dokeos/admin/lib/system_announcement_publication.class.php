@@ -12,7 +12,7 @@ class SystemAnnouncementPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     
-    const PROPERTY_LEARNING_OBJECT_ID = 'object_id';
+    const PROPERTY_CONTENT_OBJECT_ID = 'object_id';
     const PROPERTY_FROM_DATE = 'from_date';
     const PROPERTY_TO_DATE = 'to_date';
     const PROPERTY_HIDDEN = 'hidden';
@@ -26,7 +26,7 @@ class SystemAnnouncementPublication extends DataClass
 
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_LEARNING_OBJECT_ID, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_MODIFIED, self :: PROPERTY_EMAIL_SENT));
+        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT_ID, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_MODIFIED, self :: PROPERTY_EMAIL_SENT));
     }
     
 	/**
@@ -39,7 +39,7 @@ class SystemAnnouncementPublication extends DataClass
 
     function get_content_object_id()
     {
-        return $this->get_default_property(self :: PROPERTY_LEARNING_OBJECT_ID);
+        return $this->get_default_property(self :: PROPERTY_CONTENT_OBJECT_ID);
     }
 
     function get_from_date()
@@ -79,7 +79,7 @@ class SystemAnnouncementPublication extends DataClass
 
     function set_content_object_id($id)
     {
-        $this->set_default_property(self :: PROPERTY_LEARNING_OBJECT_ID, $id);
+        $this->set_default_property(self :: PROPERTY_CONTENT_OBJECT_ID, $id);
     }
 
     function set_from_date($from_date)

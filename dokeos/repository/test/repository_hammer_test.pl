@@ -15,9 +15,9 @@ use constant USERS => {
 	5 => [ 'bob', 'bob' ]
 };
 use constant REPOSITORY_URL => 'http://193.191.154.68/dokeoslcms/repository/objectmanagement/';
-use constant LEARNING_OBJECT_IDS_URL_FORMAT => 'http://193.191.154.68/dokeoslcms/repository/test/repository_hammer_test.php?owner=%d';
-use constant LEARNING_OBJECT_URL_FORMAT => 'http://193.191.154.68/dokeoslcms/repository/objectmanagement/view.php?id=%d';
-use constant LEARNING_OBJECT_OUTPUT_PATTERN => qr/<div class="content_object">/;
+use constant CONTENT_OBJECT_IDS_URL_FORMAT => 'http://193.191.154.68/dokeoslcms/repository/test/repository_hammer_test.php?owner=%d';
+use constant CONTENT_OBJECT_URL_FORMAT => 'http://193.191.154.68/dokeoslcms/repository/objectmanagement/view.php?id=%d';
+use constant CONTENT_OBJECT_OUTPUT_PATTERN => qr/<div class="content_object">/;
 use constant REPOSITORY_OUTPUT_PATTERN => qr/<table class="data_table">/;
 use constant REQUEST_COUNT => 5000;
 use constant INTERVAL => 0.5;
@@ -109,7 +109,7 @@ sub login {
 
 sub get_ids {
 	my $uid = shift;
-	my $url = sprintf(LEARNING_OBJECT_IDS_URL_FORMAT, $uid);
+	my $url = sprintf(CONTENT_OBJECT_IDS_URL_FORMAT, $uid);
 	my $response = &get_url($url);
 	return $response->status_line unless ($response->is_success());
 	return [ split(/\n/, $response->content) ];
@@ -123,7 +123,7 @@ sub get_random_id {
 
 sub build_url {
 	my $id = shift;
-	return sprintf(LEARNING_OBJECT_URL_FORMAT, $id);
+	return sprintf(CONTENT_OBJECT_URL_FORMAT, $id);
 }
 
 sub get_url {
@@ -140,7 +140,7 @@ sub request_result {
 	if ($response->is_success()) {
 		$return_content = $response->content;
 		my $pattern = (defined $id
-			? LEARNING_OBJECT_OUTPUT_PATTERN
+			? CONTENT_OBJECT_OUTPUT_PATTERN
 			: REPOSITORY_OUTPUT_PATTERN);
 		$return_code = -1 unless ($return_content =~ $pattern);
 	}

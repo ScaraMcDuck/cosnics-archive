@@ -41,7 +41,7 @@ class RepositoryManagerMetadataComponent extends RepositoryManagerComponent
 		/*
 	     * Check if the learning object is given in the URL params  
 	     */
-	    $lo_id = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
+	    $lo_id = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
 	    
 	    if(isset($lo_id) && is_numeric($lo_id))
 	    {
@@ -84,7 +84,7 @@ class RepositoryManagerMetadataComponent extends RepositoryManagerComponent
 	 */
 	function get_metadata_type()
 	{
-	    $metadata_type = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE); 
+	    $metadata_type = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE); 
         if(!isset($metadata_type))
         {
             $metadata_type = self :: METADATA_FORMAT_LOM;
