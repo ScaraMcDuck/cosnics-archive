@@ -842,7 +842,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     function unsubscribe_user_from_course($course, $user_id)
     {
         $conditions = array();
-        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE_GROUP, $course->get_id());
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course->get_id());
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user_id);
         $condition = new AndCondition($conditions);
 
