@@ -158,7 +158,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
         {
             if ($type == 'user')
             {
-                $query = 'SELECT ' . self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.*, ' . self :: ALIAS_LEARNING_OBJECT_TABLE . '.' . $this->database->escape_column_name('title') . ' FROM ' . $this->database->escape_table_name('publication') . ' AS ' . self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . ' JOIN ' . RepositoryDataManager :: get_instance()->escape_table_name('learning_object') . ' AS ' . self :: ALIAS_LEARNING_OBJECT_TABLE . ' ON ' . self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.`profile` = ' . self :: ALIAS_LEARNING_OBJECT_TABLE . '.`id`';
+                $query = 'SELECT ' . self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.*, ' . self :: ALIAS_LEARNING_OBJECT_TABLE . '.' . $this->database->escape_column_name('title') . ' FROM ' . $this->database->escape_table_name('publication') . ' AS ' . self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . ' JOIN ' . RepositoryDataManager :: get_instance()->escape_table_name('learning_object') . ' AS ' . self :: ALIAS_LEARNING_OBJECT_TABLE . ' ON ' . self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.`profile_id` = ' . self :: ALIAS_LEARNING_OBJECT_TABLE . '.`id`';
                 $query .= ' WHERE ' . self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ProfilePublication :: PROPERTY_PUBLISHER) . '=?';
 
                 $order = array();

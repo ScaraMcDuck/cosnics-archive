@@ -351,7 +351,7 @@ class DatabaseAdminDataManager extends AdminDataManager
         {
             if ($type == 'user')
             {
-                $query = 'SELECT * FROM ' . $this->database->get_table_name('system_announcement_publication') . ' WHERE ' . $this->database->escape_column_name('publisher') . '=?';
+                $query = 'SELECT * FROM ' . $this->database->get_table_name('system_announcement_publication') . ' WHERE ' . $this->database->escape_column_name('publisher_id') . '=?';
 
                 $order = array();
                 for($i = 0; $i < count($order_property); $i ++)
@@ -389,14 +389,14 @@ class DatabaseAdminDataManager extends AdminDataManager
         {
             $info = new LearningObjectPublicationAttributes();
             $info->set_id($record['id']);
-            $info->set_publisher_user_id($record['publisher']);
+            $info->set_publisher_user_id($record['publisher_id']);
             $info->set_publication_date($record['published']);
             $info->set_application('admin');
             //TODO: i8n location string
             $info->set_location('');
             //TODO: set correct URL
             $info->set_url('index_admin.php?go=sysviewer&announcement=' . $record['id']);
-            $info->set_publication_object_id($record['learning_object']);
+            $info->set_publication_object_id($record['learning_object_id']);
             $publication_attr[] = $info;
         }
         return $publication_attr;
@@ -428,7 +428,7 @@ class DatabaseAdminDataManager extends AdminDataManager
 
     public function count_publication_attributes($type = null, $condition = null)
     {
-        $condition = new EqualityCondition('publisher', Session :: get_user_id());
+        $condition = new EqualityCondition('publisher_id', Session :: get_user_id());
         return $this->database->count_objects('system_announcement_publication', $condition);
     }
 
