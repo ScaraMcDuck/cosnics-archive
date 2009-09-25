@@ -79,6 +79,7 @@
 	    		if(data.length > 0)
 	    		{
 	    			// On error : set the old icons and classes again
+	    			//alert(data);
 	    			imgtag.attr('src', old_img);
 	    			tool_text.attr('class', old_class);
 	    			tool_img.attr('src', old_tool_img);

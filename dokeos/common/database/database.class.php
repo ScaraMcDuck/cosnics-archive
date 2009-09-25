@@ -345,7 +345,7 @@ class Database
 	        {
             	$query .= ' LIMIT ' . $max_objects;
         	}
-
+        	
         	//$this->connection->setLimit(intval($max_objects), intval($offset));
         	//$this->connection->setLimit(intval($max_objects));
     		$statement = $this->connection->prepare($query);
