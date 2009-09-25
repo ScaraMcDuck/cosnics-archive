@@ -6,7 +6,7 @@
 /**
  * This class can be used to display the difference between templates
  */
-class TemplateDifferenceDisplay extends LearningObjectDifferenceDisplay
+class TemplateDifferenceDisplay extends ContentObjectDifferenceDisplay
 {
 }
 ?>

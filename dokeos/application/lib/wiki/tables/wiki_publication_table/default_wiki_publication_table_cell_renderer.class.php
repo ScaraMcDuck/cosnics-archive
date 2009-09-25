@@ -22,7 +22,7 @@ class DefaultWikiPublicationTableCellRenderer implements ObjectTableCellRenderer
 
 	/**
 	 * Renders a table cell
-	 * @param LearningObjectTableColumnModel $column The column which should be
+	 * @param ContentObjectTableColumnModel $column The column which should be
 	 * rendered
 	 * @param WikiPublication $wiki_publication - The wiki_publication
 	 * @return string A HTML representation of the rendered table cell
@@ -31,12 +31,12 @@ class DefaultWikiPublicationTableCellRenderer implements ObjectTableCellRenderer
 	{
 		switch ($column->get_name())
 		{
-            case LearningObject :: PROPERTY_TITLE :
-                //return $wiki_publication->get_learning_object()->get_title();
+            case ContentObject :: PROPERTY_TITLE :
+                //return $wiki_publication->get_content_object()->get_title();
                 $url = $this->browser->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, WikiManager :: PARAM_WIKI_PUBLICATION => $wiki_publication->get_id()));
-                return '<a href="'.$url.'">' . htmlspecialchars($wiki_publication->get_learning_object()->get_title()) . '</a>';
-            case LearningObject :: PROPERTY_DESCRIPTION:
-                return $wiki_publication->get_learning_object()->get_description();
+                return '<a href="'.$url.'">' . htmlspecialchars($wiki_publication->get_content_object()->get_title()) . '</a>';
+            case ContentObject :: PROPERTY_DESCRIPTION:
+                return $wiki_publication->get_content_object()->get_description();
             default :
                 return '&nbsp;';
 		}

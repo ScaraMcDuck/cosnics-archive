@@ -16,7 +16,7 @@ class LaikaAttemptBrowserTable extends ObjectTable
 	
 	/**
 	 * Constructor
-	 * @see LearningObjectTable::LearningObjectTable()
+	 * @see ContentObjectTable::ContentObjectTable()
 	 */
 	function LaikaAttemptBrowserTable($browser, $parameters, $condition)
 	{

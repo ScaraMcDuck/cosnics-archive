@@ -3,9 +3,9 @@
  * @package repository.object
  * @subpackage link
  */
-require_once dirname(__FILE__).'/../../learning_object_form.class.php';
+require_once dirname(__FILE__).'/../../content_object_form.class.php';
 require_once dirname(__FILE__).'/rss_feed.class.php';
-class RssFeedForm extends LearningObjectForm
+class RssFeedForm extends ContentObjectForm
 {
 	protected function build_creation_form()
 	{
@@ -23,7 +23,7 @@ class RssFeedForm extends LearningObjectForm
 	}
 	function setDefaults($defaults = array ())
 	{
-		$lo = $this->get_learning_object();
+		$lo = $this->get_content_object();
 		if (isset($lo))
 		{
 			$defaults[RssFeed :: PROPERTY_URL] = $lo->get_url();
@@ -34,18 +34,18 @@ class RssFeedForm extends LearningObjectForm
 		}
 		parent :: setDefaults($defaults);
 	}
-	function create_learning_object()
+	function create_content_object()
 	{
-		$learning_object = new RssFeed();
-		$learning_object->set_url($this->exportValue(RssFeed :: PROPERTY_URL));
-		$this->set_learning_object($learning_object);
-		return parent :: create_learning_object();
+		$content_object = new RssFeed();
+		$content_object->set_url($this->exportValue(RssFeed :: PROPERTY_URL));
+		$this->set_content_object($content_object);
+		return parent :: create_content_object();
 	}
-	function update_learning_object()
+	function update_content_object()
 	{
-		$learning_object = $this->get_learning_object();
-		$learning_object->set_url($this->exportValue(RssFeed :: PROPERTY_URL));
-		return parent :: update_learning_object();
+		$content_object = $this->get_content_object();
+		$content_object->set_url($this->exportValue(RssFeed :: PROPERTY_URL));
+		return parent :: update_content_object();
 	}
 }
 ?>

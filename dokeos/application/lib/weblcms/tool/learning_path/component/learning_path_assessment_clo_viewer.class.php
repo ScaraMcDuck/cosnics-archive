@@ -12,7 +12,7 @@ class LearningPathToolAssessmentCloViewerComponent extends LearningPathToolCompo
         $assessment = Request :: get('oid'); 
         $lpi_attempt_id = Request :: get('lpi_attempt_id');
         
-       	$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($assessment);
+       	$object = RepositoryDataManager :: get_instance()->retrieve_content_object($assessment);
         
         $this->lpi_attempt_id = $lpi_attempt_id;
         

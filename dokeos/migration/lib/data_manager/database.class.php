@@ -125,7 +125,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	{
 		$title = $this->connection->quote($title, "text", true);
 		
-		$query = 'SELECT id FROM ' . $this->get_table_name('repository_learning_object'). ' WHERE owner=\'' . $owner . '\' AND type=\'' . $type .
+		$query = 'SELECT id FROM ' . $this->get_table_name('repository_content_object'). ' WHERE owner=\'' . $owner . '\' AND type=\'' . $type .
 		 		'\' AND title=' . $title . '';
 		
 		if($parent)
@@ -372,7 +372,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	function publication_category_exist($title,$course_code,$tool,$parent = null)
 	{
 		$title = $this->connection->quote($title, "text", true);
-		$query = 'SELECT id FROM ' . $this->get_table_name('weblcms_learning_object_publication_category'). ' WHERE name=' . $title . ' AND course=\'' . $course_code .
+		$query = 'SELECT id FROM ' . $this->get_table_name('weblcms_content_object_publication_category'). ' WHERE name=' . $title . ' AND course=\'' . $course_code .
 		 		'\' AND tool=\'' . $tool . '\'';
 		
 		if($parent)
@@ -393,7 +393,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	{
 		$path = $this->connection->quote($path, "text", true);
 		$query = 'SELECT id FROM ' . $this->get_table_name('repository_document'). ' WHERE path=' . $path . ' AND id IN ' .
-						'(SELECT id FROM ' . $this->get_table_name('repository_learning_object'). ' WHERE owner = ' . $owner_id . ')';
+						'(SELECT id FROM ' . $this->get_table_name('repository_content_object'). ' WHERE owner = ' . $owner_id . ')';
 		
 		$result = $this->connection->query($query);
 		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
@@ -436,7 +436,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 				return $record['user_id'];
 			else
 			{
-				$query = 'SELECT COUNT(LOP.publisher) as count, LOP.publisher FROM ' . $this->get_table_name('weblcms_learning_object_publication'). ' LOP WHERE LOP.publisher IN (
+				$query = 'SELECT COUNT(LOP.publisher) as count, LOP.publisher FROM ' . $this->get_table_name('weblcms_content_object_publication'). ' LOP WHERE LOP.publisher IN (
 						  SELECT CRL.user_id FROM ' . $this->get_table_name('weblcms_course_user_relation'). ' CRL WHERE CRL.course_code = \''. $course .'\' AND CRL.status = 1) AND
 						  LOP.course = \''. $course .'\' GROUP BY LOP.publisher;';
 				
@@ -472,10 +472,10 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	 * @param int $lp_id learning object id
 	 * @param string $tool tool of where the learning object belongs
 	 */
-	function get_owner_learning_object($lp_id, $tool)
+	function get_owner_content_object($lp_id, $tool)
 	{
 		$datamanager = RepositoryDataManager::get_instance();
-		$result = $datamanager->retrieve_learning_object($lp_id, $tool);
+		$result = $datamanager->retrieve_content_object($lp_id, $tool);
 		return $result;
 	}
 	

@@ -5,8 +5,8 @@
  * @package application.weblcms.tool
  * @subpackage link
  */
-require_once dirname(__FILE__).'/../../../../browser/list_renderer/learning_object_publication_details_renderer.class.php';
-class CalendarDetailsRenderer extends LearningObjectPublicationDetailsRenderer
+require_once dirname(__FILE__).'/../../../../browser/list_renderer/content_object_publication_details_renderer.class.php';
+class CalendarDetailsRenderer extends ContentObjectPublicationDetailsRenderer
 {
 	function CalendarDetailsRenderer ($browser)
 	{
@@ -15,7 +15,7 @@ class CalendarDetailsRenderer extends LearningObjectPublicationDetailsRenderer
 
 	function render_description($publication)
 	{
-		$event = $publication->get_learning_object();
+		$event = $publication->get_content_object();
 		$html[] = '<em>';
 		//TODO: date formatting
 		$html[] = htmlentities(Translation :: get('From')).': '.date('r',$event->get_start_date());

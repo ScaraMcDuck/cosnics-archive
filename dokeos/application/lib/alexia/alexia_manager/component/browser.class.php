@@ -69,20 +69,20 @@ class AlexiaManagerBrowserComponent extends AlexiaManagerComponent
 		}
     	
     	$subselect_conditions = array();
-		$subselect_conditions[] = new EqualityCondition(LearningObject :: PROPERTY_TYPE, 'link');
+		$subselect_conditions[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, 'link');
 		
 		$query = $this->action_bar->get_query();
 		
 		if(isset($query) && $query != '')
 		{
 			$search_conditions = array();
-			$search_conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);
-			$search_conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query);
+			$search_conditions[] = new LikeCondition(ContentObject :: PROPERTY_TITLE, $query);
+			$search_conditions[] = new LikeCondition(ContentObject :: PROPERTY_DESCRIPTION, $query);
 			$subselect_conditions[] = new OrCondition($search_conditions);
 		}
 		
 		$subselect_condition = new AndCondition($subselect_conditions);
-		$conditions[] = new SubselectCondition(AlexiaPublication :: PROPERTY_LEARNING_OBJECT, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
+		$conditions[] = new SubselectCondition(AlexiaPublication :: PROPERTY_LEARNING_OBJECT, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
 		
 		$access = array();
 		$access[] = new EqualityCondition(AlexiaPublication :: PROPERTY_PUBLISHER, $user_id = $user->get_id());
@@ -113,7 +113,7 @@ class AlexiaManagerBrowserComponent extends AlexiaManagerComponent
     function get_introduction()
     {		
 		$subselect_condition = new EqualityCondition('type', 'introduction');
-		$condition = new SubselectCondition(AlexiaPublication :: PROPERTY_LEARNING_OBJECT, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
+		$condition = new SubselectCondition(AlexiaPublication :: PROPERTY_LEARNING_OBJECT, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
 		
 		$publications = AlexiaDataManager :: get_instance()->retrieve_alexia_publications($condition);
 		if (!$publications->is_empty())
@@ -159,7 +159,7 @@ class AlexiaManagerBrowserComponent extends AlexiaManagerComponent
 
 			$object = $introduction->get_publication_object();
 
-			$html[] = '<div class="introduction" style="background-image: url(' . Theme :: get_common_image_path() . 'learning_object/introduction.png);">';
+			$html[] = '<div class="introduction" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/introduction.png);">';
 			$html[] = '<div class="title">';
 			$html[] = $object->get_title();
 			$html[] = '</div>';

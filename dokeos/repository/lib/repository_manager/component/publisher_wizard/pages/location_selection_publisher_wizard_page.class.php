@@ -11,7 +11,7 @@ require_once dirname(__FILE__).'/publisher_wizard_page.class.php';
  */
 class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 {
-	private $learning_objects;
+	private $content_objects;
 	private $type;
 
 	public function LocationSelectionPublisherWizardPage($name,$parent)
@@ -35,8 +35,8 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 
 		foreach($ids as $id)
 		{
-			$lo = $this->get_parent()->retrieve_learning_object($id);
-			$this->learning_objects[] = $lo;
+			$lo = $this->get_parent()->retrieve_content_object($id);
+			$this->content_objects[] = $lo;
 			if($this->type == null)
 				$this->type = $lo->get_type();
 			else
@@ -59,46 +59,46 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 
 	function get_info()
 	{
-		return Translation :: get('LocationSelectionInfo') . '<br /><br />'; //$this->display_learning_objects();//' <b>' . $learning_object->get_type() . ' - ' . $learning_object->get_title() . '</b>';
+		return Translation :: get('LocationSelectionInfo') . '<br /><br />'; //$this->display_content_objects();//' <b>' . $content_object->get_type() . ' - ' . $content_object->get_title() . '</b>';
 	}
 
-	/*function display_learning_objects()
+	/*function display_content_objects()
 	{
 		$html = array();
-		foreach ($this->learning_objects as $lo)
-			$html[] = $this->display_learning_object($lo);
+		foreach ($this->content_objects as $lo)
+			$html[] = $this->display_content_object($lo);
 
 		return implode("\n", $html);
 	}
 
-	function display_learning_object($learning_object)
+	function display_content_object($content_object)
 	{
-		$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$learning_object->get_icon_name().'.png);">';
+		$html[] = '<div class="content_object" style="background-image: url('. Theme :: get_common_image_path(). 'content_object/' .$content_object->get_icon_name().'.png);">';
 		$html[] = '<div class="title">';
-		$html[] = $learning_object->get_title();
+		$html[] = $content_object->get_title();
 		$html[] = '</div>';
 		$html[] = '<div class="description">';
-		$html[] = $learning_object->get_description();
-		$html[] = $this->render_attachments($learning_object);
+		$html[] = $content_object->get_description();
+		$html[] = $this->render_attachments($content_object);
 		$html[] = '</div>';
 		$html[] = '</div>';
 
 		return implode("\n", $html);
 	}
 
-	function render_attachments($learning_object)
+	function render_attachments($content_object)
 	{
-		if ($learning_object->supports_attachments())
+		if ($content_object->supports_attachments())
 		{
-			$attachments = $learning_object->get_attached_learning_objects();
+			$attachments = $content_object->get_attached_content_objects();
 			if(count($attachments)>0)
 			{
 				$html[] = '<ul class="attachments_list">';
-				DokeosUtilities :: order_learning_objects_by_title($attachments);
+				DokeosUtilities :: order_content_objects_by_title($attachments);
 				foreach ($attachments as $attachment)
 				{
-					$disp = LearningObjectDisplay :: factory($attachment);
-					$html[] = '<li><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
+					$disp = ContentObjectDisplay :: factory($attachment);
+					$html[] = '<li><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
 				}
 				$html[] = '</ul>';
 				return implode("\n",$html);
@@ -135,7 +135,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 		foreach($applications as $application_name)
 		{
 			$application = Application::factory($application_name);
-			$locations = $application->get_learning_object_publication_locations($this->learning_objects[0], $this->get_parent()->get_user());
+			$locations = $application->get_content_object_publication_locations($this->content_objects[0], $this->get_parent()->get_user());
 			if(count($locations) == 0) continue;
 			
 			$location_count += count($locations);

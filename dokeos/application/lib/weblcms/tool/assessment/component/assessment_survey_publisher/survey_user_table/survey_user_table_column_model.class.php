@@ -22,7 +22,7 @@ class SurveyUserTableColumnModel extends ObjectTableColumnModel {
 	/**
 	 * Gets the columns of this table.
 	 * @return array An array of all columns in this table.
-	 * @see LearningObjectTableColumn
+	 * @see ContentObjectTableColumn
 	 */
 	private static function get_columns()
 	{
@@ -35,7 +35,7 @@ class SurveyUserTableColumnModel extends ObjectTableColumnModel {
 	}
 	/**
 	 * Gets the column wich contains the action buttons.
-	 * @return LearningObjectTableColumn The action column.
+	 * @return ContentObjectTableColumn The action column.
 	 */
 	static function get_action_column()
 	{

@@ -17,7 +17,7 @@ abstract class WebApplication extends Application
      * @return boolean True if the object is currently published, false
      *                 otherwise.
      */
-    function learning_object_is_published($object_id)
+    function content_object_is_published($object_id)
     {
     	return false;
     }
@@ -29,7 +29,7 @@ abstract class WebApplication extends Application
      * @return boolean True if at least one of the given objects is published in
      * this application, false otherwise
      */
-    function any_learning_object_is_published($object_ids)
+    function any_content_object_is_published($object_ids)
     {
     	return false;
     }
@@ -38,10 +38,10 @@ abstract class WebApplication extends Application
      * Determines where in this application the given learning object has been
      * published.
      * @param int $object_id The ID of the learning object.
-     * @return array An array of LearningObjectPublicationAttributes objects;
+     * @return array An array of ContentObjectPublicationAttributes objects;
      *               empty if the object has not been published anywhere.
      */
-    function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
     {
     	return array();
     }
@@ -50,9 +50,9 @@ abstract class WebApplication extends Application
      * Determines where in this application the given learning object
      * publication is published.
      * @param int $publication_id The ID of the learning object publication.
-     * @return LearningObjectPublicationAttributes
+     * @return ContentObjectPublicationAttributes
      */
-    function get_learning_object_publication_attribute($publication_id)
+    function get_content_object_publication_attribute($publication_id)
     {
     	return null;
     }
@@ -72,17 +72,17 @@ abstract class WebApplication extends Application
      * Deletes all publications of a given learning object
      * @param int $object_id The id of the learning object
      */
-    function delete_learning_object_publications($object_id)
+    function delete_content_object_publications($object_id)
     {
     	return true;
     }
 
-    function get_learning_object_publication_locations($learning_object)
+    function get_content_object_publication_locations($content_object)
     {
     	return array();
     }
 
-    function publish_learning_object($learning_object, $location, $attributes)
+    function publish_content_object($content_object, $location, $attributes)
     {
     	return null;
     }
@@ -94,7 +94,7 @@ abstract class WebApplication extends Application
     /**
      *
      */
-    function update_learning_object_publication_id($publication_attr)
+    function update_content_object_publication_id($publication_attr)
     {
     	return true;
     }

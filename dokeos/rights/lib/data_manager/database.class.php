@@ -77,7 +77,7 @@ class DatabaseRightsDataManager extends RightsDataManager
     /**
      * Escapes a column name in accordance with the database type.
      * @param string $name The column name.
-     * @param boolean $prefix_learning_object_properties Whether or not to
+     * @param boolean $prefix_content_object_properties Whether or not to
      *                                                   prefix learning
      *                                                   object properties
      *                                                   to avoid collisions.
@@ -987,11 +987,11 @@ class DatabaseRightsDataManager extends RightsDataManager
         return $sth->execute();
     }
 
-    function retrieve_shared_learning_objects_for_user($user_id,$rights)
+    function retrieve_shared_content_objects_for_user($user_id,$rights)
     {
         $query = 'SELECT * FROM '. $this->escape_table_name('user_right_location');
 
-        $subcondition = new EqualityCondition(Location :: PROPERTY_TYPE, 'learning_object');
+        $subcondition = new EqualityCondition(Location :: PROPERTY_TYPE, 'content_object');
         $conditions[] = new SubSelectcondition('location_id', Location :: PROPERTY_ID, $this->escape_table_name('location'), $subcondition);
         $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_USER_ID, $user_id);
         $conditions[] = new InCondition(UserRightLocation :: PROPERTY_RIGHT_ID,$rights);
@@ -1011,11 +1011,11 @@ class DatabaseRightsDataManager extends RightsDataManager
         return new ObjectResultSet($this->database, $res, UserRightLocation :: CLASS_NAME);
     }
     
- 	function retrieve_shared_learning_objects_for_groups($group_ids,$rights)
+ 	function retrieve_shared_content_objects_for_groups($group_ids,$rights)
     {
         $query = 'SELECT * FROM '. $this->escape_table_name('group_right_location');
 
-        $subcondition = new EqualityCondition(Location :: PROPERTY_TYPE, 'learning_object');
+        $subcondition = new EqualityCondition(Location :: PROPERTY_TYPE, 'content_object');
         $conditions[] = new SubSelectcondition('location_id', Location :: PROPERTY_ID, $this->escape_table_name('location'), $subcondition);
         $conditions[] = new InCondition(GroupRightLocation :: PROPERTY_GROUP_ID, $group_ids);
         $conditions[] = new InCondition(GroupRightLocation :: PROPERTY_RIGHT_ID,$rights);

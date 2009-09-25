@@ -4,7 +4,7 @@
  */
 
 /**
- * This class describes a LearningObjectPublicationUser data object
+ * This class describes a ContentObjectPublicationUser data object
  *
  * @author Hans De Bisschop
  */
@@ -14,7 +14,7 @@ class CalendarEventPublicationUser
 	const TABLE_NAME = 'publication_user';
 
 	/**
-	 * LearningObjectPublicationUser properties
+	 * ContentObjectPublicationUser properties
 	 */
 	const PROPERTY_PUBLICATION = 'publication_id';
 	const PROPERTY_USER = 'user_id';
@@ -25,7 +25,7 @@ class CalendarEventPublicationUser
 	private $defaultProperties;
 
 	/**
-	 * Creates a new LearningObjectPublicationUser object
+	 * Creates a new ContentObjectPublicationUser object
 	 * @param array $defaultProperties The default properties
 	 */
 	function CalendarEventPublicationUser($defaultProperties = array ())
@@ -79,7 +79,7 @@ class CalendarEventPublicationUser
 	}
 
 	/**
-	 * Returns the publication of this LearningObjectPublicationUser.
+	 * Returns the publication of this ContentObjectPublicationUser.
 	 * @return the publication.
 	 */
 	function get_publication()
@@ -88,7 +88,7 @@ class CalendarEventPublicationUser
 	}
 
 	/**
-	 * Sets the publication of this LearningObjectPublicationUser.
+	 * Sets the publication of this ContentObjectPublicationUser.
 	 * @param publication
 	 */
 	function set_publication($publication)
@@ -96,7 +96,7 @@ class CalendarEventPublicationUser
 		$this->set_default_property(self :: PROPERTY_PUBLICATION, $publication);
 	}
 	/**
-	 * Returns the user of this LearningObjectPublicationUser.
+	 * Returns the user of this ContentObjectPublicationUser.
 	 * @return the user.
 	 */
 	function get_user()
@@ -105,7 +105,7 @@ class CalendarEventPublicationUser
 	}
 
 	/**
-	 * Sets the user of this LearningObjectPublicationUser.
+	 * Sets the user of this ContentObjectPublicationUser.
 	 * @param user
 	 */
 	function set_user($user)

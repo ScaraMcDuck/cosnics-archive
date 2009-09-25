@@ -48,14 +48,14 @@ class AssessmentViewerWizardProcess extends HTML_QuickForm_Action
 		$assessment = $this->parent->get_assessment();
 		if($assessment->get_random_questions() == 0)
 		{
-			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id(), ComplexLearningObjectItem :: get_table_name());
+			$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $assessment->get_id(), ComplexContentObjectItem :: get_table_name());
 		}
 		else
 		{
-			$condition = new InCondition(ComplexLearningObjectItem :: PROPERTY_ID, $_SESSION['questions'], ComplexLearningObjectItem :: get_table_name()); 
+			$condition = new InCondition(ComplexContentObjectItem :: PROPERTY_ID, $_SESSION['questions'], ComplexContentObjectItem :: get_table_name()); 
 		}
 		
-		$questions_cloi = $rdm->retrieve_complex_learning_object_items($condition);
+		$questions_cloi = $rdm->retrieve_complex_content_object_items($condition);
 
 		$question_number = 1;
 		$total_score = 0;
@@ -63,7 +63,7 @@ class AssessmentViewerWizardProcess extends HTML_QuickForm_Action
 			
 		while($question_cloi = $questions_cloi->next_result())
 		{
-			$question = $rdm->retrieve_learning_object($question_cloi->get_ref());
+			$question = $rdm->retrieve_content_object($question_cloi->get_ref());
 			$answers = $values[$question_cloi->get_id()];
 			$question_cloi->set_ref($question);
 			

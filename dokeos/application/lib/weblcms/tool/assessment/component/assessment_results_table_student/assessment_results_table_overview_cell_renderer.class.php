@@ -2,14 +2,14 @@
 /**
  * @package application.weblcms.tool.assessment.component.assessment_publication_table
  */
-require_once Path :: get_repository_path(). 'lib/learning_object_table/default_learning_object_table_cell_renderer.class.php';
-require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
+require_once Path :: get_repository_path(). 'lib/content_object_table/default_content_object_table_cell_renderer.class.php';
+require_once Path :: get_repository_path(). 'lib/content_object.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once dirname(__FILE__).'/assessment_results_table_overview_column_model.class.php';
 /**
  * This class is a cell renderer for a publication candidate table
  */
-class AssessmentResultsTableOverviewStudentCellRenderer extends DefaultLearningObjectTableCellRenderer
+class AssessmentResultsTableOverviewStudentCellRenderer extends DefaultContentObjectTableCellRenderer
 {
 	private $table_actions;
 	private $browser;
@@ -30,7 +30,7 @@ class AssessmentResultsTableOverviewStudentCellRenderer extends DefaultLearningO
 	 */
 	function render_cell($column, $publication)
 	{
-		$assessment = $publication->get_learning_object();
+		$assessment = $publication->get_content_object();
 		if ($column === AssessmentResultsTableOverviewStudentColumnModel :: get_action_column())
 		{
 			return $this->get_actions($publication);
@@ -78,18 +78,18 @@ class AssessmentResultsTableOverviewStudentCellRenderer extends DefaultLearningO
 	
 	/**
 	 * Gets the links to publish or edit and publish a learning object.
-	 * @param LearningObject $learning_object The learning object for which the
+	 * @param ContentObject $content_object The learning object for which the
 	 * links should be returned.
 	 * @return string A HTML-representation of the links.
 	 */
-	private function get_publish_links($learning_object)
+	private function get_publish_links($content_object)
 	{
 		$toolbar_data = array();
 		$table_actions = $this->table_actions;
 		
 		foreach($table_actions as $table_action)
 		{
-			$table_action['href'] = sprintf($table_action['href'], $learning_object->get_id());
+			$table_action['href'] = sprintf($table_action['href'], $content_object->get_id());
 			$toolbar_data[] = $table_action;
 		}
 		

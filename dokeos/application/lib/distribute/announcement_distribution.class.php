@@ -126,7 +126,7 @@ class AnnouncementDistribution extends DataClass
 	function get_distribution_object()
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-		return $rdm->retrieve_learning_object($this->get_announcement());
+		return $rdm->retrieve_content_object($this->get_announcement());
 	}
 
 	function get_distribution_publisher()

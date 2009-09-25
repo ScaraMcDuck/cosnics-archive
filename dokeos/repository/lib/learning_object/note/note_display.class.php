@@ -7,7 +7,7 @@
 /**
  * This class can be used to display notes
  */
-class NoteDisplay extends LearningObjectDisplay
+class NoteDisplay extends ContentObjectDisplay
 {
 }
 ?>

@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/../../common/global.inc.php';
-require_once dirname(__FILE__) . '/provider/learning_object_publication_user.class.php';
+require_once dirname(__FILE__) . '/provider/content_object_publication_user.class.php';
 require_once dirname(__FILE__) . '/../../common/webservices/webservice.class.php';
 require_once dirname(__FILE__) . '/../lib/data_manager/database.class.php';
 require_once Path :: get_user_path() . '/lib/user.class.php';
@@ -42,25 +42,25 @@ class WebServicesReporting
 
 		$functions['get_new_publications_in_course'] = array(
             'input' => new CourseUserRelation(),
-            'output' => array(new LearningObject()),
+            'output' => array(new ContentObject()),
 			'array_output' => true
 		);
 
         $functions['get_new_publications_in_course_tool'] = array(
-            'input' => new LearningObjectPublicationUser(),
-            'output' => array(new LearningObject()),
+            'input' => new ContentObjectPublicationUser(),
+            'output' => array(new ContentObject()),
 			'array_output' => true
 		);
 
         $functions['get_publications_for_user'] = array(
             'input' => new User(),
-            'output' => array(new LearningObject()),
+            'output' => array(new ContentObject()),
 			'array_output' => true
 		);
 
         $functions['get_publications_for_course'] = array(
             'input' => new Course(),
-            'output' => array(new LearningObject()),
+            'output' => array(new ContentObject()),
 			'array_output' => true
 		);
 
@@ -136,22 +136,22 @@ class WebServicesReporting
                 $weblcms = new Weblcms($user,null);
                 $weblcms->set_course($course);
                 $weblcms->load_tools();
-                $conditions[1] = new InequalityCondition(LearningObjectPublication :: PROPERTY_MODIFIED_DATE,InequalityCondition :: LESS_THAN_OR_EQUAL,mktime(0,0,0,date('m'),date('d')+1,date('Y')));
+                $conditions[1] = new InequalityCondition(ContentObjectPublication :: PROPERTY_MODIFIED_DATE,InequalityCondition :: LESS_THAN_OR_EQUAL,mktime(0,0,0,date('m'),date('d')+1,date('Y')));
                 $pubs = array();
                 foreach($weblcms->get_registered_tools() as $tool)
                 {
                     if($weblcms->tool_has_new_publications($tool->name))
                     {
                         $lastVisit = $weblcms->get_last_visit_date($tool->name);
-                        $conditions[0] = new InequalityCondition(LearningObjectPublication :: PROPERTY_MODIFIED_DATE,InequalityCondition :: GREATER_THAN_OR_EQUAL,mktime(0,0,0,date('m',$lastVisit),date('d',$lastVisit),date('Y',$lastVisit)));
-                        $conditions[2] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL,$tool->name);
+                        $conditions[0] = new InequalityCondition(ContentObjectPublication :: PROPERTY_MODIFIED_DATE,InequalityCondition :: GREATER_THAN_OR_EQUAL,mktime(0,0,0,date('m',$lastVisit),date('d',$lastVisit),date('Y',$lastVisit)));
+                        $conditions[2] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL,$tool->name);
                         $condition = new AndCondition($conditions);
-                        $pubs = array_merge($pubs,$wdm->retrieve_learning_object_publications(null,null,null,null,$condition)->as_array());
+                        $pubs = array_merge($pubs,$wdm->retrieve_content_object_publications(null,null,null,null,$condition)->as_array());
                     }
                }
                 foreach($pubs as &$pub)
                 {
-                    $pub = $pub->get_learning_object()->get_default_properties();
+                    $pub = $pub->get_content_object()->get_default_properties();
                     $this->validator->transform_publication_to_human_format($pub);
                 }
                 return $pubs;
@@ -175,24 +175,24 @@ class WebServicesReporting
             {
                 $udm = DatabaseUserDataManager :: get_instance();
                 $wdm = DatabaseWeblcmsDataManager :: get_instance();
-                $user = $udm->retrieve_user($input_course[input][LearningObjectPublicationUser :: PROPERTY_USER_ID]);
-                $course = $wdm->retrieve_course($input_course[input][LearningObjectPublicationUser :: PROPERTY_COURSE_ID]);
+                $user = $udm->retrieve_user($input_course[input][ContentObjectPublicationUser :: PROPERTY_USER_ID]);
+                $course = $wdm->retrieve_course($input_course[input][ContentObjectPublicationUser :: PROPERTY_COURSE_ID]);
                 $weblcms = new Weblcms($user,null);
                 $weblcms->set_course($course);
                 $weblcms->load_tools();
-                $conditions[1] = new InequalityCondition(LearningObjectPublication :: PROPERTY_MODIFIED_DATE,InequalityCondition :: LESS_THAN_OR_EQUAL,mktime(0,0,0,date('m'),date('d')+1,date('Y')));
-                if($weblcms->tool_has_new_publications($input_course[input][LearningObjectPublicationUser :: PROPERTY_TOOL]))
+                $conditions[1] = new InequalityCondition(ContentObjectPublication :: PROPERTY_MODIFIED_DATE,InequalityCondition :: LESS_THAN_OR_EQUAL,mktime(0,0,0,date('m'),date('d')+1,date('Y')));
+                if($weblcms->tool_has_new_publications($input_course[input][ContentObjectPublicationUser :: PROPERTY_TOOL]))
                 {
-                    $lastVisit = $weblcms->get_last_visit_date($input_course[input][LearningObjectPublicationUser :: PROPERTY_TOOL]);
-                    $conditions[0] = new InequalityCondition(LearningObjectPublication :: PROPERTY_MODIFIED_DATE,InequalityCondition :: GREATER_THAN_OR_EQUAL,mktime(0,0,0,date('m',$lastVisit),date('d',$lastVisit),date('Y',$lastVisit)));
-                    $conditions[2] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL,$input_course[input][LearningObjectPublicationUser :: PROPERTY_TOOL]);
+                    $lastVisit = $weblcms->get_last_visit_date($input_course[input][ContentObjectPublicationUser :: PROPERTY_TOOL]);
+                    $conditions[0] = new InequalityCondition(ContentObjectPublication :: PROPERTY_MODIFIED_DATE,InequalityCondition :: GREATER_THAN_OR_EQUAL,mktime(0,0,0,date('m',$lastVisit),date('d',$lastVisit),date('Y',$lastVisit)));
+                    $conditions[2] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL,$input_course[input][ContentObjectPublicationUser :: PROPERTY_TOOL]);
                     $condition = new AndCondition($conditions);
-                    $pubs = $wdm->retrieve_learning_object_publications(null,null,null,null,$condition);
+                    $pubs = $wdm->retrieve_content_object_publications(null,null,null,null,$condition);
                     $pubs = $pubs->as_array();
                 }
                 foreach($pubs as &$pub)
                 {
-                    $pub = $pub->get_learning_object()->get_default_properties();
+                    $pub = $pub->get_content_object()->get_default_properties();
                     $this->validator->transform_publication_to_human_format($pub);
                 }
                 return $pubs;
@@ -211,11 +211,11 @@ class WebServicesReporting
             if($this->validator->validate_get_publications_for_user($input_user[input]))
             {
                 $wdm = DatabaseWeblcmsDataManager :: get_instance();
-                $pubs = $wdm->retrieve_learning_object_publications(null,null,$input_user[input][User :: PROPERTY_USER_ID]);
+                $pubs = $wdm->retrieve_content_object_publications(null,null,$input_user[input][User :: PROPERTY_USER_ID]);
                 $pubs = $pubs->as_array();
                 foreach($pubs as &$pub)
                 {
-                    $pub = $pub->get_learning_object()->get_default_properties();
+                    $pub = $pub->get_content_object()->get_default_properties();
                     $this->validator->transform_publication_to_human_format($pub);
                 }
                 return $pubs;
@@ -234,11 +234,11 @@ class WebServicesReporting
             if($this->validator->validate_get_publications_for_course($input_course[input]))
             {
                 $wdm = DatabaseWeblcmsDataManager :: get_instance();
-                $pubs = $wdm->retrieve_learning_object_publications($input_course[input][Course ::PROPERTY_ID]);
+                $pubs = $wdm->retrieve_content_object_publications($input_course[input][Course ::PROPERTY_ID]);
                 $pubs = $pubs->as_array();
                 foreach($pubs as &$pub)
                 {
-                    $pub = $pub->get_learning_object()->get_default_properties();
+                    $pub = $pub->get_content_object()->get_default_properties();
                     $this->validator->transform_publication_to_human_format($pub);
                 }
                 return $pubs;

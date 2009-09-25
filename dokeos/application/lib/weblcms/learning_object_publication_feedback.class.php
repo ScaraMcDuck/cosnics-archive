@@ -9,12 +9,12 @@
  * When publishing a learning object from the repository in the weblcms
  * application, attached to another learning object, a new object of this type is created.
  */
-class LearningObjectPublicationFeedback extends LearningObjectPublication
+class ContentObjectPublicationFeedback extends ContentObjectPublication
 {
     /**
 	 * Constructor
 	 * @param int $id The id of this learning object publiction
-	 * @param LearningObject $learningObject The learning object which is
+	 * @param ContentObject $learningObject The learning object which is
 	 * published by this publication
 	 * @param string $course The course code of the course where this
 	 * publication is made
@@ -38,10 +38,10 @@ class LearningObjectPublicationFeedback extends LearningObjectPublication
 	 * @param int $displayOrder The display order of this publication in its
 	 * location (course - tool - category)
 	 */
-	function LearningObjectPublicationFeedback($id, $learningObject, $course, $tool, $parent_id,$repo_viewer, $publicationDate, $modifiedDate, $hidden, $emailSent)
+	function ContentObjectPublicationFeedback($id, $learningObject, $course, $tool, $parent_id,$repo_viewer, $publicationDate, $modifiedDate, $hidden, $emailSent)
 	{
 		
-		parent :: LearningObjectPublication($id, $learningObject, $course, $tool, 0, array(), array(), 0, 0, $repo_viewer, $publicationDate, $modifiedDate, $hidden, 0, $emailSent);
+		parent :: ContentObjectPublication($id, $learningObject, $course, $tool, 0, array(), array(), 0, 0, $repo_viewer, $publicationDate, $modifiedDate, $hidden, 0, $emailSent);
 		$this->set_parent_id($parent_id);
 		$this->set_modified_date(time());
 		$this->set_email_sent();
@@ -50,7 +50,7 @@ class LearningObjectPublicationFeedback extends LearningObjectPublication
    /*
     * Sets a property of this learning object publication.
     * See constructor for detailed information about the property.
-    * @see LearningObjectPublicationFeedback()
+    * @see ContentObjectPublicationFeedback()
  	*/
 	
 	function set_category_id($category)
@@ -107,7 +107,7 @@ class LearningObjectPublicationFeedback extends LearningObjectPublication
 	function update_parent_modified_date()
 	{
 		$dm = WeblcmsDataManager :: get_instance();
-		$parent_object = $dm->retrieve_learning_object_publication($this->get_parent_id());
+		$parent_object = $dm->retrieve_content_object_publication($this->get_parent_id());
 		$parent_object->set_modified_date(time());
 		$parent_object->update();	
 	}

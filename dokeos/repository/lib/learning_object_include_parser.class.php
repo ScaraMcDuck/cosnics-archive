@@ -1,8 +1,8 @@
 <?php
 require_once dirname(__FILE__).'/repository_data_manager.class.php';
-require_once dirname(__FILE__).'/learning_object_form.class.php';
+require_once dirname(__FILE__).'/content_object_form.class.php';
 
-abstract class LearningObjectIncludeParser
+abstract class ContentObjectIncludeParser
 {
 	/**
 	 * The form
@@ -40,22 +40,22 @@ abstract class LearningObjectIncludeParser
 	
 	function parse_includes($form)
 	{
-		$learning_object = $form->get_learning_object();
+		$content_object = $form->get_content_object();
 		
-		if ($learning_object->supports_includes())
+		if ($content_object->supports_includes())
 		{
 			$form_type = $form->get_form_type();
 			
-			if ($form_type == LearningObjectForm :: TYPE_EDIT)
+			if ($form_type == ContentObjectForm :: TYPE_EDIT)
 			{
 				/*
 				 * TODO: Make this faster by providing a function that matches the
 				 *      existing IDs against the ones that need to be added, and
 				 *      attaches and detaches accordingly.
 				 */
-				foreach ($learning_object->get_included_learning_objects() as $included_object)
+				foreach ($content_object->get_included_content_objects() as $included_object)
 				{
-					$learning_object->exclude_learning_object($included_object->get_id());
+					$content_object->exclude_content_object($included_object->get_id());
 				}
 			}
 			

@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__).'/../repository_manager_component.class.php';
 require_once dirname(__FILE__).'/../../quota_manager.class.php';
-require_once dirname(__FILE__).'/../../abstract_learning_object.class.php';
+require_once dirname(__FILE__).'/../../abstract_content_object.class.php';
 require_once Path :: get_library_path().'filesystem/filesystem.class.php';
 /**
  * Repository manager component which displays the quota to the user.
@@ -35,7 +35,7 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 		echo '<h3>'.htmlentities(Translation :: get('DiskSpace')).'</h3>';
 		echo self :: get_bar($quotamanager->get_used_disk_space_percent(), Filesystem :: format_file_size($quotamanager->get_used_disk_space()).' / '. Filesystem :: format_file_size($quotamanager->get_max_disk_space()));
 		echo '<div style="clear: both;">&nbsp;</div>';
-		echo '<h3>'.htmlentities(Translation :: get('NumberOfLearningObjects')).'</h3>';
+		echo '<h3>'.htmlentities(Translation :: get('NumberOfContentObjects')).'</h3>';
 		echo self :: get_bar($quotamanager->get_used_database_space_percent(), $quotamanager->get_used_database_space().' / '.$quotamanager->get_max_database_space());
 		echo '<div style="clear: both;">&nbsp;</div>';
 		echo $this->get_version_quota();
@@ -148,9 +148,9 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 
 			$quota_data_row = array();
 
-			$quota_data_row[] = '<img src="'. Theme :: get_common_image_path() . 'learning_object/' . $type .'.png" alt="'.$type.'"/>';
+			$quota_data_row[] = '<img src="'. Theme :: get_common_image_path() . 'content_object/' . $type .'.png" alt="'.$type.'"/>';
 			$quota_data_row[] = Translation :: get(self :: type_to_class($type). 'TypeName');
-			$object = new AbstractLearningObject($type, $this->get_user_id());
+			$object = new AbstractContentObject($type, $this->get_user_id());
 			if ($object->is_versionable())
 			{
 				$quota_data_row[] = $user->get_version_type_quota($type);

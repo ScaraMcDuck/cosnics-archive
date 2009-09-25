@@ -4,7 +4,7 @@
  */
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
-require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
+require_once Path :: get_repository_path(). 'lib/content_object.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once Path :: get_library_path() . 'html/menu/tree_menu_renderer.class.php';
 require_once Path :: get_library_path() . 'html/menu/options_menu_renderer.class.php';
@@ -71,7 +71,7 @@ class ComplexMenu extends HTML_Menu
 	{
 		$menu = array();
 		$datamanager = $this->dm;
-		$lo = $datamanager->retrieve_learning_object($root->get_id());
+		$lo = $datamanager->retrieve_content_object($root->get_id());
 		$menu_item = array();
 		$menu_item['title'] = $lo->get_title();
 		$menu_item['url'] = $this->get_cloi_url();
@@ -99,15 +99,15 @@ class ComplexMenu extends HTML_Menu
 	 */
 	private function get_menu_items($parent_id)
 	{
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $parent_id, ComplexLearningObjectItem :: get_table_name());
+		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent_id, ComplexContentObjectItem :: get_table_name());
 		$datamanager = $this->dm;
-		$clois = $datamanager->retrieve_complex_learning_object_items($condition);
+		$clois = $datamanager->retrieve_complex_content_object_items($condition);
 
 		while ($cloi = $clois->next_result())
 		{
 			if($cloi->is_complex() || $this->view_entire_structure)
 			{
-				$lo = $datamanager->retrieve_learning_object($cloi->get_ref());
+				$lo = $datamanager->retrieve_content_object($cloi->get_ref());
 				$menu_item = array();
 				$menu_item['title'] = $lo->get_title();
 				$menu_item['url'] = $this->get_cloi_url($cloi);

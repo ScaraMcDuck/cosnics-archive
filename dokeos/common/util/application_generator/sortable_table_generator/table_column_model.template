@@ -32,7 +32,7 @@ class {OBJECT_CLASS}BrowserTableColumnModel extends Default{OBJECT_CLASS}TableCo
 	
 	/**
 	 * Gets the modification column
-	 * @return LearningObjectTableColumn
+	 * @return ContentObjectTableColumn
 	 */
 	static function get_modification_column()
 	{

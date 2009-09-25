@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__).'/../repository_manager.class.php';
 require_once dirname(__FILE__).'/../repository_manager_component.class.php';
-require_once dirname(__FILE__).'/../../export/learning_object_export.class.php';
+require_once dirname(__FILE__).'/../../export/content_object_export.class.php';
 /**
  * Repository manager component which provides functionality to delete a
  * learning object from the users repository.
@@ -28,21 +28,21 @@ class RepositoryManagerExporterComponent extends RepositoryManagerComponent
 			{
 				if($ids[0] == 'all')
 				{
-					$condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->get_user_id());
+					$condition = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id());
 				}
 				else 
 				{
-					$condition = new InCondition(LearningObject :: PROPERTY_ID, $ids, LearningObject :: get_table_name());
+					$condition = new InCondition(ContentObject :: PROPERTY_ID, $ids, ContentObject :: get_table_name());
 				}
 				
-				$los = $this->retrieve_learning_objects(null, $condition);
+				$los = $this->retrieve_content_objects(null, $condition);
 				while($lo = $los->next_result())
 				{
-					$learning_objects[] = $lo;
+					$content_objects[] = $lo;
 				}
 				
-				$exporter = LearningObjectExport :: factory('dlof', $learning_objects);
-				$path = $exporter->export_learning_object();
+				$exporter = ContentObjectExport :: factory('dlof', $content_objects);
+				$path = $exporter->export_content_object();
 				
 				header('Expires: Wed, 01 Jan 1990 00:00:00 GMT');
 				header('Cache-Control: public');
@@ -52,11 +52,11 @@ class RepositoryManagerExporterComponent extends RepositoryManagerComponent
 				
 				if (preg_match("/MSIE 5.5/", $_SERVER['HTTP_USER_AGENT']))
 				{
-					header('Content-Disposition: filename=learning_objects.dlof');
+					header('Content-Disposition: filename=content_objects.dlof');
 				}
 				else
 				{
-					header('Content-Disposition: attachment; filename=learning_objects.dlof');
+					header('Content-Disposition: attachment; filename=content_objects.dlof');
 				}
 				
 				if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE'))
@@ -66,7 +66,7 @@ class RepositoryManagerExporterComponent extends RepositoryManagerComponent
 					header('Cache-Control: public'); // IE cannot download from sessions without a cache
 				}
 				
-				header('Content-Description: learning_objects.dlof');
+				header('Content-Description: content_objects.dlof');
 				header('Content-transfer-encoding: binary');
 				$fp = fopen($path, 'r');
 				fpassthru($fp);

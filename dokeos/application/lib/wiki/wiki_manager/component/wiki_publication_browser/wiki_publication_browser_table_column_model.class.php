@@ -30,7 +30,7 @@ class WikiPublicationBrowserTableColumnModel extends DefaultWikiPublicationTable
 
 	/**
 	 * Gets the modification column
-	 * @return LearningObjectTableColumn
+	 * @return ContentObjectTableColumn
 	 */
 	static function get_modification_column()
 	{
@@ -44,8 +44,8 @@ class WikiPublicationBrowserTableColumnModel extends DefaultWikiPublicationTable
     public function get_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE);
-		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION);
+		$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TITLE);
+		$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_DESCRIPTION);
 		return $columns;
 	}
 }

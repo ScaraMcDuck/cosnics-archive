@@ -1,5 +1,5 @@
 <?php
-require_once Path::get_repository_path().'lib/import/learning_object_import.class.php';
+require_once Path::get_repository_path().'lib/import/content_object_import.class.php';
 
 class AssessmentToolQtiImportComponent extends AssessmentToolComponent {
 
@@ -57,8 +57,8 @@ class AssessmentToolQtiImportComponent extends AssessmentToolComponent {
     	//TODO: change categories
     	$category = 0;
 
-    	$importer = LearningObjectImport ::factory('qti', $file, $user, $category);
-    	$result = $importer->import_learning_object();
+    	$importer = ContentObjectImport ::factory('qti', $file, $user, $category);
+    	$result = $importer->import_content_object();
     	return $result->get_id();
     }
 

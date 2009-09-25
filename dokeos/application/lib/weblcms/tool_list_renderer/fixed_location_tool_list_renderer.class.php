@@ -127,11 +127,11 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		$parent = $this->get_parent();
 		
 		$conditions = array();
-		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $parent->get_course_id());
-		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE, 1);
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $parent->get_course_id());
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE, 1);
 		$condition = new AndCondition($conditions);
 		
-		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications_new($condition);
+		$publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($condition);
 
 		if($publications->size() > 0)
 		{
@@ -157,7 +157,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				$tool_image = 'tool_' . $publication->get_tool() .'_na.png';
 				$link_class=' class="invisible"';
 			}
-			$title = htmlspecialchars($publication->get_learning_object()->get_title());
+			$title = htmlspecialchars($publication->get_content_object()->get_title());
 			$row = $count/$this->number_of_columns;
 			$col = $count%$this->number_of_columns;
 			$html = array();

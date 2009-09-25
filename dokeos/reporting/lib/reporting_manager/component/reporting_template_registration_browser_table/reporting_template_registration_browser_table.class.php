@@ -16,7 +16,7 @@ class ReportingTemplateRegistrationBrowserTable extends ObjectTable
 
     /**
      * Constructor
-     * @see LearningObjectTable::LearningObjectTable()
+     * @see ContentObjectTable::ContentObjectTable()
      */
     function ReportingTemplateRegistrationBrowserTable($browser, $parameters, $condition)
     {

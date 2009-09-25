@@ -36,12 +36,12 @@ class UserViewForm extends FormValidator {
 		
 		if($this->form_type == self :: TYPE_EDIT)
 		{
-			$uvrlo = RepositoryDataManager :: get_instance()->retrieve_user_view_rel_learning_objects(new EqualityCondition(UserViewRelLearningObject :: PROPERTY_VIEW_ID, $this->get_user_view()->get_id()));
+			$uvrlo = RepositoryDataManager :: get_instance()->retrieve_user_view_rel_content_objects(new EqualityCondition(UserViewRelContentObject :: PROPERTY_VIEW_ID, $this->get_user_view()->get_id()));
 	    	while($type = $uvrlo->next_result())
 	    	{
-	    		$learning_object_types[$type->get_learning_object_type()] = Translation :: get(DokeosUtilities :: underscores_to_camelcase($type->get_learning_object_type()) . 'TypeName');
+	    		$content_object_types[$type->get_content_object_type()] = Translation :: get(DokeosUtilities :: underscores_to_camelcase($type->get_content_object_type()) . 'TypeName');
 	    		if($type->get_visibility())
-	    			$defaults[] = $type->get_learning_object_type();
+	    			$defaults[] = $type->get_content_object_type();
 	    	}
 		}
 		else
@@ -54,13 +54,13 @@ class UserViewForm extends FormValidator {
 			foreach($registrations as $registration)
 			{
 				if(in_array($registration, $hidden_types)) continue;
-				$learning_object_types[$registration] = Translation :: get(DokeosUtilities :: underscores_to_camelcase($registration) . 'TypeName');
+				$content_object_types[$registration] = Translation :: get(DokeosUtilities :: underscores_to_camelcase($registration) . 'TypeName');
 				//$defaults[] = $registration;
 			}
 		}
 		
 		$this->addElement('advmultiselect', 'types', Translation :: get('SelectTypesToShow'), 
-									  $learning_object_types, array('style' => 'width:300px; height: 300px'));
+									  $content_object_types, array('style' => 'width:300px; height: 300px'));
 			
 		$this->setDefaults(array('types' => $defaults));
 		
@@ -105,11 +105,11 @@ class UserViewForm extends FormValidator {
     	foreach($values['types'] as $type)
     	{    		
     		$conditions = array();
-    		$conditions[] = new EqualityCondition(UserViewRelLearningObject :: PROPERTY_VIEW_ID, $user_view->get_id());
-    		$conditions[] = new EqualityCondition(UserViewRelLearningObject :: PROPERTY_LEARNING_OBJECT_TYPE, $type);
+    		$conditions[] = new EqualityCondition(UserViewRelContentObject :: PROPERTY_VIEW_ID, $user_view->get_id());
+    		$conditions[] = new EqualityCondition(UserViewRelContentObject :: PROPERTY_LEARNING_OBJECT_TYPE, $type);
     		$condition = new AndCondition($conditions);
  
-    		$lo_type = $dm->retrieve_user_view_rel_learning_objects($condition)->next_result(); 
+    		$lo_type = $dm->retrieve_user_view_rel_content_objects($condition)->next_result(); 
     		$lo_type->set_visibility(1);
     		$lo_type->update();
     	}

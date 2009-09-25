@@ -27,18 +27,18 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
 		}
 		
 		$conditions = array();
-		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
-		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'assessment');
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'assessment');
 		
 		$subselect_condition = new EqualityCondition('type', 'introduction');
-		$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition, LearningObjectPublication :: get_table_name());
+		$conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition, ContentObjectPublication :: get_table_name());
 		$condition = new AndCondition($conditions);
 		
-		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications_new($condition);
+		$publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($condition);
 		$this->introduction_text = $publications->next_result();
 
 		$tree_id = WeblcmsManager :: PARAM_CATEGORY;
-		$tree = new LearningObjectPublicationCategoryTree($this, $tree_id);
+		$tree = new ContentObjectPublicationCategoryTree($this, $tree_id);
 		$this->set_parameter($tree_id, Request :: get($tree_id));
 
 		$trail = new BreadCrumbTrail();
@@ -74,8 +74,8 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
 		$query = $this->action_bar->get_query();
 		if(isset($query) && $query != '')
 		{
-			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query, LearningObject :: get_table_name());
-			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query, LearningObject :: get_table_name());
+			$conditions[] = new LikeCondition(ContentObject :: PROPERTY_TITLE, $query, ContentObject :: get_table_name());
+			$conditions[] = new LikeCondition(ContentObject :: PROPERTY_DESCRIPTION, $query, ContentObject :: get_table_name());
 			return new OrCondition($conditions);
 		}
 

@@ -1,7 +1,7 @@
 <?php
 require_once Path :: get_admin_path() . 'lib/package_remover/package_remover.class.php';
 
-class PackageLearningObjectRemover extends PackageRemover
+class PackageContentObjectRemover extends PackageRemover
 {
     private $registration;
 
@@ -22,22 +22,22 @@ class PackageLearningObjectRemover extends PackageRemover
         }
 
         // Deactivate the learning object, thus making it inaccesible
-        if (! $this->deactivate_learning_object_type())
+        if (! $this->deactivate_content_object_type())
         {
-            return $this->installation_failed('failed', Translation :: get('LearningObjectDeactivationFailed'));
+            return $this->installation_failed('failed', Translation :: get('ContentObjectDeactivationFailed'));
         }
         else
         {
-            $this->installation_successful('initilization', Translation :: get('LearningObjectSuccessfullyDeactivated'));
+            $this->installation_successful('initilization', Translation :: get('ContentObjectSuccessfullyDeactivated'));
         }
 
-        if (!$this->delete_learning_objects())
+        if (!$this->delete_content_objects())
         {
-            return $this->installation_failed('failed', Translation :: get('LearningObjectDeletionFailed'));
+            return $this->installation_failed('failed', Translation :: get('ContentObjectDeletionFailed'));
         }
         else
         {
-            $this->installation_successful('repository', Translation :: get('LearningObjectSuccessfullyDeleted'));
+            $this->installation_successful('repository', Translation :: get('ContentObjectSuccessfullyDeleted'));
         }
 
         if (!$this->remove_storage_units())
@@ -49,7 +49,7 @@ class PackageLearningObjectRemover extends PackageRemover
             $this->installation_successful('database', Translation :: get('StorageUnitsSuccessfullyDeleted'));
         }
 
-        if (!$this->remove_learning_object())
+        if (!$this->remove_content_object())
         {
             return $this->installation_failed('failed', Translation :: get('ObjectDeletionFailed'));
         }
@@ -61,18 +61,18 @@ class PackageLearningObjectRemover extends PackageRemover
         return true;
     }
 
-    function deactivate_learning_object_type()
+    function deactivate_content_object_type()
     {
         $registration = $this->registration;
 
-        $this->add_message(Translation :: get('DeactivatingLearningObject'));
+        $this->add_message(Translation :: get('DeactivatingContentObject'));
         $registration->toggle_status();
         if (!$registration->update())
         {
             return false;
         }
 
-        $this->add_message(Translation :: get('DisablingLearningObjectCreation'));
+        $this->add_message(Translation :: get('DisablingContentObjectCreation'));
         $adm = AdminDataManager :: get_instance();
         $setting = $adm->retrieve_setting_from_variable_name('allow_' . $registration->get_name() . '_creation', RepositoryManager :: APPLICATION_NAME);
         if ($setting)
@@ -86,17 +86,17 @@ class PackageLearningObjectRemover extends PackageRemover
         return true;
     }
 
-    function delete_learning_objects()
+    function delete_content_objects()
     {
         $registration = $this->registration;
 
         $rdm = RepositoryDataManager :: get_instance();
-        $learning_objects = $rdm->retrieve_learning_objects($registration->get_name());
+        $content_objects = $rdm->retrieve_content_objects($registration->get_name());
 
-        while($learning_object = $learning_objects->next_result())
+        while($content_object = $content_objects->next_result())
         {
-            $this->add_message(Translation :: get('DeletingObject') . ': <em>' . $learning_object->get_title() . '</em>');
-            $versions = $learning_object->get_learning_object_versions();
+            $this->add_message(Translation :: get('DeletingObject') . ': <em>' . $content_object->get_title() . '</em>');
+            $versions = $content_object->get_content_object_versions();
 
     		foreach ($versions as $version)
 			{
@@ -121,7 +121,7 @@ class PackageLearningObjectRemover extends PackageRemover
         $database = new Database();
         $database->set_prefix(RepositoryManager :: APPLICATION_NAME . '_');
 
-        $path = Path :: get_repository_path() . 'lib/learning_object/' . $registration->get_name() . '/';
+        $path = Path :: get_repository_path() . 'lib/content_object/' . $registration->get_name() . '/';
         $files = FileSystem :: get_directory_content($path, FileSystem :: LIST_FILES);
 
         foreach ($files as $file)
@@ -145,18 +145,18 @@ class PackageLearningObjectRemover extends PackageRemover
         return true;
     }
 
-    function remove_learning_object()
+    function remove_content_object()
     {
         $registration = $this->registration;
 
-        $this->add_message(Translation :: get('DeletingLearningObjectRegistration'));
+        $this->add_message(Translation :: get('DeletingContentObjectRegistration'));
         if (! $registration->delete())
         {
             return false;
         }
 
-//        $this->add_message(Translation :: get('DeletingLearningObject'));
-//        $path = Path :: get_reporting_path() . 'lib/learning_object/' . $registration->get_name() . '/';
+//        $this->add_message(Translation :: get('DeletingContentObject'));
+//        $path = Path :: get_reporting_path() . 'lib/content_object/' . $registration->get_name() . '/';
 //        if (!Filesystem :: remove($path))
 //        {
 //            return false;

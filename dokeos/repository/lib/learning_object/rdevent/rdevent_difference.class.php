@@ -9,7 +9,7 @@
 /**
  * This class can be used to get the difference between announcements
  */
-class RdpublicationDifference extends LearningObjectDifference
+class RdpublicationDifference extends ContentObjectDifference
 {
 }
 ?>

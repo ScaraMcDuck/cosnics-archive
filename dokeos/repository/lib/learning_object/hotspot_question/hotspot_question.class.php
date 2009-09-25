@@ -4,12 +4,12 @@
  * @package repository.learningobject
  * @subpackage exercise
  */
-require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) . '/../../content_object.class.php';
 require_once dirname(__FILE__).'/hotspot_question_answer.class.php';
 /**
  * This class represents a hotspot question
  */
-class HotspotQuestion extends LearningObject
+class HotspotQuestion extends ContentObject
 {
 	const PROPERTY_ANSWERS = 'answers';
 	const PROPERTY_IMAGE = 'image';
@@ -64,7 +64,7 @@ class HotspotQuestion extends LearningObject
 
 	    if (isset($image) && $image != 0)
 	    {
-	        return RepositoryDataManager :: get_instance()->retrieve_learning_object($image);
+	        return RepositoryDataManager :: get_instance()->retrieve_content_object($image);
 	    }
 	    else
 	    {

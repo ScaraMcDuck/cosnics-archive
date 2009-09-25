@@ -1,10 +1,10 @@
 <?php
 
-require_once dirname(__FILE__) . '/../learning_path_learning_object_display.class.php';
+require_once dirname(__FILE__) . '/../learning_path_content_object_display.class.php';
 
-class AssessmentDisplay extends LearningPathLearningObjectDisplay
+class AssessmentDisplay extends LearningPathContentObjectDisplay
 {
-	function display_learning_object($assessment, $tracker_attempt_data)
+	function display_content_object($assessment, $tracker_attempt_data)
 	{
 		$lpi_attempt_id = $tracker_attempt_data['active_tracker']->get_id();
 		
@@ -17,21 +17,21 @@ class AssessmentDisplay extends LearningPathLearningObjectDisplay
 	}
 }
 
-/*require_once dirname(__FILE__) . '/../learning_path_learning_object_display.class.php';
+/*require_once dirname(__FILE__) . '/../learning_path_content_object_display.class.php';
 require_once Path :: get_application_path().'lib/weblcms/tool/assessment/component/assessment_tester_form/assessment_tester_display.class.php';
 require_once Path :: get_application_path().'lib/weblcms/tool/assessment/component/assessment_tester_form/assessment_score_calculator.class.php';
 require_once Path :: get_application_path().'lib/weblcms/tool/assessment/component/assessment_results_viewer/results_viewer.class.php';
 require_once Path :: get_application_path().'lib/weblcms/trackers/weblcms_learning_path_assessment_attempts_tracker.class.php';
-require_once Path :: get_repository_path().'lib/learning_object/assessment/assessment.class.php';
-require_once Path :: get_repository_path().'lib/learning_object/survey/survey.class.php';
+require_once Path :: get_repository_path().'lib/content_object/assessment/assessment.class.php';
+require_once Path :: get_repository_path().'lib/content_object/survey/survey.class.php';
 
-class AssessmentDisplay extends LearningPathLearningObjectDisplay
+class AssessmentDisplay extends LearningPathContentObjectDisplay
 {
 	private $datamanager;
 
 	private $assessment;
 
-	function display_learning_object($assessment)
+	function display_content_object($assessment)
 	{
 		$trackers = $this->get_parent()->get_trackers();
 		$lpi_tracker = $trackers['lpi_tracker'];

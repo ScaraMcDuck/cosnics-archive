@@ -30,17 +30,17 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
 				//TODO: update all publications in a single action/query
 				foreach($publication_ids as $index => $publication_id)
 				{
-					$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($publication_id);
+					$publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($publication_id);
 					$publication->set_category_id($form->exportValue('category'));
 					$publication->update();
 				}
 				if(count($publication_ids) == 1)
 				{
-					$message = Translation :: get('LearningObjectPublicationMoved');
+					$message = Translation :: get('ContentObjectPublicationMoved');
 				}
 				else
 				{
-					$message = Translation :: get('LearningObjectPublicationsMoved');
+					$message = Translation :: get('ContentObjectPublicationsMoved');
 				}
 				$this->redirect($message, false, array('tool_action' => null, 'pid' => null));
 			}
@@ -69,7 +69,7 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
 
 		if(count($publication_ids) > 0)
 		{
-			$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($publication_ids[0]);
+			$pub = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($publication_ids[0]);
 			if($pub)
 			{
 				$cat = $pub->get_category_id();
@@ -94,11 +94,11 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
 	function build_category_tree($parent_id, $exclude)
 	{
 		$dm = WeblcmsDataManager :: get_instance();
-		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_PARENT, $parent_id);
+		$conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_PARENT, $parent_id);
 		$conditions[] = new EqualityCondition('course', $this->get_course_id());
 		$conditions[] = new EqualityCondition('tool', $this->get_tool_id());
 		$condition = new AndCondition($conditions);
-		$categories = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_categories($condition);
+		$categories = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication_categories($condition);
 
 		$tree = array();
 		while($cat = $categories->next_result())

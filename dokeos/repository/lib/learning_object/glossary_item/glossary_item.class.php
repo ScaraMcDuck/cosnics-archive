@@ -4,11 +4,11 @@
  * @package repository.learningobject
  * @subpackage glossary_item
  */
-require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) . '/../../content_object.class.php';
 /**
  * This class represents an glossary_item
  */
-class GlossaryItem extends LearningObject
+class GlossaryItem extends ContentObject
 {
 }
 ?>

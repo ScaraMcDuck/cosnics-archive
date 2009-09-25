@@ -5,8 +5,8 @@
  * @package application.weblcms.tool
  * @subpackage link
  */
-require_once dirname(__FILE__).'/../../../../browser/list_renderer/learning_object_publication_details_renderer.class.php';
-class LinkDetailsRenderer extends LearningObjectPublicationDetailsRenderer
+require_once dirname(__FILE__).'/../../../../browser/list_renderer/content_object_publication_details_renderer.class.php';
+class LinkDetailsRenderer extends ContentObjectPublicationDetailsRenderer
 {
 	function LinkDetailsRenderer ($browser)
 	{
@@ -15,7 +15,7 @@ class LinkDetailsRenderer extends LearningObjectPublicationDetailsRenderer
 
 	function render_title($publication)
 	{
-		$url = $publication->get_learning_object()->get_url();
+		$url = $publication->get_content_object()->get_url();
 		return '<a target="about:blank" href="'.htmlentities($url).'">'.parent :: render_title($publication).'</a>';
 	}
 }

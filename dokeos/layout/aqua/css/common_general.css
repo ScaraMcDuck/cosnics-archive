@@ -578,7 +578,7 @@ div.metadata div.title
 }
 
 /* Learning object display styles */
-div.learning_object
+div.content_object
 {
 	border: 1px solid #F0F0F0;
 	margin: 0 0 1em 0;
@@ -590,7 +590,7 @@ div.learning_object
 	-webkit-border-top-left-radius: 10px;
 	-webkit-border-bottom-right-radius: 10px;
 }
-div.learning_object div.title
+div.content_object div.title
 {
 	font-weight: bold;
 	border-bottom: 1px solid #CCCCCC;
@@ -598,19 +598,19 @@ div.learning_object div.title
 	margin-bottom: 1em;
 }
 
-div.learning_object div.description ul.attachments_list
+div.content_object div.description ul.attachments_list
 {
 	margin-top: 10px;
 }
 
-div.learning_object div.publication_info
+div.content_object div.publication_info
 {
 	font-style: italic;
 	text-align: right;
 	margin: 1em 0;
 }
 
-div.learning_object span.publication_info
+div.content_object span.publication_info
 {
 	font-weight: normal;
 	font-style: italic;
@@ -618,7 +618,7 @@ div.learning_object span.publication_info
 }
 
 
-div.learning_object div.publication_actions
+div.content_object div.publication_actions
 {
 	text-align: right;
 }
@@ -2306,7 +2306,7 @@ div.select_complex_element span.title img
 	margin-right: 5px;
 }
 
-div.select_complex_element div#learning_object_selection
+div.select_complex_element div#content_object_selection
 {
 	margin-top: 0px;
 }
@@ -2316,7 +2316,7 @@ div.complex_browser_display
 	margin-top: 10px;
 }
 
-div.complex_browser_display div.learning_object div.title
+div.complex_browser_display div.content_object div.title
 {
 	color: #4271B5;
 }
@@ -2341,7 +2341,7 @@ div.create_block
 	font-size: 11px;
 }
 
-.learning_object_selection
+.content_object_selection
 {
 	clear: both;
 	margin-top: 10px;

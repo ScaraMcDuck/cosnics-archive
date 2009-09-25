@@ -513,7 +513,7 @@ abstract class Tool
 	{
 		$form = new FormValidator($action,'get',$this->get_url());
 		$categories = $this->get_categories(true);
-		$form->addElement('select', LearningObjectPublication :: PROPERTY_CATEGORY_ID, Translation :: get('Category'), $categories);
+		$form->addElement('select', ContentObjectPublication :: PROPERTY_CATEGORY_ID, Translation :: get('Category'), $categories);
 		//$form->addElement('submit', 'submit', Translation :: get('Ok'));
 		$buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move'), array('class' => 'positive move'));
 		$buttons[] = $form->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -554,10 +554,10 @@ abstract class Tool
 
 			$html[] = '<div class="announcements level_1">';
 			$html[] = '<div class="title">';
-			$html[] = $introduction_text->get_learning_object()->get_title();
+			$html[] = $introduction_text->get_content_object()->get_title();
 			$html[] = '</div><div class="clear">&nbsp;</div>';
 			$html[] = '<div class="description">';
-			$html[] = $introduction_text->get_learning_object()->get_description();
+			$html[] = $introduction_text->get_content_object()->get_description();
 			$html[] = '</div>';
 			$html[] = DokeosUtilities :: build_toolbar($tb_data) . '<div class="clear"></div>';
 			$html[] = '</div>';
@@ -592,12 +592,12 @@ abstract class Tool
 
     static function get_pcattree_parents($pcattree)
     {
-        $parent = WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication_category($pcattree);
+        $parent = WebLcmsDataManager :: get_instance()->retrieve_content_object_publication_category($pcattree);
         $parents[] = $parent;
 
         while($parent && $parent->get_parent() != 0)
         {
-            $parent = WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication_category($parent->get_parent());
+            $parent = WebLcmsDataManager :: get_instance()->retrieve_content_object_publication_category($parent->get_parent());
             $parents[] = $parent;
         }
         $parents = array_reverse($parents);

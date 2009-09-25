@@ -22,7 +22,7 @@ class UserQuota extends DataClass
 	const CLASS_NAME					= __CLASS__;
 	
 	const PROPERTY_USER_ID				= 'user_id';
-	const PROPERTY_LEARNING_OBJECT_TYPE	= 'learning_object_type';
+	const PROPERTY_LEARNING_OBJECT_TYPE	= 'content_object_type';
 	const PROPERTY_USER_QUOTA 			= 'user_quota';
 
 	/**
@@ -55,7 +55,7 @@ class UserQuota extends DataClass
 	 * Returns the learning object type.
 	 * @return String The lastname
 	 */
-	function get_learning_object_type()
+	function get_content_object_type()
 	{
 		return $this->get_default_property(self :: PROPERTY_LEARNING_OBJECT_TYPE);
 	}
@@ -82,7 +82,7 @@ class UserQuota extends DataClass
 	 * Sets the learning object type.
 	 * @param $type the learning object type.
 	 */
-	function set_learning_object_type($type)
+	function set_content_object_type($type)
 	{
 		$this->set_default_property(self :: PROPERTY_LEARNING_OBJECT_TYPE, $type);
 	}

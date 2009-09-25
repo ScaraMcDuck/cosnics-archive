@@ -26,7 +26,7 @@ class ComplexDisplayDeleterComponent extends ComplexDisplayComponent
 			foreach($cloi_ids as $cid)
 			{
                 {
-                    $cloi = new ComplexLearningObjectItem();
+                    $cloi = new ComplexContentObjectItem();
                     $cloi->set_id($cid);
                     $cloi->delete();
                 }
@@ -35,11 +35,11 @@ class ComplexDisplayDeleterComponent extends ComplexDisplayComponent
 			
             if(count($cloi_ids) > 1)
             {
-                $message = htmlentities(Translation :: get('ComplexLearningObjectItemsDeleted'));
+                $message = htmlentities(Translation :: get('ComplexContentObjectItemsDeleted'));
             }
             else
             {
-                $message = htmlentities(Translation :: get('ComplexLearningObjectItemDeleted'));
+                $message = htmlentities(Translation :: get('ComplexContentObjectItemDeleted'));
             }
 
             $this->redirect($message, false, array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_VIEW_CLO, 'pid' => Request :: get('pid'), 'cid' => Request :: get('cid')));

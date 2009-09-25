@@ -3,7 +3,7 @@
 	<package>
 		<name>Wiki page</name>
 		<code>wiki_page</code>
-		<section>learning_object</section>
+		<section>content_object</section>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/w/wiki_page/wiki_page-1.0.0.zip</filename>

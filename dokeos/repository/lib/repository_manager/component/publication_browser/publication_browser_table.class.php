@@ -16,7 +16,7 @@ class PublicationBrowserTable extends ObjectTable
 	
 	/**
 	 * Constructor
-	 * @see LearningObjectTable::LearningObjectTable()
+	 * @see ContentObjectTable::ContentObjectTable()
 	 */
 	function PublicationBrowserTable($browser, $parameters, $condition)
 	{
@@ -29,7 +29,7 @@ class PublicationBrowserTable extends ObjectTable
 	}
 	
 	/**
-	 * LearningObjectPublicationAttributes not directly extracted from the
+	 * ContentObjectPublicationAttributes not directly extracted from the
 	 * database but preprocessed and are therefore not returned by the datamanager
 	 * as a resultset. It is instead an array which means we have to overwrite
 	 * this method to handle it accordingly.

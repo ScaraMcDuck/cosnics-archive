@@ -7,7 +7,7 @@
 /**
  * This class can be used to get the difference between feedbacks
  */
-class FeedbackDifference extends LearningObjectDifference
+class FeedbackDifference extends ContentObjectDifference
 {
 }
 ?>

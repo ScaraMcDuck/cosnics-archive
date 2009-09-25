@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/../distribute_manager.class.php';
 require_once dirname(__FILE__).'/../distribute_manager_component.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
-require_once Path :: get_repository_path(). 'lib/learning_object_display.class.php';
+require_once Path :: get_repository_path(). 'lib/content_object_display.class.php';
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
 
 class DistributeManagerViewerComponent extends DistributeManagerComponent
@@ -48,8 +48,8 @@ class DistributeManagerViewerComponent extends DistributeManagerComponent
 
     function get_distribution_as_html($announcement_distribution)
     {
-        $learning_object = $announcement_distribution->get_distribution_object();
-        $display = LearningObjectDisplay :: factory($learning_object);
+        $content_object = $announcement_distribution->get_distribution_object();
+        $display = ContentObjectDisplay :: factory($content_object);
         $html = array();
 
         $html[] = $display->get_full_html();

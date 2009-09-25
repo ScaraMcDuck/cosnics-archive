@@ -16,7 +16,7 @@ class RemotePackageBrowserTable extends ObjectTable
 
     /**
      * Constructor
-     * @see LearningObjectTable::LearningObjectTable()
+     * @see ContentObjectTable::ContentObjectTable()
      */
     function RemotePackageBrowserTable($browser, $parameters, $condition)
     {

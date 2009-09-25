@@ -1,10 +1,10 @@
 <?php
-require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) . '/../../content_object.class.php';
 /**
  * @package repository.learningobject
  * @subpackage youtube
  */
-class Youtube extends LearningObject
+class Youtube extends ContentObject
 {
 	const PROPERTY_URL = 'url';
 	const PROPERTY_HEIGHT = 'height';

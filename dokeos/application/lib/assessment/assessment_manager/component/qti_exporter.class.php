@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/../assessment_manager.class.php';
 require_once dirname(__FILE__).'/../assessment_manager_component.class.php';
-require_once Path::get_repository_path().'/lib/export/learning_object_export.class.php';
+require_once Path::get_repository_path().'/lib/export/content_object_export.class.php';
 
 /**
  * Component to create a new assessment_publication object
@@ -28,8 +28,8 @@ class AssessmentManagerQtiExporterComponent extends AssessmentManagerComponent
 		$publication = $this->retrieve_assessment_publication($pid);
 		
 		$assessment = $publication->get_publication_object();
-		$exporter = LearningObjectExport :: factory('qti', $assessment);
-		$path = $exporter->export_learning_object();
+		$exporter = ContentObjectExport :: factory('qti', $assessment);
+		$path = $exporter->export_content_object();
 		
 		header('Expires: Wed, 01 Jan 1990 00:00:00 GMT');
 		header('Cache-Control: public');

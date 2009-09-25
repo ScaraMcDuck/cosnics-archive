@@ -34,22 +34,22 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
         return $this->database->create_storage_unit($name, $properties, $indexes);
     }
 
-    public function learning_object_is_published($object_id)
+    public function content_object_is_published($object_id)
     {
         $condition = new EqualityCondition(CalendarEventPublication :: PROPERTY_CALENDAR_EVENT, $object_id);
         return $this->database->count_objects(CalendarEventPublication :: get_table_name(), $condition) >= 1;
     }
 
-    public function any_learning_object_is_published($object_ids)
+    public function any_content_object_is_published($object_ids)
     {
         $condition = new InCondition(CalendarEventPublication :: PROPERTY_CALENDAR_EVENT, $object_ids);
         return $this->database->count_objects(CalendarEventPublication :: get_table_name(), $condition) >= 1;
     }
 
     /**
-     * @see Application::get_learning_object_publication_attributes()
+     * @see Application::get_content_object_publication_attributes()
      */
-    public function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    public function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
     {
         if (isset($type))
         {
@@ -91,7 +91,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
         $publication_attr = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
-            $info = new LearningObjectPublicationAttributes();
+            $info = new ContentObjectPublicationAttributes();
             $info->set_id($record['id']);
             $info->set_publisher_user_id($record['publisher']);
             $info->set_publication_date($record['publication_date']);
@@ -107,13 +107,13 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
     }
 
     /**
-     * @see Application::get_learning_object_publication_attribute()
+     * @see Application::get_content_object_publication_attribute()
      */
-    public function get_learning_object_publication_attribute($publication_id)
+    public function get_content_object_publication_attribute($publication_id)
     {
         $record = $this->retrieve_calendar_event_publication($publication_id);
 
-        $info = new LearningObjectPublicationAttributes();
+        $info = new ContentObjectPublicationAttributes();
         $info->set_id($record->get_id());
         $info->set_publisher_user_id($record->get_publisher());
         $info->set_publication_date($record->get_publication_date());
@@ -122,7 +122,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
         $info->set_location('');
         //TODO: set correct URL
         $info->set_url('index_personal_calendar.php?pid=' . $record->get_id());
-        $info->set_publication_object_id($record->get_learning_object());
+        $info->set_publication_object_id($record->get_content_object());
         return $info;
     }
 
@@ -136,22 +136,22 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
     }
 
     /**
-     * @see Application::delete_learning_object_publications()
+     * @see Application::delete_content_object_publications()
      */
-    public function delete_learning_object_publications($object_id)
+    public function delete_content_object_publications($object_id)
     {
         $condition = new EqualityCondition(CalendarEventPublication :: PROPERTY_CALENDAR_EVENT, $object_id);
         $this->database->delete(CalendarEventPublication :: get_table_name(), $condition);
     }
 
     /**
-     * @see Application::update_learning_object_publication_id()
+     * @see Application::update_content_object_publication_id()
      */
-    function update_learning_object_publication_id($publication_attr)
+    function update_content_object_publication_id($publication_attr)
     {
         $where = $this->database->escape_column_name('id') . '=' . $publication_attr->get_id();
         $props = array();
-        $props[$this->database->escape_column_name('learning_object')] = $publication_attr->get_publication_object_id();
+        $props[$this->database->escape_column_name('content_object')] = $publication_attr->get_publication_object_id();
         $this->database->get_connection()->loadModule('Extended');
         return $this->database->get_connection()->extended->autoExecute($this->database->get_table_name('publication'), $props, MDB2_AUTOQUERY_UPDATE, $where);
     }

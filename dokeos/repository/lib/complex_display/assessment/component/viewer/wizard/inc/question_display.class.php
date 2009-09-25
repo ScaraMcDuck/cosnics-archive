@@ -123,7 +123,7 @@ abstract class QuestionDisplay
 
 	static function factory($formvalidator, $clo_question, $question_nr)
 	{
-		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
+		$question = RepositoryDataManager :: get_instance()->retrieve_content_object($clo_question->get_ref());
 		$type = $question->get_type();
 
 		$file = dirname(__FILE__) . '/question_display/' . $type . '.class.php';

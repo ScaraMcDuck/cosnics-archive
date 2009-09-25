@@ -4,12 +4,12 @@
  */
 
 require_once dirname(__FILE__) . '/../../lib/import/import_quiz_question.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/fill_in_blanks_question/fill_in_blanks_question.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/matching_question/matching_question.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/multiple_choice_question/multiple_choice_question.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/open_question/open_question.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/content_object/fill_in_blanks_question/fill_in_blanks_question.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/content_object/matching_question/matching_question.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/content_object/multiple_choice_question/multiple_choice_question.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/content_object/open_question/open_question.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/content_object_publication.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/content_object/category/category.class.php';
 require_once dirname(__FILE__) . '/dokeos185_quiz_answer.class.php';
 
 /**
@@ -282,9 +282,9 @@ class Dokeos185QuizQuestion extends ImportQuizQuestion
 		//publication
 		if($this->item_property->get_visibility() <= 1) 
 		{
-			$publication = new LearningObjectPublication();
+			$publication = new ContentObjectPublication();
 			
-			$publication->set_learning_object($lcms_announcement);
+			$publication->set_content_object($lcms_announcement);
 			$publication->set_course_id($new_course_code);
 			$publication->set_publisher_id($new_user_id);
 			$publication->set_tool('announcement');

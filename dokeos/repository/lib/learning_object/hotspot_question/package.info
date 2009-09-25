@@ -3,7 +3,7 @@
 	<package>
 		<name>Hotspot Question</name>
 		<code>hotspot_question</code>
-		<section>learning_object</section>
+		<section>content_object</section>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/h/hotspot_question/hotspot_question-1.0.0.zip</filename>

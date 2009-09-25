@@ -29,7 +29,7 @@ class ProfilerManagerPublisherComponent extends ProfilerManagerComponent
         }
         else
         {
-            //$html[] = 'LearningObject: ';
+            //$html[] = 'ContentObject: ';
             $publisher = new ProfilePublisher($pub);
             $html[] = $publisher->get_publications_form($object);
         }

@@ -5,11 +5,11 @@
  * @package application.weblcms.tool
  * @subpackage calendar
  */
-require_once dirname(__FILE__).'/../../../../browser/list_renderer/list_learning_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/../../../../browser/list_renderer/list_content_object_publication_list_renderer.class.php';
 /**
  * A renderer to display a list view of a calendar
  */
-class CalendarListRenderer extends ListLearningObjectPublicationListRenderer
+class CalendarListRenderer extends ListContentObjectPublicationListRenderer
 {
 	function as_html()
 	{
@@ -24,7 +24,7 @@ class CalendarListRenderer extends ListLearningObjectPublicationListRenderer
 		
 		foreach ($publications as $index => $publication)
 		{
-			$object = $publication->get_learning_object();
+			$object = $publication->get_content_object();
 			
 			if ($object->repeats())
 			{
@@ -33,20 +33,20 @@ class CalendarListRenderer extends ListLearningObjectPublicationListRenderer
 				foreach($repeats as $repeat)
 				{
 					$the_publication = clone $publication;
-					$the_publication->set_learning_object($repeat);
+					$the_publication->set_content_object($repeat);
 					
-					$rendered_publications[$publication->get_learning_object()->get_start_date()][] = $this->render_publication($the_publication, false, false);
+					$rendered_publications[$publication->get_content_object()->get_start_date()][] = $this->render_publication($the_publication, false, false);
 				}
 			}
 			else
 			{
-				$rendered_publications[$publication->get_learning_object()->get_start_date()][] = $this->render_publication($publication, false, false);
+				$rendered_publications[$publication->get_content_object()->get_start_date()][] = $this->render_publication($publication, false, false);
 			}
 			
 			
 //			$first = $index == 0;
 //			$last = $index == count($publications) - 1;
-//			$rendered_publications[$publication->get_learning_object()->get_start_date()][] = $this->render_publication($publication, $first, $last);
+//			$rendered_publications[$publication->get_content_object()->get_start_date()][] = $this->render_publication($publication, $first, $last);
 		}
 		ksort($rendered_publications);
 		$current_month = 0;
@@ -100,7 +100,7 @@ class CalendarListRenderer extends ListLearningObjectPublicationListRenderer
 	 */
 	function render_description($publication)
 	{
-		$event = $publication->get_learning_object();
+		$event = $publication->get_content_object();
 		$html[] = '<em>';
 		//TODO: date formatting
 		$html[] = htmlentities(Translation :: get('From')).': '.date('r',$event->get_start_date());

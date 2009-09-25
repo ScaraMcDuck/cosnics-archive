@@ -3,7 +3,7 @@
  * @package repository.learningobject
  * @subpackage portfolio
  */
-class PortfolioItemDisplay extends LearningObjectDisplay
+class PortfolioItemDisplay extends ContentObjectDisplay
 {
 }
 ?>

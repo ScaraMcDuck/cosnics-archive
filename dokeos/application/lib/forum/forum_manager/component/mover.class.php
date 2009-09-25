@@ -20,7 +20,7 @@ class ForumManagerMoverComponent extends ForumManagerComponent
             $publication = $datamanager->retrieve_forum_publication($fpid);
 			if($publication->move($move))
 			{
-				$message = htmlentities(Translation :: get('LearningObjectPublicationMoved'));
+				$message = htmlentities(Translation :: get('ContentObjectPublicationMoved'));
 			}
             $this->redirect($message, false, array(ForumManager::PARAM_ACTION => ForumManager::ACTION_BROWSE));
 		}

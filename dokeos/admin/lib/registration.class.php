@@ -17,7 +17,7 @@ class Registration extends DataClass
     const PROPERTY_STATUS = 'status';
     const PROPERTY_VERSION = 'version';
     
-    const TYPE_LEARNING_OBJECT = 'learning_object';
+    const TYPE_LEARNING_OBJECT = 'content_object';
     const TYPE_APPLICATION = 'application';
     
     const STATUS_ACTIVE = 1;

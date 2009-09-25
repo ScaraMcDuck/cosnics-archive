@@ -1,11 +1,11 @@
 <?php
 require_once Path :: get_plugin_path().'pear/XML/Unserializer.php';
-require_once Path :: get_repository_path().'lib/learning_object/assessment/assessment.class.php';
+require_once Path :: get_repository_path().'lib/content_object/assessment/assessment.class.php';
 
 class AssessmentQtiImport extends QtiImport
 {
 	
-	function import_learning_object()
+	function import_content_object()
 	{
 		$data = $this->get_file_content_array();
 
@@ -82,18 +82,18 @@ class AssessmentQtiImport extends QtiImport
 		//echo 'hier2';
 		$item_ref_file = $item_ref['href'];
 		$weight = $item_ref['weight']['value'];
-		$dirparts = split('/', $this->get_learning_object_file());
+		$dirparts = split('/', $this->get_content_object_file());
 		for ($i = 0; $i < count($dirparts) -1; $i++)
 		{
 			$dir .= $dirparts[$i].'/';
 		}
 		//dump($item_ref_file);
 		$question_qti_import = QtiImport :: factory_qti($item_ref_file, $this->get_user(), $this->get_category(), $dir);
-		$qid = $question_qti_import->import_learning_object();
+		$qid = $question_qti_import->import_content_object();
 		
 		if ($qid != null)
 		{
-			$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($qid);
+			$question = RepositoryDataManager :: get_instance()->retrieve_content_object($qid);
 			//dump($question);
 			$this->create_complex_question($assessment, $question, $weight);
 		}
@@ -104,7 +104,7 @@ class AssessmentQtiImport extends QtiImport
 		//echo 'hier';
 		$type = $question->get_type();
 		$complextype = 'complex_'.$type;
-		require_once Path :: get_repository_path().'lib/learning_object/'.$type.'/'.$complextype.'.class.php';
+		require_once Path :: get_repository_path().'lib/content_object/'.$type.'/'.$complextype.'.class.php';
 		$complextypecc = DokeosUtilities :: underscores_to_camelcase($complextype);
 		$question_clo = new $complextypecc;
 		$question_clo->set_ref($question->get_id());
@@ -135,7 +135,7 @@ class AssessmentQtiImport extends QtiImport
 		}
 		//dump(htmlspecialchars($description));
 		//dump($files);
-		$orig_path = dirname($this->get_learning_object_file());
+		$orig_path = dirname($this->get_content_object_file());
 		foreach ($files as $new => $original)
 		{
 			//dump($orig_path.'/'.$original);

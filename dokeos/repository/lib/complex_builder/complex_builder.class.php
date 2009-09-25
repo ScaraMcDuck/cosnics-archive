@@ -48,10 +48,10 @@ abstract class ComplexBuilder
 		$root_id = Request :: get(self :: PARAM_ROOT_LO);
 		$cloi_id = Request :: get(self :: PARAM_CLOI_ID);
 
-		$this->root = RepositoryDataManager :: get_instance()->retrieve_learning_object($root_id);
+		$this->root = RepositoryDataManager :: get_instance()->retrieve_content_object($root_id);
 		if($cloi_id)
 		{
-			$cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item($cloi_id);
+			$cloi = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($cloi_id);
 			if($cloi)
 				$this->cloi = $cloi;
 		}
@@ -68,7 +68,7 @@ abstract class ComplexBuilder
 			$root_lo = Request :: get(self :: PARAM_ROOT_LO);
 			if($root_lo)
 			{
-				$small_type = RepositoryDataManager :: get_instance()->determine_learning_object_type($root_lo);
+				$small_type = RepositoryDataManager :: get_instance()->determine_content_object_type($root_lo);
 				$type = DokeosUtilities :: underscores_to_camelcase($small_type);
 				$file = dirname(__FILE__) . '/' . $small_type . '/' . $small_type . '_builder.class.php';
 				require_once $file;
@@ -267,9 +267,9 @@ abstract class ComplexBuilder
 	{
 		if($this->get_cloi())
 		{
-			return new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->get_cloi()->get_ref(), ComplexLearningObjectItem :: get_table_name());
+			return new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_cloi()->get_ref(), ComplexContentObjectItem :: get_table_name());
 		}
-		return new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->get_root_lo()->get_id(), ComplexLearningObjectItem :: get_table_name());
+		return new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_root_lo()->get_id(), ComplexContentObjectItem :: get_table_name());
 	}
 
 	function get_clo_menu()
@@ -302,7 +302,7 @@ abstract class ComplexBuilder
 
 	//url building
 
-	function get_complex_learning_object_item_edit_url($cloi, $root_id)
+	function get_complex_content_object_item_edit_url($cloi, $root_id)
 	{
 		return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_UPDATE_CLOI,
 									self :: PARAM_ROOT_LO => $root_id,
@@ -311,7 +311,7 @@ abstract class ComplexBuilder
 									'publish' => Request :: get('publish')));
 	}
 
-	function get_complex_learning_object_item_delete_url($cloi, $root_id)
+	function get_complex_content_object_item_delete_url($cloi, $root_id)
 	{
 		return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_DELETE_CLOI,
 									self :: PARAM_ROOT_LO => $root_id,
@@ -320,7 +320,7 @@ abstract class ComplexBuilder
 									'publish' => Request :: get('publish')));
 	}
 
-	function get_complex_learning_object_item_move_url($cloi, $root_id, $direction)
+	function get_complex_content_object_item_move_url($cloi, $root_id, $direction)
 	{
 		return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_MOVE_CLOI,
 									self :: PARAM_ROOT_LO => $root_id,
@@ -340,7 +340,7 @@ abstract class ComplexBuilder
 		/*foreach($types as $type)
 		{
 			$url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_CLOI, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), ComplexBuilder :: PARAM_CLOI_ID => ($this->get_cloi()?$this->get_cloi()->get_id():null), 'publish' => Request :: get('publish')));
-			$action_bar->add_common_action(new ToolbarItem(Translation :: get(DokeosUtilities :: underscores_to_camelcase($type . 'TypeName')), Theme :: get_common_image_path().'learning_object/' . $type . '.png', $url));
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get(DokeosUtilities :: underscores_to_camelcase($type . 'TypeName')), Theme :: get_common_image_path().'content_object/' . $type . '.png', $url));
 		}*/
 
 		if($pub && $pub != '')
@@ -354,7 +354,7 @@ abstract class ComplexBuilder
 
 	function get_creation_links($lo, $types = array(), $additional_links = array())
 	{
-		$html[] = '<div class="category_form"><div id="learning_object_selection">';
+		$html[] = '<div class="category_form"><div id="content_object_selection">';
 
 		if(count($types) == 0)
 			$types = $lo->get_allowed_types();
@@ -362,8 +362,8 @@ abstract class ComplexBuilder
 		foreach($types as $type)
 		{
 			$url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_CLOI, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), ComplexBuilder :: PARAM_CLOI_ID => ($this->get_cloi()?$this->get_cloi()->get_id():null), 'publish' => Request :: get('publish')));
-			$html[] = '<a href="'. $url .'"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'learning_object/big/' . $type . '.png);">';
-			$html[] = Translation :: get(LearningObject :: type_to_class($type).'TypeName');
+			$html[] = '<a href="'. $url .'"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
+			$html[] = Translation :: get(ContentObject :: type_to_class($type).'TypeName');
 			$html[] = '<div class="clear">&nbsp;</div>';
 			$html[] = '</div></a>';
 		}
@@ -371,7 +371,7 @@ abstract class ComplexBuilder
 		foreach($additional_links as $link)
 		{
 			$type = $link['type'];
-			$html[] = '<a href="'. $link['url'] .'"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'learning_object/big/' . $type . '.png);">';
+			$html[] = '<a href="'. $link['url'] .'"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
 			$html[] = $link['title'];
 			$html[] = '<div class="clear">&nbsp;</div>';
 			$html[] = '</div></a>';

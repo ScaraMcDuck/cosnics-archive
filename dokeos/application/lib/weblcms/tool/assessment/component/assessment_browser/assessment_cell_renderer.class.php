@@ -24,7 +24,7 @@ class AssessmentCellRenderer extends ObjectPublicationTableCellRenderer
 		switch($column->get_name())
 		{
 			case Assessment :: PROPERTY_ASSESSMENT_TYPE:
-				$lo = $publication->get_learning_object();
+				$lo = $publication->get_content_object();
 				$data = $lo->get_assessment_type();
 				if ($publication->is_hidden())
 				{
@@ -43,7 +43,7 @@ class AssessmentCellRenderer extends ObjectPublicationTableCellRenderer
 	{
 		$actions = parent :: get_actions($publication);
 		
-		$assessment = $publication->get_learning_object();
+		$assessment = $publication->get_content_object();
 		$track = new WeblcmsAssessmentAttemptsTracker();
 		$condition_t = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $publication->get_id());
 		$condition_u = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID, $this->browser->get_user_id());

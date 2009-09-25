@@ -42,11 +42,11 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
 			case PersonalMessagePublication :: PROPERTY_STATUS:
 				if ($personal_message->get_status() == 1)
 				{
-					return '<img src="'.Theme :: get_common_image_path().'learning_object/personal_message_new.png" />';
+					return '<img src="'.Theme :: get_common_image_path().'content_object/personal_message_new.png" />';
 				}
 				else
 				{
-					return '<img src="'.Theme :: get_common_image_path().'learning_object/personal_message.png" />';
+					return '<img src="'.Theme :: get_common_image_path().'content_object/personal_message.png" />';
 				}
 				break;
 			case PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE:

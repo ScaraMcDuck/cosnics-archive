@@ -84,7 +84,7 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManagerCo
         $sender = $publication->get_publication_sender();
         $recipient = $publication->get_publication_recipient();
 
-        $html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'learning_object/description.png);">';
+        $html[] = '<div class="content_object" style="background-image: url('.Theme :: get_common_image_path().'content_object/description.png);">';
         $html[] = '<div class="title">'. Translation :: get('Data') .'</div>';
         $html[] = '<div class="description">';
 
@@ -111,7 +111,7 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManagerCo
         $html[] = '</div>';
         $html[] = '</div>';
 
-        $html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'learning_object/personal_message.png);">';
+        $html[] = '<div class="content_object" style="background-image: url('.Theme :: get_common_image_path().'content_object/personal_message.png);">';
         $html[] = '<div class="title">'. Translation :: get('Message') .'</div>';
         $html[] = '<div class="description">'.$message->get_description().'</div>';
         $html[] = '</div>';
@@ -119,20 +119,20 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManagerCo
 
         if ($message->supports_attachments())
         {
-            $attachments = $message->get_attached_learning_objects();
+            $attachments = $message->get_attached_content_objects();
             if (count($attachments))
             {
                 $html[] = '<div class="attachments" style="margin-top: 1em;">';
                 $html[] = '<div class="attachments_title">'.htmlentities(Translation :: get('Attachments')).'</div>';
                 $html[] = '<ul class="attachments_list">';
                 $html[] = DokeosUtilities :: add_block_hider();
-                DokeosUtilities :: order_learning_objects_by_title($attachments);
+                DokeosUtilities :: order_content_objects_by_title($attachments);
                 foreach ($attachments as $attachment)
                 {
-                    $html[] = '<li class="personal_message_attachment"><div style="float: left;"><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/></div><div style="float: left;">&nbsp;'.$attachment->get_title().'&nbsp;</div>';
+                    $html[] = '<li class="personal_message_attachment"><div style="float: left;"><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()).'TypeName')).'"/></div><div style="float: left;">&nbsp;'.$attachment->get_title().'&nbsp;</div>';
                     $html[] = DokeosUtilities :: build_block_hider($attachment->get_id(), 'Attachment');
 
-                    $display = LearningObjectDisplay :: factory($attachment);
+                    $display = ContentObjectDisplay :: factory($attachment);
                     $html[] = $display->get_full_html();
 
                     $html[] = DokeosUtilities :: build_block_hider();

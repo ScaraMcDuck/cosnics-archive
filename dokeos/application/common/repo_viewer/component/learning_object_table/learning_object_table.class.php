@@ -1,18 +1,18 @@
 <?php
 /**
- * @package application.lib.profiler.publisher.learning_object_table
+ * @package application.lib.profiler.publisher.content_object_table
  */
-require_once dirname(__FILE__).'/learning_object_table_data_provider.class.php';
-require_once dirname(__FILE__).'/learning_object_table_column_model.class.php';
-require_once dirname(__FILE__).'/learning_object_table_cell_renderer.class.php';
+require_once dirname(__FILE__).'/content_object_table_data_provider.class.php';
+require_once dirname(__FILE__).'/content_object_table_column_model.class.php';
+require_once dirname(__FILE__).'/content_object_table_cell_renderer.class.php';
 require_once Path :: get_library_path() . 'html/table/object_table/object_table.class.php';
 /**
  * This class represents a table with learning objects which are candidates for
  * publication.
  */
-class LearningObjectTable extends ObjectTable
+class ContentObjectTable extends ObjectTable
 {
-	const DEFAULT_NAME = 'learning_object_table';
+	const DEFAULT_NAME = 'content_object_table';
 	
 	/**
 	 * Constructor.
@@ -26,12 +26,12 @@ class LearningObjectTable extends ObjectTable
 	 * the selected learning object.
 	 * @see PublicationCandidateTableCellRenderer::PublicationCandidateTableCellRenderer()
 	 */
-	function LearningObjectTable($parent, $owner, $types, $query, $table_actions)
+	function ContentObjectTable($parent, $owner, $types, $query, $table_actions)
 	{
-		$data_provider = new LearningObjectTableDataProvider($owner, $types, $query, $parent);
-		$column_model = new LearningObjectTableColumnModel();
-		$cell_renderer = new LearningObjectTableCellRenderer($table_actions);
-		parent :: __construct($data_provider, LearningObjectTable :: DEFAULT_NAME, $column_model, $cell_renderer);
+		$data_provider = new ContentObjectTableDataProvider($owner, $types, $query, $parent);
+		$column_model = new ContentObjectTableColumnModel();
+		$cell_renderer = new ContentObjectTableCellRenderer($table_actions);
+		parent :: __construct($data_provider, ContentObjectTable :: DEFAULT_NAME, $column_model, $cell_renderer);
 		
 		if($parent->get_maximum_select() != RepoViewer :: SELECT_SINGLE)
 		{

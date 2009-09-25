@@ -3,7 +3,7 @@
  * @package application.weblcms.tool.assessment.component.assessment_results_table
  */
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_data_provider.class.php';
-require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
+require_once Path :: get_repository_path(). 'lib/content_object.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once Path :: get_library_path().'condition/and_condition.class.php';
@@ -41,13 +41,13 @@ class GlossaryViewerTableDataProvider extends ObjectTableDataProvider
     	$order_direction = $this->get_order_direction($order_direction);
     	$dm = RepositoryDataManager :: get_instance();
     
-    	return ($dm->retrieve_complex_learning_object_items($this->parent->get_condition(), $order_property, $order_direction, $offset, $count));
+    	return ($dm->retrieve_complex_content_object_items($this->parent->get_condition(), $order_property, $order_direction, $offset, $count));
     }
     
     function get_object_count()
     {
     	$dm = RepositoryDataManager :: get_instance();
-    	$count = $dm->count_complex_learning_object_items($this->parent->get_condition());
+    	$count = $dm->count_complex_content_object_items($this->parent->get_condition());
     	return $count;
     	
     }

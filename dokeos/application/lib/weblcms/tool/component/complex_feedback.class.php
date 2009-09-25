@@ -2,9 +2,9 @@
 
 require_once dirname(__FILE__) . '/../tool.class.php';
 require_once dirname(__FILE__) . '/../tool_component.class.php';
-require_once dirname(__FILE__).'/../../learning_object_repo_viewer.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object/feedback/feedback.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object_pub_feedback.class.php';
+require_once dirname(__FILE__).'/../../content_object_repo_viewer.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object/feedback/feedback.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_pub_feedback.class.php';
 
 class ToolComplexFeedbackComponent extends ToolComponent
 {
@@ -19,7 +19,7 @@ class ToolComplexFeedbackComponent extends ToolComponent
         $trail->add_help('courses general');
 
 		$object = Request :: get('object');
-		$this->pub = new LearningObjectRepoViewer($this, 'feedback', true);
+		$this->pub = new ContentObjectRepoViewer($this, 'feedback', true);
 		$this->pub->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_FEEDBACK_CLOI);
 
         switch(Request :: get('tool'))
@@ -35,14 +35,14 @@ class ToolComplexFeedbackComponent extends ToolComponent
 		if(Request :: get('pid'))
         {
             $this->pub->set_parameter('pid', Request :: get('pid'));
-            $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => $tool_action, 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
+            $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => $tool_action, 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get('pid'))->get_content_object()->get_title()));
         }
 
 		if(Request :: get('cid'))
 		{
             $this->pub->set_parameter('cid', Request :: get('cid'));
-            $cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item(Request :: get('cid'));
-            $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => $tool_action, 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => $cloi->get_id())), RepositoryDataManager :: get_instance()->retrieve_learning_object($cloi->get_ref())->get_title()));
+            $cloi = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item(Request :: get('cid'));
+            $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => $tool_action, 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => $cloi->get_id())), RepositoryDataManager :: get_instance()->retrieve_content_object($cloi->get_ref())->get_title()));
         }
 
         if(Request :: get('tool') == 'wiki' || Request :: get('tool') == 'learning_path')
@@ -70,23 +70,23 @@ class ToolComplexFeedbackComponent extends ToolComponent
              */
 
             //$rdm = RepositoryDataManager :: get_instance();
-            $learning_object_pub_feedback = new LearningObjectPubFeedback();
+            $content_object_pub_feedback = new ContentObjectPubFeedback();
             if(isset($this->cid))
-                $learning_object_pub_feedback->set_cloi_id($this->cid);
+                $content_object_pub_feedback->set_cloi_id($this->cid);
             else
-                $learning_object_pub_feedback->set_cloi_id(0);
+                $content_object_pub_feedback->set_cloi_id(0);
 
             if(isset($this->pid))
-                $learning_object_pub_feedback->set_publication_id($this->pid);
+                $content_object_pub_feedback->set_publication_id($this->pid);
             else
-                $learning_object_pub_feedback->set_publication_id(0);
+                $content_object_pub_feedback->set_publication_id(0);
 
             if(isset($this->fid))
-                $learning_object_pub_feedback->set_feedback_id($this->fid);
+                $content_object_pub_feedback->set_feedback_id($this->fid);
             else
-                $learning_object_pub_feedback->set_feedback_id(0);
+                $content_object_pub_feedback->set_feedback_id(0);
 
-            $learning_object_pub_feedback->create();
+            $content_object_pub_feedback->create();
             if(Request :: get('tool') == 'wiki' || Request :: get('tool') == 'learning_path')
             $this->redirect(Translation :: get('FeedbackAdded'), '', array(Tool :: PARAM_ACTION => Request :: get('tool')=='learning_path'?'view_clo':'view', 'display_action' => Request :: get('cid')!=null?'discuss':'view_item', Request :: get('cid')!=null?'cid':'pid' => $this->cid, 'pid' => $this->pid));
             else

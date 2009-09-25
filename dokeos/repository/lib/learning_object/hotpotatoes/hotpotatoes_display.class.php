@@ -7,11 +7,11 @@
 /**
  * This class can be used to display open questions
  */
-class HotpotatoesDisplay extends LearningObjectDisplay
+class HotpotatoesDisplay extends ContentObjectDisplay
 {
 	function get_full_html()
 	{	
-		$object = $this->get_learning_object();
+		$object = $this->get_content_object();
 		$path = Path :: get(WEB_REPO_PATH) . $object->get_path();
 		$html = '<iframe src="' . $path . '" width="100%" height="600">
   				 <p>Your browser does not support iframes.</p>
@@ -23,8 +23,8 @@ class HotpotatoesDisplay extends LearningObjectDisplay
 	//Inherited
 	function get_short_html()
 	{
-		$object = $this->get_learning_object();
-		return '<span class="learning_object"><a href="'.htmlentities($object->get_url()).'">'.htmlentities($object->get_title()).'</a></span>';
+		$object = $this->get_content_object();
+		return '<span class="content_object"><a href="'.htmlentities($object->get_url()).'">'.htmlentities($object->get_title()).'</a></span>';
 	}
 }
 ?>

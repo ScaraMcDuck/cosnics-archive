@@ -3,8 +3,8 @@
  * @package application.lib.encyclopedia
  */
 require_once Path :: get_library_path() . 'redirect.class.php';
-require_once Path :: get_repository_path() . 'lib/abstract_learning_object.class.php';
-require_once dirname(__FILE__).'/component/learning_object_table/learning_object_table.class.php';
+require_once Path :: get_repository_path() . 'lib/abstract_content_object.class.php';
+require_once dirname(__FILE__).'/component/content_object_table/content_object_table.class.php';
 require_once dirname(__FILE__).'/repo_viewer_component.class.php';
 
 /**
@@ -33,7 +33,7 @@ class RepoViewer
 	/**
 	 * The default learning objects, which are used for form defaults.
 	 */
-	private $default_learning_objects;
+	private $default_content_objects;
 
 	private $parent;
 
@@ -67,7 +67,7 @@ class RepoViewer
 	{
 		$this->maximum_select = $maximum_select;
 		$this->parent = $parent;
-		$this->default_learning_objects = array();
+		$this->default_content_objects = array();
 		$this->parameters = array();
 		$this->types = (is_array($types) ? $types : array ($types));
 		$this->mail_option = $mail_option;
@@ -220,21 +220,21 @@ class RepoViewer
 	 * repo_viewer is displayed, the properties of the given learning object will
 	 * be used as the default form values.
 	 * @param string $type The learning object type.
-	 * @param LearningObject $learning_object The learning object to use as the
+	 * @param ContentObject $content_object The learning object to use as the
 	 *                                        default for the given type.
 	 */
-	function set_default_learning_object($type, $learning_object)
+	function set_default_content_object($type, $content_object)
 	{
-		$this->default_learning_objects[$type] = $learning_object;
+		$this->default_content_objects[$type] = $content_object;
 	}
 
-	function get_default_learning_object($type)
+	function get_default_content_object($type)
 	{
-		if(isset($this->default_learning_objects[$type]))
+		if(isset($this->default_content_objects[$type]))
 		{
-			return $this->default_learning_objects[$type];
+			return $this->default_content_objects[$type];
 		}
-		return new AbstractLearningObject($type, $this->get_user_id());
+		return new AbstractContentObject($type, $this->get_user_id());
 	}
 
 	function redirect($message = null, $error_message = false, $parameters = array(), $filter = array(), $encode_entities = false)
@@ -271,7 +271,7 @@ class RepoViewer
 	{
 		if (isset ($_POST['action']))
 		{
-			$selected_publication_ids = $_POST[LearningObjectTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
+			$selected_publication_ids = $_POST[ContentObjectTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
 
 			if(!is_array($selected_publication_ids)) $selected_publication_ids = array($selected_publication_ids);
 

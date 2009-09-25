@@ -18,8 +18,8 @@ class DocumentCellRenderer extends ObjectPublicationTableCellRenderer
 	{
 		switch($column->get_name())
 		{
-			case LearningObject :: PROPERTY_TITLE:
-				 $lo = $publication->get_learning_object();
+			case ContentObject :: PROPERTY_TITLE:
+				 $lo = $publication->get_content_object();
 				 $feedback_url = $this->browser->get_url(array (Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'));
 				 $data = '<div style="float: left;"><a href="' . $feedback_url . '">' . $lo->get_title() . '</a></div> ';
 				 $url = RepositoryManager :: get_document_downloader_url($lo->get_id());

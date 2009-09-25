@@ -3,7 +3,7 @@
  * @package application.weblcms.tool.exercise.component.exercise_publication_table
  */
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_data_provider.class.php';
-require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
+require_once Path :: get_repository_path(). 'lib/content_object.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once Path :: get_library_path().'condition/and_condition.class.php';
@@ -68,22 +68,22 @@ class WikiPublicationTableDataProvider extends ObjectTableDataProvider
 		$course = $this->parent->get_course_id();
 		
 		$conditions = array();
-		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course);
-		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'wiki');
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course);
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'wiki');
 		
 		$access = array();
-		$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
-		$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('learning_object_publication_course_group'));
+		$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
+		$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
 		if (!empty($user_id) || !empty($course_groups))
 		{
-			$access[] = new AndCondition(array(new EqualityCondition('user', null, $datamanager->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('learning_object_publication_course_group'))));
+			$access[] = new AndCondition(array(new EqualityCondition('user', null, $datamanager->get_database()->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('content_object_publication_course_group'))));
 		}
 		$conditions[] = new OrCondition($access);
 		
-		$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $this->get_condition());
+		$conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $this->get_condition());
 		$condition = new AndCondition($conditions);
 		
-		$publications = $datamanager->retrieve_learning_object_publications_new($condition);
+		$publications = $datamanager->retrieve_content_object_publications_new($condition);
 		$visible_publications = array ();
 		while ($publication = $publications->next_result())
 		{
@@ -113,12 +113,12 @@ class WikiPublicationTableDataProvider extends ObjectTableDataProvider
     	$owner = $this->owner;
     	
     	$conds = array();
-    	//$conds[] = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $owner->get_id());
+    	//$conds[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $owner->get_id());
     	$type_cond = array();
     	$types = $this->types;
     	foreach ($types as $type)
     	{
-    		$type_cond[] = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
+    		$type_cond[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type);
     	}
     	$conds[] = new OrCondition($type_cond);
 		$c = DokeosUtilities :: query_to_condition($this->query);

@@ -9,7 +9,7 @@
 /**
  * This class can be used to get the difference between portfolios
  */
-class PortfolioDifference extends LearningObjectDifference
+class PortfolioDifference extends ContentObjectDifference
 {
 }
 ?>

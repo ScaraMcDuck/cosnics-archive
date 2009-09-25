@@ -3,7 +3,7 @@
 	<package>
 		<name>Forum</name>
 		<code>forum</code>
-		<section>learning_object</section>
+		<section>content_object</section>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/f/forum/forum-1.0.0.zip</filename>
@@ -23,7 +23,7 @@
 					<severity>1</severity>
 				</dependency>
 			</server>
-			<learning_objects>
+			<content_objects>
 				<dependency>
 		  			<id>forum_topic</id>
 		  			<version type="4">1.0.0</version>
@@ -34,7 +34,7 @@
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
 				</dependency>
-			</learning_objects>
+			</content_objects>
 		</dependencies>
 	</package>
 </packages>

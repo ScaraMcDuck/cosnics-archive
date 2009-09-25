@@ -19,7 +19,7 @@ interface PersonalCalendarConnector
 	 * @param int $user_id
 	 * @param int $from_date
 	 * @param int $to_date
-	 * @return array An array of LearningObjectPublicationAttributes objects.
+	 * @return array An array of ContentObjectPublicationAttributes objects.
 	 */
 	public function get_events($user_id,$from_date, $to_date);
 }

@@ -16,7 +16,7 @@ class CategoryQuotaBoxBrowserTable extends ObjectTable
 	
 	/**
 	 * Constructor
-	 * @see LearningObjectTable::LearningObjectTable()
+	 * @see ContentObjectTable::ContentObjectTable()
 	 */
 	function CategoryQuotaBoxBrowserTable($browser, $parameters, $condition)
 	{

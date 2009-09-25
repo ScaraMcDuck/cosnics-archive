@@ -56,14 +56,14 @@ class PersonalCalendarManagerBrowserComponent extends PersonalCalendarManagerCom
 			if(Request :: get('action') && Request :: get('action') == 'delete')
 			{
 				$event->delete();
-				$html[] = Display :: normal_message(Translation :: get('LearningObjectPublicationDeleted'),true);
+				$html[] = Display :: normal_message(Translation :: get('ContentObjectPublicationDeleted'),true);
 			}
 			else
 			{
 				$show_calendar = false;
-				$learning_object = $event->get_publication_object();
-				$display = LearningObjectDisplay :: factory($learning_object);
-				$out .= '<h3>'.$learning_object->get_title().'</h3>';
+				$content_object = $event->get_publication_object();
+				$display = ContentObjectDisplay :: factory($content_object);
+				$out .= '<h3>'.$content_object->get_title().'</h3>';
 				$out  .= $display->get_full_html();
 				$toolbar_data = array();
 				$toolbar_data[] = array(

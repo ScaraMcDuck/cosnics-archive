@@ -4,7 +4,7 @@
  * This script creates classes
  *
  * This script checks the learning object library (found in
- * /repository/lib/learning_object) for properties files that have not been
+ * /repository/lib/content_object) for properties files that have not been
  * translated into classes, and automatically generates those classes, with
  * generic accessor methods for the defined properties. It may be convenient to
  * you if you are creating a new type, as all you need to do is create a
@@ -18,10 +18,10 @@
  */
 require_once dirname(__FILE__).'/../lib/repository_data_manager.class.php';
 
-define(HEADER, "<?php\nrequire_once dirname(__FILE__) . '/../../learning_object.class.php';\n\n");
+define(HEADER, "<?php\nrequire_once dirname(__FILE__) . '/../../content_object.class.php';\n\n");
 define(FOOTER, "}\n?".">");
 
-$path = dirname(__FILE__).'/../lib/learning_object';
+$path = dirname(__FILE__).'/../lib/content_object';
 if ($handle = opendir($path))
 {
 	while (false !== ($file = readdir($handle)))
@@ -37,8 +37,8 @@ if ($handle = opendir($path))
 				if ($fh = fopen($p.'/'.$file.'.class.php', 'w'))
 				{
 					fwrite($fh, HEADER);
-					$cls = LearningObject :: type_to_class($file);
-					fwrite($fh, 'class '.$cls.' extends LearningObject'."\n".'{'."\n");
+					$cls = ContentObject :: type_to_class($file);
+					fwrite($fh, 'class '.$cls.' extends ContentObject'."\n".'{'."\n");
 					foreach ($properties as $prop)
 					{
 						fwrite($fh, "\tconst ".get_property_constant_name($prop)." = '$prop';\n");

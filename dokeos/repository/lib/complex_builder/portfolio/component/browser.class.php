@@ -16,7 +16,7 @@ class PortfolioBuilderBrowserComponent extends PortfolioBuilderComponent
 
 		if($this->get_cloi())
 		{
-			$lo = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->get_cloi()->get_ref());
+			$lo = RepositoryDataManager :: get_instance()->retrieve_content_object($this->get_cloi()->get_ref());
 		}
 		else
 		{
@@ -53,15 +53,15 @@ class PortfolioBuilderBrowserComponent extends PortfolioBuilderComponent
 	{
 		$html = array();
 
-		$learning_object = $this->get_root_lo();
-		$display = LearningObjectDisplay :: factory($learning_object);
-		$learning_object_display = $display->get_full_html();
-		$check_empty = trim(strip_tags($learning_object_display));
+		$content_object = $this->get_root_lo();
+		$display = ContentObjectDisplay :: factory($content_object);
+		$content_object_display = $display->get_full_html();
+		$check_empty = trim(strip_tags($content_object_display));
 
-		if (!empty($check_empty) && $check_empty != $learning_object->get_title())
+		if (!empty($check_empty) && $check_empty != $content_object->get_title())
 		{
 			$html[] = '<div class="complex_browser_display">';
-			$html[] = $learning_object_display;
+			$html[] = $content_object_display;
 			$html[] = '<div class="clear">&nbsp;</div>';
 			$html[] = '</div>';
 		}
@@ -77,13 +77,13 @@ class PortfolioBuilderBrowserComponent extends PortfolioBuilderComponent
 
 		/*$type = 'portfolio';
 		$url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => PortfolioBuilder :: ACTION_CREATE_CLOI, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), ComplexBuilder :: PARAM_CLOI_ID => ($this->get_cloi()?$this->get_cloi()->get_id():null), 'publish' => Request :: get('publish')));
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get(DokeosUtilities :: underscores_to_camelcase($type . 'TypeName')), Theme :: get_common_image_path().'learning_object/' . $type . '.png', $url));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get(DokeosUtilities :: underscores_to_camelcase($type . 'TypeName')), Theme :: get_common_image_path().'content_object/' . $type . '.png', $url));
 
 		$types = array('announcement', 'assessment', 'blog_item', 'calendar_event', 'description', 'document', 'forum', 'glossary', 'link', 'note', 'wiki');
 		foreach($types as $type)
 		{
 			$url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => PortfolioBuilder :: ACTION_CREATE_LP_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), ComplexBuilder :: PARAM_CLOI_ID => ($this->get_cloi()?$this->get_cloi()->get_id():null), 'publish' => Request :: get('publish')));
-			$action_bar->add_tool_action(new ToolbarItem(Translation :: get(DokeosUtilities :: underscores_to_camelcase($type . 'TypeName')), Theme :: get_common_image_path().'learning_object/' . $type . '.png', $url));
+			$action_bar->add_tool_action(new ToolbarItem(Translation :: get(DokeosUtilities :: underscores_to_camelcase($type . 'TypeName')), Theme :: get_common_image_path().'content_object/' . $type . '.png', $url));
 		}*/
 
 		if($pub && $pub != '')
@@ -96,8 +96,8 @@ class PortfolioBuilderBrowserComponent extends PortfolioBuilderComponent
 	function get_creation_links($lo, $types = array())
 	{
 		$html[] = '<div class="select_complex_element">';
-		$html[] = '<span class="title">' . Theme :: get_common_image('place_add') . Translation :: get('PortfolioAddLearningObject') . '</span>';
-		$html[] = '<div id="learning_object_selection">';
+		$html[] = '<span class="title">' . Theme :: get_common_image('place_add') . Translation :: get('PortfolioAddContentObject') . '</span>';
+		$html[] = '<div id="content_object_selection">';
 
 		if(count($types) == 0)
 		{
@@ -115,8 +115,8 @@ class PortfolioBuilderBrowserComponent extends PortfolioBuilderComponent
 				$url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => PortfolioBuilder :: ACTION_CREATE_LP_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), ComplexBuilder :: PARAM_CLOI_ID => ($this->get_cloi()?$this->get_cloi()->get_id():null), 'publish' => Request :: get('publish')));
 			}
 
-			$html[] = '<a href="'. $url .'"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'learning_object/big/' . $type . '.png);">';
-			$html[] = Translation :: get(LearningObject :: type_to_class($type).'TypeName');
+			$html[] = '<a href="'. $url .'"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
+			$html[] = Translation :: get(ContentObject :: type_to_class($type).'TypeName');
 			$html[] = '<div class="clear">&nbsp;</div>';
 			$html[] = '</div></a>';
 		}

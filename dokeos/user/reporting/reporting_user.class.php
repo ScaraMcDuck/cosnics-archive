@@ -465,7 +465,7 @@ class ReportingUser
             $arr[Translation :: get('TimeOnCourse')][] = self :: get_total_time($trackerdata);
             $arr[Translation :: get('LearningPathProgress')][] = 0;
             $arr[Translation :: get('ExcerciseProgress')][] = 0;
-            $arr[Translation :: get('TotalPublications')][] = $rdm->count_learning_objects(null, new EqualityCondition(LearningObject::PROPERTY_OWNER_ID,$user_id));
+            $arr[Translation :: get('TotalPublications')][] = $rdm->count_content_objects(null, new EqualityCondition(ContentObject::PROPERTY_OWNER_ID,$user_id));
             $url = Reporting :: get_weblcms_reporting_url('CourseStudentTrackerDetailReportingTemplate', $params);
             $arr[Translation :: get('UserDetail')][] = '<a href="'.$url.'">'.Translation :: get('Detail').'</a>';
         }

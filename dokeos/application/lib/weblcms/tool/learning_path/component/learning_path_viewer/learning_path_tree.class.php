@@ -4,7 +4,7 @@
  */
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
-require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
+require_once Path :: get_repository_path(). 'lib/content_object.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once Path :: get_library_path() . 'html/menu/tree_menu_renderer.class.php';
 require_once Path :: get_library_path() . 'html/menu/options_menu_renderer.class.php';
@@ -74,7 +74,7 @@ class LearningPathTree extends HTML_Menu
 	{
 		$menu = array();
 		$datamanager = $this->dm;
-		$lo = $datamanager->retrieve_learning_object($lp_id);
+		$lo = $datamanager->retrieve_content_object($lp_id);
 		$lp_item = array();
 		$lp_item['title'] = $lo->get_title();
 		//$menu_item['url'] = $this->get_url($lp_id);
@@ -116,18 +116,18 @@ class LearningPathTree extends HTML_Menu
 	
 	private function get_menu_items($parent)
 	{
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $parent->get_id(), ComplexLearningObjectItem :: get_table_name());
+		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent->get_id(), ComplexContentObjectItem :: get_table_name());
 		$datamanager = $this->dm;
-		$objects = $datamanager->retrieve_complex_learning_object_items($condition);
+		$objects = $datamanager->retrieve_complex_content_object_items($condition);
 		
 		while (($object = $objects->next_result()))
 		{
-			$lo = $datamanager->retrieve_learning_object($object->get_ref());
+			$lo = $datamanager->retrieve_content_object($object->get_ref());
 			$lpi_tracker_data = $this->lpi_tracker_data[$object->get_id()];
 			
 			if($lo->get_type() == 'learning_path_item')
 			{
-				$lo = $datamanager->retrieve_learning_object($lo->get_reference());
+				$lo = $datamanager->retrieve_content_object($lo->get_reference());
 			}
 			
 			$menu_item = array();

@@ -63,7 +63,7 @@ abstract class PackageRemover
                     $info_path = Path :: get_application_path() . 'lib/' . $registration->get_name() . '/package.info';
                     break;
                 case Registration :: TYPE_LEARNING_OBJECT :
-                    $info_path = Path :: get_repository_path() . 'lib/learning_object/' . $registration->get_name() . '/package.info';
+                    $info_path = Path :: get_repository_path() . 'lib/content_object/' . $registration->get_name() . '/package.info';
                     break;
             }
 
@@ -176,8 +176,8 @@ abstract class PackageRemover
 
     function process_result($type = '')
     {
-        $this->add_html('<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(' . Theme :: get_image_path() . 'place_' . $type . '.png);">');
-        //		$this->add_html('<div class="learning_object">');
+        $this->add_html('<div class="content_object" style="padding: 15px 15px 15px 76px; background-image: url(' . Theme :: get_image_path() . 'place_' . $type . '.png);">');
+        //		$this->add_html('<div class="content_object">');
         $this->add_html('<div class="title">' . Translation :: get(DokeosUtilities :: underscores_to_camelcase($type)) . '</div>');
         $this->add_html('<div class="description">');
         $this->add_html($this->retrieve_message());
@@ -232,7 +232,7 @@ abstract class PackageRemover
                 $dependency_type = 'applications';
                 break;
             case Registration :: TYPE_LEARNING_OBJECT :
-                $dependency_type = 'learning_objects';
+                $dependency_type = 'content_objects';
                 break;
         }
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: learning_object_table.class.php 15426 2008-05-26 19:37:50Z Scara84 $
+ * $Id: content_object_table.class.php 15426 2008-05-26 19:37:50Z Scara84 $
  * @package repository.learningobjecttable
  */
 require_once Path :: get_library_path() . 'html/table/sortable_table.class.php';
@@ -14,18 +14,18 @@ require_once Path :: get_library_path() . 'html/table/sortable_table.class.php';
  * this class, or use the class itself. Eitherway, your table object will use
  * each of the following components to actually display a table:
  *
- * - A data provider (LearningObjectTableDataProvider)
+ * - A data provider (ContentObjectTableDataProvider)
  *   The data provider object provides the learning objects to display in the
  *   table. Hence, it usually contacts the repository data manager, and
- *   passes a resulting set of LearningObject instances to the table.
+ *   passes a resulting set of ContentObject instances to the table.
  *
- * - A column model (LearningObjectTableColumnModel)
+ * - A column model (ContentObjectTableColumnModel)
  *   The column model defines which columns the table holds. Each column of the
- *   table is represented by a LearningObjectTableColumn, and the column model
+ *   table is represented by a ContentObjectTableColumn, and the column model
  *   aggregates a number of those. In addition, it defines the default order of
  *   the table's contents.
  *
- * - A cell renderer (LearningObjectTableCellRenderer)
+ * - A cell renderer (ContentObjectTableCellRenderer)
  *   Each learning object table has one cell renderer object associated with
  *   it. That object is in charge of the actual rendering of individual cells'
  *   contents. Hence, the table contacts it every time it needs to fill one of
@@ -37,10 +37,10 @@ require_once Path :: get_library_path() . 'html/table/sortable_table.class.php';
  *
  * For further documentation, please consult the individual classes.
  *
- * @see LearningObjectTableDataProvider
- * @see LearningObjectTableColumnModel
- * @see LearningObjectTableColumn
- * @see LearningObjectTableCellRenderer
+ * @see ContentObjectTableDataProvider
+ * @see ContentObjectTableColumnModel
+ * @see ContentObjectTableColumn
+ * @see ContentObjectTableCellRenderer
  * @author Tim De Pauw
  */
 class ObjectTable
@@ -85,16 +85,16 @@ class ObjectTable
 
     /**
      * Constructor. Creates a learning object table.
-     * @param LearningObjectTableDataProvider $data_provider The data provider,
+     * @param ContentObjectTableDataProvider $data_provider The data provider,
      *                                                       which supplies the
      *                                                       learning objects
      *                                                       to display.
      * @param string $table_name The name for the HTML table element.
-     * @param LearningObjectTableColumnModel $column_model The column model of
+     * @param ContentObjectTableColumnModel $column_model The column model of
      *                                                     the table. Omit to
      *                                                     use the default
      *                                                     model.
-     * @param LearningObjectTableCellRenderer $cell_renderer The cell renderer
+     * @param ContentObjectTableCellRenderer $cell_renderer The cell renderer
      *                                                       for the table.
      *                                                       Omit to use the
      *                                                       default renderer.
@@ -208,7 +208,7 @@ class ObjectTable
 
     /**
      * Gets the table's data provider.
-     * @return LearningObjectTableDataProvider The data provider.
+     * @return ContentObjectTableDataProvider The data provider.
      */
     function get_data_provider()
     {
@@ -217,7 +217,7 @@ class ObjectTable
 
     /**
      * Sets the table's data provider.
-     * @param LearningObjectTableDataProvider $data_provider The data provider.
+     * @param ContentObjectTableDataProvider $data_provider The data provider.
      */
     function set_data_provider($data_provider)
     {
@@ -226,7 +226,7 @@ class ObjectTable
 
     /**
      * Gets the table's column model.
-     * @return LearningObjectTableColumnModel The column model.
+     * @return ContentObjectTableColumnModel The column model.
      */
     function get_column_model()
     {
@@ -235,7 +235,7 @@ class ObjectTable
 
     /**
      * Sets the table's column model.
-     * @param LearningObjectTableColumnModel $model The column model.
+     * @param ContentObjectTableColumnModel $model The column model.
      */
     function set_column_model($model)
     {
@@ -244,7 +244,7 @@ class ObjectTable
 
     /**
      * Gets the table's cell renderer.
-     * @return LearningObjectTableCellRenderer The cell renderer.
+     * @return ContentObjectTableCellRenderer The cell renderer.
      */
     function get_cell_renderer()
     {
@@ -253,7 +253,7 @@ class ObjectTable
 
     /**
      * Sets the table's cell renderer.
-     * @param LearningObjectTableCellRenderer $renderer The cell renderer.
+     * @param ContentObjectTableCellRenderer $renderer The cell renderer.
      */
     function set_cell_renderer($renderer)
     {

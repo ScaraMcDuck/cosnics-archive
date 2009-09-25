@@ -6,7 +6,7 @@ require_once dirname(__FILE__).'/../personal_calendar_manager.class.php';
 require_once dirname(__FILE__).'/../personal_calendar_manager_component.class.php';
 require_once dirname(__FILE__).'/../../renderer/personal_calendar_mini_month_renderer.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
-require_once Path :: get_repository_path(). 'lib/learning_object_display.class.php';
+require_once Path :: get_repository_path(). 'lib/content_object_display.class.php';
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
 
 class PersonalCalendarManagerViewerComponent extends PersonalCalendarManagerComponent
@@ -81,8 +81,8 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManagerComp
     	$event = $this->event;
     	$action_bar = $this->action_bar;
     	
-        $learning_object = $event->get_publication_object();
-        $display = LearningObjectDisplay :: factory($learning_object);
+        $content_object = $event->get_publication_object();
+        $display = ContentObjectDisplay :: factory($content_object);
         $html = array();
 
         $time = Request :: get('time') ? intval(Request :: get('time')) : time();

@@ -13,14 +13,14 @@ require_once Path :: get_common_path() . 'data_class.class.php';
  * When publishing a learning object from the repository in the weblcms
  * application, a new object of this type is created.
  */
-class LearningObjectPublication extends DataClass
+class ContentObjectPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
 
     /**#@+
      * Constant defining a property of the publication
      */
-    const PROPERTY_LEARNING_OBJECT_ID = 'learning_object_id';
+    const PROPERTY_LEARNING_OBJECT_ID = 'content_object_id';
     const PROPERTY_COURSE_ID = 'course_id';
     const PROPERTY_TOOL = 'tool';
     const PROPERTY_PARENT_ID = 'parent_id';
@@ -38,7 +38,7 @@ class LearningObjectPublication extends DataClass
 	private $target_course_groups;
 	private $target_users;
 
-	private $learning_object;
+	private $content_object;
 	private $publisher;
 
     static function get_default_property_names()
@@ -56,9 +56,9 @@ class LearningObjectPublication extends DataClass
 
     /**
      * Gets the learning object.
-     * @return LearningObject
+     * @return ContentObject
      */
-    function get_learning_object_id()
+    function get_content_object_id()
     {
         return $this->get_default_property(self :: PROPERTY_LEARNING_OBJECT_ID);
     }
@@ -110,7 +110,7 @@ class LearningObjectPublication extends DataClass
 		if (!isset($this->target_users))
 		{
 			$wdm = WeblcmsDataManager :: get_instance();
-			$this->target_users = $wdm->retrieve_learning_object_publication_target_users($this);
+			$this->target_users = $wdm->retrieve_content_object_publication_target_users($this);
 		}
 
 		return $this->target_users;
@@ -126,7 +126,7 @@ class LearningObjectPublication extends DataClass
 		if (!isset($this->target_course_groups))
 		{
 			$wdm = WeblcmsDataManager :: get_instance();
-			$this->target_course_groups = $wdm->retrieve_learning_object_publication_target_course_groups($this);
+			$this->target_course_groups = $wdm->retrieve_content_object_publication_target_course_groups($this);
 		}
 
 		return $this->target_course_groups;
@@ -161,20 +161,20 @@ class LearningObjectPublication extends DataClass
         return $this->get_default_property(self :: PROPERTY_PUBLISHER_ID);
     }
 
-	function get_learning_object()
+	function get_content_object()
 	{
-		if (!isset($this->learning_object))
+		if (!isset($this->content_object))
 		{
 			$rdm = RepositoryDataManager :: get_instance();
-			$this->learning_object = $rdm->retrieve_learning_object($this->get_learning_object_id());
+			$this->content_object = $rdm->retrieve_content_object($this->get_content_object_id());
 		}
 
-		return $this->learning_object;
+		return $this->content_object;
 	}
 	
-	function set_learning_object($learning_object)
+	function set_content_object($content_object)
 	{
-		$this->learning_object = $learning_object;
+		$this->content_object = $content_object;
 	}
 
 	function get_publication_publisher()
@@ -251,9 +251,9 @@ class LearningObjectPublication extends DataClass
         return $this->get_default_property(self :: PROPERTY_DISPLAY_ORDER_INDEX);
     }
 
-    function set_learning_object_id($learning_object_id)
+    function set_content_object_id($content_object_id)
     {
-        $this->set_default_property(self :: PROPERTY_LEARNING_OBJECT_ID, $learning_object_id);
+        $this->set_default_property(self :: PROPERTY_LEARNING_OBJECT_ID, $content_object_id);
     }
 
     function set_course_id($course)
@@ -347,18 +347,18 @@ class LearningObjectPublication extends DataClass
 
     /**
      * Creates this publication in persistent storage
-     * @see WeblcmsDataManager::create_learning_object_publication()
+     * @see WeblcmsDataManager::create_content_object_publication()
      */
     function create()
     {
         $dm = WeblcmsDataManager :: get_instance();
-        $id = $dm->get_next_learning_object_publication_id();
+        $id = $dm->get_next_content_object_publication_id();
         
         if(is_null($this->get_category_id()))
         	$this->set_category_id(0);
         
         $this->set_id($id);
-        return $dm->create_learning_object_publication($this);
+        return $dm->create_content_object_publication($this);
     }
 
     /**
@@ -370,12 +370,12 @@ class LearningObjectPublication extends DataClass
      */
     function move($places)
     {
-        return WeblcmsDataManager :: get_instance()->move_learning_object_publication($this, $places);
+        return WeblcmsDataManager :: get_instance()->move_content_object_publication($this, $places);
     }
 
     function retrieve_feedback()
     {
-        return WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_feedback($this->get_id());
+        return WeblcmsDataManager :: get_instance()->retrieve_content_object_publication_feedback($this->get_id());
     }
 
     static function get_table_name()

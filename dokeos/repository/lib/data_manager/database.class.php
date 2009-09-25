@@ -3,12 +3,12 @@
  * @package repository
  * @subpackage datamanager
  */
-require_once dirname(__FILE__).'/database/database_learning_object_result_set.class.php';
-require_once dirname(__FILE__).'/database/database_complex_learning_object_item_result_set.class.php';
+require_once dirname(__FILE__).'/database/database_content_object_result_set.class.php';
+require_once dirname(__FILE__).'/database/database_complex_content_object_item_result_set.class.php';
 require_once dirname(__FILE__).'/../repository_data_manager.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
-require_once dirname(__FILE__).'/../learning_object.class.php';
-require_once dirname(__FILE__).'/../complex_learning_object_item.class.php';
+require_once dirname(__FILE__).'/../content_object.class.php';
+require_once dirname(__FILE__).'/../complex_content_object_item.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
 require_once Path :: get_admin_path().'lib/admin_data_manager.class.php';
 require_once Path :: get_library_path().'database/database.class.php';
@@ -66,7 +66,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$this->prefix = 'repository_';
 		$this->connection->query('SET NAMES utf8');
 
-		$this->database = new Database(array('repository_category' => 'cat', 'user_view' => 'uv', 'user_view_rel_learning_object' => 'uvrlo', 'learning_object_pub_feedback' => 'lopf'));
+		$this->database = new Database(array('repository_category' => 'cat', 'user_view' => 'uv', 'user_view_rel_content_object' => 'uvrlo', 'content_object_pub_feedback' => 'lopf'));
 		$this->database->set_prefix('repository_');
 	}
 
@@ -96,41 +96,41 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	}
 
 	// Inherited.
-	function determine_learning_object_type($id)
+	function determine_content_object_type($id)
 	{
 		$this->connection->setLimit(1);
-		$statement = $this->connection->prepare('SELECT '.$this->escape_column_name(LearningObject :: PROPERTY_TYPE).' FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?');
+		$statement = $this->connection->prepare('SELECT '.$this->escape_column_name(ContentObject :: PROPERTY_TYPE).' FROM '.$this->escape_table_name('content_object').' WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_ID).'=?');
 		$res = $statement->execute($id);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		return $record[0];
 	}
 
 	// Inherited.
-	function retrieve_learning_object($id, $type = null)
+	function retrieve_content_object($id, $type = null)
 	{
 		if (is_null($type))
 		{
-			$type = $this->determine_learning_object_type($id);
+			$type = $this->determine_content_object_type($id);
 		}
 		if ($this->is_extended_type($type))
 		{
-			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).'='.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).' WHERE '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
+			$query = 'SELECT * FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID).'='.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID).' WHERE '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID).'=?';
 		}
 		else
 		{
-			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
+			$query = 'SELECT * FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_ID).'=?';
 		}
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($id);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$res->free();
-		return self :: record_to_learning_object($record, isset($type));
+		return self :: record_to_content_object($record, isset($type));
 	}
 
 	// Inherited.
 	// TODO: Extract methods.
-	function retrieve_learning_objects($type = null, $condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false)
+	function retrieve_content_objects($type = null, $condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1, $state = ContentObject :: STATE_NORMAL, $different_parent_state = false)
 	{
 		$query = 'SELECT * FROM ';
 		if ($different_parent_state)
@@ -140,41 +140,41 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			 * need come last, so they are actually in the associative array
 			 * representing the record.
 			 */
-			$query .= $this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_PARENT_TABLE.' JOIN ';
+			$query .= $this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_PARENT_TABLE.' JOIN ';
 		}
 		if (isset ($type))
 		{
 			if ($this->is_extended_type($type))
 			{
-				$query .= $this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).' = '.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID);
+				$query .= $this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID).' = '.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID);
 			}
 			else
 			{
-				$query .= $this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE;
-				$match = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
+				$query .= $this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE;
+				$match = new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type);
 				$condition = isset ($condition) ? new AndCondition($match, $condition) : $match;
 			}
 		}
 		else
 		{
-			$query .= $this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE;
+			$query .= $this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE;
 		}
 		if ($state >= 0)
 		{
 			$conds = array();
 			if ($different_parent_state)
 			{
-				$query .= ' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_PARENT_ID).' = '.self :: ALIAS_LEARNING_OBJECT_PARENT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID);
-				$conds[] = new NotCondition(new EqualityCondition(self :: ALIAS_LEARNING_OBJECT_PARENT_TABLE.'.'.LearningObject :: PROPERTY_STATE, $state));
+				$query .= ' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_PARENT_ID).' = '.self :: ALIAS_LEARNING_OBJECT_PARENT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID);
+				$conds[] = new NotCondition(new EqualityCondition(self :: ALIAS_LEARNING_OBJECT_PARENT_TABLE.'.'.ContentObject :: PROPERTY_STATE, $state));
 			}
-			$conds[] = new EqualityCondition(self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.LearningObject :: PROPERTY_STATE, $state);
+			$conds[] = new EqualityCondition(self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.ContentObject :: PROPERTY_STATE, $state);
 			if (isset($condition))
 			{
 				$conds[] = $condition;
 			}
 			$condition = new AndCondition($conds);
 		}
-		$query .= ' JOIN ' . $this->escape_table_name('learning_object_version') . ' AS ' . self :: ALIAS_LEARNING_OBJECT_VERSION_TABLE . ' ON ' . self :: ALIAS_LEARNING_OBJECT_TABLE . '.' . LearningObject :: PROPERTY_ID . ' = ' . self :: ALIAS_LEARNING_OBJECT_VERSION_TABLE . '.' . LearningObject :: PROPERTY_ID;
+		$query .= ' JOIN ' . $this->escape_table_name('content_object_version') . ' AS ' . self :: ALIAS_LEARNING_OBJECT_VERSION_TABLE . ' ON ' . self :: ALIAS_LEARNING_OBJECT_TABLE . '.' . ContentObject :: PROPERTY_ID . ' = ' . self :: ALIAS_LEARNING_OBJECT_VERSION_TABLE . '.' . ContentObject :: PROPERTY_ID;
 
 		$params = array ();
 		if (isset ($condition))
@@ -187,7 +187,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		/*
 		 * Always respect display order as a last resort.
 		 */
-		$order_by[] = new ObjectTableOrder(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX);
+		$order_by[] = new ObjectTableOrder(ContentObject :: PROPERTY_DISPLAY_ORDER_INDEX);
 		$order_dir[] = SORT_ASC;
 		$order = array ();
 		/*
@@ -196,7 +196,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		 */
 		if (!isset($type))
 		{
-			//$order[] = '('.$this->escape_column_name(LearningObject :: PROPERTY_TYPE, true).' = "category") DESC';
+			//$order[] = '('.$this->escape_column_name(ContentObject :: PROPERTY_TYPE, true).' = "category") DESC';
 		}
 
 	    $orders = array();
@@ -217,22 +217,22 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$this->connection->setLimit(intval($max_objects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
-		return new DatabaseLearningObjectResultSet($this, $res, isset($type));
+		return new DatabaseContentObjectResultSet($this, $res, isset($type));
 	}
 
 	// Inherited.
-	function retrieve_additional_learning_object_properties($learning_object)
+	function retrieve_additional_content_object_properties($content_object)
 	{
-		$type = $learning_object->get_type();
+		$type = $content_object->get_type();
 		if (!$this->is_extended_type($type))
 		{
 			return array();
 		}
-		$id = $learning_object->get_id();
-		$array = array_map(array($this, 'escape_column_name'), $learning_object->get_additional_property_names());
+		$id = $content_object->get_id();
+		$array = array_map(array($this, 'escape_column_name'), $content_object->get_additional_property_names());
 		if(count($array) == 0)
 			$array = array("*");
-		$query = 'SELECT '.implode(',', $array).' FROM '.$this->escape_table_name($type).' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
+		$query = 'SELECT '.implode(',', $array).' FROM '.$this->escape_table_name($type).' WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_ID).'=?';
 
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
@@ -241,42 +241,42 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	}
 
 	// Inherited.
-	// TODO: Extract methods; share stuff with retrieve_learning_objects.
-	function count_learning_objects($type = null, $condition = null, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false)
+	// TODO: Extract methods; share stuff with retrieve_content_objects.
+	function count_content_objects($type = null, $condition = null, $state = ContentObject :: STATE_NORMAL, $different_parent_state = false)
 	{
 		if (isset ($type))
 		{
 			if ($this->is_extended_type($type))
 			{
-				$query = 'SELECT COUNT('.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).') FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).' = '.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID);
+				$query = 'SELECT COUNT('.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER).') FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID).' = '.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID);
 			}
 			else
 			{
-				$query = 'SELECT COUNT('.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).') FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE;
-				$match = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
+				$query = 'SELECT COUNT('.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER).') FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE;
+				$match = new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type);
 				$condition = isset ($condition) ? new AndCondition(array ($match, $condition)) : $match;
 			}
 		}
 		else
 		{
-			$query = 'SELECT COUNT('.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).') FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE;
+			$query = 'SELECT COUNT('.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER).') FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE;
 		}
 		if ($state >= 0)
 		{
 			$conds = array();
 			if ($different_parent_state)
 			{
-				$query .= ' JOIN '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_PARENT_TABLE.' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_PARENT_ID).' = '.self :: ALIAS_LEARNING_OBJECT_PARENT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID);
-				$conds[] = new NotCondition(new EqualityCondition(self :: ALIAS_LEARNING_OBJECT_PARENT_TABLE.'.'.LearningObject :: PROPERTY_STATE, $state));
+				$query .= ' JOIN '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_PARENT_TABLE.' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_PARENT_ID).' = '.self :: ALIAS_LEARNING_OBJECT_PARENT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID);
+				$conds[] = new NotCondition(new EqualityCondition(self :: ALIAS_LEARNING_OBJECT_PARENT_TABLE.'.'.ContentObject :: PROPERTY_STATE, $state));
 			}
-			$conds[] = new EqualityCondition(self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.LearningObject :: PROPERTY_STATE, $state);
+			$conds[] = new EqualityCondition(self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.ContentObject :: PROPERTY_STATE, $state);
 			if (isset($condition))
 			{
 				$conds[] = $condition;
 			}
 			$condition = new AndCondition($conds);
 		}
-		$query .= ' JOIN ' . $this->escape_table_name('learning_object_version') . ' AS ' . self :: ALIAS_LEARNING_OBJECT_VERSION_TABLE . ' ON ' . self :: ALIAS_LEARNING_OBJECT_TABLE . '.' . LearningObject :: PROPERTY_ID . ' = ' . self :: ALIAS_LEARNING_OBJECT_VERSION_TABLE . '.' . LearningObject :: PROPERTY_ID;
+		$query .= ' JOIN ' . $this->escape_table_name('content_object_version') . ' AS ' . self :: ALIAS_LEARNING_OBJECT_VERSION_TABLE . ' ON ' . self :: ALIAS_LEARNING_OBJECT_TABLE . '.' . ContentObject :: PROPERTY_ID . ' = ' . self :: ALIAS_LEARNING_OBJECT_VERSION_TABLE . '.' . ContentObject :: PROPERTY_ID;
 
 		$params = array ();
 		if (isset ($condition))
@@ -294,9 +294,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	}
 
 	// Inherited
-	function count_learning_object_versions($object)
+	function count_content_object_versions($object)
 	{
-		$query = 'SELECT COUNT('.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).') FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' WHERE '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).'=?';
+		$query = 'SELECT COUNT('.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID).') FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' WHERE '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER).'=?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($object->get_object_number());
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
@@ -305,37 +305,37 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	}
 
 	// Inherited.
-	function get_next_learning_object_id()
+	function get_next_content_object_id()
 	{
-		$id = $this->connection->nextID($this->get_table_name('learning_object'));
+		$id = $this->connection->nextID($this->get_table_name('content_object'));
 		return $id;
 	}
 
-    function get_next_learning_object_pub_feedback_id()
+    function get_next_content_object_pub_feedback_id()
     {
-        return $this->connection->nextID($this->get_table_name('learning_object_pub_feedback'));
+        return $this->connection->nextID($this->get_table_name('content_object_pub_feedback'));
     }
 
-	function get_next_learning_object_number()
+	function get_next_content_object_number()
 	{
-		$id = $this->connection->nextID($this->get_table_name('learning_object') .'_number');
+		$id = $this->connection->nextID($this->get_table_name('content_object') .'_number');
 		return $id;
 	}
 
 	// Inherited.
-	function create_learning_object($object, $type)
+	function create_content_object($object, $type)
 	{
 		$props = array();
 		foreach ($object->get_default_properties() as $key => $value)
 		{
 			$props[$this->escape_column_name($key)] = $value;
 		}
-		$props[$this->escape_column_name(LearningObject :: PROPERTY_ID)] = $object->get_id();
-		$props[$this->escape_column_name(LearningObject :: PROPERTY_TYPE)] = $object->get_type();
-		$props[$this->escape_column_name(LearningObject :: PROPERTY_CREATION_DATE)] = self :: to_db_date($object->get_creation_date());
-		$props[$this->escape_column_name(LearningObject :: PROPERTY_MODIFICATION_DATE)] = self :: to_db_date($object->get_modification_date());
+		$props[$this->escape_column_name(ContentObject :: PROPERTY_ID)] = $object->get_id();
+		$props[$this->escape_column_name(ContentObject :: PROPERTY_TYPE)] = $object->get_type();
+		$props[$this->escape_column_name(ContentObject :: PROPERTY_CREATION_DATE)] = self :: to_db_date($object->get_creation_date());
+		$props[$this->escape_column_name(ContentObject :: PROPERTY_MODIFICATION_DATE)] = self :: to_db_date($object->get_modification_date());
 		$this->connection->loadModule('Extended');
-		$this->connection->extended->autoExecute($this->get_table_name('learning_object'), $props, MDB2_AUTOQUERY_INSERT);
+		$this->connection->extended->autoExecute($this->get_table_name('content_object'), $props, MDB2_AUTOQUERY_INSERT);
 		if ($object->is_extended())
 		{
 			$props = array();
@@ -343,20 +343,20 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			{
 				$props[$this->escape_column_name($key)] = $value;
 			}
-			$props[$this->escape_column_name(LearningObject :: PROPERTY_ID)] = $object->get_id();
+			$props[$this->escape_column_name(ContentObject :: PROPERTY_ID)] = $object->get_id();
 			$this->connection->extended->autoExecute($this->get_table_name($object->get_type()), $props, MDB2_AUTOQUERY_INSERT);
 		}
 
 		$props = array();
-		$props[$this->escape_column_name(LearningObject :: PROPERTY_ID)] = $object->get_id();
+		$props[$this->escape_column_name(ContentObject :: PROPERTY_ID)] = $object->get_id();
 		if ($type == 'new')
 		{
-			$props[$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER)] = $object->get_object_number();
-		  	$this->connection->extended->autoExecute($this->get_table_name('learning_object_version'), $props, MDB2_AUTOQUERY_INSERT);
+			$props[$this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER)] = $object->get_object_number();
+		  	$this->connection->extended->autoExecute($this->get_table_name('content_object_version'), $props, MDB2_AUTOQUERY_INSERT);
 		}
 		elseif($type == 'version')
 		{
-		  	$this->connection->extended->autoExecute($this->get_table_name('learning_object_version'), $props, MDB2_AUTOQUERY_UPDATE, $this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER) . '=' .$object->get_object_number());
+		  	$this->connection->extended->autoExecute($this->get_table_name('content_object_version'), $props, MDB2_AUTOQUERY_UPDATE, $this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER) . '=' .$object->get_object_number());
 		}
 		else
 		{
@@ -367,18 +367,18 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	}
 
 	// Inherited.
-	function update_learning_object($object)
+	function update_content_object($object)
 	{
-		$where = $this->escape_column_name(LearningObject :: PROPERTY_ID).'='.$object->get_id();
+		$where = $this->escape_column_name(ContentObject :: PROPERTY_ID).'='.$object->get_id();
 		$props = array();
 		foreach ($object->get_default_properties() as $key => $value)
 		{
 			$props[$this->escape_column_name($key)] = $value;
 		}
-		$props[$this->escape_column_name(LearningObject :: PROPERTY_CREATION_DATE)] = self :: to_db_date($object->get_creation_date());
-		$props[$this->escape_column_name(LearningObject :: PROPERTY_MODIFICATION_DATE)] = self :: to_db_date($object->get_modification_date());
+		$props[$this->escape_column_name(ContentObject :: PROPERTY_CREATION_DATE)] = self :: to_db_date($object->get_creation_date());
+		$props[$this->escape_column_name(ContentObject :: PROPERTY_MODIFICATION_DATE)] = self :: to_db_date($object->get_modification_date());
 		$this->connection->loadModule('Extended');
-		$this->connection->extended->autoExecute($this->get_table_name('learning_object'), $props, MDB2_AUTOQUERY_UPDATE, $where);
+		$this->connection->extended->autoExecute($this->get_table_name('content_object'), $props, MDB2_AUTOQUERY_UPDATE, $where);
 		if ($object->is_extended())
 		{
 			$props = array();
@@ -392,72 +392,72 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	}
 
 	//Inherited.
-	function retrieve_learning_object_by_user($user_id)
+	function retrieve_content_object_by_user($user_id)
 	{
-		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_OWNER_ID).'=?';
+		$query = 'SELECT * FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_OWNER_ID).'=?';
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($user_id);
-		return new DatabaseLearningObjectResultSet($this, $res, isset($type));
+		return new DatabaseContentObjectResultSet($this, $res, isset($type));
 	}
 
-	function delete_learning_object_by_id($object_id)
+	function delete_content_object_by_id($object_id)
 	{
-		$object = $this->retrieve_learning_object($object_id);
-		return $this->delete_learning_object($object);
+		$object = $this->retrieve_content_object($object_id);
+		return $this->delete_content_object($object);
 	}
 
 	// Inherited.
-	function delete_learning_object($object)
+	function delete_content_object($object)
 	{
-		if( !$this->learning_object_deletion_allowed($object))
+		if( !$this->content_object_deletion_allowed($object))
 		{
 			return false;
 		}
 		// Delete children
 		
 		// Delete all attachments (only the links, not the actual objects)
-		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('learning_object_id').'=? OR '.$this->escape_column_name('attachment_id').'=?';
+		$query = 'DELETE FROM '.$this->escape_table_name('content_object_attachment').' WHERE '.$this->escape_column_name('content_object_id').'=? OR '.$this->escape_column_name('attachment_id').'=?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute(array($object->get_id(), $object->get_id()));
 
 		// Delete object
-		$query = 'DELETE FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
+		$query = 'DELETE FROM '.$this->escape_table_name('content_object').' WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_ID).'=?';
 		$statement = $this->connection->prepare($query);
 		$statement->execute($object->get_id());
 
 		// Delete entry in version table
-		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_version').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).'=?';
+		$query = 'DELETE FROM '.$this->escape_table_name('content_object_version').' WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER).'=?';
 		$statement = $this->connection->prepare($query);
 		$statement->execute($object->get_object_number());
 
 		if ($object->is_extended())
 		{
-			$query = 'DELETE FROM '.$this->escape_table_name($object->get_type()).' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
+			$query = 'DELETE FROM '.$this->escape_table_name($object->get_type()).' WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_ID).'=?';
 			$statement = $this->connection->prepare($query);
 			$statement->execute($object->get_id());
 		}
-		$query = 'UPDATE '.$this->escape_table_name('learning_object').' SET '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'='.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'-1 WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'>?';
+		$query = 'UPDATE '.$this->escape_table_name('content_object').' SET '.$this->escape_column_name(ContentObject :: PROPERTY_DISPLAY_ORDER_INDEX).'='.$this->escape_column_name(ContentObject :: PROPERTY_DISPLAY_ORDER_INDEX).'-1 WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_DISPLAY_ORDER_INDEX).'>?';
 		$statement = $this->connection->prepare($query);
 		$statement->execute($object->get_display_order_index());
 		return true;
 	}
 
 	// Inherited.
-	function delete_learning_object_version($object)
+	function delete_content_object_version($object)
 	{
-		if( !$this->learning_object_deletion_allowed($object, 'version'))
+		if( !$this->content_object_deletion_allowed($object, 'version'))
 		{
 			return false;
 		}
 
 		// Delete object
-		$query = 'DELETE FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
+		$query = 'DELETE FROM '.$this->escape_table_name('content_object').' WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_ID).'=?';
 		$statement = $this->connection->prepare($query);
 		$statement->execute($object->get_id());
 
 		if ($object->is_extended())
 		{
-			$query = 'DELETE FROM '.$this->escape_table_name($object->get_type()).' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
+			$query = 'DELETE FROM '.$this->escape_table_name($object->get_type()).' WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_ID).'=?';
 			$statement = $this->connection->prepare($query);
 			$statement->execute($object->get_id());
 		}
@@ -465,7 +465,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if ($object->is_latest_version())
 		{
 			$object_number = $object->get_object_number();
-			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' WHERE '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).'=? ORDER BY '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'. $this->escape_column_name(LearningObject :: PROPERTY_ID) .' DESC';
+			$query = 'SELECT * FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' WHERE '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER).'=? ORDER BY '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'. $this->escape_column_name(ContentObject :: PROPERTY_ID) .' DESC';
 			$this->connection->setLimit(1);
 			$statement = $this->connection->prepare($query);
 			$res = $statement->execute($object_number);
@@ -473,19 +473,19 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$res->free();
 
 			$props = array();
-			$props[$this->escape_column_name(LearningObject :: PROPERTY_ID)] = $record['id'];
+			$props[$this->escape_column_name(ContentObject :: PROPERTY_ID)] = $record['id'];
 			$this->connection->loadModule('Extended');
-			$this->connection->extended->autoExecute($this->get_table_name('learning_object_version'), $props, MDB2_AUTOQUERY_UPDATE, $this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER) . '=' .$object_number);
+			$this->connection->extended->autoExecute($this->get_table_name('content_object_version'), $props, MDB2_AUTOQUERY_UPDATE, $this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER) . '=' .$object_number);
 		}
 
 		return true;
 	}
 
 	// Inherited.
-	function delete_learning_object_attachments($object)
+	function delete_content_object_attachments($object)
 	{
 		// TODO: SCARA - Add notification for users who are using this object as an attachment
-//		$subject = '['.PlatformSetting :: get('site_name').'] '.$publication->get_learning_object()->get_title();
+//		$subject = '['.PlatformSetting :: get('site_name').'] '.$publication->get_content_object()->get_title();
 //		// TODO: SCARA - Add meaningfull attachment removal message
 //		$body = 'message';
 //		$user = $object->get_owner_id();
@@ -493,7 +493,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 //		$mail->send();
 
 		// Delete all attachments (only the links, not the actual objects)
-		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('attachment_id').'=?';
+		$query = 'DELETE FROM '.$this->escape_table_name('content_object_attachment').' WHERE '.$this->escape_column_name('attachment_id').'=?';
 		$sth = $this->connection->prepare($query);
 
 		if ($sth->execute($object->get_id()))
@@ -507,7 +507,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	}
 
 	// Inherited.
-	function delete_all_learning_objects()
+	function delete_all_content_objects()
 	{
 		foreach ($this->get_registered_types() as $type)
 		{
@@ -517,13 +517,13 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 				$sth->execute();
 			}
 		}
-		$sth = $this->connection->prepare('DELETE FROM '.$this->escape_table_name('learning_object'));
+		$sth = $this->connection->prepare('DELETE FROM '.$this->escape_table_name('content_object'));
 		$sth->execute();
 	}
 
 	function is_latest_version($object)
 	{
-		$query = 'SELECT '. LearningObject :: PROPERTY_ID .' FROM ' . $this->escape_table_name('learning_object_version') . ' WHERE ' . LearningObject :: PROPERTY_OBJECT_NUMBER . '=?';
+		$query = 'SELECT '. ContentObject :: PROPERTY_ID .' FROM ' . $this->escape_table_name('content_object_version') . ' WHERE ' . ContentObject :: PROPERTY_OBJECT_NUMBER . '=?';
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($object->get_object_number());
@@ -541,7 +541,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 	function is_only_document_occurence($path)
 	{
-		$query = 'SELECT COUNT('. LearningObject :: PROPERTY_ID .') AS ids FROM ' . $this->escape_table_name('document') . ' WHERE path=?';
+		$query = 'SELECT COUNT('. ContentObject :: PROPERTY_ID .') AS ids FROM ' . $this->escape_table_name('document') . ' WHERE path=?';
 		//$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($path);
@@ -558,42 +558,42 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	}
 
 	// Inherited.
-	function move_learning_object($object, $places)
+	function move_content_object($object, $places)
 	{
 		if ($places < 0)
 		{
-			return $this->move_learning_object_up($object, - $places);
+			return $this->move_content_object_up($object, - $places);
 		}
 		else
 		{
-			return $this->move_learning_object_down($object, $places);
+			return $this->move_content_object_down($object, $places);
 		}
 	}
 
-	private function move_learning_object_up($object, $places)
+	private function move_content_object_up($object, $places)
 	{
 		$oldIndex = $object->get_display_order_index();
-		$query = 'UPDATE '.$this->escape_table_name('learning_object').' SET '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'='.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'+1 WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_PARENT_ID).'=? AND '.$this->escape_column_name(LearningObject :: PROPERTY_TYPE).'=? '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'<? ORDER BY '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).' DESC';
+		$query = 'UPDATE '.$this->escape_table_name('content_object').' SET '.$this->escape_column_name(ContentObject :: PROPERTY_DISPLAY_ORDER_INDEX).'='.$this->escape_column_name(ContentObject :: PROPERTY_DISPLAY_ORDER_INDEX).'+1 WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_PARENT_ID).'=? AND '.$this->escape_column_name(ContentObject :: PROPERTY_TYPE).'=? '.$this->escape_column_name(ContentObject :: PROPERTY_DISPLAY_ORDER_INDEX).'<? ORDER BY '.$this->escape_column_name(ContentObject :: PROPERTY_DISPLAY_ORDER_INDEX).' DESC';
 		$this->connection->setLimit($places);
 		$statement = $this->connection->prepare($query);
 		$statement->execute(array($object->get_parent_id(), $object->get_type(), $oldIndex));
 		$rowsMoved = $this->connection->affectedRows();
-		$query = 'UPDATE '.$this->escape_table_name('learning_object').' SET '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'=? WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
+		$query = 'UPDATE '.$this->escape_table_name('content_object').' SET '.$this->escape_column_name(ContentObject :: PROPERTY_DISPLAY_ORDER_INDEX).'=? WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_ID).'=?';
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$statement->execute(array($oldIndex - $places, $object->get_id()));
 		return $rowsMoved;
 	}
 
-	private function move_learning_object_down($object, $places)
+	private function move_content_object_down($object, $places)
 	{
 		$oldIndex = $object->get_display_order_index();
-		$query = 'UPDATE '.$this->escape_table_name('learning_object').' SET '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'='.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'-1 WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_PARENT_ID).'=? AND '.$this->escape_column_name(LearningObject :: PROPERTY_TYPE).'=? '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'>? ORDER BY '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).' ASC';
+		$query = 'UPDATE '.$this->escape_table_name('content_object').' SET '.$this->escape_column_name(ContentObject :: PROPERTY_DISPLAY_ORDER_INDEX).'='.$this->escape_column_name(ContentObject :: PROPERTY_DISPLAY_ORDER_INDEX).'-1 WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_PARENT_ID).'=? AND '.$this->escape_column_name(ContentObject :: PROPERTY_TYPE).'=? '.$this->escape_column_name(ContentObject :: PROPERTY_DISPLAY_ORDER_INDEX).'>? ORDER BY '.$this->escape_column_name(ContentObject :: PROPERTY_DISPLAY_ORDER_INDEX).' ASC';
 		$this->connection->setLimit($places);
 		$statement = $this->connection->prepare($query);
 		$statement->execute(array($object->get_parent_id(), $publication->get_type(), $oldIndex));
 		$rowsMoved = $this->connection->affectedRows();
-		$query = 'UPDATE '.$this->escape_table_name('learning_object').' SET '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'=? WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
+		$query = 'UPDATE '.$this->escape_table_name('content_object').' SET '.$this->escape_column_name(ContentObject :: PROPERTY_DISPLAY_ORDER_INDEX).'=? WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_ID).'=?';
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$statement->execute(array($oldIndex + $places, $publication->get_id()));
@@ -601,9 +601,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	}
 
 	// Inherited.
-	function get_next_learning_object_display_order_index($parent, $type)
+	function get_next_content_object_display_order_index($parent, $type)
 	{
-		$query = 'SELECT MAX('.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).') AS h FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_PARENT_ID).'=? AND '.$this->escape_column_name(LearningObject :: PROPERTY_TYPE).'=?';
+		$query = 'SELECT MAX('.$this->escape_column_name(ContentObject :: PROPERTY_DISPLAY_ORDER_INDEX).') AS h FROM '.$this->escape_table_name('content_object').' WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_PARENT_ID).'=? AND '.$this->escape_column_name(ContentObject :: PROPERTY_TYPE).'=?';
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute(array ($parent, $type));
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
@@ -617,54 +617,54 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	}
 
 	// Inherited.
-	function retrieve_attached_learning_objects ($object)
+	function retrieve_attached_content_objects ($object)
 	{
 		$id = $object->get_id();
-		$query = 'SELECT '.$this->escape_column_name('attachment_id').' FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('learning_object_id').'=?';
+		$query = 'SELECT '.$this->escape_column_name('attachment_id').' FROM '.$this->escape_table_name('content_object_attachment').' WHERE '.$this->escape_column_name('content_object_id').'=?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($id);
 		$attachments = array();
 		while ($record = $res->fetchRow(MDB2_FETCHMODE_ORDERED))
 		{
-			$attachments[] = $this->retrieve_learning_object($record[0]);
+			$attachments[] = $this->retrieve_content_object($record[0]);
 		}
 		$res->free();
 		return $attachments;
 	}
 
 	// Inherited.
-	function retrieve_included_learning_objects ($object)
+	function retrieve_included_content_objects ($object)
 	{
 		$id = $object->get_id();
-		$query = 'SELECT '.$this->escape_column_name('include_id').' FROM '.$this->escape_table_name('learning_object_include').' WHERE '.$this->escape_column_name('learning_object_id').'=?';
+		$query = 'SELECT '.$this->escape_column_name('include_id').' FROM '.$this->escape_table_name('content_object_include').' WHERE '.$this->escape_column_name('content_object_id').'=?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($id);
 		$includes = array();
 		while ($record = $res->fetchRow(MDB2_FETCHMODE_ORDERED))
 		{
-			$includes[] = $this->retrieve_learning_object($record[0]);
+			$includes[] = $this->retrieve_content_object($record[0]);
 		}
 		$res->free();
 		return $includes;
 	}
 	
-	function is_learning_object_included($object)
+	function is_content_object_included($object)
 	{
 		$condition = new EqualityCondition('include_id', $object->get_id());
-		$count = $this->database->count_objects('learning_object_include', $condition);
+		$count = $this->database->count_objects('content_object_include', $condition);
 		return ($count > 0); 
 	}
 
-	function retrieve_learning_object_versions ($object)
+	function retrieve_content_object_versions ($object)
 	{
 		$object_number = $object->get_object_number();
-		$query = 'SELECT '.$this->escape_column_name(LearningObject :: PROPERTY_ID).' FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).'=? AND '.$this->escape_column_name(LearningObject :: PROPERTY_STATE).'=?';
+		$query = 'SELECT '.$this->escape_column_name(ContentObject :: PROPERTY_ID).' FROM '.$this->escape_table_name('content_object').' WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER).'=? AND '.$this->escape_column_name(ContentObject :: PROPERTY_STATE).'=?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute(array($object_number, $object->get_state()));
 		$attachments = array();
 		while ($record = $res->fetchRow(MDB2_FETCHMODE_ORDERED))
 		{
-			$versions[] = $this->retrieve_learning_object($record[0]);
+			$versions[] = $this->retrieve_content_object($record[0]);
 		}
 		$res->free();
 		return $versions;
@@ -673,7 +673,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	function get_latest_version_id ($object)
 	{
 		$object_number = $object->get_object_number();
-		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_version').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).'=?';
+		$query = 'SELECT * FROM '.$this->escape_table_name('content_object_version').' WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER).'=?';
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($object_number);
@@ -684,51 +684,51 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	}
 
 	// Inherited.
-	function attach_learning_object ($object, $attachment_id)
+	function attach_content_object ($object, $attachment_id)
 	{
 		$props = array();
-		$props['learning_object_id'] = $object->get_id();
+		$props['content_object_id'] = $object->get_id();
 		$props['attachment_id'] = $attachment_id;
 		$this->connection->loadModule('Extended');
-		$this->connection->extended->autoExecute($this->get_table_name('learning_object_attachment'), $props, MDB2_AUTOQUERY_INSERT);
+		$this->connection->extended->autoExecute($this->get_table_name('content_object_attachment'), $props, MDB2_AUTOQUERY_INSERT);
 	}
 
 	// Inherited.
-	function detach_learning_object ($object, $attachment_id)
+	function detach_content_object ($object, $attachment_id)
 	{
-		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('learning_object_id').'=? AND '.$this->escape_column_name('attachment_id').'=?';
+		$query = 'DELETE FROM '.$this->escape_table_name('content_object_attachment').' WHERE '.$this->escape_column_name('content_object_id').'=? AND '.$this->escape_column_name('attachment_id').'=?';
 		$statement = $this->connection->prepare($query);
 		$affectedRows = $statement->execute(array ($object->get_id(), $attachment_id));
 		return ($affectedRows > 0);
 	}
 
 	// Inherited.
-	function include_learning_object ($object, $include_id)
+	function include_content_object ($object, $include_id)
 	{
 		$props = array();
-		$props['learning_object_id'] = $object->get_id();
+		$props['content_object_id'] = $object->get_id();
 		$props['include_id'] = $include_id;
 		$this->connection->loadModule('Extended');
-		$this->connection->extended->autoExecute($this->get_table_name('learning_object_include'), $props, MDB2_AUTOQUERY_INSERT);
+		$this->connection->extended->autoExecute($this->get_table_name('content_object_include'), $props, MDB2_AUTOQUERY_INSERT);
 	}
 
 	// Inherited.
-	function exclude_learning_object ($object, $include_id)
+	function exclude_content_object ($object, $include_id)
 	{
-		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_include').' WHERE '.$this->escape_column_name('learning_object_id').'=? AND '.$this->escape_column_name('include_id').'=?';
+		$query = 'DELETE FROM '.$this->escape_table_name('content_object_include').' WHERE '.$this->escape_column_name('content_object_id').'=? AND '.$this->escape_column_name('include_id').'=?';
 		$statement = $this->connection->prepare($query);
 		$affectedRows = $statement->execute(array ($object->get_id(), $include_id));
 		return ($affectedRows > 0);
 	}
 
 	// Inherited.
-	function set_learning_object_states ($object_ids, $state)
+	function set_content_object_states ($object_ids, $state)
 	{
 		if (!count($object_ids))
 		{
 			return true;
 		}
-		$query = 'UPDATE '.$this->escape_table_name('learning_object').' SET '.$this->escape_column_name(LearningObject :: PROPERTY_STATE).'=? WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).' IN (?'.str_repeat(',?', count($object_ids) - 1).')';
+		$query = 'UPDATE '.$this->escape_table_name('content_object').' SET '.$this->escape_column_name(ContentObject :: PROPERTY_STATE).'=? WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_ID).' IN (?'.str_repeat(',?', count($object_ids) - 1).')';
 		$params = $object_ids;
 		array_unshift($params, $state);
 		$this->connection->setLimit(count($object_ids));
@@ -744,7 +744,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$parent_ids = array($object->get_id());
 		do
 		{
-			$query = 'SELECT '.$this->escape_column_name(LearningObject :: PROPERTY_ID).' FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_PARENT_ID).' IN (?'.str_repeat(',?',count($parent_ids)-1).')';
+			$query = 'SELECT '.$this->escape_column_name(ContentObject :: PROPERTY_ID).' FROM '.$this->escape_table_name('content_object').' WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_PARENT_ID).' IN (?'.str_repeat(',?',count($parent_ids)-1).')';
 			$statement = $this->connection->prepare($query);
 			$res = $statement->execute($parent_ids);
 			if($res->numRows() == 0)
@@ -756,8 +756,8 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 				$parent_ids = array();
 				while($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 				{
-					$parent_ids[] = $record[LearningObject :: PROPERTY_ID];
-					$children_ids[] = $record[LearningObject :: PROPERTY_ID];
+					$parent_ids[] = $record[ContentObject :: PROPERTY_ID];
+					$children_ids[] = $record[ContentObject :: PROPERTY_ID];
 				}
 			}
 			$res->free();
@@ -768,13 +768,13 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	function get_version_ids($object)
 	{
 		$version_ids = array();
-		$query = 'SELECT '.$this->escape_column_name(LearningObject :: PROPERTY_ID).' FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).' =? ORDER BY '.$this->escape_column_name(LearningObject :: PROPERTY_ID).' ASC';
+		$query = 'SELECT '.$this->escape_column_name(ContentObject :: PROPERTY_ID).' FROM '.$this->escape_table_name('content_object').' WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER).' =? ORDER BY '.$this->escape_column_name(ContentObject :: PROPERTY_ID).' ASC';
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($object->get_object_number());
 
 		while($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$version_ids[] = $record[LearningObject :: PROPERTY_ID];
+			$version_ids[] = $record[ContentObject :: PROPERTY_ID];
 		}
 		return $version_ids;
 	}
@@ -839,27 +839,27 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 *                                             properties of the
 	 *                                             learning object were
 	 *                                             fetched.
-	 * @return LearningObject The learning object.
+	 * @return ContentObject The learning object.
 	 */
-	function record_to_learning_object($record, $additional_properties_known = false)
+	function record_to_content_object($record, $additional_properties_known = false)
 	{
 		if (!is_array($record) || !count($record))
 		{
 			throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
 		}
 		$defaultProp = array ();
-		foreach (LearningObject :: get_default_property_names() as $prop)
+		foreach (ContentObject :: get_default_property_names() as $prop)
 		{
 			$defaultProp[$prop] = $record[$prop];
 		}
-		$defaultProp[LearningObject :: PROPERTY_CREATION_DATE] = self :: from_db_date($defaultProp[LearningObject :: PROPERTY_CREATION_DATE]);
-		$defaultProp[LearningObject :: PROPERTY_MODIFICATION_DATE] = self :: from_db_date($defaultProp[LearningObject :: PROPERTY_MODIFICATION_DATE]);
+		$defaultProp[ContentObject :: PROPERTY_CREATION_DATE] = self :: from_db_date($defaultProp[ContentObject :: PROPERTY_CREATION_DATE]);
+		$defaultProp[ContentObject :: PROPERTY_MODIFICATION_DATE] = self :: from_db_date($defaultProp[ContentObject :: PROPERTY_MODIFICATION_DATE]);
 
-		$learning_object = LearningObject :: factory($record[LearningObject :: PROPERTY_TYPE], $record[LearningObject :: PROPERTY_ID], $defaultProp);
+		$content_object = ContentObject :: factory($record[ContentObject :: PROPERTY_TYPE], $record[ContentObject :: PROPERTY_ID], $defaultProp);
 
 		if ($additional_properties_known)
 		{
-			$properties = $learning_object->get_additional_property_names();
+			$properties = $content_object->get_additional_property_names();
 
 			$additionalProp = array ();
 			if (count($properties) > 0)
@@ -875,9 +875,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$additionalProp = null;
 		}
 
-		$learning_object->set_additional_properties($additionalProp);
+		$content_object->set_additional_properties($additionalProp);
 
-		return $learning_object;
+		return $content_object;
 	}
 
 	/**
@@ -907,13 +907,13 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	/**
 	 * Escapes a column name in accordance with the database type.
 	 * @param string $name The column name.
-	 * @param boolean $prefix_learning_object_properties Whether or not to
+	 * @param boolean $prefix_content_object_properties Whether or not to
 	 *                                                   prefix learning
 	 *                                                   object properties
 	 *                                                   to avoid collisions.
 	 * @return string The escaped column name.
 	 */
-	function escape_column_name($name, $prefix_learning_object_properties = false)
+	function escape_column_name($name, $prefix_content_object_properties = false)
 	{
 		// Check whether the name contains a seperator, avoids notices.
 		$contains_table_name = strpos($name, '.');
@@ -933,7 +933,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$prefix = $table.'.';
 			$name = $column;
 		}
-		elseif ($prefix_learning_object_properties && self :: is_learning_object_column($name))
+		elseif ($prefix_content_object_properties && self :: is_content_object_column($name))
 		{
 			$prefix = self :: ALIAS_LEARNING_OBJECT_TABLE.'.';
 		}
@@ -973,17 +973,17 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 */
 	static function is_date_column($name)
 	{
-		return ($name == LearningObject :: PROPERTY_CREATION_DATE || $name == LearningObject :: PROPERTY_MODIFICATION_DATE);
+		return ($name == ContentObject :: PROPERTY_CREATION_DATE || $name == ContentObject :: PROPERTY_MODIFICATION_DATE);
 	}
 
 	// Inherited.
 	function get_used_disk_space($owner)
 	{
-		$condition_owner = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $owner);
+		$condition_owner = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $owner);
 		$types = $this->get_registered_types();
 		foreach ($types as $index => $type)
 		{
-			$class = LearningObject :: type_to_class($type);
+			$class = ContentObject :: type_to_class($type);
 			$properties = call_user_func(array ($class, 'get_disk_space_properties'));
 			if (is_null($properties))
 			{
@@ -1000,13 +1000,13 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			}
 			if ($this->is_extended_type($type))
 			{
-				$query = 'SELECT '.implode('+', $sum).' AS disk_space FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).' = '.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID);
+				$query = 'SELECT '.implode('+', $sum).' AS disk_space FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID).' = '.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID);
 				$condition = $condition_owner;
 			}
 			else
 			{
-				$query = 'SELECT '.implode('+', $sum).' AS disk_space FROM '.$this->escape_table_name('learning_object');
-				$match = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
+				$query = 'SELECT '.implode('+', $sum).' AS disk_space FROM '.$this->escape_table_name('content_object');
+				$match = new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type);
 				$condition = new AndCondition(array ($match, $condition_owner));
 			}
 
@@ -1071,9 +1071,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 	}
 
-	private static function is_learning_object_column ($name)
+	private static function is_content_object_column ($name)
 	{
-		return LearningObject :: is_default_property_name($name) || $name == LearningObject :: PROPERTY_TYPE || $name == LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX || $name == LearningObject :: PROPERTY_ID;
+		return ContentObject :: is_default_property_name($name) || $name == ContentObject :: PROPERTY_TYPE || $name == ContentObject :: PROPERTY_DISPLAY_ORDER_INDEX || $name == ContentObject :: PROPERTY_ID;
 	}
 
 	function ExecuteQuery($sql)
@@ -1083,7 +1083,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 	function is_attached ($object, $type = null)
 	{
-		$query = 'SELECT COUNT('.$this->escape_column_name("learning_object_id").') FROM '.$this->escape_table_name('learning_object_attachment').' AS '.self :: ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE .' WHERE '. self :: ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE . '.attachment_id';
+		$query = 'SELECT COUNT('.$this->escape_column_name("content_object_id").') FROM '.$this->escape_table_name('content_object_attachment').' AS '.self :: ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE .' WHERE '. self :: ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE . '.attachment_id';
 		if (isset($type))
 		{
 			$query.= '=?';
@@ -1113,18 +1113,18 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 * Returns the next available complex learning object ID.
 	 * @return int The ID.
 	 */
-	function get_next_complex_learning_object_item_id()
+	function get_next_complex_content_object_item_id()
 	{
-		$id = $this->connection->nextID($this->get_table_name('complex_learning_object'));
+		$id = $this->connection->nextID($this->get_table_name('complex_content_object'));
 		return $id;
 	}
 
 	/**
 	 * Creates a new complex learning object in the database
-	 * @param ComplexLearningObject $clo - The complex learning object
+	 * @param ComplexContentObject $clo - The complex learning object
 	 * @return True if success
 	 */
-	function create_complex_learning_object_item($clo_item)
+	function create_complex_content_object_item($clo_item)
 	{
 		$props = array();
 		foreach ($clo_item->get_default_properties() as $key => $value)
@@ -1132,7 +1132,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$props[$this->escape_column_name($key)] = $value;
 		}
 		$this->connection->loadModule('Extended');
-		$this->connection->extended->autoExecute($this->get_table_name('complex_learning_object_item'), $props, MDB2_AUTOQUERY_INSERT);
+		$this->connection->extended->autoExecute($this->get_table_name('complex_content_object_item'), $props, MDB2_AUTOQUERY_INSERT);
 		if ($clo_item->is_extended())
 		{
 			$ref = $clo_item->get_ref();
@@ -1142,8 +1142,8 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			{
 				$props[$this->escape_column_name($key)] = $value;
 			}
-			$props[$this->escape_column_name(ComplexLearningObjectItem :: PROPERTY_ID)] = $clo_item->get_id();
-			$type = $this->determine_learning_object_type($ref);
+			$props[$this->escape_column_name(ComplexContentObjectItem :: PROPERTY_ID)] = $clo_item->get_id();
+			$type = $this->determine_content_object_type($ref);
 			$this->connection->extended->autoExecute($this->get_table_name('complex_' . $type), $props, MDB2_AUTOQUERY_INSERT);
 		}
 
@@ -1152,21 +1152,21 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 	/**
 	 * Updates a complex learning object in the database
-	 * @param ComplexLearningObject $clo - The complex learning object
+	 * @param ComplexContentObject $clo - The complex learning object
 	 * @return True if success
 	 */
-	function update_complex_learning_object_item($clo_item)
+	function update_complex_content_object_item($clo_item)
 	{
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_ID, $clo_item->get_id(), ComplexLearningObjectItem :: get_table_name());
+		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_ID, $clo_item->get_id(), ComplexContentObjectItem :: get_table_name());
 
 		$props = array();
 		foreach ($clo_item->get_default_properties() as $key => $value)
 		{
-			if($key == ComplexLearningObjectItem :: PROPERTY_ID) continue;
+			if($key == ComplexContentObjectItem :: PROPERTY_ID) continue;
 			$props[$this->escape_column_name($key)] = $value;
 		}
 		$this->connection->loadModule('Extended');
-		$this->connection->extended->autoExecute($this->get_table_name('complex_learning_object_item'), $props, MDB2_AUTOQUERY_UPDATE, $condition);
+		$this->connection->extended->autoExecute($this->get_table_name('complex_content_object_item'), $props, MDB2_AUTOQUERY_UPDATE, $condition);
 		if ($clo_item->is_extended())
 		{
 			$ref = $clo_item->get_ref();
@@ -1176,7 +1176,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			{
 				$props[$this->escape_column_name($key)] = $value;
 			}
-			$type = $this->determine_learning_object_type($ref);
+			$type = $this->determine_content_object_type($ref);
 			$this->connection->extended->autoExecute($this->get_table_name('complex_' . $type), $props, MDB2_AUTOQUERY_UPDATE, $condition);
 		}
 		return true;
@@ -1184,14 +1184,14 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 	/**
 	 * Deletes a complex learning object in the database
-	 * @param ComplexLearningObject $clo - The complex learning object
+	 * @param ComplexContentObject $clo - The complex learning object
 	 * @return True if success
 	 */
-	function delete_complex_learning_object_item($clo_item)
+	function delete_complex_content_object_item($clo_item)
 	{
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_ID, $clo_item->get_id());
+		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_ID, $clo_item->get_id());
 
-		$query = 'DELETE FROM '.$this->escape_table_name('complex_learning_object_item');
+		$query = 'DELETE FROM '.$this->escape_table_name('complex_content_object_item');
 
 		$params = array ();
 		if (isset ($condition))
@@ -1209,7 +1209,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			$ref = $clo_item->get_ref();
 
-			$type = $this->determine_learning_object_type($ref);
+			$type = $this->determine_content_object_type($ref);
 			$query = 'DELETE FROM '.$this->get_table_name('complex_' . $type);
 
 			$params = array ();
@@ -1225,7 +1225,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$res = $statement->execute($params);
 		}
 
-		$query = 'UPDATE '.$this->escape_table_name('complex_learning_object_item').' SET '.
+		$query = 'UPDATE '.$this->escape_table_name('complex_content_object_item').' SET '.
 			 $this->escape_column_name('display_order').'='.
 			 $this->escape_column_name('display_order').'-1 WHERE '.
 			 $this->escape_column_name('display_order').'>? AND ' .
@@ -1237,9 +1237,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 	}
 	
-	function delete_complex_learning_object_items($condition)
+	function delete_complex_content_object_items($condition)
 	{
-		return $this->database->delete('complex_learning_object_item', $condition);
+		return $this->database->delete('complex_content_object_item', $condition);
 	}
 
 	/**
@@ -1247,14 +1247,14 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 * @param Int $clo_id
 	 * @return The complex learning object
 	 */
-	function retrieve_complex_learning_object_item($clo_item_id)
+	function retrieve_complex_content_object_item($clo_item_id)
 	{
 		// Retrieve main table
 
-		$query = 'SELECT * FROM '.$this->escape_table_name('complex_learning_object_item').' AS '.
+		$query = 'SELECT * FROM '.$this->escape_table_name('complex_content_object_item').' AS '.
 				 self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE;
 
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_ID, $clo_item_id, ComplexLearningObjectItem :: get_table_name());
+		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_ID, $clo_item_id, ComplexContentObjectItem :: get_table_name());
 
 		$params = array ();
 		if (isset ($condition))
@@ -1273,32 +1273,32 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 		// Determine type
 
-		$ref = $record[ComplexLearningObjectItem :: PROPERTY_REF];
+		$ref = $record[ComplexContentObjectItem :: PROPERTY_REF];
 
-		$type = $this->determine_learning_object_type($ref);
-		$cloi = ComplexLearningObjectItem :: factory($type, array(), array());
+		$type = $this->determine_content_object_type($ref);
+		$cloi = ComplexContentObjectItem :: factory($type, array(), array());
 
 		$bool = false;
 
 		if($cloi->is_extended())
 			$bool = true;
 
-		return self :: record_to_complex_learning_object_item($record, $type, $bool);
+		return self :: record_to_complex_content_object_item($record, $type, $bool);
 	}
 
 	/**
 	 * Mapper for a record to a complex learning object item
 	 * @param Record $record
-	 * @return ComplexLearningObjectItem
+	 * @return ComplexContentObjectItem
 	 */
-	function record_to_complex_learning_object_item($record, $type = null, $additional_properties_known = false)
+	function record_to_complex_content_object_item($record, $type = null, $additional_properties_known = false)
 	{
 		if (!is_array($record) || !count($record))
 		{
 			throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
 		}
 
-		$cloi = ComplexLearningObjectItem :: factory($type, array(), array());
+		$cloi = ComplexContentObjectItem :: factory($type, array(), array());
 
 		$defaultProp = array ();
 		foreach ($cloi->get_default_property_names() as $prop)
@@ -1314,7 +1314,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$query = 'SELECT * FROM '.$this->escape_table_name('complex_' . $type).' AS '.
 					 self :: ALIAS_TYPE_TABLE;
 
-			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_ID, $record['id']);
+			$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_ID, $record['id']);
 
 			$params = array ();
 			if (isset ($condition))
@@ -1350,11 +1350,11 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 * @param Condition $condition
 	 * @return Int the amount of complex learning objects
 	 */
-	function count_complex_learning_object_items($condition)
+	function count_complex_content_object_items($condition)
 	{
 		/*$query = 'SELECT COUNT('.self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE.'.'.
-				 $this->escape_column_name(ComplexLearningObjectItem :: PROPERTY_ID).') FROM '.
-				 $this->escape_table_name('complex_learning_object_item').' AS '.
+				 $this->escape_column_name(ComplexContentObjectItem :: PROPERTY_ID).') FROM '.
+				 $this->escape_table_name('complex_content_object_item').' AS '.
 				 self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE;
 
 		$params = array ();
@@ -1370,18 +1370,18 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		$res->free();
 		return $record[0];*/
-		return $this->database->count_objects('complex_learning_object_item', $condition);
+		return $this->database->count_objects('complex_content_object_item', $condition);
 	}
 
 	/**
 	 * Retrieves the complex learning object items with the given condition
 	 * @param Condition
 	 */
-	function retrieve_complex_learning_object_items($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1, $type = null)
+	function retrieve_complex_content_object_items($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1, $type = null)
 	{
 		$alias = self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE;
 		
-		$query = 'SELECT ' . $alias . '.* FROM ' . $this->escape_table_name('complex_learning_object_item') . ' AS ' . $alias;
+		$query = 'SELECT ' . $alias . '.* FROM ' . $this->escape_table_name('complex_content_object_item') . ' AS ' . $alias;
         $params = array ();
 
         if (isset ($type))
@@ -1389,13 +1389,13 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
             switch($type)
             {
                 case 'complex_wiki_page':
-                $query .= ' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).' = '.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(ComplexLearningObjectItem :: PROPERTY_ID);
+                $query .= ' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID).' = '.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(ComplexContentObjectItem :: PROPERTY_ID);
             }
 		}
-		$lo_alias = $this->get_database()->get_alias('learning_object');
+		$lo_alias = $this->get_database()->get_alias('content_object');
 		
 		
-		$query .= ' JOIN ' . $this->escape_table_name('learning_object') . ' AS ' . $lo_alias . ' ON ' . $alias . '.ref_id=' . $lo_alias . '.id';
+		$query .= ' JOIN ' . $this->escape_table_name('content_object') . ' AS ' . $lo_alias . ' ON ' . $alias . '.ref_id=' . $lo_alias . '.id';
 		
 		if (isset ($condition))
 		{
@@ -1404,7 +1404,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
             $params = $translator->get_parameters();
 		}
 
-		$order_by[] = new ObjectTableOrder(ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER, SORT_ASC, $alias);
+		$order_by[] = new ObjectTableOrder(ComplexContentObjectItem :: PROPERTY_DISPLAY_ORDER, SORT_ASC, $alias);
 		//$order_dir[] = SORT_ASC;
 		$order = array ();
 
@@ -1427,16 +1427,16 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 
-		return new DatabaseComplexLearningObjectItemResultSet($this, $res, true);
-		//return $this->database->retrieve_objects('complex_learning_object_item', $condition, $offset, $max_objects, $order_by, $order_dir, 'DatabaseComplexLearningObjectItemResultSet');
+		return new DatabaseComplexContentObjectItemResultSet($this, $res, true);
+		//return $this->database->retrieve_objects('complex_content_object_item', $condition, $offset, $max_objects, $order_by, $order_dir, 'DatabaseComplexContentObjectItemResultSet');
 	}
 
 	function select_next_display_order($parent_id)
 	{
-		$query = 'SELECT MAX(' . ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' .
-			$this->escape_table_name('complex_learning_object_item') . ' AS ' . $this->get_alias('complex_learning_object_item');
+		$query = 'SELECT MAX(' . ComplexContentObjectItem :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' .
+			$this->escape_table_name('complex_content_object_item') . ' AS ' . $this->get_alias('complex_content_object_item');
 
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $parent_id, ComplexLearningObjectItem :: get_table_name());
+		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent_id, ComplexContentObjectItem :: get_table_name());
 
 		$params = array ();
 		if (isset ($condition))
@@ -1472,7 +1472,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$statement = $this->database->get_connection()->prepare($query);
 		$statement->execute(array($category->get_display_order(), $category->get_parent()));
 
-		$query = 'UPDATE ' . $this->database->escape_table_name('learning_object').' SET ' .
+		$query = 'UPDATE ' . $this->database->escape_table_name('content_object').' SET ' .
 		 		 $this->database->escape_column_name('state').'=1 WHERE '.
 		 		 $this->database->escape_column_name('parent').'=?';
 		$statement = $this->database->get_connection()->prepare($query);
@@ -1548,8 +1548,8 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$condition = new EqualityCondition(UserView :: PROPERTY_ID, $user_view->get_id());
 		$success = $this->database->delete('user_view', $condition);
 
-		$condition = new EqualityCondition(UserViewRelLearningObject :: PROPERTY_VIEW_ID, $user_view->get_id());
-		$success &= $this->database->delete('user_view_rel_learning_object', $condition);
+		$condition = new EqualityCondition(UserViewRelContentObject :: PROPERTY_VIEW_ID, $user_view->get_id());
+		$success &= $this->database->delete('user_view_rel_content_object', $condition);
 
 		return $success;
 	}
@@ -1575,62 +1575,62 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		return $this->database->retrieve_objects('user_view', $condition, $offset, $count, $order_property, $order_direction);
 	}
 
-	function update_user_view_rel_learning_object($user_view_rel_learning_object)
+	function update_user_view_rel_content_object($user_view_rel_content_object)
 	{
-		$conditions[] = new EqualityCondition(UserViewRelLearningObject :: PROPERTY_VIEW_ID, $user_view_rel_learning_object->get_view_id());
-		$conditions[] = new EqualityCondition(UserViewRelLearningObject :: PROPERTY_LEARNING_OBJECT_TYPE, $user_view_rel_learning_object->get_learning_object_type());
+		$conditions[] = new EqualityCondition(UserViewRelContentObject :: PROPERTY_VIEW_ID, $user_view_rel_content_object->get_view_id());
+		$conditions[] = new EqualityCondition(UserViewRelContentObject :: PROPERTY_LEARNING_OBJECT_TYPE, $user_view_rel_content_object->get_content_object_type());
 
 		$condition = new AndCondition($conditions);
 
-		return $this->database->update($user_view_rel_learning_object, $condition);
+		return $this->database->update($user_view_rel_content_object, $condition);
 	}
 
-    function update_learning_object_pub_feedback($learning_object_pub_feedback)
+    function update_content_object_pub_feedback($content_object_pub_feedback)
 	{
-		$conditions[] = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_PUBLICATION_ID, $learning_object_pub_feedback->get_publication_id());
-		$conditions[] = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_CLOI_ID, $learning_object_pub_feedback->get_cloi_id());
-        $conditions[] = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_FEEDBACK_ID, $learning_object_pub_feedback->get_feedback_id());
+		$conditions[] = new EqualityCondition(ContentObjectPubFeedback :: PROPERTY_PUBLICATION_ID, $content_object_pub_feedback->get_publication_id());
+		$conditions[] = new EqualityCondition(ContentObjectPubFeedback :: PROPERTY_CLOI_ID, $content_object_pub_feedback->get_cloi_id());
+        $conditions[] = new EqualityCondition(ContentObjectPubFeedback :: PROPERTY_FEEDBACK_ID, $content_object_pub_feedback->get_feedback_id());
 
 		$condition = new AndCondition($conditions);
 
-		return $this->database->update($learning_object_pub_feedback, $condition);
+		return $this->database->update($content_object_pub_feedback, $condition);
 	}
 
-	function create_user_view_rel_learning_object($user_view_rel_learning_object)
+	function create_user_view_rel_content_object($user_view_rel_content_object)
 	{
-		return $this->database->create($user_view_rel_learning_object);
+		return $this->database->create($user_view_rel_content_object);
 	}
 
-    function create_learning_object_pub_feedback($learning_object_pub_feedback)
+    function create_content_object_pub_feedback($content_object_pub_feedback)
 	{
-		return $this->database->create($learning_object_pub_feedback);
+		return $this->database->create($content_object_pub_feedback);
 	}
 
-	function retrieve_user_view_rel_learning_objects($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_user_view_rel_content_objects($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return $this->database->retrieve_objects('user_view_rel_learning_object', $condition, $offset, $count, $order_property, $order_direction);
+		return $this->database->retrieve_objects('user_view_rel_content_object', $condition, $offset, $count, $order_property, $order_direction);
 	}
 
-    function retrieve_learning_object_pub_feedback($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_content_object_pub_feedback($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return $this->database->retrieve_objects('learning_object_pub_feedback', $condition, $offset, $count, $order_property, $order_direction);
+		return $this->database->retrieve_objects('content_object_pub_feedback', $condition, $offset, $count, $order_property, $order_direction);
 	}
 
-    function delete_learning_object_pub_feedback($learning_object_pub_feedback)
+    function delete_content_object_pub_feedback($content_object_pub_feedback)
 	{
 
-        $condition = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_FEEDBACK_ID, $learning_object_pub_feedback->get_feedback_id());
+        $condition = new EqualityCondition(ContentObjectPubFeedback :: PROPERTY_FEEDBACK_ID, $content_object_pub_feedback->get_feedback_id());
 
-		$success = $this->database->delete('learning_object_pub_feedback', $condition);
+		$success = $this->database->delete('content_object_pub_feedback', $condition);
 
 		return $success;
 	}
 
 	function reset_user_view($user_view)
 	{
-		$query = 'UPDATE '.$this->database->escape_table_name('user_view_rel_learning_object').' SET '.
-				 $this->database->escape_column_name(UserViewRelLearningObject :: PROPERTY_VISIBILITY).'=0 WHERE '.
-				 $this->database->escape_column_name(UserViewRelLearningObject :: PROPERTY_VIEW_ID).'=?;';
+		$query = 'UPDATE '.$this->database->escape_table_name('user_view_rel_content_object').' SET '.
+				 $this->database->escape_column_name(UserViewRelContentObject :: PROPERTY_VISIBILITY).'=0 WHERE '.
+				 $this->database->escape_column_name(UserViewRelContentObject :: PROPERTY_VIEW_ID).'=?;';
 
 		$statement = $this->database->get_connection()->prepare($query);
 		return $statement->execute(array($user_view->get_id()));
@@ -1638,104 +1638,104 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
     function retrieve_last_post($forum_id)
     {
-        $alias = $this->database->get_alias('complex_learning_object_item');
-    	$query = 'SELECT ' . $alias . '.* , fo.last_post, fot.last_post, cloi2.add_date from '.$this->database->escape_table_name('complex_learning_object_item') . ' AS ' . $alias . 
+        $alias = $this->database->get_alias('complex_content_object_item');
+    	$query = 'SELECT ' . $alias . '.* , fo.last_post, fot.last_post, cloi2.add_date from '.$this->database->escape_table_name('complex_content_object_item') . ' AS ' . $alias . 
                  ' LEFT JOIN ' . $this->database->escape_table_name('forum') . ' AS fo ON fo.id=' . $alias . '.ref' .
     			 ' LEFT JOIN ' . $this->database->escape_table_name('forum_topic') . ' AS fot ON fot.id=' . $alias . '.ref' .
-    			 ' LEFT JOIN ' . $this->database->escape_table_name('complex_learning_object_item') . ' AS cloi2 ON cloi2.id=fo.last_post OR cloi2.id=fot.last_post' . 
+    			 ' LEFT JOIN ' . $this->database->escape_table_name('complex_content_object_item') . ' AS cloi2 ON cloi2.id=fo.last_post OR cloi2.id=fot.last_post' . 
                  ' WHERE ' . $alias . '.parent=? ORDER BY '.$this->database->escape_column_name('cloi2.add_date').' DESC LIMIT 1';
         $statement = $this->database->get_connection()->prepare($query); 
         $res = $statement->execute($forum_id);
-        return new DatabaseComplexLearningObjectItemResultSet($this, $res, true);
+        return new DatabaseComplexContentObjectItemResultSet($this, $res, true);
     }
     
-    function create_learning_object_metadata($learning_object_metadata)
+    function create_content_object_metadata($content_object_metadata)
 	{
-	    $created = $learning_object_metadata->get_creation_date();
+	    $created = $content_object_metadata->get_creation_date();
 	    if(is_numeric($created))
 	    {
-	        $learning_object_metadata->set_creation_date(self :: to_db_date($learning_object_metadata->get_creation_date()));
+	        $content_object_metadata->set_creation_date(self :: to_db_date($content_object_metadata->get_creation_date()));
 	    }
 	    
-		return $this->database->create($learning_object_metadata);
+		return $this->database->create($content_object_metadata);
 	}
 	
-	function update_learning_object_metadata($learning_object_metadata)
+	function update_content_object_metadata($content_object_metadata)
 	{
-	    $condition = new EqualityCondition(LearningObjectMetadata :: PROPERTY_ID, $learning_object_metadata->get_id());
+	    $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_ID, $content_object_metadata->get_id());
 
-	    $date = $learning_object_metadata->get_modification_date();
+	    $date = $content_object_metadata->get_modification_date();
 	    if(is_numeric($date))
 	    {
-	        $learning_object_metadata->set_modification_date(self :: to_db_date($learning_object_metadata->get_modification_date()));
+	        $content_object_metadata->set_modification_date(self :: to_db_date($content_object_metadata->get_modification_date()));
 	    }
 	    
-		return $this->database->update($learning_object_metadata, $condition);
+		return $this->database->update($content_object_metadata, $condition);
 	}
 	
-	function delete_learning_object_metadata($learning_object_metadata)
+	function delete_content_object_metadata($content_object_metadata)
 	{
-	    $condition = new EqualityCondition(LearningObjectMetadata :: PROPERTY_ID, $learning_object_metadata->get_id());
-		return $this->database->delete($learning_object_metadata->get_table_name(), $condition);
+	    $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_ID, $content_object_metadata->get_id());
+		return $this->database->delete($content_object_metadata->get_table_name(), $condition);
 	}
 	
-	function retrieve_learning_object_metadata($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+	function retrieve_content_object_metadata($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 	{
-		return $this->database->retrieve_objects(LearningObjectMetadata :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+		return $this->database->retrieve_objects(ContentObjectMetadata :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
 	}
 	
-	function get_next_learning_object_metadata_id()
+	function get_next_content_object_metadata_id()
 	{
-	    return $this->connection->nextID($this->get_table_name('learning_object_metadata'));
+	    return $this->connection->nextID($this->get_table_name('content_object_metadata'));
 	}
 	
-//	function retrieve_learning_object_metadata_catalog($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+//	function retrieve_content_object_metadata_catalog($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
 //	{
-//		return $this->database->retrieve_objects(LearningObjectMetadataCatalog :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+//		return $this->database->retrieve_objects(ContentObjectMetadataCatalog :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
 //	}
 	
-	function get_next_learning_object_metadata_catalog_id()
+	function get_next_content_object_metadata_catalog_id()
 	{
-	    return $this->connection->nextID($this->get_table_name('learning_object_metadata_catalog'));
+	    return $this->connection->nextID($this->get_table_name('content_object_metadata_catalog'));
 	}
 	
-	function create_learning_object_metadata_catalog($learning_object_metadata_catalog)
+	function create_content_object_metadata_catalog($content_object_metadata_catalog)
 	{
-	    $created = $learning_object_metadata_catalog->get_creation_date();
+	    $created = $content_object_metadata_catalog->get_creation_date();
 	    if(is_numeric($created))
 	    {
-	        $learning_object_metadata_catalog->set_creation_date(self :: to_db_date($learning_object_metadata_catalog->get_creation_date()));
+	        $content_object_metadata_catalog->set_creation_date(self :: to_db_date($content_object_metadata_catalog->get_creation_date()));
 	    }
 	    
-		return $this->database->create($learning_object_metadata_catalog);
+		return $this->database->create($content_object_metadata_catalog);
 	}
 	
-	function update_learning_object_metadata_catalog($learning_object_metadata_catalog)
+	function update_content_object_metadata_catalog($content_object_metadata_catalog)
 	{
-	    $condition = new EqualityCondition(LearningObjectMetadata :: PROPERTY_ID, $learning_object_metadata_catalog->get_id());
+	    $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_ID, $content_object_metadata_catalog->get_id());
 
-	    $date = $learning_object_metadata_catalog->get_modification_date();
+	    $date = $content_object_metadata_catalog->get_modification_date();
 	    if(is_numeric($date))
 	    {
-	        $learning_object_metadata_catalog->set_modification_date(self :: to_db_date($learning_object_metadata_catalog->get_modification_date()));
+	        $content_object_metadata_catalog->set_modification_date(self :: to_db_date($content_object_metadata_catalog->get_modification_date()));
 	    }
 	    
-		return $this->database->update($learning_object_metadata_catalog, $condition);
+		return $this->database->update($content_object_metadata_catalog, $condition);
 	}
 	
-	function delete_learning_object_metadata_catalog($learning_object_metadata_catalog)
+	function delete_content_object_metadata_catalog($content_object_metadata_catalog)
 	{
-	    $condition = new EqualityCondition(LearningObjectMetadata :: PROPERTY_ID, $learning_object_metadata_catalog->get_id());
-		return $this->database->delete($learning_object_metadata_catalog->get_table_name(), $condition);
+	    $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_ID, $content_object_metadata_catalog->get_id());
+		return $this->database->delete($content_object_metadata_catalog->get_table_name(), $condition);
 	}
 	
 	function set_new_clo_version($lo_id, $new_lo_id)
 	{
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $lo_id, ComplexLearningObjectItem :: get_table_name());
+		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $lo_id, ComplexContentObjectItem :: get_table_name());
 		$props = array();
-		$props[$this->database->escape_column_name(ComplexLearningObjectItem :: PROPERTY_PARENT)] = $new_lo_id;
+		$props[$this->database->escape_column_name(ComplexContentObjectItem :: PROPERTY_PARENT)] = $new_lo_id;
 		$this->connection->loadModule('Extended');
-        return $this->connection->extended->autoExecute($this->get_table_name(ComplexLearningObjectItem :: get_table_name()), $props, MDB2_AUTOQUERY_UPDATE, $condition);
+        return $this->connection->extended->autoExecute($this->get_table_name(ComplexContentObjectItem :: get_table_name()), $props, MDB2_AUTOQUERY_UPDATE, $condition);
 	}
 	
 	function retrieve_external_export($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)

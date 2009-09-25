@@ -16,7 +16,7 @@ class IeeeLomDefaultMetadataGenerator
     private $ieeeLom;
     private $user_data_manager;
     private $admin_data_manager;
-    private $learning_object;
+    private $content_object;
     private $additional_metadata;
     
     public function IeeeLomDefaultMetadataGenerator()
@@ -27,9 +27,9 @@ class IeeeLomDefaultMetadataGenerator
     }
     
     
-    function set_learning_object($learning_object)
+    function set_content_object($content_object)
     {
-        $this->learning_object = $learning_object;
+        $this->content_object = $content_object;
     }
     
     
@@ -41,7 +41,7 @@ class IeeeLomDefaultMetadataGenerator
 	 * 
 	 * These default metadata could then be extended by using the IeeeLomMapper class
 	 * 
-	 * @param LearningObject $learning_object
+	 * @param ContentObject $content_object
 	 * @return IeeeLom the generated metadata
 	 */
 	public function generate()
@@ -50,9 +50,9 @@ class IeeeLomDefaultMetadataGenerator
 		$this->add_lifeCycle();
 	    $this->add_metametadata();
 	    
-		if(method_exists('IeeeLomDefaultMetadataGenerator','add_specific_metadata_for_' . $this->learning_object->get_type()))
+		if(method_exists('IeeeLomDefaultMetadataGenerator','add_specific_metadata_for_' . $this->content_object->get_type()))
 		{
-			call_user_func(array('IeeeLomDefaultMetadataGenerator','add_specific_metadata_for_' . $this->learning_object->get_type()), $this->learning_object, $this->ieeeLom);
+			call_user_func(array('IeeeLomDefaultMetadataGenerator','add_specific_metadata_for_' . $this->content_object->get_type()), $this->content_object, $this->ieeeLom);
 		}
 		
 		return $this->ieeeLom;	
@@ -61,19 +61,19 @@ class IeeeLomDefaultMetadataGenerator
 	
 	private function add_general()
 	{
-	    $this->ieeeLom->add_title(new IeeeLomLangString($this->learning_object->get_title(), IeeeLom :: NO_LANGUAGE));
-	    $this->ieeeLom->add_identifier(PlatformSetting :: get('institution_url', 'admin'), $this->learning_object->get_id());
-	    $this->ieeeLom->add_description(new IeeeLomLangString($this->learning_object->get_description(), IeeeLom :: NO_LANGUAGE));
+	    $this->ieeeLom->add_title(new IeeeLomLangString($this->content_object->get_title(), IeeeLom :: NO_LANGUAGE));
+	    $this->ieeeLom->add_identifier(PlatformSetting :: get('institution_url', 'admin'), $this->content_object->get_id());
+	    $this->ieeeLom->add_description(new IeeeLomLangString($this->content_object->get_description(), IeeeLom :: NO_LANGUAGE));
 	}
 	
 	private function add_lifeCycle()
 	{
-	    $owner = $this->user_data_manager->retrieve_user($this->learning_object->get_owner_id());
+	    $owner = $this->user_data_manager->retrieve_user($this->content_object->get_owner_id());
 
-	    $this->ieeeLom->set_version(new IeeeLomLangString($this->learning_object->get_learning_object_edition(), IeeeLom :: NO_LANGUAGE));
-	    $this->ieeeLom->set_status(new IeeeLomVocabulary(($this->learning_object->is_latest_version() == TRUE ? 'final' : 'draft')));
+	    $this->ieeeLom->set_version(new IeeeLomLangString($this->content_object->get_content_object_edition(), IeeeLom :: NO_LANGUAGE));
+	    $this->ieeeLom->set_status(new IeeeLomVocabulary(($this->content_object->is_latest_version() == TRUE ? 'final' : 'draft')));
 	    
-	    $all_versions = $this->learning_object->get_learning_object_versions();
+	    $all_versions = $this->content_object->get_content_object_versions();
 		foreach($all_versions as $version)
 		{
 			$versionowner = $this->user_data_manager->retrieve_user($version->get_owner_id());
@@ -89,7 +89,7 @@ class IeeeLomDefaultMetadataGenerator
 	private function add_metametadata()
 	{
 	    $this->ieeeLom->add_metadata_schema(IeeeLom :: VERSION);
-	    $this->ieeeLom->add_metadata_identifier(PlatformSetting :: get('institution', 'admin'), $this->learning_object->get_id());
+	    $this->ieeeLom->add_metadata_identifier(PlatformSetting :: get('institution', 'admin'), $this->content_object->get_id());
 	    
 	    $vcard = new Contact_Vcard_Build();
 		$vcard->setFormattedName(PlatformSetting :: get('institution',     'admin'));
@@ -104,28 +104,28 @@ class IeeeLomDefaultMetadataGenerator
 	
 	/**
 	 * This function will add some document specific metadata.
-	 * @param LearningObject $learning_object
+	 * @param ContentObject $content_object
 	 * @param IeeeLom $lom The metadata to extend
 	 */
-	function add_specific_metadata_for_document($learning_object, $ieeeLom)
+	function add_specific_metadata_for_document($content_object, $ieeeLom)
 	{
-		$this->ieeeLom->set_size($this->learning_object->get_filesize());
+		$this->ieeeLom->set_size($this->content_object->get_filesize());
 		
-		$url = Path :: get(WEB_PATH) . RepositoryManager :: get_document_downloader_url($learning_object->get_id());
+		$url = Path :: get(WEB_PATH) . RepositoryManager :: get_document_downloader_url($content_object->get_id());
 		$this->ieeeLom->add_location($url);
 		
 		//TODO: FileInfo is an experimental extension of PHP.
 		//$finfo = finfo_open(FILEINFO_MIME,'C:/wamp/php/extras/magic');
-		//$lom->add_format(finfo_file($finfo, $learning_object->get_full_path()));
+		//$lom->add_format(finfo_file($finfo, $content_object->get_full_path()));
 		//finfo_close($finfo);
 	}	
 	
-	function add_specific_metadata_for_wiki($learning_object, $ieeeLom)
+	function add_specific_metadata_for_wiki($content_object, $ieeeLom)
 	{
 	    
 	}
 	
-	function add_specific_metadata_for_link($learning_object, $ieeeLom)
+	function add_specific_metadata_for_link($content_object, $ieeeLom)
 	{
 	    
 	}
@@ -133,7 +133,7 @@ class IeeeLomDefaultMetadataGenerator
 	/*
 	 * 
 	 *
-	function add_specific_metadata_for_... ($learning_object, $ieeeLom)
+	function add_specific_metadata_for_... ($content_object, $ieeeLom)
 	{
 	    
 	}

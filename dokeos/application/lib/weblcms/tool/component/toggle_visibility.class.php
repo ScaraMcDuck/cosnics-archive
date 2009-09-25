@@ -23,7 +23,7 @@ class ToolToggleVisibilityComponent extends ToolComponent
 
 			foreach($publication_ids as $index => $pid)
 			{
-				$publication = $datamanager->retrieve_learning_object_publication($pid);
+				$publication = $datamanager->retrieve_content_object_publication($pid);
 
 				if(Request :: get(PARAM_VISIBILITY))
 				{
@@ -39,11 +39,11 @@ class ToolToggleVisibilityComponent extends ToolComponent
 
 			if(count($publication_ids) > 1)
 			{
-				$message = htmlentities(Translation :: get('LearningObjectPublicationsVisibilityChanged'));
+				$message = htmlentities(Translation :: get('ContentObjectPublicationsVisibilityChanged'));
 			}
 			else
 			{
-				$message = htmlentities(Translation :: get('LearningObjectPublicationVisibilityChanged'));
+				$message = htmlentities(Translation :: get('ContentObjectPublicationVisibilityChanged'));
 			}
 
 			$params = array();

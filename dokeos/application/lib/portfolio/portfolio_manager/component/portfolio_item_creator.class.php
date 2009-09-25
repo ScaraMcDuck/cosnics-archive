@@ -50,7 +50,7 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManagerComp
 			{
 				if($object != 'portfolio')
 				{
-					$new_object = LearningObject :: factory('portfolio_item');
+					$new_object = ContentObject :: factory('portfolio_item');
 					$new_object->set_owner_id($this->get_user_id());
 					$new_object->set_title('portfolio_item');
 					$new_object->set_description('portfolio_item');
@@ -60,7 +60,7 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManagerComp
 					$object = $new_object->get_id();
 				}
 				
-				$wrapper = new ComplexLearningObjectItem();
+				$wrapper = new ComplexContentObjectItem();
 				$wrapper->set_ref($object);
 				$wrapper->set_parent($parent);
 				$wrapper->set_user_id($this->get_user_id());

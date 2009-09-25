@@ -7,7 +7,7 @@ require_once dirname(__FILE__).'/weblcms_manager_component.class.php';
 require_once dirname(__FILE__).'/weblcms_search_form.class.php';
 require_once dirname(__FILE__).'/../../web_application.class.php';
 require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
-require_once dirname(__FILE__).'/../category_manager/learning_object_publication_category.class.php';
+require_once dirname(__FILE__).'/../category_manager/content_object_publication_category.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once dirname(__FILE__).'/../tool/tool.class.php';
 require_once dirname(__FILE__).'/../tool_list_renderer.class.php';
@@ -309,7 +309,7 @@ class WeblcmsManager extends WebApplication
 	 */
 	function get_category($id)
 	{
-		return WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_category($id);
+		return WeblcmsDataManager :: get_instance()->retrieve_content_object_publication_category($id);
 	}
 	/**
 	 * Displays the header of this application
@@ -522,47 +522,47 @@ class WeblcmsManager extends WebApplication
 	/*
 	 * Inherited
 	 */
-	function learning_object_is_published($object_id)
+	function content_object_is_published($object_id)
 	{
-		return WeblcmsDataManager :: get_instance()->learning_object_is_published($object_id);
+		return WeblcmsDataManager :: get_instance()->content_object_is_published($object_id);
 	}
 	/*
 	 * Inherited
 	 */
-	function any_learning_object_is_published($object_ids)
+	function any_content_object_is_published($object_ids)
 	{
-		return WeblcmsDataManager :: get_instance()->any_learning_object_is_published($object_ids);
+		return WeblcmsDataManager :: get_instance()->any_content_object_is_published($object_ids);
 	}
 	/*
 	 * Inherited
 	 */
-	function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return WeblcmsDataManager :: get_instance()->get_learning_object_publication_attributes($this->get_user(), $object_id, $type, $offset, $count, $order_property, $order_direction);
-	}
-
-	/*
-	 * Inherited
-	 */
-	function get_learning_object_publication_attribute($publication_id)
-	{
-		return WeblcmsDataManager :: get_instance()->get_learning_object_publication_attribute($publication_id);
+		return WeblcmsDataManager :: get_instance()->get_content_object_publication_attributes($this->get_user(), $object_id, $type, $offset, $count, $order_property, $order_direction);
 	}
 
 	/*
 	 * Inherited
 	 */
-	function delete_learning_object_publications($object_id)
+	function get_content_object_publication_attribute($publication_id)
 	{
-		return WeblcmsDataManager :: get_instance()->delete_learning_object_publications($object_id);
+		return WeblcmsDataManager :: get_instance()->get_content_object_publication_attribute($publication_id);
 	}
 
 	/*
 	 * Inherited
 	 */
-	function update_learning_object_publication_id($publication_attr)
+	function delete_content_object_publications($object_id)
 	{
-		return WeblcmsDataManager :: get_instance()->update_learning_object_publication_id($publication_attr);
+		return WeblcmsDataManager :: get_instance()->delete_content_object_publications($object_id);
+	}
+
+	/*
+	 * Inherited
+	 */
+	function update_content_object_publication_id($publication_attr)
+	{
+		return WeblcmsDataManager :: get_instance()->update_content_object_publication_id($publication_attr);
 	}
 
 	/**
@@ -576,11 +576,11 @@ class WeblcmsManager extends WebApplication
 	/**
 	 * Inherited
 	 */
-	function get_learning_object_publication_locations($learning_object, $user = null)
+	function get_content_object_publication_locations($content_object, $user = null)
 	{
 		$locations = array();
 
-		$type = $learning_object->get_type();
+		$type = $content_object->get_type();
 
 		//$courses = $this->retrieve_courses($user->get_id());
 		$courses = $this->retrieve_user_courses(new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user->get_id(), CourseUserRelation :: get_table_name()));
@@ -615,16 +615,16 @@ class WeblcmsManager extends WebApplication
 		return $locations;
 	}
 
-	function publish_learning_object($learning_object, $location, $attributes)
+	function publish_content_object($content_object, $location, $attributes)
 	{
 		$location_split = split('-', $location);
 		$course = $location_split[0];
 		$tool = $location_split[1]; //echo $location;
 		$dm = WeblcmsDataManager :: get_instance();
-		$do = $dm->get_next_learning_object_publication_display_order_index($course,$tool,0);
+		$do = $dm->get_next_content_object_publication_display_order_index($course,$tool,0);
 
-		$pub = new LearningObjectPublication();
-		$pub->set_learning_object_id($learning_object->get_id());
+		$pub = new ContentObjectPublication();
+		$pub->set_content_object_id($content_object->get_id());
 		$pub->set_course_id($course);
 		$pub->set_tool($tool);
 		$pub->set_publisher_id(Session :: get_user_id());
@@ -632,7 +632,7 @@ class WeblcmsManager extends WebApplication
 		$pub->set_publication_date(time());
 		$pub->set_modified_date(time());
 		
-		$pub->set_hidden($attributes[LearningObjectPublication :: PROPERTY_HIDDEN]);
+		$pub->set_hidden($attributes[ContentObjectPublication :: PROPERTY_HIDDEN]);
 		if(is_null($pub->is_hidden()))
 			$pub->set_hidden(0);
 			
@@ -653,7 +653,7 @@ class WeblcmsManager extends WebApplication
  	function add_publication_attributes_elements($form)
     {
     	$form->addElement('category', Translation :: get('PublicationDetails'));
-    	$form->addElement('checkbox', self :: APPLICATION_NAME . '_opt_' . LearningObjectPublication :: PROPERTY_HIDDEN, Translation :: get('Hidden'));
+    	$form->addElement('checkbox', self :: APPLICATION_NAME . '_opt_' . ContentObjectPublication :: PROPERTY_HIDDEN, Translation :: get('Hidden'));
     	$form->add_forever_or_timewindow('PublicationPeriod', self :: APPLICATION_NAME . '_opt_');
     	$form->addElement('category');
     	$form->addElement('html', '<br />');
@@ -857,7 +857,7 @@ class WeblcmsManager extends WebApplication
 	/**
 	 * Determines if a tool has new publications  since the last time the
 	 * current user visited the tool.
-	 * @todo This function now uses the count_learning_object_publications
+	 * @todo This function now uses the count_content_object_publications
 	 * function and for each tool a query is executed. All information can be
 	 * retrieved using a single query. WeblcmsDataManager should implement this
 	 * functionality.
@@ -899,17 +899,17 @@ class WeblcmsManager extends WebApplication
 			$user_id = $this->get_user_id();
 
 			$access = array();
-			$access[] = new InCondition('user_id', $user_id, $wdm->get_database()->get_alias('learning_object_publication_user'));
-			$access[] = new InCondition('course_group_id', $course_groups, $wdm->get_database()->get_alias('learning_object_publication_course_group'));
+			$access[] = new InCondition('user_id', $user_id, $wdm->get_database()->get_alias('content_object_publication_user'));
+			$access[] = new InCondition('course_group_id', $course_groups, $wdm->get_database()->get_alias('content_object_publication_course_group'));
 			if (!empty($user_id) || !empty($course_groups))
 			{
-				$access[] = new AndCondition(array(new EqualityCondition('user_id', null, $wdm->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $wdm->get_database()->get_alias('learning_object_publication_course_group'))));
+				$access[] = new AndCondition(array(new EqualityCondition('user_id', null, $wdm->get_database()->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $wdm->get_database()->get_alias('content_object_publication_course_group'))));
 			}
 
 			$conditions[] = new OrCondition($access);
 			$condition = new AndCondition($conditions);
 
-			$new_items = $wdm->count_learning_object_publications_new($condition);
+			$new_items = $wdm->count_content_object_publications_new($condition);
 
 			return $new_items > 0;
 		}

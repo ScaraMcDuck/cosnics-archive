@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
 require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
-require_once dirname(__FILE__).'/../../learning_object_repo_viewer.class.php';
+require_once dirname(__FILE__).'/../../content_object_repo_viewer.class.php';
 
 class WeblcmsManagerIntroductionPublisherComponent extends WeblcmsManagerComponent
 {
@@ -29,13 +29,13 @@ class WeblcmsManagerIntroductionPublisherComponent extends WeblcmsManagerCompone
 		$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_PUBLISH_INTRODUCTION)), Translation :: get('PublishIntroduction')));
 		
 		$trail->add_help('courses general');
-		/*$pub = new LearningObjectPublisher($this, 'introduction', true);
+		/*$pub = new ContentObjectPublisher($this, 'introduction', true);
 
 		$html[] = '<p><a href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE)) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 		$html[] =  $pub->as_html();*/
 
 		$object = Request :: get('object');
-		$pub = new LearningObjectRepoViewer($this, 'introduction', true);
+		$pub = new ContentObjectRepoViewer($this, 'introduction', true);
 
 		if(!isset($object))
 		{
@@ -45,10 +45,10 @@ class WeblcmsManagerIntroductionPublisherComponent extends WeblcmsManagerCompone
 		else
 		{
 			$dm = WeblcmsDataManager :: get_instance();
-			$do = $dm->get_next_learning_object_publication_display_order_index($this->get_course_id(),$this->get_tool_id(),0);
+			$do = $dm->get_next_content_object_publication_display_order_index($this->get_course_id(),$this->get_tool_id(),0);
 
-			$pub = new LearningObjectPublication();
-			$pub->set_learning_object_id($object);
+			$pub = new ContentObjectPublication();
+			$pub->set_content_object_id($object);
 			$pub->set_course_id($this->get_course_id());
 			$pub->set_tool('introduction'); 
 			$pub->set_publisher_id(Session :: get_user_id());

@@ -4,11 +4,11 @@
  * @package repository.learningobject
  * @subpackage note
  */
-require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) . '/../../content_object.class.php';
 /**
  * This class represents an note
  */
-class Note extends LearningObject
+class Note extends ContentObject
 {
 	//Inherited
 	function supports_attachments()

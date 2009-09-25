@@ -8,9 +8,9 @@ class LearningPathScormExport extends ScormExport
 		parent :: __construct($learning_path);
 	}
 	
-	function export_learning_object()
+	function export_content_object()
 	{
-		$learning_path = $this->get_learning_object();
+		$learning_path = $this->get_content_object();
 		
 		$manifest_xml = $this->create_manifest($learning_path);
 		echo $manifest_xml;
@@ -43,11 +43,11 @@ class LearningPathScormExport extends ScormExport
 	
 	function export_learning_path($learning_path)
 	{
-		$chapters_cond = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $learning_path->get_id(), ComplexLearningObjectItem :: get_table_name());
-		$chapters_clos = $this->get_rdm()->retrieve_complex_learning_object_items($chapters_cond);
+		$chapters_cond = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $learning_path->get_id(), ComplexContentObjectItem :: get_table_name());
+		$chapters_clos = $this->get_rdm()->retrieve_complex_content_object_items($chapters_cond);
 		while ($chapter_clo = $chapters_clos->next_result())
 		{
-			$chapter = $this->get_rdm()->retrieve_learning_object($chapter_clo->get_ref());
+			$chapter = $this->get_rdm()->retrieve_content_object($chapter_clo->get_ref());
 			$chapters[] = $chapter;
 		}
 		
@@ -71,11 +71,11 @@ class LearningPathScormExport extends ScormExport
 		$org_xml[] = '<item identifier="ITEM_'.$chapter->get_id().'" identifierref="RESOURCE_'.$chapter->get_id().'" isvisible="true">';
 		$org_xml[] = '<title>'.$chapter->get_title().'</title>';
 		
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $chapter->get_id(), ComplexLearningObjectItem :: get_table_name());
-		$items = $this->get_rdm()->retrieve_complex_learning_object_items($condition);
+		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $chapter->get_id(), ComplexContentObjectItem :: get_table_name());
+		$items = $this->get_rdm()->retrieve_complex_content_object_items($condition);
 		while ($item_clo = $items->next_result())
 		{
-			$item = $this->get_rdm()->retrieve_learning_object($item_clo->get_ref());
+			$item = $this->get_rdm()->retrieve_content_object($item_clo->get_ref());
 			$org_xml[] = $this->export_step_item($item);
 		}
 		$org_xml[] = '</item>';

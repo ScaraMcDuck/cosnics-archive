@@ -38,8 +38,8 @@ class WikiDisplayWikiItemViewerComponent extends WikiDisplayComponent
         */
         if(!empty($this->cid))
         {
-            $cloi = $dm->retrieve_complex_learning_object_item($this->cid);
-            $this->wiki_page = $dm->retrieve_learning_object($cloi->get_ref());
+            $cloi = $dm->retrieve_complex_content_object_item($this->cid);
+            $this->wiki_page = $dm->retrieve_content_object($cloi->get_ref());
         }
 
         $this->action_bar = $this->get_parent()->get_toolbar($this,Request :: get('pid'), $this->get_root_lo(), $this->cid);//$this->get_toolbar();

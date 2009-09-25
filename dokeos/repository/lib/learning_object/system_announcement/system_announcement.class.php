@@ -4,11 +4,11 @@
  * @package repository.learningobject
  * @subpackage system_announcement
  */
-require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) . '/../../content_object.class.php';
 /**
  * This class represents a system announcement
  */
-class SystemAnnouncement extends LearningObject
+class SystemAnnouncement extends ContentObject
 {
 	const PROPERTY_ICON = 'icon';
 

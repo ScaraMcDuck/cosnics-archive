@@ -4,9 +4,9 @@ require_once dirname(__FILE__).'/../question_qti_export.class.php';
 class HotspotQuestionQtiExport extends QuestionQtiExport
 {
 	
-	function export_learning_object()
+	function export_content_object()
 	{
-		$question = $this->get_learning_object();
+		$question = $this->get_content_object();
 		$answers = $question->get_answers();
 		
 		$item_xml[] = '<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1    http://www.imsglobal.org/xsd/imsqti_v2p1.xsd" identifier="q'.$question->get_id().'" title="'.$question->get_title().'" adaptive="false" timeDependent="false">';
@@ -48,14 +48,14 @@ class HotspotQuestionQtiExport extends QuestionQtiExport
 
 		$interaction_xml[] = '<graphicOrderInteraction responseIdentifier="RESPONSE" >';
 		$interaction_xml[] = '<prompt>';
-		$interaction_xml[] = '<p>'.$this->include_question_images($this->get_learning_object()->get_description()).'</p>';
+		$interaction_xml[] = '<p>'.$this->include_question_images($this->get_content_object()->get_description()).'</p>';
 		$interaction_xml[] = '</prompt>';
 		
-		$image = $this->get_learning_object()->get_image();
-		$image_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($image);
+		$image = $this->get_content_object()->get_image();
+		$image_object = RepositoryDataManager :: get_instance()->retrieve_content_object($image);
 		
-		$temp_dir = Path :: get(SYS_TEMP_PATH). $this->get_learning_object()->get_owner_id() . '/export_qti/images/'.$image_object->get_filename();
-		mkdir(Path :: get(SYS_TEMP_PATH). $this->get_learning_object()->get_owner_id() . '/export_qti/images/', null, true);
+		$temp_dir = Path :: get(SYS_TEMP_PATH). $this->get_content_object()->get_owner_id() . '/export_qti/images/'.$image_object->get_filename();
+		mkdir(Path :: get(SYS_TEMP_PATH). $this->get_content_object()->get_owner_id() . '/export_qti/images/', null, true);
 		copy(Path :: get(SYS_FILE_PATH).'repository/'.$image_object->get_path() ,$temp_dir);
 
 		$extension = split('.', $image_object->get_filename());

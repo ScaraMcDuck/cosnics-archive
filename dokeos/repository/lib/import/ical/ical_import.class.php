@@ -2,21 +2,21 @@
 /**
  * @package export
  */
-require_once dirname(__FILE__).'/../learning_object_import.class.php';
+require_once dirname(__FILE__).'/../content_object_import.class.php';
 
 /**
  * Exports learning object to the dokeos learning object format (xml)
  */
-class IcalImport extends LearningObjectImport
+class IcalImport extends ContentObjectImport
 {
-	function IcalImport($learning_object_file, $user, $category)
+	function IcalImport($content_object_file, $user, $category)
 	{
-		parent :: __construct($learning_object_file, $user, $category);	
+		parent :: __construct($content_object_file, $user, $category);	
 	}
 	
-	public function import_learning_object()
+	public function import_content_object()
 	{
-		$file = $this->get_learning_object_file();
+		$file = $this->get_content_object_file();
 		
 		$content = file_get_contents($file['tmp_name']);
 		$lines = explode("\n", $content);

@@ -1,9 +1,9 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../learning_object_publication_form.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
-require_once Path :: get_repository_path() . 'lib/complex_learning_object_item_form.class.php';
-require_once dirname(__FILE__).'/../../learning_object_repo_viewer.class.php';
+require_once dirname(__FILE__) . '/../../content_object_publication_form.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_form.class.php';
+require_once Path :: get_repository_path() . 'lib/complex_content_object_item_form.class.php';
+require_once dirname(__FILE__).'/../../content_object_repo_viewer.class.php';
 
 class ToolWikiLinkCreatorComponent extends ToolComponent
 {
@@ -24,7 +24,7 @@ class ToolWikiLinkCreatorComponent extends ToolComponent
 
 			$type = 'wiki_page';
 
-			$pub = new LearningObjectRepoViewer($this, $type, true);
+			$pub = new ContentObjectRepoViewer($this, $type, true);
 			$pub->set_parameter(Tool :: PARAM_ACTION, WikiTool :: ACTION_ADD_LINK);
 			$pub->set_parameter('pid', $pid);
 			$pub->set_parameter('type', $type);
@@ -49,7 +49,7 @@ class ToolWikiLinkCreatorComponent extends ToolComponent
 
 	private function my_redirect($pid)
 	{
-		$message = htmlentities(Translation :: get('LearningObjectCreated'));
+		$message = htmlentities(Translation :: get('ContentObjectCreated'));
 
 		$params = array();
 		$params['pid'] = $pid;

@@ -3,9 +3,9 @@ require_once dirname(__FILE__).'/../question_qti_export.class.php';
 
 class MatchQuestionQtiExport extends QuestionQtiExport
 {
-	function export_learning_object()
+	function export_content_object()
 	{
-		$question = $this->get_learning_object();
+		$question = $this->get_content_object();
 		$answers = $question->get_options();
 		
 		$item_xml = array();
@@ -58,7 +58,7 @@ class MatchQuestionQtiExport extends QuestionQtiExport
 	function get_interaction_xml($answers)
 	{
 		$interaction_xml[] = '<itemBody>';
-		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_learning_object()->get_description()).'</prompt>';
+		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_content_object()->get_description()).'</prompt>';
 		$interaction_xml[] = '<textEntryInteraction responseIdentifier="RESPONSE" expectedLength="50" />';
 		/*foreach($answers as $i => $answer)
 		{

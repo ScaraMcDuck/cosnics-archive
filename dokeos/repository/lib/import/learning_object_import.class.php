@@ -7,12 +7,12 @@
  * Abstract class to export tabular data.
  * Create a new type of export by extending this class.
  */
-abstract class LearningObjectImport
+abstract class ContentObjectImport
 {
 	/**
 	 * The imported lo's file properties.
 	 */
-	private $learning_object_file;
+	private $content_object_file;
 	
 	/**
 	 * The user importing the lo.
@@ -28,9 +28,9 @@ abstract class LearningObjectImport
 	 * Constructor
 	 * @param string $filename
 	 */
-	public function LearningObjectImport($learning_object_file, $user, $category)
+	public function ContentObjectImport($content_object_file, $user, $category)
 	{
-		$this->learning_object_file = $learning_object_file;
+		$this->content_object_file = $content_object_file;
 		$this->user = $user;
 		$this->category = $category;
 	}
@@ -38,9 +38,9 @@ abstract class LearningObjectImport
 	 * Gets the learning object file
 	 * @return array
 	 */
-	function get_learning_object_file()
+	function get_content_object_file()
 	{
-		return $this->learning_object_file;
+		return $this->content_object_file;
 	}
 	
 	function get_user()
@@ -57,9 +57,9 @@ abstract class LearningObjectImport
 	 * Gets a learning object file property
 	 * @return array
 	 */
-	function get_learning_object_file_property($name)
+	function get_content_object_file_property($name)
 	{
-		return $this->learning_object_file[$name];
+		return $this->content_object_file[$name];
 	}
 
 	/**
@@ -93,14 +93,14 @@ abstract class LearningObjectImport
 	 * @param string $filename The desired filename for the export file
 	 * (extension will be automatically added depending on the given $type)
 	 */
-	public static function factory($type, $learning_object_file, $user, $category)
+	public static function factory($type, $content_object_file, $user, $category)
 	{
 		$file = dirname(__FILE__).'/'.$type.'/'.$type.'_import.class.php';
 		$class = DokeosUtilities :: underscores_to_camelcase($type).'Import';
 		if(file_exists($file))
 		{
 			require_once($file);
-			return new $class($learning_object_file, $user, $category);
+			return new $class($content_object_file, $user, $category);
 		}
 	}
 	
@@ -109,6 +109,6 @@ abstract class LearningObjectImport
 		return Path :: get($path_type);
 	}
 	
-	abstract function import_learning_object();
+	abstract function import_content_object();
 }
 ?>

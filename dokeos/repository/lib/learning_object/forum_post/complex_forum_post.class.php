@@ -3,9 +3,9 @@
  * @package repository.learningobject
  * @subpackage forum_post
  */
-require_once dirname(__FILE__) . '/../../complex_learning_object_item.class.php';
+require_once dirname(__FILE__) . '/../../complex_content_object_item.class.php';
 
-class ComplexForumPost extends ComplexLearningObjectItem
+class ComplexForumPost extends ComplexContentObjectItem
 {
 	const PROPERTY_REPLY_ON_POST = 'reply_on_post_id';
 	
@@ -28,7 +28,7 @@ class ComplexForumPost extends ComplexLearningObjectItem
 	{
 		parent :: create();
 		
-		$parent = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->get_parent());
+		$parent = RepositoryDataManager :: get_instance()->retrieve_content_object($this->get_parent());
 		$parent->add_post(); 
                 $parent->add_last_post($this->get_id());
                 $parent->recalculate_last_post();
@@ -42,13 +42,13 @@ class ComplexForumPost extends ComplexLearningObjectItem
 		
 		$datamanager = RepositoryDataManager :: get_instance();
 		
-		$parent = $datamanager->retrieve_learning_object($this->get_parent());
+		$parent = $datamanager->retrieve_content_object($this->get_parent());
 		$parent->remove_post();
 		
-		$siblings = $datamanager->count_complex_learning_object_items(new EqualityCondition('parent', $this->get_parent()));
+		$siblings = $datamanager->count_complex_content_object_items(new EqualityCondition('parent', $this->get_parent()));
 		if($siblings == 0)
 		{
-			$wrappers = $datamanager->retrieve_complex_learning_object_items(new EqualityCondition('ref', $this->get_parent()));
+			$wrappers = $datamanager->retrieve_complex_content_object_items(new EqualityCondition('ref', $this->get_parent()));
 			while($wrapper = $wrappers->next_result())
 			{
 				$wrapper->delete();

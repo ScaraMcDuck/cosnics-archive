@@ -32,7 +32,7 @@ class AlexiaPublicationForm extends FormValidator
 	/**
 	 * The learning object that will be published
 	 */
-	private $learning_object;
+	private $content_object;
 	/**
 	 * The publication that will be changed (when using this form to edit a
 	 * publication)
@@ -45,16 +45,16 @@ class AlexiaPublicationForm extends FormValidator
 
 	/**
 	 * Creates a new learning object publication form.
-	 * @param LearningObject The learning object that will be published
+	 * @param ContentObject The learning object that will be published
 	 * @param string $tool The tool in which the object will be published
 	 * @param boolean $email_option Add option in form to send the learning
 	 * object by email to the receivers
 	 */
-    function AlexiaPublicationForm($form_type, $learning_object, $form_user, $action)
+    function AlexiaPublicationForm($form_type, $content_object, $form_user, $action)
     {
 		parent :: __construct('publish', 'post', $action);
 		$this->form_type = $form_type;
-		$this->learning_object = $learning_object;
+		$this->content_object = $content_object;
 		$this->form_user = $form_user;
 
 		switch($this->form_type)
@@ -73,7 +73,7 @@ class AlexiaPublicationForm extends FormValidator
     /**
      * Sets the publication. Use this function if you're using this form to
      * change the settings of a learning object publication.
-     * @param LearningObjectPublication $publication
+     * @param ContentObjectPublication $publication
      */
     function set_publication($publication)
     {
@@ -155,7 +155,7 @@ class AlexiaPublicationForm extends FormValidator
     function build_multi_form()
     {
     	$this->build_form();
-    	$this->addElement('hidden', 'ids', serialize($this->learning_object));
+    	$this->addElement('hidden', 'ids', serialize($this->content_object));
     }
 
 	/**
@@ -192,9 +192,9 @@ class AlexiaPublicationForm extends FormValidator
 
 	/**
 	 * Creates a learning object publication using the values from the form.
-	 * @return LearningObjectPublication The new publication
+	 * @return ContentObjectPublication The new publication
 	 */
-    function create_learning_object_publication()
+    function create_content_object_publication()
     {
 		$values = $this->exportValues();
 		if ($values[self :: PARAM_FOREVER] != 0)
@@ -212,7 +212,7 @@ class AlexiaPublicationForm extends FormValidator
 		$groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
 
 		$pub = new AlexiaPublication();
-		$pub->set_learning_object($this->learning_object->get_id());
+		$pub->set_content_object($this->content_object->get_id());
 		$pub->set_publisher($this->form_user->get_id());
 		$pub->set_published(time());
 		$pub->set_from_date($from);
@@ -231,7 +231,7 @@ class AlexiaPublicationForm extends FormValidator
 		}
     }
 
-    function create_learning_object_publications()
+    function create_content_object_publications()
     {
 		$values = $this->exportValues();
 		if ($values[self :: PARAM_FOREVER] != 0)
@@ -253,7 +253,7 @@ class AlexiaPublicationForm extends FormValidator
     	foreach($ids as $id)
     	{
 			$pub = new AlexiaPublication();
-			$pub->set_learning_object($id);
+			$pub->set_content_object($id);
 			$pub->set_publisher($this->form_user->get_id());
 			$pub->set_published(time());
 			$pub->set_from_date($from);
@@ -270,7 +270,7 @@ class AlexiaPublicationForm extends FormValidator
     	return true;
     }
     
-    function update_learning_object_publication()
+    function update_content_object_publication()
     {
 		$values = $this->exportValues();
 		if ($values[self :: PARAM_FOREVER] != 0)

@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__) . '/../survey_builder_component.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
-require_once Path :: get_repository_path() . '/lib/learning_object/survey/survey.class.php';
+require_once Path :: get_repository_path() . '/lib/content_object/survey/survey.class.php';
 
 class SurveyBuilderBrowserComponent extends SurveyBuilderComponent
 {
@@ -24,7 +24,7 @@ class SurveyBuilderBrowserComponent extends SurveyBuilderComponent
 			echo '<br />';
 		}
 
-		$display = LearningObjectDisplay :: factory($this->get_root_lo());
+		$display = ContentObjectDisplay :: factory($this->get_root_lo());
 		echo $display->get_full_html();
 
 		echo '<br />';

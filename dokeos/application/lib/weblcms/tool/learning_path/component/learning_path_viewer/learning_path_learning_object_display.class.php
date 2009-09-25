@@ -1,15 +1,15 @@
 <?php
 
-require_once Path :: get_repository_path() . 'lib/learning_object_display.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_display.class.php';
 
-class LearningPathLearningObjectDisplay
+class LearningPathContentObjectDisplay
 {
 	private $parent;
 	
 	public static function factory($parent, $type)
 	{
-		$class = LearningObject :: type_to_class($type).'Display';
-		$file = dirname(__FILE__).'/learning_object_display/'.$type.'.class.php';
+		$class = ContentObject :: type_to_class($type).'Display';
+		$file = dirname(__FILE__).'/content_object_display/'.$type.'.class.php';
 	
 		if(file_exists($file))
 		{
@@ -20,7 +20,7 @@ class LearningPathLearningObjectDisplay
 			return new self($parent);
 	}
 	
-	function LearningPathLearningObjectDisplay($parent)
+	function LearningPathContentObjectDisplay($parent)
 	{
 		$this->parent = $parent;
 	}
@@ -30,9 +30,9 @@ class LearningPathLearningObjectDisplay
 		return $this->parent;
 	}
 	
-	function display_learning_object($object)
+	function display_content_object($object)
 	{
-		$display = LearningObjectDisplay :: factory($object);
+		$display = ContentObjectDisplay :: factory($object);
 		return $display->get_full_html() . "\n" . $this->add_tracking_javascript();
 	}
 	

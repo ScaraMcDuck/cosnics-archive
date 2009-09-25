@@ -6,7 +6,7 @@
 /**
  * This class can be used to get the difference between assessments
  */
-class SurveyDifference extends LearningObjectDifference
+class SurveyDifference extends ContentObjectDifference
 {
 }
 ?>

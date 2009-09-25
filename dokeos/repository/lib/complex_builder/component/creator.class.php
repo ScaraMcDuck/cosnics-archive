@@ -23,7 +23,7 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
 
 		if($this->get_cloi())
 		{
-			$lo = $this->rdm->retrieve_learning_object($this->get_cloi()->get_ref());
+			$lo = $this->rdm->retrieve_content_object($this->get_cloi()->get_ref());
 		}
 		else
 		{
@@ -66,15 +66,15 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
 
 			foreach($object as $obj)
 			{
-				$type = $rdm->determine_learning_object_type($obj);
+				$type = $rdm->determine_content_object_type($obj);
 
-				$cloi = ComplexLearningObjectItem :: factory($type);
+				$cloi = ComplexContentObjectItem :: factory($type);
 				$cloi->set_ref($obj);
 
 				$parent = $root_lo;
 				if($cloi_id)
 				{
-					$parent_cloi = $rdm->retrieve_complex_learning_object_item($cloi_id);
+					$parent_cloi = $rdm->retrieve_complex_content_object_item($cloi_id);
 					$parent = $parent_cloi->get_ref();
 				}
 
@@ -86,7 +86,7 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
 
 			$this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO, ComplexBuilder :: PARAM_ROOT_LO => $root_lo, ComplexBuilder :: PARAM_CLOI_ID => $cloi_id, 'publish' => Request :: get('publish')));
 		}
-        $trail->add(new BreadCrumb($this->get_url(array('builder_action' => null, 'root_lo' => $root_lo, 'publish' => Request :: get('publish'))), RepositoryDataManager :: get_instance()->retrieve_learning_object($root_lo)->get_title()));
+        $trail->add(new BreadCrumb($this->get_url(array('builder_action' => null, 'root_lo' => $root_lo, 'publish' => Request :: get('publish'))), RepositoryDataManager :: get_instance()->retrieve_content_object($root_lo)->get_title()));
         $trail->add(new BreadCrumb($this->get_url(array('builder_action' => 'create_cloi', 'type' => Request :: get('type'), 'root_lo' => $root_lo, 'publish' => Request :: get('publish'))), Translation :: get('Create').' '.Translation :: get(DokeosUtilities ::underscores_to_camelcase(Request :: get('type')))));
 
         $this->display_header($trail);
@@ -98,7 +98,7 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
 	{
 		$items = array();
 
-		$clois = $this->rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $parent, ComplexLearningObjectItem :: get_table_name()));
+		$clois = $this->rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent, ComplexContentObjectItem :: get_table_name()));
 		while($cloi = $clois->next_result())
 		{
 			if($cloi->is_complex())

@@ -6,7 +6,7 @@ require_once dirname(__FILE__).'/../common/global.inc.php';
 require_once dirname(__FILE__).'/lib/category_manager/repository_category.class.php';
 require_once dirname(__FILE__).'/lib/repository_data_manager.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
-require_once dirname(__FILE__).'/lib/learning_object.class.php';
+require_once dirname(__FILE__).'/lib/content_object.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once Path :: get_library_path().'condition/not_condition.class.php';
 require_once Path :: get_library_path().'condition/and_condition.class.php';
@@ -18,13 +18,13 @@ if (Authentication :: is_valid())
 {
 	$conditions = array ();
 
-	$query_condition = DokeosUtilities :: query_to_condition(Request :: get('query'), LearningObject :: PROPERTY_TITLE);
+	$query_condition = DokeosUtilities :: query_to_condition(Request :: get('query'), ContentObject :: PROPERTY_TITLE);
 	if (isset ($query_condition))
 	{
 		$conditions[] = $query_condition;
 	}
 
-	$owner_condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
+	$owner_condition = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
 	$conditions[] = $owner_condition;
 
 	if (is_array(Request :: get('exclude')))
@@ -32,7 +32,7 @@ if (Authentication :: is_valid())
 		$c = array ();
 		foreach (Request :: get('exclude') as $id)
 		{
-			$c[] = new EqualityCondition(LearningObject :: PROPERTY_ID, $id, LearningObject :: get_table_name());
+			$c[] = new EqualityCondition(ContentObject :: PROPERTY_ID, $id, ContentObject :: get_table_name());
 		}
 		$conditions[] = new NotCondition(new OrCondition($c));
 	}
@@ -40,8 +40,8 @@ if (Authentication :: is_valid())
 	$condition = new AndCondition($conditions);
 
 	$dm = RepositoryDataManager :: get_instance();
-        $order_property[] = new ObjectTableOrder(LearningObject::PROPERTY_TITLE);
-	$objects = $dm->retrieve_learning_objects(null, $condition, $order_property);
+        $order_property[] = new ObjectTableOrder(ContentObject::PROPERTY_TITLE);
+	$objects = $dm->retrieve_content_objects(null, $condition, $order_property);
 
 	while ($lo = $objects->next_result())
 	{
@@ -129,7 +129,7 @@ function dump_tree($tree, $objects)
 		foreach ($objects[$id] as $lo)
 		{
 			$id = $lo->get_id();
-			$value = DokeosUtilities :: learning_object_for_element_finder($lo);
+			$value = DokeosUtilities :: content_object_for_element_finder($lo);
 			echo '<leaf id="lo_', $id, '" classes="', $value['classes'], '" title="', htmlentities($value['title']), '" description="', htmlentities($value['description']), '"/>', "\n";
 		}
 		echo '</node>', "\n";

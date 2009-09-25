@@ -9,7 +9,7 @@
 /**
  * This class can be used to display personal messages
  */
-class PersonalMessageDisplay extends LearningObjectDisplay
+class PersonalMessageDisplay extends ContentObjectDisplay
 {
 }
 ?>

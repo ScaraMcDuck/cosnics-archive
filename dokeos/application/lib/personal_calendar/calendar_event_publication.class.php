@@ -104,7 +104,7 @@ class CalendarEventPublication extends DataClass
 	function get_publication_object()
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-		return $rdm->retrieve_learning_object($this->get_calendar_event());
+		return $rdm->retrieve_content_object($this->get_calendar_event());
 	}
 
 	function get_publication_publisher()

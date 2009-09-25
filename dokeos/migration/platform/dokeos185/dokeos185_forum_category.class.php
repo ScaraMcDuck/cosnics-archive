@@ -4,7 +4,7 @@
  */
 
 require_once dirname(__FILE__).'/../../lib/import/import_forum_category.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/category_manager/learning_object_publication_category.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/category_manager/content_object_publication_category.class.php';
 
 /**
  * This class presents a Dokeos185 forum_category
@@ -159,7 +159,7 @@ class Dokeos185ForumCategory extends ImportForumCategory
 	{	
 		//Course category parameters
 		$mgdm = MigrationDataManager :: get_instance();
-		$lcms_forum_category = new LearningObjectPublicationCategory();
+		$lcms_forum_category = new ContentObjectPublicationCategory();
 		$course = $array['course'];
 		
 		if($this->get_cat_title())
@@ -179,7 +179,7 @@ class Dokeos185ForumCategory extends ImportForumCategory
 		$lcms_forum_category->create();
 		
 		//Add id references to temp table
-		$mgdm->add_id_reference($old_id, $lcms_forum_category->get_id(), 'weblcms_learning_object_publication_category');
+		$mgdm->add_id_reference($old_id, $lcms_forum_category->get_id(), 'weblcms_content_object_publication_category');
 		
 		return $lcms_forum_category;
 	}

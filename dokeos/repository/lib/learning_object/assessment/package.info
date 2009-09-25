@@ -3,7 +3,7 @@
 	<package>
 		<name>Assessment</name>
 		<code>assessment</code>
-		<section>learning_object</section>
+		<section>content_object</section>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/a/assessment/assessment-1.0.0.zip</filename>
@@ -23,7 +23,7 @@
 					<severity>1</severity>
 				</dependency>
 			</server>
-			<learning_objects>
+			<content_objects>
 				<dependency>
 		  			<id>rating_question</id>
 		  			<version type="4">1.0.0</version>
@@ -74,7 +74,7 @@
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
 				</dependency>
-			</learning_objects>
+			</content_objects>
 		</dependencies>
 	</package>
 </packages>

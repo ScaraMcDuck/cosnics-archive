@@ -4,34 +4,34 @@
  * @package repository.learningobject
  * @subpackage physical_location
  */
-require_once dirname(__FILE__).'/../../learning_object_form.class.php';
+require_once dirname(__FILE__).'/../../content_object_form.class.php';
 require_once dirname(__FILE__).'/physical_location.class.php';
 /**
  * This class represents a form to create or update physical_locations
  */
-class PhysicalLocationForm extends LearningObjectForm
+class PhysicalLocationForm extends ContentObjectForm
 {
 	// Inherited
-	function create_learning_object()
+	function create_content_object()
 	{
 		$object = new PhysicalLocation();
 		$object->set_location($this->exportValue(PhysicalLocation :: PROPERTY_LOCATION));
-		$this->set_learning_object($object);
-		return parent :: create_learning_object();
+		$this->set_content_object($object);
+		return parent :: create_content_object();
 	}
 
-	function update_learning_object()
+	function update_content_object()
 	{
-		$object = $this->get_learning_object();
+		$object = $this->get_content_object();
 		$object->set_location($this->exportValue(PhysicalLocation :: PROPERTY_LOCATION));
-		return parent :: update_learning_object();
+		return parent :: update_content_object();
 	}
 	
 	function set_csv_values($valuearray)
 	{
-		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
-		$defaults[LearningObject :: PROPERTY_PARENT_ID] = $valuearray[1];
-		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[2];
+		$defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
+		$defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
+		$defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];
 		$defaults[PhysicalLocation :: PROPERTY_LOCATION] = $valuearray[3];		
 		parent :: set_values($defaults);			
 	}	
@@ -53,7 +53,7 @@ class PhysicalLocationForm extends LearningObjectForm
 
 	function setDefaults($defaults = array ())
 	{
-		$lo = $this->get_learning_object();
+		$lo = $this->get_content_object();
 		if (isset($lo))
 		{
 			$defaults[PhysicalLocation :: PROPERTY_LOCATION] = $lo->get_location();

@@ -6,12 +6,12 @@
  * @subpackage document
  */
 require_once dirname(__FILE__).'/../../../../weblcms_data_manager.class.php';
-require_once dirname(__FILE__).'/../../../../learning_object_publication_browser.class.php';
+require_once dirname(__FILE__).'/../../../../content_object_publication_browser.class.php';
 require_once dirname(__FILE__).'/geolocation_details_renderer.class.php';
 require_once dirname(__FILE__).'/../../../../browser/learningobjectpublicationcategorytree.class.php';
-require_once dirname(__FILE__).'/../../../../browser/list_renderer/learning_object_publication_details_renderer.class.php';
+require_once dirname(__FILE__).'/../../../../browser/list_renderer/content_object_publication_details_renderer.class.php';
 
-class GeolocationBrowser extends LearningObjectPublicationBrowser
+class GeolocationBrowser extends ContentObjectPublicationBrowser
 {
 
 	function GeolocationBrowser($parent, $types)

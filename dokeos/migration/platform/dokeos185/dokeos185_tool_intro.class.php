@@ -5,8 +5,8 @@
 
 require_once dirname(__FILE__) . '/../../lib/import/import_tool_intro.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repository_category.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/description/description.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/content_object/description/description.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/content_object_publication.class.php';
 
 /**
  * This class presents a Dokeos185 tool_intro
@@ -169,8 +169,8 @@ class Dokeos185ToolIntro extends ImportToolIntro
 		$lcms_tool_intro->set_owner_id($user_id);
 		$lcms_tool_intro->create();
 		
-                $publication = new LearningObjectPublication();
-		$publication->set_learning_object($lcms_tool_intro);
+                $publication = new ContentObjectPublication();
+		$publication->set_content_object($lcms_tool_intro);
 		$publication->set_course_id($new_course_code);
 		$publication->set_publisher_id($user_id);
 		$publication->set_tool('description');

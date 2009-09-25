@@ -1,7 +1,7 @@
 <?php
-require_once dirname(__FILE__).'/../../../learning_object_repo_viewer.class.php';
+require_once dirname(__FILE__).'/../../../content_object_repo_viewer.class.php';
 require_once Path::get_library_path().'/html/action_bar/action_bar_renderer.class.php';
-require_once dirname(__FILE__) . '/../../../publisher/learning_object_publisher.class.php';
+require_once dirname(__FILE__) . '/../../../publisher/content_object_publisher.class.php';
 
 class BlogToolPublisherComponent extends BlogToolComponent
 {
@@ -27,7 +27,7 @@ class BlogToolPublisherComponent extends BlogToolComponent
 		$trail->add_help('courses blog tool');
 
 		$object = Request :: get('object');
-		$pub = new LearningObjectRepoViewer($this, 'blog_item', true);
+		$pub = new ContentObjectRepoViewer($this, 'blog_item', true);
 
 		if(!isset($object))
 		{
@@ -35,7 +35,7 @@ class BlogToolPublisherComponent extends BlogToolComponent
 		}
 		else
 		{
-			$publisher = new LearningObjectPublisher($pub);
+			$publisher = new ContentObjectPublisher($pub);
 			$html[] = $publisher->get_publications_form($object);
 		}
 

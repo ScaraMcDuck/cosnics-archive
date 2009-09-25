@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__) . '/../forum_builder_component.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
-require_once Path :: get_repository_path() . '/lib/learning_object/forum/forum.class.php';
+require_once Path :: get_repository_path() . '/lib/content_object/forum/forum.class.php';
 require_once dirname(__FILE__) . '/browser/forum_browser_table_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/browser/forum_browser_table_column_model.class.php';
 
@@ -18,7 +18,7 @@ class ForumBuilderBrowserComponent extends ForumBuilderComponent
 
 		if($this->get_cloi())
 		{
-			$lo = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->get_cloi()->get_ref());
+			$lo = RepositoryDataManager :: get_instance()->retrieve_content_object($this->get_cloi()->get_ref());
 		}
 		else
 		{
@@ -35,7 +35,7 @@ class ForumBuilderBrowserComponent extends ForumBuilderComponent
 			echo '<br />';
 		}
 
-		$display = LearningObjectDisplay :: factory($this->get_root_lo());
+		$display = ContentObjectDisplay :: factory($this->get_root_lo());
 		echo $display->get_full_html();
 
 		echo '<br />';
@@ -63,8 +63,8 @@ class ForumBuilderBrowserComponent extends ForumBuilderComponent
 
 		$conditions = array();
 		$conditions[] = $this->get_clo_table_condition();
-		$subcondition = new EqualityCondition(LearningObject :: PROPERTY_TYPE, 'forum');
-		$conditions[] = new SubSelectcondition(ComplexLearningObjectItem :: PROPERTY_REF, LearningObject :: PROPERTY_ID, 'repository_learning_object', $subcondition);
+		$subcondition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, 'forum');
+		$conditions[] = new SubSelectcondition(ComplexContentObjectItem :: PROPERTY_REF, ContentObject :: PROPERTY_ID, 'repository_content_object', $subcondition);
 		$condition = new AndCondition($conditions);
 
 		$html[] = '<h3>' . Translation :: get('Forums') . '</h3>';
@@ -73,8 +73,8 @@ class ForumBuilderBrowserComponent extends ForumBuilderComponent
 
 		$conditions = array();
 		$conditions[] = $this->get_clo_table_condition();
-		$subcondition = new EqualityCondition(LearningObject :: PROPERTY_TYPE, 'forum_topic');
-		$conditions[] = new SubSelectcondition(ComplexLearningObjectItem :: PROPERTY_REF, LearningObject :: PROPERTY_ID, 'repository_learning_object', $subcondition);
+		$subcondition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, 'forum_topic');
+		$conditions[] = new SubSelectcondition(ComplexContentObjectItem :: PROPERTY_REF, ContentObject :: PROPERTY_ID, 'repository_content_object', $subcondition);
 		$condition = new AndCondition($conditions);
 
 		$html[] = '<br /><h3>' . Translation :: get('ForumTopics') . '</h3>';

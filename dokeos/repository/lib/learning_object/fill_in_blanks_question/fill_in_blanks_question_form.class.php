@@ -3,11 +3,11 @@
  * @package repository.learningobject
  * @subpackage exercise
  */
-require_once dirname(__FILE__) . '/../../learning_object_form.class.php';
+require_once dirname(__FILE__) . '/../../content_object_form.class.php';
 require_once dirname(__FILE__) . '/fill_in_blanks_question.class.php';
 require_once dirname(__FILE__) . '/fill_in_blanks_question_answer.class.php';
 
-class FillInBlanksQuestionForm extends LearningObjectForm
+class FillInBlanksQuestionForm extends ContentObjectForm
 {
     const DEFAULT_SIZE = 20;
 
@@ -51,7 +51,7 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 
         if (! $this->isSubmitted())
         {
-            $object = $this->get_learning_object();
+            $object = $this->get_content_object();
             if (!is_null($object))
             {
                 $options = $object->get_answers();
@@ -88,27 +88,27 @@ class FillInBlanksQuestionForm extends LearningObjectForm
         }
     }
 
-    function create_learning_object()
+    function create_content_object()
     {
         $values = $this->exportValues();
 
         $object = new FillInBlanksQuestion();
-        $this->set_learning_object($object);
+        $this->set_content_object($object);
         $object->set_answer_text($values['answer']);
         $object->set_question_type($values[FillInBlanksQuestion :: PROPERTY_QUESTION_TYPE]);
         $this->add_options_to_object();
-        return parent :: create_learning_object();
+        return parent :: create_content_object();
     }
 
-    function update_learning_object()
+    function update_content_object()
     {
         $values = $this->exportValues();
-        $object = $this->get_learning_object();
+        $object = $this->get_content_object();
         $object->set_answer_text($values['answer']);
         $object->set_question_type($values[FillInBlanksQuestion :: PROPERTY_QUESTION_TYPE]);
 
         $this->add_options_to_object();
-        return parent :: update_learning_object();
+        return parent :: update_content_object();
     }
 
 	private function get_matches($source)
@@ -131,7 +131,7 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 
     private function add_options_to_object()
     {
-        $object = $this->get_learning_object();
+        $object = $this->get_content_object();
         $values = $this->exportValues();
 
         $matches = $this->get_matches($values['answer']);

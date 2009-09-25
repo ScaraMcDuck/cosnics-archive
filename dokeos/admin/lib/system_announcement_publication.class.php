@@ -37,7 +37,7 @@ class SystemAnnouncementPublication extends DataClass
 		return AdminDataManager :: get_instance();	
 	}
 
-    function get_learning_object_id()
+    function get_content_object_id()
     {
         return $this->get_default_property(self :: PROPERTY_LEARNING_OBJECT_ID);
     }
@@ -77,7 +77,7 @@ class SystemAnnouncementPublication extends DataClass
         return $this->get_default_property(self :: PROPERTY_EMAIL_SENT);
     }
 
-    function set_learning_object_id($id)
+    function set_content_object_id($id)
     {
         $this->set_default_property(self :: PROPERTY_LEARNING_OBJECT_ID, $id);
     }
@@ -120,7 +120,7 @@ class SystemAnnouncementPublication extends DataClass
     function get_publication_object()
     {
         $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->retrieve_learning_object($this->get_learning_object_id());
+        return $rdm->retrieve_content_object($this->get_content_object_id());
     }
 
     function get_publication_publisher()

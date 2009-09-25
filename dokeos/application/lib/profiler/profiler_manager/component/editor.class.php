@@ -6,8 +6,8 @@ require_once dirname(__FILE__) . '/../profiler_manager.class.php';
 require_once dirname(__FILE__) . '/../profiler_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../profile_publication_form.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object_display.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_display.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_form.class.php';
 
 class ProfilerManagerEditorComponent extends ProfilerManagerComponent
 {
@@ -36,19 +36,19 @@ class ProfilerManagerEditorComponent extends ProfilerManagerComponent
         {
             $profile_publication = $this->retrieve_profile_publication($id);
             
-            $learning_object = $profile_publication->get_publication_object();
+            $content_object = $profile_publication->get_publication_object();
             
-            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_VIEW_PUBLICATION, ProfilerManager :: PARAM_PROFILE_ID => $id)), $learning_object->get_title()));
+            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_VIEW_PUBLICATION, ProfilerManager :: PARAM_PROFILE_ID => $id)), $content_object->get_title()));
             $trail->add(new Breadcrumb($this->get_url(array(ProfilerManager :: PARAM_PROFILE_ID => $id)), Translation :: get('Edit')));
             $trail->add_help('profiler general');
             
-            $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_EDIT_PUBLICATION, ProfilerManager :: PARAM_PROFILE_ID => $profile_publication->get_id())));
+            $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url(array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_EDIT_PUBLICATION, ProfilerManager :: PARAM_PROFILE_ID => $profile_publication->get_id())));
             if ($form->validate())
             {
-                $success = $form->update_learning_object();
+                $success = $form->update_content_object();
                 if ($form->is_version())
                 {
-                    $publication->set_learning_object($learning_object->get_latest_version());
+                    $publication->set_content_object($content_object->get_latest_version());
                     $publication->update();
                 }
                 
@@ -62,13 +62,13 @@ class ProfilerManagerEditorComponent extends ProfilerManagerComponent
                     
                     if ($publication_form->validate())
                     {
-                        $success = $publication_form->update_learning_object_publication();
+                        $success = $publication_form->update_content_object_publication();
                         $this->redirect('url', Translation :: get(($success ? 'ProfilePublicationUpdated' : 'ProfilePublicationNotUpdated')), ($success ? false : true), array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES));
                     }
                     else
                     {
                         $this->display_header($trail);
-                        echo LearningObjectDisplay :: factory($profile_publication->get_publication_object())->get_full_html();
+                        echo ContentObjectDisplay :: factory($profile_publication->get_publication_object())->get_full_html();
                         $publication_form->display();
                         $this->display_footer();
                         exit();

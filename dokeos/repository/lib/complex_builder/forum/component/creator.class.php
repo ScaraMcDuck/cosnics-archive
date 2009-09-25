@@ -23,7 +23,7 @@ class ForumBuilderCreatorComponent extends ForumBuilderComponent
 
 		if($this->get_cloi())
 		{
-			$lo = $this->rdm->retrieve_learning_object($this->get_cloi()->get_ref());
+			$lo = $this->rdm->retrieve_content_object($this->get_cloi()->get_ref());
 		}
 		else
 		{
@@ -66,15 +66,15 @@ class ForumBuilderCreatorComponent extends ForumBuilderComponent
 
 			foreach($object as $obj)
 			{
-				$type = $rdm->determine_learning_object_type($obj);
+				$type = $rdm->determine_content_object_type($obj);
 
-				$cloi = ComplexLearningObjectItem :: factory($type);
+				$cloi = ComplexContentObjectItem :: factory($type);
 				$cloi->set_ref($obj);
 
 				$parent = $root_lo;
 				if($cloi_id)
 				{
-					$parent_cloi = $rdm->retrieve_complex_learning_object_item($cloi_id);
+					$parent_cloi = $rdm->retrieve_complex_content_object_item($cloi_id);
 					$parent = $parent_cloi->get_ref();
 				}
 
@@ -99,7 +99,7 @@ class ForumBuilderCreatorComponent extends ForumBuilderComponent
 	{
 		$items = array();
 
-		$clois = $this->rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $parent, ComplexLearningObjectItem :: get_table_name()));
+		$clois = $this->rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent, ComplexContentObjectItem :: get_table_name()));
 		while($cloi = $clois->next_result())
 		{
 			if($cloi->is_complex())

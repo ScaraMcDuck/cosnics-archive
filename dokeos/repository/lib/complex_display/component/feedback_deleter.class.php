@@ -1,6 +1,6 @@
 <?php
 
-require_once Path :: get_repository_path().'lib/learning_object_pub_feedback.class.php';
+require_once Path :: get_repository_path().'lib/content_object_pub_feedback.class.php';
 
 class ComplexDisplayFeedbackDeleterComponent extends ComplexDisplayComponent
 {
@@ -35,8 +35,8 @@ class ComplexDisplayFeedbackDeleterComponent extends ComplexDisplayComponent
 
 			foreach($feedback_ids as $index => $fid)
 			{
-                $condition = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_FEEDBACK_ID, $fid);
-                $feedbacks = $datamanager->retrieve_learning_object_pub_feedback($condition);
+                $condition = new EqualityCondition(ContentObjectPubFeedback :: PROPERTY_FEEDBACK_ID, $fid);
+                $feedbacks = $datamanager->retrieve_content_object_pub_feedback($condition);
 				while($feedback = $feedbacks->next_result())
                 {
                     $feedback->delete();
@@ -44,11 +44,11 @@ class ComplexDisplayFeedbackDeleterComponent extends ComplexDisplayComponent
 			}
 			if(count($feedback_ids) > 1)
 			{
-				$message = htmlentities(Translation :: get('LearningObjectFeedbacksDeleted'));
+				$message = htmlentities(Translation :: get('ContentObjectFeedbacksDeleted'));
 			}
 			else
 			{
-				$message = htmlentities(Translation :: get('LearningObjectFeedbackDeleted'));
+				$message = htmlentities(Translation :: get('ContentObjectFeedbackDeleted'));
 			}
 
             $this->redirect($message, '', array(Tool :: PARAM_ACTION => Request :: get('tool_action'), 'display_action' => 'discuss', 'pid' => $this->pid, 'selected_cloi' => $this->cid));

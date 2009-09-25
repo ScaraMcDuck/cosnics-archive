@@ -4,8 +4,8 @@
  */
 require_once dirname(__FILE__).'/../repo_viewer.class.php';
 require_once dirname(__FILE__).'/../repo_viewer_component.class.php';
-require_once dirname(__FILE__).'/learning_object_table/learning_object_table.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object_category_menu.class.php';
+require_once dirname(__FILE__).'/content_object_table/content_object_table.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_category_menu.class.php';
 //require_once Path :: get_repository_path() . 'lib/forms/repository_filter_form.class.php';
 /**
  * This class represents a encyclopedia repo_viewer component which can be used
@@ -38,7 +38,7 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
 		
 		$html[] = '<br /><div style="width: 15%; overflow: auto; float:left">';
 		$html[] = $menu->render_as_tree();
-		$table = new LearningObjectTable($this, $this->get_user(), $this->get_types(), $this->get_query(), $actions);
+		$table = new ContentObjectTable($this, $this->get_user(), $this->get_types(), $this->get_query(), $actions);
 		$html[] = '</div><div style="width: 83%; float: right;">' . $table->as_html() . '</div>';
 		$html[] = '<div class="clear">&nbsp;</div>';
 		return implode("\n", $html);
@@ -66,8 +66,8 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
 	function get_menu()
 	{
 		$url = $_SERVER['REQUEST_URI'] . '&category=%s';
-                $extra = array(array('title' => Translation :: get('SharedLearningObjects'), 'url' => $this->get_url(array(RepoViewer :: PARAM_ACTION => 'browser','category' => 1, 'SharedBrowser' => 1)), 'class' => '', OptionsMenuRenderer :: KEY_ID => 1));
-		$menu = new LearningObjectCategoryMenu($this->get_user_id(), Request :: get('category')?Request :: get('category'):0,$url,$extra);
+                $extra = array(array('title' => Translation :: get('SharedContentObjects'), 'url' => $this->get_url(array(RepoViewer :: PARAM_ACTION => 'browser','category' => 1, 'SharedBrowser' => 1)), 'class' => '', OptionsMenuRenderer :: KEY_ID => 1));
+		$menu = new ContentObjectCategoryMenu($this->get_user_id(), Request :: get('category')?Request :: get('category'):0,$url,$extra);
 		return $menu;
 	}
 	

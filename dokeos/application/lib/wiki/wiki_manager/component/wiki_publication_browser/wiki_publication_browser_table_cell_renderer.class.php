@@ -36,11 +36,11 @@ class WikiPublicationBrowserTableCellRenderer extends DefaultWikiPublicationTabl
 		{
 			switch ($property)
 			{
-                case LearningObject :: PROPERTY_TITLE :
+                case ContentObject :: PROPERTY_TITLE :
                     $url = $this->browser->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, WikiManager :: PARAM_WIKI_PUBLICATION => $wiki_publication->get_id()));
-                    return '<a href="'.$url.'">' . htmlspecialchars($wiki_publication->get_learning_object()->get_title()) . '</a>';
-                case LearningObject :: PROPERTY_DESCRIPTION:
-                    return $wiki_publication->get_learning_object()->get_description();
+                    return '<a href="'.$url.'">' . htmlspecialchars($wiki_publication->get_content_object()->get_title()) . '</a>';
+                case ContentObject :: PROPERTY_DESCRIPTION:
+                    return $wiki_publication->get_content_object()->get_description();
 			}
 		}
         if ($column === WikiPublicationBrowserTableColumnModel :: get_modification_column())
@@ -52,7 +52,7 @@ class WikiPublicationBrowserTableCellRenderer extends DefaultWikiPublicationTabl
 
 	/**
 	 * Gets the action links to display
-	 * @param LearningObject $learning_object The learning object for which the
+	 * @param ContentObject $content_object The learning object for which the
 	 * action links should be returned
 	 * @return string A HTML representation of the action links
 	 */

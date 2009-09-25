@@ -476,7 +476,7 @@ class Dokeos185DataManager extends OldMigrationDataManager
 		return false;
 	}
 	
-	function escape_column_name($name, $prefix_learning_object_properties = false)
+	function escape_column_name($name, $prefix_content_object_properties = false)
 	{
 		// Check whether the name contains a seperator, avoids notices.
 		$contains_table_name = strpos($name, '.');

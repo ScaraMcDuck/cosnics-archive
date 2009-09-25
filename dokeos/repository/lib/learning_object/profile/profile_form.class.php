@@ -6,10 +6,10 @@
  *  @author Hans De Bisschop
  *  @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../../learning_object_form.class.php';
+require_once dirname(__FILE__).'/../../content_object_form.class.php';
 require_once dirname(__FILE__).'/profile.class.php';
 
-class ProfileForm extends LearningObjectForm
+class ProfileForm extends ContentObjectForm
 {
 	protected function build_creation_form()
 	{
@@ -46,7 +46,7 @@ class ProfileForm extends LearningObjectForm
 	}
 	function setDefaults($defaults = array ())
 	{
-		$lo = $this->get_learning_object();
+		$lo = $this->get_content_object();
 		if (isset($lo))
 		{
 			$defaults[Profile :: PROPERTY_COMPETENCES] = $lo->get_competences();
@@ -70,9 +70,9 @@ class ProfileForm extends LearningObjectForm
 
 	function set_csv_values($valuearray)
 	{
-		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
-		$defaults[LearningObject :: PROPERTY_PARENT_ID] = $valuearray[1];
-		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[2];	
+		$defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
+		$defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
+		$defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];	
 		$defaults[Profile :: PROPERTY_COMPETENCES] = $valuearray[3];
 		$defaults[Profile :: PROPERTY_DIPLOMAS] = $valuearray[4];
 		$defaults[Profile :: PROPERTY_MAIL] = $valuearray[5];
@@ -91,19 +91,19 @@ class ProfileForm extends LearningObjectForm
 		parent :: set_values($defaults);	
 	}
 
-	function create_learning_object()
+	function create_content_object()
 	{
 		$object = new Profile();
 		$this->fill_properties($object);
-		parent :: set_learning_object($object);
-		return parent :: create_learning_object();
+		parent :: set_content_object($object);
+		return parent :: create_content_object();
 	}
-	function update_learning_object()
+	function update_content_object()
 	{
-		$object = $this->get_learning_object();
+		$object = $this->get_content_object();
 		$this->fill_properties($object);
-		parent :: set_learning_object($object);
-		return parent :: update_learning_object();
+		parent :: set_content_object($object);
+		return parent :: update_content_object();
 	}
 	private function fill_properties($object)
 	{

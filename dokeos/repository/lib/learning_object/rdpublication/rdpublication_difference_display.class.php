@@ -9,7 +9,7 @@
 /**
  * This class can be used to display the difference between announcements
  */
-class RdpublicationDifferenceDisplay extends LearningObjectDifferenceDisplay
+class RdpublicationDifferenceDisplay extends ContentObjectDifferenceDisplay
 {
 }
 ?>

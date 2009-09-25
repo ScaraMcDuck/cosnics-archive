@@ -4,7 +4,7 @@
  */
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
-require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
+require_once Path :: get_repository_path(). 'lib/content_object.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once Path :: get_library_path() . 'html/menu/tree_menu_renderer.class.php';
 require_once Path :: get_library_path() . 'html/menu/options_menu_renderer.class.php';
@@ -13,7 +13,7 @@ require_once Path :: get_library_path() . 'html/menu/options_menu_renderer.class
  * categories of learning objects.
  * @author Sven Vanpoucke
  */
-class ComplexLearningObjectMenu extends HTML_Menu
+class ComplexContentObjectMenu extends HTML_Menu
 {
 	
 	private $current_item;
@@ -44,7 +44,7 @@ class ComplexLearningObjectMenu extends HTML_Menu
 	 * @param array $extra_items An array of extra tree items, added to the
 	 *                           root.
 	 */
-	function ComplexLearningObjectMenu($root, $current_item, $url_format = '?go=browsecomplex&cloi_id=%s&cloi_root_id=%s', $view_entire_structure = false)
+	function ComplexContentObjectMenu($root, $current_item, $url_format = '?go=browsecomplex&cloi_id=%s&cloi_root_id=%s', $view_entire_structure = false)
 	{
 		$this->view_entire_structure = $view_entire_structure;
 		$extra = array('publish', 'clo_action');
@@ -69,7 +69,7 @@ class ComplexLearningObjectMenu extends HTML_Menu
 	{
 		$menu = array();
 		$datamanager = $this->dm;
-		$lo = $datamanager->retrieve_learning_object($root);
+		$lo = $datamanager->retrieve_content_object($root);
 		$menu_item = array();
 		$menu_item['title'] = $lo->get_title();
 		$menu_item['url'] = $this->get_cloi_url($root);
@@ -97,15 +97,15 @@ class ComplexLearningObjectMenu extends HTML_Menu
 	 */
 	private function get_menu_items($cloi)
 	{
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $cloi, ComplexLearningObjectItem :: get_table_name());
+		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $cloi, ComplexContentObjectItem :: get_table_name());
 		$datamanager = $this->dm;
-		$objects = $datamanager->retrieve_complex_learning_object_items($condition);
+		$objects = $datamanager->retrieve_complex_content_object_items($condition);
 		
 		while ($object = $objects->next_result())
 		{
 			if($object->is_complex() || $this->view_entire_structure)
 			{
-				$lo = $datamanager->retrieve_learning_object($object->get_ref());
+				$lo = $datamanager->retrieve_content_object($object->get_ref());
 				$menu_item = array();
 				$menu_item['title'] = $lo->get_title();
 				$menu_item['url'] = $this->get_cloi_url($object->get_ref());

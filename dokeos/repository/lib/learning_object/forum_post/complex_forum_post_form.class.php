@@ -3,10 +3,10 @@
  * @package repository.learningobject
  * @subpackage forum_post
  */
-require_once dirname(__FILE__) . '/../../complex_learning_object_item_form.class.php';
+require_once dirname(__FILE__) . '/../../complex_content_object_item_form.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 
-class ComplexForumPostForm extends ComplexLearningObjectItemForm
+class ComplexForumPostForm extends ComplexContentObjectItemForm
 {
 	const TOTAL_PROPERTIES = 0;
 	// Inherited
@@ -37,7 +37,7 @@ class ComplexForumPostForm extends ComplexLearningObjectItemForm
 	
 	function get_default_values($defaults = array ())
 	{
-		$cloi = $this->get_complex_learning_object_item();
+		$cloi = $this->get_complex_content_object_item();
 		
 		if (isset ($cloi))
 		{
@@ -54,35 +54,35 @@ class ComplexForumPostForm extends ComplexLearningObjectItemForm
 	}
 
 	// Inherited
-	function create_complex_learning_object_item()
+	function create_complex_content_object_item()
 	{ 
-		$cloi = $this->get_complex_learning_object_item();
+		$cloi = $this->get_complex_content_object_item();
 		$values = $this->exportValues();
 		$cloi->set_reply_on_post($values[ComplexForumPost :: PROPERTY_REPLY_ON_POST]);
-		return parent :: create_complex_learning_object_item();
+		return parent :: create_complex_content_object_item();
 	}
 	
 	function create_cloi_from_values($values)
 	{
-		$cloi = $this->get_complex_learning_object_item();
+		$cloi = $this->get_complex_content_object_item();
 		$cloi->set_reply_on_post($values[ComplexForumPost :: PROPERTY_REPLY_ON_POST]); 
-		return parent :: create_complex_learning_object_item();
+		return parent :: create_complex_content_object_item();
 	}
 	
 	function update_cloi_from_values($values)
 	{
-		$cloi = $this->get_complex_learning_object_item();
+		$cloi = $this->get_complex_content_object_item();
 		$cloi->set_reply_on_post($values[ComplexForumPost :: PROPERTY_REPLY_ON_POST]); 
-		return parent :: update_complex_learning_object_item();
+		return parent :: update_complex_content_object_item();
 	}
 	
 	// Inherited
-	function update_complex_learning_object_item()
+	function update_complex_content_object_item()
 	{
-		$cloi = $this->get_complex_learning_object_item();
+		$cloi = $this->get_complex_content_object_item();
 		$values = $this->exportValues();
 		$cloi->set_reply_on_post($values[ComplexForumPost :: PROPERTY_REPLY_ON_POST]);
-		return parent :: update_complex_learning_object_item();
+		return parent :: update_complex_content_object_item();
 	}
 }
 

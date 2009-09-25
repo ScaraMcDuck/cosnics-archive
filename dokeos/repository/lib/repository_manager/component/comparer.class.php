@@ -7,7 +7,7 @@
  */
 require_once dirname(__FILE__).'/../repository_manager.class.php';
 require_once dirname(__FILE__).'/../repository_manager_component.class.php';
-require_once dirname(__FILE__).'/../../learning_object_difference_display.class.php';
+require_once dirname(__FILE__).'/../../content_object_difference_display.class.php';
 /**
  * Repository manager component which can be used to compare a learning object.
  */
@@ -25,9 +25,9 @@ class RepositoryManagerComparerComponent extends RepositoryManagerComponent
 
 		if ($object_id && $version_id)
 		{
-			$object = $this->retrieve_learning_object($object_id);
+			$object = $this->retrieve_content_object($object_id);
 
-			if ($object->get_state() == LearningObject :: STATE_RECYCLED)
+			if ($object->get_state() == ContentObject :: STATE_RECYCLED)
 			{
 				$trail->add(new Breadcrumb($this->get_recycle_bin_url(), Translation :: get('RecycleBin')));
 				$this->force_menu_url($this->get_recycle_bin_url());
@@ -39,7 +39,7 @@ class RepositoryManagerComparerComponent extends RepositoryManagerComponent
 
 			$diff = $object->get_difference($version_id);
 
-			$display = LearningObjectDifferenceDisplay :: factory($diff);
+			$display = ContentObjectDifferenceDisplay :: factory($diff);
 
 			echo DokeosUtilities :: add_block_hider();
 			echo DokeosUtilities :: build_block_hider('compare_legend');

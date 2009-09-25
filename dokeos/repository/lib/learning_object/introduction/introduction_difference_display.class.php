@@ -9,7 +9,7 @@
 /**
  * This class can be used to display the difference between descriptions
  */
-class IntroductionDifferenceDisplay extends LearningObjectDifferenceDisplay
+class IntroductionDifferenceDisplay extends ContentObjectDifferenceDisplay
 {
 }
 ?>

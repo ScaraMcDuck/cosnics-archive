@@ -10,9 +10,9 @@ require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once dirname(__FILE__).'/repository_data_manager.class.php';
 require_once dirname(__FILE__).'/difference_engine.class.php';
 /**
- * A class to display a LearningObject.
+ * A class to display a ContentObject.
  */
-abstract class LearningObjectDifference
+abstract class ContentObjectDifference
 {
 	/**
 	 * The learning object.
@@ -24,17 +24,17 @@ abstract class LearningObjectDifference
 	private $version;
 	/**
 	 * Constructor.
-	 * @param LearningObject $object The learning object to compare.
-	 * @param LearningObject $version The learning object to compare with.
+	 * @param ContentObject $object The learning object to compare.
+	 * @param ContentObject $version The learning object to compare with.
 	 */
-	protected function LearningObjectDifference($object, $version)
+	protected function ContentObjectDifference($object, $version)
 	{
 		$this->object = $object;
 		$this->version = $version;
 	}
 	/**
 	 * Returns the learning object associated with this object.
-	 * @return LearningObject The object.
+	 * @return ContentObject The object.
 	 */
 	function get_object()
 	{
@@ -43,7 +43,7 @@ abstract class LearningObjectDifference
 
 	/**
 	 * Returns the learning object associated with this object.
-	 * @return LearningObject The object version.
+	 * @return ContentObject The object version.
 	 */
 	function get_version()
 	{
@@ -70,14 +70,14 @@ abstract class LearningObjectDifference
 	/**
 	 * Creates an object that can display the given learning object in a
 	 * standardized fashion.
-	 * @param LearningObject $object The object to display.
-	 * @return LearningObject
+	 * @param ContentObject $object The object to display.
+	 * @return ContentObject
 	 */
 	static function factory(&$object, &$version)
 	{
 		$type = $object->get_type();
-		$class = LearningObject :: type_to_class($type).'Difference';
-		require_once dirname(__FILE__).'/learning_object/'.$type.'/'.$type.'_difference.class.php';
+		$class = ContentObject :: type_to_class($type).'Difference';
+		require_once dirname(__FILE__).'/content_object/'.$type.'/'.$type.'_difference.class.php';
 		return new $class($object, $version);
 	}
 }

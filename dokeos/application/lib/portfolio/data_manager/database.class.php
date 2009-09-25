@@ -173,24 +173,24 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		return $this->database->retrieve_objects(PortfolioPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
 	}
 
-	function learning_object_is_published($object_id)
+	function content_object_is_published($object_id)
 	{
-		return $this->any_learning_object_is_published(array($object_id));
+		return $this->any_content_object_is_published(array($object_id));
 	}
 
-	function any_learning_object_is_published($object_ids)
+	function any_content_object_is_published($object_ids)
 	{
 		$condition = new InCondition(PortfolioPublication :: PROPERTY_LEARNING_OBJECT, $object_ids);
         return $this->database->count_objects(PortfolioPublication :: get_table_name(), $condition) >= 1;
 	}
 
-	function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		if (isset($type))
         {
             if ($type == 'user')
             {
-                $query = 'SELECT ' . $this->database->get_alias('portfolio_publication') . '.*, lo.' . $this->database->escape_column_name('title') . ' FROM ' . $this->database->escape_table_name('portfolio_publication') . ' AS ' . $this->database->get_alias('portfolio_publication') . ' JOIN ' . RepositoryDataManager :: get_instance()->escape_table_name('learning_object') . ' AS lo ON ' . $this->database->get_alias('portfolio_publication') . '.`learning_object_id` = lo.`id`';
+                $query = 'SELECT ' . $this->database->get_alias('portfolio_publication') . '.*, lo.' . $this->database->escape_column_name('title') . ' FROM ' . $this->database->escape_table_name('portfolio_publication') . ' AS ' . $this->database->get_alias('portfolio_publication') . ' JOIN ' . RepositoryDataManager :: get_instance()->escape_table_name('content_object') . ' AS lo ON ' . $this->database->get_alias('portfolio_publication') . '.`content_object_id` = lo.`id`';
                 $query .= ' WHERE ' . $this->database->get_alias('portfolio_publication') . '.' . $this->database->escape_column_name(PortfolioPublication :: PROPERTY_PUBLISHER) . '=?';
 
                 $order = array();
@@ -201,8 +201,8 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
                     }
                     elseif ($order_property[$i] == 'location')
                     {
-                        //$order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(LearningObjectPublication :: PROPERTY_COURSE_ID) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
-                        //$order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(LearningObjectPublication :: PROPERTY_TOOL) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                        //$order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_COURSE_ID) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                        //$order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_TOOL) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
                     }
                     elseif ($order_property[$i] == 'title')
                     {
@@ -232,7 +232,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
         $publication_attr = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
-            $info = new LearningObjectPublicationAttributes();
+            $info = new ContentObjectPublicationAttributes();
             $info->set_id($record[PortfolioPublication :: PROPERTY_ID]);
             $info->set_publisher_user_id($record[PortfolioPublication :: PROPERTY_PUBLISHER]);
             $info->set_publication_date($record[PortfolioPublication :: PROPERTY_PUBLISHED]);
@@ -247,7 +247,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
         return $publication_attr;
 	}
 
-	function get_learning_object_publication_attribute($publication_id)
+	function get_content_object_publication_attribute($publication_id)
 	{
 		$query = 'SELECT * FROM ' . $this->database->escape_table_name('portfolio_publication') . ' WHERE ' . $this->database->escape_column_name(PortfolioPublication :: PROPERTY_ID) . '=?';
         $statement = $this->database->get_connection()->prepare($query);
@@ -257,7 +257,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
         $publication_attr = array();
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 
-        $publication_attr = new LearningObjectPublicationAttributes();
+        $publication_attr = new ContentObjectPublicationAttributes();
         $publication_attr->set_id($record[PortfolioPublication :: PROPERTY_ID]);
         $publication_attr->set_publisher_user_id($record[PortfolioPublication :: PROPERTY_PUBLISHER]);
         $publication_attr->set_publication_date($record[PortfolioPublication :: PROPERTY_PUBLISHED]);
@@ -276,7 +276,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
         return $this->database->count_objects(PortfolioPublication :: get_table_name(), $condition);
 	}
 
-	function delete_learning_object_publications($object_id)
+	function delete_content_object_publications($object_id)
 	{
 		$condition = new EqualityCondition(PortfolioPublication :: PROPERTY_LEARNING_OBJECT, $object_id);
         $publications = $this->retrieve_portfolio_publications($condition);
@@ -291,7 +291,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
         return $succes;
 	}
 
-	function update_learning_object_publication_id($publication_attr)
+	function update_content_object_publication_id($publication_attr)
 	{
 	 	$where = $this->database->escape_column_name(PortfolioPublication :: PROPERTY_ID) . '=' . $publication_attr->get_id();
         $props = array();

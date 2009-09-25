@@ -2,7 +2,7 @@
 
 require_once Path :: get_application_path() . 'lib/wiki/data_manager/database.class.php';
 
-class WikiPubFeedback extends LearningObject
+class WikiPubFeedback extends ContentObject
 {
 	const CLASS_NAME = __CLASS__;
     const PROPERTY_ID = 'id';
@@ -11,13 +11,13 @@ class WikiPubFeedback extends LearningObject
 	const PROPERTY_FEEDBACK_ID = 'feedback_id';
 
 	/**
-	 * Default properties of the learning_object_feedback object, stored in an associative
+	 * Default properties of the content_object_feedback object, stored in an associative
 	 * array.
 	 */
 	private $defaultProperties;
 
 
-	function LearningObjectPubFeedback($wiki_publication_id = 0,$cloi_id = 0, $feedback_id = 0 , $defaultProperties = array ())
+	function ContentObjectPubFeedback($wiki_publication_id = 0,$cloi_id = 0, $feedback_id = 0 , $defaultProperties = array ())
 	{
 		$this->defaultProperties = $defaultProperties;
 	}

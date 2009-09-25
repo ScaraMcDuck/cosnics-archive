@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<object name="learning_object_publication">
+<object name="content_object_publication">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="learning_object_id" type="integer"  unsigned="1" notnull="1"/>
+  <property name="content_object_id" type="integer"  unsigned="1" notnull="1"/>
   <property name="course_id" type="integer" notnull="1"/>
   <property name="tool" type="text" length="255" fixed="true" notnull="1"/>
   <property name="parent_id" type="integer" unsigned="1" notnull="1"/>
   <property name="category_id" type="integer" unsigned="1" notnull="1"/>
   <!--
   from_date & end_date are defined as integers here. Shouldn't they be
-  defined as timestamp like in the learning_object.xml file? Maybe this has to
+  defined as timestamp like in the content_object.xml file? Maybe this has to
   do with the fact that they can be 0 (zero) if a publication doesn't have a
   publiction period. So it is published 'forever'.
   -->

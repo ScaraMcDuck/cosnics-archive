@@ -7,7 +7,7 @@
 /**
  * This class can be used to display open questions
  */
-class RatingQuestionDisplay extends LearningObjectDisplay
+class RatingQuestionDisplay extends ContentObjectDisplay
 {
 }
 ?>

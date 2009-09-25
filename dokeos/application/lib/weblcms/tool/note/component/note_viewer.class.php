@@ -19,14 +19,14 @@ class NoteToolViewerComponent extends NoteToolComponent
 		}
 
 		$conditions = array();
-		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
-		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'note');
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'note');
 		
 		$subselect_condition = new EqualityCondition('type', 'introduction');
-		$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
+		$conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
 		$condition = new AndCondition($conditions);
 		
-		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications_new($condition);
+		$publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($condition);
 		$this->introduction_text = $publications->next_result();
 
 		$this->action_bar = $this->get_action_bar();
@@ -34,7 +34,7 @@ class NoteToolViewerComponent extends NoteToolComponent
 		$browser = new NoteBrowser($this);
 		$trail = new BreadcrumbTrail();
 		if(Request :: get('pid')!=null)
-        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get('pid'))->get_content_object()->get_title()));
         $trail->add_help('courses note tool');
 
         $this->display_header($trail, true);
@@ -98,8 +98,8 @@ class NoteToolViewerComponent extends NoteToolComponent
 		$query = $this->action_bar->get_query();
 		if(isset($query) && $query != '')
 		{
-			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);
-			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query);
+			$conditions[] = new LikeCondition(ContentObject :: PROPERTY_TITLE, $query);
+			$conditions[] = new LikeCondition(ContentObject :: PROPERTY_DESCRIPTION, $query);
 			return new OrCondition($conditions);
 		}
 

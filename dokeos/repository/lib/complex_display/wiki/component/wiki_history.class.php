@@ -9,9 +9,9 @@
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 require_once Path :: get_repository_path().'/lib/complex_display/complex_display.class.php';
 require_once Path :: get_repository_path().'/lib/complex_display/wiki/component/wiki_parser.class.php';
-require_once Path :: get_repository_path().'lib/learning_object_display.class.php';
-require_once Path :: get_repository_path().'lib/learning_object_difference_display.class.php';
-require_once Path :: get_repository_path().'lib/learning_object_form.class.php';
+require_once Path :: get_repository_path().'lib/content_object_display.class.php';
+require_once Path :: get_repository_path().'lib/content_object_difference_display.class.php';
+require_once Path :: get_repository_path().'lib/content_object_form.class.php';
 require_once Path :: get_repository_path() . 'lib/complex_display/wiki/wiki_display.class.php';
 
 
@@ -44,18 +44,18 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplayComponent
 
         $this->cid = Request :: get('selected_cloi');
 
-        $complexeObject = $dm->retrieve_complex_learning_object_item($this->cid);
+        $complexeObject = $dm->retrieve_complex_content_object_item($this->cid);
         if(isset($complexeObject))
         {
             $this->wiki_page_id = $complexeObject->get_ref();
         }
 
-        $wiki_page = $dm->retrieve_learning_object($this->wiki_page_id);
+        $wiki_page = $dm->retrieve_content_object($this->wiki_page_id);
 
         /*
-         *  We make use of the existing LearningObjectDisplay class, changing the type to wiki_page
+         *  We make use of the existing ContentObjectDisplay class, changing the type to wiki_page
          */
-        $display = LearningObjectDisplay :: factory($wiki_page);
+        $display = ContentObjectDisplay :: factory($wiki_page);
 
         /*
          *  We make a new array called version_data, this will hold every version for a wiki_page.
@@ -63,7 +63,7 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplayComponent
          */
         $version_data = array();
         $publication_attr = array();
-		$versions = $wiki_page->get_learning_object_versions();
+		$versions = $wiki_page->get_content_object_versions();
 
         $this->action_bar = $this->get_parent()->get_toolbar($this,Request :: get('pid'),$this->get_root_lo(), $this->cid);
         echo '<div id="trailbox2" style="padding:0px;">'.$this->get_parent()->get_breadcrumbtrail()->render().'<br /><br /><br /></div>';
@@ -77,7 +77,7 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplayComponent
         foreach ($versions as $version)
         {
             // If this learning object is published somewhere in an application, these locations are listed here.
-            $publications = $dm->get_learning_object_publication_attributes($this->get_user(), $version->get_id());
+            $publications = $dm->get_content_object_publication_attributes($this->get_user(), $version->get_id());
             $publication_attr = array_merge($publication_attr, $publications);
         }
 
@@ -87,7 +87,7 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplayComponent
          */
         if (count($versions) >= 2)
         {
-            //DokeosUtilities :: order_learning_objects_by_id_desc($versions);
+            //DokeosUtilities :: order_content_objects_by_id_desc($versions);
             foreach ($versions as $version)
             {
                 $version_entry = array();
@@ -102,16 +102,16 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplayComponent
                 }
                 $version_entry['date'] = date('d M y, H:i', $version->get_creation_date());
                 $version_entry['comment'] = $version->get_comment();
-                //$version_entry['viewing_link'] = $rm->get_learning_object_viewing_url($version);
+                //$version_entry['viewing_link'] = $rm->get_content_object_viewing_url($version);
                 $version_entry['viewing_link'] = "http://localhost/index_repository_manager.php?go=view&category={$version->get_parent_id()}&object=".$version->get_id();
-                //$delete_url = $rm->get_learning_object_deletion_url($version, 'version');
+                //$delete_url = $rm->get_content_object_deletion_url($version, 'version');
                 //$delete_url = "http://localhost/index_repository_manager.php?go=delete&category={$version->get_parent_id()}&object={$version->get_id()}&delete_version=1";
                 if (isset($delete_url))
                 {
                     $version_entry['delete_link'] = $delete_url;
                 }
 
-                //$revert_url = $rm->get_learning_object_revert_url($version, 'version');
+                //$revert_url = $rm->get_content_object_revert_url($version, 'version');
                 if (isset($revert_url))
                 {
                     $version_entry['revert_link'] = $revert_url;
@@ -123,19 +123,19 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplayComponent
             /*
              *  Here the compare form is made. It will redirect to the history page passing the right parameters to compare.
              *  You can select 2 versions to compare.
-             *  The first selected version ('object') will be compared with the second selected version ('compare') and it's differences shown using the LearningObjectDifferenceDisplay
+             *  The first selected version ('object') will be compared with the second selected version ('compare') and it's differences shown using the ContentObjectDifferenceDisplay
              */
-            $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_COMPARE, $wiki_page, 'compare', 'post', $this->get_url(array(Tool::PARAM_ACTION => Request :: get('tool')=='learning_path'?'view_clo':'view', 'display_action' => 'history', 'pid' => $this->get_root_lo()->get_id(), 'selected_cloi' => $this->cid)), array('version_data' => $version_data));
+            $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_COMPARE, $wiki_page, 'compare', 'post', $this->get_url(array(Tool::PARAM_ACTION => Request :: get('tool')=='learning_path'?'view_clo':'view', 'display_action' => 'history', 'pid' => $this->get_root_lo()->get_id(), 'selected_cloi' => $this->cid)), array('version_data' => $version_data));
 
             if ($form->validate())
             {
-                 $params = $form->compare_learning_object();
+                 $params = $form->compare_content_object();
                  $rdm = RepositoryDataManager :: get_instance();
-                 $object = $rdm->retrieve_learning_object($params['compare']);
+                 $object = $rdm->retrieve_content_object($params['compare']);
                  $diff = $object->get_difference($params['object']);
-                 $diff_display = LearningObjectDifferenceDisplay :: factory($diff);
+                 $diff_display = ContentObjectDifferenceDisplay :: factory($diff);
                  /*
-                  *  A block hider is added to hide , and show the legend for the LearningObjectDifferenceDisplay
+                  *  A block hider is added to hide , and show the legend for the ContentObjectDifferenceDisplay
                   */
 
                  echo DokeosUtilities :: add_block_hider();

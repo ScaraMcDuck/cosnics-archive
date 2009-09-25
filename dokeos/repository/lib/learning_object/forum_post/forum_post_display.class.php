@@ -3,7 +3,7 @@
  * @package repository.learningobject
  * @subpackage forum
  */
-class ForumPostDisplay extends LearningObjectDisplay
+class ForumPostDisplay extends ContentObjectDisplay
 {
 }
 ?>

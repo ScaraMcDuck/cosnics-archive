@@ -2,8 +2,8 @@
 /**
  * @package application.weblcms.tool.assessment.component
  */
-require_once dirname(__FILE__) . '/../../../learning_object_repo_viewer.class.php';
-require_once dirname(__FILE__) . '/../../../publisher/learning_object_publisher.class.php';
+require_once dirname(__FILE__) . '/../../../content_object_repo_viewer.class.php';
+require_once dirname(__FILE__) . '/../../../publisher/content_object_publisher.class.php';
 require_once Path::get_library_path().'/html/action_bar/action_bar_renderer.class.php';
 require_once Path :: get_repository_path() . 'lib/complex_builder/complex_builder.class.php';
 
@@ -28,7 +28,7 @@ class AssessmentToolPublisherComponent extends AssessmentToolComponent
 		$trail->add(new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH)), Translation :: get('PublishAssessment')));
 		$trail->add_help('courses assessment tool');
 
-		$pub = new LearningObjectRepoViewer($this, array('assessment', 'survey', 'hotpotatoes'), true, RepoViewer :: SELECT_MULTIPLE);
+		$pub = new ContentObjectRepoViewer($this, array('assessment', 'survey', 'hotpotatoes'), true, RepoViewer :: SELECT_MULTIPLE);
 
 		if(!$pub->any_object_selected())
 		{
@@ -40,7 +40,7 @@ class AssessmentToolPublisherComponent extends AssessmentToolComponent
 		{
 			$object_id = Request :: get('object');
 			
-			$publisher = new LearningObjectPublisher($pub);
+			$publisher = new ContentObjectPublisher($pub);
 			$this->display_header($trail, true);
 			echo $publisher->get_publications_form($object_id);
 			$this->display_footer();

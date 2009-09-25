@@ -1,6 +1,6 @@
 <?php
 
-require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_form.class.php';
 
 class ForumManagerEditorComponent extends ForumManagerComponent
 {
@@ -12,9 +12,9 @@ class ForumManagerEditorComponent extends ForumManagerComponent
 
 			$datamanager = ForumDataManager :: get_instance();
 			$publication = $datamanager->retrieve_forum_publication($pid);
-			$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($publication->get_forum_id());
+			$content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($publication->get_forum_id());
 
-			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_EDIT, ForumManager :: PARAM_FORUM_PUBLICATION => $pid)));
+			$form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_EDIT, ForumManager :: PARAM_FORUM_PUBLICATION => $pid)));
 
 			$trail = new BreadcrumbTrail();
 
@@ -23,12 +23,12 @@ class ForumManagerEditorComponent extends ForumManagerComponent
 
 			if( $form->validate() )
 			{
-				$succes = $form->update_learning_object();
+				$succes = $form->update_content_object();
 
 				if($form->is_version())
 				{
 					$old_id = $publication->get_forum_id();
-					$publication->set_forum_id($learning_object->get_latest_version()->get_id());
+					$publication->set_forum_id($content_object->get_latest_version()->get_id());
 					$publication->update();
 					
 					RepositoryDataManager :: get_instance()->set_new_clo_version($old_id, $publication->get_forum_id());

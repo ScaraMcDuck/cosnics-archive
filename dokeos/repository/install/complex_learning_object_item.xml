@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<object name="complex_learning_object_item">
+<object name="complex_content_object_item">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
   <property name="ref_id" type="integer" unsigned="1" notnull="1" default="0"/>

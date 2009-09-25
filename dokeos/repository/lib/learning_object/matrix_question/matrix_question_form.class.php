@@ -3,10 +3,10 @@
  * @package repository.learningobject
  * @subpackage exercise
  */
-require_once dirname(__FILE__) . '/../../learning_object_form.class.php';
+require_once dirname(__FILE__) . '/../../content_object_form.class.php';
 require_once dirname(__FILE__) . '/matrix_question.class.php';
 
-class MatrixQuestionForm extends LearningObjectForm
+class MatrixQuestionForm extends ContentObjectForm
 {
 
     protected function build_creation_form()
@@ -35,7 +35,7 @@ class MatrixQuestionForm extends LearningObjectForm
 
     function setDefaults($defaults = array ())
     {
-        $object = $this->get_learning_object();
+        $object = $this->get_content_object();
         if (! is_null($object))
         {
             $options = $object->get_options();
@@ -67,23 +67,23 @@ class MatrixQuestionForm extends LearningObjectForm
 
     function setCsvValues($valuearray)
     {
-        $defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
-        $defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[1];
+        $defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
+        $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[1];
         parent :: setValues($defaults);
     }
 
-    function create_learning_object()
+    function create_content_object()
     {
         $object = new MatrixQuestion();
-        $this->set_learning_object($object);
+        $this->set_content_object($object);
         $this->add_answers();
-        return parent :: create_learning_object();
+        return parent :: create_content_object();
     }
 
-    function update_learning_object()
+    function update_content_object()
     {
         $this->add_answers();
-        return parent :: update_learning_object();
+        return parent :: update_content_object();
     }
 
     function remove_XSS_recursive()
@@ -98,7 +98,7 @@ class MatrixQuestionForm extends LearningObjectForm
      */
     private function add_answers()
     {
-        $object = $this->get_learning_object();
+        $object = $this->get_content_object();
         $values = $this->exportValues();
         $options = array();
         $matches = array();
@@ -195,7 +195,7 @@ class MatrixQuestionForm extends LearningObjectForm
             $_SESSION['mq_matrix_type'] = $_SESSION['mq_matrix_type'] == MatrixQuestion :: MATRIX_TYPE_RADIO ? MatrixQuestion :: MATRIX_TYPE_CHECKBOX : MatrixQuestion :: MATRIX_TYPE_RADIO;
         }
 
-        $object = $this->get_learning_object();
+        $object = $this->get_content_object();
         if (! $this->isSubmitted() && ! is_null($object))
         {
             $_SESSION['mq_number_of_options'] = $object->get_number_of_options();

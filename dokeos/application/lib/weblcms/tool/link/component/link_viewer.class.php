@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../link_tool.class.php';
 require_once dirname(__FILE__) . '/../link_tool_component.class.php';
 require_once dirname(__FILE__) . '/link_viewer/link_browser.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object/link/link.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object/link/link.class.php';
 
 class LinkToolViewerComponent extends LinkToolComponent
 {
@@ -20,14 +20,14 @@ class LinkToolViewerComponent extends LinkToolComponent
 		}
 
 		$conditions = array();
-		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
-		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'link');
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'link');
 		
 		$subselect_condition = new EqualityCondition('type', 'introduction');
-		$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
+		$conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
 		$condition = new AndCondition($conditions);
 		
-		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications_new($condition);
+		$publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($condition);
 		$this->introduction_text = $publications->next_result();
 
 		$this->action_bar = $this->get_action_bar();
@@ -44,7 +44,7 @@ class LinkToolViewerComponent extends LinkToolComponent
             }
         }*/
         if(Request :: get('pid') != null)
-        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get('pid'))->get_content_object()->get_title()));
 		$this->display_header($trail, true);
 
 		echo '<br /><a name="top"></a>';
@@ -103,8 +103,8 @@ class LinkToolViewerComponent extends LinkToolComponent
 		$query = $this->action_bar->get_query();
 		if(isset($query) && $query != '')
 		{
-			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);
-			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query);
+			$conditions[] = new LikeCondition(ContentObject :: PROPERTY_TITLE, $query);
+			$conditions[] = new LikeCondition(ContentObject :: PROPERTY_DESCRIPTION, $query);
 			return new OrCondition($conditions);
 		}
 
@@ -134,9 +134,9 @@ class LinkToolViewerComponent extends LinkToolComponent
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
 			);
 
-			$html[] = '<div class="learning_object">';
+			$html[] = '<div class="content_object">';
 			$html[] = '<div class="description">';
-			$html[] = $introduction_text->get_learning_object()->get_description();
+			$html[] = $introduction_text->get_content_object()->get_description();
 			$html[] = '</div>';
 			$html[] = DokeosUtilities :: build_toolbar($tb_data) . '<div class="clear"></div>';
 			$html[] = '</div>';

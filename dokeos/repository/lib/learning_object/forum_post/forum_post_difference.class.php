@@ -6,7 +6,7 @@
 /**
  * This class can be used to get the difference between forum posts
  */
-class ForumPostDifference extends LearningObjectDifference
+class ForumPostDifference extends ContentObjectDifference
 {
 }
 ?>

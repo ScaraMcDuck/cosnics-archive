@@ -52,11 +52,11 @@ abstract class ComplexDisplay
 		
         if($root_id)
 		{
-			$this->root = RepositoryDataManager :: get_instance()->retrieve_learning_object($root_id); 
+			$this->root = RepositoryDataManager :: get_instance()->retrieve_content_object($root_id); 
 		}
 		if($cloi_id)
 		{
-			$cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item($cloi_id);
+			$cloi = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($cloi_id);
 			if($cloi)
 				$this->cloi = $cloi;
 		}
@@ -250,9 +250,9 @@ abstract class ComplexDisplay
 	{
 		if($this->get_cloi())
 		{
-			return new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->get_cloi()->get_ref(), ComplexLearningObjectItem :: get_table_name());
+			return new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_cloi()->get_ref(), ComplexContentObjectItem :: get_table_name());
 		}
-		return new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->get_root_lo()->get_id(), ComplexLearningObjectItem :: get_table_name());
+		return new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_root_lo()->get_id(), ComplexContentObjectItem :: get_table_name());
 	}
 
 	function get_clo_menu()
@@ -285,7 +285,7 @@ abstract class ComplexDisplay
 
 	//url building
 
-	function get_complex_learning_object_item_edit_url($cloi, $root_id)
+	function get_complex_content_object_item_edit_url($cloi, $root_id)
 	{
 		return $this->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_UPDATE_CLOI,
 									self :: PARAM_ROOT_LO => $root_id,
@@ -294,7 +294,7 @@ abstract class ComplexDisplay
 									'publish' => Request :: get('publish')));
 	}
 
-	function get_complex_learning_object_item_delete_url($cloi, $root_id)
+	function get_complex_content_object_item_delete_url($cloi, $root_id)
 	{
 		return $this->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_DELETE_CLOI,
 									self :: PARAM_ROOT_LO => $root_id,
@@ -303,7 +303,7 @@ abstract class ComplexDisplay
 									'publish' => Request :: get('publish')));
 	}
 
-	function get_complex_learning_object_item_move_url($cloi, $root_id, $direction)
+	function get_complex_content_object_item_move_url($cloi, $root_id, $direction)
 	{
 		return $this->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_MOVE_CLOI,
 									self :: PARAM_ROOT_LO => $root_id,
@@ -330,7 +330,7 @@ abstract class ComplexDisplay
 
 	function get_creation_links($lo, $types = array())
 	{
-		$html[] = '<div class="category_form"><div id="learning_object_selection">';
+		$html[] = '<div class="category_form"><div id="content_object_selection">';
 
 		if(count($types) == 0)
 			$types = $lo->get_allowed_types();
@@ -338,8 +338,8 @@ abstract class ComplexDisplay
 		foreach($types as $type)
 		{
 			$url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_CLOI, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), ComplexBuilder :: PARAM_CLOI_ID => ($this->get_cloi()?$this->get_cloi()->get_id():null), 'publish' => Request :: get('publish')));
-			$html[] = '<a href="'. $url .'"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'learning_object/big/' . $type . '.png);">';
-			$html[] = Translation :: get(LearningObject :: type_to_class($type).'TypeName');
+			$html[] = '<a href="'. $url .'"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
+			$html[] = Translation :: get(ContentObject :: type_to_class($type).'TypeName');
 			$html[] = '<div class="clear">&nbsp;</div>';
 			$html[] = '</div></a>';
 		}

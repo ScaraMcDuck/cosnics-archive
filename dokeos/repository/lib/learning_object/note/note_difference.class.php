@@ -9,7 +9,7 @@
 /**
  * This class can be used to get the difference between notes
  */
-class NoteDifference extends LearningObjectDifference
+class NoteDifference extends ContentObjectDifference
 {
 }
 ?>

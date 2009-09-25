@@ -26,7 +26,7 @@ class EventBrowserTableColumnModel extends DefaultEventTableColumnModel
 
     /**
      * Gets the modification column
-     * @return LearningObjectTableColumn
+     * @return ContentObjectTableColumn
      */
     static function get_modification_column()
     {

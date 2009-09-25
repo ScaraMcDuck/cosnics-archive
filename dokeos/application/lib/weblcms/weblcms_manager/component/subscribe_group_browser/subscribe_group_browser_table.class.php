@@ -15,7 +15,7 @@ class SubscribeGroupBrowserTable extends ObjectTable
 	
 	/**
 	 * Constructor
-	 * @see LearningObjectTable::LearningObjectTable()
+	 * @see ContentObjectTable::ContentObjectTable()
 	 */
 	function SubscribeGroupBrowserTable($browser, $parameters, $condition)
 	{

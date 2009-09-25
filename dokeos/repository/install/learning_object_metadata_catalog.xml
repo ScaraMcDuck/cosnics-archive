@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<object name="learning_object_metadata_catalog">
+<object name="content_object_metadata_catalog">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
   <property name="type" notnull="1" type="text" length="50" fixed="true" />

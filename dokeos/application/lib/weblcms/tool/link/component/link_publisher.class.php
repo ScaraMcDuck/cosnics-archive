@@ -2,8 +2,8 @@
 
 require_once dirname(__FILE__) . '/../link_tool.class.php';
 require_once dirname(__FILE__) . '/../link_tool_component.class.php';
-require_once dirname(__FILE__).'/../../../learning_object_repo_viewer.class.php';
-require_once dirname(__FILE__) . '/../../../publisher/learning_object_publisher.class.php';
+require_once dirname(__FILE__).'/../../../content_object_repo_viewer.class.php';
+require_once dirname(__FILE__) . '/../../../publisher/content_object_publisher.class.php';
 
 class LinkToolPublisherComponent extends LinkToolComponent
 {
@@ -27,7 +27,7 @@ class LinkToolPublisherComponent extends LinkToolComponent
         }
 		$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), Translation :: get('Publish')));
 		$object = Request :: get('object');
-		$pub = new LearningObjectRepoViewer($this, 'link', true);
+		$pub = new ContentObjectRepoViewer($this, 'link', true);
 
 		if(!isset($object))
 		{
@@ -35,7 +35,7 @@ class LinkToolPublisherComponent extends LinkToolComponent
 		}
 		else
 		{
-			$publisher = new LearningObjectPublisher($pub);
+			$publisher = new ContentObjectPublisher($pub);
 			$html[] = $publisher->get_publications_form($object);
 		}
 

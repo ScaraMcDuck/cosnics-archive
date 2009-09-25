@@ -50,10 +50,10 @@ class CsvCreator
 				//$categorystring= $dataManager->retrieve_root_category($user);
 				$category= $this->parent_split($categorystring);
 				//create the abstract learning object			
-				$object = new AbstractLearningObject($type, $user, $category);
+				$object = new AbstractContentObject($type, $user, $category);
 				$message = '';
 				//Create a form for the Learning object
-				$lo_form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $object, 'create');	
+				$lo_form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_CREATE, $object, 'create');	
 				$valuearray= array();
 				//Fill up the valuearray with values , retrieved from the csv , id is automatically put on 					1 (root)
 				for ( $j=1; $j<count($csvarray[$i]); $j++)

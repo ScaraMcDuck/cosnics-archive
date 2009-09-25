@@ -89,10 +89,10 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
         $publication_alias = $this->database->get_alias(AssessmentPublication :: get_table_name());
         $publication_user_alias = $this->database->get_alias(AssessmentPublicationUser :: get_table_name());
         $publication_group_alias = $this->database->get_alias(AssessmentPublicationGroup :: get_table_name());
-        $object_alias = $this->database->get_alias(LearningObject :: get_table_name());
+        $object_alias = $this->database->get_alias(ContentObject :: get_table_name());
 
         $query  = 'SELECT COUNT(*) FROM ' . $this->database->escape_table_name(AssessmentPublication :: get_table_name()) . ' AS ' . $publication_alias;
-        $query .= ' JOIN ' . $rdm->get_database()->escape_table_name(LearningObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->database->escape_column_name(AssessmentPublication :: PROPERTY_LEARNING_OBJECT, $publication_alias) . ' = ' . $rdm->get_database()->escape_column_name(LearningObject :: PROPERTY_ID, $object_alias);
+        $query .= ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->database->escape_column_name(AssessmentPublication :: PROPERTY_LEARNING_OBJECT, $publication_alias) . ' = ' . $rdm->get_database()->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
         $query .= ' LEFT JOIN ' . $this->database->escape_table_name(AssessmentPublicationUser :: get_table_name()) . ' AS ' . $publication_user_alias . ' ON ' . $this->database->escape_column_name(AssessmentPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->database->escape_column_name(AssessmentPublicationUser :: PROPERTY_ASSESSMENT_PUBLICATION, $publication_user_alias);
         $query .= ' LEFT JOIN ' . $this->database->escape_table_name(AssessmentPublicationGroup :: get_table_name()) . ' AS ' . $publication_group_alias . ' ON ' . $this->database->escape_column_name(AssessmentPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->database->escape_column_name(AssessmentPublicationGroup :: PROPERTY_ASSESSMENT_PUBLICATION, $publication_group_alias);
 
@@ -171,10 +171,10 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
         $publication_alias = $this->database->get_alias(AssessmentPublication :: get_table_name());
         $publication_user_alias = $this->database->get_alias(AssessmentPublicationUser :: get_table_name());
         $publication_group_alias = $this->database->get_alias(AssessmentPublicationGroup :: get_table_name());
-        $object_alias = $this->database->get_alias(LearningObject :: get_table_name());
+        $object_alias = $this->database->get_alias(ContentObject :: get_table_name());
 
         $query  = 'SELECT ' . $publication_alias . '.* FROM ' . $this->database->escape_table_name(AssessmentPublication :: get_table_name()) . ' AS ' . $publication_alias;
-        $query .= ' JOIN ' . $rdm->get_database()->escape_table_name(LearningObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->database->escape_column_name(AssessmentPublication :: PROPERTY_LEARNING_OBJECT, $publication_alias) . ' = ' . $rdm->get_database()->escape_column_name(LearningObject :: PROPERTY_ID, $object_alias);
+        $query .= ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->database->escape_column_name(AssessmentPublication :: PROPERTY_LEARNING_OBJECT, $publication_alias) . ' = ' . $rdm->get_database()->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
         $query .= ' LEFT JOIN ' . $this->database->escape_table_name(AssessmentPublicationUser :: get_table_name()) . ' AS ' . $publication_user_alias . ' ON ' . $this->database->escape_column_name(AssessmentPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->database->escape_column_name(AssessmentPublicationUser :: PROPERTY_ASSESSMENT_PUBLICATION, $publication_user_alias);
         $query .= ' LEFT JOIN ' . $this->database->escape_table_name(AssessmentPublicationGroup :: get_table_name()) . ' AS ' . $publication_group_alias . ' ON ' . $this->database->escape_column_name(AssessmentPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->database->escape_column_name(AssessmentPublicationGroup :: PROPERTY_ASSESSMENT_PUBLICATION, $publication_group_alias);
 		
@@ -295,24 +295,24 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
 		return $this->database->retrieve_objects(SurveyInvitation :: get_table_name(), $condition, $offset, $count, $order_property, $order_direction);
 	}
 	
-	function learning_object_is_published($object_id)
+	function content_object_is_published($object_id)
 	{
-		return $this->any_learning_object_is_published(array($object_id));
+		return $this->any_content_object_is_published(array($object_id));
 	}
 
-	function any_learning_object_is_published($object_ids)
+	function any_content_object_is_published($object_ids)
 	{
 		$condition = new InCondition(AssessmentPublication :: PROPERTY_LEARNING_OBJECT, $object_ids);
         return $this->database->count_objects(AssessmentPublication :: get_table_name(), $condition) >= 1;
 	}
 
-	function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		if (isset($type))
         {
             if ($type == 'user')
             {
-                $query = 'SELECT ' . $this->database->get_alias(AssessmentPublication :: get_table_name()) . '.*, lo.' . $this->database->escape_column_name('title') . ' FROM ' . $this->database->escape_table_name(AssessmentPublication :: get_table_name()) . ' AS ' . $this->database->get_alias(AssessmentPublication :: get_table_name()) . ' JOIN ' . RepositoryDataManager :: get_instance()->escape_table_name('learning_object') . ' AS lo ON ' . $this->database->get_alias(AssessmentPublication :: get_table_name()) . '.`object_id` = lo.`id`';
+                $query = 'SELECT ' . $this->database->get_alias(AssessmentPublication :: get_table_name()) . '.*, lo.' . $this->database->escape_column_name('title') . ' FROM ' . $this->database->escape_table_name(AssessmentPublication :: get_table_name()) . ' AS ' . $this->database->get_alias(AssessmentPublication :: get_table_name()) . ' JOIN ' . RepositoryDataManager :: get_instance()->escape_table_name('content_object') . ' AS lo ON ' . $this->database->get_alias(AssessmentPublication :: get_table_name()) . '.`object_id` = lo.`id`';
                 $query .= ' WHERE ' . $this->database->get_alias(AssessmentPublication :: get_table_name()) . '.' . $this->database->escape_column_name(AssessmentPublication :: PROPERTY_PUBLISHER) . '=?';
 
                 $order = array();
@@ -323,8 +323,8 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
                     }
                     elseif ($order_property[$i] == 'location')
                     {
-                        //$order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(LearningObjectPublication :: PROPERTY_COURSE_ID) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
-                        //$order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(LearningObjectPublication :: PROPERTY_TOOL) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                        //$order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_COURSE_ID) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                        //$order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_TOOL) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
                     }
                     elseif ($order_property[$i] == 'title')
                     {
@@ -354,7 +354,7 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
         $publication_attr = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
-            $info = new LearningObjectPublicationAttributes();
+            $info = new ContentObjectPublicationAttributes();
             $info->set_id($record[AssessmentPublication :: PROPERTY_ID]);
             $info->set_publisher_user_id($record[AssessmentPublication :: PROPERTY_PUBLISHER]);
             $info->set_publication_date($record[AssessmentPublication :: PROPERTY_PUBLISHED]);
@@ -369,7 +369,7 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
         return $publication_attr;
 	}
 
-	function get_learning_object_publication_attribute($publication_id)
+	function get_content_object_publication_attribute($publication_id)
 	{
 		$query = 'SELECT * FROM ' . $this->database->escape_table_name(AssessmentPublication :: get_table_name()) . ' WHERE ' . $this->database->escape_column_name(AssessmentPublication :: PROPERTY_ID) . '=?';
         $statement = $this->database->get_connection()->prepare($query);
@@ -379,7 +379,7 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
         $publication_attr = array();
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 
-        $publication_attr = new LearningObjectPublicationAttributes();
+        $publication_attr = new ContentObjectPublicationAttributes();
         $publication_attr->set_id($record[AssessmentPublication :: PROPERTY_ID]);
         $publication_attr->set_publisher_user_id($record[AssessmentPublication :: PROPERTY_PUBLISHER]);
         $publication_attr->set_publication_date($record[AssessmentPublication :: PROPERTY_PUBLISHED]);
@@ -398,7 +398,7 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
         return $this->database->count_objects(AssessmentPublication :: get_table_name(), $condition);
 	}
 
-	function delete_learning_object_publications($object_id)
+	function delete_content_object_publications($object_id)
 	{
 		$condition = new EqualityCondition(AssessmentPublication :: PROPERTY_LEARNING_OBJECT, $object_id);
         $publications = $this->retrieve_assessment_publications($condition);
@@ -413,7 +413,7 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
         return $succes;
 	}
 
-	function update_learning_object_publication_id($publication_attr)
+	function update_content_object_publication_id($publication_attr)
 	{
 	 	$where = $this->database->escape_column_name(AssessmentPublication :: PROPERTY_ID) . '=' . $publication_attr->get_id();
         $props = array();

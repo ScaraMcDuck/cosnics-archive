@@ -9,7 +9,7 @@
 /**
  * This class can be used to get the difference between blog_items
  */
-class BlogItemDifference extends LearningObjectDifference
+class BlogItemDifference extends ContentObjectDifference
 {
 }
 ?>

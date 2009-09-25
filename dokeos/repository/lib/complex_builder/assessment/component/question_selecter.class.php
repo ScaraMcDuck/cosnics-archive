@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__) . '/../assessment_builder_component.class.php';
 require_once dirname(__FILE__) . '/../../complex_repo_viewer.class.php';
-require_once Path :: get_repository_path() . '/lib/learning_object/assessment/assessment.class.php';
+require_once Path :: get_repository_path() . '/lib/content_object/assessment/assessment.class.php';
 
 class AssessmentBuilderQuestionSelecterComponent extends AssessmentBuilderComponent
 {
@@ -11,7 +11,7 @@ class AssessmentBuilderQuestionSelecterComponent extends AssessmentBuilderCompon
 		$assessment_id = Request :: get(AssessmentBuilder :: PARAM_ASSESSMENT_ID);
 		if($assessment_id)
 		{
-			$clois = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment_id, ComplexLearningObjectItem :: get_table_name()));
+			$clois = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $assessment_id, ComplexContentObjectItem :: get_table_name()));
 			while($cloi = $clois->next_result())
 			{
 				$question_ids[] = $cloi->get_ref();
@@ -37,8 +37,8 @@ class AssessmentBuilderQuestionSelecterComponent extends AssessmentBuilderCompon
 		
 		foreach($question_ids as $question_id)
 		{
-			$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($question_id);
-			$cloi = ComplexLearningObjectItem :: factory($question->get_type());
+			$question = RepositoryDataManager :: get_instance()->retrieve_content_object($question_id);
+			$cloi = ComplexContentObjectItem :: factory($question->get_type());
 			$cloi->set_parent($parent);
 			$cloi->set_ref($question_id);
 			$cloi->set_user_id($this->get_user_id());

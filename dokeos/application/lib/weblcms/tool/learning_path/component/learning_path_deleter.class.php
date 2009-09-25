@@ -25,7 +25,7 @@ class LearningPathToolDeleterComponent extends LearningPathToolComponent
 
 			foreach($publication_ids as $pid)
 			{
-				$publication = $datamanager->retrieve_learning_object_publication($pid);
+				$publication = $datamanager->retrieve_content_object_publication($pid);
 
 				$condition = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_LP_ID, $pid);
 				$dummy = new WeblcmsLpAttemptTracker();
@@ -37,11 +37,11 @@ class LearningPathToolDeleterComponent extends LearningPathToolComponent
 			}
 			if(count($publication_ids) > 1)
 			{
-				$message = htmlentities(Translation :: get('LearningObjectPublicationsDeleted'));
+				$message = htmlentities(Translation :: get('ContentObjectPublicationsDeleted'));
 			}
 			else
 			{
-				$message = htmlentities(Translation :: get('LearningObjectPublicationDeleted'));
+				$message = htmlentities(Translation :: get('ContentObjectPublicationDeleted'));
 			}
 
 			$this->redirect($message, '', array('pid' => null));

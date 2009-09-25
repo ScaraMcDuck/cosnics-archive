@@ -3,7 +3,7 @@
 	<package>
 		<name>Select Question</name>
 		<code>select_question</code>
-		<section>learning_object</section>
+		<section>content_object</section>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/s/select_question/select_question-1.0.0.zip</filename>

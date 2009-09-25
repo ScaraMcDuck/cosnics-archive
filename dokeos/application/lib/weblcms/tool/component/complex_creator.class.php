@@ -1,9 +1,9 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../learning_object_publication_form.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
-require_once Path :: get_repository_path() . 'lib/complex_learning_object_item_form.class.php';
-require_once dirname(__FILE__).'/../../learning_object_repo_viewer.class.php';
+require_once dirname(__FILE__) . '/../../content_object_publication_form.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_form.class.php';
+require_once Path :: get_repository_path() . 'lib/complex_content_object_item_form.class.php';
+require_once dirname(__FILE__).'/../../content_object_repo_viewer.class.php';
 
 class ToolComplexCreatorComponent extends ToolComponent
 {
@@ -21,13 +21,13 @@ class ToolComplexCreatorComponent extends ToolComponent
             else
             {
                 $trail = new BreadCrumbTrail();
-                $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
+                $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get('pid'))->get_content_object()->get_title()));
                 $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_CREATE_CLOI, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'), 'type' => Request :: get('type'))), Translation :: get('Create')));
             }
 
 			$type = Request :: get('type');
 
-			$pub = new LearningObjectRepoViewer($this, $type, true);
+			$pub = new ContentObjectRepoViewer($this, $type, true);
 			$pub->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_CREATE_CLOI);
 			$pub->set_parameter('pid', $pid);
 			$pub->set_parameter('type', $type);
@@ -46,20 +46,20 @@ class ToolComplexCreatorComponent extends ToolComponent
 			}
 			else
 			{
-				$cloi = ComplexLearningObjectItem :: factory($type);
+				$cloi = ComplexContentObjectItem :: factory($type);
 
 				$cloi->set_ref($object_id);
 				$cloi->set_user_id($this->get_user_id());
-                $cloi->set_parent(WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid)->get_learning_object()->get_id());
+                $cloi->set_parent(WebLcmsDataManager :: get_instance()->retrieve_content_object_publication($pid)->get_content_object()->get_id());
 				$cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($pid));
 
-				$cloi_form = ComplexLearningObjectItemForm :: factory(ComplexLearningObjectItemForm :: TYPE_CREATE, $cloi, 'create_complex', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_CREATE_CLOI, 'object' => $object_id)));
+				$cloi_form = ComplexContentObjectItemForm :: factory(ComplexContentObjectItemForm :: TYPE_CREATE, $cloi, 'create_complex', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_CREATE_CLOI, 'object' => $object_id)));
 
 				if($cloi_form)
 				{
 					if ($cloi_form->validate() || !$cloi->is_extended())
 					{
-						$cloi_form->create_complex_learning_object_item();
+						$cloi_form->create_complex_content_object_item();
 						$this->my_redirect($pid);
 					}
 					else
@@ -81,7 +81,7 @@ class ToolComplexCreatorComponent extends ToolComponent
 
 	private function my_redirect($pid)
 	{
-		$message = htmlentities(Translation :: get('LearningObjectCreated'));
+		$message = htmlentities(Translation :: get('ContentObjectCreated'));
 
 		$params = array();
 		$params['pid'] = $pid;

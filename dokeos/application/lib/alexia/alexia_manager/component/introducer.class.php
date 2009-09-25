@@ -38,7 +38,7 @@ class AlexiaManagerIntroducerComponent extends AlexiaManagerComponent
 		else
 		{			
 			$publication = new AlexiaPublication();
-			$publication->set_learning_object($object);
+			$publication->set_content_object($object);
 			$publication->set_target_users(array());
 			$publication->set_target_groups(array());
 			$publication->set_from_date(0);

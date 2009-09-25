@@ -103,14 +103,14 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 	}
 
 	// Inherited.
-    public function any_learning_object_is_published($object_ids)
+    public function any_content_object_is_published($object_ids)
     {
         $condition = new InCondition(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE, $object_ids);
         return $this->database->count_objects(PersonalMessagePublication :: get_table_name(), $condition) >= 1;
     }
 
     // Inherited.
-    public function learning_object_is_published($object_id)
+    public function content_object_is_published($object_id)
     {
         $condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE, $object_id);
         return $this->database->count_objects(CalendarEventPublication :: get_table_name(), $condition) >= 1;
@@ -123,14 +123,14 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
     }
 
 	// Inherited.
-	function get_learning_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_content_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		if (isset($type))
 		{
 			if ($type == 'user')
 			{
 				$query  = 'SELECT '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE.'.*, '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.'. $this->database->escape_column_name('title') .' FROM '.$this->database->escape_table_name('publication').' AS '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE;
-				$query .= ' JOIN '.RepositoryDataManager :: get_instance()->escape_table_name('learning_object').' AS '. self :: ALIAS_LEARNING_OBJECT_TABLE .' ON '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .'.`personal_message` = '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.`id`';
+				$query .= ' JOIN '.RepositoryDataManager :: get_instance()->escape_table_name('content_object').' AS '. self :: ALIAS_LEARNING_OBJECT_TABLE .' ON '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .'.`personal_message` = '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.`id`';
 				$query .= ' WHERE '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE. '.'.$this->database->escape_column_name(PersonalMessagePublication :: PROPERTY_USER).'=?';
 
 				$order = array ();
@@ -172,7 +172,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		{
 			$publication = $this->database->record_to_class_object($record, PersonalMessagePublication :: CLASS_NAME);
 
-			$info = new LearningObjectPublicationAttributes();
+			$info = new ContentObjectPublicationAttributes();
 			$info->set_id($publication->get_id());
 			$info->set_publisher_user_id($publication->get_sender());
 			$info->set_publication_date($publication->get_published());
@@ -205,11 +205,11 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 	}
 
 	// Inherited.
-	function get_learning_object_publication_attribute($publication_id)
+	function get_content_object_publication_attribute($publication_id)
 	{
 	    $publication = $this->retrieve_personal_message_publication($publication_id);
 
-		$info = new LearningObjectPublicationAttributes();
+		$info = new ContentObjectPublicationAttributes();
 		$info->set_id($publication->get_id());
 		$info->set_publisher_user_id($publication->get_sender());
 		$info->set_publication_date($publication->get_published());

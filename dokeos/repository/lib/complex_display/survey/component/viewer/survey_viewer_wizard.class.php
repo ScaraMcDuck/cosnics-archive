@@ -32,7 +32,7 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
 	function addpages()
 	{
 		$survey = $this->survey;
-		$total_questions = RepositoryDataManager :: get_instance()->count_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $survey->get_id(), ComplexLearningObjectItem :: get_table_name()));
+		$total_questions = RepositoryDataManager :: get_instance()->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $survey->get_id(), ComplexContentObjectItem :: get_table_name()));
 		$questions_per_page = $survey->get_questions_per_page();
 		
 		if($questions_per_page == 0)
@@ -67,7 +67,7 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
 			$start = (($page_number - 1) * $questions_per_page);
 			$stop = $questions_per_page;
 		}
-		$questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $survey->get_id(), ComplexLearningObjectItem :: get_table_name()), array(), array(), $start, $stop);
+		$questions = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $survey->get_id(), ComplexContentObjectItem :: get_table_name()), array(), array(), $start, $stop);
 		return $questions;
 	}
 	

@@ -6,7 +6,7 @@
 /**
  * This class can be used to display the difference between select questions
  */
-class SelectQuestionDifferenceDisplay extends LearningObjectDifferenceDisplay
+class SelectQuestionDifferenceDisplay extends ContentObjectDifferenceDisplay
 {
 }
 ?>

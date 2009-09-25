@@ -3,10 +3,10 @@
  * @package repository.learningobject
  * @subpackage answer
  */
-require_once dirname(__FILE__) . '/../../complex_learning_object_item_form.class.php';
+require_once dirname(__FILE__) . '/../../complex_content_object_item_form.class.php';
 require_once dirname(__FILE__) . '/complex_wiki_page.class.php';
 
-class ComplexWikiPageForm extends ComplexLearningObjectItemForm
+class ComplexWikiPageForm extends ComplexContentObjectItemForm
 {
     protected function build_creation_form()
     {
@@ -42,7 +42,7 @@ class ComplexWikiPageForm extends ComplexLearningObjectItemForm
 
 	function get_default_values()
 	{
-		$cloi = $this->get_complex_learning_object_item();
+		$cloi = $this->get_complex_content_object_item();
 
 		if (isset ($cloi))
 		{
@@ -52,7 +52,7 @@ class ComplexWikiPageForm extends ComplexLearningObjectItemForm
 		return $defaults;
 	}
 
-    function create_complex_learning_object_item()
+    function create_complex_content_object_item()
 	{
 		$values = $this->exportValues();
 		$this->create_cloi_from_values($values);
@@ -60,25 +60,25 @@ class ComplexWikiPageForm extends ComplexLearningObjectItemForm
 
 	function create_cloi_from_values($values)
 	{
-		$cloi = $this->get_complex_learning_object_item();
+		$cloi = $this->get_complex_content_object_item();
 		$cloi->set_is_homepage(empty($values[ComplexWikiPage :: PROPERTY_IS_HOMEPAGE])?false:$values[ComplexWikiPage :: PROPERTY_IS_HOMEPAGE]);
-		return parent :: create_complex_learning_object_item();
+		return parent :: create_complex_content_object_item();
 	}
 
 	function update_cloi_from_values($values)
 	{
-		$cloi = $this->get_complex_learning_object_item();
+		$cloi = $this->get_complex_content_object_item();
 		$cloi->set_is_homepage(empty($values[ComplexWikiPage :: PROPERTY_IS_HOMEPAGE])?false:$values[ComplexWikiPage :: PROPERTY_IS_HOMEPAGE]);
-		return parent :: update_complex_learning_object_item();
+		return parent :: update_complex_content_object_item();
 	}
 
 	// Inherited
-	function update_complex_learning_object_item()
+	function update_complex_content_object_item()
 	{
-		$cloi = $this->get_complex_learning_object_item();
+		$cloi = $this->get_complex_content_object_item();
 		$values = $this->exportValues();
 		$cloi->set_is_homepage(empty($values[ComplexWikiPage :: PROPERTY_IS_HOMEPAGE])?false:$values[ComplexWikiPage :: PROPERTY_IS_HOMEPAGE]);
-		return parent :: update_complex_learning_object_item();
+		return parent :: update_complex_content_object_item();
 	}
 }
 

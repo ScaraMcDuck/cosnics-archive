@@ -2,7 +2,7 @@
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
 require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 /**
- * $Id: learning_object_publication.class.php 18805 2009-03-05 09:33:09Z Samumon $
+ * $Id: content_object_publication.class.php 18805 2009-03-05 09:33:09Z Samumon $
  * @package application.weblcms
  */
 /**
@@ -11,7 +11,7 @@ require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
  * When publishing a learning object from the repository in the weblcms
  * application, a new object of this type is created.
  */
-class LearningObjectPublicationUser
+class ContentObjectPublicationUser
 {
    /**#@+
     * Constant defining a property of the publication
@@ -21,7 +21,7 @@ class LearningObjectPublicationUser
 	const PROPERTY_USER_ID = 'user_id';
 
 
-	function LearningObjectPublicationUser($course, $tool, $user)
+	function ContentObjectPublicationUser($course, $tool, $user)
 	{
         $this->set_default_property(self :: PROPERTY_COURSE_ID, $course);
         $this->set_default_property(self :: PROPERTY_TOOL, $tool);

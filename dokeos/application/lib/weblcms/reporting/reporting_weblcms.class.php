@@ -68,19 +68,19 @@ class ReportingWeblcms
         $user_id = $params[ReportingManager :: PARAM_USER_ID];
 
         $conditions = array();
-        $conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course_id);
+        $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course_id);
         $access = array();
-        $access[] = new InCondition('user_id', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
-        $access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('learning_object_publication_course_group'));
+        $access[] = new InCondition('user_id', $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
+        $access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
         if (!empty($user_id))
         {
-            $access[] = new EqualityCondition('user', null, $datamanager->get_database()->get_alias('learning_object_publication_user'));
+            $access[] = new EqualityCondition('user', null, $datamanager->get_database()->get_alias('content_object_publication_user'));
         }
         $conditions[] = new OrCondition($access);
         $condition = new AndCondition($conditions);
 
-        $series = $wdm->count_learning_object_publications_new($condition);
-        $lops = $wdm->retrieve_learning_object_publications_new($condition);
+        $series = $wdm->count_content_object_publications_new($condition);
+        $lops = $wdm->retrieve_content_object_publications_new($condition);
     }
 
     /**
@@ -329,8 +329,8 @@ class ReportingWeblcms
         {
             $lastpublication = 0;
 
-            $condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
-            $publications = $datamanager->retrieve_learning_object_publications_new($condition);
+            $condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
+            $publications = $datamanager->retrieve_content_object_publications_new($condition);
 
             while($publication = $publications->next_result())
             {
@@ -390,8 +390,8 @@ class ReportingWeblcms
                 $lastaccess = $value->get_leave_date();
             }
 
-            $condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
-            $publications = $datamanager->retrieve_learning_object_publications_new($condition);
+            $condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
+            $publications = $datamanager->retrieve_content_object_publications_new($condition);
 
             while($publication = $publications->next_result())
             {
@@ -422,11 +422,11 @@ class ReportingWeblcms
         }
 
         $wdm = WeblcmsDataManager :: get_instance();
-        $learning_objects = $wdm->retrieve_learning_object_publications_new();
-        while($learning_object = $learning_objects->next_result())
+        $content_objects = $wdm->retrieve_content_object_publications_new();
+        while($content_object = $content_objects->next_result())
         {
-        //dump($learning_object);
-            $arr[$learning_object->get_learning_object()->get_type()][0]++;
+        //dump($content_object);
+            $arr[$content_object->get_content_object()->get_type()][0]++;
         }
 
         foreach ($arr as $key => $value)
@@ -451,10 +451,10 @@ class ReportingWeblcms
             $arr[$value][0] = 0;
         }
 
-        $list = $rdm->retrieve_learning_objects();
-        while($learning_object = $list->next_result())
+        $list = $rdm->retrieve_content_objects();
+        while($content_object = $list->next_result())
         {
-            $arr[$learning_object->get_type()][0]++;
+            $arr[$content_object->get_type()][0]++;
         }
 
         foreach ($arr as $key => $value)
@@ -475,13 +475,13 @@ class ReportingWeblcms
         $course = $wdm->retrieve_course($course_id);
 
         $conditions = array();
-        $conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
-        $conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'learning_path');
-        $lops = $wdm->retrieve_learning_object_publications_new($condition,$params['order_by']);
+        $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
+        $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'learning_path');
+        $lops = $wdm->retrieve_content_object_publications_new($condition,$params['order_by']);
 
         while($lop = $lops->next_result())
         {
-            $lpo = $lop->get_learning_object();
+            $lpo = $lop->get_content_object();
             $arr[$lpo->get_title()][0] = 0;
         }
 
@@ -501,9 +501,9 @@ class ReportingWeblcms
         require_once Path :: get_repository_path().'lib/repository_data_manager.class.php';
         require_once Path :: get_user_path().'/lib/user_data_manager.class.php';
         $dm = RepositoryDataManager :: get_instance();
-        $cloi = $dm->retrieve_complex_learning_object_item($params['cid']);
-        $wiki_page = $dm->retrieve_learning_object($cloi->get_ref());
-        $versions = $dm->retrieve_learning_object_versions($wiki_page);
+        $cloi = $dm->retrieve_complex_content_object_item($params['cid']);
+        $wiki_page = $dm->retrieve_content_object($cloi->get_ref());
+        $versions = $dm->retrieve_content_object_versions($wiki_page);
         $users = array();
         foreach($versions as $version)
         {
@@ -523,9 +523,9 @@ class ReportingWeblcms
         require_once Path :: get_repository_path().'lib/repository_data_manager.class.php';
         require_once Path :: get_user_path().'/lib/user_data_manager.class.php';
         $dm = RepositoryDataManager :: get_instance();
-        $cloi = $dm->retrieve_complex_learning_object_item($params['cid']);
-        $wiki_page = $dm->retrieve_learning_object($cloi->get_ref());
-        $versions = $dm->retrieve_learning_object_versions($wiki_page);
+        $cloi = $dm->retrieve_complex_content_object_item($params['cid']);
+        $wiki_page = $dm->retrieve_content_object($cloi->get_ref());
+        $versions = $dm->retrieve_content_object_versions($wiki_page);
         $users = array();
         foreach($versions as $version)
         {
@@ -578,7 +578,7 @@ class ReportingWeblcms
         foreach($cids as &$cid)
         {
             $visits[$cid] = $visits[$cid]+1;
-            $cloi = RepositoryDataManager ::get_instance()->retrieve_complex_learning_object_item($cid);
+            $cloi = RepositoryDataManager ::get_instance()->retrieve_complex_content_object_item($cid);
             if(!empty($cloi))
                 $cloi_refs[$cid] = $cloi->get_ref();
         }
@@ -599,7 +599,7 @@ class ReportingWeblcms
             {
                 if(in_array($key,array_keys($cloi_refs)))
                 {
-                    $page = RepositoryDataManager :: get_instance()->retrieve_learning_object($cloi_refs[$key]);
+                    $page = RepositoryDataManager :: get_instance()->retrieve_content_object($cloi_refs[$key]);
                     $url = (Redirect ::get_url(array('go' => 'courseviewer', 'course' => $params['course_id'], 'tool' => 'wiki', 'application' => 'weblcms', 'tool_action' => $tool_action, 'display_action' => 'view_item', 'pid' => $params['pid'], 'selected_cloi' => $keys[0])));
                     $arr[Translation :: get('MostVisitedPage')][] = '<a href="'.$url.'">'. htmlspecialchars($page->get_title()) . '</a>';
                     $arr[Translation :: get('NumberOfVisits')][] = $visits[$keys[0]];
@@ -615,21 +615,21 @@ class ReportingWeblcms
     {
         require_once Path :: get_repository_path().'lib/repository_data_manager.class.php';
         require_once Path :: get_application_path().'lib/weblcms/data_manager/database.class.php';
-        $wiki = RepositoryDataManager :: get_instance()->retrieve_learning_object($params['pid']);
+        $wiki = RepositoryDataManager :: get_instance()->retrieve_content_object($params['pid']);
 
-        $clois = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition(ComplexlearningObjectItem :: PROPERTY_PARENT, $wiki->get_id()),$params['order_by'])->as_array();
+        $clois = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexlearningObjectItem :: PROPERTY_PARENT, $wiki->get_id()),$params['order_by'])->as_array();
 
         if(empty($clois))
             return Reporting::getSerieArray($arr);
 
         foreach($clois as $cloi)
         {
-            $pages[$cloi->get_id()] = RepositoryDataManager :: get_instance()->retrieve_learning_object($cloi->get_ref());
+            $pages[$cloi->get_id()] = RepositoryDataManager :: get_instance()->retrieve_content_object($cloi->get_ref());
         }
 
         foreach($pages as $cid => $page)
         {
-            $edits[$page->get_title()] = RepositoryDataManager :: get_instance()->count_learning_object_versions($page);
+            $edits[$page->get_title()] = RepositoryDataManager :: get_instance()->count_content_object_versions($page);
             $page_ids[$page->get_title()] = $cid;
         }
         arsort($edits);
@@ -652,18 +652,18 @@ class ReportingWeblcms
         $wdm = WeblcmsDataManager::get_instance();
 
         $conditions = array();
-        $conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course_id);
-        $conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, $tool);
+        $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course_id);
+        $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, $tool);
 
         $access = array();
-        $access[] = new InCondition('user', $user_id, $wdm->get_database()->get_alias('learning_object_publication_user'));
+        $access[] = new InCondition('user', $user_id, $wdm->get_database()->get_alias('content_object_publication_user'));
         if (!empty($user_id))
         {
-            $access[] = new EqualityCondition('user', null, $wdm->get_database()->get_alias('learning_object_publication_user'));
+            $access[] = new EqualityCondition('user', null, $wdm->get_database()->get_alias('content_object_publication_user'));
         }
         $conditions[] = new OrCondition($access);
 
-        $lops = $wdm->retrieve_learning_object_publications_new($condition, $params['order_by']);
+        $lops = $wdm->retrieve_content_object_publications_new($condition, $params['order_by']);
 
         while($lop = $lops->next_result())
         {
@@ -676,10 +676,10 @@ class ReportingWeblcms
                     $lastaccess = $value->get_leave_date();
             }
             $url = 'run.php?go=courseviewer&course='.$course_id.'&tool='.$tool.'&application=weblcms&tool_action=view&pid='.$lop->get_id();
-            $arr[Translation :: get('Title')][] = '<a href="'.$url.'">'.$lop->get_learning_object()->get_title().'</a>';
+            $arr[Translation :: get('Title')][] = '<a href="'.$url.'">'.$lop->get_content_object()->get_title().'</a>';
 
 
-            $des = $lop->get_learning_object()->get_description();
+            $des = $lop->get_content_object()->get_description();
             $arr[Translation :: get('Description')][] = DokeosUtilities::truncate_string($des, 50);
             $arr[Translation :: get('LastAccess')][] = $lastaccess;
             $arr[Translation :: get('TotalTimesAccessed')][] = count($trackerdata);
@@ -706,19 +706,19 @@ class ReportingWeblcms
         $tracker = new VisitTracker();
         $wdm = WeblcmsDataManager::get_instance();
         $condition = new EqualityCondition(WeblcmsManager :: PARAM_TOOL,$tool);
-        $lop = $wdm->retrieve_learning_object_publication($pid);
+        $lop = $wdm->retrieve_content_object_publication($pid);
         if(empty($lop))
         {
-            $lop = RepositoryDataManager :: get_instance()->retrieve_learning_object($pid);
+            $lop = RepositoryDataManager :: get_instance()->retrieve_content_object($pid);
             $title = $lop->get_title();
             $id = $lop->get_id();
             $descr = $lop->get_description();
         }
         else
         {
-            $title = $lop->get_learning_object()->get_title();
+            $title = $lop->get_content_object()->get_title();
             $id = $pid;
-            $descr = $lop->get_learning_object()->get_description();
+            $descr = $lop->get_content_object()->get_description();
         }
 
         $condition = new PatternMatchCondition(VisitTracker::PROPERTY_LOCATION,'*pid='.$pid.'*');

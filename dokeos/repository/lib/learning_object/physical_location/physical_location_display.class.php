@@ -7,15 +7,15 @@
 /**
  * This class can be used to display physical_locations
  */
-class PhysicalLocationDisplay extends LearningObjectDisplay
+class PhysicalLocationDisplay extends ContentObjectDisplay
 {
 	function get_full_html()
 	{
 		$html = parent :: get_full_html();
-		$object = $this->get_learning_object();
+		$object = $this->get_content_object();
 		$replace = array();
 		
-		$replace[] = '<div class="learning_object">';
+		$replace[] = '<div class="content_object">';
 		$replace[] = '<div class="title">';
 		$replace[] = $object->get_location();
 		$replace[] = '</div>';
@@ -29,8 +29,8 @@ class PhysicalLocationDisplay extends LearningObjectDisplay
 	
 	function get_short_html()
 	{
-		$object = $this->get_learning_object();
-        return '<span class="learning_object">' . htmlentities($object->get_title()) . ' - ' . htmlentities($object->get_location()) . '</span>';
+		$object = $this->get_content_object();
+        return '<span class="content_object">' . htmlentities($object->get_title()) . ' - ' . htmlentities($object->get_location()) . '</span>';
 	}
 	
 	function get_javascript($object)

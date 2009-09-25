@@ -9,7 +9,7 @@
 /**
  * This class can be used to get the difference between descriptions
  */
-class DescriptionDifference extends LearningObjectDifference
+class DescriptionDifference extends ContentObjectDifference
 {
 }
 ?>

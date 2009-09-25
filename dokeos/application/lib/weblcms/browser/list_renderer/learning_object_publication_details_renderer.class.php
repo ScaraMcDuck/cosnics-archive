@@ -3,19 +3,19 @@
  * @package application.weblcms
  * @subpackage browser.detailrenderer
  */
-require_once dirname(__FILE__).'/../learning_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/../content_object_publication_list_renderer.class.php';
 require_once dirname(__FILE__).'/list_publication_feedback_list_renderer.class.php';
-require_once dirname(__FILE__).'../../../learning_object_repo_viewer.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
+require_once dirname(__FILE__).'../../../content_object_repo_viewer.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_form.class.php';
 require_once Path :: get_application_path().'common/feedback_manager/feedback_manager.class.php';
 /**
  * Renderer to display all details of learning object publication
  */
-class LearningObjectPublicationDetailsRenderer extends LearningObjectPublicationListRenderer
+class ContentObjectPublicationDetailsRenderer extends ContentObjectPublicationListRenderer
 {
-	function LearningObjectPublicationDetailsRenderer($browser, $parameters = array (), $actions)
+	function ContentObjectPublicationDetailsRenderer($browser, $parameters = array (), $actions)
 	{
-		parent :: LearningObjectPublicationListRenderer($browser, $parameters, $actions);
+		parent :: ContentObjectPublicationListRenderer($browser, $parameters, $actions);
 		if($browser->get_parent()->get_course()->get_allow_feedback())
 		{
 			//$item = new ToolbarItem(Translation :: get('AddFeedback'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_FEEDBACK, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
@@ -31,24 +31,24 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 	{
 		$publication_id = $this->browser->get_publication_id();
 		$dm = WeblcmsDataManager :: get_instance();
-		$publication = $dm->retrieve_learning_object_publication($publication_id);
-		//$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE,new AbstractLearningObject('feedback',Session :: get_user_id()),'new_feedback','post',$this->browser->get_url(array('pid'=>$this->browser->get_publication_id())));
+		$publication = $dm->retrieve_content_object_publication($publication_id);
+		//$form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_CREATE,new AbstractContentObject('feedback',Session :: get_user_id()),'new_feedback','post',$this->browser->get_url(array('pid'=>$this->browser->get_publication_id())));
 		$this->browser->get_parent()->set_parameter('pid',$publication_id);
-		//$pub = new LearningObjectPublisher($this->browser->get_parent(), 'feedback', true);
+		//$pub = new ContentObjectPublisher($this->browser->get_parent(), 'feedback', true);
 
 		/*if($form->validate())
 		{
 			//creation feedback object
-			$feedback = $form->create_learning_object();
+			$feedback = $form->create_content_object();
 			//creation publication feedback object
-			$publication_feedback= new LearningObjectPublicationFeedback(null, $feedback, $this->browser->get_course_id(), $publication->get_tool().'_feedback', $this->browser->get_publication_id(),$this->browser->get_user_id(), time(), 0, 0);
+			$publication_feedback= new ContentObjectPublicationFeedback(null, $feedback, $this->browser->get_course_id(), $publication->get_tool().'_feedback', $this->browser->get_publication_id(),$this->browser->get_user_id(), time(), 0, 0);
 			$publication_feedback->set_show_on_homepage(0);
 			$publication_feedback->create();
 			//$this->browser->get_parent()->redirect();
 			$html[] = Display :: normal_message(Translation :: get('FeedbackAdded'),true);
 		}*/
 
-		$html[] = '<h3>' . Translation :: get('LearningObjectPublicationDetails') . '</h3>';
+		$html[] = '<h3>' . Translation :: get('ContentObjectPublicationDetails') . '</h3>';
 		$html[] = $this->render_publication($publication);
 		//dump($this->browser->get_parent()->get_course());
                 
@@ -60,7 +60,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 
 	/**
 	 * Renders a single publication.
-	 * @param LearningObjectPublication $publication The publication.
+	 * @param ContentObjectPublication $publication The publication.
 	 * @return string The rendered HTML.
 	 */
 	function render_publication($publication,$first= false, $last= false)
@@ -77,7 +77,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 			$icon_suffix = '_new';
 		}
 
-		/*$html[] = '<div class="learning_object" style="background-image: url(' . Theme :: get_common_image_path().'learning_object/'.$publication->get_learning_object()->get_icon_name().$icon_suffix.'.png);">';
+		/*$html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path().'content_object/'.$publication->get_content_object()->get_icon_name().$icon_suffix.'.png);">';
 		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = $this->render_title($publication);
 		$html[] = '</div>';
@@ -93,7 +93,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		$html[] = '</div>';
 		$html[] = '</div>';*/
 
-		$html[] = '<div class="announcements level_1" style="background-image: url(' . Theme :: get_common_image_path().'learning_object/'.$publication->get_learning_object()->get_icon_name().$icon_suffix.'.png);">';
+		$html[] = '<div class="announcements level_1" style="background-image: url(' . Theme :: get_common_image_path().'content_object/'.$publication->get_content_object()->get_icon_name().$icon_suffix.'.png);">';
 		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = $this->render_title($publication);
 		$html[] = '</div>';
@@ -134,7 +134,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 
 	/**
 	 * Renders the means to toggle visibility for the given publication.
-	 * @param LearningObjectPublication $publication The publication.
+	 * @param ContentObjectPublication $publication The publication.
 	 * @return string The HTML rendering.
 	 */
 	function render_visibility_action($publication)
@@ -159,7 +159,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 
 	/**
 	 * Renders the means to edit the given publication.
-	 * @param LearningObjectPublication $publication The publication.
+	 * @param ContentObjectPublication $publication The publication.
 	 * @return string The HTML rendering.
 	 */
 	function render_edit_action($publication)

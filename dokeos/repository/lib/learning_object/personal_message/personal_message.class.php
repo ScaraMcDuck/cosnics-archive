@@ -6,11 +6,11 @@
  *  @author Hans De Bisschop
  *  @author Dieter De Neef
  */
-require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) . '/../../content_object.class.php';
 /**
  * This class represents a personal message
  */
-class PersonalMessage extends LearningObject
+class PersonalMessage extends ContentObject
 {
 	//Inherited
 	function supports_attachments()

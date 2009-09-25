@@ -61,7 +61,7 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
 			$ids = array($ids);
 
 		foreach($ids as $id)
-			$los[] = $this->parent->retrieve_learning_object($id);
+			$los[] = $this->parent->retrieve_content_object($id);
 
 		foreach($locations as $location => $value)
 		{
@@ -83,7 +83,7 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
 				$location = implode('_', $split);
 				$application = Application::factory($application_name);
 				foreach($los as $lo)
-					$message .= $application->publish_learning_object($lo, $location_id, $options[DokeosUtilities :: camelcase_to_underscores($application_name)]) . '<br />';
+					$message .= $application->publish_content_object($lo, $location_id, $options[DokeosUtilities :: camelcase_to_underscores($application_name)]) . '<br />';
 			}
 		}
 
@@ -100,7 +100,7 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
 	function display_block_header($application)
 	{
 		$html = array();
-		$html[] = '<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(layout/aqua/img/admin/place_'. DokeosUtilities :: camelcase_to_underscores($application) .'.png);">';
+		$html[] = '<div class="content_object" style="padding: 15px 15px 15px 76px; background-image: url(layout/aqua/img/admin/place_'. DokeosUtilities :: camelcase_to_underscores($application) .'.png);">';
 		$html[] = '<div class="title">'. Translation :: get(Application::application_to_class($application)) .'</div>';
 		$html[] = '<div class="description">';
 		return implode("\n", $html);

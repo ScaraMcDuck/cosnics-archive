@@ -42,18 +42,18 @@ class SearchToolSearcherComponent extends SearchToolComponent
 			$course_groups = $this->get_course_groups();
 			
 			$conditions = array();
-			$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
+			$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
 			
 			$access = array();
-			$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
-			$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('learning_object_publication_course_group'));
+			$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
+			$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
 			if (!empty($user_id) || !empty($course_groups))
 			{
-				$access[] = new AndCondition(array(new EqualityCondition('user', null, $datamanager->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('learning_object_publication_course_group'))));
+				$access[] = new AndCondition(array(new EqualityCondition('user', null, $datamanager->get_database()->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('content_object_publication_course_group'))));
 			}
 			$conditions[] = new OrCondition($access);
 			
-			$publications = $datamanager->retrieve_learning_object_publications_new($condition);
+			$publications = $datamanager->retrieve_content_object_publications_new($condition);
 			$tools = array();
 
 			while($publication = $publications->next_result())
@@ -70,7 +70,7 @@ class SearchToolSearcherComponent extends SearchToolComponent
 
 				foreach($publications as $publication)
 				{
-					$lo = $publication->get_learning_object();
+					$lo = $publication->get_content_object();
 					$lo_title = $lo->get_title();
 					$lo_description = $lo->get_description();
 
@@ -86,9 +86,9 @@ class SearchToolSearcherComponent extends SearchToolComponent
 
 					foreach($objects as $index => $pub)
 					{
-						$object = $pub->get_learning_object();
+						$object = $pub->get_content_object();
 						$url = $this->get_url(array(WeblcmsManager :: PARAM_TOOL => $tool, 'pid' => $pub->get_id(), Tool :: PARAM_ACTION => 'view'));
-						$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'learning_object/'.$object->get_icon_name().'.png);">';
+						$html[] = '<div class="content_object" style="background-image: url('.Theme :: get_common_image_path().'content_object/'.$object->get_icon_name().'.png);">';
 						$html[] = '<div class="title"><a href="' . $url . '">' . Text :: highlight($object->get_title(), $query, 'yellow') . '</a></div>';
 						$html[] = '<div class="description">'. Text :: highlight($object->get_description(), $query, 'yellow') .'</div>';
 						$html[] = '</div>';
@@ -137,8 +137,8 @@ class SearchToolSearcherComponent extends SearchToolComponent
 
 		if(isset($query) && $query != '')
 		{
-			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);
-			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query);
+			$conditions[] = new LikeCondition(ContentObject :: PROPERTY_TITLE, $query);
+			$conditions[] = new LikeCondition(ContentObject :: PROPERTY_DESCRIPTION, $query);
 			return new OrCondition($conditions);
 		}
 

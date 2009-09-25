@@ -6,7 +6,7 @@
 /**
  * This class can be used to display the difference between YouTubes
  */
-class YoutubeDifferenceDisplay extends LearningObjectDifferenceDisplay
+class YoutubeDifferenceDisplay extends ContentObjectDifferenceDisplay
 {
 	function get_diff_as_html()
 	{

@@ -4,12 +4,12 @@
  * @package repository.learningobject
  * @subpackage assessment
  */
-require_once dirname(__FILE__).'/../../learning_object_form.class.php';
+require_once dirname(__FILE__).'/../../content_object_form.class.php';
 require_once dirname(__FILE__).'/assessment.class.php';
 /**
  * This class represents a form to create or update assessment
  */
-class AssessmentForm extends LearningObjectForm
+class AssessmentForm extends ContentObjectForm
 {
 	const UNLIMITED_ATTEMPTS = 'unlimited_attempts';
 	const ALL_QUESTIONS = 'all_questions';
@@ -18,9 +18,9 @@ class AssessmentForm extends LearningObjectForm
 
 	function set_csv_values($valuearray)
 	{
-		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
-		$defaults[LearningObject :: PROPERTY_PARENT_ID] = $valuearray[1];
-		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[2];
+		$defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
+		$defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
+		$defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];
 		$defaults[Assessment :: PROPERTY_ASSESSMENT_TYPE] = $valuearray[3];
 
 		parent :: set_values($defaults);
@@ -28,7 +28,7 @@ class AssessmentForm extends LearningObjectForm
 
 	function setDefaults($defaults = array ())
 	{
-		$object = $this->get_learning_object();
+		$object = $this->get_content_object();
 		if ($object != null)
 		{
 			$types = Assessment :: get_types();
@@ -231,7 +231,7 @@ class AssessmentForm extends LearningObjectForm
 	}
 
 	// Inherited
-	function create_learning_object()
+	function create_content_object()
 	{
 		$object = new Assessment();
 		$values = $this->exportValues();
@@ -253,13 +253,13 @@ class AssessmentForm extends LearningObjectForm
 
 		$ass_types = $object->get_types();
 		$object->set_assessment_type($ass_types[$values[Assessment :: PROPERTY_ASSESSMENT_TYPE]]);
-		$this->set_learning_object($object);
-		return parent :: create_learning_object();
+		$this->set_content_object($object);
+		return parent :: create_content_object();
 	}
 
-	function update_learning_object()
+	function update_content_object()
 	{
-		$object = $this->get_learning_object();
+		$object = $this->get_content_object();
 		$values = $this->exportValues();
 		
 		if ($values[self :: UNLIMITED_ATTEMPTS] == 0)
@@ -284,8 +284,8 @@ class AssessmentForm extends LearningObjectForm
 		$ass_types = $object->get_types();
 		$object->set_assessment_type($ass_types[$values[Assessment :: PROPERTY_ASSESSMENT_TYPE]]);
 
-		$this->set_learning_object($object);
-		return parent :: update_learning_object();
+		$this->set_content_object($object);
+		return parent :: update_content_object();
 	}
 }
 ?>

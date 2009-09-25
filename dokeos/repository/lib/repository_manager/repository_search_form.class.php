@@ -142,9 +142,9 @@ class RepositorySearchForm extends FormValidator
 	private function build_advanced_search_form()
 	{
 		$types = array ();
-		foreach ($this->manager->get_learning_object_types() as $type)
+		foreach ($this->manager->get_content_object_types() as $type)
 		{
-			$types[$type] = Translation :: get(LearningObject :: type_to_class($type).'TypeName');
+			$types[$type] = Translation :: get(ContentObject :: type_to_class($type).'TypeName');
 		}
 		asort($types);
 		$this->frozen_elements[] = $this->addElement('text', self :: PARAM_TITLE_SEARCH_QUERY, Translation :: get('Title'), 'size="60" style="width: 100%"');
@@ -193,9 +193,9 @@ class RepositorySearchForm extends FormValidator
 		if (!count($conditions))
 		{
 			$cid = $this->get_category_id();
-			$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $cid);
+			$conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $cid);
 		}
-		$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->manager->get_user_id());
+		$conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->manager->get_user_id());
 		return (count($conditions) > 1 ? new AndCondition($conditions) : $conditions[0]);
 	}
 	/**
@@ -215,7 +215,7 @@ class RepositorySearchForm extends FormValidator
 			{
 				if ($type)
 				{
-					$c[] = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
+					$c[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type);
 				}
 			}
 			if (count($c))
@@ -230,11 +230,11 @@ class RepositorySearchForm extends FormValidator
 			$description_query = $this->frozen_elements[1]->getValue();
 			if (!empty ($title_query))
 			{
-				$conditions[] = DokeosUtilities :: query_to_condition($title_query, LearningObject :: PROPERTY_TITLE);
+				$conditions[] = DokeosUtilities :: query_to_condition($title_query, ContentObject :: PROPERTY_TITLE);
 			}
 			if (!empty ($description_query))
 			{
-				$conditions[] = DokeosUtilities :: query_to_condition($description_query, LearningObject :: PROPERTY_DESCRIPTION);
+				$conditions[] = DokeosUtilities :: query_to_condition($description_query, ContentObject :: PROPERTY_DESCRIPTION);
 			}
 			$scope = $this->frozen_elements[3]->getValue();
 			if (isset ($scope))
@@ -248,7 +248,7 @@ class RepositorySearchForm extends FormValidator
 						}
 						break;
 					case self :: SEARCH_SCOPE_CATEGORY :
-						$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $category_id);
+						$conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $category_id);
 						break;
 				}
 			}

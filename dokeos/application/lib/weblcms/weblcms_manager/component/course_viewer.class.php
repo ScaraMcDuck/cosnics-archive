@@ -115,17 +115,17 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 						$this->load_tools();
 						break;
 					case 'make_publication_invisible':
-						$publication = $wdm->retrieve_learning_object_publication(Request :: get('pid'));
+						$publication = $wdm->retrieve_content_object_publication(Request :: get('pid'));
 						$publication->set_hidden(1);
 						$publication->update();
 						break;
 					case 'make_publication_visible':
-						$publication = $wdm->retrieve_learning_object_publication(Request :: get('pid'));
+						$publication = $wdm->retrieve_content_object_publication(Request :: get('pid'));
 						$publication->set_hidden(0);
 						$publication->update();
 						break;
 					case 'delete_publication':
-						$publication = $wdm->retrieve_learning_object_publication(Request :: get('pid'));
+						$publication = $wdm->retrieve_content_object_publication(Request :: get('pid'));
 						$publication->set_show_on_homepage(0);
 						$publication->update();
 						break;
@@ -270,11 +270,11 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 		$html = array();
 		
 		$conditions = array();
-		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
-		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'introduction');
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'introduction');
 		$condition = new AndCondition($conditions);
 
-		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications_new($condition);
+		$publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($condition);
 		$introduction_text = $publications->next_result();
 	
 		if($introduction_text)
@@ -302,11 +302,11 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 			$html = array();
 
 			$html[] = '<div class="block" id="block_introduction" style="background-image: url('.Theme :: get_image_path('home').'block_home.png);">';
-			$html[] = '<div class="title"><div style="float:left;">'. $introduction_text->get_learning_object()->get_title() . '</div>';
+			$html[] = '<div class="title"><div style="float:left;">'. $introduction_text->get_content_object()->get_title() . '</div>';
 			$html[] = '<a href="#" class="closeEl"><img class="visible" src="'.Theme :: get_common_image_path().'action_visible.png"/><img class="invisible" style="display: none;") src="'.Theme :: get_common_image_path().'action_invisible.png" /></a>';
 			$html[] = '<div style="clear: both;"></div></div>';
 			$html[] = '<div class="description">';
-			$html[] = $introduction_text->get_learning_object()->get_description();
+			$html[] = $introduction_text->get_content_object()->get_description();
 			$html[] = '<div style="clear: both;"></div>';
 			$html[] = '</div>';
 			$html[] = DokeosUtilities :: build_toolbar($tb_data) . '<div class="clear"></div>';

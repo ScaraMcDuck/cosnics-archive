@@ -3,7 +3,7 @@
 require_once dirname(__FILE__) . '/../assessment_builder_component.class.php';
 require_once dirname(__FILE__) . '/../../complex_repo_viewer.class.php';
 require_once dirname(__FILE__) . '/assessment_merger/object_browser_table.class.php';
-require_once Path :: get_repository_path() . '/lib/learning_object/assessment/assessment.class.php';
+require_once Path :: get_repository_path() . '/lib/content_object/assessment/assessment.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 
 class AssessmentBuilderAssessmentMergerComponent extends AssessmentBuilderComponent
@@ -30,8 +30,8 @@ class AssessmentBuilderAssessmentMergerComponent extends AssessmentBuilderCompon
 		}
 		else
 		{
-			$selected_assessment = RepositoryDataManager :: get_instance()->retrieve_learning_object($object, 'assessment');
-			$display = LearningObjectDisplay :: factory($selected_assessment);
+			$selected_assessment = RepositoryDataManager :: get_instance()->retrieve_content_object($object, 'assessment');
+			$display = ContentObjectDisplay :: factory($selected_assessment);
 			$bar = $this->get_action_bar($selected_assessment);
 			
 			//$html[] = '<h3>' . Translation :: get('SelectedAssessment') . '</h3>';
@@ -52,8 +52,8 @@ class AssessmentBuilderAssessmentMergerComponent extends AssessmentBuilderCompon
 	
 	function get_condition($selected_assessment)
 	{
-		$sub_condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $selected_assessment->get_id());
-		$condition = new SubselectCondition(LearningObject :: PROPERTY_ID, ComplexLearningObjectItem :: PROPERTY_REF, RepositoryDataManager :: get_instance()->escape_table_name(ComplexLearningObjectItem :: get_table_name()), $sub_condition, LearningObject :: get_table_name());
+		$sub_condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $selected_assessment->get_id());
+		$condition = new SubselectCondition(ContentObject :: PROPERTY_ID, ComplexContentObjectItem :: PROPERTY_REF, RepositoryDataManager :: get_instance()->escape_table_name(ComplexContentObjectItem :: get_table_name()), $sub_condition, ContentObject :: get_table_name());
 		
 		return $condition;
 	}

@@ -23,7 +23,7 @@ class LearningPathBuilderItemCreatorComponent extends LearningPathBuilderCompone
 
 		if($this->get_cloi())
 		{
-			$lo = $this->rdm->retrieve_learning_object($this->get_cloi()->get_ref());
+			$lo = $this->rdm->retrieve_content_object($this->get_cloi()->get_ref());
 		}
 		else
 		{
@@ -66,22 +66,22 @@ class LearningPathBuilderItemCreatorComponent extends LearningPathBuilderCompone
 
 			foreach($object as $obj)
 			{
-				$learning_object = new LearningPathItem();
-				$learning_object->set_title('learning_path_item');
-				$learning_object->set_description('learning_path_item');
-				$learning_object->set_owner_id($this->get_user_id());
-				$learning_object->set_reference($obj);
-				$learning_object->set_parent_id(0);
+				$content_object = new LearningPathItem();
+				$content_object->set_title('learning_path_item');
+				$content_object->set_description('learning_path_item');
+				$content_object->set_owner_id($this->get_user_id());
+				$content_object->set_reference($obj);
+				$content_object->set_parent_id(0);
 
-				$learning_object->create();
+				$content_object->create();
 
-				$cloi = ComplexLearningObjectItem :: factory('learning_path_item');
-				$cloi->set_ref($learning_object->get_id());
+				$cloi = ComplexContentObjectItem :: factory('learning_path_item');
+				$cloi->set_ref($content_object->get_id());
 
 				$parent = $root_lo;
 				if($cloi_id)
 				{
-					$parent_cloi = $rdm->retrieve_complex_learning_object_item($cloi_id);
+					$parent_cloi = $rdm->retrieve_complex_content_object_item($cloi_id);
 					$parent = $parent_cloi->get_ref();
 				}
 
@@ -103,7 +103,7 @@ class LearningPathBuilderItemCreatorComponent extends LearningPathBuilderCompone
 	{
 		$items = array();
 
-		$clois = $this->rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $parent, ComplexLearningObjectItem :: get_table_name()));
+		$clois = $this->rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent, ComplexContentObjectItem :: get_table_name()));
 		while($cloi = $clois->next_result())
 		{
 			if($cloi->is_complex())

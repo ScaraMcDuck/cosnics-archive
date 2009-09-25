@@ -29,7 +29,7 @@ class DistributeManagerDistributorComponent extends DistributeManagerComponent
 		}
 		else
 		{
-			//$html[] = 'LearningObject: ';
+			//$html[] = 'ContentObject: ';
 			$publisher = new AnnouncementDistributor($pub);
 			$html[] = $publisher->get_publications_form($object);
 		}

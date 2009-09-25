@@ -13,7 +13,7 @@ require_once Path :: get_common_path() . 'data_class.class.php';
  *
  *	personal message (PM) objects have a number of default properties:
  *	- id: the numeric ID of the PM;
- *	- learning_object: the numeric object ID of the PM (from the repository);
+ *	- content_object: the numeric object ID of the PM (from the repository);
  *	- status: the status of the PM: read/unread/...;
  *	- recipient: the recipient of the PM;
  *	- publisher: the publisher of the PM;
@@ -161,7 +161,7 @@ class PersonalMessagePublication extends DataClass
 	function get_publication_object()
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-		return $rdm->retrieve_learning_object($this->get_personal_message());
+		return $rdm->retrieve_content_object($this->get_personal_message());
 	}
 
 	function get_publication_sender()

@@ -1,13 +1,13 @@
 <?php
 /**
- * $Id: default_learning_object_table_column_model.class.php 21940 2009-07-09 09:45:03Z scara84 $
+ * $Id: default_content_object_table_column_model.class.php 21940 2009-07-09 09:45:03Z scara84 $
  * @package repository.learningobjecttable
  */
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_column_model.class.php';
-require_once dirname(__FILE__).'/../learning_object.class.php';
+require_once dirname(__FILE__).'/../content_object.class.php';
 
 /**
- * This is the default column model, used when a LearningObjectTable does not
+ * This is the default column model, used when a ContentObjectTable does not
  * provide its own model.
  *
  * The default model contains the following columns:
@@ -18,35 +18,35 @@ require_once dirname(__FILE__).'/../learning_object.class.php';
  * - The date when the learning object was last modified
  *
  * Although this model works best in conjunction with the default cell
- * renderer, it can be used with any LearningObjectTableCellRenderer.
+ * renderer, it can be used with any ContentObjectTableCellRenderer.
  *
- * @see LearningObjectTable
- * @see LearningObjectTableColumnModel
- * @see DefaultLearningObjectTableCellRenderer
+ * @see ContentObjectTable
+ * @see ContentObjectTableColumnModel
+ * @see DefaultContentObjectTableCellRenderer
  * @author Tim De Pauw
  */
-class DefaultSharedLearningObjectTableColumnModel extends ObjectTableColumnModel
+class DefaultSharedContentObjectTableColumnModel extends ObjectTableColumnModel
 {
 	/**
 	 * Constructor
 	 */
-	function DefaultSharedLearningObjectTableColumnModel()
+	function DefaultSharedContentObjectTableColumnModel()
 	{
 		parent :: __construct(self :: get_default_columns(), 1);
 	}
 	/**
 	 * Gets the default columns for this model
-	 * @return LearningObjectTableColumn[]
+	 * @return ContentObjectTableColumn[]
 	 */
 	private static function get_default_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TYPE);
-		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE);
-		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION);
-		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_MODIFICATION_DATE);
+		$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TYPE);
+		$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TITLE);
+		$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_DESCRIPTION);
+		$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_MODIFICATION_DATE);
 		$columns[] = new StaticTableColumn(Translation :: get('Versions'));
-                $columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_OWNER_ID);
+                $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_OWNER_ID);
 		return $columns;
 	}
 }

@@ -32,7 +32,7 @@ class AssessmentToolDocumentSaverComponent extends AssessmentToolComponent
 	
 	function save_assessment_docs($assessment_id)
 	{
-		//$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($assessment_id);
+		//$publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($assessment_id);
 		$track = new WeblcmsAssessmentAttemptsTracker();
 		$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $assessment_id);
 		$user_assessments = $track->retrieve_tracker_items($condition);
@@ -50,14 +50,14 @@ class AssessmentToolDocumentSaverComponent extends AssessmentToolComponent
 	
 	function save_user_assessment_docs($user_assessment)
 	{
-		$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($user_assessment->get_assessment_id());
-		$assessment = $publication->get_learning_object();
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id(), ComplexLearningObjectItem :: get_table_name());
-		$clo_questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
+		$publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($user_assessment->get_assessment_id());
+		$assessment = $publication->get_content_object();
+		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $assessment->get_id(), ComplexContentObjectItem :: get_table_name());
+		$clo_questions = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items($condition);
 		
 		while ($clo_question = $clo_questions->next_result())
 		{
-			$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
+			$question = RepositoryDataManager :: get_instance()->retrieve_content_object($clo_question->get_ref());
 			if ($question->get_type() == 'open_question')
 			{
 				if ($question->get_question_type() == OpenQuestion :: TYPE_DOCUMENT || $question->get_question_type() == OpenQuestion :: TYPE_OPEN_WITH_DOCUMENT)
@@ -90,7 +90,7 @@ class AssessmentToolDocumentSaverComponent extends AssessmentToolComponent
 			if ($user_question != null)
 			{
 				$answer = unserialize($user_question->get_answer());
-				$document = RepositoryDataManager :: get_instance()->retrieve_learning_object($answer[2], 'document');
+				$document = RepositoryDataManager :: get_instance()->retrieve_content_object($answer[2], 'document');
 				$filenames[] = Path :: get(SYS_REPO_PATH).$document->get_path();
 			}
 		}

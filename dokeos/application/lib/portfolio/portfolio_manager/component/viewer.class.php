@@ -7,7 +7,7 @@ require_once dirname(__FILE__).'/../portfolio_manager.class.php';
 require_once dirname(__FILE__).'/../portfolio_manager_component.class.php';
 require_once dirname(__FILE__).'/../../portfolio_menu.class.php';
 require_once dirname(__FILE__).'/../../forms/portfolio_publication_form.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_form.class.php';
 require_once Path :: get_application_path().'common/feedback_manager/feedback_manager.class.php';
 require_once Path :: get_application_path().'common/validation_manager/validation_manager.class.php';
 
@@ -36,20 +36,20 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
 
         if($pid && $cid)
         {
-            $wrapper = $rdm->retrieve_complex_learning_object_item($cid);
-            $this->selected_object = $rdm->retrieve_learning_object($wrapper->get_ref());
+            $wrapper = $rdm->retrieve_complex_content_object_item($cid);
+            $this->selected_object = $rdm->retrieve_content_object($wrapper->get_ref());
 
             if($this->selected_object->get_type() == 'portfolio_item')
             {
                 $this->portfolio_item = $this->selected_object;
-                $this->selected_object = $rdm->retrieve_learning_object($this->selected_object->get_reference());
+                $this->selected_object = $rdm->retrieve_content_object($this->selected_object->get_reference());
             }
         }
         elseif($pid && !$cid)
         {
             $publication = PortfolioDataManager :: get_instance()->retrieve_portfolio_publication($pid);
             $this->publication = $publication;
-            $this->selected_object = $rdm->retrieve_learning_object($publication->get_learning_object());
+            $this->selected_object = $rdm->retrieve_content_object($publication->get_content_object());
         }
 
         $trail = new BreadcrumbTrail();
@@ -168,7 +168,7 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
 
         if($this->selected_object)
         {
-            $display = LearningObjectDisplay :: factory($this->selected_object);
+            $display = ContentObjectDisplay :: factory($this->selected_object);
             $html[] = $display->get_full_html();
         }
         else
@@ -205,18 +205,18 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
 
         $allow_new_version = ($this->selected_object->get_type() != 'portfolio');
 
-        $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $this->selected_object, 'learning_object_form', 'post', $this->get_url(array('user_id' => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid, 'action' => 'edit')), null, null, $allow_new_version);
+        $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $this->selected_object, 'content_object_form', 'post', $this->get_url(array('user_id' => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid, 'action' => 'edit')), null, null, $allow_new_version);
 
         if($form->validate())
         {
-            $success = $form->update_learning_object();
+            $success = $form->update_content_object();
 
             if($form->is_version())
             {
-                $object = $form->get_learning_object();
+                $object = $form->get_content_object();
                 if($this->publication)
                 {
-                    $this->publication->set_learning_object($object->get_latest_version()->get_id());
+                    $this->publication->set_content_object($object->get_latest_version()->get_id());
                     $this->publication->update(false);
                 }
                 else

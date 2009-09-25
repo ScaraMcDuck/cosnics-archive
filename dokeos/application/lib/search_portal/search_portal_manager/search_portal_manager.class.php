@@ -184,7 +184,7 @@ END;
 		 * This pretty much makes every GIF file accessible, which is evil.
 		 * Type GIFs should be in a separate directory.
 		 */
-		echo '<li class="portal_search_result" style="background-image: url(', Theme :: get_common_image_path().'learning_object/'.$object->get_type().'.png);">';
+		echo '<li class="portal_search_result" style="background-image: url(', Theme :: get_common_image_path().'content_object/'.$object->get_type().'.png);">';
 		//echo '<div class="portal_search_result_title"><a href="'.htmlentities($object->get_view_url()).'">'.htmlspecialchars($object->get_title()).'</a></div>';
 		echo '<div class="portal_search_result_title">'.$object->get_title().'</div>';
 		/*
@@ -247,7 +247,7 @@ END;
 	 * objects.
 	 * @return boolean Always false.
 	 */
-	function learning_object_is_published($object_id)
+	function content_object_is_published($object_id)
 	{
 		return false;
 	}
@@ -257,7 +257,7 @@ END;
 	 * objects.
 	 * @return boolean Always false.
 	 */
-	function any_learning_object_is_published($object_ids)
+	function any_content_object_is_published($object_ids)
 	{
 		return false;
 	}
@@ -267,7 +267,7 @@ END;
 	 * learning objects.
 	 * @return array An empty array.
 	 */
-	function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return array ();
 	}
@@ -276,7 +276,7 @@ END;
 	 * Always returns null, as this application does not publish learning objects.
 	 * @return null.
 	 */
-	function get_learning_object_publication_attribute($object_id)
+	function get_content_object_publication_attribute($object_id)
 	{
 		return null;
 	}
@@ -284,12 +284,12 @@ END;
 	/**
 	 * Inherited
 	 */
-	function get_learning_object_publication_locations($learning_object)
+	function get_content_object_publication_locations($content_object)
 	{
 		return array();	
 	}
 	
-	function publish_learning_object($learning_object, $location)
+	function publish_content_object($content_object, $location)
 	{
 		
 	}
@@ -299,12 +299,12 @@ END;
 		return null;
 	}
 
-	function delete_learning_object_publications($object_id)
+	function delete_content_object_publications($object_id)
 	{
 		return true;
 	}
 
-	function update_learning_object_publication_id($publication_attr)
+	function update_content_object_publication_id($publication_attr)
 	{
 		return true;
 	}

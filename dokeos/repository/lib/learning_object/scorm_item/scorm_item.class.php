@@ -1,12 +1,12 @@
 <?php
-require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) . '/../../content_object.class.php';
 require_once dirname(__FILE__) . '/objectives/objectives.class.php';
 require_once dirname(__FILE__) . '/condition_rules/condition_rules.class.php';
 /**
  * @package repository.learningobject
  * @subpackage learning_path
  */
-class ScormItem extends LearningObject
+class ScormItem extends ContentObject
 {
 	const PROPERTY_PATH = 'path';
 	const PROPERTY_VISIBLE = 'visible';

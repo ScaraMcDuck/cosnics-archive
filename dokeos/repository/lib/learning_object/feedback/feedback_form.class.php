@@ -3,12 +3,12 @@
  * @package repository.learningobject
  * @subpackage feedback
  */
-require_once dirname(__FILE__).'/../../learning_object_form.class.php';
+require_once dirname(__FILE__).'/../../content_object_form.class.php';
 require_once dirname(__FILE__).'/feedback.class.php';
 /**
  * A form to create/update a feedback
  */
-class FeedbackForm extends LearningObjectForm
+class FeedbackForm extends ContentObjectForm
 {
 	protected function build_creation_form()
 	{
@@ -26,25 +26,25 @@ class FeedbackForm extends LearningObjectForm
 	}
 	function setDefaults($defaults = array ())
 	{
-		$lo = $this->get_learning_object();
+		$lo = $this->get_content_object();
 		if (isset($lo))
 		{
 			$defaults[Feedback :: PROPERTY_ICON] = $lo->get_icon();
 		}
 		parent :: setDefaults($defaults);
 	}
-	function create_learning_object()
+	function create_content_object()
 	{
 		$object = new Feedback();
 		$object->set_icon($this->exportValue(Feedback :: PROPERTY_ICON));
-		$this->set_learning_object($object);
-		return parent :: create_learning_object();
+		$this->set_content_object($object);
+		return parent :: create_content_object();
 	}
-	function update_learning_object()
+	function update_content_object()
 	{
-		$object = $this->get_learning_object();
+		$object = $this->get_content_object();
 		$object->set_icon($this->exportValue(Feedback :: PROPERTY_ICON));
-		return parent :: update_learning_object();
+		return parent :: update_content_object();
 	}
 }
 ?>

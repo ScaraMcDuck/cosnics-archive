@@ -14,7 +14,7 @@ require_once dirname(__FILE__).'/repository_data_manager.class.php';
  * @author Dieter De Neef
  */
 
-class LearningObjectPublicationAttributes
+class ContentObjectPublicationAttributes
 {
 	const PROPERTY_ID = 'id';
 	const PROPERTY_APPLICATION = 'application';
@@ -63,7 +63,7 @@ class LearningObjectPublicationAttributes
 	/**
 	 * Constructor.
 	 */
-	function LearningObjectPublicationAttributes()
+	function ContentObjectPublicationAttributes()
 	{
 	}
 
@@ -196,7 +196,7 @@ class LearningObjectPublicationAttributes
 	function get_publication_object()
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-		return $rdm->retrieve_learning_object($this->publication_object_id);
+		return $rdm->retrieve_content_object($this->publication_object_id);
 	}
 
 	/**
@@ -211,7 +211,7 @@ class LearningObjectPublicationAttributes
 	function update()
 	{
 		$dm = RepositoryDataManager :: get_instance();
-		$success = $dm->update_learning_object_publication_id($this);
+		$success = $dm->update_content_object_publication_id($this);
 		if (!$success)
 		{
 			return false;

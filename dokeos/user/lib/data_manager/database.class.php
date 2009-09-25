@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../user_quota.class.php';
 require_once dirname(__FILE__).'/../user_rights_template.class.php';
 require_once dirname(__FILE__).'/../buddy_list_item.class.php';
 require_once dirname(__FILE__).'/../buddy_list_category.class.php';
-require_once dirname(__FILE__).'/../../../repository/lib/learning_object.class.php';
+require_once dirname(__FILE__).'/../../../repository/lib/content_object.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
 require_once Path :: get_library_path() . 'database/database.class.php';
 require_once 'MDB2.php';
@@ -54,7 +54,7 @@ class DatabaseUserDataManager extends UserDataManager
 	{
 		$conditions = array();
 		$conditions[] = new EqualityCondition(UserQuota :: PROPERTY_USER_ID, $user_quota->get_user_id());
-		$conditions[] = new EqualityCondition(UserQuota :: PROPERTY_LEARNING_OBJECT_TYPE, $user_quota->get_learning_object_type());
+		$conditions[] = new EqualityCondition(UserQuota :: PROPERTY_LEARNING_OBJECT_TYPE, $user_quota->get_content_object_type());
 		$condition = new AndCondition($conditions);
 
 		return $this->database->update($user_quota, $condition);
@@ -199,7 +199,7 @@ class DatabaseUserDataManager extends UserDataManager
 		}
 
 		/*
-		$query = 'SELECT * FROM '.$this->escape_table_name('user_quota').' WHERE '.$this->escape_column_name(User :: PROPERTY_USER_ID).'=? AND '.$this->escape_column_name('learning_object_type').'=?';
+		$query = 'SELECT * FROM '.$this->escape_table_name('user_quota').' WHERE '.$this->escape_column_name(User :: PROPERTY_USER_ID).'=? AND '.$this->escape_column_name('content_object_type').'=?';
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute(array($user->get_id(), $type));

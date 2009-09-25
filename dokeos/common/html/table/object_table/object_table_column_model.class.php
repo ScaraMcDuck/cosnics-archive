@@ -51,7 +51,7 @@ class ObjectTableColumnModel
     /**
      * Gets the column at the given index in the model.
      * @param int $index The index.
-     * @return LearningObjectTableColumn The column.
+     * @return ContentObjectTableColumn The column.
      */
     function get_column($index)
     {
@@ -70,7 +70,7 @@ class ObjectTableColumnModel
 
     /**
      * Adds the given column at the end of the table.
-     * @param LearningObjectTableColumn The column.
+     * @param ContentObjectTableColumn The column.
      */
     function add_column($column)
     {

@@ -3,7 +3,7 @@
  * @package repository.learningobject
  * @subpackage exercise
  */
-class MatchingQuestionDisplay extends LearningObjectDisplay
+class MatchingQuestionDisplay extends ContentObjectDisplay
 {
 
     function get_full_html()
@@ -14,9 +14,9 @@ class MatchingQuestionDisplay extends LearningObjectDisplay
 
     function get_description()
     {
-        $learning_object = $this->get_learning_object();
-        $matches = $learning_object->get_matches();
-        $options = $learning_object->get_options();
+        $content_object = $this->get_content_object();
+        $matches = $content_object->get_matches();
+        $options = $content_object->get_options();
 
         $html = array();
         $html[] = parent :: get_description();

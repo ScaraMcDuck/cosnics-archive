@@ -4,7 +4,7 @@
  */
 
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_cell_renderer.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object.class.php';
 require_once dirname(__FILE__) . '/../../alexia_publication.class.php';
 require_once Path :: get_user_path() . 'lib/user.class.php';
 
@@ -27,14 +27,14 @@ class DefaultAlexiaPublicationTableCellRenderer implements ObjectTableCellRender
      */
     function render_cell($column, $alexia_publication)
     {
-        $learning_object = $alexia_publication->get_publication_object();
+        $content_object = $alexia_publication->get_publication_object();
         
         switch ($column->get_name())
         {
-            case LearningObject :: PROPERTY_TITLE :
-                return $learning_object->get_title();
-            case LearningObject :: PROPERTY_DESCRIPTION :
-                return DokeosUtilities :: truncate_string($learning_object->get_description(), 200);
+            case ContentObject :: PROPERTY_TITLE :
+                return $content_object->get_title();
+            case ContentObject :: PROPERTY_DESCRIPTION :
+                return DokeosUtilities :: truncate_string($content_object->get_description(), 200);
             default :
                 return '&nbsp;';
         }

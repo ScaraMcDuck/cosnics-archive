@@ -17,7 +17,7 @@ class RepositoryBrowserTable extends ObjectTable
 	
 	/**
 	 * Constructor
-	 * @see LearningObjectTable::LearningObjectTable()
+	 * @see ContentObjectTable::ContentObjectTable()
 	 */
 	function RepositoryBrowserTable($browser, $parameters, $condition)
 	{

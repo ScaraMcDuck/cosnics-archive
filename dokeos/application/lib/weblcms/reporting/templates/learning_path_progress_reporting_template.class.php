@@ -40,7 +40,7 @@ class LearningPathProgressReportingTemplate extends ReportingTemplate
 
         if(Request :: get('cid'))
         {
-        	$display = LearningObjectDisplay :: factory($this->object);
+        	$display = ContentObjectDisplay :: factory($this->object);
         	$html[] = $display->get_full_html();
         }
         

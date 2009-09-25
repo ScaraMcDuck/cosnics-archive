@@ -95,9 +95,9 @@ class UserView extends DataClass
 		$registrations = $gdm->get_registered_types();
 		foreach($registrations as $registration)
 		{
-			$uvrlo = new UserViewRelLearningObject();
+			$uvrlo = new UserViewRelContentObject();
 			$uvrlo->set_view_id($this->get_id());
-			$uvrlo->set_learning_object_type($registration);
+			$uvrlo->set_content_object_type($registration);
 			
 			if(in_array($registration, $values))
 				$uvrlo->set_visibility(1);

@@ -17,7 +17,7 @@ class WikiPublication extends DataClass
 	/**
 	 * WikiPublication properties
 	 */
-	const PROPERTY_LEARNING_OBJECT = 'learning_object_id';
+	const PROPERTY_LEARNING_OBJECT = 'content_object_id';
 	const PROPERTY_PARENT_ID = 'parent_id';
 	const PROPERTY_CATEGORY = 'category_id';
 	const PROPERTY_FROM_DATE = 'from_date';
@@ -47,21 +47,21 @@ class WikiPublication extends DataClass
 	}
 	
 	/**
-	 * Returns the learning_object of this WikiPublication.
-	 * @return the learning_object.
+	 * Returns the content_object of this WikiPublication.
+	 * @return the content_object.
 	 */
-	function get_learning_object()
+	function get_content_object()
 	{
 		return $this->get_default_property(self :: PROPERTY_LEARNING_OBJECT);
 	}
 
 	/**
-	 * Sets the learning_object of this WikiPublication.
-	 * @param learning_object
+	 * Sets the content_object of this WikiPublication.
+	 * @param content_object
 	 */
-	function set_learning_object($learning_object)
+	function set_content_object($content_object)
 	{
-		$this->set_default_property(self :: PROPERTY_LEARNING_OBJECT, $learning_object);
+		$this->set_default_property(self :: PROPERTY_LEARNING_OBJECT, $content_object);
 	}
 	/**
 	 * Returns the parent_id of this WikiPublication.

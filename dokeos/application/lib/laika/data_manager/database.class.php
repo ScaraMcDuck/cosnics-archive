@@ -42,13 +42,13 @@ class DatabaseLaikaDatamanager extends LaikaDatamanager
 		return $this->database->create_storage_unit($name,$properties,$indexes);
 	}
 
-	public function learning_object_is_published($object_id)
+	public function content_object_is_published($object_id)
 	{
 		$condition = new EqualityCondition('id',$object_id);
 		return false;
 	}
 
-	public function any_learning_object_is_published($object_ids)
+	public function any_content_object_is_published($object_ids)
 	{
 		$condition = new InCondition(CalendarEventPublication :: PROPERTY_CALENDAR_EVENT,$object_ids);
 		return false;
@@ -64,18 +64,18 @@ class DatabaseLaikaDatamanager extends LaikaDatamanager
 	}
 
 	/**
-	 * @see Application::get_learning_object_publication_attributes()
+	 * @see Application::get_content_object_publication_attributes()
 	 */
-	public function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	public function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return array();
 	}
 	/**
-	 * @see Application::get_learning_object_publication_attribute()
+	 * @see Application::get_content_object_publication_attribute()
 	 */
-	public function get_learning_object_publication_attribute($publication_id)
+	public function get_content_object_publication_attribute($publication_id)
 	{
-		$info = new LearningObjectPublicationAttributes();
+		$info = new ContentObjectPublicationAttributes();
 		return $info;
 	}
 	/**
@@ -86,15 +86,15 @@ class DatabaseLaikaDatamanager extends LaikaDatamanager
 		return 0;
 	}
 	/**
-	 * @see Application::delete_learning_object_publications()
+	 * @see Application::delete_content_object_publications()
 	 */
-	public function delete_learning_object_publications($object_id)
+	public function delete_content_object_publications($object_id)
 	{
 	}
 	/**
-	 * @see Application::update_learning_object_publication_id()
+	 * @see Application::update_content_object_publication_id()
 	 */
-	function update_learning_object_publication_id($publication_attr)
+	function update_content_object_publication_id($publication_attr)
 	{
 		return true;
 	}

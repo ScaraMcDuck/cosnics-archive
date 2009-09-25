@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/../lib/repository_block.class.php';
-require_once dirname(__FILE__).'/../lib/learning_object_display.class.php';
+require_once dirname(__FILE__).'/../lib/content_object_display.class.php';
 
 class RepositoryLinker extends RepositoryBlock
 {
@@ -28,16 +28,16 @@ class RepositoryLinker extends RepositoryBlock
 		}
 		else
 		{
-			$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($configuration['use_object']);
+			$content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($configuration['use_object']);
 
             $html[] = '<div class="block" id="block_' . $this->get_block_info()->get_id() . '" style="background-image: url(' . Theme :: get_image_path() . 'block_' . $this->get_block_info()->get_application() . '.png);">';
-            $html[] = '<div class="title"><div style="float: left;">' . $learning_object->get_title() . '</div>';
+            $html[] = '<div class="title"><div style="float: left;">' . $content_object->get_title() . '</div>';
             $html[] = $this->display_actions();
             $html[] = '<div style="clear: both;"></div>';
             $html[] = '</div>';
             $html[] = '<div class="description"' . ($this->get_block_info()->is_visible() ? '' : ' style="display: none"') . '>';
-			$html[] = $learning_object->get_description();
-			$html[] = '<div class="link_url" style="margin-top: 1em;"><a href="'.htmlentities($learning_object->get_url()).'">'.htmlentities($learning_object->get_url()).'</a></div>';
+			$html[] = $content_object->get_description();
+			$html[] = '<div class="link_url" style="margin-top: 1em;"><a href="'.htmlentities($content_object->get_url()).'">'.htmlentities($content_object->get_url()).'</a></div>';
             $html[] = '<div style="clear: both;"></div>';
             $html[] = '</div>';
             $html[] = '</div>';

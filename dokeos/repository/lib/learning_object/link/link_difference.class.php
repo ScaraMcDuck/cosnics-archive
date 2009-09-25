@@ -9,7 +9,7 @@
 /**
  * This class can be used to get the difference between links
  */
-class LinkDifference extends LearningObjectDifference
+class LinkDifference extends ContentObjectDifference
 {
 	function get_difference()
 	{

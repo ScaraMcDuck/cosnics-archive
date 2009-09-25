@@ -9,7 +9,7 @@
 /**
  * This class can be used to display the difference between links
  */
-class LinkDifferenceDisplay extends LearningObjectDifferenceDisplay
+class LinkDifferenceDisplay extends ContentObjectDifferenceDisplay
 {
 	function get_diff_as_html()
 	{

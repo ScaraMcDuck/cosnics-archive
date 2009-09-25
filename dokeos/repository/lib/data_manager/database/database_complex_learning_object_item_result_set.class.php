@@ -7,7 +7,7 @@ require_once Path :: get_library_path(). 'database/result_set.class.php';
 /**
  * Resultset to hold a set of complex learning object items
  */
-class DatabaseComplexLearningObjectItemResultSet extends ResultSet {
+class DatabaseComplexContentObjectItemResultSet extends ResultSet {
 	/**
 	 * The datamanager used to retrieve objects from the repository
 	 */
@@ -31,7 +31,7 @@ class DatabaseComplexLearningObjectItemResultSet extends ResultSet {
 	 * the learning objects (so when retrieving the learning objects, the
 	 * datamanager shouldn't perform additional queries)
 	 */
-    function DatabaseComplexLearningObjectItemResultSet($data_manager, $handle, $single_type)
+    function DatabaseComplexContentObjectItemResultSet($data_manager, $handle, $single_type)
     {
     	$this->data_manager = $data_manager;
     	$this->handle = $handle;
@@ -44,9 +44,9 @@ class DatabaseComplexLearningObjectItemResultSet extends ResultSet {
     {
 		if ($record = $this->handle->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$ref = $record[ComplexLearningObjectItem :: PROPERTY_REF];	
-			$type = $this->data_manager->determine_learning_object_type($ref);
-			return $this->data_manager->record_to_complex_learning_object_item($record, $type, $this->single_type);
+			$ref = $record[ComplexContentObjectItem :: PROPERTY_REF];	
+			$type = $this->data_manager->determine_content_object_type($ref);
+			return $this->data_manager->record_to_complex_content_object_item($record, $type, $this->single_type);
 		}
     	return null;
     }

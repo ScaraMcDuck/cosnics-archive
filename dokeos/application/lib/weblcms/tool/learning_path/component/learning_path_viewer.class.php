@@ -1,9 +1,9 @@
 <?php
-require_once dirname(__FILE__).'/../../../learning_object_repo_viewer.class.php';
+require_once dirname(__FILE__).'/../../../content_object_repo_viewer.class.php';
 //require_once Path::get_library_path().'/html/action_bar/action_bar_renderer.class.php';
-//require_once Path :: get_repository_path() . 'lib/complex_learning_object_menu.class.php';
+//require_once Path :: get_repository_path() . 'lib/complex_content_object_menu.class.php';
 require_once dirname(__FILE__) . '/learning_path_viewer/learning_path_tree.class.php';
-require_once dirname(__FILE__) . '/learning_path_viewer/learning_path_learning_object_display.class.php';
+require_once dirname(__FILE__) . '/learning_path_viewer/learning_path_content_object_display.class.php';
 require_once dirname(__FILE__).'/../../../trackers/weblcms_lp_attempt_tracker.class.php';
 require_once dirname(__FILE__).'/../../../trackers/weblcms_lpi_attempt_tracker.class.php';
 require_once dirname(__FILE__).'/../../../trackers/weblcms_lpi_attempt_objective_tracker.class.php';
@@ -41,8 +41,8 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		}
 
 		$dm = WeblcmsDataManager :: get_instance();
-		$publication = $dm->retrieve_learning_object_publication($pid);
-		$root_object = $publication->get_learning_object();
+		$publication = $dm->retrieve_content_object_publication($pid);
+		$root_object = $publication->get_content_object();
 
 		// Do tracking stuff
 		$this->trackers['lp_tracker'] = $this->retrieve_lp_tracker($publication);
@@ -127,7 +127,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 
 				$this->trackers['lpi_tracker'] = $lpi_tracker;
 
-				$display = LearningPathLearningObjectDisplay :: factory($this, $object->get_type())->display_learning_object($object, $lpi_attempt_data[$cloi->get_id()], $menu->get_continue_url(), $menu->get_previous_url(), $menu->get_jump_urls());
+				$display = LearningPathContentObjectDisplay :: factory($this, $object->get_type())->display_content_object($object, $lpi_attempt_data[$cloi->get_id()], $menu->get_continue_url(), $menu->get_previous_url(), $menu->get_jump_urls());
 			}
 			else
 			{
@@ -202,7 +202,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 	 *
 	 * @param int $total_steps
 	 * @param int $current_step
-	 * @param LearningObject - The current object
+	 * @param ContentObject - The current object
 	 * @return HTML of the navigation menu
 	 */
 	private function get_navigation_menu($total_steps, $current_step, $object, $menu)
@@ -406,7 +406,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 	 * Creates a learning path item tracker
 	 *
 	 * @param LearningPathAttemptTracker $lp_tracker
-	 * @param ComplexLearningObjectItem $current_cloi
+	 * @param ComplexContentObjectItem $current_cloi
 	 * @return array LearningPathItemAttemptTracker
 	 */
 	private function create_lpi_tracker($lp_tracker, $current_cloi)

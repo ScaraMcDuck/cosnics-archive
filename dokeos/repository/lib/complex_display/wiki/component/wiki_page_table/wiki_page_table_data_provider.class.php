@@ -3,7 +3,7 @@
  * @package application.weblcms.tool.exercise.component.exercise_publication_table
  */
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_data_provider.class.php';
-require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
+require_once Path :: get_repository_path(). 'lib/content_object.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once Path :: get_library_path().'condition/and_condition.class.php';
@@ -47,8 +47,8 @@ class WikiPageTableDataProvider extends ObjectTableDataProvider
     function get_objects($offset, $count, $order_property = null, $order_direction = null)
     {
     	$dm = RepositoryDataManager :: get_instance();
-        $condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->owner, ComplexLearningObjectItem :: get_table_name());
-        return $dm->retrieve_complex_learning_object_items($condition, $order_property, $order_direction, $offset, $count);
+        $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->owner, ComplexContentObjectItem :: get_table_name());
+        return $dm->retrieve_complex_content_object_items($condition, $order_property, $order_direction, $offset, $count);
     }
 	/*
 	 * Inherited

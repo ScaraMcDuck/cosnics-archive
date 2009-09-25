@@ -40,17 +40,17 @@ class RecycleBinBrowserTableDataProvider extends RepositoryBrowserTableDataProvi
     	}	
     	
       	// We always use title as second sorting parameter
-//		$order_property[] = LearningObject :: PROPERTY_TITLE;
+//		$order_property[] = ContentObject :: PROPERTY_TITLE;
 //		$order_direction[] = SORT_ASC;
 		
-    	$objects = $this->get_browser()->retrieve_learning_objects(null, $this->get_condition(), $order_property, $order_direction, $offset, $count, LearningObject :: STATE_RECYCLED, false);
+    	$objects = $this->get_browser()->retrieve_content_objects(null, $this->get_condition(), $order_property, $order_direction, $offset, $count, ContentObject :: STATE_RECYCLED, false);
     
     	return $objects;
     }
 	// Inherited
     function get_object_count()
     {
-    	return $this->get_browser()->count_learning_objects(null, $this->get_condition(), LearningObject :: STATE_RECYCLED, false);
+    	return $this->get_browser()->count_content_objects(null, $this->get_condition(), ContentObject :: STATE_RECYCLED, false);
     }
 }
 ?>

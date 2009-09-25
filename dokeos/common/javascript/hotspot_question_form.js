@@ -236,7 +236,7 @@ $(function ()
 			imageProperties;
 		$('input[name="image_object"]').val(learningObjectId);
 		
-		imageProperties = doAjaxPost("./common/javascript/ajax/image_properties.php", { learning_object: learningObjectId });
+		imageProperties = doAjaxPost("./common/javascript/ajax/image_properties.php", { content_object: learningObjectId });
 		imageProperties = eval('(' + imageProperties + ')');
 		
 		$('#hotspot_image').css('width', imageProperties.width + 'px');

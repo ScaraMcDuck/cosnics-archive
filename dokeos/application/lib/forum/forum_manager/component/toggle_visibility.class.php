@@ -39,11 +39,11 @@ class ForumManagerToggleVisibilityComponent extends ForumManagerComponent
 
 			if(count($publication_ids) > 1)
 			{
-				$message = htmlentities(Translation :: get('LearningObjectPublicationsVisibilityChanged'));
+				$message = htmlentities(Translation :: get('ContentObjectPublicationsVisibilityChanged'));
 			}
 			else
 			{
-				$message = htmlentities(Translation :: get('LearningObjectPublicationVisibilityChanged'));
+				$message = htmlentities(Translation :: get('ContentObjectPublicationVisibilityChanged'));
 			}
 
 			$params = array(ForumManager::PARAM_ACTION => ForumManager::ACTION_BROWSE);

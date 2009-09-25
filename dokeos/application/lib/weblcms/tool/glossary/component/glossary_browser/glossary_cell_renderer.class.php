@@ -23,9 +23,9 @@ class GlossaryCellRenderer extends ObjectPublicationTableCellRenderer
 		
 		switch($column->get_name())
 		{
-			case LearningObject :: PROPERTY_TITLE:
-				 $lo = $publication->get_learning_object();
-				 $feedback_url = $this->browser->get_url(array (Tool :: PARAM_PUBLICATION_ID => $publication->get_learning_object()->get_id(), Tool :: PARAM_ACTION => 'view'));
+			case ContentObject :: PROPERTY_TITLE:
+				 $lo = $publication->get_content_object();
+				 $feedback_url = $this->browser->get_url(array (Tool :: PARAM_PUBLICATION_ID => $publication->get_content_object()->get_id(), Tool :: PARAM_ACTION => 'view'));
 				 $data = '<a href="' . $feedback_url . '">' . $lo->get_title() . '</a> ';
       			 break;	
 		}
@@ -53,7 +53,7 @@ class GlossaryCellRenderer extends ObjectPublicationTableCellRenderer
 		
 		unset($actions['move']);
 		
-		$feedback_url = $this->browser->get_url(array (Tool :: PARAM_PUBLICATION_ID => $publication->get_learning_object()->get_id(), Tool :: PARAM_ACTION => 'view'));
+		$feedback_url = $this->browser->get_url(array (Tool :: PARAM_PUBLICATION_ID => $publication->get_content_object()->get_id(), Tool :: PARAM_ACTION => 'view'));
 		$actions['feedback'] = array(
 			'href' => $feedback_url, 
 			'label' => Translation :: get('Feedback'), 

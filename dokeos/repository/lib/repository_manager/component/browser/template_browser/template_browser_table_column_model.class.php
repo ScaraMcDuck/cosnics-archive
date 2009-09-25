@@ -6,7 +6,7 @@
 /**
  * Table column model for the repository browser table
  */
-class TemplateBrowserTableColumnModel extends DefaultLearningObjectTableColumnModel
+class TemplateBrowserTableColumnModel extends DefaultContentObjectTableColumnModel
 {
 	/**
 	 * The tables modification column
@@ -23,7 +23,7 @@ class TemplateBrowserTableColumnModel extends DefaultLearningObjectTableColumnMo
 	}
 	/**
 	 * Gets the modification column
-	 * @return LearningObjectTableColumn
+	 * @return ContentObjectTableColumn
 	 */
 	static function get_modification_column()
 	{

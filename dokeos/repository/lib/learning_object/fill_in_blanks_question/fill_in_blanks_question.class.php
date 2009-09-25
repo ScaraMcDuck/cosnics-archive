@@ -1,11 +1,11 @@
 <?php
-require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) . '/../../content_object.class.php';
 require_once dirname(__FILE__) .'/fill_in_blanks_question_answer.class.php';
 /**
  * @package repository.learningobject
  * @subpackage exercise
  */
-class FillInBlanksQuestion extends LearningObject
+class FillInBlanksQuestion extends ContentObject
 {
 	const PROPERTY_ANSWERS = 'answers';
 	const PROPERTY_ANSWER_TEXT = 'answer_text';

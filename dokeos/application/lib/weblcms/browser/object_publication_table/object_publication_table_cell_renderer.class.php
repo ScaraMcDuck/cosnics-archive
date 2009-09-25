@@ -1,14 +1,14 @@
 <?php
 
-require_once Path :: get_repository_path(). 'lib/learning_object_table/default_learning_object_table_cell_renderer.class.php';
-require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
+require_once Path :: get_repository_path(). 'lib/content_object_table/default_content_object_table_cell_renderer.class.php';
+require_once Path :: get_repository_path(). 'lib/content_object.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once dirname(__FILE__).'/object_publication_table_column_model.class.php';
 require_once Path :: get_application_path().'lib/weblcms/trackers/weblcms_assessment_attempts_tracker.class.php';
 /**
  * This class is a cell renderer for a publication candidate table
  */
-class ObjectPublicationTableCellRenderer extends DefaultLearningObjectTableCellRenderer
+class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRenderer
 {
 	protected $browser;
 	private $object_count;
@@ -35,11 +35,11 @@ class ObjectPublicationTableCellRenderer extends DefaultLearningObjectTableCellR
 
 		switch($column->get_name())
 		{
-			case LearningObjectPublication :: PROPERTY_PUBLICATION_DATE:
+			case ContentObjectPublication :: PROPERTY_PUBLICATION_DATE:
 				 $date_format = Translation :: get('dateTimeFormatLong');
       			 $data = Text :: format_locale_date($date_format,$publication->get_publication_date());
       			 break;	
-      		case LearningObjectPublication :: PROPERTY_PUBLISHER_ID:
+      		case ContentObjectPublication :: PROPERTY_PUBLISHER_ID:
       			 $user = $this->retrieve_user($publication->get_publisher_id());
       			 $data = $user->get_fullname();
       			 break;
@@ -50,7 +50,7 @@ class ObjectPublicationTableCellRenderer extends DefaultLearningObjectTableCellR
 		}
 		
 		if(!$data)
-			$data = parent :: render_cell($column, $publication->get_learning_object());
+			$data = parent :: render_cell($column, $publication->get_content_object());
 		
 		if ($publication->is_hidden())
 		{
@@ -129,7 +129,7 @@ class ObjectPublicationTableCellRenderer extends DefaultLearningObjectTableCellR
 				'img' => Theme :: get_common_image_path().'action_edit.png'
 			);
 			
-			if($publication->get_learning_object()->is_complex_learning_object())
+			if($publication->get_content_object()->is_complex_content_object())
 			{
 				$actions['build'] = array(
 					'href' => $this->browser->get_complex_builder_url($publication->get_id()), 

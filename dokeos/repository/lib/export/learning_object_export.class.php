@@ -7,27 +7,27 @@
  * Abstract class to export tabular data.
  * Create a new type of export by extending this class.
  */
-abstract class LearningObjectExport
+abstract class ContentObjectExport
 {
 	/**
 	 * The learning object to be exported.
 	 */
-	private $learning_object;
+	private $content_object;
 	/**
 	 * Constructor
-	 * @param string $learning_object
+	 * @param string $content_object
 	 */
-	public function LearningObjectExport($learning_object)
+	public function ContentObjectExport($content_object)
 	{
-		$this->learning_object = $learning_object;
+		$this->content_object = $content_object;
 	}
 	/**
 	 * Gets the learning object
-	 * @return LearningObject
+	 * @return ContentObject
 	 */
-	protected function get_learning_object()
+	protected function get_content_object()
 	{
-		return $this->learning_object;
+		return $this->content_object;
 	}
 
 	/**
@@ -55,14 +55,14 @@ abstract class LearningObjectExport
 	 * @param string $filename The desired filename for the export file
 	 * (extension will be automatically added depending on the given $type)
 	 */
-	public static function factory($type, $learning_object)
+	public static function factory($type, $content_object)
 	{
 		$file = dirname(__FILE__).'/'.$type.'/'.$type.'_export.class.php';
 		$class = DokeosUtilities :: underscores_to_camelcase($type).'Export';
 		if(file_exists($file))
 		{
 			require_once($file);
-			return new $class($learning_object);
+			return new $class($content_object);
 		}
 	}
 	
@@ -71,6 +71,6 @@ abstract class LearningObjectExport
 		return Path :: get($path_type);
 	}
 	
-	abstract function export_learning_object();
+	abstract function export_content_object();
 }
 ?>

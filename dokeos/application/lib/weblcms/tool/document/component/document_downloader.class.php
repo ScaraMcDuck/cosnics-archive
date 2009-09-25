@@ -16,8 +16,8 @@ class DocumentToolDownloaderComponent extends DocumentToolComponent
 		}
 		$dm = WeblcmsDataManager :: get_instance();
 		$publication_id = Request :: get(Tool :: PARAM_PUBLICATION_ID);
-		$publication = $dm->retrieve_learning_object_publication($publication_id);
-		$document = $publication->get_learning_object();
+		$publication = $dm->retrieve_content_object_publication($publication_id);
+		$document = $publication->get_content_object();
 		$document->send_as_download();
 		return '';
 	}

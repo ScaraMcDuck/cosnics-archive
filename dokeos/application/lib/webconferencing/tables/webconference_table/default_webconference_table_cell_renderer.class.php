@@ -21,7 +21,7 @@ class DefaultWebconferenceTableCellRenderer implements ObjectTableCellRenderer
 
 	/**
 	 * Renders a table cell
-	 * @param LearningObjectTableColumnModel $column The column which should be
+	 * @param ContentObjectTableColumnModel $column The column which should be
 	 * rendered
 	 * @param Webconference $webconference - The webconference
 	 * @return string A HTML representation of the rendered table cell

@@ -6,7 +6,7 @@ require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.
 require_once dirname(__FILE__).'/../user.class.php';
 require_once dirname(__FILE__).'/../user_quota.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
-require_once Path :: get_repository_path(). 'lib/abstract_learning_object.class.php';
+require_once Path :: get_repository_path(). 'lib/abstract_content_object.class.php';
 
 
 class UserQuotaForm extends FormValidator {
@@ -17,7 +17,7 @@ class UserQuotaForm extends FormValidator {
 	private $parent;
 	private $user;
 	private $rdm;
-	private $learning_object_types;
+	private $content_object_types;
 	
 	/**
 	 * Creates a new UserQuotaForm
@@ -27,7 +27,7 @@ class UserQuotaForm extends FormValidator {
     	parent :: __construct('quota_settings', 'post', $action);
     	
     	$this->user = $user;
-    	$this->learning_object_types = $this->filter_learning_object_types();
+    	$this->content_object_types = $this->filter_content_object_types();
     
 		$this->build_editing_form();
 		$this->setDefaults();
@@ -51,7 +51,7 @@ class UserQuotaForm extends FormValidator {
 		$this->addElement('category');
 		
 		$this->addElement('category', Translation :: get('VersionQuota'));
-    	foreach($this->learning_object_types as $type)
+    	foreach($this->content_object_types as $type)
     	{
     		$this->addElement('text', $type, Translation :: get(DokeosUtilities :: underscores_to_camelcase($type)), array("size" => "50"));
     		$this->addRule($type, Translation :: get('FieldMustBeNumeric'), 'numeric', null, 'server');
@@ -87,10 +87,10 @@ class UserQuotaForm extends FormValidator {
     	$user = $this->user;
     	$values = $this->exportValues();
     	$failures = 0;
-    	foreach($this->learning_object_types as $type)
+    	foreach($this->content_object_types as $type)
     	{
     		$userquota = new UserQuota();
-    		$userquota->set_learning_object_type($type);
+    		$userquota->set_content_object_type($type);
     		$userquota->set_user_quota($values[$type]);
     		$userquota->set_user_id($user->get_id());
     		if ($values[$type] != '')
@@ -132,7 +132,7 @@ class UserQuotaForm extends FormValidator {
 		$defaults[User :: PROPERTY_DATABASE_QUOTA] = $user->get_database_quota();
 		$defaults[User :: PROPERTY_DISK_QUOTA] = $user->get_disk_quota();
 		
-		foreach ($this->learning_object_types as $type)
+		foreach ($this->content_object_types as $type)
 		{
 			$defaults[$type] = $this->user->get_version_type_quota($type);
 		}
@@ -142,18 +142,18 @@ class UserQuotaForm extends FormValidator {
 	/**
 	 * Filters learning object types
 	 */
-	function filter_learning_object_types()
+	function filter_content_object_types()
 	{
 		$user = $this->user;
 		$rdm = RepositoryDataManager :: get_instance();
-    	$learning_object_types = $rdm->get_registered_types();
+    	$content_object_types = $rdm->get_registered_types();
     	$filtered_object_types = array();
     	
     	$hidden_types = array('learning_path_item', 'portfolio_item');
     	
-		foreach ($learning_object_types as $type)
+		foreach ($content_object_types as $type)
 		{
-			$object = new AbstractLearningObject($type, $user->get_id());
+			$object = new AbstractContentObject($type, $user->get_id());
 			if ($object->is_versionable() && !in_array($object->get_type(), $hidden_types))
 			{
 				$filtered_object_types[] = $type;

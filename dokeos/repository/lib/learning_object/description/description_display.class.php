@@ -7,7 +7,7 @@
 /**
  * This class can be used to display descriptions
  */
-class DescriptionDisplay extends LearningObjectDisplay
+class DescriptionDisplay extends ContentObjectDisplay
 {
 }
 

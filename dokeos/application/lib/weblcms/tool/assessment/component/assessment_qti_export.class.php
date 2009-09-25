@@ -1,5 +1,5 @@
 <?php
-require_once Path::get_repository_path().'/lib/export/learning_object_export.class.php';
+require_once Path::get_repository_path().'/lib/export/content_object_export.class.php';
 
 class AssessmentToolQtiExportComponent extends AssessmentToolComponent
 {
@@ -8,10 +8,10 @@ class AssessmentToolQtiExportComponent extends AssessmentToolComponent
 	{
 		$pid = Request :: get(AssessmentTool :: PARAM_PUBLICATION_ID);
 		
-		$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid);
-		$assessment = $publication->get_learning_object();
-		$exporter = LearningObjectExport :: factory('qti', $assessment);
-		$path = $exporter->export_learning_object();
+		$publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($pid);
+		$assessment = $publication->get_content_object();
+		$exporter = ContentObjectExport :: factory('qti', $assessment);
+		$path = $exporter->export_content_object();
 		
 		header('Expires: Wed, 01 Jan 1990 00:00:00 GMT');
 		header('Cache-Control: public');

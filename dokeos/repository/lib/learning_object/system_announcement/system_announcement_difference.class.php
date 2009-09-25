@@ -8,7 +8,7 @@
 /**
  * This class can be used to get the difference between system announcements
  */
-class SystemAnnouncementDifference extends LearningObjectDifference
+class SystemAnnouncementDifference extends ContentObjectDifference
 {
 }
 ?>

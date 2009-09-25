@@ -21,10 +21,10 @@ class ToolComplexDeleterComponent extends ToolComponent
 
 			foreach($cloi_ids as $index => $cid)
 			{
-				//$publication = $datamanager->retrieve_complex_learning_object_item($pid);
+				//$publication = $datamanager->retrieve_complex_content_object_item($pid);
                 //if(!WikiTool :: is_wiki_locked($cid))
                 {
-                    $cloi = new ComplexLearningObjectItem();
+                    $cloi = new ComplexContentObjectItem();
                     $cloi->set_id($cid);
                     $cloi->delete();
                 }
@@ -34,11 +34,11 @@ class ToolComplexDeleterComponent extends ToolComponent
             {
                 if(count($cloi_ids) > 1)
                 {
-                    $message = htmlentities(Translation :: get('LearningObjectPublicationsDeleted'));
+                    $message = htmlentities(Translation :: get('ContentObjectPublicationsDeleted'));
                 }
                 else
                 {
-                    $message = htmlentities(Translation :: get('LearningObjectPublicationDeleted'));
+                    $message = htmlentities(Translation :: get('ContentObjectPublicationDeleted'));
                 }
             }
 

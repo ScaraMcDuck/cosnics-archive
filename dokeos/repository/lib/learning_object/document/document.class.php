@@ -5,13 +5,13 @@
  * @package repository.learningobject
  * @subpackage document
  */
-require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) . '/../../content_object.class.php';
 require_once Path :: get_library_path() . 'configuration/configuration.class.php';
 require_once Path :: get_library_path() . 'filesystem/filesystem.class.php';
 /**
  * A Document.
  */
-class Document extends LearningObject
+class Document extends ContentObject
 {
     const PROPERTY_PATH = 'path';
     const PROPERTY_FILENAME = 'filename';

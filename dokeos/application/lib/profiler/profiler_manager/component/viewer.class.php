@@ -5,7 +5,7 @@
 require_once dirname(__FILE__) . '/../profiler_manager.class.php';
 require_once dirname(__FILE__) . '/../profiler_manager_component.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object_display.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_display.class.php';
 
 class ProfilerManagerViewerComponent extends ProfilerManagerComponent
 {
@@ -45,7 +45,7 @@ class ProfilerManagerViewerComponent extends ProfilerManagerComponent
         $publication = $this->publication;
         $profile = $publication->get_publication_object();
         
-        $display = LearningObjectDisplay :: factory($profile);
+        $display = ContentObjectDisplay :: factory($profile);
         
         $html = array();
         $html[] = $display->get_full_html();

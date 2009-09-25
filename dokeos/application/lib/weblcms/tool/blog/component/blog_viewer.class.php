@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../../../learning_object_repo_viewer.class.php';
+require_once dirname(__FILE__).'/../../../content_object_repo_viewer.class.php';
 require_once dirname(__FILE__) . '/blog_viewer/blog_browser.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 
@@ -18,14 +18,14 @@ class BlogToolViewerComponent extends BlogToolComponent
 		$pid = Request :: get('pid');
 		
 		$conditions = array();
-		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
-		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'blog');
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'blog');
 		
 		$subselect_condition = new EqualityCondition('type', 'introduction');
-		$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
+		$conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
 		$condition = new AndCondition($conditions);
 		
-		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications_new($condition);
+		$publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($condition);
 		$this->introduction_text = $publications->next_result();
 
 		$this->action_bar = $this->get_action_bar(Request :: get('pid'));
@@ -49,7 +49,7 @@ class BlogToolViewerComponent extends BlogToolComponent
         {
             if(Request :: get('pcattree')!=0)
             $this->add_pcattree_breadcrumbs(Request :: get('pcattree'), &$trail);
-            $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
+            $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get('pid'))->get_content_object()->get_title()));
         }
 
         $this->display_header($trail, true);
@@ -114,8 +114,8 @@ class BlogToolViewerComponent extends BlogToolComponent
 		$query = $this->action_bar->get_query();
 		if(isset($query) && $query != '')
 		{
-			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);
-			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query);
+			$conditions[] = new LikeCondition(ContentObject :: PROPERTY_TITLE, $query);
+			$conditions[] = new LikeCondition(ContentObject :: PROPERTY_DESCRIPTION, $query);
 			return new OrCondition($conditions);
 		}
 
@@ -124,11 +124,11 @@ class BlogToolViewerComponent extends BlogToolComponent
 
     private function add_pcattree_breadcrumbs($pcattree,&$trail)
     {
-        $cat = WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication_category($pcattree);
+        $cat = WebLcmsDataManager :: get_instance()->retrieve_content_object_publication_category($pcattree);
         $categories[] = $cat;
         while ($cat->get_parent()!=0)
         {
-            $cat = WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication_category($cat->get_parent());
+            $cat = WebLcmsDataManager :: get_instance()->retrieve_content_object_publication_category($cat->get_parent());
             $categories[] = $cat;
         }
         $categories = array_reverse($categories);
@@ -161,9 +161,9 @@ class BlogToolViewerComponent extends BlogToolComponent
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
 			);
 
-			$html[] = '<div class="learning_object">';
+			$html[] = '<div class="content_object">';
 			$html[] = '<div class="description">';
-			$html[] = $introduction_text->get_learning_object()->get_description();
+			$html[] = $introduction_text->get_content_object()->get_description();
 			$html[] = '</div>';
 			$html[] = DokeosUtilities :: build_toolbar($tb_data) . '<div class="clear"></div>';
 			$html[] = '</div>';

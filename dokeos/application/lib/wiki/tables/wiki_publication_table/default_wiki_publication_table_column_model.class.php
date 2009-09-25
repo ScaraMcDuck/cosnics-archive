@@ -29,8 +29,8 @@ class DefaultWikiPublicationTableColumnModel extends ObjectTableColumnModel
 		$columns = array();
 
 //		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_ID);
-        $columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE);
-        $columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION);
+        $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TITLE);
+        $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_DESCRIPTION);
 //		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_PARENT_ID);
 //		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_CATEGORY);
 //		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_FROM_DATE);

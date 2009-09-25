@@ -1,16 +1,16 @@
 <?php
 /**
- * $Id: monthcalendarlearning_object_publication_list_renderer.class.php 11910 2007-04-06 12:50:22Z bmol $
+ * $Id: monthcalendarcontent_object_publication_list_renderer.class.php 11910 2007-04-06 12:50:22Z bmol $
  * @package application.weblcms
  * @subpackage browser.listrenderer
  */
-require_once dirname(__FILE__).'/../learning_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/../content_object_publication_list_renderer.class.php';
 require_once Path :: get_application_library_path().'mini_month_calendar.class.php';
 require_once Path :: get_application_library_path().'month_calendar.class.php';
 /**
  * Renderer to display events in a month calendar
  */
-class MiniMonthCalendarLearningObjectPublicationListRenderer extends LearningObjectPublicationListRenderer
+class MiniMonthCalendarContentObjectPublicationListRenderer extends ContentObjectPublicationListRenderer
 {
 	/**
 	 * The current time displayed in the calendar
@@ -45,7 +45,7 @@ class MiniMonthCalendarLearningObjectPublicationListRenderer extends LearningObj
 			{
 				if (!$calendar_table->contains_events_for_time($table_date))
 				{
-					$object = $publication->get_learning_object();
+					$object = $publication->get_content_object();
 					
 					$start_date = $object->get_start_date();
 					$end_date = $object->get_end_date();
@@ -80,12 +80,12 @@ class MiniMonthCalendarLearningObjectPublicationListRenderer extends LearningObj
 	}
 	/**
 	 * Renders a publication
-	 * @param LearningObjectPublication $publication The publication to render
+	 * @param ContentObjectPublication $publication The publication to render
 	 * @param int $table_date The current date displayed in the table.
 	 */
 	function render_publication($publication,$table_date)
 	{
-		$event = $publication->get_learning_object();
+		$event = $publication->get_content_object();
 		$start_date = $event->get_start_date();
 		$end_date = $event->get_end_date();
 		$html[] = '<br /><img src="'.Theme :: get_common_image_path().'action_posticon.png"/>';

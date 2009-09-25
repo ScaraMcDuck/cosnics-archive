@@ -3,9 +3,9 @@
  * @package repository.learningobject
  * @subpackage scorm
  */
-require_once dirname(__FILE__) . '/../../complex_learning_object_item.class.php';
+require_once dirname(__FILE__) . '/../../complex_content_object_item.class.php';
 
-class ComplexScormItem extends ComplexLearningObjectItem
+class ComplexScormItem extends ComplexContentObjectItem
 {
 
 }

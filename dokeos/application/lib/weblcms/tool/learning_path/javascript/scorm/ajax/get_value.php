@@ -12,10 +12,10 @@ $trackers = $dummy->retrieve_tracker_items($condition);
 $tracker = $trackers[0];
 
 $rdm = RepositoryDataManager :: get_instance();
-$item = $rdm->retrieve_complex_learning_object_item($tracker->get_lp_item_id());
+$item = $rdm->retrieve_complex_content_object_item($tracker->get_lp_item_id());
 
-$learning_path_item = $rdm->retrieve_learning_object($item->get_ref());
-$scorm_item = $rdm->retrieve_learning_object($learning_path_item->get_reference());
+$learning_path_item = $rdm->retrieve_content_object($item->get_ref());
+$scorm_item = $rdm->retrieve_content_object($learning_path_item->get_reference());
 
 if(substr($variable, 0, 15) == 'cmi.objectives.')
 {

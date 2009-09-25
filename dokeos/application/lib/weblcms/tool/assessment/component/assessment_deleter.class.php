@@ -33,7 +33,7 @@ class AssessmentToolDeleterComponent extends AssessmentToolComponent
 			
 			if (count($items) == 0)
 			{
-				$publication = $datamanager->retrieve_learning_object_publication($pid); 
+				$publication = $datamanager->retrieve_content_object_publication($pid); 
 				$publication->delete();
 			}
 			else
@@ -45,16 +45,16 @@ class AssessmentToolDeleterComponent extends AssessmentToolComponent
 		if(count($publication_ids) > 1)
 		{
 			if ($success)
-				$message = htmlentities(Translation :: get('LearningObjectPublicationsDeleted'));
+				$message = htmlentities(Translation :: get('ContentObjectPublicationsDeleted'));
 			else
 				$message = htmlentities(Translation :: get('SomePublicationsCouldNotBeDeleted'));
 		}
 		else
 		{
 			if ($success)
-				$message = htmlentities(Translation :: get('LearningObjectPublicationDeleted'));
+				$message = htmlentities(Translation :: get('ContentObjectPublicationDeleted'));
 			else
-				$message = htmlentities(Translation :: get('LearningObjectPublicationNotDeleted'));
+				$message = htmlentities(Translation :: get('ContentObjectPublicationNotDeleted'));
 				
 		}
 		

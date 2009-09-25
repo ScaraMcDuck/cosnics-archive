@@ -4,7 +4,7 @@
  */
 
 
-require_once Path :: get_repository_path().'lib/learning_object/survey/survey.class.php';
+require_once Path :: get_repository_path().'lib/content_object/survey/survey.class.php';
 require_once dirname(__FILE__).'/../survey_invitation.class.php';
 require_once Path :: get_application_path().'lib/weblcms/trackers/weblcms_assessment_attempts_tracker.class.php';
 require_once Path :: get_repository_path() . 'lib/complex_display/complex_display.class.php';
@@ -27,8 +27,8 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		if (Request :: get(Tool :: PARAM_PUBLICATION_ID))
 		{
 			$this->pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
-			$this->pub = $this->datamanager->retrieve_learning_object_publication($this->pid);
-			$this->assessment = $this->pub->get_learning_object();
+			$this->pub = $this->datamanager->retrieve_content_object_publication($this->pid);
+			$this->assessment = $this->pub->get_content_object();
 			$this->set_parameter('pid', $this->pid);
 		}
 		
@@ -37,9 +37,9 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			$this->iid = Request :: get(AssessmentTool :: PARAM_INVITATION_ID);
 			$condition = new EqualityCondition(SurveyInvitation :: PROPERTY_INVITATION_CODE, $this->iid);
 			$this->invitation = $this->datamanager->retrieve_survey_invitations($condition)->next_result();
-			$this->pub = $this->datamanager->retrieve_learning_object_publication($this->invitation->get_survey_id());
+			$this->pub = $this->datamanager->retrieve_content_object_publication($this->invitation->get_survey_id());
 			$this->pid = $this->pub->get_id();
-			$this->assessment = $this->pub->get_learning_object(); 
+			$this->assessment = $this->pub->get_content_object(); 
 			$this->set_parameter(AssessmentTool :: PARAM_INVITATION_ID, $this->iid);
 		}
 

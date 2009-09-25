@@ -3,7 +3,7 @@
 require_once dirname(__FILE__) . '/../forum_tool.class.php';
 require_once dirname(__FILE__) . '/../forum_tool_component.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
-require_once Path :: get_repository_path() . '/lib/learning_object/forum/forum.class.php';
+require_once Path :: get_repository_path() . '/lib/content_object/forum/forum.class.php';
 require_once Path :: get_repository_path() . 'lib/complex_display/forum/forum_display.class.php';
 require_once 'HTML/Table.php';
 
@@ -82,11 +82,11 @@ class ForumToolBrowserComponent extends ForumToolComponent
 
 	function create_table_categories($table, &$row)
 	{
-		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_COURSE, $this->get_parent()->get_course_id());
-		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_TOOL, $this->get_parent()->get_tool_id());
+		$conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_COURSE, $this->get_parent()->get_course_id());
+		$conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_TOOL, $this->get_parent()->get_tool_id());
 		$condition = new AndCondition($conditions);
 
-		$categories = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_categories($condition);
+		$categories = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication_categories($condition);
 	
 		while($category = $categories->next_result())
 		{
@@ -125,24 +125,24 @@ class ForumToolBrowserComponent extends ForumToolComponent
 		$datamanager = WeblcmsDataManager :: get_instance();
 		
 		$conditions = array();
-		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
-		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'forum');
-		$conditions[] = new InCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $parent);
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'forum');
+		$conditions[] = new InCondition(ContentObjectPublication :: PROPERTY_CATEGORY_ID, $parent);
 		
 		$access = array();
-		$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
-		$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('learning_object_publication_course_group'));
+		$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
+		$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
 		if (!empty($user_id) || !empty($course_groups))
 		{
-			$access[] = new AndCondition(array(new EqualityCondition('user', null, $datamanager->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('learning_object_publication_course_group'))));
+			$access[] = new AndCondition(array(new EqualityCondition('user', null, $datamanager->get_database()->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('content_object_publication_course_group'))));
 		}
 		$conditions[] = new OrCondition($access);
 		
 		$subselect_condition = new EqualityCondition('type', 'forum');
-		$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
+		$conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
 		$condition = new AndCondition($conditions);
 		
-		$publications = $datamanager->retrieve_learning_object_publications_new($condition, new ObjectTableOrder(Forum :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC));
+		$publications = $datamanager->retrieve_content_object_publications_new($condition, new ObjectTableOrder(Forum :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC));
 
 		$size = $publications->size();
 		$this->size += $size;
@@ -153,16 +153,16 @@ class ForumToolBrowserComponent extends ForumToolComponent
 			$first = $counter == 0? true : false;
 			$last = $counter == ($size - 1) ? true : false;
 
-            //$forum = $rdm->retrieve_learning_object($publication->get_id(), 'forum');
-			$forum = $publication->get_learning_object();
-			$title = '<a href="' . $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM,ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $publication->get_learning_object()->get_id())) . '">' . $forum->get_title() . '</a><br />' . strip_tags($forum->get_description());
+            //$forum = $rdm->retrieve_content_object($publication->get_id(), 'forum');
+			$forum = $publication->get_content_object();
+			$title = '<a href="' . $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM,ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $publication->get_content_object()->get_id())) . '">' . $forum->get_title() . '</a><br />' . strip_tags($forum->get_description());
 
 			if($publication->is_hidden())
 			{
 				$title = '<span style="color: grey;">' . $title . '</span>';
 			}
 
-			$last_post = RepositoryDataManager::get_instance()->retrieve_complex_learning_object_item($publication->get_learning_object()->get_last_post());
+			$last_post = RepositoryDataManager::get_instance()->retrieve_complex_content_object_item($publication->get_content_object()->get_last_post());
 			
 			$table->setCellContents($row, 0, '<img title="' . Translation :: get('NoNewPosts') . '" src="' . Theme :: get_image_path() . 'forum/forum_read.png" />');
 			$table->setCellAttributes($row, 0, array('width' => 50, 'class' => 'row1', 'style' => 'height:50px;'));

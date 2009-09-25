@@ -3,7 +3,7 @@
  * @package application.lib.profiler
  */
 require_once Path :: get_application_library_path(). 'repo_viewer/repo_viewer.class.php';
-require_once Path :: get_repository_path(). 'lib/abstract_learning_object.class.php';
+require_once Path :: get_repository_path(). 'lib/abstract_content_object.class.php';
 
 /**
 ==============================================================================
@@ -13,13 +13,13 @@ require_once Path :: get_repository_path(). 'lib/abstract_learning_object.class.
 ==============================================================================
  */
 
-class LearningObjectRepoViewer extends RepoViewer
+class ContentObjectRepoViewer extends RepoViewer
 {
 	/**
 	 * The default learning objects, which are used for form defaults.
 	 */
 
-	function LearningObjectRepoViewer($parent, $types, $mail_option = false, $maximum_select = RepoViewer :: SELECT_MULTIPLE, $action = TOOL :: ACTION_PUBLISH)
+	function ContentObjectRepoViewer($parent, $types, $mail_option = false, $maximum_select = RepoViewer :: SELECT_MULTIPLE, $action = TOOL :: ACTION_PUBLISH)
 	{
 		parent :: __construct($parent, $types, $mail_option, $maximum_select, array(), false);
         if(is_array($action))

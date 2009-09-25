@@ -6,7 +6,7 @@
 /**
  * This class can be used to get the difference between links
  */
-class RssFeedDifference extends LearningObjectDifference
+class RssFeedDifference extends ContentObjectDifference
 {
 	function get_difference()
 	{

@@ -4,11 +4,11 @@
  * @package repository.learningobject
  * @subpackage portfolio
  */
-require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) . '/../../content_object.class.php';
 /**
  * This class represents an portfolio
  */
-class Portfolio extends LearningObject
+class Portfolio extends ContentObject
 {
 	function get_allowed_types()
 	{

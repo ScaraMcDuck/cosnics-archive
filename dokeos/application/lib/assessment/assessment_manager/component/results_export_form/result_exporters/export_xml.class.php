@@ -50,9 +50,9 @@ require_once dirname(__FILE__).'/../../../../trackers/assessment_question_attemp
 		$data['user'] = $this->export_user($user_assessment->get_user_id());
 		$data['total_score'] = $user_assessment->get_total_score();
 		$data['date_time_taken'] = $user_assessment->get_date();
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment_id, ComplexLearningObjectItem :: get_table_name());
+		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $assessment_id, ComplexContentObjectItem :: get_table_name());
 
-		$clo_questions = $this->rdm->retrieve_complex_learning_object_items($condition);
+		$clo_questions = $this->rdm->retrieve_complex_content_object_items($condition);
 		while ($clo_question = $clo_questions->next_result())
 		{
 			$question_data[] = $this->export_question($clo_question, $user_assessment);
@@ -72,7 +72,7 @@ require_once dirname(__FILE__).'/../../../../trackers/assessment_question_attemp
 	
 	function export_question($clo_question, $user_assessment)
 	{
-		$question = $this->rdm->retrieve_learning_object($clo_question->get_ref());
+		$question = $this->rdm->retrieve_content_object($clo_question->get_ref());
 		$data['id'] = $question->get_id();
 		$data['title'] = $question->get_title();
 		$data['description'] = htmlspecialchars($question->get_description());
@@ -112,7 +112,7 @@ require_once dirname(__FILE__).'/../../../../trackers/assessment_question_attemp
 	
 	function export_feedback($feedback_id)
 	{
-		$feedback = $this->rdm->retrieve_learning_object($feedback_id, 'feedback');
+		$feedback = $this->rdm->retrieve_content_object($feedback_id, 'feedback');
 		$data['id'] = $feedback->get_id();
 		$data['title'] = htmlspecialchars($feedback->get_title());
 		$data['description'] = htmlspecialchars($feedback->get_description());

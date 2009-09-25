@@ -26,16 +26,16 @@ class RepositoryManagerRestorerComponent extends RepositoryManagerComponent
 			$failures = 0;
 			foreach ($ids as $object_id)
 			{
-				$object = $this->get_parent()->retrieve_learning_object($object_id);
+				$object = $this->get_parent()->retrieve_content_object($object_id);
 				// TODO: Roles & Rights.
 				if ($object->get_owner_id() == $this->get_user_id())
 				{
-					if ($object->get_state() == LearningObject :: STATE_RECYCLED)
+					if ($object->get_state() == ContentObject :: STATE_RECYCLED)
 					{
-						$versions = $object->get_learning_object_versions();
+						$versions = $object->get_content_object_versions();
 						foreach ($versions as $version)
 						{
-							$version->set_state(LearningObject :: STATE_NORMAL);
+							$version->set_state(ContentObject :: STATE_NORMAL);
 							$version->update();
 						}
 					}

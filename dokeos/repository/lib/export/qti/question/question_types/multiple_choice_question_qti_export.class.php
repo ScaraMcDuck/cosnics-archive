@@ -4,9 +4,9 @@ require_once dirname(__FILE__).'/../question_qti_export.class.php';
 class MultipleChoiceQuestionQtiExport extends QuestionQtiExport
 {
 	
-	function export_learning_object()
+	function export_content_object()
 	{
-		$question = $this->get_learning_object();
+		$question = $this->get_content_object();
 		
 		$q_answers = $question->get_options();
 		foreach ($q_answers as $q_answer)
@@ -76,7 +76,7 @@ class MultipleChoiceQuestionQtiExport extends QuestionQtiExport
 		$maxchoices = $type == 'radio' ? 1 : 0;
 		
 		$interaction_xml[] = '<choiceInteraction responseIdentifier="RESPONSE" shuffle="true" maxChoices="' . $maxchoices . '">';
-		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_learning_object()->get_description()).'</prompt>';
+		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_content_object()->get_description()).'</prompt>';
 		foreach ($answers as $i => $answer)
 		{
 			$interaction_xml[] = '<simpleChoice identifier="c'.$i.'" fixed="false">'.$this->include_question_images($answer['answer']);

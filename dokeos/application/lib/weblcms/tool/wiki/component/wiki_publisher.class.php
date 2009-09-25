@@ -7,9 +7,9 @@
  * Author: Nick De Feyter
  */
 
-require_once dirname(__FILE__).'/../../../learning_object_repo_viewer.class.php';
+require_once dirname(__FILE__).'/../../../content_object_repo_viewer.class.php';
 require_once Path::get_library_path().'/html/action_bar/action_bar_renderer.class.php';
-require_once dirname(__FILE__) . '/../../../publisher/learning_object_publisher.class.php';
+require_once dirname(__FILE__) . '/../../../publisher/content_object_publisher.class.php';
 
 class WikiToolPublisherComponent extends WikiToolComponent
 {
@@ -31,9 +31,9 @@ class WikiToolPublisherComponent extends WikiToolComponent
 		$object = Request :: get('object');
 
         /*
-         *  We make use of the LearningObjectRepoViewer setting the type to wiki
+         *  We make use of the ContentObjectRepoViewer setting the type to wiki
          */
-		$pub = new LearningObjectRepoViewer($this, 'wiki', true);
+		$pub = new ContentObjectRepoViewer($this, 'wiki', true);
 
         /*
          *  If no page was created you'll be redirected to the wiki_browser page, otherwise we'll get publications from the object
@@ -44,7 +44,7 @@ class WikiToolPublisherComponent extends WikiToolComponent
 		}
 		else
 		{
-			$publisher = new LearningObjectPublisher($pub);
+			$publisher = new ContentObjectPublisher($pub);
 			$html[] = $publisher->get_publications_form($object);
         }
 

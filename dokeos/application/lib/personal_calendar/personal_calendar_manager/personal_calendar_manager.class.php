@@ -232,36 +232,36 @@ class PersonalCalendarManager extends WebApplication
 
 
 	/**
-	 * @see Application::learning_object_is_published()
+	 * @see Application::content_object_is_published()
 	 */
-	public function learning_object_is_published($object_id)
+	public function content_object_is_published($object_id)
 	{
 		$dm = PersonalCalendarDatamanager::get_instance();
-		return $dm->learning_object_is_published($object_id);
+		return $dm->content_object_is_published($object_id);
 	}
 	/**
-	 * @see Application::any_learning_object_is_published()
+	 * @see Application::any_content_object_is_published()
 	 */
-	public function any_learning_object_is_published($object_ids)
+	public function any_content_object_is_published($object_ids)
 	{
 		$dm = PersonalCalendarDatamanager::get_instance();
-		return $dm->any_learning_object_is_published($object_ids);
+		return $dm->any_content_object_is_published($object_ids);
 	}
 	/**
-	 * @see Application::get_learning_object_publication_attributes()
+	 * @see Application::get_content_object_publication_attributes()
 	 */
-	public function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	public function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		$dm = PersonalCalendarDatamanager::get_instance();
-		return $dm->get_learning_object_publication_attributes($object_id, $type , $offset , $count , $order_property , $order_direction );
+		return $dm->get_content_object_publication_attributes($object_id, $type , $offset , $count , $order_property , $order_direction );
 	}
 	/**
-	 * @see Application::get_learning_object_publication_attribute()
+	 * @see Application::get_content_object_publication_attribute()
 	 */
-	public function get_learning_object_publication_attribute($publication_id)
+	public function get_content_object_publication_attribute($publication_id)
 	{
 		$dm = PersonalCalendarDatamanager::get_instance();
-		return $dm->get_learning_object_publication_attribute($publication_id);
+		return $dm->get_content_object_publication_attribute($publication_id);
 	}
 	/**
 	 * @see Application::count_publication_attributes()
@@ -272,29 +272,29 @@ class PersonalCalendarManager extends WebApplication
 		return $dm->count_publication_attributes($type, $condition );
 	}
 	/**
-	 * @see Application::delete_learning_object_publications()
+	 * @see Application::delete_content_object_publications()
 	 */
-	public function delete_learning_object_publications($object_id)
+	public function delete_content_object_publications($object_id)
 	{
 		$dm = PersonalCalendarDatamanager::get_instance();
-		return $dm->delete_learning_object_publications($object_id);
+		return $dm->delete_content_object_publications($object_id);
 	}
 	/**
-	 * @see Application::update_learning_object_publication_id()
+	 * @see Application::update_content_object_publication_id()
 	 */
-	public function update_learning_object_publication_id($publication_attr)
+	public function update_content_object_publication_id($publication_attr)
 	{
-		return PersonalCalendarDatamanager :: get_instance()->update_learning_object_publication_id($publication_attr);
+		return PersonalCalendarDatamanager :: get_instance()->update_content_object_publication_id($publication_attr);
 	}
 
 	/**
 	 * Inherited
 	 */
-	function get_learning_object_publication_locations($learning_object)
+	function get_content_object_publication_locations($content_object)
 	{
 		$allowed_types = array('calendar_event');
 
-		$type = $learning_object->get_type();
+		$type = $content_object->get_type();
 		if(in_array($type, $allowed_types))
 		{
 			$locations = array(__CLASS__);
@@ -304,12 +304,12 @@ class PersonalCalendarManager extends WebApplication
 		return array();
 	}
 
-	function publish_learning_object($learning_object, $location)
+	function publish_content_object($content_object, $location)
 	{
 		require_once dirname(__FILE__) . '/../calendar_event_publication.class.php';
 		$pub = new CalendarEventPublication();
-		$pub->set_calendar_event($learning_object->get_id());
-		$pub->set_publisher($learning_object->get_owner_id());
+		$pub->set_calendar_event($content_object->get_id());
+		$pub->set_publisher($content_object->get_owner_id());
 		$pub->create();
 
 		return Translation :: get('PublicationCreated');

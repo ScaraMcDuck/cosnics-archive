@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/../learning_object_metadata.class.php';
+require_once dirname(__FILE__) . '/../content_object_metadata.class.php';
 require_once Path :: get_common_path() . 'xml/xml_tool.class.php';
 require_once Path :: get_common_path() . 'string/string_tool.class.php';
 
@@ -8,40 +8,40 @@ abstract class MetadataMapper
     const ORIGINAL_ID_ATTRIBUTE            = 'original_id';
     const OVERRIDE_ID_ATTRIBUTE            = 'override_id';
     const METADATA_ID_ATTRIBUTE            = 'metadata_id'; 
-    const METADATA_OVERRIDE_ID             = LearningObjectMetadata :: PROPERTY_OVERRIDE_ID;
+    const METADATA_OVERRIDE_ID             = ContentObjectMetadata :: PROPERTY_OVERRIDE_ID;
     
-    protected $learning_object;
+    protected $content_object;
     protected $additional_metadata_array;
     protected $repository_data_manager;
     protected $errors;
     
     /**
      * 
-     * @param mixed LearningObject id or a LearningObject instance
+     * @param mixed ContentObject id or a ContentObject instance
      */
-	function MetadataMapper($learning_object) 
+	function MetadataMapper($content_object) 
 	{
 	    $this->errors = array();
 	    
-	    if(isset($learning_object))
+	    if(isset($content_object))
 		{
 		    $this->repository_data_manager = RepositoryDataManager :: get_instance();
 		    
-		    if(is_numeric($learning_object))
+		    if(is_numeric($content_object))
 		    {
-		        $lo = $this->repository_data_manager->retrieve_learning_object($learning_object);
+		        $lo = $this->repository_data_manager->retrieve_content_object($content_object);
 		        if(isset($lo))
 		        {
-		            $this->learning_object = $lo;
+		            $this->content_object = $lo;
 		        }
 		        else
 		        {
-		            throw new Exception('learning_object could not be retrieved while creating an IeeeLomMapper');
+		            throw new Exception('content_object could not be retrieved while creating an IeeeLomMapper');
 		        }
 		    }
-		    elseif(is_a($learning_object, 'LearningObject'))
+		    elseif(is_a($content_object, 'ContentObject'))
 		    {
-		        $this->learning_object = $learning_object;
+		        $this->content_object = $content_object;
 		    }
 		    else
 		    {
@@ -50,7 +50,7 @@ abstract class MetadataMapper
 		}
 		else
 		{
-		    throw new Exception('Unable to create a MetadataMapper without any learning_object');
+		    throw new Exception('Unable to create a MetadataMapper without any content_object');
 		}
 	}
 	
@@ -60,15 +60,15 @@ abstract class MetadataMapper
 	/**
 	 * Get the metadata from the metadata table for a specific learning object
 	 * 
-	 * @param LearningObject $learning_object
-	 * @return array of LearningObjectMetadata
+	 * @param ContentObject $content_object
+	 * @return array of ContentObjectMetadata
 	 */
-	protected function retrieve_learning_object_additional_metadata($learning_object)
+	protected function retrieve_content_object_additional_metadata($content_object)
 	{
-	    $id = $learning_object->get_id(); 
-	    $conditions = new EqualityCondition(LearningObjectMetadata :: PROPERTY_LEARNING_OBJECT, $id);
+	    $id = $content_object->get_id(); 
+	    $conditions = new EqualityCondition(ContentObjectMetadata :: PROPERTY_LEARNING_OBJECT, $id);
 	    
-	    $additional_metadata = $this->repository_data_manager->retrieve_learning_object_metadata($conditions, null, null, null, null);
+	    $additional_metadata = $this->repository_data_manager->retrieve_content_object_metadata($conditions, null, null, null, null);
 	    $additional_metadata_array = array();
 	    while ($metadata = $additional_metadata->next_result())
         {
@@ -89,12 +89,12 @@ abstract class MetadataMapper
 	protected function retrieve_existing_metadata($field_name, $start_like, $metadata_type)
     {
         $conditions   = array();
-        $conditions[] = new EqualityCondition(LearningObjectMetadata :: PROPERTY_LEARNING_OBJECT, $this->learning_object->get_id());
-        $conditions[] = new EqualityCondition(LearningObjectMetadata :: PROPERTY_TYPE, $metadata_type);
+        $conditions[] = new EqualityCondition(ContentObjectMetadata :: PROPERTY_LEARNING_OBJECT, $this->content_object->get_id());
+        $conditions[] = new EqualityCondition(ContentObjectMetadata :: PROPERTY_TYPE, $metadata_type);
         $conditions[] = new LikeCondition($field_name, $start_like);
         $condition    = new AndCondition($conditions);
          
-        $existing_metadata = $this->repository_data_manager->retrieve_learning_object_metadata($condition);
+        $existing_metadata = $this->repository_data_manager->retrieve_content_object_metadata($condition);
         
         return $existing_metadata;
     }
@@ -164,7 +164,7 @@ abstract class MetadataMapper
      * Filter the already retrieved existing metadata
      * 
      * @param $filter The beginning of the property name to filter on 
-     * @return array of LearningObjectMetadata
+     * @return array of ContentObjectMetadata
      */
     protected function get_additional_metadata($filter)
 	{
@@ -185,27 +185,27 @@ abstract class MetadataMapper
 	}
     
     /**
-     * Return the LearningObject instance
+     * Return the ContentObject instance
      *
-     * @return LearningObject
+     * @return ContentObject
      */
-	public function get_learning_object()
+	public function get_content_object()
     {
-        return $this->learning_object;
+        return $this->content_object;
     }
 	
     /**
-     * Return a new LearningObjectMetadata instance with the given properties 
+     * Return a new ContentObjectMetadata instance with the given properties 
      * 
-     * @return LearningObjectMetadata
+     * @return ContentObjectMetadata
      */
-    protected function get_new_learning_object_metadata($id = null, $type = null, $property = null, $value = null, $override_id = null)
+    protected function get_new_content_object_metadata($id = null, $type = null, $property = null, $value = null, $override_id = null)
     {
 //        debug($property);
 //        debug($value);
         
-        $metaData = new LearningObjectMetadata();
-    	$metaData->set_learning_object_id($this->learning_object->get_id());
+        $metaData = new ContentObjectMetadata();
+    	$metaData->set_content_object_id($this->content_object->get_id());
     	$metaData->set_type($type);
     	
     	if(isset($id))
@@ -271,23 +271,23 @@ abstract class MetadataMapper
     
     
     /**
-     * Merge the default metadata retrieved form the LearningObject properties
+     * Merge the default metadata retrieved form the ContentObject properties
      * with the metadata stored in the metadata table of the datasource
      * 
-     * @param $additional_metadata Array of LearningObjectMetadata
+     * @param $additional_metadata Array of ContentObjectMetadata
      */
 	abstract function merge_additional_metadata($additional_metadata);
 	
 	
 	/**
-	 * Generates the metadata for the setted LearningObject and return it as an object
+	 * Generates the metadata for the setted ContentObject and return it as an object
 	 * 
 	 * @return mixed Object 
 	 */
 	abstract function get_metadata();
 	
 	/**
-	 * Generates the metadata for the setted LearningObject and print it in the page 
+	 * Generates the metadata for the setted ContentObject and print it in the page 
 	 * 
 	 * @param $format_for_html_page boolean Indicates wether the printed metadata must be formatted to be included in a HTML page
 	 * @param $return_document bolean Indicates wether the generated document must be printed in the response page or returned

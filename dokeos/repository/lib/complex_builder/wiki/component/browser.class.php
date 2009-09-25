@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__) . '/../wiki_builder_component.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
-require_once Path :: get_repository_path() . '/lib/learning_object/wiki/wiki.class.php';
+require_once Path :: get_repository_path() . '/lib/content_object/wiki/wiki.class.php';
 require_once dirname(__FILE__) . '/browser/wiki_browser_table_cell_renderer.class.php';
 
 class WikiBuilderBrowserComponent extends WikiBuilderComponent
@@ -25,7 +25,7 @@ class WikiBuilderBrowserComponent extends WikiBuilderComponent
 			echo '<br />';
 		}
 
-		$display = LearningObjectDisplay :: factory($this->get_root_lo());
+		$display = ContentObjectDisplay :: factory($this->get_root_lo());
 		echo $display->get_full_html();
 
 		echo '<br />';

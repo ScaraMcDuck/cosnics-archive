@@ -3,10 +3,10 @@
  * @package repository.learningobject
  * @subpackage forum_topic
  */
-require_once dirname(__FILE__) . '/../../complex_learning_object_item_form.class.php';
+require_once dirname(__FILE__) . '/../../complex_content_object_item_form.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 
-class ComplexForumTopicForm extends ComplexLearningObjectItemForm
+class ComplexForumTopicForm extends ComplexContentObjectItemForm
 {
 	const TOTAL_PROPERTIES = 3;
 	// Inherited
@@ -47,7 +47,7 @@ class ComplexForumTopicForm extends ComplexLearningObjectItemForm
 	
 	function get_default_values($defaults = array ())
 	{
-		$cloi = $this->get_complex_learning_object_item();
+		$cloi = $this->get_complex_content_object_item();
 		
 		if (isset ($cloi))
 		{
@@ -64,35 +64,35 @@ class ComplexForumTopicForm extends ComplexLearningObjectItemForm
 	}
 
 	// Inherited
-	function create_complex_learning_object_item()
+	function create_complex_content_object_item()
 	{ 
-		$cloi = $this->get_complex_learning_object_item();
+		$cloi = $this->get_complex_content_object_item();
 		$values = $this->exportValues();
 		$cloi->set_type($values[ComplexForumTopic :: PROPERTY_TYPE]); 
-		return parent :: create_complex_learning_object_item();
+		return parent :: create_complex_content_object_item();
 	}
 	
 	function create_cloi_from_values($values)
 	{
-		$cloi = $this->get_complex_learning_object_item();
+		$cloi = $this->get_complex_content_object_item();
 		$cloi->set_type($values[ComplexForumTopic :: PROPERTY_TYPE]); 
-		return parent :: create_complex_learning_object_item();
+		return parent :: create_complex_content_object_item();
 	}
 	
 	function update_cloi_from_values($values)
 	{
-		$cloi = $this->get_complex_learning_object_item();
+		$cloi = $this->get_complex_content_object_item();
 		$cloi->set_type($values[ComplexForumTopic :: PROPERTY_TYPE]); 
-		return parent :: update_complex_learning_object_item();
+		return parent :: update_complex_content_object_item();
 	}
 	
 	// Inherited
-	function update_complex_learning_object_item()
+	function update_complex_content_object_item()
 	{
-		$cloi = $this->get_complex_learning_object_item();
+		$cloi = $this->get_complex_content_object_item();
 		$values = $this->exportValues();
 		$cloi->set_type($values[ComplexForumTopic :: PROPERTY_TYPE]);
-		return parent :: update_complex_learning_object_item();
+		return parent :: update_complex_content_object_item();
 	}
 }
 

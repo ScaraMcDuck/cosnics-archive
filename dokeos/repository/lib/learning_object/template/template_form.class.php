@@ -4,12 +4,12 @@
  * @package repository.learningobject
  * @subpackage template
  */
-require_once dirname(__FILE__).'/../../learning_object_form.class.php';
+require_once dirname(__FILE__).'/../../content_object_form.class.php';
 require_once dirname(__FILE__).'/template.class.php';
 /**
  * This class represents a form to create or update templates
  */
-class TemplateForm extends LearningObjectForm
+class TemplateForm extends ContentObjectForm
 {
 	protected function build_creation_form()
 	{
@@ -35,7 +35,7 @@ class TemplateForm extends LearningObjectForm
 	
 	function setDefaults($defaults = array ())
 	{
-		$lo = $this->get_learning_object();
+		$lo = $this->get_content_object();
 		if (isset($lo))
 		{
 			$defaults[Template :: PROPERTY_DESIGN] = $lo->get_design();
@@ -44,24 +44,24 @@ class TemplateForm extends LearningObjectForm
 		parent :: setDefaults($defaults);
 	}
 
-	function create_learning_object()
+	function create_content_object()
 	{
 		$values = $this->exportValues();
 		
 		$object = new Template();
 		$object->set_design($values[Template :: PROPERTY_DESIGN]);
-		parent :: set_learning_object($object);
-		return parent :: create_learning_object();
+		parent :: set_content_object($object);
+		return parent :: create_content_object();
 	}
 	
-	function update_learning_object()
+	function update_content_object()
 	{
 		$values = $this->exportValues();
 		
 		$object = new Template();
 		$object->set_design($values[Template :: PROPERTY_DESIGN]);
-		parent :: set_learning_object($object);
-		return parent :: update_learning_object();
+		parent :: set_content_object($object);
+		return parent :: update_content_object();
 	}
 }
 ?>

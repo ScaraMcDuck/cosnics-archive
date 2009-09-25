@@ -15,7 +15,7 @@ class ComplexBuilderBrowserComponent extends ComplexBuilderComponent
 
 		if($this->get_cloi())
 		{
-			$lo = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->get_cloi()->get_ref());
+			$lo = RepositoryDataManager :: get_instance()->retrieve_content_object($this->get_cloi()->get_ref());
 		}
 		else
 		{
@@ -32,7 +32,7 @@ class ComplexBuilderBrowserComponent extends ComplexBuilderComponent
 			echo '<br />';
 		}
 
-		$display = LearningObjectDisplay :: factory($this->get_root_lo());
+		$display = ContentObjectDisplay :: factory($this->get_root_lo());
 		echo $display->get_full_html();
 
 		echo '<br />';

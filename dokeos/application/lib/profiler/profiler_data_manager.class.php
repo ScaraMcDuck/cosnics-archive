@@ -31,14 +31,14 @@ abstract class ProfilerDataManager
      * @return boolean True if at least one of the given objects is published in
      * this application, false otherwise
      */
-    abstract function any_learning_object_is_published($object_ids);
+    abstract function any_content_object_is_published($object_ids);
 
     /**
      * Returns whether a given object id is published in this application 
      * @param int $object_id
      * @return boolean Is the object is published
      */
-    abstract function learning_object_is_published($object_id);
+    abstract function content_object_is_published($object_id);
 
     /**
      * Gets the publication attributes of a given learning object id
@@ -48,9 +48,9 @@ abstract class ProfilerDataManager
      * @param int $count
      * @param int $order_property
      * @param int $order_direction
-     * @return LearningObjectPublicationAttribute
+     * @return ContentObjectPublicationAttribute
      */
-    abstract function get_learning_object_publication_attribute($object_id);
+    abstract function get_content_object_publication_attribute($object_id);
 
     /**
      * Gets the publication attributes of a given array of learning object id's
@@ -62,7 +62,7 @@ abstract class ProfilerDataManager
      * @param int $order_direction
      * @return array An array of Learing Object Publication Attributes
      */
-    abstract function get_learning_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+    abstract function get_content_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
     /**
      * Counts the publication attributes
@@ -128,7 +128,7 @@ abstract class ProfilerDataManager
 
     /**
      * Update the publication id
-     * @param LearningObjectPublicationAttribure $publication_attr
+     * @param ContentObjectPublicationAttribure $publication_attr
      * @return boolean
      */
     abstract function update_profile_publication_id($publication_attr);

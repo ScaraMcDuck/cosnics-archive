@@ -4,13 +4,13 @@
  * @package repository.learningobject
  * @subpackage exercise
  */
-require_once dirname(__FILE__) . '/../../learning_object_form.class.php';
+require_once dirname(__FILE__) . '/../../content_object_form.class.php';
 require_once dirname(__FILE__) . '/hotspot_question.class.php';
 require_once dirname(__FILE__) . '/hotspot_question_answer.class.php';
 /**
  * This class represents a form to create or update hotspot questions
  */
-class HotspotQuestionForm extends LearningObjectForm
+class HotspotQuestionForm extends ContentObjectForm
 {
 
 	//private $colours = array('#00315b', '#00adef', '#aecee7', '#9dcfc3', '#016c62', '#c7ac21', '#ff5329', '#bd0019', '#e7ad7b', '#bd0084', '#9d8384', '#42212a', '#005b84', '#e0eeef', '#00ad9c', '#ffe62a', '#f71932', '#ff9429', '#f6d7c5', '#7a2893');
@@ -75,7 +75,7 @@ class HotspotQuestionForm extends LearningObjectForm
     {
         if (! $this->isSubmitted())
         {
-            $object = $this->get_learning_object();
+            $object = $this->get_content_object();
             if (! is_null($object))
             {
                 $answers = $object->get_answers();
@@ -109,34 +109,34 @@ class HotspotQuestionForm extends LearningObjectForm
         parent :: setDefaults($defaults);
     }
 
-    function create_learning_object()
+    function create_content_object()
     {
         $values = $this->exportValues();
         $object = new HotspotQuestion();
         $object->set_image($values['image_object']);
-        $this->set_learning_object($object);
+        $this->set_content_object($object);
         $this->add_options_to_object();
-        $success = parent :: create_learning_object();
+        $success = parent :: create_content_object();
 
         if ($success)
         {
-            $object->attach_learning_object($values['image_object']);
+            $object->attach_content_object($values['image_object']);
         }
 
         return $object;
     }
 
-    function update_learning_object()
+    function update_content_object()
     {
         $this->add_options_to_object();
         unset($_SESSION['web_path']);
         unset($_SESSION['hotspot_path']);
-        return parent :: update_learning_object();
+        return parent :: update_content_object();
     }
 
     private function add_options_to_object()
     {
-        $object = $this->get_learning_object();
+        $object = $this->get_content_object();
         $object->set_answers('');
         $values = $this->exportValues();
         $answers = $values['answer'];
@@ -182,7 +182,7 @@ class HotspotQuestionForm extends LearningObjectForm
 
     function add_image()
     {
-        $object = $this->get_learning_object();
+        $object = $this->get_content_object();
 
         $this->addElement('category', Translation :: get('HotspotImage'));
 
@@ -195,7 +195,7 @@ class HotspotQuestionForm extends LearningObjectForm
         if (! is_null($object))
         {
             $image_id = $object->get_image();
-            $image_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($image_id);
+            $image_object = RepositoryDataManager :: get_instance()->retrieve_content_object($image_id);
 
             $dimensions = getimagesize($image_object->get_full_path());
             $html[] = '<div id="hotspot_container"><div id="hotspot_image" style="width: '. $dimensions[0] .'px; height: '. $dimensions[1] .'px; background-image: url('. $image_object->get_url() .')"></div></div>';
@@ -241,7 +241,7 @@ class HotspotQuestionForm extends LearningObjectForm
             $_SESSION['mc_number_of_options'] = $_SESSION['mc_number_of_options'] - 1;
             //$this->move_answer_arrays($indexes[0]);
         }
-        $object = $this->get_learning_object();
+        $object = $this->get_content_object();
         if (! $this->isSubmitted() && ! is_null($object))
         {
             $_SESSION['mc_number_of_options'] = $object->get_number_of_answers();
@@ -251,7 +251,7 @@ class HotspotQuestionForm extends LearningObjectForm
 
         if (isset($_SESSION['file']))
         {
-            $this->addElement('html', '<div class="learning_object">');
+            $this->addElement('html', '<div class="content_object">');
             $this->addElement('html', '</div>');
         }
 

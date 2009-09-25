@@ -61,11 +61,11 @@ abstract class RepositoryManagerComponent extends CoreApplicationComponent
 		return $this->get_parent()->get_quota_url();
 	}
 	/**
-	 * @see RepositoryManager::get_learning_object_creation_url()
+	 * @see RepositoryManager::get_content_object_creation_url()
 	 */
-	function get_learning_object_creation_url()
+	function get_content_object_creation_url()
 	{
-		return $this->get_parent()->get_learning_object_creation_url();
+		return $this->get_parent()->get_content_object_creation_url();
 	}
 	/**
 	 * @see RepositoryManager::get_recycle_bin_url()
@@ -83,18 +83,18 @@ abstract class RepositoryManagerComponent extends CoreApplicationComponent
 		return $this->get_parent()->get_root_category_id();
 	}
 	/**
-	 * @see RepositoryManager::retrieve_learning_object()
+	 * @see RepositoryManager::retrieve_content_object()
 	 */
-	function retrieve_learning_object($id, $type = null)
+	function retrieve_content_object($id, $type = null)
 	{
-		return $this->get_parent()->retrieve_learning_object($id, $type);
+		return $this->get_parent()->retrieve_content_object($id, $type);
 	}
 	/**
-	 * @see RepositoryManager::retrieve_learning_objects()
+	 * @see RepositoryManager::retrieve_content_objects()
 	 */
-	function retrieve_learning_objects($type = null, $condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false)
+	function retrieve_content_objects($type = null, $condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1, $state = ContentObject :: STATE_NORMAL, $different_parent_state = false)
 	{
-		return $this->get_parent()->retrieve_learning_objects($type, $condition, $order_by, $order_dir, $offset, $max_objects, $state, $different_parent_state);
+		return $this->get_parent()->retrieve_content_objects($type, $condition, $order_by, $order_dir, $offset, $max_objects, $state, $different_parent_state);
 	}
 
 	/**
@@ -106,15 +106,15 @@ abstract class RepositoryManagerComponent extends CoreApplicationComponent
 	}
 
 	/**
-	 * @see RepositoryManager::count_learning_objects()
+	 * @see RepositoryManager::count_content_objects()
 	 */
-	function count_learning_objects($type = null, $condition = null, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false)
+	function count_content_objects($type = null, $condition = null, $state = ContentObject :: STATE_NORMAL, $different_parent_state = false)
 	{
-		return $this->get_parent()->count_learning_objects($type, $condition, $state, $different_parent_state);
+		return $this->get_parent()->count_content_objects($type, $condition, $state, $different_parent_state);
 	}
 
 	/**
-	 * @see RepositoryManager::count_learning_objects()
+	 * @see RepositoryManager::count_content_objects()
 	 */
 	function count_publication_attributes($user, $type = null, $condition = null)
 	{
@@ -137,116 +137,116 @@ abstract class RepositoryManagerComponent extends CoreApplicationComponent
 
 	}
 	/**
-	 * @see RepositoryManager::learning_object_deletion_allowed()
+	 * @see RepositoryManager::content_object_deletion_allowed()
 	 */
-	function learning_object_deletion_allowed($learning_object, $type = null)
+	function content_object_deletion_allowed($content_object, $type = null)
 	{
-		return $this->get_parent()->learning_object_deletion_allowed($learning_object, $type);
+		return $this->get_parent()->content_object_deletion_allowed($content_object, $type);
 	}
 	/**
-	 * @see RepositoryManager::learning_object_revert_allowed()
+	 * @see RepositoryManager::content_object_revert_allowed()
 	 */
-	function learning_object_revert_allowed($learning_object)
+	function content_object_revert_allowed($content_object)
 	{
-		return $this->get_parent()->learning_object_revert_allowed($learning_object);
+		return $this->get_parent()->content_object_revert_allowed($content_object);
 	}
 	/**
-	 * @see RepositoryManager::get_learning_object_publication_attributes()
+	 * @see RepositoryManager::get_content_object_publication_attributes()
 	 */
-	function get_learning_object_publication_attributes($user, $id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_content_object_publication_attributes($user, $id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return $this->get_parent()->get_learning_object_publication_attributes($user, $id, $type, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->get_content_object_publication_attributes($user, $id, $type, $offset, $count, $order_property, $order_direction);
 	}
 	/**
-	 * @see RepositoryManager::get_learning_object_publication_attribute()
+	 * @see RepositoryManager::get_content_object_publication_attribute()
 	 */
-	function get_learning_object_publication_attribute($id, $type = null, $application)
+	function get_content_object_publication_attribute($id, $type = null, $application)
 	{
-		return $this->get_parent()->get_learning_object_publication_attribute($id, $application);
+		return $this->get_parent()->get_content_object_publication_attribute($id, $application);
 	}
 	/**
 	 * @see RepositoryManager::get_publication_update_url()
 	 */
-	function get_publication_update_url($learning_object)
+	function get_publication_update_url($content_object)
 	{
-		return $this->get_parent()->get_publication_update_url($learning_object);
+		return $this->get_parent()->get_publication_update_url($content_object);
 	}
 	/**
-	 * @see RepositoryManager::get_learning_object_viewing_url()
+	 * @see RepositoryManager::get_content_object_viewing_url()
 	 */
-	function get_learning_object_viewing_url($learning_object)
+	function get_content_object_viewing_url($content_object)
 	{
-		return $this->get_parent()->get_learning_object_viewing_url($learning_object);
+		return $this->get_parent()->get_content_object_viewing_url($content_object);
 	}
 	/**
-	 * @see RepositoryManager::get_learning_object_delete_publications_url()
+	 * @see RepositoryManager::get_content_object_delete_publications_url()
 	 */
-	function get_learning_object_delete_publications_url($learning_object)
+	function get_content_object_delete_publications_url($content_object)
 	{
-		return $this->get_parent()->get_learning_object_delete_publications_url($learning_object);
+		return $this->get_parent()->get_content_object_delete_publications_url($content_object);
 	}
 	/**
-	 * @see RepositoryManager::get_learning_object_editing_url()
+	 * @see RepositoryManager::get_content_object_editing_url()
 	 */
-	function get_learning_object_editing_url($learning_object)
+	function get_content_object_editing_url($content_object)
 	{
-		return $this->get_parent()->get_learning_object_editing_url($learning_object);
+		return $this->get_parent()->get_content_object_editing_url($content_object);
 	}
 	/**
-	 * @see RepositoryManager::get_learning_object_recycling_url()
+	 * @see RepositoryManager::get_content_object_recycling_url()
 	 */
-	function get_learning_object_recycling_url($learning_object)
+	function get_content_object_recycling_url($content_object)
 	{
-		return $this->get_parent()->get_learning_object_recycling_url($learning_object);
+		return $this->get_parent()->get_content_object_recycling_url($content_object);
 	}
 	/**
-	 * @see RepositoryManager::get_learning_object_restoring_url()
+	 * @see RepositoryManager::get_content_object_restoring_url()
 	 */
-	function get_learning_object_restoring_url($learning_object)
+	function get_content_object_restoring_url($content_object)
 	{
-		return $this->get_parent()->get_learning_object_restoring_url($learning_object);
+		return $this->get_parent()->get_content_object_restoring_url($content_object);
 	}
 	/**
-	 * @see RepositoryManager::get_learning_object_deletion_url()
+	 * @see RepositoryManager::get_content_object_deletion_url()
 	 */
-	function get_learning_object_deletion_url($learning_object, $type = null)
+	function get_content_object_deletion_url($content_object, $type = null)
 	{
-		return $this->get_parent()->get_learning_object_deletion_url($learning_object, $type);
+		return $this->get_parent()->get_content_object_deletion_url($content_object, $type);
 	}
 	/**
-	 * @see RepositoryManager::get_learning_object_revert_url()
+	 * @see RepositoryManager::get_content_object_revert_url()
 	 */
-	function get_learning_object_revert_url($learning_object)
+	function get_content_object_revert_url($content_object)
 	{
-		return $this->get_parent()->get_learning_object_revert_url($learning_object);
+		return $this->get_parent()->get_content_object_revert_url($content_object);
 	}
 	/**
-	 * @see RepositoryManager::get_learning_object_moving_url()
+	 * @see RepositoryManager::get_content_object_moving_url()
 	 */
-	function get_learning_object_moving_url($learning_object)
+	function get_content_object_moving_url($content_object)
 	{
-		return $this->get_parent()->get_learning_object_moving_url($learning_object);
+		return $this->get_parent()->get_content_object_moving_url($content_object);
 	}
 	/**
-	 * @see RepositoryManager::get_learning_object_metadata_editing_url()
+	 * @see RepositoryManager::get_content_object_metadata_editing_url()
 	 */
-	function get_learning_object_metadata_editing_url($learning_object)
+	function get_content_object_metadata_editing_url($content_object)
 	{
-		return $this->get_parent()->get_learning_object_metadata_editing_url($learning_object);
+		return $this->get_parent()->get_content_object_metadata_editing_url($content_object);
 	}
 	/**
-	 * @see RepositoryManager::get_learning_object_rights_editing_url()
+	 * @see RepositoryManager::get_content_object_rights_editing_url()
 	 */
-	function get_learning_object_rights_editing_url($learning_object)
+	function get_content_object_rights_editing_url($content_object)
 	{
-		return $this->get_parent()->get_learning_object_rights_editing_url($learning_object);
+		return $this->get_parent()->get_content_object_rights_editing_url($content_object);
 	}
 	/**
-	 * @see RepositoryManager::get_learning_object_types()
+	 * @see RepositoryManager::get_content_object_types()
 	 */
-	function get_learning_object_types($only_master_types = false)
+	function get_content_object_types($only_master_types = false)
 	{
-		return $this->get_parent()->get_learning_object_types($only_master_types);
+		return $this->get_parent()->get_content_object_types($only_master_types);
 	}
 	/**
 	 * @see RepositoryManager::get_user_info()
@@ -283,59 +283,59 @@ abstract class RepositoryManagerComponent extends CoreApplicationComponent
 		return $this->get_parent()->get_category_condition($category_id);
 	}
 
-	function count_complex_learning_object_items($condition)
+	function count_complex_content_object_items($condition)
 	{
-		return $this->get_parent()->count_complex_learning_object_items($condition);
+		return $this->get_parent()->count_complex_content_object_items($condition);
 	}
 
-	function retrieve_complex_learning_object_items($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
+	function retrieve_complex_content_object_items($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
 	{
-		return $this->get_parent()->retrieve_complex_learning_object_items($condition, $order_by, $order_dir, $offset, $max_objects);
+		return $this->get_parent()->retrieve_complex_content_object_items($condition, $order_by, $order_dir, $offset, $max_objects);
 	}
 
-	function retrieve_complex_learning_object_item($cloi_id)
+	function retrieve_complex_content_object_item($cloi_id)
 	{
-		return $this->get_parent()->retrieve_complex_learning_object_item($cloi_id);
+		return $this->get_parent()->retrieve_complex_content_object_item($cloi_id);
 	}
 
-	function get_complex_learning_object_item_edit_url($cloi, $root_id)
+	function get_complex_content_object_item_edit_url($cloi, $root_id)
 	{
-		return $this->get_parent()->get_complex_learning_object_item_edit_url($cloi, $root_id);
+		return $this->get_parent()->get_complex_content_object_item_edit_url($cloi, $root_id);
 	}
 
-	function get_complex_learning_object_item_delete_url($cloi, $root_id)
+	function get_complex_content_object_item_delete_url($cloi, $root_id)
 	{
-		return $this->get_parent()->get_complex_learning_object_item_delete_url($cloi, $root_id);
+		return $this->get_parent()->get_complex_content_object_item_delete_url($cloi, $root_id);
 	}
 
-	function get_complex_learning_object_item_move_url($cloi, $root_id, $direction)
+	function get_complex_content_object_item_move_url($cloi, $root_id, $direction)
 	{
-		return $this->get_parent()->get_complex_learning_object_item_move_url($cloi, $root_id, $direction);
+		return $this->get_parent()->get_complex_content_object_item_move_url($cloi, $root_id, $direction);
 	}
 
-	function get_browse_complex_learning_object_url($object)
+	function get_browse_complex_content_object_url($object)
 	{
-		return $this->get_parent()->get_browse_complex_learning_object_url($object);
+		return $this->get_parent()->get_browse_complex_content_object_url($object);
 	}
 
-	function get_add_existing_learning_object_url($root_id, $clo_id)
+	function get_add_existing_content_object_url($root_id, $clo_id)
 	{
-		return $this->get_parent()->get_add_existing_learning_object_url($root_id, $clo_id);
+		return $this->get_parent()->get_add_existing_content_object_url($root_id, $clo_id);
 	}
 
-	function get_add_learning_object_url($learning_object, $cloi_id, $root_id)
+	function get_add_content_object_url($content_object, $cloi_id, $root_id)
 	{
-		return $this->get_parent()->get_add_learning_object_url($learning_object, $cloi_id, $root_id);
+		return $this->get_parent()->get_add_content_object_url($content_object, $cloi_id, $root_id);
 	}
 
-	function get_learning_object_exporting_url($learning_object)
+	function get_content_object_exporting_url($content_object)
 	{
-		return $this->get_parent()->get_learning_object_exporting_url($learning_object);
+		return $this->get_parent()->get_content_object_exporting_url($content_object);
 	}
 
-	function get_publish_learning_object_url($learning_object)
+	function get_publish_content_object_url($content_object)
 	{
-		return $this->get_parent()->get_publish_learning_object_url($learning_object);
+		return $this->get_parent()->get_publish_content_object_url($content_object);
 	}
 
 	function count_categories($conditions = null)
@@ -378,14 +378,14 @@ abstract class RepositoryManagerComponent extends CoreApplicationComponent
 		return $this->get_parent()->retrieve_user_views($condition, $offset, $count, $order_property, $order_direction);
 	}
 
-    function get_reuse_learning_object_url($learning_object)
+    function get_reuse_content_object_url($content_object)
     {
-        return $this->get_parent()->get_reuse_learning_object_url($learning_object);
+        return $this->get_parent()->get_reuse_content_object_url($content_object);
     }
     
- 	function get_copy_learning_object_url($lo_id, $to_user_id)
+ 	function get_copy_content_object_url($lo_id, $to_user_id)
     {
-    	return $this->get_parent()->get_copy_learning_object_url($lo_id, $to_user_id);
+    	return $this->get_parent()->get_copy_content_object_url($lo_id, $to_user_id);
     }
     
     function get_delete_template_url($template_id)

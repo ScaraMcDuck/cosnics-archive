@@ -6,9 +6,9 @@
  * @subpackage document
  */
 require_once(Path :: get_library_path().'image_manipulation/image_manipulation.class.php');
-require_once dirname(__FILE__).'/../../../../browser/list_renderer/list_learning_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/../../../../browser/list_renderer/list_content_object_publication_list_renderer.class.php';
 
-class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublicationListRenderer
+class DocumentPublicationSlideshowRenderer extends ListContentObjectPublicationListRenderer
 {
 	function as_html()
 	{
@@ -84,9 +84,9 @@ class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublication
 	}
 	function render_publication($publication, $first = false, $last = false)
 	{
-		$document = $publication->get_learning_object();
+		$document = $publication->get_content_object();
 		$url = $document->get_url();
-		$html[] = '<div class="learning_object">';
+		$html[] = '<div class="content_object">';
 		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = $this->render_title($publication);
 		$html[] = '</div>';
@@ -104,7 +104,7 @@ class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublication
 	{
 		foreach ($publications as $index => $publication)
 		{
-			$document = $publication->get_learning_object();
+			$document = $publication->get_content_object();
 			$path = $document->get_full_path();
 			$thumbnail_path = $this->get_thumbnail_path($path);
 			$thumbnail_url = $this->browser->get_path(WEB_TEMP_PATH).basename($thumbnail_path);

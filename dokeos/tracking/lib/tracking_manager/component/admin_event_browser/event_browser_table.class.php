@@ -14,7 +14,7 @@ class EventBrowserTable extends ObjectTable
 
     /**
      * Constructor
-     * @see LearningObjectTable::LearningObjectTable()
+     * @see ContentObjectTable::ContentObjectTable()
      */
     function EventBrowserTable($browser, $name, $parameters, $condition)
     {

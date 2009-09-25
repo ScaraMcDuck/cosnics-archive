@@ -16,7 +16,7 @@ class ReservationBrowserTable extends ObjectTable
 	
 	/**
 	 * Constructor
-	 * @see LearningObjectTable::LearningObjectTable()
+	 * @see ContentObjectTable::ContentObjectTable()
 	 */
 	function ReservationBrowserTable($browser, $parameters, $condition)
 	{

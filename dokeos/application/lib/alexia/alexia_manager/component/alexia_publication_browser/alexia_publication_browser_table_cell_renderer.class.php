@@ -35,7 +35,7 @@ class AlexiaPublicationBrowserTableCellRenderer extends DefaultAlexiaPublication
         
         switch ($column->get_name())
         {
-            case LearningObject :: PROPERTY_TITLE :
+            case ContentObject :: PROPERTY_TITLE :
                 $title = parent :: render_cell($column, $alexia_publication);
                 $title_short = DokeosUtilities :: truncate_string($title, 53, false);
                 return '<a href="' . htmlentities($alexia_publication->get_publication_object()->get_url()) . '" title="' . $title . '">' . $title_short . '</a>';
@@ -46,7 +46,7 @@ class AlexiaPublicationBrowserTableCellRenderer extends DefaultAlexiaPublication
 
     /**
      * Gets the action links to display
-     * @param LearningObject $alexia The alexia object for which the
+     * @param ContentObject $alexia The alexia object for which the
      * action links should be returned
      * @return string A HTML representation of the action links
      */

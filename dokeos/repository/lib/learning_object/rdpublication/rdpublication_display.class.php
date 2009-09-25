@@ -10,7 +10,7 @@
 
 
 
-class RdpublicationDisplay extends LearningObjectDisplay
+class RdpublicationDisplay extends ContentObjectDisplay
 {
 
     function get_full_html($userid)
@@ -18,7 +18,7 @@ class RdpublicationDisplay extends LearningObjectDisplay
 		$html = array();
 		//$html[] = parent :: get_full_html();
 
-		$object = $this->get_learning_object();
+		$object = $this->get_content_object();
         
            
 
@@ -40,7 +40,7 @@ class RdpublicationDisplay extends LearningObjectDisplay
 
                 	$year=substr($row[2],0,4);
                     
-                     $html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'/learning_object/portfolio_item.png);">';
+                     $html[] = '<div class="content_object" style="background-image: url('.Theme :: get_common_image_path().'/content_object/portfolio_item.png);">';
                 	if(!($row[3] === $prevcat))
                 	{
                 		$html[] = '<div class="title">'.$row[3].": ".$row[4].'  [ '.$year.' ]</div>';

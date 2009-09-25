@@ -6,13 +6,13 @@
  * @subpackage link
  */
 require_once dirname(__FILE__).'/../../../../weblcms_data_manager.class.php';
-require_once dirname(__FILE__).'/../../../../learning_object_publication_browser.class.php';
+require_once dirname(__FILE__).'/../../../../content_object_publication_browser.class.php';
 require_once dirname(__FILE__).'/../../../../browser/learningobjectpublicationcategorytree.class.php';
 require_once dirname(__FILE__).'/link_publication_list_renderer.class.php';
 require_once dirname(__FILE__).'/link_details_renderer.class.php';
-require_once dirname(__FILE__).'/../../../../browser/list_renderer/learning_object_publication_details_renderer.class.php';
+require_once dirname(__FILE__).'/../../../../browser/list_renderer/content_object_publication_details_renderer.class.php';
 
-class LinkBrowser extends LearningObjectPublicationBrowser
+class LinkBrowser extends ContentObjectPublicationBrowser
 {
 	function LinkBrowser($parent, $types)
 	{
@@ -21,13 +21,13 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 		if(Request :: get('pid'))
 		{
 			$this->set_publication_id(Request :: get('pid'));
-			//$renderer = new LearningObjectPublicationDetailsRenderer($this);
+			//$renderer = new ContentObjectPublicationDetailsRenderer($this);
 			$renderer = new LinkDetailsRenderer($this);
 		}
 		else
 		{
 			$tree_id = 'pcattree';
-			$tree = new LearningObjectPublicationCategoryTree($this, $tree_id);
+			$tree = new ContentObjectPublicationCategoryTree($this, $tree_id);
 			$renderer = new LinkPublicationListRenderer($this);
 			$this->set_publication_category_tree($tree);
 			$actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected'),
@@ -60,16 +60,16 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 		}
 		
 		$conditions = array();
-		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
-		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'link');
-		$conditions[] = new InCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $this->get_publication_category_tree()->get_current_category_id());
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'link');
+		$conditions[] = new InCondition(ContentObjectPublication :: PROPERTY_CATEGORY_ID, $this->get_publication_category_tree()->get_current_category_id());
 		
 		$access = array();
-		$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
-		$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('learning_object_publication_course_group'));
+		$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
+		$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
 		if (!empty($user_id) || !empty($course_groups))
 		{
-			$access[] = new AndCondition(array(new EqualityCondition('user', null, $datamanager->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('learning_object_publication_course_group'))));
+			$access[] = new AndCondition(array(new EqualityCondition('user', null, $datamanager->get_database()->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('content_object_publication_course_group'))));
 		}
 		$conditions[] = new OrCondition($access);
 		
@@ -80,10 +80,10 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 			$subselect_conditions[] = $this->get_parent()->get_condition();
 		}
 		$subselect_condition = new AndCondition($subselect_conditions);
-		$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
+		$conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
 		$condition = new AndCondition($conditions);
 		
-		$publications = $datamanager->retrieve_learning_object_publications_new($condition, new ObjectTableOrder(Link :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC));
+		$publications = $datamanager->retrieve_content_object_publications_new($condition, new ObjectTableOrder(Link :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC));
 
 		while ($publication = $publications->next_result())
 		{
@@ -117,22 +117,22 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 		$dm = WeblcmsDataManager :: get_instance();
 
 		$conditions = array();
-		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
-		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'link');
-		$conditions[] = new InCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $category);
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'link');
+		$conditions[] = new InCondition(ContentObjectPublication :: PROPERTY_CATEGORY_ID, $category);
 
 		$access = array();
-		$access[] = new InCondition('user', $user_id, $dm->get_database()->get_alias('learning_object_publication_user'));
-		$access[] = new InCondition('course_group_id', $course_groups, $dm->get_database()->get_alias('learning_object_publication_course_group'));
+		$access[] = new InCondition('user', $user_id, $dm->get_database()->get_alias('content_object_publication_user'));
+		$access[] = new InCondition('course_group_id', $course_groups, $dm->get_database()->get_alias('content_object_publication_course_group'));
 		if (!empty($user_id) || !empty($course_groups))
 		{
-			$access[] = new AndCondition(array(new EqualityCondition('user', null, $dm->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $dm->get_database()->get_alias('learning_object_publication_course_group'))));
+			$access[] = new AndCondition(array(new EqualityCondition('user', null, $dm->get_database()->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $dm->get_database()->get_alias('content_object_publication_course_group'))));
 		}
 
 		$conditions[] = new OrCondition($access);
 		$condition = new AndCondition($conditions);
 
-		return $dm->count_learning_object_publications_new($condition);
+		return $dm->count_content_object_publications_new($condition);
 	}
 }
 ?>

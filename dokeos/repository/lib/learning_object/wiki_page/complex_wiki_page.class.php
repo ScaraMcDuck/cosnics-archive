@@ -3,9 +3,9 @@
  * @package repository.learningobject
  * @subpackage learning_path_chapter
  */
-require_once dirname(__FILE__) . '/../../complex_learning_object_item.class.php';
+require_once dirname(__FILE__) . '/../../complex_content_object_item.class.php';
 
-class ComplexWikiPage extends ComplexLearningObjectItem
+class ComplexWikiPage extends ComplexContentObjectItem
 {
     const PROPERTY_IS_HOMEPAGE = 'is_homepage';
     const PROPERTY_IS_LOCKED = 'is_locked';
@@ -39,12 +39,12 @@ class ComplexWikiPage extends ComplexLearningObjectItem
 	{
 		if($this->get_is_homepage())
 		{
-			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->get_parent(), ComplexLearningObjectItem :: get_table_name());
+			$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_parent(), ComplexContentObjectItem :: get_table_name());
 			//$conditions[] = new EqualityCondition(ComplexWikiPage :: PROPERTY_IS_HOMEPAGE, 1);
 			//$condition = new AndCondition($conditions);
 		
 			$rdm = RepositoryDataManager :: get_instance();
-			$children = $rdm->retrieve_complex_learning_object_items($condition);
+			$children = $rdm->retrieve_complex_content_object_items($condition);
 			while($child = $children->next_result())
 			{
 				if($child->get_is_homepage())

@@ -31,9 +31,9 @@ class ObjectTableColumn implements TableColumn
      *                                              it displays a learning
      *                                              object property, that
      *                                              particular property, a
-     *                                              LearningObject::PROPERTY_*
+     *                                              ContentObject::PROPERTY_*
      *                                              constant.
-     * @param boolean $contains_learning_object_property True if the column
+     * @param boolean $contains_content_object_property True if the column
      *                                                   displays a learning
      *                                                   object property, false
      *                                                   otherwise.

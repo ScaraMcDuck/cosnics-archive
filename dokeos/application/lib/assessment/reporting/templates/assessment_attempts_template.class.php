@@ -49,7 +49,7 @@ class AssessmentAttemptsTemplate extends ReportingTemplate
         //$html[] = '<div class="reporting_center">';
         //show visible blocks
         
-        $html[] = $this->get_learning_object_data();
+        $html[] = $this->get_content_object_data();
         
         $html[] = $this->get_visible_reporting_blocks();
         //$html[] = '</div>';
@@ -59,12 +59,12 @@ class AssessmentAttemptsTemplate extends ReportingTemplate
     	return implode("\n", $html);
     }
     
-    function get_learning_object_data()
+    function get_content_object_data()
     {
     	$assessment = $this->assessment;
     	$pub = $this->pub;
     	
-    	$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/assessment.png);">';
+    	$html[] = '<div class="content_object" style="background-image: url('. Theme :: get_common_image_path(). 'content_object/assessment.png);">';
 		$html[] = '<div class="title">';
 		$html[] = $assessment->get_title();
 		$html[] = '</div>';

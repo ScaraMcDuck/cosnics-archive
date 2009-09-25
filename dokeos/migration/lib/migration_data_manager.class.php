@@ -154,7 +154,7 @@ abstract class MigrationDataManager
 	 * @param int $lp_id learning object id
 	 * @param string $tool tool of where the learning object belongs
 	 */
-	abstract function get_owner_learning_object($lp_id, $tool);
+	abstract function get_owner_content_object($lp_id, $tool);
 	/**
 	 * Retrieves a user by full name
 	 * @param string $fullname the fullname of the user

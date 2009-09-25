@@ -6,7 +6,7 @@
 /**
  * This class can be used to display the difference between matrix questions
  */
-class MatrixQuestionDifferenceDisplay extends LearningObjectDifferenceDisplay
+class MatrixQuestionDifferenceDisplay extends ContentObjectDifferenceDisplay
 {
 }
 ?>

@@ -7,7 +7,7 @@
 /**
  * This class can be used to display calendar events
  */
-class CalendarEventDisplay extends LearningObjectDisplay
+class CalendarEventDisplay extends ContentObjectDisplay
 {
 	// Inherited
 	function get_full_html()
@@ -17,7 +17,7 @@ class CalendarEventDisplay extends LearningObjectDisplay
 	function get_description()
 	{
 		$description = parent::get_description();
-		$object = $this->get_learning_object();
+		$object = $this->get_content_object();
 		$date_format = Translation :: get('dateTimeFormatLong');
 		
 		$prepend = array();

@@ -1,7 +1,7 @@
 <?php
 
-require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
-require_once Path :: get_repository_path() . 'lib/complex_learning_object_item_form.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_form.class.php';
+require_once Path :: get_repository_path() . 'lib/complex_content_object_item_form.class.php';
 require_once Path :: get_application_path() . 'common/repo_viewer/repo_viewer.class.php';
 
 class ForumDisplayForumPostCreatorComponent extends ForumDisplayComponent
@@ -23,8 +23,8 @@ class ForumDisplayForumPostCreatorComponent extends ForumDisplayComponent
 
             if($reply)
             {
-                $reply_item = $rdm->retrieve_complex_learning_object_item($reply);
-                $reply_lo = $rdm->retrieve_learning_object($reply_item->get_ref(), 'forum_post');
+                $reply_item = $rdm->retrieve_complex_content_object_item($reply);
+                $reply_lo = $rdm->retrieve_content_object($reply_item->get_ref(), 'forum_post');
             }
 
             $pub = new RepoViewer($this, 'forum_post', true);
@@ -53,9 +53,9 @@ class ForumDisplayForumPostCreatorComponent extends ForumDisplayComponent
             }
             else
             {
-                $cloi = ComplexLearningObjectItem :: factory('forum_post');
+                $cloi = ComplexContentObjectItem :: factory('forum_post');
 
-                $item = $rdm->retrieve_complex_learning_object_item($cid);
+                $item = $rdm->retrieve_complex_content_object_item($cid);
 
                 $cloi->set_ref($object_id);
                 $cloi->set_user_id($this->get_user_id());
@@ -74,7 +74,7 @@ class ForumDisplayForumPostCreatorComponent extends ForumDisplayComponent
 
     private function my_redirect($pid, $cid)
     {
-        $message = htmlentities(Translation :: get('LearningObjectCreated'));
+        $message = htmlentities(Translation :: get('ContentObjectCreated'));
 
         $params = array();
         $params['pid'] = $pid;

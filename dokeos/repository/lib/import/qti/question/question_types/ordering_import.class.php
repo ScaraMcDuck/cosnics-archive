@@ -3,7 +3,7 @@ require_once dirname(__FILE__).'/../question_qti_import.class.php';
 
 class OrderingQuestionQtiImport extends QuestionQtiImport
 {
-	function import_learning_object()
+	function import_content_object()
 	{
 		$data = $this->get_file_content_array();
 		$title = $data['title'];

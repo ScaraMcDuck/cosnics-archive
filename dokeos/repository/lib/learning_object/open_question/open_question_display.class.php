@@ -7,7 +7,7 @@
 /**
  * This class can be used to display open questions
  */
-class OpenQuestionDisplay extends LearningObjectDisplay
+class OpenQuestionDisplay extends ContentObjectDisplay
 {
 	function get_full_html()
 	{
@@ -16,7 +16,7 @@ class OpenQuestionDisplay extends LearningObjectDisplay
 	function get_description()
 	{
 		$description = parent::get_description();
-		$object = $this->get_learning_object();
+		$object = $this->get_content_object();
 		$type_id = $object->get_question_type();
 		
 		switch($type_id)

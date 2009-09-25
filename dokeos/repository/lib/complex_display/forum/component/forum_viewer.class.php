@@ -18,7 +18,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
     function run()
     {
         $this->pid = Request :: get('pid');
-        $this->forum = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->pid);
+        $this->forum = RepositoryDataManager :: get_instance()->retrieve_content_object($this->pid);
 
         $current_id = Request :: get('forum');
         if(!isset($current_id))
@@ -30,8 +30,8 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
         else
         {
             $rdm = RepositoryDataManager :: get_instance();
-            $this->current_forum = $rdm->retrieve_complex_learning_object_item($current_id);
-            $lo_current_forum = $rdm->retrieve_learning_object($this->current_forum->get_ref());
+            $this->current_forum = $rdm->retrieve_complex_content_object_item($current_id);
+            $lo_current_forum = $rdm->retrieve_content_object($this->current_forum->get_ref());
             $this->retrieve_children($lo_current_forum);
             $this->is_subforum = true;
         }
@@ -76,10 +76,10 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
     {
         $rdm = RepositoryDataManager :: get_instance();
 
-        $children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $forum->get_id(), ComplexLearningObjectItem :: get_table_name()));
+        $children = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $forum->get_id(), ComplexContentObjectItem :: get_table_name()));
         while($child = $children->next_result())
         {
-            $lo = $rdm->retrieve_learning_object($child->get_ref());
+            $lo = $rdm->retrieve_content_object($child->get_ref());
             $child->set_ref($lo);
             if($lo->get_type() != 'forum_topic')
             {
@@ -95,10 +95,10 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
         $rdm = RepositoryDataManager :: get_instance();
 
         $order_property[]=new ObjectTableOrder('add_date');
-        $children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $current_forum->get_id(), ComplexLearningObjectItem :: get_table_name()), $order_property);
+        $children = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $current_forum->get_id(), ComplexContentObjectItem :: get_table_name()), $order_property);
         while($child = $children->next_result())
         { 
-            $lo = $rdm->retrieve_learning_object($child->get_ref());
+            $lo = $rdm->retrieve_content_object($child->get_ref());
             $child->set_ref($lo);
             if($lo->get_type() == 'forum_topic')
             {
@@ -182,8 +182,8 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
         {
             $title = '<a href="' . $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay::ACTION_VIEW_TOPIC,'pid' => $this->pid, 'cid' => $topic->get_id())) . '">' . $topic->get_ref()->get_title() . '</a>';
 
-            $count = $rdm->count_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $topic->get_ref()->get_id(), ComplexLearningObjectItem :: get_table_name()));
-            $last_post = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $topic->get_ref()->get_id(), ComplexLearningObjectItem :: get_table_name()), array(new ObjectTableOrder(ComplexLearningObjectItem :: PROPERTY_ADD_DATE, SORT_DESC)), array(), 0, 1 )->next_result();
+            $count = $rdm->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $topic->get_ref()->get_id(), ComplexContentObjectItem :: get_table_name()));
+            $last_post = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $topic->get_ref()->get_id(), ComplexContentObjectItem :: get_table_name()), array(new ObjectTableOrder(ComplexContentObjectItem :: PROPERTY_ADD_DATE, SORT_DESC)), array(), 0, 1 )->next_result();
 
             $src = 'forum/topic_read.png';
             $hover = 'NoNewPosts';
@@ -283,7 +283,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
     {
         foreach($this->forums as $forum)
         {
-            $last_post = RepositoryDataManager::get_instance()->retrieve_complex_learning_object_item($forum->get_ref()->get_last_post());
+            $last_post = RepositoryDataManager::get_instance()->retrieve_complex_content_object_item($forum->get_ref()->get_last_post());
             $udm = UserDataManager::get_instance();
             $title = '<a href="' . $this->get_url(array('pid' => $this->pid, 'forum' => $forum->get_id())) . '">' . $forum->get_ref()->get_title() . '</a><br />' . strip_tags($forum->get_ref()->get_description());
 

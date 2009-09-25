@@ -6,7 +6,7 @@
 /**
  * This class can be used to get the difference between forum topics
  */
-class ForumTopicDifference extends LearningObjectDifference
+class ForumTopicDifference extends ContentObjectDifference
 {
 	function get_difference()
 	{

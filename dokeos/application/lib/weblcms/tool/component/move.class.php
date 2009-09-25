@@ -15,10 +15,10 @@ class ToolMoveComponent extends ToolComponent
 			}
 
 			$datamanager = WeblcmsDataManager :: get_instance();
-			$publication = $datamanager->retrieve_learning_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
+			$publication = $datamanager->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
 			if($publication->move($move))
 			{
-				$message = htmlentities(Translation :: get('LearningObjectPublicationMoved'));
+				$message = htmlentities(Translation :: get('ContentObjectPublicationMoved'));
 				//$this->redirect($message, false, array());
 			}
 			$this->redirect($message, false, array('tool_action' => null));

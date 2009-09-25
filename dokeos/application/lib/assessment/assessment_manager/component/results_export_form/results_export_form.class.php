@@ -27,7 +27,7 @@ class AssessmentResultsExportForm extends FormValidator
 			//$this->addElement('html', '<h3>Assessment: '.$assessment->get_title().'</h3><br/>');
 			$this->addElement('html', '<h3>Export results for user ' . $user->get_fullname() . '</h3><br />');
 			
-			$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/assessment.png);">';
+			$html[] = '<div class="content_object" style="background-image: url('. Theme :: get_common_image_path(). 'content_object/assessment.png);">';
 			$html[] = '<div class="title">';
 			$html[] = $assessment->get_title();
 			$html[] = '</div>';
@@ -41,7 +41,7 @@ class AssessmentResultsExportForm extends FormValidator
 			$aid = Request :: get(AssessmentTool :: PARAM_PUBLICATION_ID);
 			$publication = AssessmentDataManager :: get_instance()->retrieve_assessment_publication($aid);
 		
-			$this->addElement('html', '<h3>Assessment: '.$publication->get_learning_object()->get_title().'</h3><br/>');
+			$this->addElement('html', '<h3>Assessment: '.$publication->get_content_object()->get_title().'</h3><br/>');
 			$this->addElement('html', '<h3>Export results for user ' . $user->get_fullname() . '</h3><br />');
 		}
 		

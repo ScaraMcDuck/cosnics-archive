@@ -76,7 +76,7 @@ else
 	// Create some random learning objects
 	$dataManager = RepositoryDataManager :: get_instance();
 
-	$dataManager->delete_all_learning_objects();
+	$dataManager->delete_all_content_objects();
 	title('Categories');
 	for ($u = 1; $u <= $users; $u ++)
 	{

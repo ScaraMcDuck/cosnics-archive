@@ -170,51 +170,51 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
 	}
 
 	/**
-	 * @see WeblcmsManager :: learning_object_is_published()
+	 * @see WeblcmsManager :: content_object_is_published()
 	 */
-	function learning_object_is_published($object_id)
+	function content_object_is_published($object_id)
 	{
-		return $this->get_parent()->learning_object_is_published($object_id);
+		return $this->get_parent()->content_object_is_published($object_id);
 	}
 
 	/**
-	 * @see WeblcmsManager :: any_learning_object_is_published()
+	 * @see WeblcmsManager :: any_content_object_is_published()
 	 */
-	function any_learning_object_is_published($object_ids)
+	function any_content_object_is_published($object_ids)
 	{
-		return $this->get_parent()->any_learning_object_is_published($object_ids);
+		return $this->get_parent()->any_content_object_is_published($object_ids);
 	}
 
 	/**
-	 * @see WeblcmsManager :: get_learning_object_publication_attributes()
+	 * @see WeblcmsManager :: get_content_object_publication_attributes()
 	 */
-	function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return $this->get_parent()->get_learning_object_publication_attributes($object_id, $type, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->get_content_object_publication_attributes($object_id, $type, $offset, $count, $order_property, $order_direction);
 	}
 
 	/**
-	 * @see WeblcmsManager :: get_learning_object_publication_attribute()
+	 * @see WeblcmsManager :: get_content_object_publication_attribute()
 	 */
-	function get_learning_object_publication_attribute($publication_id)
+	function get_content_object_publication_attribute($publication_id)
 	{
-		return $this->get_parent()->get_learning_object_publication_attribute($publication_id);
+		return $this->get_parent()->get_content_object_publication_attribute($publication_id);
 	}
 
 	/**
-	 * @see WeblcmsManager :: delete_learning_object_publications()
+	 * @see WeblcmsManager :: delete_content_object_publications()
 	 */
-	function delete_learning_object_publications($object_id)
+	function delete_content_object_publications($object_id)
 	{
-		return $this->get_parent()->delete_learning_object_publications($object_id);
+		return $this->get_parent()->delete_content_object_publications($object_id);
 	}
 
 	/**
-	 * @see WeblcmsManager :: update_learning_object_publication_id()
+	 * @see WeblcmsManager :: update_content_object_publication_id()
 	 */
-	function update_learning_object_publication_id($publication_attr)
+	function update_content_object_publication_id($publication_attr)
 	{
-		return $this->get_parent()->update_learning_object_publication_id($publication_attr);
+		return $this->get_parent()->update_content_object_publication_id($publication_attr);
 	}
 
 	/**

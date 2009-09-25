@@ -15,7 +15,7 @@ require_once dirname(__FILE__).'/browser/repository_browser_table.class.php';
  * Default repository manager component which allows the user to browse through
  * the different categories and learning objects in the repository.
  */
-class RepositoryManagerLearningObjectSelectorComponent extends RepositoryManagerComponent
+class RepositoryManagerContentObjectSelectorComponent extends RepositoryManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
@@ -50,15 +50,15 @@ class RepositoryManagerLearningObjectSelectorComponent extends RepositoryManager
 			$this->display_footer();
 			exit;
 		}
-		$root = $this->retrieve_learning_object($root_id);
+		$root = $this->retrieve_content_object($root_id);
 		if(!Request :: get('publish'))
 		{
 			$trail->add(new Breadcrumb($this->get_link(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $root_id)), $root->get_title()));
-			$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id)), Translation :: get('ViewComplexLearningObject')));
-			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('AddExistingLearningObject')));
+			$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id)), Translation :: get('ViewComplexContentObject')));
+			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('AddExistingContentObject')));
 		}
 
-		$output = $this->get_learning_objects_html();
+		$output = $this->get_content_objects_html();
 		$this->display_header($trail, false, true);
 		echo $output;
 		$this->display_footer();
@@ -67,7 +67,7 @@ class RepositoryManagerLearningObjectSelectorComponent extends RepositoryManager
 	 * Gets the  table which shows the learning objects in the currently active
 	 * category
 	 */
-	private function get_learning_objects_html()
+	private function get_content_objects_html()
 	{
 		$condition = $this->get_condition();
 		$parameters = $this->get_parameters(true);
@@ -90,17 +90,17 @@ class RepositoryManagerLearningObjectSelectorComponent extends RepositoryManager
 		$conditions = array();
 		$conditions[] = $this->get_search_condition();
 
-		$clo = $this->retrieve_learning_object($this->cloi_id);
+		$clo = $this->retrieve_content_object($this->cloi_id);
 		$types = $clo->get_allowed_types();
 		$conditions1 = array();
 		foreach($types as $type)
 		{
-			$conditions1[] = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
+			$conditions1[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type);
 		}
 		$conditions[] = new OrCondition($conditions1);
 
 		$conditions = array_merge($conditions, $this->retrieve_used_items($this->root_id));
-		$conditions[] = new NotCondition(new EqualityCondition(LearningObject :: PROPERTY_ID, $this->root_id, LearningObject :: get_table_name()));
+		$conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_ID, $this->root_id, ContentObject :: get_table_name()));
 
 		return new AndCondition($conditions);
 	}
@@ -123,12 +123,12 @@ class RepositoryManagerLearningObjectSelectorComponent extends RepositoryManager
 	{
 		$conditions = array();
 
-		$clois = $this->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $cloi_id, ComplexLearningObjectItem :: get_table_name()));
+		$clois = $this->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $cloi_id, ComplexContentObjectItem :: get_table_name()));
 		while($cloi = $clois->next_result())
 		{
 			if($cloi->is_complex())
 			{
-				$conditions[] = new NotCondition(new EqualityCondition(LearningObject :: PROPERTY_ID, $cloi->get_ref(), LearningObject :: get_table_name()));
+				$conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_ID, $cloi->get_ref(), ContentObject :: get_table_name()));
 				$conditions = array_merge($conditions, $this->retrieve_used_items($cloi->get_ref()));
 			}
 		}

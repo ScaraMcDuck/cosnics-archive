@@ -10,7 +10,7 @@
  */
 require_once dirname(__FILE__).'/../repository_manager.class.php';
 require_once dirname(__FILE__).'/../repository_manager_component.class.php';
-require_once dirname(__FILE__).'/../../learning_object_category_menu.class.php';
+require_once dirname(__FILE__).'/../../content_object_category_menu.class.php';
 require_once Path :: get_library_path() . 'html/menu/options_menu_renderer.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 /**
@@ -35,7 +35,7 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 				$ids = array ($ids);
 			}
 
-			$object = $this->retrieve_learning_object($ids[0]);
+			$object = $this->retrieve_content_object($ids[0]);
 			$parent = $object->get_parent_id();
 
 			$this->tree = array();
@@ -52,12 +52,12 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 				$failures = 0;
 				foreach ($ids as $id)
 				{
-					$object = $this->retrieve_learning_object($id);
+					$object = $this->retrieve_content_object($id);
 					$versions = $this->get_version_ids($object);
 
 					foreach ($versions as $version)
 					{
-						$object = $this->retrieve_learning_object($version);
+						$object = $this->retrieve_content_object($version);
 						// TODO: Roles & Rights.
 						if ($object->get_owner_id() != $this->get_user_id())
 						{
@@ -114,7 +114,7 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 				//$form->accept($renderer);
 
                 if(count($ids)==1)
-                    $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager::ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager::PARAM_LEARNING_OBJECT_ID => $ids)), $this->retrieve_learning_object($ids)->get_title()));
+                    $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager::ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager::PARAM_LEARNING_OBJECT_ID => $ids)), $this->retrieve_content_object($ids)->get_title()));
                 else
                     $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager::ACTION_BROWSE_LEARNING_OBJECTS), Translation :: get('Objects'))));
 

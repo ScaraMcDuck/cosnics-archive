@@ -3,7 +3,7 @@
  * $Id$
  * @package application.weblcms
  */
-require_once dirname(__FILE__).'/learning_object_publication.class.php';
+require_once dirname(__FILE__).'/content_object_publication.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once Path :: get_plugin_path().'html2text/class.html2text.inc';
 /**
@@ -12,7 +12,7 @@ require_once Path :: get_plugin_path().'html2text/class.html2text.inc';
  * The form allows the user to set some properties of the publication
  * (publication dates, target users, visibility, ...)
  */
-class LearningObjectPublicationForm extends FormValidator
+class ContentObjectPublicationForm extends FormValidator
 {
    /**#@+
     * Constant defining a form parameter
@@ -38,7 +38,7 @@ class LearningObjectPublicationForm extends FormValidator
 	/**
 	 * The learning object that will be published
 	 */
-	private $learning_object;
+	private $content_object;
 	/**
 	 * The publication that will be changed (when using this form to edit a
 	 * publication)
@@ -60,12 +60,12 @@ class LearningObjectPublicationForm extends FormValidator
 	private $form_type;
 	/**
 	 * Creates a new learning object publication form.
-	 * @param LearningObject The learning object that will be published
+	 * @param ContentObject The learning object that will be published
 	 * @param string $tool The tool in which the object will be published
 	 * @param boolean $email_option Add option in form to send the learning
 	 * object by email to the receivers
 	 */
-    function LearningObjectPublicationForm($form_type, $learning_object, $repo_viewer, $email_option = false, $course, $in_repo_viewer = true, $extra_parameters = array())
+    function ContentObjectPublicationForm($form_type, $content_object, $repo_viewer, $email_option = false, $course, $in_repo_viewer = true, $extra_parameters = array())
     {
     	if($repo_viewer)
     	{
@@ -76,17 +76,17 @@ class LearningObjectPublicationForm extends FormValidator
 		switch($this->form_type)
 		{
 			case self :: TYPE_SINGLE:
-		    	if(get_class($learning_object) == 'Introduction')
+		    	if(get_class($content_object) == 'Introduction')
 		    	{
-		    		$parameters = array_merge($pub_param, array (LearningObjectRepoViewer :: PARAM_ID => $learning_object->get_id(), Tool :: PARAM_ACTION => $in_repo_viewer?Tool :: ACTION_PUBLISH_INTRODUCTION:null));
+		    		$parameters = array_merge($pub_param, array (ContentObjectRepoViewer :: PARAM_ID => $content_object->get_id(), Tool :: PARAM_ACTION => $in_repo_viewer?Tool :: ACTION_PUBLISH_INTRODUCTION:null));
 		    	}
 		    	else
 		    	{
-		    		$parameters = array_merge($pub_param, array (LearningObjectRepoViewer :: PARAM_ID => $learning_object->get_id(), Tool :: PARAM_ACTION => $in_repo_viewer?Tool :: ACTION_PUBLISH:null));
+		    		$parameters = array_merge($pub_param, array (ContentObjectRepoViewer :: PARAM_ID => $content_object->get_id(), Tool :: PARAM_ACTION => $in_repo_viewer?Tool :: ACTION_PUBLISH:null));
 		    	}
 				break;
 			case self :: TYPE_MULTI:
-				$parameters = array_merge($pub_param, array (Tool :: PARAM_ACTION => $in_repo_viewer?Tool :: ACTION_PUBLISH:null, LearningObjectRepoViewer :: PARAM_ID => $learning_object));
+				$parameters = array_merge($pub_param, array (Tool :: PARAM_ACTION => $in_repo_viewer?Tool :: ACTION_PUBLISH:null, ContentObjectRepoViewer :: PARAM_ID => $content_object));
 				break;
 		}
 
@@ -106,7 +106,7 @@ class LearningObjectPublicationForm extends FormValidator
 			$this->tool = $repo_viewer->get_parent();
 		}
 
-		$this->learning_object = $learning_object;
+		$this->content_object = $content_object;
 		$this->email_option = $email_option;
 		$this->course = $course;
 		$this->user = $repo_viewer->get_user();
@@ -126,7 +126,7 @@ class LearningObjectPublicationForm extends FormValidator
     /**
      * Sets the publication. Use this function if you're using this form to
      * change the settings of a learning object publication.
-     * @param LearningObjectPublication $publication
+     * @param ContentObjectPublication $publication
      */
     function set_publication($publication)
     {
@@ -135,14 +135,14 @@ class LearningObjectPublicationForm extends FormValidator
 		$this->addElement('hidden','action');
 		$defaults['action'] = 'edit';
 		$defaults['pid'] = $publication->get_id();
-		$defaults[LearningObjectPublication :: PROPERTY_FROM_DATE] = $publication->get_from_date();
-		$defaults[LearningObjectPublication :: PROPERTY_TO_DATE] = $publication->get_to_date();
-		if($defaults[LearningObjectPublication :: PROPERTY_FROM_DATE] != 0)
+		$defaults[ContentObjectPublication :: PROPERTY_FROM_DATE] = $publication->get_from_date();
+		$defaults[ContentObjectPublication :: PROPERTY_TO_DATE] = $publication->get_to_date();
+		if($defaults[ContentObjectPublication :: PROPERTY_FROM_DATE] != 0)
 		{
 			$defaults[self :: PARAM_FOREVER] = 0;
 		}
-		$defaults[LearningObjectPublication :: PROPERTY_HIDDEN] = $publication->is_hidden();
-		$defaults[LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE] = $publication->get_show_on_homepage();
+		$defaults[ContentObjectPublication :: PROPERTY_HIDDEN] = $publication->is_hidden();
+		$defaults[ContentObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE] = $publication->get_show_on_homepage();
 
 		$udm = UserDataManager :: get_instance();
 		$wdm = WeblcmsDataManager :: get_instance();
@@ -209,7 +209,7 @@ class LearningObjectPublicationForm extends FormValidator
     function build_multi_form()
     {
     	$this->build_form();
-    	$this->addElement('hidden', 'ids', serialize($this->learning_object));
+    	$this->addElement('hidden', 'ids', serialize($this->content_object));
     }
 
     private $categories;
@@ -217,12 +217,12 @@ class LearningObjectPublicationForm extends FormValidator
 
     function get_categories($parent_id)
     {
-    	$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_COURSE, Request :: get('course'));
-		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_TOOL, Request :: get('tool'));
-		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_PARENT, $parent_id);
+    	$conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_COURSE, Request :: get('course'));
+		$conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_TOOL, Request :: get('tool'));
+		$conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_PARENT, $parent_id);
 		$condition = new AndCondition($conditions);
 
-		$cats = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_categories($condition);
+		$cats = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication_categories($condition);
 		while($cat = $cats->next_result())
 		{
 			$this->categories[$cat->get_id()] = str_repeat('--', $this->level) . ' ' . $cat->get_name();
@@ -248,7 +248,7 @@ class LearningObjectPublicationForm extends FormValidator
 		else
 		{
 			// Only root category -> store object in root category
-			$this->addElement('hidden', LearningObjectPublication :: PROPERTY_CATEGORY_ID, 0);
+			$this->addElement('hidden', ContentObjectPublication :: PROPERTY_CATEGORY_ID, 0);
 		}
 
 		$attributes = array();
@@ -270,7 +270,7 @@ class LearningObjectPublicationForm extends FormValidator
 		{
 			$this->addElement('checkbox', self::PARAM_EMAIL, Translation :: get('SendByEMail'));
 		}
-		$this->addElement('checkbox', LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE, Translation :: get('ShowOnHomepage'));
+		$this->addElement('checkbox', ContentObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE, Translation :: get('ShowOnHomepage'));
     }
 
     function add_footer()
@@ -283,12 +283,12 @@ class LearningObjectPublicationForm extends FormValidator
     }
     /**
      * Updates a learning object publication using the values from the form.
-     * @return LearningObjectPublication The updated publication
+     * @return ContentObjectPublication The updated publication
      * @todo This function shares some code with function
-     * create_learning_object_publication. This code duplication should be
+     * create_content_object_publication. This code duplication should be
      * resolved.
      */
-    function update_learning_object_publication()
+    function update_content_object_publication()
     {
 		$values = $this->exportValues();
 		if ($values[self :: PARAM_FOREVER] != 0)
@@ -314,7 +314,7 @@ class LearningObjectPublicationForm extends FormValidator
 		$pub->set_modified_date($modifiedDate);
 		$pub->set_target_users($users);
 		$pub->set_target_course_groups($course_groups);
-		$show_on_homepage = ($values[LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE] ? 1 : 0);
+		$show_on_homepage = ($values[ContentObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE] ? 1 : 0);
 		$pub->set_show_on_homepage($show_on_homepage);
 		$pub->set_category_id($category);
 		$pub->update();
@@ -322,9 +322,9 @@ class LearningObjectPublicationForm extends FormValidator
     }
 	/**
 	 * Creates a learning object publication using the values from the form.
-	 * @return LearningObjectPublication The new publication
+	 * @return ContentObjectPublication The new publication
 	 */
-    function create_learning_object_publication()
+    function create_content_object_publication()
     {
     	// TODO: Seems like the modified date isn't being written to the DB
     	// TODO: Hidden is not being used correctly
@@ -346,10 +346,10 @@ class LearningObjectPublicationForm extends FormValidator
 		$category = $values[self :: PARAM_CATEGORY_ID];
 
 		$wdm = WeblcmsDataManager :: get_instance();
-		$index = $wdm->get_next_learning_object_publication_display_order_index($course, $tool, $category);
+		$index = $wdm->get_next_content_object_publication_display_order_index($course, $tool, $category);
 		
-		$pub = new LearningObjectPublication();
-		$pub->set_learning_object_id($this->learning_object->get_id());
+		$pub = new ContentObjectPublication();
+		$pub->set_content_object_id($this->content_object->get_id());
 		$pub->set_course_id($course);
 		$pub->set_tool($tool);
 		$pub->set_category_id($category);
@@ -363,7 +363,7 @@ class LearningObjectPublicationForm extends FormValidator
 		$pub->set_hidden($values[self :: PARAM_HIDDEN] ? 1 : 0);
 		$pub->set_display_order_index($index);
 		$pub->set_email_sent(false);
-		$pub->set_show_on_homepage($values[LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE] ? 1 : 0);
+		$pub->set_show_on_homepage($values[ContentObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE] ? 1 : 0);
 		
 		if (!$pub->create())
 		{
@@ -372,17 +372,17 @@ class LearningObjectPublicationForm extends FormValidator
 		
 		if($this->email_option && $values[self::PARAM_EMAIL])
 		{
-			$learning_object = $this->learning_object;
-			$display = LearningObjectDisplay::factory($learning_object);
+			$content_object = $this->content_object;
+			$display = ContentObjectDisplay::factory($content_object);
 
 			$adm = AdminDataManager :: get_instance();
 			$site_name_setting = PlatformSetting :: get('site_name');
 
-			$subject = '['.$site_name_setting.'] '.$learning_object->get_title();
+			$subject = '['.$site_name_setting.'] '.$content_object->get_title();
 			$body = new html2text($display->get_full_html());
 			// TODO: send email to correct users/course_groups. For testing, the email is sent now to the repo_viewer.
 			$user = $this->user;
-			$mail = Mail :: factory($learning_object->get_title(), $body->get_text(), $user->get_email());
+			$mail = Mail :: factory($content_object->get_title(), $body->get_text(), $user->get_email());
 
 			if($mail->send())
 			{
@@ -397,7 +397,7 @@ class LearningObjectPublicationForm extends FormValidator
 		return $pub;
     }
 
-    function create_learning_object_publications()
+    function create_content_object_publications()
     {
     	$values = $this->exportValues();
 
@@ -405,7 +405,7 @@ class LearningObjectPublicationForm extends FormValidator
 
     	foreach($ids as $id)
     	{
-    		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($id);
+    		$content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($id);
 
 			if ($values[self :: PARAM_FOREVER] != 0)
 			{
@@ -423,10 +423,10 @@ class LearningObjectPublicationForm extends FormValidator
 			$category = $values[self :: PARAM_CATEGORY_ID];
 
 			$wdm = WeblcmsDataManager :: get_instance();
-			$index = $wdm->get_next_learning_object_publication_display_order_index($course, $tool, $category);
+			$index = $wdm->get_next_content_object_publication_display_order_index($course, $tool, $category);
 			
-			$pub = new LearningObjectPublication();
-			$pub->set_learning_object_id($id);
+			$pub = new ContentObjectPublication();
+			$pub->set_content_object_id($id);
 			$pub->set_course_id($course);
 			$pub->set_tool($tool);
 			$pub->set_category_id($category);
@@ -440,7 +440,7 @@ class LearningObjectPublicationForm extends FormValidator
 			$pub->set_hidden($values[self :: PARAM_HIDDEN] ? 1 : 0);
 			$pub->set_display_order_index($index);
 			$pub->set_email_sent(false);
-			$pub->set_show_on_homepage($values[LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE] ? 1 : 0);
+			$pub->set_show_on_homepage($values[ContentObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE] ? 1 : 0);
 			
 			if (!$pub->create())
 			{
@@ -449,16 +449,16 @@ class LearningObjectPublicationForm extends FormValidator
 			
 			if($this->email_option && $values[self :: PARAM_EMAIL])
 			{
-				$display = LearningObjectDisplay::factory($learning_object);
+				$display = ContentObjectDisplay::factory($content_object);
 
 				$adm = AdminDataManager :: get_instance();
 				$site_name_setting = PlatformSetting :: get('site_name');
 
-				$subject = '['.$site_name_setting.'] '.$learning_object->get_title();
+				$subject = '['.$site_name_setting.'] '.$content_object->get_title();
 				$body = new html2text($display->get_full_html());
 				// TODO: send email to correct users/course_groups. For testing, the email is sent now to the repo_viewer.
 				$user = $this->user;
-				$mail = Mail :: factory($learning_object->get_title(), $body->get_text(), $user->get_email());
+				$mail = Mail :: factory($content_object->get_title(), $body->get_text(), $user->get_email());
 
 				if($mail->send())
 				{

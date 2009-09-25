@@ -7,7 +7,7 @@
 /**
  * This class can be used to display assessments
  */
-class AssessmentDisplay extends LearningObjectDisplay
+class AssessmentDisplay extends ContentObjectDisplay
 {
 }
 ?>

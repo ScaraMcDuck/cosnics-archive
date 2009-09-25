@@ -3,7 +3,7 @@
 	<package>
 		<name>Portfolio Item</name>
 		<code>portfolio_item</code>
-		<section>learning_object</section>
+		<section>content_object</section>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/p/portfolio_item/portfolio_item-1.0.0.zip</filename>

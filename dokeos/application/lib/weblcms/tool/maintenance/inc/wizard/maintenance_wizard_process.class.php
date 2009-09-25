@@ -37,8 +37,8 @@ class MaintenanceWizardProcess extends HTML_QuickForm_Action
 				
 				foreach ($publication_ids as $id)
 				{
-					$publication = $dm->retrieve_learning_object_publication($id);
-					if (!$dm->delete_learning_object_publication($publication))
+					$publication = $dm->retrieve_content_object_publication($id);
+					if (!$dm->delete_content_object_publication($publication))
 					{
 						$succes = false;
 					}
@@ -55,10 +55,10 @@ class MaintenanceWizardProcess extends HTML_QuickForm_Action
 					}
 				}
 				
-				if($values['learning_object_categories'] == 1)
+				if($values['content_object_categories'] == 1)
 				{
-					$condition = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_COURSE, $this->parent->get_course_id());
-					$categories = $dm->retrieve_learning_object_publication_categories($condition);
+					$condition = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_COURSE, $this->parent->get_course_id());
+					$categories = $dm->retrieve_content_object_publication_categories($condition);
 					while($category = $categories->next_result())
 					{
 						if(!$category->get_allow_change())
@@ -100,10 +100,10 @@ class MaintenanceWizardProcess extends HTML_QuickForm_Action
 				
 				$category_ids = array();
 				
-				if($values['learning_object_categories'] == 1)
+				if($values['content_object_categories'] == 1)
 				{
-					$condition = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_COURSE, $this->parent->get_course_id());
-					$categories = $dm->retrieve_learning_object_publication_categories($condition);
+					$condition = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_COURSE, $this->parent->get_course_id());
+					$categories = $dm->retrieve_content_object_publication_categories($condition);
 					while($category = $categories->next_result())
 					{
 						if(!$category->get_allow_change())
@@ -133,7 +133,7 @@ class MaintenanceWizardProcess extends HTML_QuickForm_Action
 				$publication_ids = array_keys($values['publications']);
 				foreach ($publication_ids as $id)
 				{
-					$publication = $dm->retrieve_learning_object_publication($id);
+					$publication = $dm->retrieve_content_object_publication($id);
 					$courses = $values['course'];
 					$parent = $publication->get_category_id();
 					

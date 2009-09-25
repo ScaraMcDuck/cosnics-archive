@@ -33,7 +33,7 @@ class PublicationBrowserTableDataProvider extends ObjectTableDataProvider
 		$order_property = $this->get_order_property($order_property);
 		$order_direction = $this->get_order_direction($order_direction);
 
-      $publication_attributes = $this->get_browser()->get_learning_object_publication_attributes($this->get_browser()->get_user(), null, 'user', $offset, $count, $order_property, $order_direction);
+      $publication_attributes = $this->get_browser()->get_content_object_publication_attributes($this->get_browser()->get_user(), null, 'user', $offset, $count, $order_property, $order_direction);
       return $publication_attributes = array_splice($publication_attributes, $offset, $count);
     }
   /**

@@ -3,9 +3,9 @@
  * @package application.searchportal
  * @subpackage webservice
  */
-require_once Path :: get_repository_path(). 'lib/accessible_learning_object.class.php';
+require_once Path :: get_repository_path(). 'lib/accessible_content_object.class.php';
 
-class SoapLearningObject implements AccessibleLearningObject
+class SoapContentObject implements AccessibleContentObject
 {
 	public $Type;
 
@@ -19,7 +19,7 @@ class SoapLearningObject implements AccessibleLearningObject
 
 	public $URL;
 
-	function SoapLearningObject($Type, $Title, $Description, $Created, $Modified, $URL)
+	function SoapContentObject($Type, $Title, $Description, $Created, $Modified, $URL)
 	{
 		$this->Type = $Type;
 		$this->Title = $Title;
@@ -31,7 +31,7 @@ class SoapLearningObject implements AccessibleLearningObject
 
 	static function from_standard_object($std_object)
 	{
-		return new SoapLearningObject($std_object->Type, $std_object->Title, $std_object->Description, $std_object->Created, $std_object->Modified, $std_object->URL);
+		return new SoapContentObject($std_object->Type, $std_object->Title, $std_object->Description, $std_object->Created, $std_object->Modified, $std_object->URL);
 	}
 
 	function get_type()

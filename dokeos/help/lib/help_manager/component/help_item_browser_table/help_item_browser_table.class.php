@@ -16,7 +16,7 @@ class HelpItemBrowserTable extends ObjectTable
 	
 	/**
 	 * Constructor
-	 * @see LearningObjectTable::LearningObjectTable()
+	 * @see ContentObjectTable::ContentObjectTable()
 	 */
 	function HelpItemBrowserTable($browser, $parameters, $condition)
 	{

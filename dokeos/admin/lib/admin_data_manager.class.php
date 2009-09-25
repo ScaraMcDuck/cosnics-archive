@@ -159,15 +159,15 @@ abstract class AdminDataManager
 
     abstract function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
-    abstract function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+    abstract function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
-    abstract function get_learning_object_publication_attribute($publication_id);
+    abstract function get_content_object_publication_attribute($publication_id);
 
-    abstract function any_learning_object_is_published($object_ids);
+    abstract function any_content_object_is_published($object_ids);
 
     abstract function count_publication_attributes($type = null, $condition = null);
 
-    abstract function delete_learning_object_publications($object_id);
+    abstract function delete_content_object_publications($object_id);
 
     abstract function delete_settings($condition = null);
 

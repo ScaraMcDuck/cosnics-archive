@@ -34,7 +34,7 @@ class WikiPublicationBrowserTableDataProvider extends ObjectTableDataProvider
      	$publications = $this->get_browser()->retrieve_wiki_publications($this->get_condition(), $offset, $count, null, null)->as_array();
         foreach($publications as &$publication)
         {
-            $publication->set_learning_object(RepositoryDataManager :: get_instance()->retrieve_learning_object($publication->get_learning_object()));
+            $publication->set_content_object(RepositoryDataManager :: get_instance()->retrieve_content_object($publication->get_content_object()));
         }
         return $publications;
     }

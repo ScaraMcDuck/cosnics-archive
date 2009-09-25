@@ -22,12 +22,12 @@ class RepositoryManagerExternalRepositoryExportComponent extends RepositoryManag
 	 * Check wether a learning object can be retrieved by using the URL params
 	 * @return boolean
 	 */
-	function check_learning_object_from_params()
+	function check_content_object_from_params()
 	{
-	    $learning_object = $this->get_learning_object_from_params();
-	    if(isset($learning_object))
+	    $content_object = $this->get_content_object_from_params();
+	    if(isset($content_object))
 	    {
-	        $this->check_user_can_access_learning_object($learning_object, true);
+	        $this->check_user_can_access_content_object($content_object, true);
 	        
 	        return true;
 	    }
@@ -37,7 +37,7 @@ class RepositoryManagerExternalRepositoryExportComponent extends RepositoryManag
 	    }
 	}
 	
-	function get_learning_object_from_params()
+	function get_content_object_from_params()
 	{
 		/*
 	     * Check if the learning object is given in the URL params  
@@ -50,7 +50,7 @@ class RepositoryManagerExternalRepositoryExportComponent extends RepositoryManag
 	         * Check if the learning object does exist 
 	         */
 	        $dm = RepositoryDataManager :: get_instance();
-	        return $dm->retrieve_learning_object($lo_id);
+	        return $dm->retrieve_content_object($lo_id);
 	    }
 	    else
 	    {
@@ -80,18 +80,18 @@ class RepositoryManagerExternalRepositoryExportComponent extends RepositoryManag
 	/**
 	 * Check if a user has the right to export the learning object to an external repository
 	 * 
-	 * @param $learning_object LearningObject
+	 * @param $content_object ContentObject
 	 * @param $with_error_display boolean Indicates wether the 'not allowed' form must be displayed when a user doesn't have the required access rights
 	 * @return boolean
 	 */
-	protected function check_user_can_access_learning_object($learning_object, $with_error_display = false)
+	protected function check_user_can_access_content_object($content_object, $with_error_display = false)
 	{
-	    if ($learning_object->get_owner_id() != $this->get_user_id() && !$this->get_parent()->has_right($learning_object, $this->get_user_id(), RepositoryRights :: REUSE_RIGHT))
+	    if ($content_object->get_owner_id() != $this->get_user_id() && !$this->get_parent()->has_right($content_object, $this->get_user_id(), RepositoryRights :: REUSE_RIGHT))
 		{
 		    if($with_error_display)
 		    {
 		        $trail = new BreadcrumbTrail(false);
-    		    $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager::PARAM_LEARNING_OBJECT_ID => $learning_object->get_id())), $learning_object->get_title()));
+    		    $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager::PARAM_LEARNING_OBJECT_ID => $content_object->get_id())), $content_object->get_title()));
     		        
 		        $this->not_allowed($trail);
 		    }

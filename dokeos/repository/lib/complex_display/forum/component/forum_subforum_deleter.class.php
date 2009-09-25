@@ -25,7 +25,7 @@ class ForumDisplayForumSubforumDeleterComponent extends ForumDisplayComponent
 
 			foreach($subforums as $subforum)
 			{
-				$cloi = $datamanager->retrieve_complex_learning_object_item($subforum);
+				$cloi = $datamanager->retrieve_complex_content_object_item($subforum);
 				$cloi->delete();
 			}
 			if(count($subforums) > 1)

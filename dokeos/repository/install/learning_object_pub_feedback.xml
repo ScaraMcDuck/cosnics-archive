@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<object name="learning_object_pub_feedback">
+<object name="content_object_pub_feedback">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
   <property name="publication_id" type="integer" unsigned="1" notnull="1"/>
-  <property name="complex_learning_object_id" type="integer" unsigned="1" notnull="1"/>
+  <property name="complex_content_object_id" type="integer" unsigned="1" notnull="1"/>
   <property name="feedback_id" type="integer" unsigned="1" notnull="1"/>
  </properties>
  <index name="id" type="primary">

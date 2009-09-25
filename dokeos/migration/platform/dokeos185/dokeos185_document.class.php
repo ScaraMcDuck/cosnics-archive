@@ -5,11 +5,11 @@
  */
 
 require_once dirname(__FILE__).'/../../lib/import/import_document.class.php';
-require_once dirname(__FILE__).'/../../../repository/lib/learning_object/document/document.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication.class.php';
+require_once dirname(__FILE__).'/../../../repository/lib/content_object/document/document.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/content_object_publication.class.php';
 require_once 'dokeos185_item_property.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/category_manager/learning_object_publication_category.class.php';
-require_once dirname(__FILE__).'/../../../repository/lib/learning_object.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/category_manager/content_object_publication_category.class.php';
+require_once dirname(__FILE__).'/../../../repository/lib/content_object.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 document
@@ -305,7 +305,7 @@ class Dokeos185Document extends ImportDocument
 				$document_id = $mgdm->get_document_id($new_rel_path . $filename, $new_user_id);
 				if($document_id)
 				{
-					$lcms_document = new LearningObject();
+					$lcms_document = new ContentObject();
 					$lcms_document->set_id($document_id);
                                         
 				}
@@ -314,7 +314,7 @@ class Dokeos185Document extends ImportDocument
 		}
 		else
 		{
-			$lcms_document = new LearningObject();
+			$lcms_document = new ContentObject();
 			$lcms_document->set_id($document_id);
 		}
 		
@@ -347,7 +347,7 @@ class Dokeos185Document extends ImportDocument
 				if(!$lcms_category_id)
 				{
 					//Create category for tool in lcms
-					$lcms_category = new LearningObjectPublicationCategory();					
+					$lcms_category = new ContentObjectPublicationCategory();					
 					$lcms_category->set_course($new_course_code);
 					$lcms_category->set_tool('document');
 					$lcms_category->set_parent($parent);
@@ -363,8 +363,8 @@ class Dokeos185Document extends ImportDocument
 			}	
 			
 			
-			$publication = new LearningObjectPublication();			
-			$publication->set_learning_object($lcms_document);
+			$publication = new ContentObjectPublication();			
+			$publication->set_content_object($lcms_document);
 			$publication->set_course_id($new_course_code);
 			unset($new_course_code);
 			$publication->set_publisher_id($new_user_id);

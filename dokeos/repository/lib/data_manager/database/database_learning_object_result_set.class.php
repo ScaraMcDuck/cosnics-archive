@@ -7,7 +7,7 @@ require_once Path :: get_library_path(). 'database/result_set.class.php';
 /**
  * Resultset to hold a set of learning objects
  */
-class DatabaseLearningObjectResultSet extends ResultSet {
+class DatabaseContentObjectResultSet extends ResultSet {
 	/**
 	 * The datamanager used to retrieve objects from the repository
 	 */
@@ -31,7 +31,7 @@ class DatabaseLearningObjectResultSet extends ResultSet {
 	 * the learning objects (so when retrieving the learning objects, the
 	 * datamanager shouldn't perform additional queries)
 	 */
-    function DatabaseLearningObjectResultSet($data_manager, $handle, $single_type)
+    function DatabaseContentObjectResultSet($data_manager, $handle, $single_type)
     {
     	$this->data_manager = $data_manager;
     	$this->handle = $handle;
@@ -44,7 +44,7 @@ class DatabaseLearningObjectResultSet extends ResultSet {
     {
 		if ($record = $this->handle->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			return $this->data_manager->record_to_learning_object($record, $this->single_type);
+			return $this->data_manager->record_to_content_object($record, $this->single_type);
 		}
     	return null;
     }

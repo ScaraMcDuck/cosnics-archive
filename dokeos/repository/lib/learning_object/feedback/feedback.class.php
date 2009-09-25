@@ -3,11 +3,11 @@
  * @package repository.learningobject
  * @subpackage feedback
  */
-require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) . '/../../content_object.class.php';
 /**
  * A feedback
  */
-class Feedback extends LearningObject {
+class Feedback extends ContentObject {
 	const PROPERTY_ICON = 'icon';
 
 	const ICON_THUMBS_UP = 1;

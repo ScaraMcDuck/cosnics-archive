@@ -1,10 +1,10 @@
 <?php
-require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) . '/../../content_object.class.php';
 /**
  * @package repository.learningobject
  * @subpackage wiki
  */
-class Wiki extends LearningObject 
+class Wiki extends ContentObject 
 {
     const PROPERTY_LOCKED = 'locked';
     const PROPERTY_LINKS = 'links';

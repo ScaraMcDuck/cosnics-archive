@@ -43,7 +43,7 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
 		$html = array();
 		$date_format = Translation :: get('dateTimeFormatLong');
 		
-		$html[] = '<div class="learning_object" style="background-image: url(' . Theme :: get_common_image_path() . 'learning_object/calendar_event.png);">';
+		$html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/calendar_event.png);">';
 		$html[] = '<div class="title">'. htmlentities($event->get_title()) .'</div>';
 		$html[] = '<div class="description">';
 		if ($event->get_end_date() != '')
@@ -94,8 +94,8 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
 		
 		if($event->get_source() == 'weblcms')
 		{
-			$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($event->get_id());
-			$object = $publication->get_learning_object();
+			$publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($event->get_id());
+			$object = $publication->get_content_object();
 		}
 		else
 		{
@@ -105,16 +105,16 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
 		
 		if ($object->supports_attachments())
 		{
-			$attachments = $object->get_attached_learning_objects();
+			$attachments = $object->get_attached_content_objects();
 			if(count($attachments)>0)
 			{
 				$html[] = '<div class="attachments" style="margin-top: 1em;">';
 				$html[] = '<div class="attachments_title">'.htmlentities(Translation :: get('Attachments')).'</div>';
-				DokeosUtilities :: order_learning_objects_by_title($attachments);
+				DokeosUtilities :: order_content_objects_by_title($attachments);
 				$html[] = '<ul class="attachments_list">';
 				foreach ($attachments as $attachment)
 				{
-					$html[] = '<li><a href="' . $this->get_parent()->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_VIEW_ATTACHMENT, 'object' => $attachment->get_id())) . '"><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$attachment->get_title().'</a></li>';
+					$html[] = '<li><a href="' . $this->get_parent()->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_VIEW_ATTACHMENT, 'object' => $attachment->get_id())) . '"><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$attachment->get_title().'</a></li>';
 				}
 				$html[] = '</ul></div>';
 				return implode("\n",$html);

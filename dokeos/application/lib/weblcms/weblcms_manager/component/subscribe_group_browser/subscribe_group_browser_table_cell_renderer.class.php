@@ -66,7 +66,7 @@ class SubscribeGroupBrowserTableCellRenderer extends DefaultGroupTableCellRender
 	}
 	/**
 	 * Gets the action links to display
-	 * @param LearningObject $learning_object The learning object for which the
+	 * @param ContentObject $content_object The learning object for which the
 	 * action links should be returned
 	 * @return string A HTML representation of the action links
 	 */

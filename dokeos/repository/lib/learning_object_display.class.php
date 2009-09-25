@@ -13,9 +13,9 @@ require_once Path :: get_library_path() . 'html/bbcode_parser.class.php';
 require_once dirname(__FILE__).'/repository_data_manager.class.php';
 require_once dirname(__FILE__).'/quota_manager.class.php';
 /**
- * A class to display a LearningObject.
+ * A class to display a ContentObject.
  */
-abstract class LearningObjectDisplay
+abstract class ContentObjectDisplay
 {
     const TITLE_MARKER = '<!-- /title -->';
     const DESCRIPTION_MARKER = '<!-- /description -->';
@@ -23,14 +23,14 @@ abstract class LearningObjectDisplay
     /**
      * The learning object.
      */
-    private $learning_object;
+    private $content_object;
     /**
      * The URL format.
      */
     private $url_format;
     /**
      * Constructor.
-     * @param LearningObject $learning_object The learning object to display.
+     * @param ContentObject $content_object The learning object to display.
      * @param string $url_format A pattern to pass to sprintf(), representing
      *                           the format for URLs that link to other
      *                           learning objects. The first parameter will be
@@ -39,10 +39,10 @@ abstract class LearningObjectDisplay
      *                           of the current object from the query string,
      *                           and replace it.
      */
-    protected function __construct($learning_object, $url_format = null)
+    protected function __construct($content_object, $url_format = null)
     {
 
-        $this->learning_object = $learning_object;
+        $this->content_object = $content_object;
         if (!isset($url_format))
         {
             $pairs = explode('&', $_SERVER['QUERY_STRING']);
@@ -50,7 +50,7 @@ abstract class LearningObjectDisplay
             foreach ($pairs as $pair)
             {
                 list($name, $value) = explode('=', $pair, 2);
-                if ($value == $learning_object->get_id())
+                if ($value == $content_object->get_id())
                 {
                     $new_pairs[] = $name.'=%d';
                 }
@@ -65,11 +65,11 @@ abstract class LearningObjectDisplay
     }
     /**
      * Returns the learning object associated with this object.
-     * @return LearningObject The object.
+     * @return ContentObject The object.
      */
-    protected function get_learning_object()
+    protected function get_content_object()
     {
-        return $this->learning_object;
+        return $this->content_object;
     }
     /**
      * Returns a full HTML view of the learning object.
@@ -78,9 +78,9 @@ abstract class LearningObjectDisplay
     function get_full_html($buttons = null)
     {
         // TODO: split this into several methods, don't use marker
-        $object = $this->get_learning_object();
+        $object = $this->get_content_object();
         $html = array();
-        $html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path() . 'learning_object/' .$object->get_icon_name().($object->is_latest_version() ? '' : '_na').'.png);">';
+        $html[] = '<div class="content_object" style="background-image: url('.Theme :: get_common_image_path() . 'content_object/' .$object->get_icon_name().($object->is_latest_version() ? '' : '_na').'.png);">';
         $html[] = '<div class="title">'. $object->get_title() .'</div>';
         $html[] = self::TITLE_MARKER;
         $html[] = $this->get_description();
@@ -102,14 +102,14 @@ abstract class LearningObjectDisplay
             }
             $html[] = '</div>';
         }
-        $html[] = $this->get_attached_learning_objects_as_html();
+        $html[] = $this->get_attached_content_objects_as_html();
         $html[] = '</div>';
         /*if ($parent_id = $object->get_parent_id())
         {
-            $parent_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($parent_id);
+            $parent_object = RepositoryDataManager :: get_instance()->retrieve_content_object($parent_id);
             if ($parent_object->get_type() != 'category')
             {
-                $html[] = '<div class="parent_link" style="margin: 1em 0;"><a href="'.htmlentities($this->get_learning_object_url($parent_object)).'">'.htmlentities(Translation :: get('ViewParent')).'</a></div>';
+                $html[] = '<div class="parent_link" style="margin: 1em 0;"><a href="'.htmlentities($this->get_content_object_url($parent_object)).'">'.htmlentities(Translation :: get('ViewParent')).'</a></div>';
             }
         }*/
 
@@ -121,8 +121,8 @@ abstract class LearningObjectDisplay
      */
     function get_short_html()
     {
-        $object = $this->get_learning_object();
-        return '<span class="learning_object">'.htmlentities($object->get_title()).'</span>';
+        $object = $this->get_content_object();
+        return '<span class="content_object">'.htmlentities($object->get_title()).'</span>';
     }
     /**
      * Returns a HTML view of the description
@@ -130,7 +130,7 @@ abstract class LearningObjectDisplay
      */
     function get_description()
     {
-        $description = $this->get_learning_object()->get_description();
+        $description = $this->get_content_object()->get_description();
         $parsed_description = BbcodeParser :: get_instance()->parse($description);
 
         return '<div class="description">' . $parsed_description . '</div>';
@@ -140,23 +140,23 @@ abstract class LearningObjectDisplay
      * object.
      * @return string The HTML.
      */
-    function get_attached_learning_objects_as_html()
+    function get_attached_content_objects_as_html()
     {
-        $object = $this->get_learning_object();
+        $object = $this->get_content_object();
         if ($object->supports_attachments())
         {
-            $attachments = $object->get_attached_learning_objects();
+            $attachments = $object->get_attached_content_objects();
             if (count($attachments))
             {
                 /*$html = array();
                 $html[] = '<div class="attachments" style="margin-top: 1em;">';
                 $html[] = '<div class="attachments_title">'.htmlentities(Translation :: get('Attachments')).'</div>';
                 $html[] = '<ul class="attachments_list">';
-                DokeosUtilities :: order_learning_objects_by_title($attachments);
+                DokeosUtilities :: order_content_objects_by_title($attachments);
                 foreach ($attachments as $attachment)
                 {
                     $disp = self :: factory($attachment);
-                    $html[] = '<li><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
+                    $html[] = '<li><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
                 }
                 $html[] = '</ul>';
                 $html[] = '</div>';
@@ -165,11 +165,11 @@ abstract class LearningObjectDisplay
                 //$html[] = '<h4>Attachments</h4>';
                 $html[] = '<div class="attachments" style="margin-top: 1em;">';
                 $html[] = '<div class="attachments_title">'.htmlentities(Translation :: get('Attachments')).'</div>';
-                DokeosUtilities :: order_learning_objects_by_title($attachments);
+                DokeosUtilities :: order_content_objects_by_title($attachments);
                 $html[] = '<ul class="attachments_list">';
                 foreach ($attachments as $attachment)
                 {
-                    $html[] = '<li><a href="' . Path :: get(WEB_PATH) .'index_repository_manager.php?go=view_attachment&object=' . $attachment->get_id() . '"><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$attachment->get_title().'</a></li>';
+                    $html[] = '<li><a href="' . Path :: get(WEB_PATH) .'index_repository_manager.php?go=view_attachment&object=' . $attachment->get_id() . '"><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$attachment->get_title().'</a></li>';
                 }
                 $html[] = '</ul>';
                 $html[] = '</div>';
@@ -185,7 +185,7 @@ abstract class LearningObjectDisplay
      */
     function get_version_as_html($version_entry)
     {
-        $object = $this->get_learning_object();
+        $object = $this->get_content_object();
 
         if ($object->get_id() == $version_entry['id'])
         {
@@ -243,7 +243,7 @@ abstract class LearningObjectDisplay
      */
     function get_version_quota_as_html($version_data)
     {
-        $object = $this->get_learning_object();
+        $object = $this->get_content_object();
 
         $html = array();
         if ($object->is_latest_version())
@@ -266,7 +266,7 @@ abstract class LearningObjectDisplay
 
     function get_publications_as_html($publication_attributes)
     {
-        $object = $this->get_learning_object();
+        $object = $this->get_content_object();
 
         $html = array();
         if ($object->is_latest_version())
@@ -326,34 +326,34 @@ abstract class LearningObjectDisplay
 
     /**
      * Returns the URL where the given learning object may be viewed.
-     * @param LearningObject $learning_object The learning object.
+     * @param ContentObject $content_object The learning object.
      * @return string The URL.
      */
-    protected function get_learning_object_url($learning_object)
+    protected function get_content_object_url($content_object)
     {
-        return sprintf($this->url_format, $learning_object->get_id());
+        return sprintf($this->url_format, $content_object->get_id());
     }
     /**
      * Returns the URL format for linked learning objects.
      * @return string The URL, ready to pass to sprintf() with the learning
      *                object ID.
      */
-    protected function get_learning_object_url_format()
+    protected function get_content_object_url_format()
     {
         return $this->url_format;
     }
     /**
      * Creates an object that can display the given learning object in a
      * standardized fashion.
-     * @param LearningObject $object The object to display.
-     * @return LearningObject
+     * @param ContentObject $object The object to display.
+     * @return ContentObject
      */
     static function factory(&$object)
     {
         $type = $object->get_type();
 
-        $class = LearningObject :: type_to_class($type).'Display';
-        require_once dirname(__FILE__).'/learning_object/'.$type.'/'.$type.'_display.class.php';
+        $class = ContentObject :: type_to_class($type).'Display';
+        require_once dirname(__FILE__).'/content_object/'.$type.'/'.$type.'_display.class.php';
         return new $class($object);
     }
 

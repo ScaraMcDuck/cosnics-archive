@@ -30,7 +30,7 @@ class ForumPublicationForm extends FormValidator
 	/**
 	 * The learning object that will be published
 	 */
-	private $learning_object;
+	private $content_object;
 	/**
 	 * The publication that will be changed (when using this form to edit a
 	 * publication)
@@ -44,12 +44,12 @@ class ForumPublicationForm extends FormValidator
 	private $form_type;
 	/**
 	 * Creates a new learning object publication form.
-	 * @param LearningObject The learning object that will be published
+	 * @param ContentObject The learning object that will be published
 	 * @param string $tool The tool in which the object will be published
 	 * @param boolean $email_option Add option in form to send the learning
 	 * object by email to the receivers
 	 */
-    function ForumPublicationForm($form_type, $learning_object, $repo_viewer)
+    function ForumPublicationForm($form_type, $content_object, $repo_viewer)
     {
     	if($repo_viewer)
     		$pub_param = $repo_viewer->get_parameters();
@@ -58,10 +58,10 @@ class ForumPublicationForm extends FormValidator
 		switch($this->form_type)
 		{
 			case self :: TYPE_SINGLE:
-		    	$parameters = array_merge($pub_param, array (RepoViewer :: PARAM_ID => $learning_object->get_id(), ForumManager :: PARAM_ACTION => $in_repo_viewer?ForumManager :: ACTION_PUBLISH:null));
+		    	$parameters = array_merge($pub_param, array (RepoViewer :: PARAM_ID => $content_object->get_id(), ForumManager :: PARAM_ACTION => $in_repo_viewer?ForumManager :: ACTION_PUBLISH:null));
 				break;
 			case self :: TYPE_MULTI:
-				$parameters = array_merge($pub_param, array (ForumManager :: PARAM_ACTION => $in_repo_viewer?ForumManager :: ACTION_PUBLISH:null, RepoViewer :: PARAM_ID => $learning_object));
+				$parameters = array_merge($pub_param, array (ForumManager :: PARAM_ACTION => $in_repo_viewer?ForumManager :: ACTION_PUBLISH:null, RepoViewer :: PARAM_ID => $content_object));
 				break;
 		}
 
@@ -71,7 +71,7 @@ class ForumPublicationForm extends FormValidator
 		parent :: __construct('publish', 'post', $url);
 
 		$this->repo_viewer = $repo_viewer;
-		$this->learning_object = $learning_object;
+		$this->content_object = $content_object;
 		$this->user = $repo_viewer->get_user();
 
 		switch($this->form_type)
@@ -89,7 +89,7 @@ class ForumPublicationForm extends FormValidator
     /**
      * Sets the publication. Use this function if you're using this form to
      * change the settings of a learning object publication.
-     * @param LearningObjectPublication $publication
+     * @param ContentObjectPublication $publication
      */
     function set_publication($publication)
     {
@@ -140,7 +140,7 @@ class ForumPublicationForm extends FormValidator
     function build_multi_form()
     {
     	$this->build_form();
-    	$this->addElement('hidden', 'ids', serialize($this->learning_object));
+    	$this->addElement('hidden', 'ids', serialize($this->content_object));
     }
 	/**
 	 * Builds the form by adding the necessary form elements.
@@ -153,7 +153,7 @@ class ForumPublicationForm extends FormValidator
 		$this->add_forever_or_timewindow();
 		$this->addElement('checkbox', self :: PARAM_HIDDEN, Translation :: get('Hidden'));
 
-		//$this->addElement('checkbox', LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE, Translation :: get('ShowOnHomepage'));
+		//$this->addElement('checkbox', ContentObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE, Translation :: get('ShowOnHomepage'));
     }
 
     function add_footer()
@@ -166,12 +166,12 @@ class ForumPublicationForm extends FormValidator
     }
     /**
      * Updates a learning object publication using the values from the form.
-     * @return LearningObjectPublication The updated publication
+     * @return ContentObjectPublication The updated publication
      * @todo This function shares some code with function
-     * create_learning_object_publication. This code duplication should be
+     * create_content_object_publication. This code duplication should be
      * resolved.
      */
-    function update_learning_object_publication()
+    function update_content_object_publication()
     {
 		$values = $this->exportValues();
 		if ($values[self :: PARAM_FOREVER] != 0)
@@ -211,7 +211,7 @@ class ForumPublicationForm extends FormValidator
 		$pub->set_modified_date($modifiedDate);
 		$pub->set_target_users($users);
 		$pub->set_target_course_groups($course_groups);
-		$show_on_homepage = ($values[LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE] ? 1 : 0);
+		$show_on_homepage = ($values[ContentObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE] ? 1 : 0);
 		$pub->set_show_on_homepage($show_on_homepage);
 		$pub->set_category_id($category);
 		$pub->update();
@@ -219,9 +219,9 @@ class ForumPublicationForm extends FormValidator
     }
 	/**
 	 * Creates a learning object publication using the values from the form.
-	 * @return LearningObjectPublication The new publication
+	 * @return ContentObjectPublication The new publication
 	 */
-    function create_learning_object_publication()
+    function create_content_object_publication()
     {
         $author = 'bus';
         $date = 123456789;
@@ -229,7 +229,7 @@ class ForumPublicationForm extends FormValidator
 		$pb = new ForumPublication();
         $pb->set_author($author);
         $pb->set_date($date);
-        $pb->set_forum_id($this->learning_object->get_id());
+        $pb->set_forum_id($this->content_object->get_id());
         
 		if (!$pb->create())
 		{
@@ -239,7 +239,7 @@ class ForumPublicationForm extends FormValidator
 		return $pb;
     }
 
-    function create_learning_object_publications()
+    function create_content_object_publications()
     {
     	$values = $this->exportValues();
 
@@ -247,7 +247,7 @@ class ForumPublicationForm extends FormValidator
 
     	foreach($ids as $id)
     	{
-    		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($id);
+    		$content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($id);
 
 			if ($values[self :: PARAM_FOREVER] != 0)
 			{
@@ -286,28 +286,28 @@ class ForumPublicationForm extends FormValidator
 			}
 
 			$dm = WeblcmsDataManager :: get_instance();
-			$displayOrder = $dm->get_next_learning_object_publication_display_order_index($course,$tool,$category);
+			$displayOrder = $dm->get_next_content_object_publication_display_order_index($course,$tool,$category);
 			$repo_viewer = $this->user->get_id();
 			$modifiedDate = time();
 			$publicationDate = time();
-			$show_on_homepage = ($values[LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE] ? 1 : 0);
-			$pub = new ForumPublication(null, $learning_object, $course, $tool, $category, $users, $course_groups, $from, $to, $repo_viewer, $publicationDate, $modifiedDate, $hidden, $displayOrder, false, $show_on_homepage);
+			$show_on_homepage = ($values[ContentObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE] ? 1 : 0);
+			$pub = new ForumPublication(null, $content_object, $course, $tool, $category, $users, $course_groups, $from, $to, $repo_viewer, $publicationDate, $modifiedDate, $hidden, $displayOrder, false, $show_on_homepage);
 			if (!$pub->create())
 			{
 				return false;
 			}
 			if($this->email_option && $values[self::PARAM_EMAIL])
 			{
-				$display = LearningObjectDisplay::factory($learning_object);
+				$display = ContentObjectDisplay::factory($content_object);
 
 				$adm = AdminDataManager :: get_instance();
 				$site_name_setting = PlatformSetting :: get('site_name');
 
-				$subject = '['.$site_name_setting.'] '.$learning_object->get_title();
+				$subject = '['.$site_name_setting.'] '.$content_object->get_title();
 				$body = new html2text($display->get_full_html());
 				// TODO: send email to correct users/course_groups. For testing, the email is sent now to the repo_viewer.
 				$user = $this->user;
-				$mail = Mail :: factory($learning_object->get_title(), $body->get_text(), $user->get_email());
+				$mail = Mail :: factory($content_object->get_title(), $body->get_text(), $user->get_email());
 
 				if($mail->send())
 				{

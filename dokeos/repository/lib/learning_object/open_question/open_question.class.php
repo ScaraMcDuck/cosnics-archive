@@ -4,11 +4,11 @@
  * @package repository.learningobject
  * @subpackage exercise
  */
-require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) . '/../../content_object.class.php';
 /**
  * This class represents an open question
  */
-class OpenQuestion extends LearningObject
+class OpenQuestion extends ContentObject
 {
 	const PROPERTY_QUESTION_TYPE = 'question_type';
 

@@ -45,7 +45,7 @@ function object_selected(object)
 	
 	var title = jQuery.ajax({
 		type: "POST",
-		url: "./common/javascript/ajax/learning_object.php",
+		url: "./common/javascript/ajax/content_object.php",
 		data: { object: object },
 		async: false
 	}).responseText;

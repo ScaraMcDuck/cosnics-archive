@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__) . '/../assessment_builder_component.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
-require_once Path :: get_repository_path() . '/lib/learning_object/assessment/assessment.class.php';
+require_once Path :: get_repository_path() . '/lib/content_object/assessment/assessment.class.php';
 require_once dirname(__FILE__) . '/browser/assessment_browser_table_cell_renderer.class.php';
 
 class AssessmentBuilderBrowserComponent extends AssessmentBuilderComponent
@@ -24,7 +24,7 @@ class AssessmentBuilderBrowserComponent extends AssessmentBuilderComponent
 			echo '<br />';
 		}
 
-		$display = LearningObjectDisplay :: factory($this->get_root_lo());
+		$display = ContentObjectDisplay :: factory($this->get_root_lo());
 		echo $display->get_full_html();
 
 		echo '<br />';
@@ -40,7 +40,7 @@ class AssessmentBuilderBrowserComponent extends AssessmentBuilderComponent
 	{
 		$link['type'] = 'Assessment';
 		$link['url'] = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => AssessmentBuilder :: ACTION_MERGE_ASSESSMENT, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), 'publish' => Request :: get('publish')));
-		$link['title'] =Translation :: get('Merge' . LearningObject :: type_to_class('Assessment') . 'TypeName');
+		$link['title'] =Translation :: get('Merge' . ContentObject :: type_to_class('Assessment') . 'TypeName');
 		
 		$links[] = $link;
 		

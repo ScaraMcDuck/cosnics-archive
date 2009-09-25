@@ -53,8 +53,8 @@ class RepositoryCategoryManager extends CategoryManager
 	
 	function allowed_to_delete_category($category_id)
 	{
-		$condition = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $category_id);
-		$count = RepositoryDataManager :: get_instance()->count_learning_objects(null, $condition);
+		$condition = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $category_id);
+		$count = RepositoryDataManager :: get_instance()->count_content_objects(null, $condition);
 		
 		return ($count == 0);
 	}

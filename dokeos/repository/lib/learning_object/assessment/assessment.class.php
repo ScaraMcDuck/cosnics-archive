@@ -4,11 +4,11 @@
  * @package repository.learningobject
  * @subpackage assessment
  */
-require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) . '/../../content_object.class.php';
 /**
  * This class represents an assessment
  */
-class Assessment extends LearningObject
+class Assessment extends ContentObject
 {
 	const PROPERTY_ASSESSMENT_TYPE = 'assessment_type';
 

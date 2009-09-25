@@ -5,7 +5,7 @@
  */
 
 require_once dirname(__FILE__) . '/../../lib/import/import_resource.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/announcement/announcement.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/content_object/announcement/announcement.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 Resource

@@ -7,7 +7,7 @@
 /**
  * This class can be used to display announcements
  */
-class PortalHomeDisplay extends LearningObjectDisplay
+class PortalHomeDisplay extends ContentObjectDisplay
 {
 }
 ?>

@@ -25,7 +25,7 @@ class PersonalMessagePublicationForm extends FormValidator
 	/**
 	 * The learning object that will be published
 	 */
-	private $learning_object;
+	private $content_object;
 	/**
 	 * The publication that will be changed (when using this form to edit a
 	 * publication)
@@ -36,16 +36,16 @@ class PersonalMessagePublicationForm extends FormValidator
 
 	/**
 	 * Creates a new learning object publication form.
-	 * @param LearningObject The learning object that will be published
+	 * @param ContentObject The learning object that will be published
 	 * @param string $tool The tool in which the object will be published
 	 * @param boolean $email_option Add option in form to send the learning
 	 * object by email to the receivers
 	 */
-	//function PersonalMessagePublicationForm($learning_object, $publication = null, $form_user, $action)
-    function PersonalMessagePublicationForm($learning_object, $form_user, $action)
+	//function PersonalMessagePublicationForm($content_object, $publication = null, $form_user, $action)
+    function PersonalMessagePublicationForm($content_object, $form_user, $action)
     {
 		parent :: __construct('publish', 'post', $action);
-		$this->learning_object = $learning_object;
+		$this->content_object = $content_object;
 		//$this->publication = $publication;
 		$this->form_user = $form_user;
 		$this->build_form();
@@ -105,9 +105,9 @@ class PersonalMessagePublicationForm extends FormValidator
 
 	/**
 	 * Creates a learning object publication using the values from the form.
-	 * @return LearningObjectPublication The new publication
+	 * @return ContentObjectPublication The new publication
 	 */
-    function create_learning_object_publication($extra_rec = array())
+    function create_content_object_publication($extra_rec = array())
     {
 		$values = $this->exportValues();
 		$failures = 0;
@@ -161,7 +161,7 @@ class PersonalMessagePublicationForm extends FormValidator
     private function send_to_recipient($recip)
     {
     	$sender_pub = new PersonalMessagePublication();
-		$sender_pub->set_personal_message($this->learning_object->get_id());
+		$sender_pub->set_personal_message($this->content_object->get_id());
 		$sender_pub->set_recipient($recip);
 		$sender_pub->set_published(time());
 		$sender_pub->set_user($this->form_user->get_id());
@@ -171,7 +171,7 @@ class PersonalMessagePublicationForm extends FormValidator
 		if ($sender_pub->create())
 		{
 			$recipient_pub = new PersonalMessagePublication();
-			$recipient_pub->set_personal_message($this->learning_object->get_id());
+			$recipient_pub->set_personal_message($this->content_object->get_id());
 			$recipient_pub->set_recipient($recip);
 			$recipient_pub->set_published(time());
 			$recipient_pub->set_user($recip);

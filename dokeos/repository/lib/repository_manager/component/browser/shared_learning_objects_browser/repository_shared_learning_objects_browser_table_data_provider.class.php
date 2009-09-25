@@ -10,14 +10,14 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table_
  * This class implements some functions to allow repository browser tables to
  * retrieve information about the learning objects to display.
  */
-class RepositorySharedLearningObjectsBrowserTableDataProvider extends ObjectTableDataProvider
+class RepositorySharedContentObjectsBrowserTableDataProvider extends ObjectTableDataProvider
 {
   /**
    * Constructor
    * @param RepositoryManagerComponent $browser
    * @param Condition $condition
    */
-  function RepositorySharedLearningObjectsBrowserTableDataProvider($browser, $condition)
+  function RepositorySharedContentObjectsBrowserTableDataProvider($browser, $condition)
   {
 		parent :: __construct($browser, $condition);
   }
@@ -35,10 +35,10 @@ class RepositorySharedLearningObjectsBrowserTableDataProvider extends ObjectTabl
 		$order_direction = $this->get_order_direction($order_direction);
 
       	// We always use title as second sorting parameter
-//		$order_property[] = LearningObject :: PROPERTY_TITLE;
+//		$order_property[] = ContentObject :: PROPERTY_TITLE;
 //		$order_direction[] = SORT_ASC;
 
-      return $this->get_browser()->retrieve_learning_objects(null, $this->get_condition(), $order_property, $order_direction, $offset, $count);
+      return $this->get_browser()->retrieve_content_objects(null, $this->get_condition(), $order_property, $order_direction, $offset, $count);
     }
   /**
    * Gets the number of learning objects in the table
@@ -46,7 +46,7 @@ class RepositorySharedLearningObjectsBrowserTableDataProvider extends ObjectTabl
    */
     function get_object_count()
     {
-      return $this->get_browser()->count_learning_objects(null, $this->get_condition());
+      return $this->get_browser()->count_content_objects(null, $this->get_condition());
     }
 }
 ?>

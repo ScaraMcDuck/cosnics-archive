@@ -1,12 +1,12 @@
 <?php
 class MetadataLOMExportForm extends FormValidator
 {
-    private $learning_object;
+    private $content_object;
     private $ieee_lom_mapper;
     
-    public function MetadataLOMExportForm($learning_object, $ieee_lom_mapper)
+    public function MetadataLOMExportForm($content_object, $ieee_lom_mapper)
     {
-        $this->learning_object = $learning_object;
+        $this->content_object = $content_object;
         $this->ieee_lom_mapper = $ieee_lom_mapper;
     }
     
@@ -15,7 +15,7 @@ class MetadataLOMExportForm extends FormValidator
 		if($format_for_html_page)
 		{
     		echo '<div class="metadata" style="background-image: url(' . Theme :: get_common_image_path() . 'place_metadata.png);">';
-    		echo '<div class="title">'. $this->learning_object->get_title(). '</div>';
+    		echo '<div class="title">'. $this->content_object->get_title(). '</div>';
     		echo '<pre>';
 		}
 		else

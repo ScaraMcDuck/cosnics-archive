@@ -2,14 +2,14 @@
 
 require_once dirname(__FILE__).'/../repository_manager.class.php';
 require_once dirname(__FILE__).'/../repository_manager_component.class.php';
-require_once dirname(__FILE__).'/../../learning_object_form.class.php';
-require_once dirname(__FILE__).'/../../abstract_learning_object.class.php';
+require_once dirname(__FILE__).'/../../content_object_form.class.php';
+require_once dirname(__FILE__).'/../../abstract_content_object.class.php';
 require_once dirname(__FILE__).'/../../repository_data_manager.class.php';
-require_once dirname(__FILE__).'/../../import/learning_object_import.class.php';
+require_once dirname(__FILE__).'/../../import/content_object_import.class.php';
 require_once dirname(__FILE__).'/../../quota_manager.class.php';
 require_once dirname(__FILE__) . '/../../complex_builder/complex_builder.class.php';
 
-class RepositoryManagerReuseLearningObjectComponent extends RepositoryManagerComponent
+class RepositoryManagerReuseContentObjectComponent extends RepositoryManagerComponent
 {
 
 	function run()
@@ -21,7 +21,7 @@ class RepositoryManagerReuseLearningObjectComponent extends RepositoryManagerCom
 
         $rdm = RepositoryDataManager :: get_instance();
 
-        $lo = $rdm->retrieve_learning_object($object);
+        $lo = $rdm->retrieve_content_object($object);
 
         $new_lo = $lo;
 
@@ -31,7 +31,7 @@ class RepositoryManagerReuseLearningObjectComponent extends RepositoryManagerCom
 
         if($new_lo->create())
         {
-            $this->redirect(Translation :: get('LearningObjectReused'), false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_SHARED_LEARNING_OBJECTS));
+            $this->redirect(Translation :: get('ContentObjectReused'), false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_SHARED_LEARNING_OBJECTS));
         }
 	}
 }

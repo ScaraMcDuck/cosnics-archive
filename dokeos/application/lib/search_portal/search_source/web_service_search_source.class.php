@@ -3,9 +3,9 @@
  * @package application.searchportal
  */
 require_once dirname(__FILE__).'/../search_source.class.php';
-require_once dirname(__FILE__).'/web_service/learning_object_soap_search_client.class.php';
-require_once dirname(__FILE__).'/web_service/learning_object_soap_search_utilities.class.php';
-require_once dirname(__FILE__).'/web_service/learning_object_soap_search_result_set.class.php';
+require_once dirname(__FILE__).'/web_service/content_object_soap_search_client.class.php';
+require_once dirname(__FILE__).'/web_service/content_object_soap_search_utilities.class.php';
+require_once dirname(__FILE__).'/web_service/content_object_soap_search_result_set.class.php';
 require_once dirname(__FILE__).'/../repository_search_result.class.php';
 
 class WebServiceSearchSource implements SearchSource
@@ -22,10 +22,10 @@ class WebServiceSearchSource implements SearchSource
 
 	function WebServiceSearchSource($url)
 	{
-		$file = LearningObjectSoapSearchUtilities :: get_wsdl_file_path($url);
+		$file = ContentObjectSoapSearchUtilities :: get_wsdl_file_path($url);
 		try
 		{
-			$this->client = new LearningObjectSoapSearchClient($file);
+			$this->client = new ContentObjectSoapSearchClient($file);
 		}
 		catch (Exception $ex)
 		{
@@ -48,10 +48,10 @@ class WebServiceSearchSource implements SearchSource
 			}
 			self :: cache_result($this->url, $query, $result);
 		}
-		$repository_title = $result[LearningObjectSoapSearchClient :: KEY_REPOSITORY_TITLE];
-		$repository_url = $result[LearningObjectSoapSearchClient :: KEY_REPOSITORY_URL];
-		$returned_results = new LearningObjectSoapSearchResultSet($result[LearningObjectSoapSearchClient :: KEY_RETURNED_RESULTS]);
-		$result_count = $result[LearningObjectSoapSearchClient :: KEY_RESULT_COUNT];
+		$repository_title = $result[ContentObjectSoapSearchClient :: KEY_REPOSITORY_TITLE];
+		$repository_url = $result[ContentObjectSoapSearchClient :: KEY_REPOSITORY_URL];
+		$returned_results = new ContentObjectSoapSearchResultSet($result[ContentObjectSoapSearchClient :: KEY_RETURNED_RESULTS]);
+		$result_count = $result[ContentObjectSoapSearchClient :: KEY_RESULT_COUNT];
 		return new RepositorySearchResult($repository_title, $repository_url, $returned_results, $result_count);
 	}
 

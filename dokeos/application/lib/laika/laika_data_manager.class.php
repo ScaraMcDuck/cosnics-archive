@@ -40,33 +40,33 @@ abstract class LaikaDataManager
 	 */
 	abstract function create_storage_unit($name,$properties,$indexes);
 	/**
-	 * @see Application::learning_object_is_published()
+	 * @see Application::content_object_is_published()
 	 */
-	abstract function learning_object_is_published($object_id);
+	abstract function content_object_is_published($object_id);
 	/**
-	 * @see Application::any_learning_object_is_published()
+	 * @see Application::any_content_object_is_published()
 	 */
-	abstract function any_learning_object_is_published($object_ids);
+	abstract function any_content_object_is_published($object_ids);
 	/**
-	 * @see Application::get_learning_object_publication_attributes()
+	 * @see Application::get_content_object_publication_attributes()
 	 */
-	abstract function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	/**
-	 * @see Application::get_learning_object_publication_attribute()
+	 * @see Application::get_content_object_publication_attribute()
 	 */
-	abstract function get_learning_object_publication_attribute($publication_id);
+	abstract function get_content_object_publication_attribute($publication_id);
 	/**
 	 * @see Application::count_publication_attributes()
 	 */
 	abstract function count_publication_attributes($type = null, $condition = null);
 	/**
-	 * @see Application::delete_learning_object_publications()
+	 * @see Application::delete_content_object_publications()
 	 */
-	abstract function delete_learning_object_publications($object_id);
+	abstract function delete_content_object_publications($object_id);
 	/**
-	 * @see Application::update_learning_object_publication_id()
+	 * @see Application::update_content_object_publication_id()
 	 */
-	abstract function update_learning_object_publication_id($publication_attr);
+	abstract function update_content_object_publication_id($publication_attr);
      
 	abstract function retrieve_laika_question($id);
 	

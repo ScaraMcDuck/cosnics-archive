@@ -6,7 +6,7 @@
 /**
  * This class can be used to display the difference between assessments
  */
-class SurveyDifferenceDisplay extends LearningObjectDifferenceDisplay
+class SurveyDifferenceDisplay extends ContentObjectDifferenceDisplay
 {
 }
 ?>

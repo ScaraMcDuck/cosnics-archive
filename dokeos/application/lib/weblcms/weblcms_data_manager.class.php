@@ -56,7 +56,7 @@ abstract class WeblcmsDataManager
 	 * @return boolean True if the object is currently published, false
 	 *                 otherwise.
 	 */
-	abstract function learning_object_is_published($object_id);
+	abstract function content_object_is_published($object_id);
 
 	/**
 	 * Determines whether any of the given learning objects has been published
@@ -65,24 +65,24 @@ abstract class WeblcmsDataManager
 	 * @return boolean True if at least one of the given objects is published in
 	 * this application, false otherwise
 	 */
-	abstract function any_learning_object_is_published($object_ids);
+	abstract function any_content_object_is_published($object_ids);
 
 	/**
 	 * Determines where in this application the given learning object has been
 	 * published.
 	 * @param int $object_id The ID of the learning object.
-	 * @return array An array of LearningObjectPublicationAttributes objects;
+	 * @return array An array of ContentObjectPublicationAttributes objects;
 	 *               empty if the object has not been published anywhere.
 	 */
-	abstract function get_learning_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function get_content_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
 	/**
 	 * Retrieves the attributes for the given publication.
 	 * @param int $publication_id
-	 * @return array An array of LearningObjectPublicationAttributes objects;
+	 * @return array An array of ContentObjectPublicationAttributes objects;
 	 *               empty if the object has not been published anywhere.
 	 */
-	abstract function get_learning_object_publication_attribute($publication_id);
+	abstract function get_content_object_publication_attribute($publication_id);
 
 	/**
 	 * Counts the publication attributes
@@ -97,7 +97,7 @@ abstract class WeblcmsDataManager
 	 * @param Array $object_id An array of publication ids
 	 * @return boolean
 	 */
-	abstract function delete_learning_object_publications($object_id);
+	abstract function delete_content_object_publications($object_id);
 
 	/**
 	 * Initializes the data manager.
@@ -108,9 +108,9 @@ abstract class WeblcmsDataManager
 	 * Retrieves a single learning object publication from persistent
 	 * storage.
 	 * @param int $pid The numeric identifier of the publication.
-	 * @return LearningObjectPublication The publication.
+	 * @return ContentObjectPublication The publication.
 	 */
-	abstract function retrieve_learning_object_publication($pid);
+	abstract function retrieve_content_object_publication($pid);
 
 	/**
 	 * Retrieves learning object publications from persistent storage.
@@ -128,11 +128,11 @@ abstract class WeblcmsDataManager
 	 *                        for descending.
 	 * @param int $offset The index of the first publication to retrieve.
 	 * @param int $max_objects The maximum number of objects to retrieve.
-	 * @return ResultSet A set of LearningObjectPublications.
+	 * @return ResultSet A set of ContentObjectPublications.
 	 */
-	abstract function retrieve_learning_object_publications_new($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
+	abstract function retrieve_content_object_publications_new($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
 
-	abstract function count_learning_object_publications_new($condition);
+	abstract function count_content_object_publications_new($condition);
 
 	/**
 	 * Count the number of courses
@@ -179,7 +179,7 @@ abstract class WeblcmsDataManager
 	 * Returns the next available learning object publication ID.
 	 * @return int The ID.
 	 */
-	abstract function get_next_learning_object_publication_id();
+	abstract function get_next_content_object_publication_id();
 
 	abstract function get_next_course_id();
 
@@ -326,39 +326,39 @@ abstract class WeblcmsDataManager
 
 	/**
 	 * Creates a learning object publication in persistent storage.
-	 * @param LearningObjectPublication $publication The publication to make
+	 * @param ContentObjectPublication $publication The publication to make
 	 *                                               persistent.
 	 * @return boolean True if creation succceeded, false otherwise.
 	 */
-	abstract function create_learning_object_publication($publication);
+	abstract function create_content_object_publication($publication);
 	
-	abstract function create_learning_object_publication_user($publication_user);
+	abstract function create_content_object_publication_user($publication_user);
 	
-	abstract function create_learning_object_publication_course_group($publication_course_group);
+	abstract function create_content_object_publication_course_group($publication_course_group);
 
 	/**
 	 * Updates a learning object publication in persistent storage.
-	 * @param LearningObjectPublication $publication The publication to update
+	 * @param ContentObjectPublication $publication The publication to update
 	 *                                               in storage.
 	 * @return boolean True if the update succceeded, false otherwise.
 	 */
-	abstract function update_learning_object_publication($publication);
+	abstract function update_content_object_publication($publication);
 
 	/**
 	 * Removes learning object publication from persistent storage.
-	 * @param LearningObjectPublication $publication The publication to remove
+	 * @param ContentObjectPublication $publication The publication to remove
 	 *                                               from storage.
 	 * @return boolean True if deletion succceeded, false otherwise.
 	 */
-	abstract function delete_learning_object_publication($publication);
+	abstract function delete_content_object_publication($publication);
 
 	/**
 	 * Updates a learning object publication object id in persistent storage.
-	 * @param LearningObjectPublicationAttribute $publication_attr The publication to update
+	 * @param ContentObjectPublicationAttribute $publication_attr The publication to update
 	 *                                               in storage.
 	 * @return boolean True if the update succceeded, false otherwise.
 	 */
-	abstract function update_learning_object_publication_id($publication_attr);
+	abstract function update_content_object_publication_id($publication_attr);
 
 	/**
 	 * Retrieves a the list of courses a user is the admin for
@@ -369,12 +369,12 @@ abstract class WeblcmsDataManager
 
 	/**
 	 * Moves a learning object publication among its siblings.
-	 * @param LearningObjectPublication $publication The publication to move.
+	 * @param ContentObjectPublication $publication The publication to move.
 	 * @param int $places The number of places to move the publication down
 	 *                    by. If negative, the publication will be moved up.
 	 * @return int The number of places that the publication was moved down.
 	 */
-	abstract function move_learning_object_publication($publication, $places);
+	abstract function move_content_object_publication($publication, $places);
 
 	/**
 	 * Returns the next available index in the display order.
@@ -385,7 +385,7 @@ abstract class WeblcmsDataManager
 	 *                         added.
 	 * @return int The requested display order index.
 	 */
-	abstract function get_next_learning_object_publication_display_order_index($course,$tool,$category);
+	abstract function get_next_content_object_publication_display_order_index($course,$tool,$category);
 //
 //	/**
 //	 * Returns the available learning object publication categories for the
@@ -397,49 +397,49 @@ abstract class WeblcmsDataManager
 //	 * category of the tools)
 //	 * @return array The publication categories.
 //	 */
-//	abstract function retrieve_learning_object_publication_categories($course, $tools, $root_category_id = 0);
+//	abstract function retrieve_content_object_publication_categories($course, $tools, $root_category_id = 0);
 //
 //	/**
 //	 * Retrieves a single learning object publication category by ID and
 //	 * returns it.
 //	 * @param int $id The category ID.
-//	 * @return LearningObjectPublicationCategory The category, or null if it
+//	 * @return ContentObjectPublicationCategory The category, or null if it
 //	 *                                           could not be found.
 //	 */
-	abstract function retrieve_learning_object_publication_category($id);
+	abstract function retrieve_content_object_publication_category($id);
 //
 //	/**
 //	 * Returns the next available learning object publication category ID.
 //	 * @return int The ID.
 //	 */
-//	abstract function get_next_learning_object_publication_category_id();
+//	abstract function get_next_content_object_publication_category_id();
 //
 //	/**
 //	 * Creates a new learning object publication category in persistent
 //	 * storage.
-//	 * @param LearningObjectPublicationCategory $category The category to make
+//	 * @param ContentObjectPublicationCategory $category The category to make
 //	 *                                                    persistent.
 //	 * @return boolean True if creation succceeded, false otherwise.
 //	 */
-//	abstract function create_learning_object_publication_category($category);
+//	abstract function create_content_object_publication_category($category);
 //
 //	/**
 //	 * Updates a learning object publication category in persistent storage,
 //	 * making any changes permanent.
-//	 * @param LearningObjectPublicationCategory $category The category to
+//	 * @param ContentObjectPublicationCategory $category The category to
 //	 *                                                    update.
 //	 * @return boolean True if the update succceeded, false otherwise.
 //	 */
-//	abstract function update_learning_object_publication_category($category);
+//	abstract function update_content_object_publication_category($category);
 //
 //	/**
 //	 * Removes a learning object publication category from persistent storage,
 //	 * making it disappear forever. Also removes all child categories.
-//	 * @param LearningObjectPublicationCategory $category The category to
+//	 * @param ContentObjectPublicationCategory $category The category to
 //	 *                                                    delete.
 //	 * @return boolean True if deletion succceeded, false otherwise.
 //	 */
-//	abstract function delete_learning_object_publication_category($category);
+//	abstract function delete_content_object_publication_category($category);
 
 	/**
 	 * Gets the course modules in a given course
@@ -695,12 +695,12 @@ abstract class WeblcmsDataManager
 	abstract function count_categories($conditions = null);
 	abstract function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
-	abstract function get_next_learning_object_publication_category_id();
-	abstract function delete_learning_object_publication_category($learning_object_publication_category);
-	abstract function update_learning_object_publication_category($learning_object_publication_category);
-	abstract function create_learning_object_publication_category($learning_object_publication_category);
-	abstract function count_learning_object_publication_categories($conditions = null);
-	abstract function retrieve_learning_object_publication_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function get_next_content_object_publication_category_id();
+	abstract function delete_content_object_publication_category($content_object_publication_category);
+	abstract function update_content_object_publication_category($content_object_publication_category);
+	abstract function create_content_object_publication_category($content_object_publication_category);
+	abstract function count_content_object_publication_categories($conditions = null);
+	abstract function retrieve_content_object_publication_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
 	abstract function get_next_course_section_id();
 	abstract function delete_course_section($course_section);

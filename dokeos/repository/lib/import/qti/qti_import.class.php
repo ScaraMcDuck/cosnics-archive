@@ -3,16 +3,16 @@ require_once dirname(__FILE__).'/assessment/assessment_qti_import.class.php';
 require_once dirname(__FILE__).'/question/question_qti_import.class.php';
 require_once Path :: get_library_path() . 'filecompression/filecompression.class.php';
 
-class QtiImport extends LearningObjectImport
+class QtiImport extends ContentObjectImport
 {
 	
-	function import_learning_object()
+	function import_content_object()
 	{
-		$file = $this->get_learning_object_file();
+		$file = $this->get_content_object_file();
 		$user = $this->get_user();
 		
 		$zip = Filecompression :: factory();
-		$temp = $zip->extract_file($this->get_learning_object_file_property('tmp_name'));
+		$temp = $zip->extract_file($this->get_content_object_file_property('tmp_name'));
 		
 		$dir = $temp . '/';
 		if (file_exists($dir))
@@ -26,7 +26,7 @@ class QtiImport extends LearningObjectImport
 					$importer = self :: factory_qti($f, $this->get_user(), $this->get_category(), $dir);
 					if ($importer != null)
 					{
-						$returnvalue = $importer->import_learning_object();
+						$returnvalue = $importer->import_content_object();
 					}
 				}
 			}
@@ -51,7 +51,7 @@ class QtiImport extends LearningObjectImport
 	
 	function get_file_content_array($substring)
 	{
-		$file = parent :: get_learning_object_file();
+		$file = parent :: get_content_object_file();
 		
 		if (file_exists($file) || !is_null($substring))
 		{			

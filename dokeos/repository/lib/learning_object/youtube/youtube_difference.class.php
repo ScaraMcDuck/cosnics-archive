@@ -9,7 +9,7 @@
 /**
  * This class can be used to get the difference between links
  */
-class YoutubeDifference extends LearningObjectDifference
+class YoutubeDifference extends ContentObjectDifference
 {
 	function get_difference()
 	{

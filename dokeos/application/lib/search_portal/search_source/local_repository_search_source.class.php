@@ -23,7 +23,7 @@ class LocalRepositorySearchSource implements SearchSource
 		$repository_title = PlatformSetting :: get('site_name');
 		
 		$repository_url = Path :: get(WEB_PATH);
-		$returned_results = $this->data_manager->retrieve_learning_objects(null, $condition, array (LearningObject :: PROPERTY_TITLE), array (SORT_ASC));
+		$returned_results = $this->data_manager->retrieve_content_objects(null, $condition, array (ContentObject :: PROPERTY_TITLE), array (SORT_ASC));
 		$result_count = count($returned_results);
 		return new RepositorySearchResult($repository_title, $repository_url, $returned_results, $result_count);
 	}

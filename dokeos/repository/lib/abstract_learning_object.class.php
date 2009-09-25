@@ -3,11 +3,11 @@
  * $Id$
  * @package repository
  */
-require_once dirname(__FILE__).'/learning_object.class.php';
+require_once dirname(__FILE__).'/content_object.class.php';
 /**
  * An abstract learning object
  */
-class AbstractLearningObject extends LearningObject
+class AbstractContentObject extends ContentObject
 {
 	/**
 	 * The type of the learning object
@@ -23,7 +23,7 @@ class AbstractLearningObject extends LearningObject
 	 * @param int $owner
 	 * @param int $parent
 	 */
-	function AbstractLearningObject($type, $owner, $parent = 0)
+	function AbstractContentObject($type, $owner, $parent = 0)
 	{
 		parent :: __construct();
 		$this->type = $type;
@@ -45,19 +45,19 @@ class AbstractLearningObject extends LearningObject
 	 */
 	function supports_attachments()
 	{
-		$dummy_object = LearningObject :: factory($this->get_type());
+		$dummy_object = ContentObject :: factory($this->get_type());
 		return $dummy_object->supports_attachments();
 	}
 	
 	function is_versionable()
 	{
-		$dummy_object = LearningObject :: factory($this->get_type());
+		$dummy_object = ContentObject :: factory($this->get_type());
 		return $dummy_object->is_versionable();
 	}
 	
 	function is_versioning_required()
 	{
-		$dummy_object = LearningObject :: factory($this->get_type());
+		$dummy_object = ContentObject :: factory($this->get_type());
 		return $dummy_object->is_versioning_required();
 	}
 }

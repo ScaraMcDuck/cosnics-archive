@@ -123,8 +123,8 @@ class PackageInstaller
 
     function process_result($type = '')
     {
-        $this->add_html('<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(' . Theme :: get_image_path() . 'place_' . $type . '.png);">');
-        //		$this->add_html('<div class="learning_object">');
+        $this->add_html('<div class="content_object" style="padding: 15px 15px 15px 76px; background-image: url(' . Theme :: get_image_path() . 'place_' . $type . '.png);">');
+        //		$this->add_html('<div class="content_object">');
         $this->add_html('<div class="title">' . Translation :: get(DokeosUtilities :: underscores_to_camelcase($type)) . '</div>');
         $this->add_html('<div class="description">');
         $this->add_html($this->retrieve_message());

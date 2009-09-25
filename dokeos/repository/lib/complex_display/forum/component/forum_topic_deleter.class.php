@@ -32,7 +32,7 @@ class ForumDisplayForumTopicDeleterComponent extends ForumDisplayComponent
 
             foreach($topics as $topic)
             {
-                $cloi = $datamanager->retrieve_complex_learning_object_item($topic);
+                $cloi = $datamanager->retrieve_complex_content_object_item($topic);
                 $cloi->delete();
             }
             if(count($topics) > 1)

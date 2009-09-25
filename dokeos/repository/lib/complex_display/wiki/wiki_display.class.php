@@ -47,7 +47,7 @@ class WikiDisplay extends ComplexDisplay
                 $component = ComplexDisplayComponent :: factory(null,'Updater',$this);
                 break;
             case self :: ACTION_UPDATE_LO :
-                $component = ComplexDisplayComponent :: factory(null,'LearningObjectUpdater',$this);
+                $component = ComplexDisplayComponent :: factory(null,'ContentObjectUpdater',$this);
                 break;
             case self :: ACTION_DELETE:
                 $component = ComplexDisplayComponent :: factory(null,'Deleter',$this);
@@ -113,16 +113,16 @@ class WikiDisplay extends ComplexDisplay
 
     static function is_wiki_locked($wiki_id)
     {
-        $wiki = RepositoryDataManager :: get_instance()->retrieve_learning_object($wiki_id);
+        $wiki = RepositoryDataManager :: get_instance()->retrieve_content_object($wiki_id);
         return $wiki->get_locked()==1;
     }
 
     static function get_wiki_homepage($wiki_id)
     {
-        require_once Path :: get_repository_path() .'/lib/learning_object/wiki_page/complex_wiki_page.class.php';
+        require_once Path :: get_repository_path() .'/lib/content_object/wiki_page/complex_wiki_page.class.php';
         $conditions[] = new EqualityCondition(ComplexWikiPage :: PROPERTY_PARENT,$wiki_id);
         $conditions[] = new EqualityCondition(ComplexWikiPage :: PROPERTY_IS_HOMEPAGE,1);
-        $wiki_homepage = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new AndCondition($conditions),array (),array (), 0, -1, 'complex_wiki_page')->as_array();
+        $wiki_homepage = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new AndCondition($conditions),array (),array (), 0, -1, 'complex_wiki_page')->as_array();
         return $wiki_homepage[0];
     }
 
@@ -240,7 +240,7 @@ class WikiDisplay extends ComplexDisplay
             //$action_bar->add_tool_action($parent->get_parent()->get_parent()->get_access_details_toolbar_item($parent));
         }
 
-        $links = $lo->get_links();//RepositoryDataManager :: get_instance()->retrieve_learning_object(WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid)->get_learning_object()->get_id())->get_links();
+        $links = $lo->get_links();//RepositoryDataManager :: get_instance()->retrieve_content_object(WebLcmsDataManager :: get_instance()->retrieve_content_object_publication($pid)->get_content_object()->get_id())->get_links();
 
         //NAVIGATION
         if(!empty($links))
@@ -332,8 +332,8 @@ class WikiDisplay extends ComplexDisplay
 
     private function get_lo_from_cid($cid)
     {
-        $cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item($cid);
-        return RepositoryDataManager :: get_instance()->retrieve_learning_object($cloi->get_ref());
+        $cloi = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($cid);
+        return RepositoryDataManager :: get_instance()->retrieve_content_object($cloi->get_ref());
     }
 
 }

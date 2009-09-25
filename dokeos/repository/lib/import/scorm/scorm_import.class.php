@@ -4,17 +4,17 @@
  * @author Sven Vanpoucke - University College Ghent
  * @copyright 2009 - Sven Vanpoucke
  */
-require_once dirname(__FILE__).'/../learning_object_import.class.php';
+require_once dirname(__FILE__).'/../content_object_import.class.php';
 require_once Path :: get_library_path() . 'filecompression/filecompression.class.php';
 
 /**
  * Imports SCORM activities to learning paths
  */
-class ScormImport extends LearningObjectImport
+class ScormImport extends ContentObjectImport
 {	
-	function ScormImport($learning_object_file, $user, $category)
+	function ScormImport($content_object_file, $user, $category)
 	{
-		parent :: __construct($learning_object_file, $user, $category);	
+		parent :: __construct($content_object_file, $user, $category);	
 	}
 	
 	/**
@@ -37,11 +37,11 @@ class ScormImport extends LearningObjectImport
 	 * Import the learning path(s) into the system
 	 *
 	 */
-	public function import_learning_object()
+	public function import_content_object()
 	{
 		// Extract the zip file to the temporary directory
 		$zip = Filecompression :: factory();
-		$extracted_files_dir = $zip->extract_file($this->get_learning_object_file_property('tmp_name'));
+		$extracted_files_dir = $zip->extract_file($this->get_content_object_file_property('tmp_name'));
 	
 		// Extract the xml file to an array
 		$manifest_file = $extracted_files_dir . '/imsmanifest.xml';
@@ -143,7 +143,7 @@ class ScormImport extends LearningObjectImport
 	private function create_learning_path($item, $sequencing_collections)
 	{
 		$title = $item['title'];
-		$learning_path = AbstractLearningObject :: factory('learning_path');
+		$learning_path = AbstractContentObject :: factory('learning_path');
 		$learning_path->set_title($title);
 		$learning_path->set_description($title);
 		$learning_path->set_parent_id($this->get_category());
@@ -185,7 +185,7 @@ class ScormImport extends LearningObjectImport
 	 */
 	private function create_scorm_item($item, $path, $sequencing_collections)
 	{
-		$scorm_item = AbstractLearningObject :: factory('scorm_item');
+		$scorm_item = AbstractContentObject :: factory('scorm_item');
 		$scorm_item->set_title($item['title']);
 		$scorm_item->set_description($item['title']);
 		$scorm_item->set_parent_id($this->get_category());
@@ -327,7 +327,7 @@ class ScormImport extends LearningObjectImport
 	 */
 	private function add_scorm_item_to_learning_path($scorm_item, $learning_path, $item)
 	{
-		$learning_path_item = AbstractLearningObject :: factory('learning_path_item');
+		$learning_path_item = AbstractContentObject :: factory('learning_path_item');
 		$learning_path_item->set_parent_id($this->get_category());
 		$learning_path_item->set_owner_id($this->get_user()->get_id());
 		$learning_path_item->set_title($scorm_item->get_title());
@@ -340,7 +340,7 @@ class ScormImport extends LearningObjectImport
 		
 		$learning_path_item->create();
 		
-		$wrapper = ComplexLearningObjectItem :: factory('learning_path_item');
+		$wrapper = ComplexContentObjectItem :: factory('learning_path_item');
 		$wrapper->set_ref($learning_path_item->get_id());
 		$wrapper->set_parent($learning_path->get_id());
 		$wrapper->set_user_id($this->get_user()->get_id());
@@ -358,7 +358,7 @@ class ScormImport extends LearningObjectImport
 	 */
 	private function add_sub_learning_path_to_learning_path($learning_path, $sub_learning_path)
 	{
-		$wrapper = ComplexLearningObjectItem :: factory('learning_path_item');
+		$wrapper = ComplexContentObjectItem :: factory('learning_path_item');
 		$wrapper->set_ref($sub_learning_path->get_id());
 		$wrapper->set_parent($learning_path->get_id());
 		$wrapper->set_user_id($this->get_user()->get_id());

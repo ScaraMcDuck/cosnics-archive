@@ -2,8 +2,8 @@
 
 require_once dirname(__FILE__) . '/../glossary_tool.class.php';
 require_once dirname(__FILE__) . '/../glossary_tool_component.class.php';
-require_once dirname(__FILE__) . '/../../../learning_object_repo_viewer.class.php';
-require_once dirname(__FILE__) . '/../../../publisher/learning_object_publisher.class.php';
+require_once dirname(__FILE__) . '/../../../content_object_repo_viewer.class.php';
+require_once dirname(__FILE__) . '/../../../publisher/content_object_publisher.class.php';
 
 class GlossaryToolPublisherComponent extends GlossaryToolComponent
 {
@@ -19,7 +19,7 @@ class GlossaryToolPublisherComponent extends GlossaryToolComponent
         $trail->add_help('courses glossary tool');
 
 		$object = Request :: get('object');
-		$pub = new LearningObjectRepoViewer($this, 'glossary', true);
+		$pub = new ContentObjectRepoViewer($this, 'glossary', true);
 
 		if(!isset($object))
 		{
@@ -27,8 +27,8 @@ class GlossaryToolPublisherComponent extends GlossaryToolComponent
 		}
 		else
 		{
-			//$html[] = 'LearningObject: ';
-			$publisher = new LearningObjectPublisher($pub);
+			//$html[] = 'ContentObject: ';
+			$publisher = new ContentObjectPublisher($pub);
 			$html[] = $publisher->get_publications_form($object);
 		}
 

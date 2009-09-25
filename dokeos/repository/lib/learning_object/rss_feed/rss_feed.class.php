@@ -1,10 +1,10 @@
 <?php
-require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) . '/../../content_object.class.php';
 /**
  * @package repository.object
  * @subpackage rssfeed
  */
-class RssFeed extends LearningObject {
+class RssFeed extends ContentObject {
 	const PROPERTY_URL = 'url';
 
 	function get_url () {
