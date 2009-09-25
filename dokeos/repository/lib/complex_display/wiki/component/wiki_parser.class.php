@@ -83,12 +83,12 @@ class WikiDisplayWikiParserComponent extends WikiDisplayComponent
 
     private function get_wiki_page_url(&$title, $viewTitle = null)
     {
-    	$pages = RepositoryDataManager :: get_instance()->retrieve_learning_objects('wiki_page', new EqualityCondition(LearningObject :: PROPERTY_TITLE,$title))->as_array();
+    	$pages = RepositoryDataManager :: get_instance()->retrieve_content_objects('wiki_page', new EqualityCondition(ContentObject :: PROPERTY_TITLE,$title))->as_array();
     	if($viewTitle!=null)
     	$title = $viewTitle;
         foreach($pages as $page)
         {
-            $cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition('ref',$page->get_id()))->next_result();
+            $cloi = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition('ref',$page->get_id()))->next_result();
             if(!empty($cloi))
             break;
         }

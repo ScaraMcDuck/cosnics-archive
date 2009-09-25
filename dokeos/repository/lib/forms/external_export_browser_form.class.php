@@ -6,13 +6,13 @@ require_once dirname(__FILE__) . '/../repository_data_manager.class.php';
 class ExternalExportBrowserForm extends FormValidator
 {
     private $catalogs;
-    private $learning_object_id;
+    private $content_object_id;
     
-    public function ExternalExportBrowserForm($learning_object_id, $action, $catalogs)
+    public function ExternalExportBrowserForm($content_object_id, $action, $catalogs)
 	{ 
 		parent :: __construct('external_export_browser', 'post', $action);
 		
-		$this->learning_object_id = (isset($learning_object_id) && strlen($learning_object_id) > 0) ? $learning_object_id : DataClass :: NO_UID;
+		$this->content_object_id = (isset($content_object_id) && strlen($content_object_id) > 0) ? $content_object_id : DataClass :: NO_UID;
 		$this->catalogs           = $catalogs;
 		
 		$this->build_form();
@@ -43,7 +43,7 @@ class ExternalExportBrowserForm extends FormValidator
 	        $url = Redirect :: get_url(array('application' => RepositoryManager :: APPLICATION_NAME,
 	        							'go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_EXPORT, 
 	                                   RepositoryManagerExternalRepositoryExportComponent :: PARAM_EXPORT_ID => $export->get_id(),
-	                                   RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $this->learning_object_id));
+	                                   RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $this->content_object_id));
 	        
 	        $table[] = '<tr>';
     	    $table[] = '<td style="vertical-align:top">';

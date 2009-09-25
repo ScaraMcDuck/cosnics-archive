@@ -55,11 +55,11 @@ class ForumTool extends Tool
     {
         $rdm = RepositoryDataManager :: get_instance();
 
-        $parent = $rdm->retrieve_complex_learning_object_item($subforum_id);
+        $parent = $rdm->retrieve_complex_content_object_item($subforum_id);
         while(!empty($parent))
         {
             $parents[] = $parent;
-            $parent = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem ::PROPERTY_REF,$parent->get_parent()))->as_array();
+            $parent = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem ::PROPERTY_REF,$parent->get_parent()))->as_array();
             $parent = $parent[0];
         }
         $parents = array_reverse($parents);

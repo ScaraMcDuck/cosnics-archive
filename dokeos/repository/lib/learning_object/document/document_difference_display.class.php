@@ -9,7 +9,7 @@
 /**
  * This class can be used to display the difference between documents
  */
-class DocumentDifferenceDisplay extends LearningObjectDifferenceDisplay
+class DocumentDifferenceDisplay extends ContentObjectDifferenceDisplay
 {
 }
 ?>

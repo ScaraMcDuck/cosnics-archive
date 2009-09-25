@@ -33,8 +33,8 @@ class SettingsAdminConnector
     {
         $options = array();
         $rdm = RepositoryDataManager :: get_instance();
-        $condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
-        $objects = $rdm->retrieve_learning_objects('portal_home', $condition);
+        $condition = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
+        $objects = $rdm->retrieve_content_objects('portal_home', $condition);
         
         if ($objects->size() == 0)
         {

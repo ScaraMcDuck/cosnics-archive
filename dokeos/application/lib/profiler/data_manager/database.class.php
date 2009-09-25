@@ -132,14 +132,14 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
     }
 
     //Inherited.
-    function any_learning_object_is_published($object_ids)
+    function any_content_object_is_published($object_ids)
     {
         $condition = new InCondition(ProfilePublication :: PROPERTY_PROFILE, $object_ids);
         return $this->database->count_objects(ProfilePublication :: get_table_name(), $condition) >= 1;
     }
 
     //Inherited.
-    function learning_object_is_published($object_id)
+    function content_object_is_published($object_id)
     {
         $condition = new EqualityCondition(ProfilePublication :: PROPERTY_PROFILE, $object_id);
         return $this->database->count_objects(ProfilePublication :: get_table_name(), $condition) >= 1;
@@ -152,13 +152,13 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
     }
 
     //Inherited
-    function get_learning_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function get_content_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
     {
         if (isset($type))
         {
             if ($type == 'user')
             {
-                $query = 'SELECT ' . self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.*, ' . self :: ALIAS_LEARNING_OBJECT_TABLE . '.' . $this->database->escape_column_name('title') . ' FROM ' . $this->database->escape_table_name('publication') . ' AS ' . self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . ' JOIN ' . RepositoryDataManager :: get_instance()->escape_table_name('learning_object') . ' AS ' . self :: ALIAS_LEARNING_OBJECT_TABLE . ' ON ' . self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.`profile_id` = ' . self :: ALIAS_LEARNING_OBJECT_TABLE . '.`id`';
+                $query = 'SELECT ' . self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.*, ' . self :: ALIAS_LEARNING_OBJECT_TABLE . '.' . $this->database->escape_column_name('title') . ' FROM ' . $this->database->escape_table_name('publication') . ' AS ' . self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . ' JOIN ' . RepositoryDataManager :: get_instance()->escape_table_name('content_object') . ' AS ' . self :: ALIAS_LEARNING_OBJECT_TABLE . ' ON ' . self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.`profile_id` = ' . self :: ALIAS_LEARNING_OBJECT_TABLE . '.`id`';
                 $query .= ' WHERE ' . self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ProfilePublication :: PROPERTY_PUBLISHER) . '=?';
 
                 $order = array();
@@ -169,8 +169,8 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
                     }
                     elseif ($order_property[$i] == 'location')
                     {
-                        $order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(LearningObjectPublication :: PROPERTY_COURSE_ID) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
-                        $order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(LearningObjectPublication :: PROPERTY_TOOL) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                        $order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_COURSE_ID) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                        $order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_TOOL) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
                     }
                     elseif ($order_property[$i] == 'title')
                     {
@@ -205,7 +205,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
         {
             $publication = $this->database->record_to_class_object($record, ProfilePublication :: CLASS_NAME);
 
-            $info = new LearningObjectPublicationAttributes();
+            $info = new ContentObjectPublicationAttributes();
             $info->set_id($publication->get_id());
             $info->set_publisher_user_id($publication->get_publisher());
             $info->set_publication_date($publication->get_published());
@@ -221,11 +221,11 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
     }
 
     //Indered.
-    function get_learning_object_publication_attribute($publication_id)
+    function get_content_object_publication_attribute($publication_id)
     {
         $publication = $this->retrieve_profile_publication($publication_id);
 
-        $info = new LearningObjectPublicationAttributes();
+        $info = new ContentObjectPublicationAttributes();
         $info->set_id($publication->get_id());
         $info->set_publisher_user_id($publication->get_publisher());
         $info->set_publication_date($publication->get_published());

@@ -136,21 +136,21 @@ class ValidationManager {
      * publisher is displayed, the properties of the given learning object will
      * be used as the default form values.
      * @param string $type The learning object type.
-     * @param LearningObject $learning_object The learning object to use as the
+     * @param ContentObject $content_object The learning object to use as the
      *                                        default for the given type.
      */
-        function set_default_learning_object($type, $learning_object)
+        function set_default_content_object($type, $content_object)
         {
-            $this->default_learning_objects[$type] = $learning_object;
+            $this->default_content_objects[$type] = $content_object;
         }
 
-        function get_default_learning_object($type)
+        function get_default_content_object($type)
         {
-            if(isset($this->default_learning_objects[$type]))
+            if(isset($this->default_content_objects[$type]))
             {
-                return $this->default_learning_objects[$type];
+                return $this->default_content_objects[$type];
             }
-            return new AbstractLearningObject($type, $this->get_user_id());
+            return new AbstractContentObject($type, $this->get_user_id());
         }
 
         function redirect($action = null, $message = null, $error_message = false, $extra_params = array())

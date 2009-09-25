@@ -1,8 +1,8 @@
 <?php
 
-require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
-require_once Path :: get_repository_path() . 'lib/complex_learning_object_item_form.class.php';
-require_once Path :: get_application_path() . 'lib/weblcms/learning_object_repo_viewer.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_form.class.php';
+require_once Path :: get_repository_path() . 'lib/complex_content_object_item_form.class.php';
+require_once Path :: get_application_path() . 'lib/weblcms/content_object_repo_viewer.class.php';
 
 class ForumDisplayForumSubforumEditorComponent extends ForumDisplayComponent
 {
@@ -25,22 +25,22 @@ class ForumDisplayForumSubforumEditorComponent extends ForumDisplayComponent
 										'pid' => $pid, 'subforum' => $subforum, 'is_subforum' => $is_subforum, 'forum' => $forum));
 
 			$datamanager = RepositoryDataManager :: get_instance();
-			$cloi = $datamanager->retrieve_complex_learning_object_item($subforum);
-			$learning_object = $datamanager->retrieve_learning_object($cloi->get_ref());
+			$cloi = $datamanager->retrieve_complex_content_object_item($subforum);
+			$content_object = $datamanager->retrieve_content_object($cloi->get_ref());
 
-			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $url);
+			$form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $url);
 
 			if( $form->validate())
 			{
-				$form->update_learning_object();
+				$form->update_content_object();
 				if($form->is_version())
 				{
 					$old_id = $cloi->get_ref();
-					$new_id = $learning_object->get_latest_version()->get_id();
+					$new_id = $content_object->get_latest_version()->get_id();
 					$cloi->set_ref($new_id);
 					$cloi->update();
 					
-					$children = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $old_id, ComplexLearningObjectItem :: get_table_name()));
+					$children = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $old_id, ComplexContentObjectItem :: get_table_name()));
 					while($child = $children->next_result())
 					{
 						$child->set_parent($new_id);

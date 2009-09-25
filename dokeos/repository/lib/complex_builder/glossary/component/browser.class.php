@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__) . '/../glossary_builder_component.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
-require_once Path :: get_repository_path() . '/lib/learning_object/glossary/glossary.class.php';
+require_once Path :: get_repository_path() . '/lib/content_object/glossary/glossary.class.php';
 
 class GlossaryBuilderBrowserComponent extends GlossaryBuilderComponent
 {
@@ -26,7 +26,7 @@ class GlossaryBuilderBrowserComponent extends GlossaryBuilderComponent
 			echo '<br />';
 		}
 
-		$display = LearningObjectDisplay :: factory($this->get_root_lo());
+		$display = ContentObjectDisplay :: factory($this->get_root_lo());
 		echo $display->get_full_html();
 
 		echo '<br />';

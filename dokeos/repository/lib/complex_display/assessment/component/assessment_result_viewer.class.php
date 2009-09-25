@@ -23,8 +23,8 @@ class AssessmentDisplayAssessmentResultViewerComponent extends AssessmentDisplay
 			return;
 		}
 		
-		$condition = new InCondition(ComplexLearningObjectItem :: PROPERTY_ID, $question_cids, ComplexLearningObjectItem :: get_table_name());
-		$questions_cloi = $rdm->retrieve_complex_learning_object_items($condition);
+		$condition = new InCondition(ComplexContentObjectItem :: PROPERTY_ID, $question_cids, ComplexContentObjectItem :: get_table_name());
+		$questions_cloi = $rdm->retrieve_complex_content_object_items($condition);
 
 		$total_score = 0;
 		$total_weight = 0;
@@ -34,7 +34,7 @@ class AssessmentDisplayAssessmentResultViewerComponent extends AssessmentDisplay
 		{
 			$result = $results[$question_cloi->get_id()];
 			
-			$question = $rdm->retrieve_learning_object($question_cloi->get_ref());
+			$question = $rdm->retrieve_content_object($question_cloi->get_ref());
 			$answers = unserialize($result['answer']);
 			$feedback = $result['feedback'];
 			

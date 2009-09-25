@@ -7,6 +7,6 @@
  */
 interface CourseGroupTableCellRenderer
 {
-	function render_cell($column, $learning_object);
+	function render_cell($column, $content_object);
 }
 ?>

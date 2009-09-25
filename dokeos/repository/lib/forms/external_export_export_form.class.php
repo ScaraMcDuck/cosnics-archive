@@ -8,20 +8,20 @@ class ExternalExportExportForm extends FormValidator
     private $catalogs;
     
     /**
-     * @var LearningObject
+     * @var ContentObject
      */
-    private $learning_object;
+    private $content_object;
     
     /**
      * @var FedoraExternalExporter
      */
     private $export;
     
-    protected function ExternalExportExportForm($learning_object, $export, $action, $catalogs)
+    protected function ExternalExportExportForm($content_object, $export, $action, $catalogs)
 	{ 
 		parent :: __construct('external_export_browser', 'post', $action);
 		
-		$this->learning_object = $learning_object;
+		$this->content_object = $content_object;
 		$this->export          = $export;
 		$this->catalogs        = $catalogs;
 		
@@ -33,13 +33,13 @@ class ExternalExportExportForm extends FormValidator
 	/**
 	 * Return an instance of ExternalExportExportForm or a child of ExternalExportExportForm
 	 * 
-	 * @param $learning_object LearningObject
+	 * @param $content_object ContentObject
 	 * @param $export ExternalExport
 	 * @param $action string
 	 * @param $catalogs	array 
 	 * @return ExternalExportExportForm
 	 */
-	public function get_instance($learning_object, $export, $action, $catalogs)
+	public function get_instance($content_object, $export, $action, $catalogs)
 	{
 	    $export_type  = strtolower($export->get_type());
 	    $catalog_name = strtolower($export->get_catalog_name());
@@ -57,7 +57,7 @@ class ExternalExportExportForm extends FormValidator
 	    
 	    if(isset($class_name))
 	    {
-	        return new $class_name($learning_object, $export, $action, $catalogs);
+	        return new $class_name($content_object, $export, $action, $catalogs);
 	    }
 	    else
 	    {
@@ -116,7 +116,7 @@ class ExternalExportExportForm extends FormValidator
 	{
 	    echo '<div>';
 	    
-	    echo '<p>' . str_replace('{LearningObject.title}', $this->learning_object->get_title(), Translation :: translate('ExternalExportConfirmationText')) . '</p>';
+	    echo '<p>' . str_replace('{ContentObject.title}', $this->content_object->get_title(), Translation :: translate('ExternalExportConfirmationText')) . '</p>';
 	    
 	    $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Confirm'), array('class' => 'positive update'));
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);

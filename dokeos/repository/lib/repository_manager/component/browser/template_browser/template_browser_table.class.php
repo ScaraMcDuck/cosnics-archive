@@ -15,7 +15,7 @@ class TemplateBrowserTable extends RepositoryBrowserTable
 	
 	/**
 	 * Constructor
-	 * @see LearningObjectTable::LearningObjectTable()
+	 * @see ContentObjectTable::ContentObjectTable()
 	 */
 	function TemplateBrowserTable($browser, $parameters, $condition)
 	{

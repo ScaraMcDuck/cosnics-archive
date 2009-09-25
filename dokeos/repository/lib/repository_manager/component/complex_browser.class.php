@@ -8,12 +8,12 @@
  */
 require_once dirname(__FILE__).'/../repository_manager.class.php';
 require_once dirname(__FILE__).'/../repository_manager_component.class.php';
-require_once dirname(__FILE__).'/../../complex_learning_object_item.class.php';
-require_once dirname(__FILE__).'/../../complex_learning_object_menu.class.php';
+require_once dirname(__FILE__).'/../../complex_content_object_item.class.php';
+require_once dirname(__FILE__).'/../../complex_content_object_menu.class.php';
 require_once dirname(__FILE__).'/complex_browser/complex_browser_table.class.php';
-require_once dirname(__FILE__).'/../../abstract_learning_object.class.php';
-require_once dirname(__FILE__).'/../../learning_object_form.class.php';
-require_once dirname(__FILE__).'/../../complex_learning_object_item_form.class.php';
+require_once dirname(__FILE__).'/../../abstract_content_object.class.php';
+require_once dirname(__FILE__).'/../../content_object_form.class.php';
+require_once dirname(__FILE__).'/../../complex_content_object_item_form.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 /**
  * Default repository manager component which allows the user to browse through
@@ -58,13 +58,13 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 			$this->display_footer();
 			exit;
 		}
-		$root = $this->retrieve_learning_object($root_id);
-		$object = $this->retrieve_learning_object($cloi_id);
+		$root = $this->retrieve_content_object($root_id);
+		$object = $this->retrieve_content_object($cloi_id);
 
 		if(!isset($publish))
 		{
 			$trail->add(new Breadcrumb($this->get_link(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $root_id)), $root->get_title()));
-			$trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id)), Translation :: get('ViewComplexLearningObject')));
+			$trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id)), Translation :: get('ViewComplexContentObject')));
 		}
 
 		$output = $this->get_content_html($object);
@@ -91,10 +91,10 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 	 */
 	private function get_content_html($object)
 	{
-		$html[] = '<h3>' . Translation :: get('SelectedLearningObject') . '</h3><br />';
-		$html[] = LearningObjectDisplay :: factory($object)->get_full_html();
+		$html[] = '<h3>' . Translation :: get('SelectedContentObject') . '</h3><br />';
+		$html[] = ContentObjectDisplay :: factory($object)->get_full_html();
 
-		if(!$object->is_complex_learning_object())
+		if(!$object->is_complex_content_object())
 		{
 			$this->action_bar = $this->get_action_bar();
 			return implode("\n", $html);
@@ -121,14 +121,14 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 
 	private function get_create_html()
 	{
-		$html[] = '<h3>' . Translation :: get('AddToSelectedLearningObject') . '</h3><br />';
+		$html[] = '<h3>' . Translation :: get('AddToSelectedContentObject') . '</h3><br />';
 		$html[] = '<h4>' . Translation :: get('CreateNew') . '</h4>';
 
-		$clo = $this->retrieve_learning_object($this->cloi_id);
+		$clo = $this->retrieve_content_object($this->cloi_id);
 		$types = $clo->get_allowed_types();
 		foreach($types as $type)
 		{
-			$type_options[$type] = Translation :: get(LearningObject :: type_to_class($type).'TypeName');
+			$type_options[$type] = Translation :: get(ContentObject :: type_to_class($type).'TypeName');
 		}
 
 		$type_form = new FormValidator('create_type', 'post', $this->get_parameters());
@@ -145,14 +145,14 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 		if ($type || Request :: get('type'))
 		{
 			$this->in_creation = true;
-			$object = new AbstractLearningObject($type, $this->get_user_id(), null);
+			$object = new AbstractContentObject($type, $this->get_user_id(), null);
 
-			$cloi = ComplexLearningObjectItem :: factory($type);
+			$cloi = ComplexContentObjectItem :: factory($type);
 
 			$cloi->set_user_id($this->get_user_id());
 			$cloi->set_parent($this->cloi_id);
 			$cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($this->cloi_id));
-			$cloi_form = ComplexLearningObjectItemForm :: factory_with_type(ComplexLearningObjectItemForm :: TYPE_CREATE, $type, $cloi, 'create_complex', 'post', $this->get_url(array_merge($this->get_parameters(), array('type' => $type, 'object' => $objectid))));
+			$cloi_form = ComplexContentObjectItemForm :: factory_with_type(ComplexContentObjectItemForm :: TYPE_CREATE, $type, $cloi, 'create_complex', 'post', $this->get_url(array_merge($this->get_parameters(), array('type' => $type, 'object' => $objectid))));
 
 			if($cloi_form)
 			{
@@ -160,7 +160,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 				//$defaults = $cloi_form->get_default_values();
 			}
 
-			$lo_form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $object, 'create', 'post', $this->get_url(array_merge($this->get_parameters(), array('type' => $type))), null, $elements);
+			$lo_form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_CREATE, $object, 'create', 'post', $this->get_url(array_merge($this->get_parameters(), array('type' => $type))), null, $elements);
 			$lo_form->setDefaults($defaults);
 
 			if ($lo_form->validate() || Request :: get('object'))
@@ -171,13 +171,13 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 				}
 				else
 				{*/
-					$object = $lo_form->create_learning_object();
+					$object = $lo_form->create_content_object();
 					$objectid = $object->get_id();
 				//}
 
 				if($cloi_form)
 				{
-					$cloi_form->get_complex_learning_object_item()->set_ref($objectid);
+					$cloi_form->get_complex_content_object_item()->set_ref($objectid);
 					$cloi_form->create_cloi_from_values($lo_form->exportValues());
 				}
 				else
@@ -187,23 +187,23 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 				}
 
 				$this->in_creation = false;
-				$this->redirect(Translation :: get('LearningObjectAdded'), false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $this->get_cloi_id(),  RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->get_root_id(), 'publish' => Request :: get('publish'), 'clo_action' => 'build'));
+				$this->redirect(Translation :: get('ContentObjectAdded'), false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $this->get_cloi_id(),  RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->get_root_id(), 'publish' => Request :: get('publish'), 'clo_action' => 'build'));
 
-				/*$cloi = ComplexLearningObjectItem :: factory($type);
+				/*$cloi = ComplexContentObjectItem :: factory($type);
 
 				$cloi->set_ref($objectid);
 				$cloi->set_user_id($this->get_user_id());
 				$cloi->set_parent($this->cloi_id);
 				$cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($this->cloi_id));
 
-				$cloi_form = ComplexLearningObjectItemForm :: factory(ComplexLearningObjectItemForm :: TYPE_CREATE, $cloi, 'create_complex', 'post', $this->get_url(array_merge($this->get_parameters(), array('type' => $type, 'object' => $objectid))));
+				$cloi_form = ComplexContentObjectItemForm :: factory(ComplexContentObjectItemForm :: TYPE_CREATE, $cloi, 'create_complex', 'post', $this->get_url(array_merge($this->get_parameters(), array('type' => $type, 'object' => $objectid))));
 
 				if($cloi_form)
 				{
 					if ($cloi_form->validate() || !$cloi->is_extended())
 					{
-						$cloi_form->create_complex_learning_object_item();
-						/*$cloi = $cloi_form->get_complex_learning_object_item();
+						$cloi_form->create_complex_content_object_item();
+						/*$cloi = $cloi_form->get_complex_content_object_item();
 						$root_id = $root_id?$root_id:$cloi->get_id();
 						if($cloi->is_complex()) $id = $cloi->get_ref(); else $id = $cloi->get_parent();
 						$this->redirect(Translation :: get('ObjectCreated'), false, array(Application :: PARAM_ACTION => RepositoryManager :: RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $id,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));*/
@@ -212,7 +212,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 						$type_form->accept($renderer);
 						$html[] = $renderer->toHTML();
 						$this->in_creation = false;
-						$this->redirect(Translation :: get('LearningObjectAdded'), false, array(Application :: PARAM_ACTION => RepositoryManager :: RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $this->get_cloi_id(),  RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->get_root_id(), 'publish' => Request :: get('publish'), 'clo_action' => 'build'));
+						$this->redirect(Translation :: get('ContentObjectAdded'), false, array(Application :: PARAM_ACTION => RepositoryManager :: RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $this->get_cloi_id(),  RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->get_root_id(), 'publish' => Request :: get('publish'), 'clo_action' => 'build'));
 					}
 					else
 					{
@@ -228,7 +228,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 					$renderer->setElementTemplate('{label} {element} ');
 					$type_form->accept($renderer);
 					$html[] = $renderer->toHTML();
-					$this->redirect(Translation :: get('LearningObjectAdded'), false, array(Application :: PARAM_ACTION => RepositoryManager :: RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $this->get_cloi_id(),  RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->get_root_id(), 'publish' => Request :: get('publish'), 'clo_action' => 'build'));
+					$this->redirect(Translation :: get('ContentObjectAdded'), false, array(Application :: PARAM_ACTION => RepositoryManager :: RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $this->get_cloi_id(),  RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->get_root_id(), 'publish' => Request :: get('publish'), 'clo_action' => 'build'));
 				}*/
 
 			}
@@ -242,7 +242,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 		    $quotamanager = new QuotaManager($this->get_user());
 			if ( $quotamanager->get_available_database_space() <= 0)
 			{
-				Display :: warning_message(htmlentities(Translation :: get('MaxNumberOfLearningObjectsReached')));
+				Display :: warning_message(htmlentities(Translation :: get('MaxNumberOfContentObjectsReached')));
 			}
 			else
 			{
@@ -262,7 +262,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 		{
 			$html[] = '<br /><h4>' . Translation :: get('SelectExisting') . '</h4>';
 
-			$clo = $this->retrieve_learning_object($this->cloi_id);
+			$clo = $this->retrieve_content_object($this->cloi_id);
 			$types = $clo->get_allowed_types();
 
 			$parameters = array_merge(array('types' => $types), $this->get_parameters());
@@ -284,7 +284,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 	{
 		if(isset($this->cloi_id))
 		{
-			return new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->cloi_id, ComplexLearningObjectItem :: get_table_name());
+			return new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->cloi_id, ComplexContentObjectItem :: get_table_name());
 		}
 		return null;
 	}
@@ -300,23 +300,23 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 			$query = $this->action_bar->get_query();
 			if($query)
 			{
-				$conditions2[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);
-				$conditions2[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query);
+				$conditions2[] = new LikeCondition(ContentObject :: PROPERTY_TITLE, $query);
+				$conditions2[] = new LikeCondition(ContentObject :: PROPERTY_DESCRIPTION, $query);
 				$conditions[] = new OrCondition($conditions2);
 			}
 		}
 
 		foreach($types as $type)
 		{
-			$conditions1[] = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
+			$conditions1[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type);
 		}
 		if($conditions1)
 			$conditions[] = new OrCondition($conditions1);
 		else
-			$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_TYPE, 'none');
+			$conditions[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, 'none');
 
 		$conditions = array_merge($conditions, $this->retrieve_used_items($this->root_id));
-		$conditions[] = new NotCondition(new EqualityCondition(LearningObject :: PROPERTY_ID, $this->root_id, LearningObject :: get_table_name()));
+		$conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_ID, $this->root_id, ContentObject :: get_table_name()));
 		return new AndCondition($conditions);
 	}
 
@@ -324,12 +324,12 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 	{
 		$conditions = array();
 
-		$clois = $this->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $cloi_id, ComplexLearningObjectItem :: get_table_name()));
+		$clois = $this->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $cloi_id, ComplexContentObjectItem :: get_table_name()));
 		while($cloi = $clois->next_result())
 		{
 			if($cloi->is_complex())
 			{
-				$conditions[] = new NotCondition(new EqualityCondition(LearningObject :: PROPERTY_ID, $cloi->get_ref(), LearningObject :: get_table_name()));
+				$conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_ID, $cloi->get_ref(), ContentObject :: get_table_name()));
 				$conditions = array_merge($conditions, $this->retrieve_used_items($cloi->get_ref()));
 			}
 		}
@@ -341,7 +341,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 	{
 		if(isset($this->cloi_id) && isset($this->root_id))
 		{
-			return new ComplexLearningObjectMenu($this->root_id, $this->cloi_id, '?go=browsecomplex&cloi_id=%s&cloi_root_id=%s', true);
+			return new ComplexContentObjectMenu($this->root_id, $this->cloi_id, '?go=browsecomplex&cloi_id=%s&cloi_root_id=%s', true);
 		}
 		return null;
 	}

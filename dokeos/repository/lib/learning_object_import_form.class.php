@@ -9,17 +9,17 @@ require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once Path :: get_library_path() . 'html/menu/options_menu_renderer.class.php';
 
 require_once Path :: get_repository_path() . 'lib/repository_data_manager.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object_category_menu.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_category_menu.class.php';
 require_once Path :: get_repository_path() . 'lib/quota_manager.class.php';
 require_once Path :: get_repository_path() . 'lib/repository_manager/repository_manager.class.php';
 require_once Path :: get_repository_path() . 'lib/repository_manager/repository_manager_component.class.php';
-require_once Path :: get_repository_path() . 'lib/import/learning_object_import.class.php';
+require_once Path :: get_repository_path() . 'lib/import/content_object_import.class.php';
 /**
- * A form to import a LearningObject.
+ * A form to import a ContentObject.
  */
-class LearningObjectImportForm extends FormValidator
+class ContentObjectImportForm extends FormValidator
 {
-	const IMPORT_FILE_NAME = 'learning_object_file';
+	const IMPORT_FILE_NAME = 'content_object_file';
 	
 	private $category;
 	private $user;
@@ -31,7 +31,7 @@ class LearningObjectImportForm extends FormValidator
 	 * @param string $method The method to use ('post' or 'get').
 	 * @param string $action The URL to which the form should be submitted.
 	 */
-	function LearningObjectImportForm($form_name, $method = 'post', $action = null, $category, $user, $import_type = null)
+	function ContentObjectImportForm($form_name, $method = 'post', $action = null, $category, $user, $import_type = null)
 	{
 		parent :: __construct($form_name, $method, $action);
 		$this->category = $category;
@@ -47,7 +47,7 @@ class LearningObjectImportForm extends FormValidator
 	 */
 	function get_categories()
 	{
-		$categorymenu = new LearningObjectCategoryMenu($this->get_user()->get_id());
+		$categorymenu = new ContentObjectCategoryMenu($this->get_user()->get_id());
 		$renderer = new OptionsMenuRenderer();
 		$categorymenu->render($renderer, 'sitemap');
 		return $renderer->toArray();
@@ -60,7 +60,7 @@ class LearningObjectImportForm extends FormValidator
 	{
 		$category_select = $this->add_select(RepositoryManager :: PARAM_CATEGORY_ID, Translation :: get('CategoryTypeName'), $this->get_categories());
 		$this->addElement('file', self :: IMPORT_FILE_NAME, Translation :: get('FileName'));
-		//$this->addElement('submit', 'learning_object_import', Translation :: get('Ok'));
+		//$this->addElement('submit', 'content_object_import', Translation :: get('Ok'));
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Import'), array('class' => 'positive import'));
 		//$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
@@ -83,9 +83,9 @@ class LearningObjectImportForm extends FormValidator
 	
 	/**
 	 * Imports a learning object from the submitted form values.
-	 * @return LearningObject The newly imported learning object.
+	 * @return ContentObject The newly imported learning object.
 	 */
-	function import_learning_object()
+	function import_content_object()
 	{
 		$path_parts = pathinfo($_FILES[self :: IMPORT_FILE_NAME]['name']);
 		$type = $path_parts['extension'];
@@ -96,10 +96,10 @@ class LearningObjectImportForm extends FormValidator
 		
 		$values = $this->exportValues();
 		
-		if(LearningObjectImport :: type_supported($type))
+		if(ContentObjectImport :: type_supported($type))
 		{
-			$importer = LearningObjectImport :: factory($type, $_FILES[self :: IMPORT_FILE_NAME], $this->get_user(), $this->get_category());
-			return $importer->import_learning_object();
+			$importer = ContentObjectImport :: factory($type, $_FILES[self :: IMPORT_FILE_NAME], $this->get_user(), $this->get_category());
+			return $importer->import_content_object();
 		}
 		else
 		{
@@ -118,7 +118,7 @@ class LearningObjectImportForm extends FormValidator
 		$quotamanager = new QuotaManager($this->get_user());
 		if ($quotamanager->get_available_database_space() <= 0)
 		{
-			Display :: warning_message(htmlentities(Translation :: get('MaxNumberOfLearningObjectsReached')));
+			Display :: warning_message(htmlentities(Translation :: get('MaxNumberOfContentObjectsReached')));
 		}
 		else
 		{

@@ -55,15 +55,15 @@ class PersonalMessengerManagerAttachmentViewerComponent extends PersonalMessenge
 
 		if ($message->supports_attachments())
 		{
-			$attachments = $message->get_attached_learning_objects();
+			$attachments = $message->get_attached_content_objects();
 			if (count($attachments))
 			{
-				DokeosUtilities :: order_learning_objects_by_title($attachments);
+				DokeosUtilities :: order_content_objects_by_title($attachments);
 				foreach ($attachments as $attachment)
 				{
-					$display = LearningObjectDisplay :: factory($attachment);
+					$display = ContentObjectDisplay :: factory($attachment);
 					$html[] = $display->get_full_html();
-//					$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'learning_object/'.$attachment->get_icon_name().'.png);">';
+//					$html[] = '<div class="content_object" style="background-image: url('.Theme :: get_common_image_path().'content_object/'.$attachment->get_icon_name().'.png);">';
 //					$html[] = '<div class="title">'. $attachment->get_title() .'</div>';
 //					$html[] = $attachment->get_description();
 //					$html[] = '</div>';

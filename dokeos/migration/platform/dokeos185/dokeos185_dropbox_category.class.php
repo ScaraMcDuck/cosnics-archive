@@ -4,7 +4,7 @@
  */
 
 require_once dirname(__FILE__).'/../../lib/import/import_dropbox_category.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/category_manager/learning_object_publication_category.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/category_manager/content_object_publication_category.class.php';
 
 /**
  * This class presents a Dokeos185 dropbox_category
@@ -165,7 +165,7 @@ class Dokeos185DropboxCategory extends ImportDropboxCategory
 	{	
 		$mgdm = MigrationDataManager :: get_instance();
 		//Course category parameters
-		$lcms_dropbox_category = new LearningObjectPublicationCategory();
+		$lcms_dropbox_category = new ContentObjectPublicationCategory();
 		$course = $array['course'];
 		$lcms_dropbox_category->set_name($this->get_cat_name());
 		
@@ -179,7 +179,7 @@ class Dokeos185DropboxCategory extends ImportDropboxCategory
 		$lcms_dropbox_category->create();
 		
 		//Add id references to temp table
-		$mgdm->add_id_reference($this->get_cat_id(), $lcms_dropbox_category->get_id(), 'weblcms_learning_object_publication_category');
+		$mgdm->add_id_reference($this->get_cat_id(), $lcms_dropbox_category->get_id(), 'weblcms_content_object_publication_category');
 		
 		return $lcms_dropbox_category;
 	}

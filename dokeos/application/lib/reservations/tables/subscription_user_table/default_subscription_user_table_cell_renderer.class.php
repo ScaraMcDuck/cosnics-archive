@@ -21,9 +21,9 @@ class DefaultSubscriptionUserTableCellRenderer implements ObjectTableCellRendere
 	}
 	/**
 	 * Renders a table cell
-	 * @param LearningObjectTableColumnModel $column The column which should be
+	 * @param ContentObjectTableColumnModel $column The column which should be
 	 * rendered
-	 * @param Learning Object $learning_object The learning object to render
+	 * @param Learning Object $content_object The learning object to render
 	 * @return string A HTML representation of the rendered table cell
 	 */
 	function render_cell($column, $subscription_user)

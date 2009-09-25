@@ -6,7 +6,7 @@
 /**
  * This class can be used to get the difference between matching questions
  */
-class MatchingQuestionDifference extends LearningObjectDifference
+class MatchingQuestionDifference extends ContentObjectDifference
 {
 }
 ?>

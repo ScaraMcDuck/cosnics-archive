@@ -101,16 +101,16 @@ class WikiTool extends Tool
 
     static function is_wiki_locked($wiki_id)
     {
-        $wiki = RepositoryDataManager :: get_instance()->retrieve_learning_object($wiki_id);
+        $wiki = RepositoryDataManager :: get_instance()->retrieve_content_object($wiki_id);
         return $wiki->get_locked()==1;
     }
 
     static function get_wiki_homepage($wiki_id)
     {
-        require_once Path :: get_repository_path() .'/lib/learning_object/wiki_page/complex_wiki_page.class.php';
+        require_once Path :: get_repository_path() .'/lib/content_object/wiki_page/complex_wiki_page.class.php';
         $conditions[] = new EqualityCondition(ComplexWikiPage :: PROPERTY_PARENT,$wiki_id);
         $conditions[] = new EqualityCondition(ComplexWikiPage :: PROPERTY_IS_HOMEPAGE,1);
-        $wiki_homepage = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new AndCondition($conditions),array (),array (), 0, -1, 'complex_wiki_page')->next_result();
+        $wiki_homepage = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new AndCondition($conditions),array (),array (), 0, -1, 'complex_wiki_page')->next_result();
         return $wiki_homepage;
     }
     

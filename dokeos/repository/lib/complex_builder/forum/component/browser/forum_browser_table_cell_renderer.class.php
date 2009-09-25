@@ -40,7 +40,7 @@ class ForumBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
         if($cloi->get_type() == 1)
         {
             $array[]= array(
-                'href' => $this->browser->get_complex_learning_object_item_sticky_url($cloi,$this->browser->get_root()),
+                'href' => $this->browser->get_complex_content_object_item_sticky_url($cloi,$this->browser->get_root()),
                 'label' => Translation :: get('UnSticky'),
                 'img' => Theme :: get_common_image_path().'unsticky_read.png'
             );
@@ -55,19 +55,19 @@ class ForumBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
                 'img' => Theme :: get_common_image_path().'sticky_na.png'
             );
             $array[]= array(
-                'href' => $this->browser->get_complex_learning_object_item_important_url($cloi,$this->browser->get_root()),
+                'href' => $this->browser->get_complex_content_object_item_important_url($cloi,$this->browser->get_root()),
                 'label' => Translation :: get('UnImportant'),
                 'img' => Theme :: get_common_image_path().'unimportant_read.png'
             );
         }else
         {
             $array[]= array(
-                'href' => $this->browser->get_complex_learning_object_item_sticky_url($cloi,$this->browser->get_root()),
+                'href' => $this->browser->get_complex_content_object_item_sticky_url($cloi,$this->browser->get_root()),
                 'label' => Translation :: get('MakeSticky'),
                 'img' => Theme :: get_common_image_path().'sticky_read.png'
             );
             $array[]= array(
-                'href' => $this->browser->get_complex_learning_object_item_important_url($cloi,$this->browser->get_root()),
+                'href' => $this->browser->get_complex_content_object_item_important_url($cloi,$this->browser->get_root()),
                 'label' => Translation :: get('MakeImportant'),
                 'img' => Theme :: get_common_image_path().'important_read.png'
             );

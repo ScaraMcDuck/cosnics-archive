@@ -3,9 +3,9 @@
  * @package repository.learningobject
  * @subpackage exercise
  */
-require_once dirname(__FILE__) . '/../../learning_object_form.class.php';
+require_once dirname(__FILE__) . '/../../content_object_form.class.php';
 require_once dirname(__FILE__) . '/match_question.class.php';
-class MatchQuestionForm extends LearningObjectForm
+class MatchQuestionForm extends ContentObjectForm
 {
 
     protected function build_creation_form()
@@ -30,7 +30,7 @@ class MatchQuestionForm extends LearningObjectForm
     {
         if (! $this->isSubmitted())
         {
-            $object = $this->get_learning_object();
+            $object = $this->get_content_object();
             if (! is_null($object))
             {
                 $options = $object->get_options();
@@ -55,23 +55,23 @@ class MatchQuestionForm extends LearningObjectForm
         parent :: setDefaults($defaults);
     }
 
-    function create_learning_object()
+    function create_content_object()
     {
         $object = new MatchQuestion();
-        $this->set_learning_object($object);
+        $this->set_content_object($object);
         $this->add_options_to_object();
-        return parent :: create_learning_object();
+        return parent :: create_content_object();
     }
 
-    function update_learning_object()
+    function update_content_object()
     {
         $this->add_options_to_object();
-        return parent :: update_learning_object();
+        return parent :: update_content_object();
     }
 
     private function add_options_to_object()
     {
-        $object = $this->get_learning_object();
+        $object = $this->get_content_object();
         $values = $this->exportValues();
         $options = array();
         foreach ($values['option'] as $option_id => $value)
@@ -132,7 +132,7 @@ class MatchQuestionForm extends LearningObjectForm
         {
             $_SESSION['match_answer_type'] = $_SESSION['match_answer_type'] == 'radio' ? 'checkbox' : 'radio';
         }
-        $object = $this->get_learning_object();
+        $object = $this->get_content_object();
         if (! $this->isSubmitted() && ! is_null($object))
         {
             $_SESSION['match_number_of_options'] = $object->get_number_of_options();

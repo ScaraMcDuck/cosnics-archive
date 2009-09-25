@@ -16,11 +16,11 @@ require_once dirname(__FILE__).'/question_types/ordering_import.class.php';
 class QuestionQtiImport extends QtiImport
 {
 	
-	function import_learning_object()
+	function import_content_object()
 	{
-		$importer = $this->factory_qti_question($this->get_learning_object_file(), $this->get_user(), $this->get_category());
+		$importer = $this->factory_qti_question($this->get_content_object_file(), $this->get_user(), $this->get_category());
 		if($importer)
-			return $importer->import_learning_object();
+			return $importer->import_content_object();
 	}
 	
 	function factory_qti_question($lo_file, $user, $category)
@@ -90,7 +90,7 @@ class QuestionQtiImport extends QtiImport
 			$files[$newfilename] = $tag['src'];
 			$text = str_replace($tag['src'], $newfilename, $text);
 		}
-		$orig_path = dirname($this->get_learning_object_file());
+		$orig_path = dirname($this->get_content_object_file());
 		foreach ($files as $new => $original)
 		{
 			copy($orig_path.'/'.$original, $new);
@@ -101,7 +101,7 @@ class QuestionQtiImport extends QtiImport
 	function get_tag_content($tagname, $params = array())
 	{
 		$doc = new DOMDocument();
-		$doc->load(parent :: get_learning_object_file());
+		$doc->load(parent :: get_content_object_file());
 		$elems = $doc->getElementsByTagName($tagname);
 
 		if (!is_array($params))

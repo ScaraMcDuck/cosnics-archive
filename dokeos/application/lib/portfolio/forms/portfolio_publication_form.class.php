@@ -176,7 +176,7 @@ class PortfolioPublicationForm extends FormValidator
     	foreach($objects as $object)
     	{
 	    	$portfolio_publication = new PortfolioPublication();
-    		$portfolio_publication->set_learning_object($object);
+    		$portfolio_publication->set_content_object($object);
 	    	$portfolio_publication->set_from_date($from);
 	    	$portfolio_publication->set_to_date($to);
 	    	$portfolio_publication->set_hidden($values[PortfolioPublication :: PROPERTY_HIDDEN]);

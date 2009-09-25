@@ -16,7 +16,7 @@ class RegistrationBrowserTable extends ObjectTable
 
     /**
      * Constructor
-     * @see LearningObjectTable::LearningObjectTable()
+     * @see ContentObjectTable::ContentObjectTable()
      */
     function RegistrationBrowserTable($browser, $parameters, $condition)
     {

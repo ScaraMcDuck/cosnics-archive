@@ -1,40 +1,40 @@
 <?php
-require_once dirname(__FILE__).'/../../learning_object_form.class.php';
+require_once dirname(__FILE__).'/../../content_object_form.class.php';
 require_once dirname(__FILE__).'/wiki.class.php';
 require_once Path :: get_repository_path().'/lib/complex_display/wiki/component/wiki_parser.class.php';
 /**
  * @package repository.learningobject
  * @subpackage wiki
  */
-class WikiForm extends LearningObjectForm
+class WikiForm extends ContentObjectForm
 {
 	function set_csv_values($valuearray)
 	{
-		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
-		$defaults[LearningObject :: PROPERTY_PARENT_ID] = $valuearray[1];
-		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[2];
+		$defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
+		$defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
+		$defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];
         $defaults[Wiki :: PROPERTY_LOCKED] = $valuearray[3];
         $defaults[Wiki :: PROPERTY_LINKS] = $valuearray[4];
 		parent :: set_values($defaults);
 	}
-	function create_learning_object()
+	function create_content_object()
 	{
 		$object = new Wiki();
         $parser = new WikiDisplayWikiParserComponent(Request :: get('pid'), Request :: get('course'));
         $object->set_locked($this->exportValue(Wiki :: PROPERTY_LOCKED));
         $object->set_links($this->exportValue(Wiki :: PROPERTY_LINKS));
-		$this->set_learning_object($object);
-		return parent :: create_learning_object();
+		$this->set_content_object($object);
+		return parent :: create_content_object();
 	}
 
-    function update_learning_object()
+    function update_content_object()
 	{
         $parser = new WikiDisplayWikiParserComponent(Request :: get('pid'), Request :: get('course'));
-		$object = $this->get_learning_object();
+		$object = $this->get_content_object();
 		$object->set_locked($this->exportValue(Wiki :: PROPERTY_LOCKED));
         $object->set_links($this->exportValue(Wiki :: PROPERTY_LINKS));
-		$this->set_learning_object($object);
-		return parent :: update_learning_object();
+		$this->set_content_object($object);
+		return parent :: update_content_object();
 	}
 
     function build_creation_form()
@@ -59,13 +59,13 @@ class WikiForm extends LearningObjectForm
 	{
         $parser = new WikiDisplayWikiParserComponent();
         
-		$lo = $this->get_learning_object();
+		$lo = $this->get_content_object();
         if(isset($lo))
         {
-            $defaults[LearningObject :: PROPERTY_ID] = $lo->get_id();
+            $defaults[ContentObject :: PROPERTY_ID] = $lo->get_id();
 
-            $defaults[LearningObject :: PROPERTY_TITLE] = $lo->get_title();
-            $defaults[LearningObject :: PROPERTY_DESCRIPTION] = $lo->get_description();
+            $defaults[ContentObject :: PROPERTY_TITLE] = $lo->get_title();
+            $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $lo->get_description();
             $defaults[Wiki :: PROPERTY_LOCKED] = $lo->get_locked();
             $defaults[Wiki :: PROPERTY_LINKS] = $lo->get_links();
         }

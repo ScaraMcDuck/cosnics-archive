@@ -1,6 +1,6 @@
 <?php
 
-require_once Path :: get_repository_path().'lib/learning_object_pub_feedback.class.php';
+require_once Path :: get_repository_path().'lib/content_object_pub_feedback.class.php';
 
 class WikiDisplayWikiPubFeedbackDeleterComponent extends WikiDisplayComponent
 {
@@ -44,11 +44,11 @@ class WikiDisplayWikiPubFeedbackDeleterComponent extends WikiDisplayComponent
 			}
 			if(count($feedback_ids) > 1)
 			{
-				$message = htmlentities(Translation :: get('LearningObjectFeedbacksDeleted'));
+				$message = htmlentities(Translation :: get('ContentObjectFeedbacksDeleted'));
 			}
 			else
 			{
-				$message = htmlentities(Translation :: get('LearningObjectFeedbackDeleted'));
+				$message = htmlentities(Translation :: get('ContentObjectFeedbackDeleted'));
 			}
 
             $this->redirect($message, '', array(Tool :: PARAM_ACTION => Request :: get('tool_action'), 'display_action' => 'discuss', 'wiki_publication' => $this->wiki_publication_id, 'selected_cloi' => $this->cid));

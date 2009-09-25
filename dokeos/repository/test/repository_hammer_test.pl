@@ -17,7 +17,7 @@ use constant USERS => {
 use constant REPOSITORY_URL => 'http://193.191.154.68/dokeoslcms/repository/objectmanagement/';
 use constant LEARNING_OBJECT_IDS_URL_FORMAT => 'http://193.191.154.68/dokeoslcms/repository/test/repository_hammer_test.php?owner=%d';
 use constant LEARNING_OBJECT_URL_FORMAT => 'http://193.191.154.68/dokeoslcms/repository/objectmanagement/view.php?id=%d';
-use constant LEARNING_OBJECT_OUTPUT_PATTERN => qr/<div class="learning_object">/;
+use constant LEARNING_OBJECT_OUTPUT_PATTERN => qr/<div class="content_object">/;
 use constant REPOSITORY_OUTPUT_PATTERN => qr/<table class="data_table">/;
 use constant REQUEST_COUNT => 5000;
 use constant INTERVAL => 0.5;

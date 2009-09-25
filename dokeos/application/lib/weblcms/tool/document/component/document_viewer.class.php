@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../document_tool_component.class.php';
 require_once dirname(__FILE__) . '/document_viewer/document_browser.class.php';
 require_once dirname(__FILE__) . '/document_viewer/document_cell_renderer.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object/document/document.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object/document/document.class.php';
 
 class DocumentToolViewerComponent extends DocumentToolComponent
 {
@@ -22,14 +22,14 @@ class DocumentToolViewerComponent extends DocumentToolComponent
 		}
 
 		$conditions = array();
-		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
-		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'document');
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'document');
 		
 		$subselect_condition = new EqualityCondition('type', 'introduction');
-		$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
+		$conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
 		$condition = new AndCondition($conditions);
 		
-		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications_new($condition);
+		$publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($condition);
 		$this->introduction_text = $publications->next_result();
 
 		$this->action_bar = $this->get_action_bar();
@@ -37,14 +37,14 @@ class DocumentToolViewerComponent extends DocumentToolComponent
 		
         if(Request :: get('pid') != null)
         {
-        	$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => DocumentTool ::ACTION_VIEW_DOCUMENTS, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
+        	$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => DocumentTool ::ACTION_VIEW_DOCUMENTS, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get('pid'))->get_content_object()->get_title()));
 			$browser = new DocumentBrowser($this, 'document'); 
 			$html = $browser->as_html();   	
         }
         else 
         { 
         	$table = new ObjectPublicationTable($this, $this->get_user(), array('document'), $this->get_condition(), new DocumentCellRenderer($this));
-        	$tree = new LearningObjectPublicationCategoryTree($this, Request :: get('pcattree'));
+        	$tree = new ContentObjectPublicationCategoryTree($this, Request :: get('pcattree'));
         	$html = '<div style="width: 18%; overflow: auto; float:left;">';
 			$html .= $tree->as_html();
 			$html .= '</div>';
@@ -78,7 +78,7 @@ class DocumentToolViewerComponent extends DocumentToolComponent
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
 		$cat_id = Request :: get('pcattree');
-		$category = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_category($cat_id);
+		$category = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication_category($cat_id);
 		
 		if(!Request :: get('pid'))
 		{
@@ -118,8 +118,8 @@ class DocumentToolViewerComponent extends DocumentToolComponent
 		$query = $this->action_bar->get_query();
 		if(isset($query) && $query != '')
 		{
-			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query, LearningObject :: get_table_name());
-			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query, LearningObject :: get_table_name());
+			$conditions[] = new LikeCondition(ContentObject :: PROPERTY_TITLE, $query, ContentObject :: get_table_name());
+			$conditions[] = new LikeCondition(ContentObject :: PROPERTY_DESCRIPTION, $query, ContentObject :: get_table_name());
 			return new OrCondition($conditions);
 		}
 

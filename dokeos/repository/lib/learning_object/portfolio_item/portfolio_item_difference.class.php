@@ -6,7 +6,7 @@
 /**
  * This class can be used to get the difference between portfolio items
  */
-class PortfolioItemDifference extends LearningObjectDifference
+class PortfolioItemDifference extends ContentObjectDifference
 {
 }
 ?>

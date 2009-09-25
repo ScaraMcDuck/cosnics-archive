@@ -67,7 +67,7 @@ class ReservationsManagerAdminSubscriptionBrowserComponent extends ReservationsM
 		//$responsible = UserDataManager :: get_instance()->retrieve_user($item->get_responsible())->get_fullname();
 		$responsible = $item->get_responsible();
 		
-		$html[] = '<div class="learning_object" style="background-image: url(' . Theme :: get_common_image_path().'treemenu_types/calendar_event.png);">';
+		$html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path().'treemenu_types/calendar_event.png);">';
 		$html[] = '<div class="title">';
 		$html[] = $item->get_name();
 		$html[] = '</div>';

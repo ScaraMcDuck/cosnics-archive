@@ -7,11 +7,11 @@
  * Author: Nick De Feyter
  */
 
-require_once Path :: get_application_path() . 'lib/weblcms/learning_object_repo_viewer.class.php';
+require_once Path :: get_application_path() . 'lib/weblcms/content_object_repo_viewer.class.php';
 require_once Path :: get_application_path() . 'common/repo_viewer/repo_viewer.class.php';
 require_once Path::get_library_path().'/html/action_bar/action_bar_renderer.class.php';
-require_once Path :: get_application_path() . 'lib/weblcms/publisher/learning_object_publisher.class.php';
-require_once Path::get_repository_path().'/lib/complex_learning_object_item.class.php';
+require_once Path :: get_application_path() . 'lib/weblcms/publisher/content_object_publisher.class.php';
+require_once Path::get_repository_path().'/lib/complex_content_object_item.class.php';
 require_once Path::get_repository_path().'lib/complex_builder/complex_repo_viewer.class.php';
 
 class WikiDisplayWikiPageCreatorComponent extends WikiDisplayComponent
@@ -36,11 +36,11 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplayComponent
         }
         else
         {
-            $o = RepositoryDataManager :: get_instance()->retrieve_learning_object($object);
-            $count = RepositoryDataManager ::get_instance()->count_learning_objects('wiki_page', new EqualityCondition(LearningObject :: PROPERTY_TITLE,$o->get_title()));
+            $o = RepositoryDataManager :: get_instance()->retrieve_content_object($object);
+            $count = RepositoryDataManager ::get_instance()->count_content_objects('wiki_page', new EqualityCondition(ContentObject :: PROPERTY_TITLE,$o->get_title()));
             if($count==1)
             {
-                $cloi = ComplexLearningObjectItem ::factory('wiki_page');
+                $cloi = ComplexContentObjectItem ::factory('wiki_page');
                 $cloi->set_ref($object);
                 $cloi->set_parent($this->get_root_lo()->get_id());
                 $cloi->set_user_id($this->pub->get_user_id());

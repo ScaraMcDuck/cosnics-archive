@@ -73,30 +73,30 @@ class LaikaManager extends WebApplication
 	}
 
 	/**
-	 * @see Application::learning_object_is_published()
+	 * @see Application::content_object_is_published()
 	 */
-	public function learning_object_is_published($object_id)
+	public function content_object_is_published($object_id)
 	{
 		return false;
 	}
 	/**
-	 * @see Application::any_learning_object_is_published()
+	 * @see Application::any_content_object_is_published()
 	 */
-	public function any_learning_object_is_published($object_ids)
+	public function any_content_object_is_published($object_ids)
 	{
 		return false;
 	}
 	/**
-	 * @see Application::get_learning_object_publication_attributes()
+	 * @see Application::get_content_object_publication_attributes()
 	 */
-	public function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	public function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return null;
 	}
 	/**
-	 * @see Application::get_learning_object_publication_attribute()
+	 * @see Application::get_content_object_publication_attribute()
 	 */
-	public function get_learning_object_publication_attribute($publication_id)
+	public function get_content_object_publication_attribute($publication_id)
 	{
 		return null;
 	}
@@ -108,16 +108,16 @@ class LaikaManager extends WebApplication
 		return 0;
 	}
 	/**
-	 * @see Application::delete_learning_object_publications()
+	 * @see Application::delete_content_object_publications()
 	 */
-	public function delete_learning_object_publications($object_id)
+	public function delete_content_object_publications($object_id)
 	{
 		return true;
 	}
 	/**
-	 * @see Application::update_learning_object_publication_id()
+	 * @see Application::update_content_object_publication_id()
 	 */
-	public function update_learning_object_publication_id($publication_attr)
+	public function update_content_object_publication_id($publication_attr)
 	{
 		return true;
 	}
@@ -125,12 +125,12 @@ class LaikaManager extends WebApplication
 	/**
 	 * Inherited
 	 */
-	function get_learning_object_publication_locations($learning_object)
+	function get_content_object_publication_locations($content_object)
 	{
 		return array();
 	}
 
-	function publish_learning_object($learning_object, $location)
+	function publish_content_object($content_object, $location)
 	{
 		return Translation :: get('PublicationCreated');
 	}

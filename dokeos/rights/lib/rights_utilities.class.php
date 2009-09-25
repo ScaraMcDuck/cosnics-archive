@@ -361,7 +361,7 @@ class RightsUtilities
 
 		$html[] = DokeosUtilities :: add_block_hider();
 		$html[] = DokeosUtilities :: build_block_hider('rights_legend');
-		$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'place_legend.png);">';
+		$html[] = '<div class="content_object" style="background-image: url('.Theme :: get_common_image_path().'place_legend.png);">';
 		$html[] = '<div class="title">'. Translation :: get('Legend') .'</div>';
 		$html[] = '<ul class="rights_legend">';
 		$html[] = '<li>'. Theme :: get_common_image('action_setting_true', 'png', Translation :: get('True')) .'</li>';

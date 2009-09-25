@@ -1,10 +1,10 @@
 <?php
-require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) . '/../../content_object.class.php';
 /**
  * @package repository.learningobject
  * @subpackage forum
  */
-class ForumPost extends LearningObject
+class ForumPost extends ContentObject
 {
 	// Stores whether the user should get notified if
 	// someone replies to the topic.

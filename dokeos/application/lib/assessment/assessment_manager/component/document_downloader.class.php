@@ -32,7 +32,7 @@ class AssessmentManagerDocumentDownloaderComponent extends AssessmentManagerComp
 	
 	function save_assessment_docs($assessment_id)
 	{
-		//$publication = AssessmentDataManager :: get_instance()->retrieve_learning_object_publication($assessment_id);
+		//$publication = AssessmentDataManager :: get_instance()->retrieve_content_object_publication($assessment_id);
 		$track = new AssessmentAssessmentAttemptsTracker();
 		$condition = new EqualityCondition(AssessmentAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $assessment_id);
 		$user_assessments = $track->retrieve_tracker_items($condition);
@@ -52,12 +52,12 @@ class AssessmentManagerDocumentDownloaderComponent extends AssessmentManagerComp
 	{
 		$publication = AssessmentDataManager :: get_instance()->retrieve_assessment_publication($user_assessment->get_assessment_id());
 		$assessment = $publication->get_publication_object();
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id(), ComplexLearningObjectItem :: get_table_name());
-		$clo_questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
+		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $assessment->get_id(), ComplexContentObjectItem :: get_table_name());
+		$clo_questions = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items($condition);
 		
 		while ($clo_question = $clo_questions->next_result())
 		{
-			$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
+			$question = RepositoryDataManager :: get_instance()->retrieve_content_object($clo_question->get_ref());
 			if ($question->get_type() == 'open_question')
 			{
 				if ($question->get_question_type() == OpenQuestion :: TYPE_DOCUMENT || $question->get_question_type() == OpenQuestion :: TYPE_OPEN_WITH_DOCUMENT)
@@ -90,7 +90,7 @@ class AssessmentManagerDocumentDownloaderComponent extends AssessmentManagerComp
 			if ($user_question != null)
 			{
 				$answer = unserialize($user_question->get_answer());
-				$document = RepositoryDataManager :: get_instance()->retrieve_learning_object($answer[2], 'document');
+				$document = RepositoryDataManager :: get_instance()->retrieve_content_object($answer[2], 'document');
 				$filenames[] = Path :: get(SYS_REPO_PATH).$document->get_path();
 			}
 		}

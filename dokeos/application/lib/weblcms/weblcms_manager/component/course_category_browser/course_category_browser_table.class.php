@@ -16,7 +16,7 @@ class CourseCategoryBrowserTable extends ObjectTable
 	
 	/**
 	 * Constructor
-	 * @see LearningObjectTable::LearningObjectTable()
+	 * @see ContentObjectTable::ContentObjectTable()
 	 */
 	function CourseCategoryBrowserTable($browser, $parameters, $condition)
 	{

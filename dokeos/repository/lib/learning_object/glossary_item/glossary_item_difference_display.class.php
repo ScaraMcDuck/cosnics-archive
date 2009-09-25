@@ -9,7 +9,7 @@
 /**
  * This class can be used to display the difference between glossary_items
  */
-class GlossaryItemDifferenceDisplay extends LearningObjectDifferenceDisplay
+class GlossaryItemDifferenceDisplay extends ContentObjectDifferenceDisplay
 {
 }
 ?>

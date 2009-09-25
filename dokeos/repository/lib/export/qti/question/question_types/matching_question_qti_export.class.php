@@ -4,10 +4,10 @@ require_once dirname(__FILE__).'/../question_qti_export.class.php';
 class MatchingQuestionQtiExport extends QuestionQtiExport
 {
 	
-	function export_learning_object()
+	function export_content_object()
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-		$question = $this->get_learning_object();
+		$question = $this->get_content_object();
 
 		$q_answers = $question->get_options();
 		$q_matches = $question->get_matches();
@@ -52,7 +52,7 @@ class MatchingQuestionQtiExport extends QuestionQtiExport
 	{
 		$interaction_xml[] = '<itemBody>';
 		$interaction_xml[] = '<matchInteraction responseIdentifier="RESPONSE" shuffle="true" maxAssociations="'.sizeof($answers).'">';
-		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_learning_object()->get_description()).'</prompt>';
+		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_content_object()->get_description()).'</prompt>';
 		$interaction_xml[] = '<simpleMatchSet>';
 		foreach ($answers as $i => $answer)
 		{

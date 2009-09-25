@@ -7,7 +7,7 @@
 /**
  * This class can be used to display blog_items
  */
-class BlogItemDisplay extends LearningObjectDisplay
+class BlogItemDisplay extends ContentObjectDisplay
 {
 }
 ?>

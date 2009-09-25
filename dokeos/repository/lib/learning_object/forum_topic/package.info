@@ -3,7 +3,7 @@
 	<package>
 		<name>Forum Topic</name>
 		<code>forum_topic</code>
-		<section>learning_object</section>
+		<section>content_object</section>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/f/forum_topic/forum_topic-1.0.0.zip</filename>

@@ -40,8 +40,8 @@ class SurveyViewerWizardProcess extends HTML_QuickForm_Action
 
 		$rdm = RepositoryDataManager :: get_instance();
 
-		$questions_cloi = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(
-			ComplexLearningObjectItem :: PROPERTY_PARENT, $this->parent->get_survey()->get_id()));
+		$questions_cloi = $rdm->retrieve_complex_content_object_items(new EqualityCondition(
+			ComplexContentObjectItem :: PROPERTY_PARENT, $this->parent->get_survey()->get_id()));
 
 		while($question_cloi = $questions_cloi->next_result())
 		{	

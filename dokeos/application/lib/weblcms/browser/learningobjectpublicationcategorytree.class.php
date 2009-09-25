@@ -10,7 +10,7 @@ require_once 'HTML/Menu.php';
 /**
  * A tree menu to display categories in a tool
  */
-class LearningObjectPublicationCategoryTree extends HTML_Menu
+class ContentObjectPublicationCategoryTree extends HTML_Menu
 {
 /**
  * The browser to which this category tree is associated
@@ -30,7 +30,7 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
      * tree with.
      * @param string $tree_id An id for the tree
      */
-    function LearningObjectPublicationCategoryTree($browser, $tree_id, $url_params = array())
+    function ContentObjectPublicationCategoryTree($browser, $tree_id, $url_params = array())
     {
         $this->browser = $browser;
         $this->tree_id = $tree_id;
@@ -83,12 +83,12 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
 
     private function get_sub_menu_items($parent)
     {
-        $conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_PARENT, $parent);
-        $conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_COURSE, $this->browser->get_parent()->get_course_id());
-        $conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_TOOL, $this->browser->get_parent()->get_tool_id());
+        $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_PARENT, $parent);
+        $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_COURSE, $this->browser->get_parent()->get_course_id());
+        $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_TOOL, $this->browser->get_parent()->get_tool_id());
         $condition = new AndCondition($conditions);
 
-        $objects = $this->data_manager->retrieve_learning_object_publication_categories($condition);
+        $objects = $this->data_manager->retrieve_content_object_publication_categories($condition);
         $categories = array ();
         while ($category = $objects->next_result())
         {
@@ -118,27 +118,27 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
         $dm = WeblcmsDataManager :: get_instance();
 
         $conditions = array();
-        $conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->browser->get_parent()->get_course_id());
+        $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->browser->get_parent()->get_course_id());
         $conditions[] = $this->get_condition($category);
 
         $user_id = $this->browser->get_user_id();
         $course_groups = $this->browser->get_course_groups();
 
         $access = array();
-        $access[] = new InCondition('user_id', $user_id, $dm->get_database()->get_alias('learning_object_publication_user'));
-        $access[] = new InCondition('course_group_id', $course_groups, $dm->get_database()->get_alias('learning_object_publication_course_group'));
+        $access[] = new InCondition('user_id', $user_id, $dm->get_database()->get_alias('content_object_publication_user'));
+        $access[] = new InCondition('course_group_id', $course_groups, $dm->get_database()->get_alias('content_object_publication_course_group'));
         if (!empty($user_id) || !empty($course_groups))
         {
-            $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $dm->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $dm->get_database()->get_alias('learning_object_publication_course_group'))));
+            $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $dm->get_database()->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $dm->get_database()->get_alias('content_object_publication_course_group'))));
         }
 
         $conditions[] = new OrCondition($access);
         $subselect_condition = new InCondition('type', $this->browser->get_allowed_types());
-        $conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
+        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
 
         $condition = new AndCondition($conditions);
 
-        return $dm->count_learning_object_publications_new($condition);
+        return $dm->count_content_object_publications_new($condition);
     }
 
     private function get_condition($category = null)
@@ -147,8 +147,8 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
         {
             $category = $this->get_current_category_id();
         }
-        $tool_cond= new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, $this->browser->get_parent()->get_tool_id());
-        $category_cond = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $category );
+        $tool_cond= new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, $this->browser->get_parent()->get_tool_id());
+        $category_cond = new EqualityCondition(ContentObjectPublication :: PROPERTY_CATEGORY_ID, $category );
         return new AndCondition($tool_cond, $category_cond);
     }
 

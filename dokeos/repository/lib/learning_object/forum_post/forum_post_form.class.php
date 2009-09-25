@@ -1,17 +1,17 @@
 <?php
-require_once dirname(__FILE__).'/../../learning_object_form.class.php';
+require_once dirname(__FILE__).'/../../content_object_form.class.php';
 require_once dirname(__FILE__).'/forum_post.class.php';
 /**
  * @package repository.learningobject
  * @subpackage forum
  */
-class ForumPostForm extends LearningObjectForm
+class ForumPostForm extends ContentObjectForm
 {
-	function create_learning_object()
+	function create_content_object()
 	{
 		$object = new ForumPost();
-		$this->set_learning_object($object);
-		return parent :: create_learning_object();
+		$this->set_content_object($object);
+		return parent :: create_content_object();
 	}
 	
     function build_creation_form()

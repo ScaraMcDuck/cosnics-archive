@@ -4,7 +4,7 @@
  */
 
 /**
- * This class describes a LearningObjectPublicationCourseGroup data object
+ * This class describes a ContentObjectPublicationCourseGroup data object
  *
  * @author Hans De Bisschop
  */
@@ -14,7 +14,7 @@ class CalendarEventPublicationGroup
 	const TABLE_NAME = 'publication_group';
 
 	/**
-	 * LearningObjectPublicationCourseGroup properties
+	 * ContentObjectPublicationCourseGroup properties
 	 */
 	const PROPERTY_PUBLICATION = 'publication_id';
 	const PROPERTY_GROUP_ID = 'group_id';
@@ -25,7 +25,7 @@ class CalendarEventPublicationGroup
 	private $defaultProperties;
 
 	/**
-	 * Creates a new LearningObjectPublicationCourseGroup object
+	 * Creates a new ContentObjectPublicationCourseGroup object
 	 * @param array $defaultProperties The default properties
 	 */
 	function CalendarEventPublicationGroup($defaultProperties = array ())
@@ -79,7 +79,7 @@ class CalendarEventPublicationGroup
 	}
 
 	/**
-	 * Returns the publication of this LearningObjectPublicationCourseGroup.
+	 * Returns the publication of this ContentObjectPublicationCourseGroup.
 	 * @return the publication.
 	 */
 	function get_publication()
@@ -88,7 +88,7 @@ class CalendarEventPublicationGroup
 	}
 
 	/**
-	 * Sets the publication of this LearningObjectPublicationCourseGroup.
+	 * Sets the publication of this ContentObjectPublicationCourseGroup.
 	 * @param publication
 	 */
 	function set_publication($publication)
@@ -96,7 +96,7 @@ class CalendarEventPublicationGroup
 		$this->set_default_property(self :: PROPERTY_PUBLICATION, $publication);
 	}
 	/**
-	 * Returns the course_group_id of this LearningObjectPublicationCourseGroup.
+	 * Returns the course_group_id of this ContentObjectPublicationCourseGroup.
 	 * @return the course_group_id.
 	 */
 	function get_group_id()
@@ -105,7 +105,7 @@ class CalendarEventPublicationGroup
 	}
 
 	/**
-	 * Sets the course_group_id of this LearningObjectPublicationCourseGroup.
+	 * Sets the course_group_id of this ContentObjectPublicationCourseGroup.
 	 * @param course_group_id
 	 */
 	function set_group_id($group_id)

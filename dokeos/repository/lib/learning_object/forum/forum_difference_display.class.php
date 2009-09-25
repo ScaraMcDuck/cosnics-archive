@@ -6,7 +6,7 @@
 /**
  * This class can be used to display the difference between forums
  */
-class ForumDifferenceDisplay extends LearningObjectDifferenceDisplay
+class ForumDifferenceDisplay extends ContentObjectDifferenceDisplay
 {
 }
 ?>

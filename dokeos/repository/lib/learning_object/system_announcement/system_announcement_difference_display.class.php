@@ -8,7 +8,7 @@
 /**
  * This class can be used to display the difference between system announcements
  */
-class SystemAnnouncementDifferenceDisplay extends LearningObjectDifferenceDisplay
+class SystemAnnouncementDifferenceDisplay extends ContentObjectDifferenceDisplay
 {
 	function get_diff_as_html()
 	{

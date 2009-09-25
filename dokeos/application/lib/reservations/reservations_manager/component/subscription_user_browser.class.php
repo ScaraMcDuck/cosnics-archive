@@ -48,7 +48,7 @@ class ReservationsManagerSubscriptionUserBrowserComponent extends ReservationsMa
 		
 		$this->display_reservation_information();
 		
-		echo '<div class="learning_object" style="background-image: url(' . Theme :: get_common_image_path().'action_users.png);">';
+		echo '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path().'action_users.png);">';
 		echo '<div class="title">' . Translation :: get('Additional Users') . '</div>';
 		echo '<div class="description">';
 		echo $this->get_user_html();
@@ -91,7 +91,7 @@ class ReservationsManagerSubscriptionUserBrowserComponent extends ReservationsMa
 		$responsible = $item->get_responsible();
 		$sub_user = UserDataManager :: get_instance()->retrieve_user($subscription->get_user_id())->get_fullname();
 		
-		$html[] = '<div class="learning_object" style="background-image: url(' . Theme :: get_common_image_path().'treemenu_types/calendar_event.png);">';
+		$html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path().'treemenu_types/calendar_event.png);">';
 		$html[] = '<div class="title">';
 		$html[] = $item->get_name();
 		$html[] = '</div>';

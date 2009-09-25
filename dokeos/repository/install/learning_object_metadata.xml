@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<object name="learning_object_metadata">
+<object name="content_object_metadata">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="learning_object_id" type="integer" unsigned="1" notnull="1"/>
+  <property name="content_object_id" type="integer" unsigned="1" notnull="1"/>
   <property name="override_id" type="integer" unsigned="1" notnull="1"/>
   <property name="type" notnull="1" type="text" length="50" fixed="true"/>
   <property name="property" notnull="1" type="text" length="255" fixed="true"/>
@@ -13,8 +13,8 @@
  <index name="id" type="primary">
   <indexproperty name="id"/>
  </index>
- <index name="learning_object_id" type="unique">
-  <indexproperty name="learning_object_id"/>
+ <index name="content_object_id" type="unique">
+  <indexproperty name="content_object_id"/>
   <indexproperty name="property"/>
  </index>
 </object>

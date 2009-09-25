@@ -32,7 +32,7 @@ else
 	$dataManager = RepositoryDataManager :: get_instance();
 	// clear the entire learning object database 
 	// WARNING , the entire learning object database will be wiped
-	$dataManager->delete_all_learning_objects();
+	$dataManager->delete_all_content_objects();
 	title('Er wordt een nieuwe Category gemaakt (vroegere zijn gewist)');
 	
 		create_category(Session :: get_user_id());

@@ -5,9 +5,9 @@
  */
 
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_cell_renderer.class.php';
-require_once dirname(__FILE__).'/../learning_object.class.php';
+require_once dirname(__FILE__).'/../content_object.class.php';
 /**
- * This is the default cell renderer, used when a LearningObjectTable does not
+ * This is the default cell renderer, used when a ContentObjectTable does not
  * provide its own renderer.
  *
  * The default renderer provides a custom rendering method for the following
@@ -29,48 +29,48 @@ require_once dirname(__FILE__).'/../learning_object.class.php';
  *
  * Any other column type will result in an empty cell.
  *
- * @see LearningObjectTable
- * @see LearningObjectTableCellRenderer
- * @see DefaultLearningObjectTableColumnModel
+ * @see ContentObjectTable
+ * @see ContentObjectTableCellRenderer
+ * @see DefaultContentObjectTableColumnModel
  * @author Tim De Pauw
  */
-class DefaultLearningObjectTableCellRenderer implements ObjectTableCellRenderer
+class DefaultContentObjectTableCellRenderer implements ObjectTableCellRenderer
 {
 	/**
 	 * Constructor
 	 */
-	function DefaultLearningObjectTableCellRenderer()
+	function DefaultContentObjectTableCellRenderer()
 	{
 	}
 	/**
 	 * Renders a table cell
-	 * @param LearningObjectTableColumnModel $column The column which should be
+	 * @param ContentObjectTableColumnModel $column The column which should be
 	 * rendered
-	 * @param Learning Object $learning_object The learning object to render
+	 * @param Learning Object $content_object The learning object to render
 	 * @return string A HTML representation of the rendered table cell
 	 */
-	function render_cell($column, $learning_object)
+	function render_cell($column, $content_object)
 	{
         switch ($column->get_name())
         {
-            case LearningObject :: PROPERTY_ID :
-                return $learning_object->get_id();
-            case LearningObject :: PROPERTY_TYPE :
-                $type = $learning_object->get_type();
-                $icon = $learning_object->get_icon_name();
-                return '<img src="' . Theme :: get_common_image_path() . 'learning_object/' .$icon.'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($type).'TypeName')).'"/>';
-            case LearningObject :: PROPERTY_TITLE :
-                return htmlspecialchars($learning_object->get_title());
-            case LearningObject :: PROPERTY_DESCRIPTION :
-                return DokeosUtilities::truncate_string($learning_object->get_description(),50);
-            case LearningObject :: PROPERTY_CREATION_DATE :
+            case ContentObject :: PROPERTY_ID :
+                return $content_object->get_id();
+            case ContentObject :: PROPERTY_TYPE :
+                $type = $content_object->get_type();
+                $icon = $content_object->get_icon_name();
+                return '<img src="' . Theme :: get_common_image_path() . 'content_object/' .$icon.'.png" alt="'.htmlentities(Translation :: get(ContentObject :: type_to_class($type).'TypeName')).'"/>';
+            case ContentObject :: PROPERTY_TITLE :
+                return htmlspecialchars($content_object->get_title());
+            case ContentObject :: PROPERTY_DESCRIPTION :
+                return DokeosUtilities::truncate_string($content_object->get_description(),50);
+            case ContentObject :: PROPERTY_CREATION_DATE :
                 // TODO: i18n
-                return date('Y-m-d, H:i', $learning_object->get_creation_date());
-            case LearningObject :: PROPERTY_MODIFICATION_DATE :
+                return date('Y-m-d, H:i', $content_object->get_creation_date());
+            case ContentObject :: PROPERTY_MODIFICATION_DATE :
                 // TODO: i18n
-                return date('Y-m-d, H:i', $learning_object->get_creation_date());
+                return date('Y-m-d, H:i', $content_object->get_creation_date());
             case Translation :: get('Versions') :
-                return $learning_object->get_version_count();
+                return $content_object->get_version_count();
             default :
                 return '&nbsp;';
         }

@@ -24,17 +24,17 @@ class RepositoryManagerDocumentDownloaderComponent extends RepositoryManagerComp
 		if(!$object_id)
 		{
 			$this->display_header();
-			$this->display_error_message(Translation :: get('NoLearningObjectSelected'));
+			$this->display_error_message(Translation :: get('NoContentObjectSelected'));
 			$this->display_footer();
 			exit();
 		}
 		
 		
-		$lo = $this->retrieve_learning_object($object_id);
+		$lo = $this->retrieve_content_object($object_id);
 		if($lo->get_type() != 'document')
 		{
 			$this->display_header();
-			$this->display_error_message(Translation :: get('LearningObjectMustBeDocument'));
+			$this->display_error_message(Translation :: get('ContentObjectMustBeDocument'));
 			$this->display_footer();
 			exit();
 		}

@@ -7,7 +7,7 @@
 /**
  * This class can be used to display open questions
  */
-class HotspotQuestionDisplay extends LearningObjectDisplay
+class HotspotQuestionDisplay extends ContentObjectDisplay
 {
     private $colours = array('#00315b', '#00adef', '#aecee7', '#9dcfc3', '#016c62', '#c7ac21', '#ff5329', '#bd0019', '#e7ad7b', '#bd0084', '#9d8384', '#42212a', '#005b84', '#e0eeef', '#00ad9c', '#ffe62a', '#f71932', '#ff9429', '#f6d7c5', '#7a2893');
 
@@ -15,9 +15,9 @@ class HotspotQuestionDisplay extends LearningObjectDisplay
     {
         $html = array();
 
-        $learning_object = $this->get_learning_object();
-        $options = $learning_object->get_answers();
-        $image = $learning_object->get_image_object();
+        $content_object = $this->get_content_object();
+        $options = $content_object->get_answers();
+        $image = $content_object->get_image_object();
 
         $html[] = parent :: get_description();
 

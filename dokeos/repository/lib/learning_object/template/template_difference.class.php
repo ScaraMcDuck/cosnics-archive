@@ -7,7 +7,7 @@
 /**
  * This class can be used to get the difference between templates
  */
-class TemplateDifference extends LearningObjectDifference
+class TemplateDifference extends ContentObjectDifference
 {
 }
 ?>

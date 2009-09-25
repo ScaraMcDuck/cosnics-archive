@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/../repository_manager_component.class.php';
  * Repository manager component which provides functionality to delete a
  * learning object from the users repository.
  */
-class RepositoryManagerAddLearningObjectsComponent extends RepositoryManagerComponent
+class RepositoryManagerAddContentObjectsComponent extends RepositoryManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
@@ -31,9 +31,9 @@ class RepositoryManagerAddLearningObjectsComponent extends RepositoryManagerComp
 
 			foreach ($ids as $ref)
 			{
-				$type = RepositoryDataManager :: get_instance()->determine_learning_object_type($ref);
+				$type = RepositoryDataManager :: get_instance()->determine_content_object_type($ref);
 
-				$cloi = ComplexLearningObjectItem :: factory($type);
+				$cloi = ComplexContentObjectItem :: factory($type);
 
 				$cloi->set_ref($ref);
 				$cloi->set_user_id($this->get_user()->get_id());

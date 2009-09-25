@@ -3,11 +3,11 @@
  * @package repository.learningobject
  * @subpackage forum
  */
-require_once dirname(__FILE__).'/../../learning_object.class.php';
+require_once dirname(__FILE__).'/../../content_object.class.php';
 /**
  * This class represents a discussion forum.
  */
-class Forum extends LearningObject
+class Forum extends ContentObject
 {
 	const PROPERTY_LOCKED = 'locked';
 	const PROPERTY_TOTAL_TOPICS = 'total_topics';
@@ -61,12 +61,12 @@ class Forum extends LearningObject
 		
 		$rdm = RepositoryDataManager :: get_instance();
 		
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $this->get_id());
-		$wrappers = $rdm->retrieve_complex_learning_object_items($condition);
+		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->get_id());
+		$wrappers = $rdm->retrieve_complex_content_object_items($condition);
 		
 		while($item = $wrappers->next_result())
 		{
-			$lo = $rdm->retrieve_learning_object($item->get_parent());
+			$lo = $rdm->retrieve_content_object($item->get_parent());
 			$lo->add_last_post($last_post);
 		}
 	}
@@ -85,12 +85,12 @@ class Forum extends LearningObject
 			$this->set_last_post($id);
 			$this->update();
 			
-			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $this->get_id());
-			$wrappers = $rdm->retrieve_complex_learning_object_items($condition);
+			$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->get_id());
+			$wrappers = $rdm->retrieve_complex_content_object_items($condition);
 			
 			while($item = $wrappers->next_result())
 			{
-				$lo = $rdm->retrieve_learning_object($item->get_parent());
+				$lo = $rdm->retrieve_content_object($item->get_parent());
 				$lo->recalculate_last_post();
 			}
 		}
@@ -113,12 +113,12 @@ class Forum extends LearningObject
 		
 		$rdm = RepositoryDataManager :: get_instance();
 		
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $this->get_id());
-		$wrappers = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
+		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->get_id());
+		$wrappers = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items($condition);
 		
 		while($item = $wrappers->next_result())
 		{
-			$lo = $rdm->retrieve_learning_object($item->get_parent());
+			$lo = $rdm->retrieve_content_object($item->get_parent());
 			$lo->add_post($posts);
 		}
 	}
@@ -130,12 +130,12 @@ class Forum extends LearningObject
 		
 		$rdm = RepositoryDataManager :: get_instance();
 		
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $this->get_id());
-		$wrappers = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
+		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->get_id());
+		$wrappers = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items($condition);
 		
 		while($item = $wrappers->next_result())
 		{
-			$lo = $rdm->retrieve_learning_object($item->get_parent());
+			$lo = $rdm->retrieve_content_object($item->get_parent());
 			$lo->remove_post($posts);
 		}
 	}
@@ -147,12 +147,12 @@ class Forum extends LearningObject
 		
 		$rdm = RepositoryDataManager :: get_instance();
 		
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $this->get_id());
-		$wrappers = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
+		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->get_id());
+		$wrappers = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items($condition);
 		
 		while($item = $wrappers->next_result())
 		{
-			$lo = $rdm->retrieve_learning_object($item->get_parent());
+			$lo = $rdm->retrieve_content_object($item->get_parent());
 			$lo->add_topic($topics);
 		}
 	}
@@ -164,12 +164,12 @@ class Forum extends LearningObject
 		
 		$rdm = RepositoryDataManager :: get_instance();
 		
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $this->get_id());
-		$wrappers = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
+		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->get_id());
+		$wrappers = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items($condition);
 		
 		while($item = $wrappers->next_result())
 		{
-			$lo = $rdm->retrieve_learning_object($item->get_parent());
+			$lo = $rdm->retrieve_content_object($item->get_parent());
 			$lo->remove_topic($topics);
 		}
 	}

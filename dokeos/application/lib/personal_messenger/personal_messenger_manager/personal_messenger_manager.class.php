@@ -169,9 +169,9 @@ class PersonalMessengerManager extends WebApplication
 	 * @param int $object_id
 	 * @return boolean Is the object is published
 	 */
-	function learning_object_is_published($object_id)
+	function content_object_is_published($object_id)
 	{
-		return PersonalMessengerDataManager :: get_instance()->learning_object_is_published($object_id);
+		return PersonalMessengerDataManager :: get_instance()->content_object_is_published($object_id);
 	}
 
 	/**
@@ -179,9 +179,9 @@ class PersonalMessengerManager extends WebApplication
 	 * @param array $object_ids An array of object id's
 	 * @return boolean Was any learning object published
 	 */
-	function any_learning_object_is_published($object_ids)
+	function any_content_object_is_published($object_ids)
 	{
-		return PersonalMessengerDataManager :: get_instance()->any_learning_object_is_published($object_ids);
+		return PersonalMessengerDataManager :: get_instance()->any_content_object_is_published($object_ids);
 	}
 
 	/**
@@ -194,9 +194,9 @@ class PersonalMessengerManager extends WebApplication
 	 * @param int $order_direction
 	 * @return array An array of Learing Object Publication Attributes
 	 */
-	function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return PersonalMessengerDataManager :: get_instance()->get_learning_object_publication_attributes($this->get_user(), $object_id, $type, $offset, $count, $order_property, $order_direction);
+		return PersonalMessengerDataManager :: get_instance()->get_content_object_publication_attributes($this->get_user(), $object_id, $type, $offset, $count, $order_property, $order_direction);
 	}
 
 	/**
@@ -207,11 +207,11 @@ class PersonalMessengerManager extends WebApplication
 	 * @param int $count
 	 * @param int $order_property
 	 * @param int $order_direction
-	 * @return LearningObjectPublicationAttribute
+	 * @return ContentObjectPublicationAttribute
 	 */
-	function get_learning_object_publication_attribute($object_id)
+	function get_content_object_publication_attribute($object_id)
 	{
-		return PersonalMessengerDataManager :: get_instance()->get_learning_object_publication_attribute($object_id);
+		return PersonalMessengerDataManager :: get_instance()->get_content_object_publication_attribute($object_id);
 	}
 
 	/**
@@ -231,17 +231,17 @@ class PersonalMessengerManager extends WebApplication
 	 * @param Condition $conditions
 	 * @return boolean
 	 */
-	function delete_learning_object_publications($object_id)
+	function delete_content_object_publications($object_id)
 	{
 		return PersonalMessengerDataManager :: get_instance()->delete_personal_message_publications($object_id);
 	}
 
 	/**
 	 * Update the publication id
-	 * @param LearningObjectPublicationAttribure $publication_attr
+	 * @param ContentObjectPublicationAttribure $publication_attr
 	 * @return boolean
 	 */
-	function update_learning_object_publication_id($publication_attr)
+	function update_content_object_publication_id($publication_attr)
 	{
 		return PersonalMessengerDataManager :: get_instance()->update_personal_message_publication_id($publication_attr);
 	}
@@ -296,12 +296,12 @@ class PersonalMessengerManager extends WebApplication
 	/**
 	 * Inherited
 	 */
-	function get_learning_object_publication_locations($learning_object)
+	function get_content_object_publication_locations($content_object)
 	{
 		return array();
 	}
 
-	function publish_learning_object($learning_object, $location)
+	function publish_content_object($content_object, $location)
 	{
 
 	}

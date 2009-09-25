@@ -3,8 +3,8 @@
 require_once dirname(__FILE__) . '/../complex_builder_component.class.php';
 require_once dirname(__FILE__) . '/../complex_repo_viewer.class.php';
 require_once Path :: get_repository_path() . 'lib/repository_data_manager.class.php';
-require_once Path :: get_repository_path() . 'lib/complex_learning_object_item_form.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
+require_once Path :: get_repository_path() . 'lib/complex_content_object_item_form.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_form.class.php';
 
 class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
 {
@@ -20,12 +20,12 @@ class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
 			ComplexBuilder :: PARAM_SELECTED_CLOI_ID => $cloi_id, 'publish' => Request :: get('publish'));
 
 		$rdm = RepositoryDataManager :: get_instance();
-		$cloi = $rdm->retrieve_complex_learning_object_item($cloi_id);
-		$lo = $rdm->retrieve_learning_object($cloi->get_ref());
+		$cloi = $rdm->retrieve_complex_content_object_item($cloi_id);
+		$lo = $rdm->retrieve_content_object($cloi->get_ref());
 
 		$type = $lo->get_type();
 
-		$cloi_form = ComplexLearningObjectItemForm :: factory_with_type(ComplexLearningObjectItemForm :: TYPE_CREATE, $type, $cloi, 'create_complex', 'post', $this->get_url());
+		$cloi_form = ComplexContentObjectItemForm :: factory_with_type(ComplexContentObjectItemForm :: TYPE_CREATE, $type, $cloi, 'create_complex', 'post', $this->get_url());
 
 		if($cloi_form)
 		{
@@ -33,12 +33,12 @@ class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
 			$defaults = $cloi_form->get_default_values();
 		}
 
-		$lo_form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $lo, 'edit', 'post', $this->get_url($parameters), null, $elements);
+		$lo_form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $lo, 'edit', 'post', $this->get_url($parameters), null, $elements);
 		$lo_form->setDefaults($defaults);
 
 		if ($lo_form->validate())
 		{
-			$lo_form->update_learning_object();
+			$lo_form->update_content_object();
 
 			if($lo_form->is_version())
 			{
@@ -46,7 +46,7 @@ class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
 				$new_id = $lo->get_latest_version()->get_id();
 				$cloi->set_ref($new_id);
 				
-				$children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $old_id, ComplexLearningObjectItem :: get_table_name()));
+				$children = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $old_id, ComplexContentObjectItem :: get_table_name()));
 				while($child = $children->next_result())
 				{
 					$child->set_parent($new_id);
@@ -61,7 +61,7 @@ class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
 
 			$parameters[ComplexBuilder :: PARAM_SELECTED_CLOI_ID] = null;
 
-			$this->redirect(Translation :: get('LearningObjectUpdated'), false,
+			$this->redirect(Translation :: get('ContentObjectUpdated'), false,
 					array_merge($parameters, array(
 						ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO,
 						'publish' => Request :: get('publish')
@@ -72,7 +72,7 @@ class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
 			$trail = new BreadcrumbTrail(false);
 			$trail->add_help('repository builder');
 			
-			$trail->add(new BreadCrumb($this->get_url(array('builder_action' => null, 'root_lo' => $root_lo, 'cid' => Request :: get('cid'), 'publish' => Request :: get('publish'))), RepositoryDataManager :: get_instance()->retrieve_learning_object($root_lo)->get_title()));
+			$trail->add(new BreadCrumb($this->get_url(array('builder_action' => null, 'root_lo' => $root_lo, 'cid' => Request :: get('cid'), 'publish' => Request :: get('publish'))), RepositoryDataManager :: get_instance()->retrieve_content_object($root_lo)->get_title()));
         	$trail->add(new BreadCrumb($this->get_url(array('builder_action' => 'update_cloi', 'root_lo' => $root_lo, 'selected_cloi' => $cloi_id, 'cid' => Request :: get('cid'), 'publish' => Request :: get('publish'))), Translation :: get('Update')));
 			
 			$this->display_header($trail);

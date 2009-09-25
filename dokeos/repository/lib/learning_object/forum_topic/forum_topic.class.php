@@ -3,11 +3,11 @@
  * @package repository.learningobject
  * @subpackage forum
  */
-require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) . '/../../content_object.class.php';
 /**
  * This class represents a topic in a discussion forum.
  */
-class ForumTopic extends LearningObject
+class ForumTopic extends ContentObject
 {
 	const PROPERTY_LOCKED = 'locked';
 	const PROPERTY_TOTAL_POSTS = 'total_posts';
@@ -16,24 +16,24 @@ class ForumTopic extends LearningObject
 	function create()
 	{
 		$succes = parent :: create();
-		$children = RepositoryDataManager :: get_instance()->count_complex_learning_object_items(new EqualityCondition('parent', $this->get_id()));
+		$children = RepositoryDataManager :: get_instance()->count_complex_content_object_items(new EqualityCondition('parent', $this->get_id()));
 				
 		if($children == 0)
 		{
-			$learning_object = new AbstractLearningObject('forum_post', $this->get_owner_id());
-			$learning_object->set_title($this->get_title());
-			$learning_object->set_description($this->get_description());
-			$learning_object->set_owner_id($this->get_owner_id());
+			$content_object = new AbstractContentObject('forum_post', $this->get_owner_id());
+			$content_object->set_title($this->get_title());
+			$content_object->set_description($this->get_description());
+			$content_object->set_owner_id($this->get_owner_id());
 			
-			$learning_object->create();
+			$content_object->create();
 			
-			$attachments = $this->get_attached_learning_objects();
+			$attachments = $this->get_attached_content_objects();
 			foreach($attachments as $attachment)
-				$learning_object->attach_learning_object($attachment->get_id());
+				$content_object->attach_content_object($attachment->get_id());
 			
-			$cloi = ComplexLearningObjectItem :: factory('forum_post');
+			$cloi = ComplexContentObjectItem :: factory('forum_post');
 
-			$cloi->set_ref($learning_object->get_id());
+			$cloi->set_ref($content_object->get_id());
 			$cloi->set_user_id($this->get_owner_id());
 			$cloi->set_parent($this->get_id());
 			$cloi->set_display_order(1);
@@ -96,12 +96,12 @@ class ForumTopic extends LearningObject
 		
 		$rdm = RepositoryDataManager :: get_instance();
 		
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $this->get_id());
-		$wrappers = $rdm->retrieve_complex_learning_object_items($condition);
+		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->get_id());
+		$wrappers = $rdm->retrieve_complex_content_object_items($condition);
 		
 		while($item = $wrappers->next_result())
 		{
-			$lo = $rdm->retrieve_learning_object($item->get_parent());
+			$lo = $rdm->retrieve_content_object($item->get_parent());
 			$lo->add_last_post($last_post);
 		}
 	}
@@ -110,8 +110,8 @@ class ForumTopic extends LearningObject
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexLearningObjectItem :: get_table_name());
-		$children = $rdm->retrieve_complex_learning_object_items($condition, array(new ObjectTableOrder('add_date', SORT_DESC)), array(), 0, 1);
+		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name());
+		$children = $rdm->retrieve_complex_content_object_items($condition, array(new ObjectTableOrder('add_date', SORT_DESC)), array(), 0, 1);
 		$lp = $children->next_result();
 		
 		$id = ($lp)?$lp->get_id():0;
@@ -121,12 +121,12 @@ class ForumTopic extends LearningObject
 			$this->set_last_post($id);
 			$this->update();
 			
-			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $this->get_id());
-			$wrappers = $rdm->retrieve_complex_learning_object_items($condition);
+			$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->get_id());
+			$wrappers = $rdm->retrieve_complex_content_object_items($condition);
 			
 			while($item = $wrappers->next_result())
 			{  
-				$lo = $rdm->retrieve_learning_object($item->get_parent());
+				$lo = $rdm->retrieve_content_object($item->get_parent());
 				$lo->recalculate_last_post();
 			}
 		}
@@ -139,12 +139,12 @@ class ForumTopic extends LearningObject
 		
 		$rdm = RepositoryDataManager :: get_instance();
 		
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $this->get_id());
-		$wrappers = $rdm->retrieve_complex_learning_object_items($condition);
+		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->get_id());
+		$wrappers = $rdm->retrieve_complex_content_object_items($condition);
 		
 		while($item = $wrappers->next_result())
 		{
-			$lo = $rdm->retrieve_learning_object($item->get_parent());
+			$lo = $rdm->retrieve_content_object($item->get_parent());
 			$lo->add_post($posts);
 		}
 	}
@@ -156,12 +156,12 @@ class ForumTopic extends LearningObject
 		
 		$rdm = RepositoryDataManager :: get_instance();
 		
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $this->get_id());
-		$wrappers = $rdm->retrieve_complex_learning_object_items($condition);
+		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->get_id());
+		$wrappers = $rdm->retrieve_complex_content_object_items($condition);
 		
 		while($item = $wrappers->next_result())
 		{
-			$lo = $rdm->retrieve_learning_object($item->get_parent());
+			$lo = $rdm->retrieve_content_object($item->get_parent());
 			$lo->remove_post($posts);
 		}
 	}

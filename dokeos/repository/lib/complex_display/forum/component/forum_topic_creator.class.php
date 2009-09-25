@@ -1,7 +1,7 @@
 <?php
 
-require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
-require_once Path :: get_repository_path() . 'lib/complex_learning_object_item_form.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_form.class.php';
+require_once Path :: get_repository_path() . 'lib/complex_content_object_item_form.class.php';
 require_once Path :: get_application_path() . 'common/repo_viewer/repo_viewer.class.php';
 
 class ForumDisplayForumTopicCreatorComponent extends ForumDisplayComponent
@@ -41,11 +41,11 @@ class ForumDisplayForumTopicCreatorComponent extends ForumDisplayComponent
             {
                 if(!is_array($object_id))
                 {
-                    $cloi = ComplexLearningObjectItem :: factory('forum_topic');
+                    $cloi = ComplexContentObjectItem :: factory('forum_topic');
 
                     if($is_subforum)
                     {
-                        $subforum = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item($forum)->get_ref();
+                        $subforum = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($forum)->get_ref();
                         $cloi->set_parent($subforum);
                     }
                     else
@@ -62,11 +62,11 @@ class ForumDisplayForumTopicCreatorComponent extends ForumDisplayComponent
                 {
                     foreach ($object_id as $key => $value)
                     {
-                        $cloi = ComplexLearningObjectItem :: factory('forum_topic');
+                        $cloi = ComplexContentObjectItem :: factory('forum_topic');
 
                         if($is_subforum)
                         {
-                            $subforum = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item($forum)->get_ref();
+                            $subforum = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($forum)->get_ref();
                             $cloi->set_parent($subforum);
                         }
                         else

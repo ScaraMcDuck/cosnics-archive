@@ -3,12 +3,12 @@
  * $Id$
  * @package repository
  */
-require_once dirname(__FILE__).'/accessible_learning_object.class.php';
+require_once dirname(__FILE__).'/accessible_content_object.class.php';
 require_once dirname(__FILE__).'/repository_data_manager.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
-require_once dirname(__FILE__).'/learning_object_difference.class.php';
-require_once dirname(__FILE__).'/learning_object_display.class.php';
+require_once dirname(__FILE__).'/content_object_difference.class.php';
+require_once dirname(__FILE__).'/content_object_display.class.php';
 require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 require_once Path :: get_rights_path().'lib/location.class.php';
 require_once Path :: get_common_path() . 'data_class.class.php';
@@ -45,7 +45,7 @@ require_once Path :: get_common_path() . 'data_class.class.php';
  *
  *	To create your own type of learning object, you should follow these steps:
  *	- Decide on a name for the type, e.g. "MyType".
- *	- Create a new subdirectory in /repository/lib/learning_object. For
+ *	- Create a new subdirectory in /repository/lib/content_object. For
  *	  "MyType", it would be called "my_type".
  *	- Create two files in that subdirectory:
  *	  - The properties file (e.g. "my_type.properties") is a plain text list
@@ -71,7 +71,7 @@ require_once Path :: get_common_path() . 'data_class.class.php';
  *  @author Dieter De Neef
  */
 
-class LearningObject extends DataClass implements AccessibleLearningObject
+class ContentObject extends DataClass implements AccessibleContentObject
 {
     const CLASS_NAME = __CLASS__;
 
@@ -145,7 +145,7 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 	 *                                    object; in this case, they will be
 	 *                                    retrieved when needed.
 	 */
-	function LearningObject($id = 0, $defaultProperties = array (), $additionalProperties = null)
+	function ContentObject($id = 0, $defaultProperties = array (), $additionalProperties = null)
 	{
 		parent :: __construct($defaultProperties);
                 $this->set_id($id);
@@ -221,9 +221,9 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 	function get_difference($id)
 	{
 		$dm = RepositoryDataManager :: get_instance();
-		$version = $dm->retrieve_learning_object($id);
+		$version = $dm->retrieve_content_object($id);
 
-		$lod = LearningObjectDifference :: factory($this, $version);
+		$lod = ContentObjectDifference :: factory($this, $version);
 
 		return $lod;
 	}
@@ -290,12 +290,12 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 	 * Returns the learning objects attached to this learning object.
 	 * @return array The learning objects.
 	 */
-	function get_attached_learning_objects ()
+	function get_attached_content_objects ()
 	{
 		if (!is_array($this->attachments))
 		{
 			$dm = RepositoryDataManager :: get_instance();
-			$this->attachments = $dm->retrieve_attached_learning_objects($this);
+			$this->attachments = $dm->retrieve_attached_content_objects($this);
 		}
 		return $this->attachments;
 	}
@@ -304,22 +304,22 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 	 * Returns the learning objects included into this learning object.
 	 * @return array The learning objects.
 	 */
-	function get_included_learning_objects ()
+	function get_included_content_objects ()
 	{
 		if (!is_array($this->includes))
 		{
 			$dm = RepositoryDataManager :: get_instance();
-			$this->includes = $dm->retrieve_included_learning_objects($this);
+			$this->includes = $dm->retrieve_included_content_objects($this);
 		}
 		return $this->includes;
 	}
 
-	function get_learning_object_versions()
+	function get_content_object_versions()
 	{
 		if (!is_array($this->versions))
 		{
 			$dm = RepositoryDataManager :: get_instance();
-			$this->versions = $dm->retrieve_learning_object_versions($this);
+			$this->versions = $dm->retrieve_content_object_versions($this);
 		}
 		return $this->versions;
 	}
@@ -333,14 +333,14 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 	function get_latest_version()
 	{
 		$dm = RepositoryDataManager :: get_instance();
-		return $dm->retrieve_learning_object($dm->get_latest_version_id($this));
+		return $dm->retrieve_content_object($dm->get_latest_version_id($this));
 	}
 
 	/**
 	 * Returns the edition of this learning object
 	 * @return an int; the number of the version.
 	 */
-	function get_learning_object_edition()
+	function get_content_object_edition()
 	{
 		$dm = RepositoryDataManager :: get_instance();
 		return array_search($this->id, $dm->get_version_ids($this)) + 1;
@@ -512,20 +512,20 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 	 * Attaches the learning object with the given ID to this learning object.
 	 * @param int $id The ID of the learning object to attach.
 	 */
-	function attach_learning_object ($id)
+	function attach_content_object ($id)
 	{
 		$dm = RepositoryDataManager :: get_instance();
-		return $dm->attach_learning_object($this, $id);
+		return $dm->attach_content_object($this, $id);
 	}
 
 	/**
 	 * Includes the learning object with the given ID in this learning object.
 	 * @param int $id The ID of the learning object to include.
 	 */
-	function include_learning_object($id)
+	function include_content_object($id)
 	{
 		$dm = RepositoryDataManager :: get_instance();
-		return $dm->include_learning_object($this, $id);
+		return $dm->include_content_object($this, $id);
 	}
 
 	/**
@@ -536,10 +536,10 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 	 * @return boolean True if the attachment was removed, false if it did not
 	 *                 exist.
 	 */
-	function detach_learning_object ($id)
+	function detach_content_object ($id)
 	{
 		$dm = RepositoryDataManager :: get_instance();
-		return $dm->detach_learning_object($this, $id);
+		return $dm->detach_content_object($this, $id);
 	}
 
 	/**
@@ -550,10 +550,10 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 	 * @return boolean True if the include was removed, false if it did not
 	 *                 exist.
 	 */
-	function exclude_learning_object($id)
+	function exclude_content_object($id)
 	{
 		$dm = RepositoryDataManager :: get_instance();
-		return $dm->exclude_learning_object($this, $id);
+		return $dm->exclude_content_object($this, $id);
 	}
 	
 	/**
@@ -614,7 +614,7 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 			if (!$index)
 			{
 				$dm = RepositoryDataManager :: get_instance();
-				return $dm->assign_learning_object_display_order_index($this);
+				return $dm->assign_content_object_display_order_index($this);
 			}
 			return $index;
 		}
@@ -636,10 +636,10 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 		$this->assign_display_order_index();
 		$this->set_creation_date($now);
 		$this->set_modification_date($now);
-		$this->set_id($dm->get_next_learning_object_id());
-		$this->set_object_number($dm->get_next_learning_object_number());
+		$this->set_id($dm->get_next_content_object_id());
+		$this->set_object_number($dm->get_next_content_object_number());
 
-		if (!$dm->create_learning_object($this, 'new'))
+		if (!$dm->create_content_object($this, 'new'))
 		{
 			return false;
 		}
@@ -650,7 +650,7 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 		$location = new Location();
 		$location->set_location($this->get_title());
 		$location->set_application(RepositoryManager :: APPLICATION_NAME);
-		$location->set_type('learning_object');
+		$location->set_type('content_object');
 		$location->set_identifier($this->get_id());
 		
 		$parent = $this->get_parent_id();
@@ -677,12 +677,12 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 
 		$this->assign_display_order_index();
 		$dm = RepositoryDataManager :: get_instance();
-		$id = $dm->get_next_learning_object_id();
+		$id = $dm->get_next_content_object_id();
 		$this->set_id($id);
-		$object_number = $dm->get_next_learning_object_number();
+		$object_number = $dm->get_next_content_object_number();
 		$this->set_object_number($object_number);
 		
-		if (!$dm->create_learning_object($this, 'new'))
+		if (!$dm->create_content_object($this, 'new'))
 		{
 			return false;
 		}
@@ -693,7 +693,7 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 		$location = new Location();
 		$location->set_location($this->get_title());
 		$location->set_application(RepositoryManager :: APPLICATION_NAME);
-		$location->set_type('learning_object');
+		$location->set_type('content_object');
 		$location->set_identifier($this->get_id());
 		
 		$parent = $this->get_parent_id();
@@ -733,7 +733,7 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 			$this->set_modification_date(time());
 		}
 		$dm = RepositoryDataManager :: get_instance();
-		$success = $dm->update_learning_object($this);
+		$success = $dm->update_content_object($this);
 		if (!$success)
 		{
 			return false;
@@ -744,7 +744,7 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 			return true;
 		}
 		$child_ids = self :: get_child_ids($this->get_id());
-		$dm->set_learning_object_states($child_ids, $state);
+		$dm->set_content_object_states($child_ids, $state);
 		/*
 		 * We return true here regardless of the result of the child update,
 		 * since the object itself did get updated.
@@ -759,10 +759,10 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 
 		$this->set_creation_date($now);
 		$this->set_modification_date($now);
-		$id = $dm->get_next_learning_object_id();
+		$id = $dm->get_next_content_object_id();
 		$this->set_id($id);
 
-		$success = $dm->create_learning_object($this, 'version');
+		$success = $dm->create_content_object($this, 'version');
 		if (!$success)
 		{
 			return false;
@@ -773,7 +773,7 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 			return true;
 		}
 		$child_ids = self :: get_child_ids($this->get_id());
-		$dm->set_learning_object_states($child_ids, $state);
+		$dm->set_content_object_states($child_ids, $state);
 		/*
 		 * We return true here regardless of the result of the child update,
 		 * since the object itself did get updated.
@@ -784,7 +784,7 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 	private static function get_child_ids($id)
 	{
 		$cond = new EqualityCondition(self :: PROPERTY_PARENT_ID, $id);
-		$children = RepositoryDataManager :: get_instance()->retrieve_learning_objects(null, $cond, array(), array(), 0, -1, -1);
+		$children = RepositoryDataManager :: get_instance()->retrieve_content_objects(null, $cond, array(), array(), 0, -1, -1);
 		$ids = array();
 		while ($child = $children->next_result())
 		{
@@ -805,20 +805,20 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 	 */
 	function delete()
 	{
-		return RepositoryDataManager :: get_instance()->delete_learning_object($this);
+		return RepositoryDataManager :: get_instance()->delete_content_object($this);
 	}
 
 	function delete_version()
 	{
-		return RepositoryDataManager :: get_instance()->delete_learning_object_version($this);
+		return RepositoryDataManager :: get_instance()->delete_content_object_version($this);
 	}
 
 	function delete_links()
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 
-		if ($rdm->delete_learning_object_publications($this) && $rdm->delete_learning_object_attachments($this) &&
-			$rdm->delete_clois_for_learning_object($this))
+		if ($rdm->delete_content_object_publications($this) && $rdm->delete_content_object_attachments($this) &&
+			$rdm->delete_clois_for_content_object($this))
 		{
 			return true;
 		}
@@ -838,7 +838,7 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 		$aid = $this->get_parent_id();
 		while ($aid > 0)
 		{
-			$ancestor = RepositoryDataManager :: get_instance()->retrieve_learning_object($aid);
+			$ancestor = RepositoryDataManager :: get_instance()->retrieve_content_object($aid);
 			$ancestors[] = $ancestor;
 			$aid = $ancestor->get_parent_id();
 		}
@@ -860,7 +860,7 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 			{
 				return true;
 			}
-			$ancestor = RepositoryDataManager :: get_instance()->retrieve_learning_object($aid);
+			$ancestor = RepositoryDataManager :: get_instance()->retrieve_content_object($aid);
 			$aid = $ancestor->get_parent_id();
 		}
 		return false;
@@ -881,7 +881,7 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 		{
 			return false;
 		}
-		$target_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($target);
+		$target_object = RepositoryDataManager :: get_instance()->retrieve_content_object($target);
 		if ($target_object->get_type() != 'category')
 		{
 			return false;
@@ -920,9 +920,9 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 	 * Determines whether this learning object is a complex learning object
 	 * @return boolean True if the LO is a CLO
 	 */
-	function is_complex_learning_object()
+	function is_complex_content_object()
 	{
-//		$file = dirname(__FILE__) . '/learning_object/' . $this->get_type() . '/complex_' . $this->get_type() . '.class.php';
+//		$file = dirname(__FILE__) . '/content_object/' . $this->get_type() . '/complex_' . $this->get_type() . '.class.php';
 //
 //		if(file_exists($file))
 //		{
@@ -951,7 +951,7 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 
 	function get_icon()
 	{
-		$src = Theme :: get_common_image_path() . 'learning_object/' . $this->get_icon_name() . '.png';
+		$src = Theme :: get_common_image_path() . 'content_object/' . $this->get_icon_name() . '.png';
 		return '<img src="' . $src . '" alt="' . $this->get_icon_name() . '" />';
 	}
 
@@ -966,7 +966,7 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 			return;
 		}
 		$dm = RepositoryDataManager :: get_instance();
-		$this->additionalProperties = $dm->retrieve_additional_learning_object_properties($this);
+		$this->additionalProperties = $dm->retrieve_additional_content_object_properties($this);
 	}
 
 	/**
@@ -1054,12 +1054,12 @@ class LearningObject extends DataClass implements AccessibleLearningObject
 	 *                                    properties of the learning object.
 	 *                                    Null if unknown; this implies JIT
 	 *                                    retrieval.
-	 * @return LearningObject The newly instantiated learning object.
+	 * @return ContentObject The newly instantiated learning object.
 	 */
 	static function factory($type, $id = null, $defaultProperties = array(), $additionalProperties = array())
 	{
 		$class = self :: type_to_class($type);
-		require_once dirname(__FILE__).'/learning_object/'.$type.'/'.$type.'.class.php';
+		require_once dirname(__FILE__).'/content_object/'.$type.'/'.$type.'.class.php';
 		return new $class ($id, $defaultProperties, $additionalProperties);
 	}
 

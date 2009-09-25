@@ -9,7 +9,7 @@
 /**
  * This class can be used to get the difference between profiles
  */
-class ProfileDifference extends LearningObjectDifference
+class ProfileDifference extends ContentObjectDifference
 {
 }
 ?>

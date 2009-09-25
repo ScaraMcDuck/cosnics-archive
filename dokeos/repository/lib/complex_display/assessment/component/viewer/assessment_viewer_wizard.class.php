@@ -36,7 +36,7 @@ class AssessmentViewerWizard extends HTML_QuickForm_Controller
 		$assessment = $this->assessment;
 		if($assessment->get_random_questions() == 0)
 		{
-			$total_questions = RepositoryDataManager :: get_instance()->count_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id(), ComplexLearningObjectItem :: get_table_name()));
+			$total_questions = RepositoryDataManager :: get_instance()->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $assessment->get_id(), ComplexContentObjectItem :: get_table_name()));
 			$_SESSION['questions'] = 'all';
 		}
 		else 
@@ -71,13 +71,13 @@ class AssessmentViewerWizard extends HTML_QuickForm_Controller
 		
 		if($_SESSION['questions'] == 'all')
 		{
-			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id(), ComplexLearningObjectItem :: get_table_name());
+			$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $assessment->get_id(), ComplexContentObjectItem :: get_table_name());
 		}
 		else
 		{
 			$random_questions = $_SESSION['questions'];
 
-			$condition = new InCondition(ComplexLearningObjectItem :: PROPERTY_ID, $random_questions, ComplexLearningObjectItem :: get_table_name());
+			$condition = new InCondition(ComplexContentObjectItem :: PROPERTY_ID, $random_questions, ComplexContentObjectItem :: get_table_name());
 		}
 		
 		if($questions_per_page == 0)
@@ -91,14 +91,14 @@ class AssessmentViewerWizard extends HTML_QuickForm_Controller
 			$stop = $questions_per_page;
 		}
 		
-		$questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition, array(), array(), $start, $stop);
+		$questions = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items($condition, array(), array(), $start, $stop);
 		
 		return $questions;
 	}
 	
 	function get_random_questions()
 	{
-		$questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->assessment->get_id(), ComplexLearningObjectItem :: get_table_name()));
+		$questions = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->assessment->get_id(), ComplexContentObjectItem :: get_table_name()));
 		while($question = $questions->next_result())
 		{
 			$question_list[] = $question;

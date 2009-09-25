@@ -1,23 +1,23 @@
 <?php
 
-require_once dirname(__FILE__).'/../learning_object_export.class.php';
+require_once dirname(__FILE__).'/../content_object_export.class.php';
 require_once Path :: get_plugin_path() . 'icalcreator/iCalcreator.class.php';
 
 /**
  * Exports learning object to the ical format (xml)
  * @see http://www.kigkonsult.se/iCalcreator/docs/using.html
  */
-class IcalExport extends LearningObjectExport
+class IcalExport extends ContentObjectExport
 {
-	function IcalExport($learning_object)
+	function IcalExport($content_object)
 	{
-		parent :: __construct($learning_object);	
+		parent :: __construct($content_object);	
 	}
 	
-	public function export_learning_object()
+	public function export_content_object()
 	{
-		$learning_object = $this->get_learning_object();
-		$file = Path :: get(SYS_TEMP_PATH). $learning_object->get_owner_id() . '/export_ical_' . $learning_object->get_id() . '.ics';
+		$content_object = $this->get_content_object();
+		$file = Path :: get(SYS_TEMP_PATH). $content_object->get_owner_id() . '/export_ical_' . $content_object->get_id() . '.ics';
         
         // TODO: Get language isocode for iCal export
         //define('ICAL_LANG',api_get_language_isocode());
@@ -29,22 +29,22 @@ class IcalExport extends LearningObjectExport
         $ical->setConfig('url', Path :: get(WEB_PATH));
         
         $vevent = new vevent();
-        $vevent->setProperty('summary', mb_convert_encoding($learning_object->get_title(), 'UTF-8'));
+        $vevent->setProperty('summary', mb_convert_encoding($content_object->get_title(), 'UTF-8'));
 
-        $vevent->setProperty('dtstart', $this->get_date_in_ical_format($learning_object->get_start_date()));
-        $vevent->setProperty('dtend', $this->get_date_in_ical_format($learning_object->get_end_date()));
+        $vevent->setProperty('dtstart', $this->get_date_in_ical_format($content_object->get_start_date()));
+        $vevent->setProperty('dtend', $this->get_date_in_ical_format($content_object->get_end_date()));
         
-        //$vevent->setProperty('LOCATION', $learning_object->get_location());
-        $vevent->setProperty('description', mb_convert_encoding($learning_object->get_description(), 'UTF-8'));
+        //$vevent->setProperty('LOCATION', $content_object->get_location());
+        $vevent->setProperty('description', mb_convert_encoding($content_object->get_description(), 'UTF-8'));
 
-        $owner = UserDataManager :: get_instance()->retrieve_user($learning_object->get_owner_id());
+        $owner = UserDataManager :: get_instance()->retrieve_user($content_object->get_owner_id());
         
         $vevent->setProperty('organizer', $owner->get_email());
         $vevent->setProperty('attendee', $owner->get_email());
 
         //TODO: Add repetition
 
-        if($learning_object->repeats())
+        if($content_object->repeats())
         {
         	$vevent->setProperty( 'rrule', $this->get_rrule());
         }
@@ -63,8 +63,8 @@ class IcalExport extends LearningObjectExport
 	{
 		$rrule = array();
 		
-		$learning_object = $this->get_learning_object();
-		$repeat = $learning_object->get_repeat_type();
+		$content_object = $this->get_content_object();
+		$repeat = $content_object->get_repeat_type();
 		
 		switch ($repeat)
 		{
@@ -94,9 +94,9 @@ class IcalExport extends LearningObjectExport
 				break;
 		}
 		
-		if(!$learning_object->repeats_indefinately())
+		if(!$content_object->repeats_indefinately())
 		{
-			$rrule['UNTIL'] = $this->get_date_in_ical_format($learning_object->get_repeat_to());
+			$rrule['UNTIL'] = $this->get_date_in_ical_format($content_object->get_repeat_to());
 		}
 		
 		return $rrule;

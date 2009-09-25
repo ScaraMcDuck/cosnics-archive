@@ -3,11 +3,11 @@
  * $Id: repository_browser_table_column_model.class.php 21940 2009-07-09 09:45:03Z scara84 $
  * @package repository.repositorymanager
  */
-require_once dirname(__FILE__).'/../../../../learning_object_table/default_shared_learning_object_table_column_model.class.php';
+require_once dirname(__FILE__).'/../../../../content_object_table/default_shared_content_object_table_column_model.class.php';
 /**
  * Table column model for the repository browser table
  */
-class RepositorySharedLearningObjectsBrowserTableColumnModel extends DefaultSharedLearningObjectTableColumnModel
+class RepositorySharedContentObjectsBrowserTableColumnModel extends DefaultSharedContentObjectTableColumnModel
 {
 	/**
 	 * The tables modification column
@@ -16,7 +16,7 @@ class RepositorySharedLearningObjectsBrowserTableColumnModel extends DefaultShar
 	/**
 	 * Constructor
 	 */
-	function RepositorySharedLearningObjectsBrowserTableColumnModel()
+	function RepositorySharedContentObjectsBrowserTableColumnModel()
 	{
 		parent :: __construct();
 		$this->set_default_order_column(0);
@@ -24,7 +24,7 @@ class RepositorySharedLearningObjectsBrowserTableColumnModel extends DefaultShar
 	}
 	/**
 	 * Gets the modification column
-	 * @return LearningObjectTableColumn
+	 * @return ContentObjectTableColumn
 	 */
 	static function get_modification_column()
 	{

@@ -47,7 +47,7 @@ class FeedbackManagerBrowserComponent extends FeedbackManagerComponent {
         if($form->validate())
         {
             $success = $form->create_feedback($this->get_user()->get_id(),$this->pid,$this->cid,$application);
-            $object = RepositoryDataManager::get_instance()->retrieve_learning_object($this->pid);
+            $object = RepositoryDataManager::get_instance()->retrieve_content_object($this->pid);
             $object->set_modification_date(time());
             $object->update();
             $this->redirect($success?"":Translation::get('FeedbackNotCreated'), $success?null:true, array('pid' => $this->pid, 'cid' => $this->cid , 'user_id' => $this->user_id , 'action' => $this->action));
@@ -97,9 +97,9 @@ class FeedbackManagerBrowserComponent extends FeedbackManagerComponent {
     {
 
         $id = $object->get_fid();
-        $feedback = RepositoryDataManager :: get_instance()->retrieve_learning_object($id);
+        $feedback = RepositoryDataManager :: get_instance()->retrieve_content_object($id);
         $html = array();
-        $html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path() . 'learning_object/' .$feedback->get_icon_name().($feedback->is_latest_version() ? '' : '_na').'.png);">';
+        $html[] = '<div class="content_object" style="background-image: url('.Theme :: get_common_image_path() . 'content_object/' .$feedback->get_icon_name().($feedback->is_latest_version() ? '' : '_na').'.png);">';
         $html[] = '<div class="title">'. htmlentities($feedback->get_title()) ;
         $html[] = '<span class="publication_info">';
         $html[] = $this->render_publication_information($feedback);

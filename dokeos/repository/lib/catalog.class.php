@@ -140,7 +140,7 @@ class Catalog extends RepositoryDataClass
                 || $catalog_type == Catalog :: CATALOG_LOM_ROLE
                 || $catalog_type == Catalog :: CATALOG_LOM_COPYRIGHT)
         {
-            $query      = 'SELECT value as Id, name as title, sort as `order` FROM repository_learning_object_metadata_catalog';
+            $query      = 'SELECT value as Id, name as title, sort as `order` FROM repository_content_object_metadata_catalog';
             $condition  = new EqualityCondition('type', $catalog_type);
             $order      = new ObjectTableOrder('sort', SORT_ASC);
         }

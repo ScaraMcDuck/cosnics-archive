@@ -6,7 +6,7 @@ require_once dirname(__FILE__).'/../forum_manager.class.php';
 require_once dirname(__FILE__).'/../forum_manager_component.class.php';
 require_once dirname(__FILE__).'/../../forum_publication.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
-require_once Path :: get_repository_path() . '/lib/learning_object/forum/forum.class.php';
+require_once Path :: get_repository_path() . '/lib/content_object/forum/forum.class.php';
 require_once Path :: get_repository_path() . 'lib/complex_display/forum/forum_display.class.php';
 require_once 'HTML/Table.php';
 
@@ -72,11 +72,11 @@ class ForumManagerBrowserComponent extends ForumManagerComponent
 
     function create_table_categories($table, &$row)
     {
-        $conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_COURSE, $this->get_parent()->get_course_id());
-        $conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_TOOL, $this->get_parent()->get_tool_id());
+        $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_COURSE, $this->get_parent()->get_course_id());
+        $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_TOOL, $this->get_parent()->get_tool_id());
         $condition = new AndCondition($conditions);
 
-        $categories = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_categories($condition, $offset, $count, $order_property, $order_direction);
+        $categories = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication_categories($condition, $offset, $count, $order_property, $order_direction);
 
         while($category = $categories->next_result())
         {
@@ -115,12 +115,12 @@ class ForumManagerBrowserComponent extends ForumManagerComponent
             $first = $counter == 0? true : false;
             $last = $counter == ($size - 1) ? true : false;
 
-            $forum = $rdm->retrieve_learning_object($publication->get_forum_id(), 'forum');
+            $forum = $rdm->retrieve_content_object($publication->get_forum_id(), 'forum');
             $title = '<a href="' . $this->get_url(array(ForumManager::PARAM_ACTION => ForumManager::ACTION_VIEW, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM, ForumManager::PARAM_PUBLICATION_ID => $publication->get_forum_id())) . '">' . $forum->get_title() . '</a><br />' . DokeosUtilities::truncate_string($forum->get_description());
 
-            //$last_post = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $publication->get_forum_id(), ComplexLearningObjectItem :: get_table_name()), array(new ObjectTableOrder(ComplexLearningObjectItem :: PROPERTY_ADD_DATE, SORT_DESC)), array(), 0, 1 )->next_result();
-            //$last_post = $rdm->retrieve_learning_object($publication->get_last_post());
-            $last_post = $rdm->retrieve_complex_learning_object_item($forum->get_last_post());
+            //$last_post = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $publication->get_forum_id(), ComplexContentObjectItem :: get_table_name()), array(new ObjectTableOrder(ComplexContentObjectItem :: PROPERTY_ADD_DATE, SORT_DESC)), array(), 0, 1 )->next_result();
+            //$last_post = $rdm->retrieve_content_object($publication->get_last_post());
+            $last_post = $rdm->retrieve_complex_content_object_item($forum->get_last_post());
 
             if($publication->is_hidden())
             {

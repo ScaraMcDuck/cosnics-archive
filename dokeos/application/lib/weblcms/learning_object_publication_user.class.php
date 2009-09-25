@@ -6,16 +6,16 @@
 require_once Path :: get_common_path() . 'data_class.class.php';
 
 /**
- * This class describes a LearningObjectPublicationUser data object
+ * This class describes a ContentObjectPublicationUser data object
  *
  * @author Hans De Bisschop
  */
-class LearningObjectPublicationUser extends DataClass
+class ContentObjectPublicationUser extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 
 	/**
-	 * LearningObjectPublicationUser properties
+	 * ContentObjectPublicationUser properties
 	 */
 	const PROPERTY_PUBLICATION = 'publication_id';
 	const PROPERTY_USER = 'user_id';
@@ -38,7 +38,7 @@ class LearningObjectPublicationUser extends DataClass
 	}
 
 	/**
-	 * Returns the publication of this LearningObjectPublicationUser.
+	 * Returns the publication of this ContentObjectPublicationUser.
 	 * @return the publication.
 	 */
 	function get_publication()
@@ -47,7 +47,7 @@ class LearningObjectPublicationUser extends DataClass
 	}
 
 	/**
-	 * Sets the publication of this LearningObjectPublicationUser.
+	 * Sets the publication of this ContentObjectPublicationUser.
 	 * @param publication
 	 */
 	function set_publication($publication)
@@ -55,7 +55,7 @@ class LearningObjectPublicationUser extends DataClass
 		$this->set_default_property(self :: PROPERTY_PUBLICATION, $publication);
 	}
 	/**
-	 * Returns the user of this LearningObjectPublicationUser.
+	 * Returns the user of this ContentObjectPublicationUser.
 	 * @return the user.
 	 */
 	function get_user()
@@ -64,7 +64,7 @@ class LearningObjectPublicationUser extends DataClass
 	}
 
 	/**
-	 * Sets the user of this LearningObjectPublicationUser.
+	 * Sets the user of this ContentObjectPublicationUser.
 	 * @param user
 	 */
 	function set_user($user)
@@ -75,7 +75,7 @@ class LearningObjectPublicationUser extends DataClass
 	function create()
 	{
 		$dm = WeblcmsDataManager :: get_instance();
-       	return $dm->create_learning_object_publication_user($this);
+       	return $dm->create_content_object_publication_user($this);
 	}
 
 	static function get_table_name()

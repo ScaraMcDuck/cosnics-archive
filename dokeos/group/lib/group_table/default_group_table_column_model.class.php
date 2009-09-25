@@ -20,7 +20,7 @@ class DefaultGroupTableColumnModel extends ObjectTableColumnModel
 	}
 	/**
 	 * Gets the default columns for this model
-	 * @return LearningObjectTableColumn[]
+	 * @return ContentObjectTableColumn[]
 	 */
 	private static function get_default_columns()
 	{

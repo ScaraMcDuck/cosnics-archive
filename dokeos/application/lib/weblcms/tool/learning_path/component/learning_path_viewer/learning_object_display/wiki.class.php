@@ -1,10 +1,10 @@
 <?php
 
-require_once dirname(__FILE__) . '/../learning_path_learning_object_display.class.php';
+require_once dirname(__FILE__) . '/../learning_path_content_object_display.class.php';
 
-class WikiDisplay extends LearningPathLearningObjectDisplay
+class WikiDisplay extends LearningPathContentObjectDisplay
 {
-	function display_learning_object($wiki)
+	function display_content_object($wiki)
 	{
 		$html[] = $this->add_tracking_javascript();
         $hp_cloi = WikiTool :: get_wiki_homepage($wiki->get_id());

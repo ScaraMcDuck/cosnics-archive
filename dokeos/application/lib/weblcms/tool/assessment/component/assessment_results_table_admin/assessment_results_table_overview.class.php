@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/assessment_results_table_overview_data_provider.class.php';
 require_once dirname(__FILE__).'/assessment_results_table_overview_column_model.class.php';
 require_once dirname(__FILE__).'/assessment_results_table_overview_cell_renderer.class.php';
-//require_once dirname(__FILE__).'/../../../../learning_object_results_table.class.php';
+//require_once dirname(__FILE__).'/../../../../content_object_results_table.class.php';
 require_once Path::get_library_path() . 'html/table/object_table/object_table.class.php';
 /**
  * This class represents a table with learning objects which are candidates for

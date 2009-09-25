@@ -4,7 +4,7 @@
  */
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_column_model.class.php';
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_column.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object.class.php';
 require_once Path :: get_user_path() . 'lib/user.class.php';
 require_once dirname(__FILE__) . '/../profile_publication.class.php';
 

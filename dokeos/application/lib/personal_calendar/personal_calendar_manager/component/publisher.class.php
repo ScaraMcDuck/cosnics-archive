@@ -31,7 +31,7 @@ class PersonalCalendarManagerPublisherComponent extends PersonalCalendarManagerC
 		}
 		else
 		{
-			//$html[] = 'LearningObject: ';
+			//$html[] = 'ContentObject: ';
 			$publisher = new CalendarEventPublisher($pub);
 			$html[] = $publisher->get_publications_form($object);
 		}

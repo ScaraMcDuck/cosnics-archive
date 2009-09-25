@@ -8,7 +8,7 @@
 require_once dirname(__FILE__).'/../repository_manager.class.php';
 require_once dirname(__FILE__).'/../repository_manager_component.class.php';
 
-class RepositoryManagerLearningObjectCopierComponent extends RepositoryManagerComponent
+class RepositoryManagerContentObjectCopierComponent extends RepositoryManagerComponent
 {
 	/**
      * Runs this component and displays its output.
@@ -26,7 +26,7 @@ class RepositoryManagerLearningObjectCopierComponent extends RepositoryManagerCo
     	if(count($lo_ids) == 0 || !isset($target_user))
     	{
     		$this->display_header();
-    		$this->display_error_message(Translation :: get('LearningObjectAndTargetUserRequired'));
+    		$this->display_error_message(Translation :: get('ContentObjectAndTargetUserRequired'));
     		$this->display_footer();
     	}
     	
@@ -34,7 +34,7 @@ class RepositoryManagerLearningObjectCopierComponent extends RepositoryManagerCo
     	
     	foreach($lo_ids as $lo_id)
     	{
-    		$lo = $this->retrieve_learning_object($lo_id);
+    		$lo = $this->retrieve_content_object($lo_id);
     		$lo->set_owner_id($target_user);
     		$lo->set_parent_id(0);
     		if(!$lo->create())
@@ -42,7 +42,7 @@ class RepositoryManagerLearningObjectCopierComponent extends RepositoryManagerCo
     			$failed++;
     		}
     		
-    		if($lo->is_complex_learning_object())
+    		if($lo->is_complex_content_object())
     		{
     			$this->copy_complex_children($lo_id, $lo->get_id(), $target_user);
     		}
@@ -51,18 +51,18 @@ class RepositoryManagerLearningObjectCopierComponent extends RepositoryManagerCo
     	if(count($lo_ids) > 0)
     	{
     	 	if($failed == 0)
-    	 		$message = Translation :: get('LearningObjectsCopied');
+    	 		$message = Translation :: get('ContentObjectsCopied');
     	 	elseif($failed > 0 && $failed < count($lo_ids))
-    	 		$message = Translation :: get('SomeLearningObjectsNotCopied');
+    	 		$message = Translation :: get('SomeContentObjectsNotCopied');
     	 	else 
-    	 		$message = Translation :: get('LearningObjectsNotCopied');
+    	 		$message = Translation :: get('ContentObjectsNotCopied');
     	}
     	else
     	{
     		if($failed == 0)
-    			$message = Translation :: get('LearningObjectCopied');
+    			$message = Translation :: get('ContentObjectCopied');
     		else 
-    			$message = Translation :: get('LearningObjectNotCopied');
+    			$message = Translation :: get('ContentObjectNotCopied');
     	}
     	
     	$this->redirect($message, ($failed > 0), array(RepositoryManager :: PARAM_ACTION => null));
@@ -72,16 +72,16 @@ class RepositoryManagerLearningObjectCopierComponent extends RepositoryManagerCo
     
 	function copy_complex_children($old_parent_id, $new_parent_id, $target_user)
 	{
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $old_parent_id, ComplexLearningObjectItem :: get_table_name());
-		$items = $this->retrieve_complex_learning_object_items($condition);
+		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $old_parent_id, ComplexContentObjectItem :: get_table_name());
+		$items = $this->retrieve_complex_content_object_items($condition);
 		while($item = $items->next_result())
 		{
-			$lo = $this->retrieve_learning_object($item->get_ref());
+			$lo = $this->retrieve_content_object($item->get_ref());
 			$lo->set_owner_id($target_user);
 			$lo->set_parent_id(0);
 			$lo->create();
 			
-			$nitem = new ComplexLearningObjectItem();
+			$nitem = new ComplexContentObjectItem();
 			$nitem->set_user_id($item->get_user_id());
 			$nitem->set_display_order($item->get_display_order());
 			$nitem->set_parent($new_parent_id);

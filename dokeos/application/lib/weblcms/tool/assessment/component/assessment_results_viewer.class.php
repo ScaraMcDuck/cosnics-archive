@@ -39,7 +39,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		
 		$tree_id = WeblcmsManager :: PARAM_CATEGORY;
 		$params = array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS);
-		$tree = new LearningObjectPublicationCategoryTree($this, $tree_id, $params);
+		$tree = new ContentObjectPublicationCategoryTree($this, $tree_id, $params);
 		$this->set_parameter($tree_id, Request :: get($tree_id));
 		echo '<div style="width:18%; float: left; overflow: auto;">';
 		echo $tree->as_html();
@@ -72,10 +72,10 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 			return;
 		}
 		
-		$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid);
-		$assessment = $publication->get_learning_object();
+		$publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($pid);
+		$assessment = $publication->get_content_object();
 		
-		echo '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/assessment.png);">';
+		echo '<div class="content_object" style="background-image: url('. Theme :: get_common_image_path(). 'content_object/assessment.png);">';
 		echo '<div class="title">';
 		echo $assessment->get_title();
 		echo '</div>';
@@ -123,8 +123,8 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		$crumbs[] = new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $this->user_assessment->get_assessment_id())), Translation :: get('AssessmentResults'));	
 		$crumbs[] = new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $uaid)), Translation :: get('Details'));
 		
-		$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($this->user_assessment->get_assessment_id());
-		$object = $publication->get_learning_object();
+		$publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($this->user_assessment->get_assessment_id());
+		$object = $publication->get_content_object();
 		
 		$_GET['display_action'] = 'view_result';
 		

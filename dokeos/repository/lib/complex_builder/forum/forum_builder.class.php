@@ -34,14 +34,14 @@ class ForumBuilder extends ComplexBuilder
 			$component->run();
 	}
 
-    function get_complex_learning_object_item_sticky_url($cloi, $root_id)
+    function get_complex_content_object_item_sticky_url($cloi, $root_id)
     {
         return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_STICKY_CLOI,
                                     self :: PARAM_ROOT_LO => $root_id,
                                     self :: PARAM_SELECTED_CLOI_ID => $cloi->get_id()));
     }
 
-    function get_complex_learning_object_item_important_url($cloi, $root_id)
+    function get_complex_content_object_item_important_url($cloi, $root_id)
     {
         return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_IMPORTANT_CLOI,
                                     self :: PARAM_ROOT_LO => $root_id,

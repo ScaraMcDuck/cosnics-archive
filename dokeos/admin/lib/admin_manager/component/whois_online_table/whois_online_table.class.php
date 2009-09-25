@@ -16,7 +16,7 @@ class WhoisOnlineTable extends ObjectTable
 
     /**
      * Constructor
-     * @see LearningObjectTable::LearningObjectTable()
+     * @see ContentObjectTable::ContentObjectTable()
      */
     function WhoisOnlineTable($browser, $parameters, $condition)
     {

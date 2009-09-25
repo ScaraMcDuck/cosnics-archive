@@ -48,21 +48,21 @@ class AlexiaPublication extends DataClass
 	}
 	
 	/**
-	 * Returns the learning_object of this AlexiaPublication.
-	 * @return the learning_object.
+	 * Returns the content_object of this AlexiaPublication.
+	 * @return the content_object.
 	 */
-	function get_learning_object()
+	function get_content_object()
 	{
 		return $this->get_default_property(self :: PROPERTY_LEARNING_OBJECT);
 	}
 
 	/**
-	 * Sets the learning_object of this AlexiaPublication.
-	 * @param learning_object
+	 * Sets the content_object of this AlexiaPublication.
+	 * @param content_object
 	 */
-	function set_learning_object($learning_object)
+	function set_content_object($content_object)
 	{
-		$this->set_default_property(self :: PROPERTY_LEARNING_OBJECT, $learning_object);
+		$this->set_default_property(self :: PROPERTY_LEARNING_OBJECT, $content_object);
 	}
 	/**
 	 * Returns the from_date of this AlexiaPublication.
@@ -260,7 +260,7 @@ class AlexiaPublication extends DataClass
     function get_publication_object()
     {
         $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->retrieve_learning_object($this->get_learning_object());
+        return $rdm->retrieve_content_object($this->get_content_object());
     }
 
     function get_publication_publisher()

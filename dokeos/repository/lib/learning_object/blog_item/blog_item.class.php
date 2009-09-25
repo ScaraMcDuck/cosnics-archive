@@ -4,11 +4,11 @@
  * @package repository.learningobject
  * @subpackage blog_item
  */
-require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) . '/../../content_object.class.php';
 /**
  * This class represents an blog_item
  */
-class BlogItem extends LearningObject
+class BlogItem extends ContentObject
 {
 	//Inherited
 	function supports_attachments()

@@ -4,7 +4,7 @@
  * @package repository.learningobject
  * @subpackage document
  */
-require_once dirname(__FILE__).'/../../learning_object_form.class.php';
+require_once dirname(__FILE__).'/../../content_object_form.class.php';
 require_once dirname(__FILE__).'/../../category_manager/repository_category.class.php';
 require_once dirname(__FILE__).'/document.class.php';
 require_once Path :: get_library_path().'html/formvalidator/Rule/DiskQuota.php';
@@ -16,7 +16,7 @@ require_once Path :: get_library_path().'filesystem/filesystem.class.php';
  * A destinction is made between HTML documents and other documents. For HTML
  * documents an online HTML editor is used to edit the contents of the document.
  */
-class DocumentForm extends LearningObjectForm
+class DocumentForm extends ContentObjectForm
 {
 	protected function build_creation_form()
 	{
@@ -36,7 +36,7 @@ class DocumentForm extends LearningObjectForm
 		
 		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
 		//$this->addElement('html', '<span style="margin-left: -40px">' . Translation :: get('MaxSize') . ': ' . $post_max_size . '</span>');
-		$object = $this->get_learning_object();
+		$object = $this->get_content_object();
 		if (DokeosUtilities :: is_html_document($object->get_path()))
 		{
 			$this->add_html_editor('html_content', Translation :: get('HtmlDocument'),false,true);
@@ -54,7 +54,7 @@ class DocumentForm extends LearningObjectForm
 	
 	function setDefaults($defaults = array ())
 	{
-		$object = $this->get_learning_object();
+		$object = $this->get_content_object();
 		if (isset ($object) && DokeosUtilities :: is_html_document($object->get_path()))
 		{
 			$defaults['html_content'] = file_get_contents($this->get_upload_path().$object->get_path());
@@ -63,7 +63,7 @@ class DocumentForm extends LearningObjectForm
 		parent :: setDefaults($defaults);
 	}
 	
-	function create_learning_object()
+	function create_content_object()
 	{ 
 		$owner = $this->get_owner_id();
 		$values = $this->exportValues();
@@ -110,8 +110,8 @@ class DocumentForm extends LearningObjectForm
 		$object->set_filename($filename);
 		$object->set_hash($hash);
 		$object->set_filesize(Filesystem::get_disk_space($full_path));
-		$this->set_learning_object($object);
-		$document = parent :: create_learning_object();
+		$this->set_content_object($object);
+		$document = parent :: create_content_object();
 		
 		if($values['uncompress'] && !$values['choice'])
 		{
@@ -164,8 +164,8 @@ class DocumentForm extends LearningObjectForm
 					$object->set_filesize(Filesystem::get_disk_space($full_path));
 					$object->set_hash($hash);
 					
-					$this->set_learning_object($object);
-					$object = parent :: create_learning_object();
+					$this->set_content_object($object);
+					$object = parent :: create_content_object();
 					$object->set_title(basename($url));
 					if(isset($created_directories[dirname($url)]))
 					{
@@ -183,9 +183,9 @@ class DocumentForm extends LearningObjectForm
 			return $document;
 		}
 	}
-	function update_learning_object()
+	function update_content_object()
 	{
-		$object = $this->get_learning_object();
+		$object = $this->get_content_object();
 		$values = $this->exportValues();
 		
 		
@@ -235,7 +235,7 @@ class DocumentForm extends LearningObjectForm
 		$object->set_filename($filename);
 		$object->set_filesize(Filesystem::get_disk_space($full_path));
 		$object->set_hash($hash);
-		return parent :: update_learning_object();
+		return parent :: update_content_object();
 	}
 	/**
 	 *

@@ -5,7 +5,7 @@
 require_once dirname(__FILE__) . '/../admin_manager.class.php';
 require_once dirname(__FILE__) . '/../admin_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../system_announcement_publication_form.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_form.class.php';
 
 class AdminManagerSystemAnnouncementEditorComponent extends AdminManagerComponent
 {
@@ -33,15 +33,15 @@ class AdminManagerSystemAnnouncementEditorComponent extends AdminManagerComponen
         {
             $system_announcement_publication = $this->retrieve_system_announcement_publication($id);
             
-            $learning_object = $system_announcement_publication->get_publication_object();
+            $content_object = $system_announcement_publication->get_publication_object();
             
-            $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_EDIT_SYSTEM_ANNOUNCEMENT, AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $system_announcement_publication->get_id())));
+            $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_EDIT_SYSTEM_ANNOUNCEMENT, AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $system_announcement_publication->get_id())));
             if ($form->validate() || Request :: get('validated'))
             {
-                $form->update_learning_object();
+                $form->update_content_object();
                 if ($form->is_version())
                 {
-                    $publication->set_learning_object($learning_object->get_latest_version());
+                    $publication->set_content_object($content_object->get_latest_version());
                     $publication->update();
                 }
                 
@@ -50,13 +50,13 @@ class AdminManagerSystemAnnouncementEditorComponent extends AdminManagerComponen
                 
                 if ($publication_form->validate())
                 {
-                    $success = $publication_form->update_learning_object_publication();
+                    $success = $publication_form->update_content_object_publication();
                     $this->redirect(Translation :: get(($success ? 'SystemAnnouncementPublicationUpdated' : 'SystemAnnouncementPublicationNotUpdated')), ($success ? false : true), array(Application :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
                 }
                 else
                 {
                     $this->display_header($trail);
-                    echo LearningObjectDisplay :: factory($system_announcement_publication->get_publication_object())->get_full_html();
+                    echo ContentObjectDisplay :: factory($system_announcement_publication->get_publication_object())->get_full_html();
                     $publication_form->display();
                     $this->display_footer();
                     exit();

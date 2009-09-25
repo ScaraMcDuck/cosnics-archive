@@ -4,11 +4,11 @@
  * @package repository.learningobject
  * @subpackage calendar_event
  */
-require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) . '/../../content_object.class.php';
 /**
  * This class represents a calendar event
  */
-class CalendarEvent extends LearningObject
+class CalendarEvent extends ContentObject
 {
 	/**
 	 * The start date of the calendar event

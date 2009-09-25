@@ -43,7 +43,7 @@ class MetadataLOMEditForm extends FormValidator
 	private $skipped_indexes;
 	private $info_messages;
 	
-	public function MetadataLOMEditForm($learning_object_id, $ieee_lom_mapper, $action, $catalogs)
+	public function MetadataLOMEditForm($content_object_id, $ieee_lom_mapper, $action, $catalogs)
 	{ 
 		parent :: __construct('lom_metadata', 'post', $action);
 		
@@ -52,14 +52,14 @@ class MetadataLOMEditForm extends FormValidator
 		 */
 		$this->current_values     = array();
 		$this->constants          = array();
-		$this->learning_object_id = $learning_object_id;
+		$this->content_object_id = $content_object_id;
 		$this->catalogs           = $catalogs;
 		
 		/*
 		 * Set the lom object for the Form.
 		 * If the form was submitted, it retrieves the lom from the session
 		 */
-		$this->init_lom_mapper($this->learning_object_id, $ieee_lom_mapper);
+		$this->init_lom_mapper($this->content_object_id, $ieee_lom_mapper);
 		$this->init_info_messages();
 		
 		//$this->build_editing_form();
@@ -89,7 +89,7 @@ class MetadataLOMEditForm extends FormValidator
 		 * (if any requested) have been done
 		 * -> save the IeeeLomMapper in session to reuse after the next form postback 
 		 */
-		$this->store_lom_mapper($this->learning_object_id, $this->ieee_lom_mapper);
+		$this->store_lom_mapper($this->content_object_id, $this->ieee_lom_mapper);
 		
 		/*
 		 * At this step, the eventual new skipped indexes are set 
@@ -1081,15 +1081,15 @@ class MetadataLOMEditForm extends FormValidator
 	 * If the form was posted, it tries to get it from the session.
 	 * If the request is not a postback, it returns the given IeeeLomMapper
 	 * 
-	 * @param $learning_object_id integer
+	 * @param $content_object_id integer
 	 * @param $ieee_lom_mapper IeeeLomMapper
 	 * @return void
 	 */
-	private function init_lom_mapper($learning_object_id, $ieee_lom_mapper)
+	private function init_lom_mapper($content_object_id, $ieee_lom_mapper)
 	{
 	    if($this->isSubmitted())
 		{
-		    $this->ieee_lom_mapper = $this->get_lom_mapper_from_session($learning_object_id);
+		    $this->ieee_lom_mapper = $this->get_lom_mapper_from_session($content_object_id);
 		}
 		else
 		{
@@ -1099,22 +1099,22 @@ class MetadataLOMEditForm extends FormValidator
 	}
 	
 	/**
-	 * @param $learning_object_id integer
+	 * @param $content_object_id integer
 	 * @param $ieee_lom_mapper IeeeLomMapper
 	 * @return void
 	 */
-	private function store_lom_mapper($learning_object_id, $ieee_lom_mapper)
+	private function store_lom_mapper($content_object_id, $ieee_lom_mapper)
 	{
-	    $_SESSION['ieee_lom_mapper_' . $learning_object_id] = $ieee_lom_mapper->get_ieee_lom()->get_dom()->saveXML();
+	    $_SESSION['ieee_lom_mapper_' . $content_object_id] = $ieee_lom_mapper->get_ieee_lom()->get_dom()->saveXML();
 	    $this->ieee_lom_mapper = $ieee_lom_mapper;
 	}
 	
-	private function get_lom_mapper_from_session($learning_object_id)
+	private function get_lom_mapper_from_session($content_object_id)
 	{
 	    $dom_lom = new DOMDocument();
-	    $dom_lom->loadXML($_SESSION['ieee_lom_mapper_' . $learning_object_id]);
+	    $dom_lom->loadXML($_SESSION['ieee_lom_mapper_' . $content_object_id]);
 	    
-	    $ieee_lom_mapper = new IeeeLomMapper($learning_object_id);
+	    $ieee_lom_mapper = new IeeeLomMapper($content_object_id);
 	    $ieee_lom_mapper->set_ieee_lom(new IeeeLom($dom_lom));
 	    $this->ieee_lom_mapper = $ieee_lom_mapper;
 
@@ -1128,16 +1128,16 @@ class MetadataLOMEditForm extends FormValidator
 	 * 
 	 * @return void
 	 */
-	private function init_info_messages($learning_object_id)
+	private function init_info_messages($content_object_id)
 	{
 	    if($this->isSubmitted())
 		{
-		    $this->info_messages = $_SESSION['ieeeLom_info_messages_' . $learning_object_id];
+		    $this->info_messages = $_SESSION['ieeeLom_info_messages_' . $content_object_id];
 		}
 		else
 		{
-		    $_SESSION['ieeeLom_info_messages_' . $learning_object_id] = array();
-		    $this->info_messages = $_SESSION['ieeeLom_info_messages_' . $learning_object_id]; 
+		    $_SESSION['ieeeLom_info_messages_' . $content_object_id] = array();
+		    $this->info_messages = $_SESSION['ieeeLom_info_messages_' . $content_object_id]; 
 		}
 	}
 	
@@ -1163,7 +1163,7 @@ class MetadataLOMEditForm extends FormValidator
 	                break;
 	        }
 	        
-	        $_SESSION['ieeeLom_info_messages_' . $this->learning_object_id] = $this->info_messages;
+	        $_SESSION['ieeeLom_info_messages_' . $this->content_object_id] = $this->info_messages;
 	    }
 	}
 	
@@ -1203,12 +1203,12 @@ class MetadataLOMEditForm extends FormValidator
 	
 	private function store_skipped_indexes($skipped_indexes)
 	{
-	    $_SESSION['skipped_indexes_' . $this->learning_object_id] = $skipped_indexes;
+	    $_SESSION['skipped_indexes_' . $this->content_object_id] = $skipped_indexes;
 	}
 	
 	private function get_skipped_indexes_from_session()
 	{
-	    return $_SESSION['skipped_indexes_' . $this->learning_object_id];
+	    return $_SESSION['skipped_indexes_' . $this->content_object_id];
 	}
 	
 	

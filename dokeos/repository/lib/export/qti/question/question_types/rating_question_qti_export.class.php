@@ -4,10 +4,10 @@ require_once dirname(__FILE__).'/../question_qti_export.class.php';
 class RatingQuestionQtiExport extends QuestionQtiExport
 {
 	
-	function export_learning_object()
+	function export_content_object()
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-		$question = $this->get_learning_object();
+		$question = $this->get_content_object();
 
 		$high = $question->get_high();
 		$low = $question->get_low();
@@ -36,7 +36,7 @@ class RatingQuestionQtiExport extends QuestionQtiExport
 	{
 		$interaction_xml[] = '<itemBody>';
 		$interaction_xml[] = '<sliderInteraction responseIdentifier="RESPONSE" lowerBound="'.$low.'" upperBound="'.$high.'" step="1">';
-		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_learning_object()->get_description()).'</prompt>';
+		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_content_object()->get_description()).'</prompt>';
 		$interaction_xml[] = '</sliderInteraction>';
 		$interaction_xml[] = '</itemBody>';
 		

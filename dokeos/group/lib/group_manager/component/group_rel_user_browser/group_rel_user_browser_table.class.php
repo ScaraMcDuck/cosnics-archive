@@ -16,7 +16,7 @@ class GroupRelUserBrowserTable extends ObjectTable
 	
 	/**
 	 * Constructor
-	 * @see LearningObjectTable::LearningObjectTable()
+	 * @see ContentObjectTable::ContentObjectTable()
 	 */
 	function GroupRelUserBrowserTable($browser, $parameters, $condition)
 	{

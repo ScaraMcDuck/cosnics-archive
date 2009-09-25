@@ -1,14 +1,14 @@
 <?php
-require_once Path :: get_repository_path().'lib/import/learning_object_import.class.php';
-require_once Path :: get_repository_path() .'lib/learning_object_import_form.class.php';
-require_once dirname(__FILE__) . '/../../../publisher/learning_object_publisher.class.php';
+require_once Path :: get_repository_path().'lib/import/content_object_import.class.php';
+require_once Path :: get_repository_path() .'lib/content_object_import_form.class.php';
+require_once dirname(__FILE__) . '/../../../publisher/content_object_publisher.class.php';
 
 class LearningPathToolScormImporterComponent extends LearningPathToolComponent
 {
 	function run()
 	{
 		$parameters = array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_IMPORT_SCORM);
-		$import_form = new LearningObjectImportForm('import', 'post', $this->get_url($parameters), 0, $this->get_user(), 'scorm');
+		$import_form = new ContentObjectImportForm('import', 'post', $this->get_url($parameters), 0, $this->get_user(), 'scorm');
 
 		$trail = new BreadCrumbTrail();
 		$trail->add(new BreadCrumb($this->get_url($parameters), Translation :: get('ImportScorm')));
@@ -21,10 +21,10 @@ class LearningPathToolScormImporterComponent extends LearningPathToolComponent
 		{
 			if(!$objects)
 			{
-				$learning_objects = $import_form->import_learning_object();
-				foreach($learning_objects as $learning_object)
+				$content_objects = $import_form->import_content_object();
+				foreach($content_objects as $content_object)
 				{
-					$lo_ids[] = $learning_object->get_id();
+					$lo_ids[] = $content_object->get_id();
 				}
 			}
 			else
@@ -32,7 +32,7 @@ class LearningPathToolScormImporterComponent extends LearningPathToolComponent
 				$lo_ids = $objects;
 			}
 
-			$publisher = new LearningObjectPublisher($this);
+			$publisher = new ContentObjectPublisher($this);
 			$this->set_parameter('objects', $lo_ids);
 			echo $publisher->get_publications_form($lo_ids);
 		}

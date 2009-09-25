@@ -69,7 +69,7 @@ class DatabaseWikiDataManager extends WikiDataManager
 	{
 		$condition = new EqualityCondition(WikiPublication :: PROPERTY_ID, $id);
 		$object = $this->database->retrieve_object(WikiPublication :: get_table_name(), $condition);
-        $object->set_default_property('learning_object', RepositoryDataManager :: get_instance()->retrieve_learning_object($object->get_default_property('learning_object')));
+        $object->set_default_property('content_object', RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_default_property('content_object')));
         return $object;
 	}
 

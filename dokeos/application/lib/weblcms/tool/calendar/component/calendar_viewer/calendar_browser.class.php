@@ -6,16 +6,16 @@
  * @subpackage calendar
  */
 require_once dirname(__FILE__).'/../../../../weblcms_data_manager.class.php';
-require_once dirname(__FILE__).'/../../../../learning_object_publication_browser.class.php';
+require_once dirname(__FILE__).'/../../../../content_object_publication_browser.class.php';
 require_once dirname(__FILE__).'/calendar_list_renderer.class.php';
 require_once dirname(__FILE__).'/calendar_details_renderer.class.php';
-require_once dirname(__FILE__).'/../../../../browser/list_renderer/mini_month_calendar_learning_object_publication_list_renderer.class.php';
-require_once dirname(__FILE__).'/../../../../browser/list_renderer/month_calendar_learning_object_publication_list_renderer.class.php';
-require_once dirname(__FILE__).'/../../../../browser/list_renderer/week_calendar_learning_object_publication_list_renderer.class.php';
-require_once dirname(__FILE__).'/../../../../browser/list_renderer/day_calendar_learning_object_publication_list_renderer.class.php';
-require_once dirname(__FILE__).'/../../../../browser/list_renderer/learning_object_publication_details_renderer.class.php';
+require_once dirname(__FILE__).'/../../../../browser/list_renderer/mini_month_calendar_content_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/../../../../browser/list_renderer/month_calendar_content_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/../../../../browser/list_renderer/week_calendar_content_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/../../../../browser/list_renderer/day_calendar_content_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/../../../../browser/list_renderer/content_object_publication_details_renderer.class.php';
 
-class CalendarBrowser extends LearningObjectPublicationBrowser
+class CalendarBrowser extends ContentObjectPublicationBrowser
 {
 	const CALENDAR_MONTH_VIEW = 'month';
 	const CALENDAR_WEEK_VIEW = 'week';
@@ -30,7 +30,7 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 		if(Request :: get('pid'))
 		{
 			$this->set_publication_id(Request :: get('pid'));
-			//$renderer = new LearningObjectPublicationDetailsRenderer($this);
+			//$renderer = new ContentObjectPublicationDetailsRenderer($this);
 			$renderer = new CalendarDetailsRenderer($this);
 		}
 		else
@@ -43,19 +43,19 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 			{
 				case CalendarBrowser::CALENDAR_DAY_VIEW:
 				{
-					$renderer = new DayCalendarLearningObjectPublicationListRenderer($this);
+					$renderer = new DayCalendarContentObjectPublicationListRenderer($this);
 					$renderer->set_display_time($time);
 					break;
 				}
 				case CalendarBrowser::CALENDAR_WEEK_VIEW:
 				{
-					$renderer = new WeekCalendarLearningObjectPublicationListRenderer($this);
+					$renderer = new WeekCalendarContentObjectPublicationListRenderer($this);
 					$renderer->set_display_time($time);
 					break;
 				}
 				case CalendarBrowser::CALENDAR_MONTH_VIEW:
 				{
-					$renderer = new MonthCalendarLearningObjectPublicationListRenderer($this);
+					$renderer = new MonthCalendarContentObjectPublicationListRenderer($this);
 					$renderer->set_display_time($time);
 					break;
 				}
@@ -70,7 +70,7 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 				}
 				default:
 				{
-					$renderer = new MonthCalendarLearningObjectPublicationListRenderer($this);
+					$renderer = new MonthCalendarContentObjectPublicationListRenderer($this);
 					$renderer->set_display_time($time);
 					break;
 				}
@@ -100,15 +100,15 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 		
 		$datamanager = WeblcmsDataManager :: get_instance();
 		$conditions = array();
-		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
-		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'calendar');
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'calendar');
 		
 		$access = array();
-		$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
-		$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('learning_object_publication_course_group'));
+		$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
+		$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
 		if (!empty($user_id) || !empty($course_groups))
 		{
-			$access[] = new AndCondition(array(new EqualityCondition('user', null, $datamanager->get_database()->get_alias('learning_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('learning_object_publication_course_group'))));
+			$access[] = new AndCondition(array(new EqualityCondition('user', null, $datamanager->get_database()->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('content_object_publication_course_group'))));
 		}
 		$conditions[] = new OrCondition($access);
 		
@@ -119,10 +119,10 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 			$subselect_conditions[] = $this->get_parent()->get_condition();
 		}
 		$subselect_condition = new AndCondition($subselect_conditions);
-		$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
+		$conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
 		$condition = new AndCondition($conditions);
 		
-		$this->publications = $datamanager->retrieve_learning_object_publications_new($condition)->as_array();		
+		$this->publications = $datamanager->retrieve_content_object_publications_new($condition)->as_array();		
 		return $this->publications;
 	}
 
@@ -144,7 +144,7 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 		$events = array();
 		foreach($publications as $index => $publication)
 		{
-			$object = $publication->get_learning_object();
+			$object = $publication->get_content_object();
 			
 			if ($object->repeats())
 			{
@@ -153,7 +153,7 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 				foreach($repeats as $repeat)
 				{
 					$the_publication = clone $publication;
-					$the_publication->set_learning_object($repeat);
+					$the_publication->set_content_object($repeat);
 					
 					$events[] = $the_publication;
 				}
@@ -170,7 +170,7 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 	{
 		if(!Request :: get('pid'))
 		{
-			$minimonthcalendar = new MiniMonthCalendarLearningObjectPublicationListRenderer($this);
+			$minimonthcalendar = new MiniMonthCalendarContentObjectPublicationListRenderer($this);
 			$minimonthcalendar->set_display_time($this->time);
 			$html[] = '<div class="mini_calendar">';
 			$html[] =  $minimonthcalendar->as_html();

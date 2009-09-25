@@ -20,12 +20,12 @@ class GlossaryToolViewerComponent extends GlossaryToolComponent
 		}
 
 		/*$publication_id = Request :: get('pid');
-		$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($publication_id);
-		$object = $publication->get_learning_object();
+		$publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($publication_id);
+		$object = $publication->get_content_object();
 	
 		Request :: set_get('pid',$object->get_id())*/
 		
-		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object(Request :: get('pid'));
+		$object = RepositoryDataManager :: get_instance()->retrieve_content_object(Request :: get('pid'));
 		
 		$this->set_parameter(Tool :: PARAM_ACTION, GlossaryTool :: ACTION_VIEW_GLOSSARY);
 		

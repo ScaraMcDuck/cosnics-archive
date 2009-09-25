@@ -17,8 +17,8 @@ class SurveyPublicationViewer extends SurveyPublisherComponent
 		$wdm = WeblcmsDataManager :: get_instance();
 
 		$pid = Request :: get(Tool::PARAM_PUBLICATION_ID);
-		$publication = $wdm->retrieve_learning_object_publication($pid);
-		$survey = $publication->get_learning_object();
+		$publication = $wdm->retrieve_content_object_publication($pid);
+		$survey = $publication->get_content_object();
 
 		$table = new SurveyUserTable($this, $this->get_user, $pid);
 

@@ -2,13 +2,13 @@
 /**
  * @package export
  */
-require_once dirname(__FILE__).'/../learning_object_import.class.php';
+require_once dirname(__FILE__).'/../content_object_import.class.php';
 require_once Path :: get_library_path() . 'filecompression/filecompression.class.php';
 
 /**
  * Exports learning object to the dokeos learning object format (xml)
  */
-class DlofImport extends LearningObjectImport
+class DlofImport extends ContentObjectImport
 {
 	/**
 	 * @var RepositoryDataManager
@@ -28,10 +28,10 @@ class DlofImport extends LearningObjectImport
 	private $files;
 	
 	/**
-	 * The reference to store the file id's of each learning_object and the new learning_object
+	 * The reference to store the file id's of each content_object and the new content_object
 	 * @var Array of INT
 	 */
-	private $learning_object_reference;
+	private $content_object_reference;
 	
 	/**
 	 * The array where the subitems are stored untill all the learning objects are created
@@ -63,22 +63,22 @@ class DlofImport extends LearningObjectImport
 	 */
 	private $lo_includes;
 	
-	function DlofImport($learning_object_file, $user, $category)
+	function DlofImport($content_object_file, $user, $category)
 	{
 		$this->rdm = RepositoryDataManager :: get_instance();
-		parent :: __construct($learning_object_file, $user, $category);	
+		parent :: __construct($content_object_file, $user, $category);	
 	}
 	
-	public function import_learning_object()
+	public function import_content_object()
 	{
 		$user = $this->get_user();
 		
 		$zip = Filecompression :: factory();
-		$temp = $zip->extract_file($this->get_learning_object_file_property('tmp_name'));
+		$temp = $zip->extract_file($this->get_content_object_file_property('tmp_name'));
 		$dir = $temp . '/';
 		
 		$lo_data_dir = $dir . 'data/';
-		$path = $dir . 'learning_object.xml';
+		$path = $dir . 'content_object.xml';
 		
 		if (file_exists($lo_data_dir))
 		{
@@ -100,11 +100,11 @@ class DlofImport extends LearningObjectImport
 		$doc = new DOMDocument();
 		
 		$doc->load($path);
-		$learning_objects = $doc->getElementsByTagname('learning_object');
+		$content_objects = $doc->getElementsByTagname('content_object');
 
-		foreach($learning_objects as $lo)
+		foreach($content_objects as $lo)
 		{ 
-			$this->create_learning_object($lo);
+			$this->create_content_object($lo);
 		}
 
 		$this->create_complex_wrappers();
@@ -119,15 +119,15 @@ class DlofImport extends LearningObjectImport
 		return true;
 	}
 	
-	public function create_learning_object($learning_object)
+	public function create_content_object($content_object)
 	{
-		$id = $learning_object->getAttribute('id');
-		if(isset($this->learning_object_reference[$id]))
+		$id = $content_object->getAttribute('id');
+		if(isset($this->content_object_reference[$id]))
 			return;
 		
-		if($learning_object->hasChildNodes())
+		if($content_object->hasChildNodes())
 		{ 
-			$general = $learning_object->getElementsByTagName('general')->item(0);
+			$general = $content_object->getElementsByTagName('general')->item(0);
 			$type = $general->getElementsByTagName('type')->item(0)->nodeValue;
 			$title = $general->getElementsByTagName('title')->item(0)->nodeValue;
 			$description = $general->getElementsByTagName('description')->item(0)->nodeValue;
@@ -135,7 +135,7 @@ class DlofImport extends LearningObjectImport
 			$created = $general->getElementsByTagName('created')->item(0)->nodeValue;
 			$modified = $general->getElementsByTagName('modified')->item(0)->nodeValue;
 			
-			$lo = LearningObject :: factory($type);
+			$lo = ContentObject :: factory($type);
 			$lo->set_title($title);
 			$lo->set_description($description);
 			$lo->set_comment($comment);
@@ -144,7 +144,7 @@ class DlofImport extends LearningObjectImport
 			$lo->set_owner_id($this->get_user()->get_id());
 			$lo->set_parent_id($this->get_category());
 			
-			$extended = $learning_object->getElementsByTagName('extended')->item(0);
+			$extended = $content_object->getElementsByTagName('extended')->item(0);
 		
 			if($extended->hasChildNodes())
 			{
@@ -170,10 +170,10 @@ class DlofImport extends LearningObjectImport
 			//$lo->set_id('test');
 			$lo->create_all();
 			
-			$this->learning_object_reference[$id] = $lo->get_id();
+			$this->content_object_reference[$id] = $lo->get_id();
 			
 			// Complex children
-			$subitems = $learning_object->getElementsByTagName('sub_items')->item(0);
+			$subitems = $content_object->getElementsByTagName('sub_items')->item(0);
 			$children = $subitems->childNodes;
 			for($i = 0; $i < $children->length; $i++)
 			{
@@ -201,7 +201,7 @@ class DlofImport extends LearningObjectImport
 			}
 			
 			// Attachments
-			$attachments = $learning_object->getElementsByTagName('attachments')->item(0);
+			$attachments = $content_object->getElementsByTagName('attachments')->item(0);
 			$children = $attachments->childNodes;
 			for($i = 0; $i < $children->length; $i++)
 			{
@@ -214,7 +214,7 @@ class DlofImport extends LearningObjectImport
 			}
 			
 			// Includes
-			$includes = $learning_object->getElementsByTagName('includes')->item(0);
+			$includes = $content_object->getElementsByTagName('includes')->item(0);
 			$children = $includes->childNodes;
 			for($i = 0; $i < $children->length; $i++)
 			{
@@ -232,14 +232,14 @@ class DlofImport extends LearningObjectImport
 	{
 		foreach($this->lo_subitems as $parent_id => $children)
 		{
-			$real_parent_id = $this->learning_object_reference[$parent_id];
+			$real_parent_id = $this->content_object_reference[$parent_id];
 			foreach($children as $child)
 			{
-				$real_child_id = $this->learning_object_reference[$child['id']];
+				$real_child_id = $this->content_object_reference[$child['id']];
 				
-				$childlo = $this->rdm->retrieve_learning_object($real_child_id);
+				$childlo = $this->rdm->retrieve_content_object($real_child_id);
 				
-				$cloi = ComplexLearningObjectItem :: factory($childlo->get_type());
+				$cloi = ComplexContentObjectItem :: factory($childlo->get_type());
 	
 				$cloi->set_ref($childlo->get_id());
 				$cloi->set_user_id($this->get_user()->get_id());
@@ -255,12 +255,12 @@ class DlofImport extends LearningObjectImport
 	{
 		foreach($this->lo_attachments as $lo_id => $children)
 		{
-			$real_lo_id = $this->learning_object_reference[$lo_id];
-			$lo = $this->rdm->retrieve_learning_object($real_lo_id);
+			$real_lo_id = $this->content_object_reference[$lo_id];
+			$lo = $this->rdm->retrieve_content_object($real_lo_id);
 			
 			foreach($children as $child)
 			{
-				$lo->attach_learning_object($this->learning_object_reference[$child]);
+				$lo->attach_content_object($this->content_object_reference[$child]);
 			}
 		}
 	}
@@ -269,12 +269,12 @@ class DlofImport extends LearningObjectImport
 	{
 		foreach($this->lo_includes as $lo_id => $children)
 		{
-			$real_lo_id = $this->learning_object_reference[$lo_id];
-			$lo = $this->rdm->retrieve_learning_object($real_lo_id);
+			$real_lo_id = $this->content_object_reference[$lo_id];
+			$lo = $this->rdm->retrieve_content_object($real_lo_id);
 			
 			foreach($children as $child)
 			{
-				$lo->include_learning_object($this->learning_object_reference[$child]);
+				$lo->include_content_object($this->content_object_reference[$child]);
 			}
 		}
 	}

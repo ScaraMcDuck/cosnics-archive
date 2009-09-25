@@ -10,7 +10,7 @@ class ForumBuilderStickyComponent extends ForumBuilderComponent
 	{
         $rdm = RepositoryDataManager::get_instance();
 
-        $topic = $rdm->retrieve_complex_learning_object_item(Request :: get(ComplexBuilder::PARAM_SELECTED_CLOI_ID));
+        $topic = $rdm->retrieve_complex_content_object_item(Request :: get(ComplexBuilder::PARAM_SELECTED_CLOI_ID));
 
         if($topic->get_type() == 1)
         {

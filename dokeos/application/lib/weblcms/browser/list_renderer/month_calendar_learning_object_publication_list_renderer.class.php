@@ -1,15 +1,15 @@
 <?php
 /**
- * $Id: monthcalendarlearning_object_publication_list_renderer.class.php 15420 2008-05-26 17:34:32Z Scara84 $
+ * $Id: monthcalendarcontent_object_publication_list_renderer.class.php 15420 2008-05-26 17:34:32Z Scara84 $
  * @package application.weblcms
  * @subpackage browser.listrenderer
  */
-require_once dirname(__FILE__).'/../learning_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/../content_object_publication_list_renderer.class.php';
 require_once Path :: get_application_library_path().'month_calendar.class.php';
 /**
  * Renderer to display events in a month calendar
  */
-class MonthCalendarLearningObjectPublicationListRenderer extends LearningObjectPublicationListRenderer
+class MonthCalendarContentObjectPublicationListRenderer extends ContentObjectPublicationListRenderer
 {
 	/**
 	 * The current time displayed in the calendar
@@ -47,7 +47,7 @@ class MonthCalendarLearningObjectPublicationListRenderer extends LearningObjectP
 
 			foreach($publications as $index => $publication)
 			{
-				$object = $publication->get_learning_object();
+				$object = $publication->get_content_object();
 
 				$start_date = $object->get_start_date();
 				$end_date = $object->get_end_date();
@@ -67,13 +67,13 @@ class MonthCalendarLearningObjectPublicationListRenderer extends LearningObjectP
 	}
 	/**
 	 * Renders a publication
-	 * @param LearningObjectPublication $publication The publication to render
+	 * @param ContentObjectPublication $publication The publication to render
 	 * @param int $table_date The current date displayed in the table.
 	 */
 	function render_publication($publication,$table_date)
 	{
 		static $color_cache;
-		$event = $publication->get_learning_object();
+		$event = $publication->get_content_object();
 		$event_url = $this->get_url(array('pid'=>$publication->get_id()), array(), true);
 		$start_date = $event->get_start_date();
 		$end_date = $event->get_end_date();

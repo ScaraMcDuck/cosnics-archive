@@ -3,7 +3,7 @@
  * @package application.lib.profiler.publisher.publication_candidate_table
  */
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_data_provider.class.php';
-require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
+require_once Path :: get_repository_path(). 'lib/content_object.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once Path :: get_library_path().'condition/and_condition.class.php';
@@ -11,7 +11,7 @@ require_once Path :: get_library_path().'condition/or_condition.class.php';
 /**
  * This class represents a data provider for a publication candidate table
  */
-class LearningObjectTableDataProvider extends ObjectTableDataProvider
+class ContentObjectTableDataProvider extends ObjectTableDataProvider
 {
 /**
  * The user id of the current active user.
@@ -34,7 +34,7 @@ class LearningObjectTableDataProvider extends ObjectTableDataProvider
      * selected.
      * @param string $query The search query.
      */
-    function LearningObjectTableDataProvider($owner, $types, $query = null, $parent)
+    function ContentObjectTableDataProvider($owner, $types, $query = null, $parent)
     {
         $this->types = $types;
         $this->owner = $owner;
@@ -51,7 +51,7 @@ class LearningObjectTableDataProvider extends ObjectTableDataProvider
 
         $dm = RepositoryDataManager :: get_instance();
 
-        return $dm->retrieve_learning_objects(null, $this->get_condition(), $order_property, $order_direction, $offset, $count);
+        return $dm->retrieve_content_objects(null, $this->get_condition(), $order_property, $order_direction, $offset, $count);
     }
 	/*
 	 * Inherited
@@ -59,7 +59,7 @@ class LearningObjectTableDataProvider extends ObjectTableDataProvider
     function get_object_count()
     {
         $dm = RepositoryDataManager :: get_instance();
-        return $dm->count_learning_objects(null, $this->get_condition());
+        return $dm->count_content_objects(null, $this->get_condition());
     }
     /**
      * Gets the condition by which the learning objects should be selected.
@@ -75,14 +75,14 @@ class LearningObjectTableDataProvider extends ObjectTableDataProvider
             $category = $category?$category:0;
 
             $conds = array();
-            $conds[] = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $owner->get_id());
-            $conds[] = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $category);
-            $conds[] = new EqualityCondition(LearningObject :: PROPERTY_STATE, 0);
+            $conds[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $owner->get_id());
+            $conds[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $category);
+            $conds[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, 0);
             $type_cond = array();
             $types = $this->types;
             foreach ($types as $type)
             {
-                $type_cond[] = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
+                $type_cond[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type);
             }
             $conds[] = new OrCondition($type_cond);
             $c = DokeosUtilities :: query_to_condition($this->query);
@@ -93,7 +93,7 @@ class LearningObjectTableDataProvider extends ObjectTableDataProvider
 
             foreach($this->parent->get_excluded_objects() as $excluded)
             {
-                $conds[] = new NotCondition(new EqualityCondition(LearningObject :: PROPERTY_ID, $excluded, LearningObject :: get_table_name()));
+                $conds[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_ID, $excluded, ContentObject :: get_table_name()));
             }
 
             return new AndCondition($conds);
@@ -102,8 +102,8 @@ class LearningObjectTableDataProvider extends ObjectTableDataProvider
             $query = $this->query;
 			if(isset($query) && $query != '')
 		    {
-		        $or_conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);
-		        $or_conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query);
+		        $or_conditions[] = new LikeCondition(ContentObject :: PROPERTY_TITLE, $query);
+		        $or_conditions[] = new LikeCondition(ContentObject :: PROPERTY_DESCRIPTION, $query);
 		        $conditions[] = new OrCondition($or_conditions);
 		    }
 		
@@ -128,9 +128,9 @@ class LearningObjectTableDataProvider extends ObjectTableDataProvider
 		    }
 		
 			$location_ids = array();
-		    $shared_learning_objects = $rdm->retrieve_shared_learning_objects_for_user($user->get_id(),$rights);
+		    $shared_content_objects = $rdm->retrieve_shared_content_objects_for_user($user->get_id(),$rights);
 		
-		    while($user_right_location = $shared_learning_objects->next_result())
+		    while($user_right_location = $shared_content_objects->next_result())
 		    {
 		        if(!in_array($user_right_location->get_location_id(), $location_ids))
 		            $location_ids[] = $user_right_location->get_location_id();
@@ -138,9 +138,9 @@ class LearningObjectTableDataProvider extends ObjectTableDataProvider
 		        $this->list[] = array('location_id' => $user_right_location->get_location_id(),'user' => $user_right_location->get_user_id(), 'right' => $user_right_location->get_right_id());
 		    }
 		      
-		   	$shared_learning_objects = $rdm->retrieve_shared_learning_objects_for_groups($group_ids,$rights);
+		   	$shared_content_objects = $rdm->retrieve_shared_content_objects_for_groups($group_ids,$rights);
 		
-		    while($group_right_location = $shared_learning_objects->next_result())
+		    while($group_right_location = $shared_content_objects->next_result())
 		    {
 		        if(!in_array($group_right_location->get_location_id(), $location_ids))
 		            $location_ids[] = $group_right_location->get_location_id();
@@ -162,14 +162,14 @@ class LearningObjectTableDataProvider extends ObjectTableDataProvider
 				    {
 				        if($value['location_id'] == $location->get_id())
 				        {
-				            $value['learning_object'] = $location->get_identifier();
+				            $value['content_object'] = $location->get_identifier();
 				            $this->list[$key] = $value;
 				        }
 				    }
 				}
 				
 				if($ids)
-				    $conditions[] = new InCondition('id',$ids, LearningObject :: get_table_name());
+				    $conditions[] = new InCondition('id',$ids, ContentObject :: get_table_name());
 				
 				
 				if($conditions)
@@ -178,7 +178,7 @@ class LearningObjectTableDataProvider extends ObjectTableDataProvider
 				 
 			if(!$condition)
 			{
-			    $condition = new EqualityCondition('id', -1, LearningObject :: get_table_name());
+			    $condition = new EqualityCondition('id', -1, ContentObject :: get_table_name());
 			}
 				
 			return $condition;

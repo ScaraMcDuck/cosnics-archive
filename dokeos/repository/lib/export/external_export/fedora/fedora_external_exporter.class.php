@@ -119,31 +119,31 @@ class FedoraExternalExporter extends RestExternalExporter
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see dokeos/common/external_export/BaseExternalExporter#export($learning_object)
+	 * @see dokeos/common/external_export/BaseExternalExporter#export($content_object)
 	 */
-	public function export($learning_object)
+	public function export($content_object)
 	{
-	    if($this->check_learning_object_is_exportable($learning_object))
+	    if($this->check_content_object_is_exportable($content_object))
 	    {
-	        if($this->check_required_metadata($learning_object))
+	        if($this->check_required_metadata($content_object))
 	        {
-        	    $this->prepare_export($learning_object);
+        	    $this->prepare_export($content_object);
         	    
         	    /*
         	     * Check if the object already exists in Fedora
         	     * - if not, create it
         	     */
-        	    if($this->check_object_exists($learning_object))
+        	    if($this->check_object_exists($content_object))
         	    {
         	        /*
         	         * Create/Update the LOM-XML datastream in Fedora
         	         */
-        	        if($this->save_lom_datastream($learning_object))
+        	        if($this->save_lom_datastream($content_object))
         	        {
         	            /*
         	             * Create/Update the learning object datastream in Fedora
         	             */
-        	            if($this->save_learning_object_datastream($learning_object))
+        	            if($this->save_content_object_datastream($content_object))
         	            {
         	                return true;
         	            }
@@ -164,7 +164,7 @@ class FedoraExternalExporter extends RestExternalExporter
 	        }
 	        else
 	        {	            
-	            Redirect :: url(array(Application :: PARAM_APPLICATION => RepositoryManager :: APPLICATION_NAME, Application :: PARAM_ACTION => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_METADATA_REVIEW, RepositoryManagerExternalRepositoryExportComponent :: PARAM_EXPORT_ID => $this->get_external_export()->get_id(), RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
+	            Redirect :: url(array(Application :: PARAM_APPLICATION => RepositoryManager :: APPLICATION_NAME, Application :: PARAM_ACTION => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_METADATA_REVIEW, RepositoryManagerExternalRepositoryExportComponent :: PARAM_EXPORT_ID => $this->get_external_export()->get_id(), RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $content_object->get_id()));
 	        }
 	    }
 	    else
@@ -178,12 +178,12 @@ class FedoraExternalExporter extends RestExternalExporter
 	 * Check if an object named with the object's repository uid already exists in Fedora.
 	 * If not, the object is created in Fedora  
 	 * 
-	 * @param $learning_object LearningObject
+	 * @param $content_object ContentObject
 	 * @return boolean
 	 */
-	protected function check_object_exists($learning_object)
+	protected function check_object_exists($content_object)
 	{
-	    $object_id = $this->get_existing_repository_uid($learning_object);
+	    $object_id = $this->get_existing_repository_uid($content_object);
 	    //debug($object_id);
 	    
 	    /*
@@ -235,13 +235,13 @@ class FedoraExternalExporter extends RestExternalExporter
 	
 	/**
 	 * Create or update the LOM datastream in Fedora with the LOM-XML of the object 
-	 * @param $learning_object LearningObject
+	 * @param $content_object ContentObject
 	 * @return boolean Indicates wether the LOM datastream could be saved in Fedora
 	 */
-	protected function save_lom_datastream($learning_object)
+	protected function save_lom_datastream($content_object)
 	{
-	    $lom_xml     = $this->get_learning_object_metadata_xml($learning_object);
-	    $object_id   = $this->get_existing_repository_uid($learning_object);
+	    $lom_xml     = $this->get_content_object_metadata_xml($content_object);
+	    $object_id   = $this->get_existing_repository_uid($content_object);
 	    
 	    $add_ds_path = $this->get_full_add_datastream_rest_path();
 	    
@@ -271,14 +271,14 @@ class FedoraExternalExporter extends RestExternalExporter
 	
 	/**
 	 * 
-	 * @param $learning_object
+	 * @param $content_object
 	 * @return boolean
 	 */
-	protected function save_learning_object_datastream($learning_object)
+	protected function save_content_object_datastream($content_object)
 	{
-	    $data_to_send = $this->get_learning_object_content($learning_object);
+	    $data_to_send = $this->get_content_object_content($content_object);
 	    
-	    $object_id   = $this->get_existing_repository_uid($learning_object);
+	    $object_id   = $this->get_existing_repository_uid($content_object);
 	    
 	    $add_ds_path = $this->get_full_add_datastream_rest_path();
 	    $add_ds_path = str_replace('{pid}', $object_id, $add_ds_path);
@@ -331,12 +331,12 @@ class FedoraExternalExporter extends RestExternalExporter
 	/**
 	 * Check if the learning object type export is implemented
 	 * 
-	 * @param $learning_object LearningObject
+	 * @param $content_object ContentObject
 	 * @return boolean
 	 */
-	protected function check_learning_object_is_exportable($learning_object)
+	protected function check_content_object_is_exportable($content_object)
 	{
-	    $type = strtolower($learning_object->get_type());
+	    $type = strtolower($content_object->get_type());
 	    
 	    switch($type)
 	    {
@@ -352,18 +352,18 @@ class FedoraExternalExporter extends RestExternalExporter
 	/**
 	 * Get the learning object content to export
 	 * 
-	 * @param $learning_object LearningObject
+	 * @param $content_object ContentObject
 	 * @return unknown_type
 	 */
-	protected function get_learning_object_content($learning_object)
+	protected function get_content_object_content($content_object)
 	{
-	    $type = strtolower($learning_object->get_type());
+	    $type = strtolower($content_object->get_type());
 	    
 	    $content = null;
 	    switch($type)
 	    {
 	        case 'document':
-	            return $this->get_document_content($learning_object);
+	            return $this->get_document_content($content_object);
 	            break;
 	    }
 	}
@@ -372,13 +372,13 @@ class FedoraExternalExporter extends RestExternalExporter
 	/**
 	 * Get the learning object content to send for the type 'Document' 
 	 * 
-	 * @param $learning_object Document
+	 * @param $content_object Document
 	 * @return unknown_type
 	 */
-	protected function get_document_content($learning_object)
+	protected function get_document_content($content_object)
 	{
 	    $data_to_send         = array();
-	    $data_to_send['file'] = array(basename($learning_object->get_full_path()) => '@' . $learning_object->get_full_path());
+	    $data_to_send['file'] = array(basename($content_object->get_full_path()) => '@' . $content_object->get_full_path());
 
 	    $mime_type = $this->get_file_mimetype($data_to_send['file']);
 	    
@@ -388,7 +388,7 @@ class FedoraExternalExporter extends RestExternalExporter
 	         * Get the file extension from the filename stored in datasource
 	         * and get the corresponding mime type
 	         */
-	        $filename = $learning_object->get_filename();
+	        $filename = $content_object->get_filename();
 	        $path_info = pathinfo($filename);
 	        
 	        $mime_type = $this->get_mimetype_from_extension($path_info['extension']);

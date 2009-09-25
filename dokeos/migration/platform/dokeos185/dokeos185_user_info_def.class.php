@@ -3,8 +3,8 @@
  * migration.lib.platform.dokeos185
  */
 require_once dirname(__FILE__) . '/../../lib/import/import_user_info_def.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/userinfo_def/userinfo_def.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/content_object/userinfo_def/userinfo_def.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/content_object/category/category.class.php';
 
 /**
  * This class presents a Dokeos185 userinfo_def

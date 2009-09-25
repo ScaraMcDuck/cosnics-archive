@@ -61,7 +61,7 @@ class ValidationBrowserTableCellRend extends DefaultValidationTableCellRend
 
     /**
      * Gets the action links to display
-     * @param LearningObject $profile The profile object for which the
+     * @param ContentObject $profile The profile object for which the
      * action links should be returned
      * @return string A HTML representation of the action links
      */

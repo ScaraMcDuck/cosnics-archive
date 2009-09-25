@@ -12,7 +12,7 @@
 abstract class ImportUnknownData
 {
 	abstract function is_valid_unknow_data();
-	abstract function convert_to_learning_object();
+	abstract function convert_to_content_object();
 	abstract static function get_all($parameters);
 }
 

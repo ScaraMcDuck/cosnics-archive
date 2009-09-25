@@ -1,10 +1,10 @@
 <?php
-require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) . '/../../content_object.class.php';
 /**
  * @package repository.learningobject
  * @subpackage learning_path
  */
-class LearningPathItem extends LearningObject
+class LearningPathItem extends ContentObject
 {
 	const PROPERTY_REFERENCE = 'reference_id';
 	const PROPERTY_MAX_ATTEMPTS = 'max_attempts';

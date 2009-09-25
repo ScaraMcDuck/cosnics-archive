@@ -548,7 +548,7 @@ div.metadata div.title
 }
 
 /* Learning object display styles */
-div.learning_object
+div.content_object
 {
 	border: 1px solid #F0F0F0;
 	margin: 0 0 1em 0;
@@ -556,7 +556,7 @@ div.learning_object
 	background-position: 10px 10px;
 	background-repeat: no-repeat;
 }
-div.learning_object div.title
+div.content_object div.title
 {
 	font-weight: bold;
 	border-bottom: 1px solid #CCCCCC;
@@ -564,19 +564,19 @@ div.learning_object div.title
 	margin-bottom: 1em;
 }
 
-div.learning_object div.description ul.attachments_list
+div.content_object div.description ul.attachments_list
 {
 	margin-top: 10px;
 }
 
-div.learning_object div.publication_info
+div.content_object div.publication_info
 {
 	font-style: italic;
 	text-align: right;
 	margin: 1em 0;
 }
 
-div.learning_object div.publication_actions
+div.content_object div.publication_actions
 {
 	text-align: right;
 }

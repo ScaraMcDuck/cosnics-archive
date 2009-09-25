@@ -10,19 +10,19 @@ class AssessmentQtiExport extends QtiExport
 		parent :: __construct($assessment);
 	}
 	
-	function export_learning_object()
+	function export_content_object()
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-		$assessment = $this->get_learning_object();
+		$assessment = $this->get_content_object();
 		$assessment_xml[] = $this->get_assessment_xml_header($assessment);
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id(), ComplexLearningObjectItem :: get_table_name());
-		$clo_questions = $rdm->retrieve_complex_learning_object_items($condition);
+		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $assessment->get_id(), ComplexContentObjectItem :: get_table_name());
+		$clo_questions = $rdm->retrieve_complex_content_object_items($condition);
 		while ($clo_question = $clo_questions->next_result())
 		{
-			$question = $rdm->retrieve_learning_object($clo_question->get_ref());
+			$question = $rdm->retrieve_content_object($clo_question->get_ref());
 			$question_exporter = QtiExport :: factory_qti($question);
 			//export question
-			$filename = $question_exporter->export_learning_object();
+			$filename = $question_exporter->export_content_object();
 			$question_files[] = $filename;
 			$shortfilename = split('/', $filename);
 			$assessment_xml[] = '<assessmentItemRef identifier="'.$question->get_id().'" href="'.$shortfilename[count($shortfilename)-1].'">';
@@ -40,7 +40,7 @@ class AssessmentQtiExport extends QtiExport
 		$doc = new DOMDocument();
 		$doc->loadXML($assessment_xml);
 		
-		$temp_dir = Path :: get(SYS_TEMP_PATH). $this->get_learning_object()->get_owner_id() . '/export_qti/';
+		$temp_dir = Path :: get(SYS_TEMP_PATH). $this->get_content_object()->get_owner_id() . '/export_qti/';
   		
   		if(!is_dir($temp_dir))
   		{
@@ -72,7 +72,7 @@ class AssessmentQtiExport extends QtiExport
 	function include_assessment_images($assessment)
 	{
 		$tags = Text :: fetch_tag_into_array($assessment->get_description(), '<img>');
-		$temp_dir = Path :: get(SYS_TEMP_PATH). $this->get_learning_object()->get_owner_id() . '/export_qti/images/';
+		$temp_dir = Path :: get(SYS_TEMP_PATH). $this->get_content_object()->get_owner_id() . '/export_qti/images/';
 		$description = $assessment->get_description();		
 		
 	  	if(!is_dir($temp_dir))

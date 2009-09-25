@@ -9,8 +9,8 @@ class ToolComplexBuilderComponent extends ToolComponent
 		{
 			$pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
 			$this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $pid);
-			$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid);
-			Request :: set_get(ComplexBuilder :: PARAM_ROOT_LO, $pub->get_learning_object()->get_id());
+			$pub = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($pid);
+			Request :: set_get(ComplexBuilder :: PARAM_ROOT_LO, $pub->get_content_object()->get_id());
 			
 			$complex_builder = ComplexBuilder :: factory($this);
 			$complex_builder->run();
@@ -20,7 +20,7 @@ class ToolComplexBuilderComponent extends ToolComponent
 	function display_header($trail)
 	{
 		$my_trail = new BreadcrumbTrail();
-		//$my_trail->add(new Breadcrumb($this->get_url(), Translation :: get('BuildComplexLearningObject')));
+		//$my_trail->add(new Breadcrumb($this->get_url(), Translation :: get('BuildComplexContentObject')));
 		$my_trail->merge($trail);
 		
 		parent :: display_header($my_trail);

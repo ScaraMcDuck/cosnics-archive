@@ -5,8 +5,8 @@
 require_once dirname(__FILE__).'/../repo_viewer.class.php';
 require_once dirname(__FILE__).'/../repo_viewer_component.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/repository_data_manager.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/learning_object_display.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/learning_object_form.class.php';
+require_once dirname(__FILE__).'/../../../../repository/lib/content_object_display.class.php';
+require_once dirname(__FILE__).'/../../../../repository/lib/content_object_form.class.php';
 require_once dirname(__FILE__).'/../../../../common/dokeos_utilities.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 /**
@@ -63,7 +63,7 @@ class RepoViewerCreatorComponent extends RepoViewerComponent
 		$types = array ();
 		foreach ($this->get_types() as $t)
 		{
-			$types[$t] = Translation :: get(LearningObject :: type_to_class($t).'TypeName');
+			$types[$t] = Translation :: get(ContentObject :: type_to_class($t).'TypeName');
 		}
 		$form = new FormValidator('selecttype', 'post', $this->get_url($this->get_parameters()));
 		$form->addElement('hidden', 'tool');
@@ -89,8 +89,8 @@ class RepoViewerCreatorComponent extends RepoViewerComponent
 	 */
 	private function get_creation_form($type)
 	{
-		$default_lo = $this->get_default_learning_object($type);
-		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $default_lo, 'create', 'post', $this->get_url(array_merge(array ('type' => $type), $this->get_parameters())));
+		$default_lo = $this->get_default_content_object($type);
+		$form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_CREATE, $default_lo, 'create', 'post', $this->get_url(array_merge(array ('type' => $type), $this->get_parameters())));
 		
 		$def = $this->get_creation_defaults();
 		if($def)
@@ -102,10 +102,10 @@ class RepoViewerCreatorComponent extends RepoViewerComponent
 	/**
 	 * Gets the editing form
 	 */
-	private function get_editing_form($learning_object_id, $params = array())
+	private function get_editing_form($content_object_id, $params = array())
 	{
-		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($learning_object_id);
-		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array_merge($this->get_parameters(), array_merge($params,array (RepoViewer :: PARAM_EDIT_ID => $learning_object_id))))); //, RepoViewer :: PARAM_EDIT => 1)))));
+		$content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($content_object_id);
+		$form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url(array_merge($this->get_parameters(), array_merge($params,array (RepoViewer :: PARAM_EDIT_ID => $content_object_id))))); //, RepoViewer :: PARAM_EDIT => 1)))));
 		return $this->handle_form($form, 1);
 	}
 	
@@ -118,30 +118,30 @@ class RepoViewerCreatorComponent extends RepoViewerComponent
 		{
 			if ($edit)
 			{
-				$form->update_learning_object();
-				$learning_object = $form->get_learning_object();
+				$form->update_content_object();
+				$content_object = $form->get_content_object();
 			}
 			else
-				$learning_object = $form->create_learning_object();
-			//$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $learning_object->get_id(), RepoViewer :: PARAM_ACTION => 'publicationcreator', RepoViewer :: PARAM_EDIT => $edit));
-			//$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $learning_object->get_id(), RepoViewer :: PARAM_EDIT => $edit));
-			/*if(!is_array($learning_object) && $learning_object->is_complex_learning_object() && $this->redirect_complex($learning_object->get_type()))
+				$content_object = $form->create_content_object();
+			//$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $content_object->get_id(), RepoViewer :: PARAM_ACTION => 'publicationcreator', RepoViewer :: PARAM_EDIT => $edit));
+			//$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $content_object->get_id(), RepoViewer :: PARAM_EDIT => $edit));
+			/*if(!is_array($content_object) && $content_object->is_complex_content_object() && $this->redirect_complex($content_object->get_type()))
 			{
-				$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $learning_object->get_id()));
+				$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $content_object->get_id()));
 				$_SESSION['redirect_url'] = $this->get_url($redirect_params);
-				header('Location: core.php?&application=repository&go=build_complex&publish=1&root_lo=' . $learning_object->get_id());
+				header('Location: core.php?&application=repository&go=build_complex&publish=1&root_lo=' . $content_object->get_id());
 			}
 			else
 			{*/
-				if(is_array($learning_object))
+				if(is_array($content_object))
 				{
 					$ids = array();
-					foreach($learning_object as $lo)
+					foreach($content_object as $lo)
 						$ids[] = $lo->get_id();
 				}
 				else
 				{
-					$ids = $learning_object->get_id();
+					$ids = $content_object->get_id();
 				}
 				
 				$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $ids));

@@ -4,14 +4,14 @@
  * @package application.weblcms
  * @subpackage browser
  */
-require_once Path :: get_repository_path(). 'lib/learning_object_display.class.php';
+require_once Path :: get_repository_path(). 'lib/content_object_display.class.php';
 /**
  * This is a generic renderer for a set of learning object publications.
  * @package application.weblcms.tool
  * @author Bart Mollet
  * @author Tim De Pauw
  */
-abstract class LearningObjectPublicationListRenderer
+abstract class ContentObjectPublicationListRenderer
 {
     protected $browser;
 
@@ -25,7 +25,7 @@ abstract class LearningObjectPublicationListRenderer
      *                                    renderer with.
      * @param array $parameters The parameters to pass to the renderer.
      */
-    function LearningObjectPublicationListRenderer($browser, $parameters = array (), $actions)
+    function ContentObjectPublicationListRenderer($browser, $parameters = array (), $actions)
     {
         $this->parameters = $parameters;
         $this->browser = $browser;
@@ -43,27 +43,27 @@ abstract class LearningObjectPublicationListRenderer
 
     /**
      * Renders the title of the given publication.
-     * @param LearningObjectPublication $publication The publication.
+     * @param ContentObjectPublication $publication The publication.
      * @return string The HTML rendering.
      */
     function render_title($publication)
     {
-        return htmlspecialchars($publication->get_learning_object()->get_title());
+        return htmlspecialchars($publication->get_content_object()->get_title());
     }
 
     /**
      * Renders the description of the given publication.
-     * @param LearningObjectPublication $publication The publication.
+     * @param ContentObjectPublication $publication The publication.
      * @return string The HTML rendering.
      */
     function render_description($publication)
     {
-        return $publication->get_learning_object()->get_description();
+        return $publication->get_content_object()->get_description();
     }
 
     /**
      * Renders information about the repo_viewer of the given publication.
-     * @param LearningObjectPublication $publication The publication.
+     * @param ContentObjectPublication $publication The publication.
      * @return string The HTML rendering.
      */
     function render_repo_viewer($publication)
@@ -74,7 +74,7 @@ abstract class LearningObjectPublicationListRenderer
 
     /**
      * Renders the date when the given publication was published.
-     * @param LearningObjectPublication $publication The publication.
+     * @param ContentObjectPublication $publication The publication.
      * @return string The HTML rendering.
      */
     function render_publication_date($publication)
@@ -84,7 +84,7 @@ abstract class LearningObjectPublicationListRenderer
 
     /**
      * Renders the users and course_groups the given publication was published for.
-     * @param LearningObjectPublication $publication The publication.
+     * @param ContentObjectPublication $publication The publication.
      * @return string The HTML rendering.
      */
     function render_publication_targets($publication)
@@ -136,7 +136,7 @@ abstract class LearningObjectPublicationListRenderer
 
     /**
      * Renders the time period in which the given publication is active.
-     * @param LearningObjectPublication $publication The publication.
+     * @param ContentObjectPublication $publication The publication.
      * @return string The HTML rendering.
      */
     function render_publication_period($publication)
@@ -150,7 +150,7 @@ abstract class LearningObjectPublicationListRenderer
 
     /**
      * Renders general publication information about the given publication.
-     * @param LearningObjectPublication $publication The publication.
+     * @param ContentObjectPublication $publication The publication.
      * @return string The HTML rendering.
      */
     function render_publication_information($publication)
@@ -169,7 +169,7 @@ abstract class LearningObjectPublicationListRenderer
 
     /**
      * Renders the means to move the given publication up one place.
-     * @param LearningObjectPublication $publication The publication.
+     * @param ContentObjectPublication $publication The publication.
      * @param boolean $first True if the publication is the first in the list
      *                       it is a part of.
      * @return string The HTML rendering.
@@ -191,7 +191,7 @@ abstract class LearningObjectPublicationListRenderer
 
     /**
      * Renders the means to move the given publication down one place.
-     * @param LearningObjectPublication $publication The publication.
+     * @param ContentObjectPublication $publication The publication.
      * @param boolean $last True if the publication is the last in the list
      *                      it is a part of.
      * @return string The HTML rendering.
@@ -213,7 +213,7 @@ abstract class LearningObjectPublicationListRenderer
 
     /**
      * Renders the means to toggle visibility for the given publication.
-     * @param LearningObjectPublication $publication The publication.
+     * @param ContentObjectPublication $publication The publication.
      * @return string The HTML rendering.
      */
     function render_visibility_action($publication)
@@ -238,7 +238,7 @@ abstract class LearningObjectPublicationListRenderer
 
     /**
      * Renders the means to edit the given publication.
-     * @param LearningObjectPublication $publication The publication.
+     * @param ContentObjectPublication $publication The publication.
      * @return string The HTML rendering.
      */
     function render_edit_action($publication)
@@ -255,7 +255,7 @@ abstract class LearningObjectPublicationListRenderer
 
     /**
      * Renders the means to delete the given publication.
-     * @param LearningObjectPublication $publication The publication.
+     * @param ContentObjectPublication $publication The publication.
      * @return string The HTML rendering.
      */
     function render_delete_action($publication)
@@ -267,7 +267,7 @@ abstract class LearningObjectPublicationListRenderer
 
     /**
      * Renders the means to give feedback to the given publication
-     * @param LearningObjectPublication $publication The publication
+     * @param ContentObjectPublication $publication The publication
      *
      */
     function render_feedback_action($publication)
@@ -279,14 +279,14 @@ abstract class LearningObjectPublicationListRenderer
 
     /**
      * Renders the means to move the given publication to another category.
-     * @param LearningObjectPublication $publication The publication.
+     * @param ContentObjectPublication $publication The publication.
      * @return string The HTML rendering.
      */
     function render_move_to_category_action($publication)
     {
-        $conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_COURSE, $this->browser->get_parent()->get_course_id());
-        $conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_TOOL, $this->browser->get_parent()->get_tool_id());
-        $count = WeblcmsDataManager :: get_instance()->count_learning_object_publication_categories(new AndCondition($conditions));
+        $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_COURSE, $this->browser->get_parent()->get_course_id());
+        $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_TOOL, $this->browser->get_parent()->get_tool_id());
+        $count = WeblcmsDataManager :: get_instance()->count_content_object_publication_categories(new AndCondition($conditions));
         $count++;
         if($count > 1)
         {
@@ -302,30 +302,30 @@ abstract class LearningObjectPublicationListRenderer
 
     /**
      * Renders the attachements of a publication.
-     * @param LearningObjectPublication $publication The publication.
+     * @param ContentObjectPublication $publication The publication.
      * @return string The rendered HTML.
      */
     /*function render_attachments($publication)
     {
-        $object = $publication->get_learning_object();
+        $object = $publication->get_content_object();
         if ($object->supports_attachments())
         {
-            $attachments = $object->get_attached_learning_objects();
+            $attachments = $object->get_attached_content_objects();
             if(count($attachments)>0)
             {
                 $html[] = '<h4>Attachments</h4>';
-                DokeosUtilities :: order_learning_objects_by_title($attachments);
+                DokeosUtilities :: order_content_objects_by_title($attachments);
                 foreach ($attachments as $attachment)
                 {
-                    $disp = LearningObjectDisplay :: factory($attachment);
-                    $html[] = '<div class="learning_object" style="background-image: url(' . Theme :: get_common_image_path().'learning_object/'.$attachment->get_icon_name().$icon_suffix.'.png);">';
+                    $disp = ContentObjectDisplay :: factory($attachment);
+                    $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path().'content_object/'.$attachment->get_icon_name().$icon_suffix.'.png);">';
                     $html[] = '<div class="title">';
                     $html[] = $attachment->get_title();
                     $html[] = '</div>';
                     $html[] = '<div class="description">';
                     $html[] = $attachment->get_description();
                     $html[] = '</div></div>';
-                    //$html[] = '<li><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
+                    //$html[] = '<li><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
                 }
                 //$html[] = '</ul>';
                 return implode("\n",$html);
@@ -336,18 +336,18 @@ abstract class LearningObjectPublicationListRenderer
 
     function render_attachments($publication)
     {
-        $object = $publication->get_learning_object();
+        $object = $publication->get_content_object();
         if ($object->supports_attachments())
         {
-            $attachments = $object->get_attached_learning_objects();
+            $attachments = $object->get_attached_content_objects();
             if(count($attachments)>0)
             {
                 $html[] = '<h4>Attachments</h4>';
-                DokeosUtilities :: order_learning_objects_by_title($attachments);
+                DokeosUtilities :: order_content_objects_by_title($attachments);
                 $html[] = '<ul>';
                 foreach ($attachments as $attachment)
                 {
-                    $html[] = '<li><a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_ATTACHMENT, Tool :: PARAM_OBJECT_ID => $attachment->get_id())) . '"><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$attachment->get_title().'</a></li>';
+                    $html[] = '<li><a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_ATTACHMENT, Tool :: PARAM_OBJECT_ID => $attachment->get_id())) . '"><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$attachment->get_title().'</a></li>';
                 }
                 $html[] = '</ul>';
                 return implode("\n",$html);
@@ -358,7 +358,7 @@ abstract class LearningObjectPublicationListRenderer
 
     /**
      * Renders publication actions for the given publication.
-     * @param LearningObjectPublication $publication The publication.
+     * @param ContentObjectPublication $publication The publication.
      * @param boolean $first True if the publication is the first in the list
      *                       it is a part of.
      * @param boolean $last True if the publication is the last in the list
@@ -395,13 +395,13 @@ abstract class LearningObjectPublicationListRenderer
 
     /**
      * Renders the icon for the given publication
-     * @param LearningObjectPublication $publication The publication.
+     * @param ContentObjectPublication $publication The publication.
      * @return string The rendered HTML.
      */
     function render_icon($publication)
     {
-        $object = $publication->get_learning_object();
-        return '<img src="'.Theme :: get_common_image_path() . 'learning_object/' .$object->get_icon_name().'.png" alt=""/>';
+        $object = $publication->get_content_object();
+        return '<img src="'.Theme :: get_common_image_path() . 'content_object/' .$object->get_icon_name().'.png" alt=""/>';
     }
 
     /**
@@ -416,7 +416,7 @@ abstract class LearningObjectPublicationListRenderer
     }
 
     /**
-     * @see LearningObjectPublicationBrowser :: get_publications()
+     * @see ContentObjectPublicationBrowser :: get_publications()
      */
     function get_publications()
     {
@@ -425,7 +425,7 @@ abstract class LearningObjectPublicationListRenderer
 
 
     /**
-     * @see LearningObjectPublicationBrowser :: get_publication_count()
+     * @see ContentObjectPublicationBrowser :: get_publication_count()
      */
     function get_publication_count()
     {
@@ -470,7 +470,7 @@ abstract class LearningObjectPublicationListRenderer
     }
 
     /**
-     * @see LearningObjectPublicationBrowser :: get_url()
+     * @see ContentObjectPublicationBrowser :: get_url()
      */
     function get_url($parameters = array (), $filter = array(), $encode_entities = false)
     {
@@ -478,7 +478,7 @@ abstract class LearningObjectPublicationListRenderer
     }
 
     /**
-     * @see LearningObjectPublicationBrowser :: is_allowed()
+     * @see ContentObjectPublicationBrowser :: is_allowed()
      */
     function is_allowed($right)
     {

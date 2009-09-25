@@ -3,16 +3,16 @@
  * Feedback list renderer
  * @package application.weblcms.list_renderer
  */
-require_once dirname(__FILE__).'/list_learning_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/list_content_object_publication_list_renderer.class.php';
 /**
  * Renderer to display a list of feedback publications.
  */
-class ListPublicationFeedbackListRenderer extends ListLearningObjectPublicationListRenderer
+class ListPublicationFeedbackListRenderer extends ListContentObjectPublicationListRenderer
 {
 	private $feedback;
 	function ListPublicationFeedbackListRenderer($browser,$feedback)
 	{
-		parent::ListLearningObjectPublicationListRenderer($browser);
+		parent::ListContentObjectPublicationListRenderer($browser);
 		$this->feedback = $feedback;
 	}
 	function get_publications()
@@ -71,7 +71,7 @@ class ListPublicationFeedbackListRenderer extends ListLearningObjectPublicationL
 			$icon_suffix = '_new';
 		}
 
-		$html[] = '<div class="feedback" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$publication->get_learning_object()->get_icon_name().$icon_suffix.'.png);">';
+		$html[] = '<div class="feedback" style="background-image: url('. Theme :: get_common_image_path(). 'content_object/' .$publication->get_content_object()->get_icon_name().$icon_suffix.'.png);">';
 		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = $this->render_title($publication);
 		$html[] = '<span class="publication_info'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
@@ -94,7 +94,7 @@ class ListPublicationFeedbackListRenderer extends ListLearningObjectPublicationL
 
 	/**
 	 * Renders general publication information about the given publication.
-	 * @param LearningObjectPublication $publication The publication.
+	 * @param ContentObjectPublication $publication The publication.
 	 * @return string The HTML rendering.
 	 */
 	function render_publication_information($publication)

@@ -53,13 +53,13 @@ class ActionSelectionBuildWizardPage extends BuildWizardPage
 //		{
 //			case self::ACTION_BACKUP:
 //			case self::ACTION_EMPTY:
-//				if($dm->count_learning_object_publications($this->get_parent()->get_course_id()) == 0)
+//				if($dm->count_content_object_publications($this->get_parent()->get_course_id()) == 0)
 //				{
 //					return false;
 //				}
 //				return true;
 //			case self::ACTION_COPY:
-//				if($dm->count_learning_object_publications($this->get_parent()->get_course_id()) == 0)
+//				if($dm->count_content_object_publications($this->get_parent()->get_course_id()) == 0)
 //				{
 //					return false;
 //				}

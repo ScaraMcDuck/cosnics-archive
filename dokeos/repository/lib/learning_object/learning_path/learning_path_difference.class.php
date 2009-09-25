@@ -6,7 +6,7 @@
 /**
  * This class can be used to get the difference between learning paths
  */
-class LearningPathDifference extends LearningObjectDifference
+class LearningPathDifference extends ContentObjectDifference
 {
 }
 ?>

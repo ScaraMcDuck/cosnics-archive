@@ -3,7 +3,7 @@
 	<package>
 		<name>System Announcement</name>
 		<code>system_announcement</code>
-		<section>learning_object</section>
+		<section>content_object</section>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/s/system_announcement/system_announcement-1.0.0.zip</filename>

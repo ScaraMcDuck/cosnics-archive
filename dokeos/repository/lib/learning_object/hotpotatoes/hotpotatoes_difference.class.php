@@ -6,7 +6,7 @@
 /**
  * This class can be used to get the difference between open question
  */
-class HotpotatoesDifference extends LearningObjectDifference
+class HotpotatoesDifference extends ContentObjectDifference
 {
 	function get_difference()
 	{

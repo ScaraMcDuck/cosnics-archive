@@ -28,17 +28,17 @@ class FedoraTestExternalExporter extends FedoraExternalExporter
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see dokeos/common/external_export/fedora/FedoraExternalExporter#export($learning_object)
+	 * @see dokeos/common/external_export/fedora/FedoraExternalExporter#export($content_object)
 	 */
-	public function export($learning_object)
+	public function export($content_object)
 	{
-	    if(parent :: export($learning_object))
+	    if(parent :: export($content_object))
 	    {
 	        /*
 	         * Create the datastream specific to the Unige learning object repository
 	         * It will contain the LO's owner AAI unique id and the SWITCHcollection access right 
 	         */
-	        if($this->save_animal_datastream($learning_object))
+	        if($this->save_animal_datastream($content_object))
 	        {
 	            return true;
 	        }
@@ -51,13 +51,13 @@ class FedoraTestExternalExporter extends FedoraExternalExporter
 	
 	/**
 	 * 
-	 * @param $learning_object LearningObject
+	 * @param $content_object ContentObject
 	 * @return boolean
 	 */
-	private function save_animal_datastream($learning_object)
+	private function save_animal_datastream($content_object)
 	{
-	    $animal_doc = $this->create_animal_document($learning_object);	   //$chor_doc->saveXML();
-	    $object_id   = $this->get_existing_repository_uid($learning_object);
+	    $animal_doc = $this->create_animal_document($content_object);	   //$chor_doc->saveXML();
+	    $object_id   = $this->get_existing_repository_uid($content_object);
 	    
 	    $add_ds_path = $this->get_full_add_datastream_rest_path();
 	    
@@ -84,10 +84,10 @@ class FedoraTestExternalExporter extends FedoraExternalExporter
 	/**
 	 * Create a document equivalent to the CHOR_DC datastream content in the SWITCH repository
 	 * 
-	 * @param $learning_object LearningObject
+	 * @param $content_object ContentObject
 	 * @return DOMDocument
 	 */
-	private function create_animal_document($learning_object)
+	private function create_animal_document($content_object)
 	{
 	    $animal_doc = new DOMDocument();
 	    $animals_node = $animal_doc->createElement('animals');
@@ -112,9 +112,9 @@ class FedoraTestExternalExporter extends FedoraExternalExporter
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see dokeos/common/external_export/BaseExternalExporter#check_required_metadata($learning_object)
+	 * @see dokeos/common/external_export/BaseExternalExporter#check_required_metadata($content_object)
 	 */
-	public function check_required_metadata($learning_object)
+	public function check_required_metadata($content_object)
 	{
 	    /*
 	     * For this test export, the right description is required
@@ -124,7 +124,7 @@ class FedoraTestExternalExporter extends FedoraExternalExporter
 	    
 	    $this->clear_missing_fields();
 	    
-	    $lom_mapper  = $this->get_lom_mapper($learning_object);
+	    $lom_mapper  = $this->get_lom_mapper($content_object);
 	    
 	    $right_descriptions = $lom_mapper->get_rights_description();
 	    if(count($right_descriptions->get_strings()) == 0)
@@ -132,7 +132,7 @@ class FedoraTestExternalExporter extends FedoraExternalExporter
 	        /*
 	         * A right description is mandatory
 	         */
-	        $this->store_missing_fields($learning_object->get_id(), 'rights.description');
+	        $this->store_missing_fields($content_object->get_id(), 'rights.description');
 	        $has_missing_fields = true;
 	    }
 	    
@@ -144,7 +144,7 @@ class FedoraTestExternalExporter extends FedoraExternalExporter
 	    Session :: unregister(BaseExternalExporter :: SESSION_MISSING_FIELDS);
 	}
 	
-	private function store_missing_fields($learning_object_id, $fieldname)
+	private function store_missing_fields($content_object_id, $fieldname)
 	{
 	    $missing_infos = Session :: retrieve(BaseExternalExporter :: SESSION_MISSING_FIELDS);
 	    

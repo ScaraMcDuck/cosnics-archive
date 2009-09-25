@@ -4,9 +4,9 @@ require_once dirname(__FILE__).'/../question_qti_export.class.php';
 class MatrixQuestionQtiExport extends QuestionQtiExport
 {
 	
-	function export_learning_object()
+	function export_content_object()
 	{
-		$question = $this->get_learning_object();
+		$question = $this->get_content_object();
 		$options = $question->get_options();
 		$matches = $question->get_matches();
 		
@@ -69,7 +69,7 @@ class MatrixQuestionQtiExport extends QuestionQtiExport
 	{
 		$interaction_xml[] = '<itemBody>';
 		$interaction_xml[] = '<matchInteraction responseIdentifier="RESPONSE" shuffle="true" maxAssociations="0">';
-		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_learning_object()->get_description()).'</prompt>';
+		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_content_object()->get_description()).'</prompt>';
 		
 		$interaction_xml[] = '<simpleMatchSet>';
 		

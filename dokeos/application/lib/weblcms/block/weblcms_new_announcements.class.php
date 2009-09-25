@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/../weblcms_block.class.php';
 require_once dirname(__FILE__).'/../course/course_user_category.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object/announcement/announcement.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object/announcement/announcement.class.php';
 /**
  * This class represents a calendar repo_viewer component which can be used
  * to browse through the possible learning objects to publish.
@@ -38,13 +38,13 @@ class WeblcmsNewAnnouncements extends WeblcmsBlock
 			$last_visit_date = $dm->get_last_visit_date($course->get_id(),$this->get_user_id(),'announcement',0);
 
 			$conditions = array();
-			$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
-			$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'announcement');
+			$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
+			$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'announcement');
 			$subselect_condition = new EqualityCondition('type', 'announcement');
-			$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
+			$conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
 			$condition = new AndCondition($conditions);
 
-			$publications = $dm->retrieve_learning_object_publications_new($condition, new ObjectTableOrder(Announcement :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC));
+			$publications = $dm->retrieve_content_object_publications_new($condition, new ObjectTableOrder(Announcement :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC));
 
 			while($publication = $publications->next_result())
 			{
@@ -52,7 +52,7 @@ class WeblcmsNewAnnouncements extends WeblcmsBlock
 				{
 					$items[] = array(
 						'course' => $course->get_id(),
-						'title' => $publication->get_learning_object()->get_title(),
+						'title' => $publication->get_content_object()->get_title(),
 						'id' => $publication->get_id()
 					);
 				}

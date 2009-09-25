@@ -7,13 +7,13 @@
 /**
  * This class can be used to display documents
  */
-class DocumentDisplay extends LearningObjectDisplay
+class DocumentDisplay extends ContentObjectDisplay
 {
 	//Inherited
 	function get_full_html()
 	{	
 		$html = parent :: get_full_html();
-		$object = $this->get_learning_object();
+		$object = $this->get_content_object();
 		$name = $object->get_filename();
 
 		$url = RepositoryManager :: get_document_downloader_url($object->get_id());
@@ -33,10 +33,10 @@ class DocumentDisplay extends LearningObjectDisplay
 	//Inherited
 	function get_short_html()
 	{
-		$object = $this->get_learning_object();
+		$object = $this->get_content_object();
 		$url = RepositoryManager :: get_document_downloader_url($object->get_id());
 		
-		return '<span class="learning_object"><a href="'.htmlentities($url).'">'.htmlentities($object->get_title()).'</a></span>';
+		return '<span class="content_object"><a href="'.htmlentities($url).'">'.htmlentities($object->get_title()).'</a></span>';
 	}
 }
 ?>

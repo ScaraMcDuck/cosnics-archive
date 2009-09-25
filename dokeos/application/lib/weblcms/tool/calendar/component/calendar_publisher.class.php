@@ -2,8 +2,8 @@
 
 require_once dirname(__FILE__) . '/../calendar_tool.class.php';
 require_once dirname(__FILE__) . '/../calendar_tool_component.class.php';
-require_once dirname(__FILE__).'/../../../learning_object_repo_viewer.class.php';
-require_once dirname(__FILE__) . '/../../../publisher/learning_object_publisher.class.php';
+require_once dirname(__FILE__).'/../../../content_object_repo_viewer.class.php';
+require_once dirname(__FILE__) . '/../../../publisher/content_object_publisher.class.php';
 
 class CalendarToolPublisherComponent extends CalendarToolComponent
 {
@@ -18,7 +18,7 @@ class CalendarToolPublisherComponent extends CalendarToolComponent
 		$trail = new BreadcrumbTrail();
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => CalendarTool :: ACTION_PUBLISH)), Translation :: get('Publish')));
         $trail->add_help('courses calendar tool');
-		//$pub = new LearningObjectPublisher($this, 'calendar_event', true);
+		//$pub = new ContentObjectPublisher($this, 'calendar_event', true);
 
 		$event = new CalendarEvent();
 		$event->set_owner_id($this->get_user_id());
@@ -26,8 +26,8 @@ class CalendarToolPublisherComponent extends CalendarToolComponent
 		$event->set_end_date(intval(Request :: get('default_end_date')));
 
 		$object = Request :: get('object');
-		$pub = new LearningObjectRepoViewer($this, 'calendar_event', true);
-		$pub->set_default_learning_object('calendar_event',$event);
+		$pub = new ContentObjectRepoViewer($this, 'calendar_event', true);
+		$pub->set_default_content_object('calendar_event',$event);
 
 		if(!isset($object))
 		{
@@ -35,8 +35,8 @@ class CalendarToolPublisherComponent extends CalendarToolComponent
 		}
 		else
 		{
-			//$html[] = 'LearningObject: ';
-			$publisher = new LearningObjectPublisher($pub);
+			//$html[] = 'ContentObject: ';
+			$publisher = new ContentObjectPublisher($pub);
 			$html[] = $publisher->get_publications_form($object);
 		}
 

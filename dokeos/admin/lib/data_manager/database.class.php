@@ -345,7 +345,7 @@ class DatabaseAdminDataManager extends AdminDataManager
         return $record[0] + 1;
     }
 
-    public function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    public function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
     {
         if (isset($type))
         {
@@ -387,7 +387,7 @@ class DatabaseAdminDataManager extends AdminDataManager
         $publication_attr = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
-            $info = new LearningObjectPublicationAttributes();
+            $info = new ContentObjectPublicationAttributes();
             $info->set_id($record['id']);
             $info->set_publisher_user_id($record['publisher_id']);
             $info->set_publication_date($record['published']);
@@ -396,18 +396,18 @@ class DatabaseAdminDataManager extends AdminDataManager
             $info->set_location('');
             //TODO: set correct URL
             $info->set_url('index_admin.php?go=sysviewer&announcement=' . $record['id']);
-            $info->set_publication_object_id($record['learning_object_id']);
+            $info->set_publication_object_id($record['content_object_id']);
             $publication_attr[] = $info;
         }
         return $publication_attr;
     }
 
-    public function get_learning_object_publication_attribute($publication_id)
+    public function get_content_object_publication_attribute($publication_id)
     {
         $condition = new EqualityCondition('id', $publication_id);
         $record = $this->database->next_result();
 
-        $info = new LearningObjectPublicationAttributes();
+        $info = new ContentObjectPublicationAttributes();
         $info->set_id($record->get_id());
         $info->set_publisher_user_id($record->get_publisher());
         $info->set_publication_date($record->get_publication_date());
@@ -416,11 +416,11 @@ class DatabaseAdminDataManager extends AdminDataManager
         $info->set_location('');
         //TODO: set correct URL
         $info->set_url('index_admin.php?go=sysviewer&announcement=' . $record->get_id());
-        $info->set_publication_object_id($record->get_learning_object());
+        $info->set_publication_object_id($record->get_content_object());
         return $info;
     }
 
-    public function any_learning_object_is_published($object_ids)
+    public function any_content_object_is_published($object_ids)
     {
         $condition = new InCondition(SystemAnnouncementPublication :: PROPERTY_LEARNING_OBJECT_ID, $object_ids);
         return $this->database->count_objects('system_announcement_publication', $condition) >= 1;
@@ -432,7 +432,7 @@ class DatabaseAdminDataManager extends AdminDataManager
         return $this->database->count_objects('system_announcement_publication', $condition);
     }
 
-    public function delete_learning_object_publications($object_id)
+    public function delete_content_object_publications($object_id)
     {
         $condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_LEARNING_OBJECT_ID, $object_id);
         $this->database->delete('system_announcement_publication', $condition);

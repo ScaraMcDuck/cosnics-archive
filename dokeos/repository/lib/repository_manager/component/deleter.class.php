@@ -30,13 +30,13 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 			$recycled = Request :: get(RepositoryManager :: PARAM_DELETE_RECYCLED);
 			foreach ($ids as $object_id)
 			{
-				$object = $this->get_parent()->retrieve_learning_object($object_id);
+				$object = $this->get_parent()->retrieve_content_object($object_id);
 				// TODO: Roles & Rights.
 				if ($object->get_owner_id() == $this->get_user_id())
 				{
 					if ($delete_version)
 					{
-						if ($this->get_parent()->learning_object_deletion_allowed($object, 'version'))
+						if ($this->get_parent()->content_object_deletion_allowed($object, 'version'))
 						{
 							$object->delete_version();
 						}
@@ -47,11 +47,11 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 					}
 					else
 					{
-						if ($this->get_parent()->learning_object_deletion_allowed($object))
+						if ($this->get_parent()->content_object_deletion_allowed($object))
 						{
 							if ($permanent)
 							{
-								$versions = $object->get_learning_object_versions();
+								$versions = $object->get_content_object_versions();
 								foreach ($versions as $version)
 								{
 									$version->delete();
@@ -59,10 +59,10 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 							}
 							elseif ($recycled)
 							{
-								$versions = $object->get_learning_object_versions();
+								$versions = $object->get_content_object_versions();
 								foreach ($versions as $version)
 								{
-									$version->set_state(LearningObject :: STATE_RECYCLED);
+									$version->set_state(ContentObject :: STATE_RECYCLED);
 									$version->update();
 								}
 							}

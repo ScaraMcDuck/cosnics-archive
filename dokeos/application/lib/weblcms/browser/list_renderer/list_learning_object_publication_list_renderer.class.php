@@ -4,11 +4,11 @@
  * @package application.weblcms
  * @subpackage browser.listrenderer
  */
-require_once dirname(__FILE__).'/../learning_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/../content_object_publication_list_renderer.class.php';
 /**
  * Renderer to display a list of learning object publications
  */
-class ListLearningObjectPublicationListRenderer extends LearningObjectPublicationListRenderer
+class ListContentObjectPublicationListRenderer extends ContentObjectPublicationListRenderer
 {
 	/**
 	 * Returns the HTML output of this renderer.
@@ -71,7 +71,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 
 	/**
 	 * Renders a single publication.
-	 * @param LearningObjectPublication $publication The publication.
+	 * @param ContentObjectPublication $publication The publication.
 	 * @param boolean $first True if the publication is the first in the list
 	 *                       it is a part of.
 	 * @param boolean $last True if the publication is the last in the list
@@ -104,7 +104,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 
 		$feedback_url = $this->get_url(array (Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'), array(), true);
 
-		$html[] = '<div class="announcements ' . $level . '" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$publication->get_learning_object()->get_icon_name().$icon_suffix.'.png);">';
+		$html[] = '<div class="announcements ' . $level . '" style="background-image: url('. Theme :: get_common_image_path(). 'content_object/' .$publication->get_content_object()->get_icon_name().$icon_suffix.'.png);">';
 		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = '<a href="' . $feedback_url . '">' . $this->render_title($publication) . '</a>';
 		$html[] = '</div>';
@@ -125,7 +125,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 		$html[] = '</div>';
 		$html[] = '</div><br />';
 
-		/*$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$publication->get_learning_object()->get_icon_name().$icon_suffix.'.png);">';
+		/*$html[] = '<div class="content_object" style="background-image: url('. Theme :: get_common_image_path(). 'content_object/' .$publication->get_content_object()->get_icon_name().$icon_suffix.'.png);">';
 		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = $this->render_title($publication);
 		$html[] = '</div>';

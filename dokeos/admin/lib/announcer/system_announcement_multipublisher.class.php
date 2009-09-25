@@ -31,19 +31,19 @@ class SystemAnnouncerMultipublisher
         
         if (count($ids) > 0)
         {
-            $condition = new InCondition(LearningObject :: PROPERTY_ID, $ids, LearningObject :: get_table_name());
-            $learning_objects = RepositoryDataManager :: get_instance()->retrieve_learning_objects(null, $condition);
-            //DokeosUtilities :: order_learning_objects_by_title($learning_objects);
+            $condition = new InCondition(ContentObject :: PROPERTY_ID, $ids, ContentObject :: get_table_name());
+            $content_objects = RepositoryDataManager :: get_instance()->retrieve_content_objects(null, $condition);
+            //DokeosUtilities :: order_content_objects_by_title($content_objects);
             
 
-            $html[] = '<div class="learning_object padding_10">';
-            $html[] = '<div class="title">' . Translation :: get('SelectedLearningObjects') . '</div>';
+            $html[] = '<div class="content_object padding_10">';
+            $html[] = '<div class="title">' . Translation :: get('SelectedContentObjects') . '</div>';
             $html[] = '<div class="description">';
             $html[] = '<ul class="attachments_list">';
             
-            while ($learning_object = $learning_objects->next_result())
+            while ($content_object = $content_objects->next_result())
             {
-                $html[] = '<li><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $learning_object->get_icon_name() . '.png" alt="' . htmlentities(Translation :: get(LearningObject :: type_to_class($learning_object->get_type()) . 'TypeName')) . '"/> ' . $learning_object->get_title() . '</li>';
+                $html[] = '<li><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $content_object->get_icon_name() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($content_object->get_type()) . 'TypeName')) . '"/> ' . $content_object->get_title() . '</li>';
             }
             
             $html[] = '</ul>';
@@ -54,7 +54,7 @@ class SystemAnnouncerMultipublisher
         $form = new SystemAnnouncementPublicationForm(SystemAnnouncementPublicationForm :: TYPE_MULTI, $ids, $this->parent->get_user(), $this->parent->get_url(array_merge($this->parent->get_parameters(), array('object' => Request :: get('object')))));
         if ($form->validate())
         {
-            $publication = $form->create_learning_object_publications();
+            $publication = $form->create_content_object_publications();
             
             if (! $publication)
             {

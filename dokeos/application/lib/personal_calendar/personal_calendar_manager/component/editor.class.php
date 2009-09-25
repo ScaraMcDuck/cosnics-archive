@@ -7,8 +7,8 @@ require_once dirname(__FILE__).'/../personal_calendar_manager_component.class.ph
 require_once dirname(__FILE__).'/../../renderer/personal_calendar_mini_month_renderer.class.php';
 require_once dirname(__FILE__).'/../../calendar_event_publication_form.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object_display.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_display.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_form.class.php';
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
 
 class PersonalCalendarManagerEditorComponent extends PersonalCalendarManagerComponent
@@ -35,30 +35,30 @@ class PersonalCalendarManagerEditorComponent extends PersonalCalendarManagerComp
             	exit;
         	}
 
-            $learning_object = $calendar_event_publication->get_publication_object();
+            $content_object = $calendar_event_publication->get_publication_object();
 
             $trail = new BreadcrumbTrail();
             $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR)), Translation :: get('PersonalCalendar')));
-            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_VIEW_PUBLICATION,PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID => $id)), $learning_object->get_title()));
+            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_VIEW_PUBLICATION,PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID => $id)), $content_object->get_title()));
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Edit')));
             $trail->add_help('personal calender general');
 
-            $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_EDIT_PUBLICATION, PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID => $calendar_event_publication->get_id())));
+            $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_EDIT_PUBLICATION, PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID => $calendar_event_publication->get_id())));
             
             if( $form->validate() || Request :: get('validated'))
             {
             	if(!Request :: get('validated'))
 				{
-                	$success = $form->update_learning_object();
+                	$success = $form->update_content_object();
 				}
 				
                 if($form->is_version())
                 {
-                    $calendar_event_publication->set_learning_object($learning_object->get_latest_version());
+                    $calendar_event_publication->set_content_object($content_object->get_latest_version());
                     $calendar_event_publication->update();
                 }
                 
-				$publication_form = new CalendarEventPublicationForm(CalendarEventPublicationForm :: TYPE_SINGLE, $learning_object, $user, $this->get_url(array(PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID => $calendar_event_publication->get_id(), 'validated' => 1)));
+				$publication_form = new CalendarEventPublicationForm(CalendarEventPublicationForm :: TYPE_SINGLE, $content_object, $user, $this->get_url(array(PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID => $calendar_event_publication->get_id(), 'validated' => 1)));
 				$publication_form->set_publication($calendar_event_publication);
 				
 				if($publication_form->validate())

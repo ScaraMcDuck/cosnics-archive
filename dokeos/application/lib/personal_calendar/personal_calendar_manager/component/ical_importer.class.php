@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/../personal_calendar_manager.class.php';
 require_once dirname(__FILE__).'/../personal_calendar_manager_component.class.php';
-require_once Path :: get_repository_path() . 'lib/import/learning_object_import.class.php';
+require_once Path :: get_repository_path() . 'lib/import/content_object_import.class.php';
 
 class PersonalCalendarManagerIcalImporterComponent extends PersonalCalendarManagerComponent
 {
@@ -61,8 +61,8 @@ class PersonalCalendarManagerIcalImporterComponent extends PersonalCalendarManag
     	$file = $_FILES['file'];
     	$user = $this->get_user();
 
-    	$importer = LearningObjectImport ::factory('ical', $file, $user, $category);
-    	$result = $importer->import_learning_object();
+    	$importer = ContentObjectImport ::factory('ical', $file, $user, $category);
+    	$result = $importer->import_content_object();
     	
     	return $result;
     }

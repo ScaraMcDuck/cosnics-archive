@@ -3,7 +3,7 @@
 	<package>
 		<name>Portal Home</name>
 		<code>portal_home</code>
-		<section>learning_object</section>
+		<section>content_object</section>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/p/portal_home/portal_home-1.0.0.zip</filename>

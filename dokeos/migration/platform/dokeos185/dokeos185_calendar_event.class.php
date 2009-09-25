@@ -5,8 +5,8 @@
  */
 
 require_once dirname(__FILE__) . '/../../lib/import/import_calendar_event.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/calendar_event/calendar_event.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/content_object/calendar_event/calendar_event.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/content_object_publication.class.php';
 require_once 'dokeos185_item_property.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repository_category.class.php';
 
@@ -232,9 +232,9 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 		//publication
 		if($this->item_property->get_visibility() <= 1) 
 		{
-			$publication = new LearningObjectPublication();
+			$publication = new ContentObjectPublication();
 			
-			$publication->set_learning_object($lcms_calendar_event);
+			$publication->set_content_object($lcms_calendar_event);
 			$publication->set_course_id($new_course_code);
 			$publication->set_publisher_id($new_user_id);
 			$publication->set_tool('calendar_event');

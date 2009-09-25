@@ -4,7 +4,7 @@ require_once dirname(__FILE__).'/../question_qti_import.class.php';
 class HotspotQuestionQtiImport extends QuestionQtiImport
 {
 	
-	function import_learning_object()
+	function import_content_object()
 	{
 		$data = $this->get_file_content_array();
 
@@ -22,7 +22,7 @@ class HotspotQuestionQtiImport extends QuestionQtiImport
 		$imagename = $parts[count($parts)-1];
 		
 		$new_dir = Path :: get(SYS_PATH).'files/repository/'. $this->get_user()->get_id();
-		$orig_path = dirname($this->get_learning_object_file()) . '/' . $image;
+		$orig_path = dirname($this->get_content_object_file()) . '/' . $image;
 		$new_filename = FileSystem :: create_unique_name($new_dir, $imagename);
 
 		copy($orig_path, $new_dir . '/' . $new_filename);

@@ -80,7 +80,7 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
 		
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_create_category_url(Request :: get(CategoryManager :: PARAM_CATEGORY_ID)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
-		$not_allowed = array('LearningObjectPublicationCategoryManager', 'AdminCategoryManager', 'RepositoryCategoryManager');
+		$not_allowed = array('ContentObjectPublicationCategoryManager', 'AdminCategoryManager', 'RepositoryCategoryManager');
 		if(!in_array(get_class($this->get_parent()),$not_allowed))
 		{
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('CopyGeneralCategories'), Theme :: get_common_image_path().'treemenu_types/exercise.png', $this->get_copy_general_categories_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));

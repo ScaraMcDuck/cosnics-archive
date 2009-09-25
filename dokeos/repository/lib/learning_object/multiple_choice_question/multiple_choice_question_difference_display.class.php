@@ -6,7 +6,7 @@
 /**
  * This class can be used to display the difference between multiple choice questions
  */
-class MultipleChoiceQuestionDifferenceDisplay extends LearningObjectDifferenceDisplay
+class MultipleChoiceQuestionDifferenceDisplay extends ContentObjectDifferenceDisplay
 {
 }
 ?>

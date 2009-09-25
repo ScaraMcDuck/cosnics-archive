@@ -16,7 +16,7 @@ class WebserviceBrowserTable extends ObjectTable
 	
 	/**
 	 * Constructor
-	 * @see LearningObjectTable::LearningObjectTable()
+	 * @see ContentObjectTable::ContentObjectTable()
 	 */
 	function WebserviceBrowserTable($browser, $parameters, $condition)
 	{

@@ -4,8 +4,8 @@
  */
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_column_model.class.php';
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_column.class.php';
-require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
-require_once Path :: get_repository_path(). 'lib/learning_object/glossary_item/glossary_item.class.php';
+require_once Path :: get_repository_path(). 'lib/content_object.class.php';
+require_once Path :: get_repository_path(). 'lib/content_object/glossary_item/glossary_item.class.php';
 /**
  * This class represents a column model for a publication candidate table
  */
@@ -24,14 +24,14 @@ class GlossaryViewerTableColumnModel extends ObjectTableColumnModel {
 	/**
 	 * Gets the columns of this table.
 	 * @return array An array of all columns in this table.
-	 * @see LearningObjectTableColumn
+	 * @see ContentObjectTableColumn
 	 */
 	function get_columns()
 	{
 		$columns = array();
 		//$columns[] = new StaticTableColumn(Translation :: get(DokeosUtilities :: underscores_to_camelcase(GlossaryItem :: PROPERTY_TITLE)));
 		//$columns[] = new StaticTableColumn(Translation :: get(DokeosUtilities :: underscores_to_camelcase(GlossaryItem :: PROPERTY_DESCRIPTION)));
-		$alias = RepositoryDataManager :: get_instance()->get_database()->get_alias(LearningObject :: get_table_name());
+		$alias = RepositoryDataManager :: get_instance()->get_database()->get_alias(ContentObject :: get_table_name());
 		$columns[] = new ObjectTableColumn(GlossaryItem :: PROPERTY_TITLE, true, $alias);
 		$columns[] = new ObjectTableColumn(GlossaryItem :: PROPERTY_DESCRIPTION, true, $alias);
 		$columns[] = self :: get_action_column();
@@ -39,7 +39,7 @@ class GlossaryViewerTableColumnModel extends ObjectTableColumnModel {
 	}
 	/**
 	 * Gets the column wich contains the action buttons.
-	 * @return LearningObjectTableColumn The action column.
+	 * @return ContentObjectTableColumn The action column.
 	 */
 	static function get_action_column()
 	{

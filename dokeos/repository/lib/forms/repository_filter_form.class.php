@@ -98,14 +98,14 @@ class RepositoryFilterForm extends FormValidator
 				if ($filter_type != '0')
 				{
 					$dm = RepositoryDataManager :: get_instance();
-					$learning_objects = $dm->retrieve_user_view_rel_learning_objects(new EqualityCondition(UserViewRelLearningObject :: PROPERTY_VIEW_ID, $filter_type));
-					while($lo = $learning_objects->next_result())
+					$content_objects = $dm->retrieve_user_view_rel_content_objects(new EqualityCondition(UserViewRelContentObject :: PROPERTY_VIEW_ID, $filter_type));
+					while($lo = $content_objects->next_result())
 					{
 						if($lo->get_visibility())
 						{
-							$visible_lo[] = $lo->get_learning_object_type();
+							$visible_lo[] = $lo->get_content_object_type();
 						}
-						$condition = new InCondition(LearningObject :: PROPERTY_TYPE, $visible_lo);
+						$condition = new InCondition(ContentObject :: PROPERTY_TYPE, $visible_lo);
 					}
 				}
 				else
@@ -115,7 +115,7 @@ class RepositoryFilterForm extends FormValidator
 			}
 			else
 			{
-				$condition = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $filter_type);
+				$condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, $filter_type);
 			}
 			
 			return $condition;

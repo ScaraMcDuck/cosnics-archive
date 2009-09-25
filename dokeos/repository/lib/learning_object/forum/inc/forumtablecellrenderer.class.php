@@ -3,10 +3,10 @@
  * @package repository.learningobject
  * @subpackage forum
  */
-require_once dirname(__FILE__).'/../../../learning_object_table/default_learning_object_table_cell_renderer.class.php';
-require_once dirname(__FILE__).'/../../../learning_object.class.php';
+require_once dirname(__FILE__).'/../../../content_object_table/default_content_object_table_cell_renderer.class.php';
+require_once dirname(__FILE__).'/../../../content_object.class.php';
 
-class ForumTableCellRenderer extends DefaultLearningObjectTableCellRenderer
+class ForumTableCellRenderer extends DefaultContentObjectTableCellRenderer
 {
 	private $url_fmt;
 
@@ -16,13 +16,13 @@ class ForumTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 		$this->url_fmt = $url_fmt;
 	}
 
-	function render_cell($column, $learning_object)
+	function render_cell($column, $content_object)
 	{
-		if ($column->get_learning_object_property() == LearningObject :: PROPERTY_TITLE)
+		if ($column->get_content_object_property() == ContentObject :: PROPERTY_TITLE)
 		{
-			return '<a href="'.htmlentities(sprintf($this->url_fmt, $learning_object->get_id())).'">'.parent :: render_cell($column, $learning_object).'</a>';
+			return '<a href="'.htmlentities(sprintf($this->url_fmt, $content_object->get_id())).'">'.parent :: render_cell($column, $content_object).'</a>';
 		}
-		return parent :: render_cell($column, $learning_object);
+		return parent :: render_cell($column, $content_object);
 	}
 }
 ?>

@@ -3,11 +3,11 @@
  * $Id: repository_browser_table_column_model.class.php 21940 2009-07-09 09:45:03Z scara84 $
  * @package repository.repositorymanager
  */
-require_once Path :: get_repository_path() . 'lib/learning_object_table/default_learning_object_table_column_model.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_table/default_content_object_table_column_model.class.php';
 /**
  * Table column model for the repository browser table
  */
-class ObjectBrowserTableColumnModel extends DefaultLearningObjectTableColumnModel
+class ObjectBrowserTableColumnModel extends DefaultContentObjectTableColumnModel
 {
 	/**
 	 * The tables modification column
@@ -24,7 +24,7 @@ class ObjectBrowserTableColumnModel extends DefaultLearningObjectTableColumnMode
 	}
 	/**
 	 * Gets the modification column
-	 * @return LearningObjectTableColumn
+	 * @return ContentObjectTableColumn
 	 */
 	static function get_modification_column()
 	{

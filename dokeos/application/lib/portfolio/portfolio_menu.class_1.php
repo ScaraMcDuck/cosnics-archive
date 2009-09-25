@@ -103,13 +103,13 @@ class PortfolioMenu extends HTML_Menu
     	{
     		if($publication->is_visible_for_target_user($this->user->get_id()))
     		{
-    			$lo = $rdm->retrieve_learning_object($publication->get_learning_object());
+    			$lo = $rdm->retrieve_content_object($publication->get_content_object());
     			
     			$pub = array ();
 		        $pub['title'] = $lo->get_title();
 		        $pub['url'] = $this->get_publication_url($publication->get_id());
 		        $pub['class'] = 'portfolio';
-		        $pub['sub'] = $this->get_portfolio_items($publication->get_learning_object(), $publication->get_id());
+		        $pub['sub'] = $this->get_portfolio_items($publication->get_content_object(), $publication->get_id());
 		        $menu[] = $pub;
     		}
     	}
@@ -122,17 +122,17 @@ class PortfolioMenu extends HTML_Menu
     	$menu = array();
     	$rdm = RepositoryDataManager :: get_instance();
     	
-    	$children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $parent, ComplexLearningObjectItem :: get_table_name()));
+    	$children = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent, ComplexContentObjectItem :: get_table_name()));
     	
     	while($child = $children->next_result())
     	{
-    		$lo = $rdm->retrieve_learning_object($child->get_ref());
+    		$lo = $rdm->retrieve_content_object($child->get_ref());
     		
     		$item = array ();
     		
     		if($lo->get_type() == 'portfolio_item')
     		{ 
-    			$lo = $rdm->retrieve_learning_object($lo->get_reference());
+    			$lo = $rdm->retrieve_content_object($lo->get_reference());
     		}
     		else
     		{

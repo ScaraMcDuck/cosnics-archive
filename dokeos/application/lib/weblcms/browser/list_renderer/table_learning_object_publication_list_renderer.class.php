@@ -4,11 +4,11 @@
  * @package application.weblcms
  * @subpackage browser.listrenderer
  */
-require_once dirname(__FILE__).'/../learning_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/../content_object_publication_list_renderer.class.php';
 /**
  * Renderer to display a sortable table with learning object publications.
  */
-class TableLearningObjectPublicationListRenderer extends LearningObjectPublicationListRenderer
+class TableContentObjectPublicationListRenderer extends ContentObjectPublicationListRenderer
 {
 	/**
 	 * The table with all learning object publications to be displayed
@@ -19,7 +19,7 @@ class TableLearningObjectPublicationListRenderer extends LearningObjectPublicati
 	 * @param PublicationBrowser $browser The browser to associate this table
 	 * renderer with.
 	 */
-	function TableLearningObjectPublicationListRenderer($browser)
+	function TableContentObjectPublicationListRenderer($browser)
 	{
 		parent :: __construct($browser);
 		// TODO: Assign a dynamic table name.

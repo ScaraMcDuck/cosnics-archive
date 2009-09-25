@@ -25,7 +25,7 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplayComponent
 
 		$object_id = Request :: get('pid');
 		$dm = RepositoryDataManager :: get_instance();
-		$object = $dm->retrieve_learning_object($object_id);
+		$object = $dm->retrieve_content_object($object_id);
 		
 		$trail = new BreadCrumbTrail();
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => GlossaryTool :: ACTION_VIEW_GLOSSARY, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), $object->get_title()));
@@ -40,18 +40,18 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplayComponent
 		}
 		else
 		{ 
-            $children = $dm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $object->get_id(), ComplexLearningObjectItem :: get_table_name()));
+            $children = $dm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $object->get_id(), ComplexContentObjectItem :: get_table_name()));
             while($child = $children->next_result())
     		{
-    			$lo = $dm->retrieve_learning_object($child->get_ref());
-    			echo $this->display_learning_object($lo,$child);
+    			$lo = $dm->retrieve_content_object($child->get_ref());
+    			echo $this->display_content_object($lo,$child);
     		}
 		}
 
 		//$this->display_footer();
 	}
 
-	function display_learning_object($lo,$cloi)
+	function display_content_object($lo,$cloi)
 	{
 		$html[] = '<div class="title" style="background-color: #e6e6e6; border: 1px solid grey; padding: 5px; font-weight: bold; color: #666666">';
 		$html[] = '<div style="padding-top: 1px; float: left">';
@@ -116,7 +116,7 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplayComponent
 	
 	function get_condition()
 	{
-		return new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, Request :: get('pid'), ComplexLearningObjectItem :: get_table_name());
+		return new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, Request :: get('pid'), ComplexContentObjectItem :: get_table_name());
 	}
 }
 

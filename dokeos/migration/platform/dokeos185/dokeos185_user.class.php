@@ -6,7 +6,7 @@
 
 require_once dirname(__FILE__) . '/../../lib/import/import_user.class.php';
 require_once Path :: get_user_path(). 'lib/user.class.php';
-require_once Path :: get_repository_path(). 'lib/learning_object/profile/profile.class.php';
+require_once Path :: get_repository_path(). 'lib/content_object/profile/profile.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repository_category.class.php';
 require_once Path :: get_application_path(). 'lib/profiler/profile_publication.class.php';
 

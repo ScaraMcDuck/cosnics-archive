@@ -7,7 +7,7 @@
 /**
  * This class can be used to display announcements
  */
-class AnnouncementDisplay extends LearningObjectDisplay
+class AnnouncementDisplay extends ContentObjectDisplay
 {
 }
 ?>

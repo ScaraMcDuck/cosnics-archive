@@ -17,7 +17,7 @@ class RecycleBinBrowserTable extends ObjectTable
 	
 	/**
 	 * Constructor
-	 * @see LearningObjectTable::LearningObjectTable()
+	 * @see ContentObjectTable::ContentObjectTable()
 	 */
 	function RecycleBinBrowserTable($browser, $parameters, $condition)
 	{

@@ -4,7 +4,7 @@
  */
  
 require_once Path :: get_library_path() . 'block.class.php';
-require_once dirname(__FILE__).'/../../../repository/lib/abstract_learning_object.class.php';
+require_once dirname(__FILE__).'/../../../repository/lib/abstract_content_object.class.php';
 
 /**
 ==============================================================================

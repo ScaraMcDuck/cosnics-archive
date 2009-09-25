@@ -4,20 +4,20 @@
  * @package repository.learningobject
  * @subpackage exercise
  */
-require_once dirname(__FILE__).'/../../learning_object_form.class.php';
+require_once dirname(__FILE__).'/../../content_object_form.class.php';
 require_once dirname(__FILE__).'/hotpotatoes.class.php';
 require_once Path :: get_library_path().'filecompression/filecompression.class.php';
 require_once Path :: get_library_path().'filesystem/filesystem.class.php';
 /**
  * This class represents a form to create or update open questions
  */
-class HotpotatoesForm extends LearningObjectForm
+class HotpotatoesForm extends ContentObjectForm
 {
 	function set_csv_values($valuearray)
 	{
-		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
-		$defaults[LearningObject :: PROPERTY_PARENT_ID] = $valuearray[1];
-		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[2];	
+		$defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
+		$defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
+		$defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];	
 		$defaults[Hotpotatoes :: PROPERTY_MAXIMUM_ATTEMPTS] = $valuearray[3];
 
 		parent :: set_values($defaults);			
@@ -25,7 +25,7 @@ class HotpotatoesForm extends LearningObjectForm
 	
 	function setDefaults($defaults = array ())
 	{
-		$object = $this->get_learning_object();
+		$object = $this->get_content_object();
 		if ($object != null) 
 		{
 			$defaults[Hotpotatoes :: PROPERTY_MAXIMUM_ATTEMPTS] = $object->get_maximum_attempts();
@@ -63,7 +63,7 @@ class HotpotatoesForm extends LearningObjectForm
 	private $includes;
 	
 	// Inherited
-	function create_learning_object()
+	function create_content_object()
 	{
 		$object = new Hotpotatoes();
 		$values = $this->exportValues();
@@ -74,19 +74,19 @@ class HotpotatoesForm extends LearningObjectForm
 		$att = $values[Hotpotatoes :: PROPERTY_MAXIMUM_ATTEMPTS];
 		$object->set_maximum_attempts($att ? $att : 0);
 		
-		$this->set_learning_object($object);
+		$this->set_content_object($object);
 		//$object->add_javascript();
-		$succes = parent :: create_learning_object();
+		$succes = parent :: create_content_object();
 		
 		foreach($this->includes as $include)
-			$object->include_learning_object($include);
+			$object->include_content_object($include);
 		
 		return $succes;
 	}
 	
-	function update_learning_object()
+	function update_content_object()
 	{
-		$object = $this->get_learning_object();
+		$object = $this->get_content_object();
 		$values = $this->exportValues();
 		
 		if(isset($_FILES['file']) && $_FILES['file']['name'] != '')
@@ -99,12 +99,12 @@ class HotpotatoesForm extends LearningObjectForm
 		$att = $values[Hotpotatoes :: PROPERTY_MAXIMUM_ATTEMPTS];
 		$object->set_maximum_attempts($att ? $att : 0);
 		
-		$this->set_learning_object($object);
+		$this->set_content_object($object);
 		
-		$succes = parent :: update_learning_object();
+		$succes = parent :: update_content_object();
 		
 		foreach($this->includes as $include)
-			$object->include_learning_object($include);
+			$object->include_content_object($include);
 		
 		return $succes;
 	}
@@ -180,8 +180,8 @@ class HotpotatoesForm extends LearningObjectForm
 				$doc->set_filename($filename);
 				$doc->set_filesize(Filesystem::get_disk_space($full_new_path));
 				$doc->set_parent_id(0);
-				$this->set_learning_object($doc);
-				parent :: create_learning_object();
+				$this->set_content_object($doc);
+				parent :: create_content_object();
 				$this->includes[] = $doc->get_id();
 			}
 		}

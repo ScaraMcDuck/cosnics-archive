@@ -32,7 +32,7 @@ class AdminManagerSystemAnnouncementViewerComponent extends AdminManagerComponen
             $system_announcement_publication = $this->retrieve_system_announcement_publication($id);
             $object = $system_announcement_publication->get_publication_object();
             
-            $display = LearningObjectDisplay :: factory($object);
+            $display = ContentObjectDisplay :: factory($object);
             
             $this->display_header($trail);
             echo $display->get_full_html();

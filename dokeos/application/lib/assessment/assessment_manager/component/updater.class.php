@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/../assessment_manager.class.php';
 require_once dirname(__FILE__).'/../assessment_manager_component.class.php';
 require_once dirname(__FILE__).'/../../forms/assessment_publication_form.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_form.class.php';
 
 /**
  * Component to edit an existing assessment_publication object
@@ -34,30 +34,30 @@ class AssessmentManagerUpdaterComponent extends AssessmentManagerComponent
 				$this->not_allowed($trail, false);
 			}
 			
-			$learning_object = $assessment_publication->get_publication_object();
+			$content_object = $assessment_publication->get_publication_object();
 			
-			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Application :: PARAM_ACTION => AssessmentManager :: ACTION_EDIT_ASSESSMENT_PUBLICATION, AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => $publication)));
+			$form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url(array(Application :: PARAM_ACTION => AssessmentManager :: ACTION_EDIT_ASSESSMENT_PUBLICATION, AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => $publication)));
 			
 			if( $form->validate() || Request :: get('validated'))
 			{
 				if(!Request :: get('validated'))
 				{
-					$form->update_learning_object();
+					$form->update_content_object();
 				}
 
 				if($form->is_version())
 				{
-					$assessment_publication->set_learning_object($learning_object->get_latest_version());
+					$assessment_publication->set_content_object($content_object->get_latest_version());
 					$assessment_publication->update();
 				}
 			
-				$publication_form = new AssessmentPublicationForm(AssessmentPublicationForm :: TYPE_SINGLE, $learning_object, $this->get_user(), $this->get_url(array(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => $publication, 'validated' => 1)));
+				$publication_form = new AssessmentPublicationForm(AssessmentPublicationForm :: TYPE_SINGLE, $content_object, $this->get_user(), $this->get_url(array(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => $publication, 'validated' => 1)));
 				$publication_form->set_publication($assessment_publication);
 	
 				if( $publication_form->validate())
 				{
-					$success = $publication_form->update_learning_object_publication();
-					$message = ($success ? 'LearningObjectUpdated' : 'LearningObjectNotUpdated');
+					$success = $publication_form->update_content_object_publication();
+					$message = ($success ? 'ContentObjectUpdated' : 'ContentObjectNotUpdated');
 	
 					$this->redirect(Translation :: get($message), !$success, array(Application :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS), array(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION));
 				}

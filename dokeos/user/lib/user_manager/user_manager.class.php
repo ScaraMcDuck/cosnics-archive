@@ -252,7 +252,7 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 	}
 
 	/**
-	 * @see RepositoryDataManager::learning_object_deletion_allowed()
+	 * @see RepositoryDataManager::content_object_deletion_allowed()
 	 */
 	function user_deletion_allowed($user)
 	{

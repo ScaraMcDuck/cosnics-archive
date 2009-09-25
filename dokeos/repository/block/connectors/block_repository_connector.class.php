@@ -1,6 +1,6 @@
 <?php
 require_once Path :: get_repository_path() . 'lib/repository_data_manager.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once Path :: get_library_path() . 'filesystem/path.class.php';
 require_once Path :: get_library_path() . 'filesystem/filesystem.class.php';
@@ -17,8 +17,8 @@ class BlockRepositoryConnector
 	{
 		$options = array();
 		$rdm = RepositoryDataManager :: get_instance();
-		$condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
-		$objects = $rdm->retrieve_learning_objects('rss_feed', $condition);
+		$condition = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
+		$objects = $rdm->retrieve_content_objects('rss_feed', $condition);
 
 		if($objects->size() == 0)
 		{

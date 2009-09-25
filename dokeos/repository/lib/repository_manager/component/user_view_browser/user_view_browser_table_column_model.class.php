@@ -19,7 +19,7 @@ class UserViewBrowserTableColumnModel extends ObjectTableColumnModel
 	}
 	/**
 	 * Gets the default columns for this model
-	 * @return LearningObjectTableColumn[]
+	 * @return ContentObjectTableColumn[]
 	 */
 	private static function get_default_columns()
 	{
@@ -37,7 +37,7 @@ class UserViewBrowserTableColumnModel extends ObjectTableColumnModel
 
 	/**
 	 * Gets the modification column
-	 * @return LearningObjectTableColumn
+	 * @return ContentObjectTableColumn
 	 */
 	static function get_modification_column()
 	{

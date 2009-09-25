@@ -6,7 +6,7 @@
 /**
  * This class can be used to display the difference between portfolio items
  */
-class PortfolioItemDifferenceDisplay extends LearningObjectDifferenceDisplay
+class PortfolioItemDifferenceDisplay extends ContentObjectDifferenceDisplay
 {
 }
 ?>

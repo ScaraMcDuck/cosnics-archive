@@ -16,7 +16,7 @@ class UserLocationBrowserTable extends ObjectTable
 
 	/**
 	 * Constructor
-	 * @see LearningObjectTable::LearningObjectTable()
+	 * @see ContentObjectTable::ContentObjectTable()
 	 */
 	function UserLocationBrowserTable($browser, $parameters, $condition)
 	{

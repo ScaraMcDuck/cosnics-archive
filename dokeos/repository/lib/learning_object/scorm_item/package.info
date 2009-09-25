@@ -3,7 +3,7 @@
 	<package>
 		<name>Scorm Item</name>
 		<code>scorm_item</code>
-		<section>learning_object</section>
+		<section>content_object</section>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/s/scorm_item/scorm_item-1.0.0.zip</filename>

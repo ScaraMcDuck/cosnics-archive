@@ -1,10 +1,10 @@
 <?php
 
-require_once dirname(__FILE__) . '/../learning_path_learning_object_display.class.php';
+require_once dirname(__FILE__) . '/../learning_path_content_object_display.class.php';
 
-class HotpotatoesDisplay extends LearningPathLearningObjectDisplay
+class HotpotatoesDisplay extends LearningPathContentObjectDisplay
 {
-	function display_learning_object($hp, $tracker_attempt_data)
+	function display_content_object($hp, $tracker_attempt_data)
 	{
 		$lpi_attempt_id = $tracker_attempt_data['active_tracker']->get_id();
 		

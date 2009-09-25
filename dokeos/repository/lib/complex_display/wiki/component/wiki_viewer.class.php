@@ -38,8 +38,8 @@ class WikiDisplayWikiViewerComponent extends WikiDisplayComponent
 		$query = $this->action_bar->get_query();
 		if(isset($query) && $query != '')
 		{
-			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);
-			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query);
+			$conditions[] = new LikeCondition(ContentObject :: PROPERTY_TITLE, $query);
+			$conditions[] = new LikeCondition(ContentObject :: PROPERTY_DESCRIPTION, $query);
 			return new OrCondition($conditions);
 		}
 		return null;

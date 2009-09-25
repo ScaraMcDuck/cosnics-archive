@@ -19,7 +19,7 @@ class PortfolioPublication extends DataClass
 	/**
 	 * PortfolioPublication properties
 	 */
-	const PROPERTY_LEARNING_OBJECT = 'learning_object_id';
+	const PROPERTY_LEARNING_OBJECT = 'content_object_id';
 	const PROPERTY_FROM_DATE = 'from_date';
 	const PROPERTY_TO_DATE = 'to_date';
 	const PROPERTY_HIDDEN = 'hidden';
@@ -47,21 +47,21 @@ class PortfolioPublication extends DataClass
 	}
 
 	/**
-	 * Returns the learning_object of this PortfolioPublication.
-	 * @return the learning_object.
+	 * Returns the content_object of this PortfolioPublication.
+	 * @return the content_object.
 	 */
-	function get_learning_object()
+	function get_content_object()
 	{
 		return $this->get_default_property(self :: PROPERTY_LEARNING_OBJECT);
 	}
 
 	/**
-	 * Sets the learning_object of this PortfolioPublication.
-	 * @param learning_object
+	 * Sets the content_object of this PortfolioPublication.
+	 * @param content_object
 	 */
-	function set_learning_object($learning_object)
+	function set_content_object($content_object)
 	{
-		$this->set_default_property(self :: PROPERTY_LEARNING_OBJECT, $learning_object);
+		$this->set_default_property(self :: PROPERTY_LEARNING_OBJECT, $content_object);
 	}
 	/**
 	 * Returns the from_date of this PortfolioPublication.

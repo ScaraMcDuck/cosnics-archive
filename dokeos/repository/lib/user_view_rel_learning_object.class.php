@@ -7,16 +7,16 @@ require_once Path :: get_common_path() . 'data_class.class.php';
  *  @author Sven Vanpoucke
  */
 
-class UserViewRelLearningObject extends DataClass
+class UserViewRelContentObject extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 	
 	const PROPERTY_VIEW_ID = 'view_id';
-	const PROPERTY_LEARNING_OBJECT_TYPE = 'learning_object_type';
+	const PROPERTY_LEARNING_OBJECT_TYPE = 'content_object_type';
 	const PROPERTY_VISIBILITY = 'visibility';
 	
 	/**
-	 * Get the default properties of all user_view_rel_learning_objects.
+	 * Get the default properties of all user_view_rel_content_objects.
 	 * @return array The property names.
 	 */
 	static function get_default_property_names()
@@ -33,7 +33,7 @@ class UserViewRelLearningObject extends DataClass
 	}
 	
 	/**
-	 * Returns the view_id of this user_view_rel_learning_object.
+	 * Returns the view_id of this user_view_rel_content_object.
 	 * @return int The view_id.
 	 */
 	function get_view_id()
@@ -42,7 +42,7 @@ class UserViewRelLearningObject extends DataClass
 	}
 	
 	/**
-	 * Returns the name of this user_view_rel_learning_object.
+	 * Returns the name of this user_view_rel_content_object.
 	 * @return String The name
 	 */
 	function get_visibility()
@@ -51,8 +51,8 @@ class UserViewRelLearningObject extends DataClass
 	}
 	
 	/**
-	 * Sets the user_view_rel_learning_object_view_id of this user_view_rel_learning_object.
-	 * @param int $user_view_rel_learning_object_view_id The user_view_rel_learning_object_view_id.
+	 * Sets the user_view_rel_content_object_view_id of this user_view_rel_content_object.
+	 * @param int $user_view_rel_content_object_view_id The user_view_rel_content_object_view_id.
 	 */
 	function set_view_id($view_id)
 	{
@@ -60,7 +60,7 @@ class UserViewRelLearningObject extends DataClass
 	}		
 	
 	/**
-	 * Sets the name of this user_view_rel_learning_object.
+	 * Sets the name of this user_view_rel_content_object.
 	 * @param String $name the name.
 	 */
 	function set_visibility($visibility)
@@ -68,20 +68,20 @@ class UserViewRelLearningObject extends DataClass
 		$this->set_default_property(self :: PROPERTY_VISIBILITY, $visibility);
 	}
 	
-	function get_learning_object_type()
+	function get_content_object_type()
 	{
 		return $this->get_default_property(self :: PROPERTY_LEARNING_OBJECT_TYPE);
 	}
 	
-	function set_learning_object_type($learning_object_type)
+	function set_content_object_type($content_object_type)
 	{
-		$this->set_default_property(self :: PROPERTY_LEARNING_OBJECT_TYPE, $learning_object_type);
+		$this->set_default_property(self :: PROPERTY_LEARNING_OBJECT_TYPE, $content_object_type);
 	}
 	
 	function create()
 	{
 		$gdm = RepositoryDataManager :: get_instance();
-		return $gdm->create_user_view_rel_learning_object($this);
+		return $gdm->create_user_view_rel_content_object($this);
 	}
 	
 	static function get_table_name()

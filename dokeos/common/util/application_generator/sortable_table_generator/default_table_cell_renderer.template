@@ -23,7 +23,7 @@ class Default{OBJECT_CLASS}TableCellRenderer implements ObjectTableCellRenderer
 	
 	/**
 	 * Renders a table cell
-	 * @param LearningObjectTableColumnModel $column The column which should be
+	 * @param ContentObjectTableColumnModel $column The column which should be
 	 * rendered
 	 * @param {OBJECT_CLASS} ${L_OBJECT_CLASS} - The {L_OBJECT_CLASS}
 	 * @return string A HTML representation of the rendered table cell

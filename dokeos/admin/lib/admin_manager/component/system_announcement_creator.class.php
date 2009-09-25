@@ -41,7 +41,7 @@ class AdminManagerSystemAnnouncementCreatorComponent extends AdminManagerCompone
         }
         else
         {
-            //$html[] = 'LearningObject: ';
+            //$html[] = 'ContentObject: ';
             $publisher = new SystemAnnouncerMultipublisher($pub);
             $html[] = $publisher->get_publications_form($object);
         }

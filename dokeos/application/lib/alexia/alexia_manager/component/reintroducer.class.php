@@ -9,7 +9,7 @@
 require_once dirname(__FILE__) . '/../alexia_manager.class.php';
 require_once dirname(__FILE__) . '/../alexia_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../forms/alexia_publication_form.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_form.class.php';
 
 class AlexiaManagerReintroducerComponent extends AlexiaManagerComponent
 {
@@ -29,21 +29,21 @@ class AlexiaManagerReintroducerComponent extends AlexiaManagerComponent
 		if(isset($publication))
 		{
 			$alexia_publication = $this->retrieve_alexia_publication($publication);
-			$learning_object = $alexia_publication->get_publication_object();
+			$content_object = $alexia_publication->get_publication_object();
 			
-			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Application :: PARAM_ACTION => AlexiaManager :: ACTION_EDIT_INTRODUCTION, AlexiaManager :: PARAM_ALEXIA_ID => $publication)));
+			$form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url(array(Application :: PARAM_ACTION => AlexiaManager :: ACTION_EDIT_INTRODUCTION, AlexiaManager :: PARAM_ALEXIA_ID => $publication)));
 			
 			if( $form->validate())
 			{
-				$success = $form->update_learning_object();
+				$success = $form->update_content_object();
 
 				if($form->is_version())
 				{
-					$alexia_publication->set_learning_object($learning_object->get_latest_version());
+					$alexia_publication->set_content_object($content_object->get_latest_version());
 					$alexia_publication->update();
 				}
 				
-				$message = ($success ? 'LearningObjectUpdated' : 'LearningObjectNotUpdated');
+				$message = ($success ? 'ContentObjectUpdated' : 'ContentObjectNotUpdated');
 
 				$this->redirect(Translation :: get($message), !$success, array(Application :: PARAM_ACTION => AlexiaManager :: ACTION_BROWSE_PUBLICATIONS), array(AlexiaManager :: PARAM_ALEXIA_ID));
 			}

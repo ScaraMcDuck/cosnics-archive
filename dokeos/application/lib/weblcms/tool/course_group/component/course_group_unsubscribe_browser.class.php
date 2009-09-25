@@ -33,7 +33,7 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupToolComponen
 		$table = new CourseGroupSubscribedUserBrowserTable($this->get_parent(), array (Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $this->get_course()->get_id(), WeblcmsManager :: PARAM_TOOL => $this->get_tool_id(), Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_SUBSCRIBE),$this->get_condition());
 		$html[] = $this->action_bar->as_html();
 
-		$html[] = '<div class="clear"></div><div class="learning_object" style="background-image: url('. Theme :: get_common_image_path() .'place_group.png);">';
+		$html[] = '<div class="clear"></div><div class="content_object" style="background-image: url('. Theme :: get_common_image_path() .'place_group.png);">';
 		$html[] = '<div class="title">'. $course_group->get_name() .'</div>';
 		$html[] = $course_group->get_description();
 		$html[] = '<b>' . Translation :: get('NumberOfMembers'). ':</b> ' . $course_group->count_members();
@@ -42,7 +42,7 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupToolComponen
 		$html[] = '<br /><b>' . Translation :: get('SelfUnRegistrationAllowed'). ':</b> ' . ($course_group->is_self_unregistration_allowed()?Translation :: get('True') : Translation :: get('False'));
 		$html[] = '</div>';
 
-		$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path() .'place_users.png);">';
+		$html[] = '<div class="content_object" style="background-image: url('. Theme :: get_common_image_path() .'place_users.png);">';
 		$html[] = '<div class="title">'. Translation :: get('Users') .'</div>';
 		$html[] = $table->as_html();
 		$html[] = '</div>';

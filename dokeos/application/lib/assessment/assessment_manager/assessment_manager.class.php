@@ -267,24 +267,24 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 								    self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
 	}
 	
-	function learning_object_is_published($object_id)
+	function content_object_is_published($object_id)
 	{
-		return AssessmentDataManager :: get_instance()->learning_object_is_published($object_id);
+		return AssessmentDataManager :: get_instance()->content_object_is_published($object_id);
 	}
 
-	function any_learning_object_is_published($object_ids)
+	function any_content_object_is_published($object_ids)
 	{
-		return AssessmentDataManager :: get_instance()->any_learning_object_is_published($object_ids);
+		return AssessmentDataManager :: get_instance()->any_content_object_is_published($object_ids);
 	}
 
-	function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return AssessmentDataManager :: get_instance()->get_learning_object_publication_attributes($object_id, $type, $offset, $count, $order_property, $order_direction);
+		return AssessmentDataManager :: get_instance()->get_content_object_publication_attributes($object_id, $type, $offset, $count, $order_property, $order_direction);
 	}
 
-	function get_learning_object_publication_attribute($publication_id)
+	function get_content_object_publication_attribute($publication_id)
 	{
-		return AssessmentDataManager :: get_instance()->get_learning_object_publication_attribute($publication_id);
+		return AssessmentDataManager :: get_instance()->get_content_object_publication_attribute($publication_id);
 	}
 
 	function count_publication_attributes($type = null, $condition = null)
@@ -292,21 +292,21 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 		return AssessmentDataManager :: get_instance()->count_publication_attributes($type, $condition);
 	}
 
-	function delete_learning_object_publications($object_id)
+	function delete_content_object_publications($object_id)
 	{
-		return AssessmentDataManager :: get_instance()->delete_learning_object_publications($object_id);
+		return AssessmentDataManager :: get_instance()->delete_content_object_publications($object_id);
 	}
 
-	function update_learning_object_publication_id($publication_attr)
+	function update_content_object_publication_id($publication_attr)
 	{
-		return AssessmentDataManager :: get_instance()->update_learning_object_publication_id($publication_attr);
+		return AssessmentDataManager :: get_instance()->update_content_object_publication_id($publication_attr);
 	}
 
-	function get_learning_object_publication_locations($learning_object)
+	function get_content_object_publication_locations($content_object)
 	{
 		$allowed_types = array('assessment', 'survey', 'hotpotatoes');
         
-        $type = $learning_object->get_type();
+        $type = $content_object->get_type();
         if (in_array($type, $allowed_types))
         {
             $locations = array(Translation :: get('Assessments'));
@@ -316,10 +316,10 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
         return array();
 	}
 
-	function publish_learning_object($learning_object, $location)
+	function publish_content_object($content_object, $location)
 	{
 		$publication = new AssessmentPublication();
-        $publication->set_learning_object($learning_object->get_id());
+        $publication->set_content_object($content_object->get_id());
         $publication->set_publisher(Session :: get_user_id());
         $publication->set_published(time());
         $publication->set_hidden(0);

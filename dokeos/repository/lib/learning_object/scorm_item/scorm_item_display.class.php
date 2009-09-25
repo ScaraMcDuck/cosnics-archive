@@ -4,7 +4,7 @@
  * @package repository.learningobject
  * @subpackage learning_path
  */
-class ScormItemDisplay extends LearningObjectDisplay//extends ScormItemNodeDisplay
+class ScormItemDisplay extends ContentObjectDisplay//extends ScormItemNodeDisplay
 {
 }
 ?>

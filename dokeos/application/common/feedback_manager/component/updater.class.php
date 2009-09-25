@@ -10,7 +10,7 @@
  * @author pieter
  */
 
-require_once Path::get_repository_path().'/lib/learning_object/feedback/feedback_form.class.php';
+require_once Path::get_repository_path().'/lib/content_object/feedback/feedback_form.class.php';
 
 class FeedbackManagerUpdaterComponent extends FeedbackManagerComponent {
 
@@ -25,15 +25,15 @@ class FeedbackManagerUpdaterComponent extends FeedbackManagerComponent {
         $url = $this->get_url(array('pid' => $pid, 'cid' => $cid , 'user_id' => $user_id , 'action' => $action , FeedbackManager::PARAM_ACTION => FeedbackManager::ACTION_UPDATE_FEEDBACK, 'updateitem' => $id));
 
         $rdm = RepositoryDataManager ::get_instance();
-        $object = $rdm-> retrieve_learning_object($id);
+        $object = $rdm-> retrieve_content_object($id);
      
-       $form = LearningObjectForm :: factory(LearningObjectForm::TYPE_EDIT, $object, 'editfeedback', 'post',$url,null, null, false);
+       $form = ContentObjectForm :: factory(ContentObjectForm::TYPE_EDIT, $object, 'editfeedback', 'post',$url,null, null, false);
 
         if($form->validate())
 		{
-            $success = $form->update_learning_object();
+            $success = $form->update_content_object();
             
-            $rdm->update_learning_object($form->get_learning_object());
+            $rdm->update_content_object($form->get_content_object());
             
             $this->redirect($success ? Translation :: get('FeedbackUpdated') : Translation :: get('FeedbackNotUpdated'), !$success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id(), 'pid' => $pid, 'cid' => $cid,'action' => 'feedback'));
 			

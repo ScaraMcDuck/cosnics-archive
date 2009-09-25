@@ -9,7 +9,7 @@
 /**
  * This class can be used to get the difference between wikis
  */
-class WikiDifference extends LearningObjectDifference
+class WikiDifference extends ContentObjectDifference
 {
 }
 ?>

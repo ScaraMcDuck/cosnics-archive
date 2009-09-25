@@ -3,9 +3,9 @@
  * @package repository.learningobject
  * @subpackage link
  */
-require_once dirname(__FILE__).'/../../learning_object_form.class.php';
+require_once dirname(__FILE__).'/../../content_object_form.class.php';
 require_once dirname(__FILE__).'/link.class.php';
-class LinkForm extends LearningObjectForm
+class LinkForm extends ContentObjectForm
 {
 	const TOTAL_PROPERTIES = 3;
 
@@ -26,7 +26,7 @@ class LinkForm extends LearningObjectForm
 
 	function setDefaults($defaults = array ())
 	{
-		$lo = $this->get_learning_object();
+		$lo = $this->get_content_object();
 		if (isset($lo))
 		{
 			$defaults[Link :: PROPERTY_URL] = $lo->get_url();
@@ -40,25 +40,25 @@ class LinkForm extends LearningObjectForm
 
 	function set_csv_values($valuearray)
 	{
-		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
-		$defaults[LearningObject :: PROPERTY_PARENT_ID] = $valuearray[1];
-		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[2];	
+		$defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
+		$defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
+		$defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];	
 		$defaults[Link :: PROPERTY_URL] = $valuearray[3];
 		parent :: set_values($defaults);			
 	}
 
-	function create_learning_object()
+	function create_content_object()
 	{
 		$object = new Link();
 		$object->set_url($this->exportValue(Link :: PROPERTY_URL));
-		$this->set_learning_object($object);
-		return parent :: create_learning_object();
+		$this->set_content_object($object);
+		return parent :: create_content_object();
 	}
-	function update_learning_object()
+	function update_content_object()
 	{
-		$object = $this->get_learning_object();
+		$object = $this->get_content_object();
 		$object->set_url($this->exportValue(Link :: PROPERTY_URL));
-		return parent :: update_learning_object();
+		return parent :: update_content_object();
 	}
 
 	function validatecsv($value)

@@ -25,8 +25,8 @@ class AdminPortalHome extends AdminBlock
         }
         else
         {
-            $learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($object_id);
-            $html[] = $learning_object->get_description();
+            $content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($object_id);
+            $html[] = $content_object->get_description();
         }*/
         
         $portal_home = PlatformSetting :: get('portal_home');

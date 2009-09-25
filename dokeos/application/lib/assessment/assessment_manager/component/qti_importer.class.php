@@ -62,8 +62,8 @@ class AssessmentManagerQtiImporterComponent extends AssessmentManagerComponent
     	//TODO: change categories
     	$category = 0;
 
-    	$importer = LearningObjectImport ::factory('qti', $file, $user, $category);
-    	$result = $importer->import_learning_object();
+    	$importer = ContentObjectImport ::factory('qti', $file, $user, $category);
+    	$result = $importer->import_content_object();
     	return $result->get_id();
     }
 

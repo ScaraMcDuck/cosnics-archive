@@ -3,7 +3,7 @@
  * @package repository.learningobject
  * @subpackage exercise
  */
-class SelectQuestionDisplay extends LearningObjectDisplay
+class SelectQuestionDisplay extends ContentObjectDisplay
 {
 
     function get_full_html()
@@ -16,7 +16,7 @@ class SelectQuestionDisplay extends LearningObjectDisplay
     {
         $html = array();
 
-        $lo = $this->get_learning_object();
+        $lo = $this->get_content_object();
         $options = $lo->get_options();
         $type = $lo->get_answer_type();
 

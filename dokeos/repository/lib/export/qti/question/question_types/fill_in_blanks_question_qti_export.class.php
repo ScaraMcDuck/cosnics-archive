@@ -4,9 +4,9 @@ require_once dirname(__FILE__).'/../question_qti_export.class.php';
 class FillInBlanksQuestionQtiExport extends QuestionQtiExport
 {
 	
-	function export_learning_object()
+	function export_content_object()
 	{
-		$question = $this->get_learning_object();
+		$question = $this->get_content_object();
 		$answers = $question->get_answers();
 		
 		$item_xml[] = '<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1    http://www.imsglobal.org/xsd/imsqti_v2p1.xsd" identifier="q'.$question->get_id().'" title="'.$question->get_title().'" adaptive="false" timeDependent="false">';
@@ -52,7 +52,7 @@ class FillInBlanksQuestionQtiExport extends QuestionQtiExport
 	function get_interaction_xml($answers, $answer_text)
 	{  
 		$interaction_xml[] = '<itemBody>';
-		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_learning_object()->get_description()).'</prompt>';
+		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_content_object()->get_description()).'</prompt>';
 		foreach ($answers as $i => $answer)
 		{
 			$pos = strpos($answer_text, $answer->get_value());

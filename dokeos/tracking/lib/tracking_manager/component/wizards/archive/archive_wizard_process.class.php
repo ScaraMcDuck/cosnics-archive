@@ -199,7 +199,7 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
     function display_event_header($eventname)
     {
         $html = array();
-        $html[] = '<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(layout/aqua/img/admin/browse_archive.png);">';
+        $html[] = '<div class="content_object" style="padding: 15px 15px 15px 76px; background-image: url(layout/aqua/img/admin/browse_archive.png);">';
         $html[] = '<div class="title">' . Translation :: get('Event') . ' ' . $eventname . '</div>';
         $html[] = '<div class="description">';
         echo implode("\n", $html);

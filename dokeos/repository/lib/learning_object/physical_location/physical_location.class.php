@@ -4,11 +4,11 @@
  * @package repository.learningobject
  * @subpackage physical_location
  */
-require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) . '/../../content_object.class.php';
 /**
  * This class represents an physical_location
  */
-class PhysicalLocation extends LearningObject
+class PhysicalLocation extends ContentObject
 {
 	const PROPERTY_LOCATION = 'location';
 

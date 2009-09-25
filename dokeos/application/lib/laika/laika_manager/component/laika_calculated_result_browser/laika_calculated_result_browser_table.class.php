@@ -16,7 +16,7 @@ class LaikaCalculatedResultBrowserTable extends ObjectTable
 	
 	/**
 	 * Constructor
-	 * @see LearningObjectTable::LearningObjectTable()
+	 * @see ContentObjectTable::ContentObjectTable()
 	 */
 	function LaikaCalculatedResultBrowserTable($browser, $parameters, $condition)
 	{

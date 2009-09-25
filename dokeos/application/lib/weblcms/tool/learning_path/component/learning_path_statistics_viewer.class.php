@@ -38,8 +38,8 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
 		}
 
 		$dm = WeblcmsDataManager :: get_instance();
-		$publication = $dm->retrieve_learning_object_publication($pid);
-		$root_object = $publication->get_learning_object();
+		$publication = $dm->retrieve_content_object_publication($pid);
+		$root_object = $publication->get_content_object();
 
 		$parameters = array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_STATISTICS,
 													    Tool :: PARAM_PUBLICATION_ID => $pid);

@@ -1,9 +1,9 @@
 <?php
 /**
- * $Id: learning_object_publication_browser.class.php 18811 2009-03-05 14:11:20Z vanpouckesven $
+ * $Id: content_object_publication_browser.class.php 18811 2009-03-05 14:11:20Z vanpouckesven $
  * @package application.weblcms
  */
-require_once dirname(__FILE__).'/browser/learning_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/browser/content_object_publication_list_renderer.class.php';
 require_once dirname(__FILE__).'/browser/learningobjectpublicationcategorytree.class.php';
 
 /**
@@ -13,7 +13,7 @@ require_once dirname(__FILE__).'/browser/learningobjectpublicationcategorytree.c
  *	@author Tim De Pauw
 ==============================================================================
  */
-abstract class LearningObjectPubFeedbackBrowser
+abstract class ContentObjectPubFeedbackBrowser
 {
 	/**
 	 * The types of learning objects for which publications need to be
@@ -49,7 +49,7 @@ abstract class LearningObjectPubFeedbackBrowser
 	 * @param mixed $types The types of learning objects for which
 	 *                     publications need to be displayed.
 	 */
-	function LearningObjectPubFeedbackBrowser($parent, $types)
+	function ContentObjectPubFeedbackBrowser($parent, $types)
 	{
 		$this->parent = $parent;
 		$this->types = is_array($types) ? $types : array ($types);
@@ -77,7 +77,7 @@ abstract class LearningObjectPubFeedbackBrowser
 	/**
 	 * Returns the learning object publication list renderer associated with
 	 * this object.
-	 * @return LearningObjectPublicationRenderer The renderer.
+	 * @return ContentObjectPublicationRenderer The renderer.
 	 */
 	function get_publication_list_renderer()
 	{
@@ -85,7 +85,7 @@ abstract class LearningObjectPubFeedbackBrowser
 	}
 	/**
 	 * Sets the renderer for the publication list.
-	 * @param LearningObjectPublicationRenderer $renderer The renderer.
+	 * @param ContentObjectPublicationRenderer $renderer The renderer.
 	 */
 	function set_publication_list_renderer($renderer)
 	{
@@ -93,7 +93,7 @@ abstract class LearningObjectPubFeedbackBrowser
 	}
 	/**
 	 * Gets the publication category tree.
-	 * @return LearningObjectPublicationCategoryTree The category tree.
+	 * @return ContentObjectPublicationCategoryTree The category tree.
 	 */
 	function get_publication_category_tree()
 	{
@@ -112,7 +112,7 @@ abstract class LearningObjectPubFeedbackBrowser
 
 	/**
 	 * Sets the publication category tree.
-	 * @param LearningObjectPublicationCategoryTree $tree The category tree.
+	 * @param ContentObjectPublicationCategoryTree $tree The category tree.
 	 */
 	function set_publication_category_tree($tree)
 	{

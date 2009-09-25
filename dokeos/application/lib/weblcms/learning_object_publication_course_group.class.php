@@ -6,16 +6,16 @@
 require_once Path :: get_common_path() . 'data_class.class.php';
 
 /**
- * This class describes a LearningObjectPublicationCourseGroup data object
+ * This class describes a ContentObjectPublicationCourseGroup data object
  *
  * @author Hans De Bisschop
  */
-class LearningObjectPublicationCourseGroup extends DataClass
+class ContentObjectPublicationCourseGroup extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 
 	/**
-	 * LearningObjectPublicationCourseGroup properties
+	 * ContentObjectPublicationCourseGroup properties
 	 */
 	const PROPERTY_PUBLICATION = 'publication_id';
 	const PROPERTY_COURSE_GROUP_ID = 'course_group_id';
@@ -39,7 +39,7 @@ class LearningObjectPublicationCourseGroup extends DataClass
 	
 
 	/**
-	 * Returns the publication of this LearningObjectPublicationCourseGroup.
+	 * Returns the publication of this ContentObjectPublicationCourseGroup.
 	 * @return the publication.
 	 */
 	function get_publication()
@@ -48,7 +48,7 @@ class LearningObjectPublicationCourseGroup extends DataClass
 	}
 
 	/**
-	 * Sets the publication of this LearningObjectPublicationCourseGroup.
+	 * Sets the publication of this ContentObjectPublicationCourseGroup.
 	 * @param publication
 	 */
 	function set_publication($publication)
@@ -56,7 +56,7 @@ class LearningObjectPublicationCourseGroup extends DataClass
 		$this->set_default_property(self :: PROPERTY_PUBLICATION, $publication);
 	}
 	/**
-	 * Returns the course_group_id of this LearningObjectPublicationCourseGroup.
+	 * Returns the course_group_id of this ContentObjectPublicationCourseGroup.
 	 * @return the course_group_id.
 	 */
 	function get_course_group_id()
@@ -65,7 +65,7 @@ class LearningObjectPublicationCourseGroup extends DataClass
 	}
 
 	/**
-	 * Sets the course_group_id of this LearningObjectPublicationCourseGroup.
+	 * Sets the course_group_id of this ContentObjectPublicationCourseGroup.
 	 * @param course_group_id
 	 */
 	function set_course_group_id($course_group_id)
@@ -76,7 +76,7 @@ class LearningObjectPublicationCourseGroup extends DataClass
 	function create()
 	{
 		$dm = WeblcmsDataManager :: get_instance();
-       	return $dm->create_learning_object_publication_course_group($this);
+       	return $dm->create_content_object_publication_course_group($this);
 	}
 
 	static function get_table_name()

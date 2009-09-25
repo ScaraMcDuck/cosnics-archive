@@ -23,10 +23,10 @@ class RepositoryManagerMetadataComponent extends RepositoryManagerComponent
 	 * Check wether a learning object can be retrieved by using the URL params
 	 * @return boolean
 	 */
-	function check_learning_object_from_params()
+	function check_content_object_from_params()
 	{
-	    $learning_object = $this->get_learning_object_from_params();
-	    if(isset($learning_object))
+	    $content_object = $this->get_content_object_from_params();
+	    if(isset($content_object))
 	    {
 	        return true;
 	    }
@@ -36,7 +36,7 @@ class RepositoryManagerMetadataComponent extends RepositoryManagerComponent
 	    }
 	}
 	
-	function get_learning_object_from_params()
+	function get_content_object_from_params()
 	{
 		/*
 	     * Check if the learning object is given in the URL params  
@@ -49,7 +49,7 @@ class RepositoryManagerMetadataComponent extends RepositoryManagerComponent
 	         * Check if the learning object does exist 
 	         */
 	        $dm = RepositoryDataManager :: get_instance();
-	        return $dm->retrieve_learning_object($lo_id);
+	        return $dm->retrieve_content_object($lo_id);
 	    }
 	    else
 	    {
@@ -58,12 +58,12 @@ class RepositoryManagerMetadataComponent extends RepositoryManagerComponent
 	}
     
     
-	function display_lom_xml($learning_object, $metadata_mapper, $format_for_html_page = false)
+	function display_lom_xml($content_object, $metadata_mapper, $format_for_html_page = false)
 	{
 		if($format_for_html_page)
 		{
     		echo '<div class="metadata" style="background-image: url(' . Theme :: get_common_image_path() . 'place_metadata.png);">';
-    		echo '<div class="title">'. $learning_object->get_title(). '</div>';
+    		echo '<div class="title">'. $content_object->get_title(). '</div>';
     		echo '<pre>';
 		}
 		

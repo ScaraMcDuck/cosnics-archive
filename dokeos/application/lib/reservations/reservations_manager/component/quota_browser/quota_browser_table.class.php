@@ -16,7 +16,7 @@ class QuotaBrowserTable extends ObjectTable
 	
 	/**
 	 * Constructor
-	 * @see LearningObjectTable::LearningObjectTable()
+	 * @see ContentObjectTable::ContentObjectTable()
 	 */
 	function QuotaBrowserTable($browser, $parameters, $condition)
 	{

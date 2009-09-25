@@ -1,12 +1,12 @@
 <?php
 require_once Path :: get_admin_path() . 'lib/package_installer/package_installer_dependency.class.php';
 
-class PackageInstallerLearningObjectsDependency extends PackageInstallerDependency
+class PackageInstallerContentObjectsDependency extends PackageInstallerDependency
 {
 
     function check($dependency)
     {
-        $message = Translation :: get('DependencyCheckLearningObject') . ': ' . Translation :: get(DokeosUtilities :: underscores_to_camelcase($dependency['id']) . 'TypeName') . ', ' . Translation :: get('Version') . ': ' . $dependency['version']['_content'] . ' ' . Translation :: get('Found') . ': ';
+        $message = Translation :: get('DependencyCheckContentObject') . ': ' . Translation :: get(DokeosUtilities :: underscores_to_camelcase($dependency['id']) . 'TypeName') . ', ' . Translation :: get('Version') . ': ' . $dependency['version']['_content'] . ' ' . Translation :: get('Found') . ': ';
         
         $conditions = array();
         $conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, $dependency['id']);
@@ -25,8 +25,8 @@ class PackageInstallerLearningObjectsDependency extends PackageInstallerDependen
         {
             $registration = $registrations->next_result();
             
-            $learning_object_version = $this->version_compare($dependency['version']['type'], $dependency['version']['_content'], $registration->get_version());
-            if (! $learning_object_version)
+            $content_object_version = $this->version_compare($dependency['version']['type'], $dependency['version']['_content'], $registration->get_version());
+            if (! $content_object_version)
             {
                 $message .= '--' . Translation :: get('WrongVersion') . '--';
                 $this->add_message($message);

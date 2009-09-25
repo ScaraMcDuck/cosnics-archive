@@ -48,30 +48,30 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
 		foreach($category_folder_mapping as $category_id => $dir)
 		{
 			$conditions = array();
-			$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
-			$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'document');
-			$conditions[] = new InCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $category_id);
+			$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
+			$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'document');
+			$conditions[] = new InCondition(ContentObjectPublication :: PROPERTY_CATEGORY_ID, $category_id);
 			
 			$access = array();
 			if (!empty($user_id))
 			{
-				$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('learning_object_publication_user'));
+				$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
 			}
 			if(!empty($course_groups))
 			{
-				$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('learning_object_publication_course_group'));
+				$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
 			}
 			
 			$conditions[] = new OrCondition($access);
 			
 			$subselect_condition = new EqualityCondition('type', 'document');
-			$conditions[] = new SubselectCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, LearningObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(LearningObject :: get_table_name()), $subselect_condition);
+			$conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
 			$condition = new AndCondition($conditions);
 			
-			$publications = $datamanager->retrieve_learning_object_publications_new($condition);
+			$publications = $datamanager->retrieve_content_object_publications_new($condition);
 			while($publication = $publications->next_result())
 			{
-				$document = $publication->get_learning_object();
+				$document = $publication->get_content_object();
 				$document_path = $document->get_full_path();
 				$archive_file_location = $dir.'/'.Filesystem::create_unique_name($dir,$document->get_filename());
 				Filesystem::copy_file($document_path,$archive_file_location);
@@ -107,7 +107,7 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
 			$conditions[] = new EqualityCondition('parent',$parent_cat);
 			$condition = new AndCondition($conditions); //dump($condition);
 
-			$categories = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_categories($condition);
+			$categories = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication_categories($condition);
 
 			while($category = $categories->next_result())
 			{

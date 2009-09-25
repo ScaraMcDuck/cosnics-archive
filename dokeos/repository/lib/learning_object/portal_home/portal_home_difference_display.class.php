@@ -9,7 +9,7 @@
 /**
  * This class can be used to display the difference between announcements
  */
-class PortalHomeDifferenceDisplay extends LearningObjectDifferenceDisplay
+class PortalHomeDifferenceDisplay extends ContentObjectDifferenceDisplay
 {
 }
 ?>

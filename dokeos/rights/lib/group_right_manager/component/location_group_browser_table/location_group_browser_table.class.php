@@ -15,7 +15,7 @@ class LocationGroupBrowserTable extends ObjectTable
 	
 	/**
 	 * Constructor
-	 * @see LearningObjectTable::LearningObjectTable()
+	 * @see ContentObjectTable::ContentObjectTable()
 	 */
 	function LocationGroupBrowserTable($browser, $parameters, $condition)
 	{

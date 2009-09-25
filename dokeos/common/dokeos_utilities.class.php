@@ -67,7 +67,7 @@ class DokeosUtilities
      *                          string instead of an array.
      * @return Condition The condition.
      */
-    static function query_to_condition($query, $properties = array (LearningObject :: PROPERTY_TITLE, LearningObject :: PROPERTY_DESCRIPTION))
+    static function query_to_condition($query, $properties = array (ContentObject :: PROPERTY_TITLE, ContentObject :: PROPERTY_DESCRIPTION))
     {
         if (! is_array($properties))
         {
@@ -131,12 +131,12 @@ class DokeosUtilities
      * ordering happens in-place; there is no return value.
      * @param array $objects The learning objects to order.
      */
-    static function order_learning_objects_by_title($objects)
+    static function order_content_objects_by_title($objects)
     {
         usort($objects, array(get_class(), 'by_title'));
     }
 
-    static function order_learning_objects_by_id_desc($objects)
+    static function order_content_objects_by_id_desc($objects)
     {
         usort($objects, array(get_class(), 'by_id_desc'));
     }
@@ -147,13 +147,13 @@ class DokeosUtilities
      * @param array $objects The learning objects.
      * @return array The value.
      */
-    static function learning_objects_for_element_finder($objects)
+    static function content_objects_for_element_finder($objects)
     {
         $return = array();
         foreach ($objects as $object)
         {
             $id = $object->get_id();
-            $return[$id] = self :: learning_object_for_element_finder($object);
+            $return[$id] = self :: content_object_for_element_finder($object);
         }
         return $return;
     }
@@ -161,10 +161,10 @@ class DokeosUtilities
     /**
      * Prepares the given learning object for use as a value for the
      * element_finder QuickForm element's value array.
-     * @param LearningObject $object The learning object.
+     * @param ContentObject $object The learning object.
      * @return array The value.
      */
-    static function learning_object_for_element_finder($object)
+    static function content_object_for_element_finder($object)
     {
         $type = $object->get_type();
         // TODO: i18n
@@ -173,7 +173,7 @@ class DokeosUtilities
         $return['id'] = 'lo_' . $object->get_id();
         $return['classes'] = 'type type_' . $type;
         $return['title'] = $object->get_title();
-        $return['description'] = Translation :: get(LearningObject :: type_to_class($type) . 'TypeName') . ' (' . $date . ')';
+        $return['description'] = Translation :: get(ContentObject :: type_to_class($type) . 'TypeName') . ' (' . $date . ')';
         return $return;
     }
 
@@ -298,18 +298,18 @@ class DokeosUtilities
 
     /**
      * Compares learning objects by title.
-     * @param LearningObject $learning_object_1
-     * @param LearningObject $learning_object_2
+     * @param ContentObject $content_object_1
+     * @param ContentObject $content_object_2
      * @return int
      */
-    private static function by_title($learning_object_1, $learning_object_2)
+    private static function by_title($content_object_1, $content_object_2)
     {
-        return strcasecmp($learning_object_1->get_title(), $learning_object_2->get_title());
+        return strcasecmp($content_object_1->get_title(), $content_object_2->get_title());
     }
 
-    private static function by_id_desc($learning_object_1, $learning_object_2)
+    private static function by_id_desc($content_object_1, $content_object_2)
     {
-        return ($learning_object_1->get_id() < $learning_object_2->get_id() ? 1 : - 1);
+        return ($content_object_1->get_id() < $content_object_2->get_id() ? 1 : - 1);
     }
 
     /**
@@ -330,7 +330,7 @@ class DokeosUtilities
         foreach ($publication_attr as $info)
         {
             $publisher = $udm->retrieve_user($info->get_publisher_user_id());
-            $object = $rdm->retrieve_learning_object($info->get_publication_object_id());
+            $object = $rdm->retrieve_content_object($info->get_publication_object_id());
             $html[] = '<li>';
             // TODO: i18n
             // TODO: SCARA - Find cleaner solution to display Learning Object title + url

@@ -16,7 +16,7 @@ class AdminUserBrowserTable extends ObjectTable
 	
 	/**
 	 * Constructor
-	 * @see LearningObjectTable::LearningObjectTable()
+	 * @see ContentObjectTable::ContentObjectTable()
 	 */
 	function AdminUserBrowserTable($browser, $parameters, $condition)
 	{

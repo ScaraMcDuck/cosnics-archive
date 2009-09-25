@@ -16,12 +16,12 @@ class ForumDisplayTopicViewerComponent extends ForumDisplayComponent
         $cid = Request :: get('cid');
         $pid = Request :: get('pid');
 
-        $this->forum = RepositoryDataManager :: get_instance()->retrieve_learning_object($pid);
+        $this->forum = RepositoryDataManager :: get_instance()->retrieve_content_object($pid);
 
-        $lo = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition('id', $cid, ComplexLearningObjectItem :: get_table_name()))->next_result()->get_ref();
+        $lo = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition('id', $cid, ComplexContentObjectItem :: get_table_name()))->next_result()->get_ref();
         $this->retrieve_children($lo);
 
-        $topic = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item($cid);
+        $topic = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($cid);
 
         $trail = new BreadcrumbTrail(false);
         $trail->add(new Breadcrumb($this->get_url(array('pid' => $pid, 'forum' => null,ComplexDisplay::PARAM_DISPLAY_ACTION=>ForumDisplay::ACTION_VIEW_FORUM)),$this->forum->get_title()));
@@ -60,10 +60,10 @@ class ForumDisplayTopicViewerComponent extends ForumDisplayComponent
     {
         $rdm = RepositoryDataManager :: get_instance();
 
-        $children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $forum->get_id(), ComplexLearningObjectItem :: get_table_name()));
+        $children = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $forum->get_id(), ComplexContentObjectItem :: get_table_name()));
         while($child = $children->next_result())
         {
-            $lo = $rdm->retrieve_learning_object($child->get_ref());
+            $lo = $rdm->retrieve_content_object($child->get_ref());
             $child->set_ref($lo);
             if($lo->get_type() != 'forum_topic')
             {
@@ -78,10 +78,10 @@ class ForumDisplayTopicViewerComponent extends ForumDisplayComponent
     {
         $rdm = RepositoryDataManager :: get_instance();
 
-        $children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $lo, ComplexLearningObjectItem :: get_table_name()), array(new ObjectTableOrder(ComplexLearningObjectItem :: PROPERTY_ADD_DATE, SORT_ASC)) );
+        $children = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $lo, ComplexContentObjectItem :: get_table_name()), array(new ObjectTableOrder(ComplexContentObjectItem :: PROPERTY_ADD_DATE, SORT_ASC)) );
         while($child = $children->next_result())
         {
-            $lo = $rdm->retrieve_learning_object($child->get_ref());
+            $lo = $rdm->retrieve_content_object($child->get_ref());
             $child->set_ref($lo);
             $this->posts[] = $child;
         }
@@ -137,7 +137,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplayComponent
             $info = '<br /><img style="max-width: 100px;" src="' . $user->get_full_picture_url() . '" /><br /><br />' . $post->get_add_date();
             $message = $this->format_message($post->get_ref()->get_description());
 
-            $attachments = $post->get_ref()->get_attached_learning_objects();
+            $attachments = $post->get_ref()->get_attached_content_objects();
 
             if(count($attachments) > 0)
             {
@@ -145,7 +145,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplayComponent
 
                 foreach($attachments as $attachment)
                 {
-                    $message .= '<li><a href="' . $this->get_url(array(ComplexDisplay::PARAM_DISPLAY_ACTION => ComplexDisplay::ACTION_VIEW_ATTACHMENT, 'object_id' => $attachment->get_id())) . '"><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$attachment->get_title().'</a></li>';
+                    $message .= '<li><a href="' . $this->get_url(array(ComplexDisplay::PARAM_DISPLAY_ACTION => ComplexDisplay::ACTION_VIEW_ATTACHMENT, 'object_id' => $attachment->get_id())) . '"><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$attachment->get_title().'</a></li>';
                 }
 
                 $message .= '</ul></div>';

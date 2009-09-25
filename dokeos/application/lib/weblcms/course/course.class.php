@@ -473,8 +473,8 @@ class Course extends DataClass
 			return false;
 		}
 
-		require_once(dirname(__FILE__) . '/../category_manager/learning_object_publication_category.class.php');
-		$dropbox = new LearningObjectPublicationCategory();
+		require_once(dirname(__FILE__) . '/../category_manager/content_object_publication_category.class.php');
+		$dropbox = new ContentObjectPublicationCategory();
 		$dropbox->create_dropbox($this->get_id());
 
 		$location = new Location();

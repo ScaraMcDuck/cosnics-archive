@@ -112,18 +112,18 @@ abstract class BaseExternalExporter
 	
 	/**
 	 * 
-	 * @param $learning_object LearningObject
+	 * @param $content_object ContentObject
 	 * @return IeeeLomMapper
 	 */
-	protected function get_lom_mapper($learning_object = null)
+	protected function get_lom_mapper($content_object = null)
 	{
 	    if(isset($this->lom_mapper))
 	    {
 	       return $this->lom_mapper;
 	    }
-	    elseif(isset($learning_object))
+	    elseif(isset($content_object))
 	    {
-	        $this->lom_mapper = new IeeeLomMapper($learning_object);
+	        $this->lom_mapper = new IeeeLomMapper($content_object);
 	        $this->lom_mapper->get_metadata();
 	        return $this->lom_mapper;
 	    }
@@ -137,10 +137,10 @@ abstract class BaseExternalExporter
 	/**
 	 * Check if the minimum metadata required for the object to be exported are present 
 	 * 
-	 * @param $learning_object LearningObject
+	 * @param $content_object ContentObject
 	 * @return boolean Indicates wether the required metadata are present or not.
 	 */
-	public function check_required_metadata($learning_object)
+	public function check_required_metadata($content_object)
 	{
 	    return true;
 	}
@@ -149,27 +149,27 @@ abstract class BaseExternalExporter
 	/**
 	 * Export the learning object to the external repository
 	 * 
-	 * @param $learning_object LearningObject Learning object to export to the external repository
+	 * @param $content_object ContentObject Learning object to export to the external repository
 	 * @return boolean Indicates wether the export succeeded
 	 */
-	abstract public function export($learning_object);
+	abstract public function export($content_object);
 	
 	/**
 	 * Prepare the learning object for the export.
 	 * Ensure it has an UID valid for the repository
 	 * 
-	 * @param $learning_object LearningObject Learning object to export to the external repository
+	 * @param $content_object ContentObject Learning object to export to the external repository
 	 * @return boolean Indicates wether the learning object could be prepared for export
 	 */
-	protected function prepare_export($learning_object)
+	protected function prepare_export($content_object)
 	{
-	    $lom_mapper  = $this->get_lom_mapper($learning_object);
+	    $lom_mapper  = $this->get_lom_mapper($content_object);
 	    
 	    /*
 	     * Get the different identifiers from the metadata 
 	     * and checks if a new UID for the external repository has to be assigned to the object
 	     */
-	    if(!$this->check_repository_uid($learning_object))
+	    if(!$this->check_repository_uid($content_object))
 	    {
 	        /*
 	         * Get a new UID and assign to the object
@@ -188,10 +188,10 @@ abstract class BaseExternalExporter
 //	    /*
 //	     * Get the file to export
 //	     */ 
-//	    //$size = $learning_object->get_size();
+//	    //$size = $content_object->get_size();
 //	    
-//	    $dlof = new DlofExport($learning_object);
-//	    $zippath = $dlof->export_learning_object();
+//	    $dlof = new DlofExport($content_object);
+//	    $zippath = $dlof->export_content_object();
 //	    
 //	    debug($zippath);
 	}
@@ -199,12 +199,12 @@ abstract class BaseExternalExporter
 	
 	/**
 	 * 
-	 * @param $learning_object LearningObject
+	 * @param $content_object ContentObject
 	 * @return string
 	 */
-	protected function get_learning_object_metadata_xml($learning_object)
+	protected function get_content_object_metadata_xml($content_object)
 	{
-	    $lom_mapper  = $this->get_lom_mapper($learning_object);
+	    $lom_mapper  = $this->get_lom_mapper($content_object);
 	    
 	    /*
 	     * Retrieve the LOM-XML metadata that will be used for the export 
@@ -228,9 +228,9 @@ abstract class BaseExternalExporter
 	 *  
 	 * @return boolean Indicates wether the learning object has an UID valid for the external repository
 	 */
-	protected function check_repository_uid($learning_object)
+	protected function check_repository_uid($content_object)
 	{
-	    $repository_uid = $this->get_existing_repository_uid($learning_object);
+	    $repository_uid = $this->get_existing_repository_uid($content_object);
 	    
 	    return isset($repository_uid);
 	}
@@ -240,14 +240,14 @@ abstract class BaseExternalExporter
 	 *  
 	 * @return string The UID corresponding to the external repository
 	 */
-	public function get_existing_repository_uid($learning_object)
+	public function get_existing_repository_uid($content_object)
 	{
 	    if(isset($this->external_export))
 	    {
     	    /*
     	     * Basic metadata type is LOM
     	     */
-    	    $lom_mapper  = $this->get_lom_mapper($learning_object);
+    	    $lom_mapper  = $this->get_lom_mapper($content_object);
     	    $lom_mapper->get_metadata();
     	    $identifiers = $lom_mapper->get_identifier();
     	    

@@ -2,8 +2,8 @@
 /**
  * @package application.weblcms.tool.exercise.component.exercise_publication_table
  */
-require_once Path :: get_repository_path(). 'lib/learning_object_table/default_learning_object_table_cell_renderer.class.php';
-require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
+require_once Path :: get_repository_path(). 'lib/content_object_table/default_content_object_table_cell_renderer.class.php';
+require_once Path :: get_repository_path(). 'lib/content_object.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once dirname(__FILE__).'/wiki_page_table_column_model.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
@@ -11,7 +11,7 @@ require_once Path :: get_repository_path().'lib/complex_display/wiki/wiki_displa
 /**
  * This class is a cell renderer for a publication candidate table
  */
-class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
+class WikiPageTableCellRenderer extends DefaultContentObjectTableCellRenderer
 {
 	private $table_actions;
 	private $browser;
@@ -144,7 +144,7 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 
 	/**
 	 * Gets the links to publish or edit and publish a learning object.
-	 * @param LearningObject $wiki_page The learning object for which the
+	 * @param ContentObject $wiki_page The learning object for which the
 	 * links should be returned.
 	 * @return string A HTML-representation of the links.
 	 */
@@ -164,7 +164,7 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 
     private function get_publication_from_clo_item($clo_item)
     {
-        $publication = $this->dm->retrieve_learning_objects(null, new EqualityCondition(LearningObject :: PROPERTY_ID,$clo_item->get_default_property(ComplexLearningObjectItem :: PROPERTY_REF), LearningObject :: get_table_name()))->as_array();
+        $publication = $this->dm->retrieve_content_objects(null, new EqualityCondition(ContentObject :: PROPERTY_ID,$clo_item->get_default_property(ComplexContentObjectItem :: PROPERTY_REF), ContentObject :: get_table_name()))->as_array();
         return $publication[0];
     }
 }

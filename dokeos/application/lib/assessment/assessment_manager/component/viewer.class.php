@@ -23,8 +23,8 @@ class AssessmentManagerViewerComponent extends AssessmentManagerComponent
 		{
 			$this->pid = Request :: get(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION);
 			$this->pub = $this->datamanager->retrieve_assessment_publication($this->pid);
-			$assessment_id = $this->pub->get_learning_object();
-			$this->assessment = RepositoryDataManager :: get_instance()->retrieve_learning_object($assessment_id);
+			$assessment_id = $this->pub->get_content_object();
+			$this->assessment = RepositoryDataManager :: get_instance()->retrieve_content_object($assessment_id);
 			$this->set_parameter(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION, $this->pid);
 		}
 		
@@ -35,8 +35,8 @@ class AssessmentManagerViewerComponent extends AssessmentManagerComponent
 			
 			$this->pid = $invitation->get_survey_id();
 			$this->pub = $this->datamanager->retrieve_assessment_publication($this->pid);
-			$assessment_id = $this->pub->get_learning_object();
-			$this->assessment = RepositoryDataManager :: get_instance()->retrieve_learning_object($assessment_id);
+			$assessment_id = $this->pub->get_content_object();
+			$this->assessment = RepositoryDataManager :: get_instance()->retrieve_content_object($assessment_id);
 			$this->set_parameter(AssessmentManager :: PARAM_INVITATION_ID, Request :: get(AssessmentManager :: PARAM_INVITATION_ID));
 		}
 		

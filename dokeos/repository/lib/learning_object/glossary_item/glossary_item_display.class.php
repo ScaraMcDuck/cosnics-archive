@@ -7,7 +7,7 @@
 /**
  * This class can be used to display glossary_items
  */
-class GlossaryItemDisplay extends LearningObjectDisplay
+class GlossaryItemDisplay extends ContentObjectDisplay
 {
 }
 ?>

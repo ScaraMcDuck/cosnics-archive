@@ -30,8 +30,8 @@ class PortfolioManagerPortfolioItemDeleterComponent extends PortfolioManagerComp
 			
 			foreach ($ids as $id)
 			{
-				$item = $rdm->retrieve_complex_learning_object_item($id);
-				$ref = $rdm->retrieve_learning_object($item->get_ref());
+				$item = $rdm->retrieve_complex_content_object_item($id);
+				$ref = $rdm->retrieve_content_object($item->get_ref());
 				
 				if(!$item->delete())
 				{

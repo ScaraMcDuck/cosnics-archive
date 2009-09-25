@@ -6,27 +6,27 @@
  *  @author Hans De Bisschop
  *  @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../../learning_object_form.class.php';
+require_once dirname(__FILE__).'/../../content_object_form.class.php';
 require_once dirname(__FILE__).'/personal_message.class.php';
 /**
  * This class represents a form to create or update personal messages
  */
-class PersonalMessageForm extends LearningObjectForm
+class PersonalMessageForm extends ContentObjectForm
 {
 	function set_csv_values($valuearray)
 	{
-		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
-		$defaults[LearningObject :: PROPERTY_PARENT_ID] = $valuearray[1];
-		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[2];	
+		$defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
+		$defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
+		$defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];	
 		parent :: set_values($defaults);			
 	}
 
 	// Inherited
-	function create_learning_object()
+	function create_content_object()
 	{
 		$object = new PersonalMessage();
-		$this->set_learning_object($object);
-		return parent :: create_learning_object();
+		$this->set_content_object($object);
+		return parent :: create_content_object();
 	}
 }
 ?>

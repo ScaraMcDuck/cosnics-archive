@@ -4,11 +4,11 @@
  * @package repository.learningobject
  * @subpackage assessment
  */
-require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) . '/../../content_object.class.php';
 /**
  * This class represents an assessment
  */
-class Survey extends LearningObject
+class Survey extends ContentObject
 {
 	const PROPERTY_TIMES_TAKEN = 'times_taken';
 	const PROPERTY_AVERAGE_SCORE = 'average_score';

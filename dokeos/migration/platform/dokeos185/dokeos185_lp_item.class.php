@@ -4,8 +4,8 @@
  */
 
 require_once dirname(__FILE__) . '/../../lib/import/import_lp_item.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/learning_path_item/learning_path_item.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/content_object/learning_path_item/learning_path_item.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/content_object_publication.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repository_category.class.php';
 
 /**
@@ -298,7 +298,7 @@ class Dokeos185LpItem extends ImportLpItem
 
 		if($id)		
 		{      
-			$lo = $mgdm->get_owner_learning_object($id,'learning_path');			
+			$lo = $mgdm->get_owner_content_object($id,'learning_path');			
                         $new_user_id = $lo->get_owner_id();
                         
 		}
@@ -379,9 +379,9 @@ class Dokeos185LpItem extends ImportLpItem
 		//publication
 		if($this->item_property->get_visibility() <= 1) 
 		{
-			$publication = new LearningObjectPublication();
+			$publication = new ContentObjectPublication();
 			
-			$publication->set_learning_object($lcms_announcement);
+			$publication->set_content_object($lcms_announcement);
 			$publication->set_course_id($new_course_code);
 			$publication->set_publisher_id($new_user_id);
 			$publication->set_tool('announcement');

@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/../repository_manager.class.php';
 require_once dirname(__FILE__).'/../repository_manager_component.class.php';
-require_once dirname(__FILE__).'/../../complex_learning_object_item_form.class.php';
+require_once dirname(__FILE__).'/../../complex_content_object_item_form.class.php';
 require_once dirname(__FILE__).'/../../repository_data_manager.class.php';
 
 /**
@@ -35,15 +35,15 @@ class RepositoryManagerComplexCreatorComponent extends RepositoryManagerComponen
 
 		if($parent)
 		{
-			$type = RepositoryDataManager :: get_instance()->determine_learning_object_type($ref);
-			$cloi = ComplexLearningObjectItem :: factory($type);
+			$type = RepositoryDataManager :: get_instance()->determine_content_object_type($ref);
+			$cloi = ComplexContentObjectItem :: factory($type);
 
 			$cloi->set_ref($ref);
 			$cloi->set_user_id($owner);
 			$cloi->set_parent($parent);
 			$cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($parent));
 
-			$cloi_form = ComplexLearningObjectItemForm :: factory(ComplexLearningObjectItemForm :: TYPE_CREATE, $cloi, 'create_complex', 'post',
+			$cloi_form = ComplexContentObjectItemForm :: factory(ComplexContentObjectItemForm :: TYPE_CREATE, $cloi, 'create_complex', 'post',
 							$this->get_url(array(RepositoryManager :: PARAM_CLOI_REF => $ref,
 												 RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id,
 												 RepositoryManager :: PARAM_CLOI_ID => $parent, 'publish' => Request :: get('publish'))));
@@ -52,8 +52,8 @@ class RepositoryManagerComplexCreatorComponent extends RepositoryManagerComponen
 			{
 				if ($cloi_form->validate())
 				{
-					$cloi_form->create_complex_learning_object_item();
-					$cloi = $cloi_form->get_complex_learning_object_item();
+					$cloi_form->create_complex_content_object_item();
+					$cloi = $cloi_form->get_complex_content_object_item();
 					$root_id = $root_id?$root_id:$cloi->get_id();
 					if($cloi->is_complex()) $id = $cloi->get_ref(); else $id = $cloi->get_parent();
 					$this->redirect(Translation :: get('ObjectCreated'), false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $id,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));

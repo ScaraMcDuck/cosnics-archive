@@ -31,7 +31,7 @@ class RepositoryInstaller extends Installer
 	function install_extra()
 	{                
 		$rdm	= $this->get_data_manager();
-		$dir	= dirname(__FILE__) . '/../lib/learning_object';
+		$dir	= dirname(__FILE__) . '/../lib/content_object';
 		
 		// Get the learning object xml-files if they exist
 		$files	= FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
@@ -55,16 +55,16 @@ class RepositoryInstaller extends Installer
 		{
 			if($folder == '.svn') continue;
 			
-			$this->add_message(self :: TYPE_NORMAL, Translation :: get('LearningObjectRegistration') . ': <em>' . $folder . '</em>');
+			$this->add_message(self :: TYPE_NORMAL, Translation :: get('ContentObjectRegistration') . ': <em>' . $folder . '</em>');
 			
-			$learning_object_registration = new Registration();
-			$learning_object_registration->set_type(Registration :: TYPE_LEARNING_OBJECT);
-			$learning_object_registration->set_name($folder);
-			$learning_object_registration->set_status(Registration :: STATUS_ACTIVE);
+			$content_object_registration = new Registration();
+			$content_object_registration->set_type(Registration :: TYPE_LEARNING_OBJECT);
+			$content_object_registration->set_name($folder);
+			$content_object_registration->set_status(Registration :: STATUS_ACTIVE);
 			
-			if (!$learning_object_registration->create())
+			if (!$content_object_registration->create())
 			{
-				return $this->installation_failed(Translation :: get('LearningObjectRegistrationFailed'));
+				return $this->installation_failed(Translation :: get('ContentObjectRegistrationFailed'));
 			}
 		}
 		
@@ -121,7 +121,7 @@ class RepositoryInstaller extends Installer
 	{
 	    foreach ($data_array as $index => $data) 
         {
-            $catalogItem = new LearningObjectMetadataCatalog();
+            $catalogItem = new ContentObjectMetadataCatalog();
             $catalogItem->set_type($type);
             $catalogItem->set_name($data['name']);
             $catalogItem->set_value($data['value']);

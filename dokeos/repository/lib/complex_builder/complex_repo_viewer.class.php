@@ -3,7 +3,7 @@
  * @package application.lib.profiler
  */
 require_once Path :: get_application_library_path(). 'repo_viewer/repo_viewer.class.php';
-require_once Path :: get_repository_path(). 'lib/abstract_learning_object.class.php';
+require_once Path :: get_repository_path(). 'lib/abstract_content_object.class.php';
 
 /**
 ==============================================================================

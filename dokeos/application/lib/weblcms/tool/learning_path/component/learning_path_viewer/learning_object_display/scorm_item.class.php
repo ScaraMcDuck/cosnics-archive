@@ -1,10 +1,10 @@
 <?php
 
-require_once dirname(__FILE__) . '/../learning_path_learning_object_display.class.php';
+require_once dirname(__FILE__) . '/../learning_path_content_object_display.class.php';
 
-class ScormItemDisplay extends LearningPathLearningObjectDisplay
+class ScormItemDisplay extends LearningPathContentObjectDisplay
 {
-	function display_learning_object($scorm_item, $tracker_attempt_data, $continue_url, $previous_url, $jump_urls)
+	function display_content_object($scorm_item, $tracker_attempt_data, $continue_url, $previous_url, $jump_urls)
 	{
 		//dump($tracker_attempt_data);
 		if($tracker_attempt_data['active_tracker'])

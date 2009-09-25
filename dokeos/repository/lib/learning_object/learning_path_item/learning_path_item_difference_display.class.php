@@ -6,7 +6,7 @@
 /**
  * This class can be used to display the difference between learning paths
  */
-class LearningPathItemDifferenceDisplay extends LearningObjectDifferenceDisplay
+class LearningPathItemDifferenceDisplay extends ContentObjectDifferenceDisplay
 {
 }
 ?>

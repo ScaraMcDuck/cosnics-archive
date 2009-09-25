@@ -3,12 +3,12 @@
  * @package repository.learningobject
  * @subpackage youtube
  */
-class YoutubeDisplay extends LearningObjectDisplay
+class YoutubeDisplay extends ContentObjectDisplay
 {
 	function get_full_html()
 	{
 		$html = parent :: get_full_html();
-		$object = $this->get_learning_object();
+		$object = $this->get_content_object();
 		
 		$video_url = $object->get_url();
 		$video_url_components = parse_url($video_url);
@@ -20,8 +20,8 @@ class YoutubeDisplay extends LearningObjectDisplay
 	}
 	function get_short_html()
 	{
-		$object = $this->get_learning_object();
-		return '<span class="learning_object"><a target="about:blank" href="'.htmlentities($object->get_url()).'">'.htmlentities($object->get_title()).'</a></span>';
+		$object = $this->get_content_object();
+		return '<span class="content_object"><a target="about:blank" href="'.htmlentities($object->get_url()).'">'.htmlentities($object->get_title()).'</a></span>';
 	}
 }
 ?>

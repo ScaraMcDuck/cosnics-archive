@@ -44,12 +44,12 @@ class WikiDisplayWikiPubDiscussComponent extends WikiDisplayComponent
         
         $this->cid = Request :: get('selected_cloi');
 
-        $complexeObject = $dm->retrieve_complex_learning_object_item($this->cid);
+        $complexeObject = $dm->retrieve_complex_content_object_item($this->cid);
         if(isset($complexeObject))
         {
-            $this->wiki_page_id = $complexeObject->get_ref();$dm->retrieve_learning_object($this->wiki_page_id);
+            $this->wiki_page_id = $complexeObject->get_ref();$dm->retrieve_content_object($this->wiki_page_id);
         }
-        $wiki_page = $dm->retrieve_learning_object($this->wiki_page_id);
+        $wiki_page = $dm->retrieve_content_object($this->wiki_page_id);
         
         $this->action_bar = $this->get_parent()->get_toolbar($this,$this->get_root_lo()->get_id(),$this->get_root_lo(), $this->cid);//$this->get_toolbar();
         echo '<div id="trailbox2" style="padding:0px;">'.$this->get_parent()->get_breadcrumbtrail()->render().'<br /><br /><br /></div>';
@@ -57,9 +57,9 @@ class WikiDisplayWikiPubDiscussComponent extends WikiDisplayComponent
         echo  '<div style="padding-left: 15px; margin-left: 150px; border-left: 1px solid grey;"><div style="font-size:20px;">'.Translation :: get('DiscussThe'). ' ' .$wiki_page->get_title().' ' . Translation :: get('Page') .'<hr style="height:1px;color:#4271B5;width:100%;"></div>';
 
         /*
-         *  We make use of the existing LearningObjectDisplay class, changing the type to wiki_page
+         *  We make use of the existing ContentObjectDisplay class, changing the type to wiki_page
          */
-        $display = LearningObjectDisplay :: factory($wiki_page);
+        $display = ContentObjectDisplay :: factory($wiki_page);
         /*
          *  Here we make the call to the wiki_parser.
          *  For more information about the parser, please read the information in the wiki_parser class.
@@ -79,10 +79,10 @@ class WikiDisplayWikiPubDiscussComponent extends WikiDisplayComponent
 
         if(isset($this->cid)&& $this->get_root_lo()->get_id() != null)
         {
-            $conditions[] = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_PUBLICATION_ID, Request :: get('pid'));
-            $conditions[] = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_CLOI_ID, $this->cid);
+            $conditions[] = new EqualityCondition(ContentObjectPubFeedback :: PROPERTY_PUBLICATION_ID, Request :: get('pid'));
+            $conditions[] = new EqualityCondition(ContentObjectPubFeedback :: PROPERTY_CLOI_ID, $this->cid);
             $condition = new AndCondition($conditions);
-            $feedbacks = $dm->retrieve_learning_object_pub_feedback($condition);
+            $feedbacks = $dm->retrieve_content_object_pub_feedback($condition);
 
             while($feedback = $feedbacks->next_result())
             {
@@ -94,9 +94,9 @@ class WikiDisplayWikiPubDiscussComponent extends WikiDisplayComponent
                 $this->fid = $feedback->get_feedback_id();
                 /*
                  *  We retrieve the learning object, because that one contains the information we want to show.
-                 *  We then display it using the LearningObjectDisplay and setting the type to feedback
+                 *  We then display it using the ContentObjectDisplay and setting the type to feedback
                  */
-                $feedback_display = $dm->retrieve_learning_object($this->fid);
+                $feedback_display = $dm->retrieve_content_object($this->fid);
                 echo $this->show_feedback($feedback_display);
                 $i++;
 
@@ -144,7 +144,7 @@ class WikiDisplayWikiPubDiscussComponent extends WikiDisplayComponent
         $creationDate = $object->get_creation_date();
 
         $html = array();
-		$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path() . 'learning_object/' .$object->get_icon_name().($object->is_latest_version() ? '' : '_na').'.png);">';
+		$html[] = '<div class="content_object" style="background-image: url('.Theme :: get_common_image_path() . 'content_object/' .$object->get_icon_name().($object->is_latest_version() ? '' : '_na').'.png);">';
         $html[] = '<div class="title">'. htmlentities($object->get_title()) .' | '.htmlentities(date("F j, Y, H:i:s",$creationDate )).'</div>';
 		$html[] = self::TITLE_MARKER;
 		$html[] = $object->get_description();

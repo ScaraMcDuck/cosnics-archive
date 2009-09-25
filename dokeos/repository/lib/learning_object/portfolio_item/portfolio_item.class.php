@@ -1,10 +1,10 @@
 <?php
-require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) . '/../../content_object.class.php';
 /**
  * @package repository.learningobject
  * @subpackage portfolio
  */
-class PortfolioItem extends LearningObject
+class PortfolioItem extends ContentObject
 {
 	const PROPERTY_REFERENCE = 'reference_id';
 

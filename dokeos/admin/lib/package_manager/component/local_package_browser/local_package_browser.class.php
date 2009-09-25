@@ -30,7 +30,7 @@ class LocalPackageBrowser
 
     function to_html()
     {
-        $sections = array('application', 'learning_object', 'language');
+        $sections = array('application', 'content_object', 'language');
         
         $current_section = Request :: get(PackageManager :: PARAM_SECTION);
         $current_section = $current_section ? $current_section : 'application';
@@ -97,11 +97,11 @@ class LocalPackageBrowser
         return $languages;
     }
 
-    function get_learning_object_data()
+    function get_content_object_data()
     {
         $objects = array();
         
-        $object_path = Path :: get_repository_path() . 'lib/learning_object/';
+        $object_path = Path :: get_repository_path() . 'lib/content_object/';
         $object_folders = Filesystem :: get_directory_content($object_path, Filesystem :: LIST_DIRECTORIES, false);
         
         $condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_LEARNING_OBJECT);
@@ -124,7 +124,7 @@ class LocalPackageBrowser
                 $data[] = DokeosUtilities :: underscores_to_camelcase_with_spaces($installable_object);
                 
                 $toolbar_data = array();
-                $toolbar_data[] = array('href' => $this->manager->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE, PackageManager :: PARAM_INSTALL_TYPE => PackageManager :: INSTALL_LOCAL, PackageManager :: PARAM_SECTION => 'learning_object', PackageManager :: PARAM_PACKAGE => $installable_object)), 'label' => Translation :: get('Install'), 'img' => Theme :: get_image_path() . 'action_install.png');
+                $toolbar_data[] = array('href' => $this->manager->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE, PackageManager :: PARAM_INSTALL_TYPE => PackageManager :: INSTALL_LOCAL, PackageManager :: PARAM_SECTION => 'content_object', PackageManager :: PARAM_PACKAGE => $installable_object)), 'label' => Translation :: get('Install'), 'img' => Theme :: get_image_path() . 'action_install.png');
                 
                 $data[] = DokeosUtilities :: build_toolbar($toolbar_data);
                 

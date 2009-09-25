@@ -6,7 +6,7 @@
 /**
  * This class can be used to display the difference between feedbacks
  */
-class FeedbackDifferenceDisplay extends LearningObjectDifferenceDisplay
+class FeedbackDifferenceDisplay extends ContentObjectDifferenceDisplay
 {
 	function get_diff_as_html()
 	{

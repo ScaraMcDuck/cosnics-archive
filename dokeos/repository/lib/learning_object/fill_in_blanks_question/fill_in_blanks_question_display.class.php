@@ -3,7 +3,7 @@
  * @package repository.learningobject
  * @subpackage exercise
  */
-class FillInBlanksQuestionDisplay extends LearningObjectDisplay
+class FillInBlanksQuestionDisplay extends ContentObjectDisplay
 {
 
     function get_full_html()
@@ -14,7 +14,7 @@ class FillInBlanksQuestionDisplay extends LearningObjectDisplay
 
     function get_description()
     {
-        $object = $this->get_learning_object();
+        $object = $this->get_content_object();
         $answer_text = $object->get_answer_text();
         $answers = $object->get_answers();
 

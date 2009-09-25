@@ -1,10 +1,10 @@
 <?php
 
-require_once dirname(__FILE__) . '/../learning_path_learning_object_display.class.php';
+require_once dirname(__FILE__) . '/../learning_path_content_object_display.class.php';
 
-class DocumentDisplay extends LearningPathLearningObjectDisplay
+class DocumentDisplay extends LearningPathContentObjectDisplay
 {
-	function display_learning_object($document)
+	function display_content_object($document)
 	{
 		$html[] = $this->add_tracking_javascript();
 		

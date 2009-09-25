@@ -5,8 +5,8 @@
  */
 require_once dirname(__FILE__).'/../repository_manager.class.php';
 require_once dirname(__FILE__).'/../repository_manager_component.class.php';
-require_once dirname(__FILE__).'/../../import/learning_object_import.class.php';
-require_once dirname(__FILE__).'/../../learning_object_import_form.class.php';
+require_once dirname(__FILE__).'/../../import/content_object_import.class.php';
+require_once dirname(__FILE__).'/../../content_object_import_form.class.php';
 /**
  * Repository manager component which provides functionality to delete a
  * learning object from the users repository.
@@ -19,7 +19,7 @@ class RepositoryManagerTemplateImporterComponent extends RepositoryManagerCompon
 	function run()
 	{
 		$trail = new BreadcrumbTrail(false);
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('LearningObjectTemplateImport')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ContentObjectTemplateImport')));
 		$trail->add_help('repository importer');
 
 		$extra_params = array();
@@ -27,22 +27,22 @@ class RepositoryManagerTemplateImporterComponent extends RepositoryManagerCompon
 		$user = new User();
 		$user->set_id(0);
 		
-		$import_form = new LearningObjectImportForm('import', 'post', $this->get_url($extra_params), 0, $user);
+		$import_form = new ContentObjectImportForm('import', 'post', $this->get_url($extra_params), 0, $user);
 
 		if ($import_form->validate())
 		{
-			$learning_object = $import_form->import_learning_object();
+			$content_object = $import_form->import_content_object();
 
-			if ($learning_object === false)
+			if ($content_object === false)
 			{
-				$message = Translation :: get('LearningObjectNotImported');
+				$message = Translation :: get('ContentObjectNotImported');
 			}
 			else
 			{
-				$message = Translation :: get('LearningObjectImported');
+				$message = Translation :: get('ContentObjectImported');
 			}
 			
-			$this->redirect($message, !isset($learning_object), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_TEMPLATES));
+			$this->redirect($message, !isset($content_object), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_TEMPLATES));
 		}
 		else
 		{

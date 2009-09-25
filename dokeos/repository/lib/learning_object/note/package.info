@@ -3,7 +3,7 @@
 	<package>
 		<name>Note</name>
 		<code>note</code>
-		<section>learning_object</section>
+		<section>content_object</section>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/n/note/note-1.0.0.zip</filename>

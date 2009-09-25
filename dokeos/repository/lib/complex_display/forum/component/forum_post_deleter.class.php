@@ -24,19 +24,19 @@ class ForumDisplayForumPostDeleterComponent extends ForumDisplayComponent
 
             foreach($posts as $index => $post)
             {
-                $cloi = $datamanager->retrieve_complex_learning_object_item($post);
+                $cloi = $datamanager->retrieve_complex_content_object_item($post);
                 $cloi->delete();
 
-                $siblings = $datamanager->count_complex_learning_object_items(new EqualityCondition('parent', $cloi->get_parent()));
+                $siblings = $datamanager->count_complex_content_object_items(new EqualityCondition('parent', $cloi->get_parent()));
                 if($siblings == 0)
                 {
-                    /*$wrappers = $datamanager->retrieve_complex_learning_object_items(new EqualityCondition('ref', $cloi->get_parent()));
+                    /*$wrappers = $datamanager->retrieve_complex_content_object_items(new EqualityCondition('ref', $cloi->get_parent()));
                     while($wrapper = $wrappers->next_result())
                     {
                         $wrapper->delete();
                     }
 
-                    $datamanager->delete_learning_object_by_id($cloi->get_parent());*/
+                    $datamanager->delete_content_object_by_id($cloi->get_parent());*/
 
                     $params[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_VIEW_FORUM;
                     $params['cid'] = null;

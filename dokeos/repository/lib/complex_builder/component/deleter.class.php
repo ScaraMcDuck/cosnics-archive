@@ -30,12 +30,12 @@ class ComplexBuilderDeleterComponent extends ComplexBuilderComponent
 			
 			foreach ($ids as $cloi_id)
 			{
-				$cloi = $rdm->retrieve_complex_learning_object_item($cloi_id);
+				$cloi = $rdm->retrieve_complex_content_object_item($cloi_id);
 
 				if ($cloi->get_user_id() == $this->get_user_id())
 				{
 					// TODO: check if deletion is allowed
-					//if ($this->get_parent()->complex_learning_object_item_deletion_allowed($cloi))
+					//if ($this->get_parent()->complex_content_object_item_deletion_allowed($cloi))
 					{
 						if(!$cloi->delete())
 						{

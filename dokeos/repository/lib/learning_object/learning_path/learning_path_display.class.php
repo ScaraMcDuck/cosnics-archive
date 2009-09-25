@@ -4,7 +4,7 @@
  * @package repository.learningobject
  * @subpackage learning_path
  */
-class LearningPathDisplay extends LearningObjectDisplay//extends LearningPathNodeDisplay
+class LearningPathDisplay extends ContentObjectDisplay//extends LearningPathNodeDisplay
 {
 }
 ?>

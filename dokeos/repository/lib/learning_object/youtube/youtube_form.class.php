@@ -3,10 +3,10 @@
  * @package repository.learningobject
  * @subpackage youtube
  */
-require_once dirname(__FILE__).'/../../learning_object_form.class.php';
+require_once dirname(__FILE__).'/../../content_object_form.class.php';
 require_once dirname(__FILE__).'/youtube.class.php';
 
-class YoutubeForm extends LearningObjectForm
+class YoutubeForm extends ContentObjectForm
 {
 	const TOTAL_PROPERTIES = 5;
 
@@ -31,7 +31,7 @@ class YoutubeForm extends LearningObjectForm
 
 	function setDefaults($defaults = array ())
 	{
-		$lo = $this->get_learning_object();
+		$lo = $this->get_content_object();
 		if (isset($lo))
 		{
 			$defaults[Youtube :: PROPERTY_URL] = $lo->get_url();
@@ -49,31 +49,31 @@ class YoutubeForm extends LearningObjectForm
 
 	function set_csv_values($valuearray)
 	{
-		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
-		$defaults[LearningObject :: PROPERTY_PARENT_ID] = $valuearray[1];
-		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[2];	
+		$defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
+		$defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
+		$defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];	
 		$defaults[Youtube :: PROPERTY_URL] = $valuearray[3];
 		$defaults[Youtube :: PROPERTY_HEIGHT] = $valuearray[4];
 		$defaults[Youtube :: PROPERTY_WIDTH] = $valuearray[5];
 		parent :: set_values($defaults);			
 	}
 
-	function create_learning_object()
+	function create_content_object()
 	{
 		$object = new Youtube();
 		$object->set_url($this->exportValue(Youtube :: PROPERTY_URL));
 		$object->set_height($this->exportValue(Youtube :: PROPERTY_HEIGHT));
 		$object->set_width($this->exportValue(Youtube :: PROPERTY_WIDTH));
-		$this->set_learning_object($object);
-		return parent :: create_learning_object();
+		$this->set_content_object($object);
+		return parent :: create_content_object();
 	}
-	function update_learning_object()
+	function update_content_object()
 	{
-		$object = $this->get_learning_object();
+		$object = $this->get_content_object();
 		$object->set_url($this->exportValue(Youtube :: PROPERTY_URL));
 		$object->set_height($this->exportValue(Youtube :: PROPERTY_HEIGHT));
 		$object->set_width($this->exportValue(Youtube :: PROPERTY_WIDTH));
-		return parent :: update_learning_object();
+		return parent :: update_content_object();
 	}
 
 	function validatecsv($value)

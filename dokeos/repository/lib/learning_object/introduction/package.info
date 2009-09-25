@@ -3,7 +3,7 @@
 	<package>
 		<name>Introduction</name>
 		<code>introduction</code>
-		<section>learning_object</section>
+		<section>content_object</section>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/i/introduction/introduction-1.0.0.zip</filename>

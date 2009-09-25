@@ -9,7 +9,7 @@
 /**
  * This class can be used to display the difference between personal messages
  */
-class PersonalMessageDifferenceDisplay extends LearningObjectDifferenceDisplay
+class PersonalMessageDifferenceDisplay extends ContentObjectDifferenceDisplay
 {
 }
 ?>

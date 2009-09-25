@@ -9,7 +9,7 @@
 /**
  * This class can be used to get the difference between physical_locations
  */
-class PhysicalLocationDifference extends LearningObjectDifference
+class PhysicalLocationDifference extends ContentObjectDifference
 {
 	function get_difference()
 	{

@@ -2,7 +2,7 @@
 require_once dirname(__FILE__).'/../../../common/global.inc.php';
 require_once Path :: get_repository_path().'/lib/repository_data_manager.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
-require_once Path :: get_repository_path().'/lib/learning_object.class.php';
+require_once Path :: get_repository_path().'/lib/content_object.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once Path :: get_library_path().'condition/not_condition.class.php';
 require_once Path :: get_library_path().'condition/and_condition.class.php';
@@ -34,11 +34,11 @@ if (Authentication :: is_valid())
 	    $rdm = RepositoryDataManager :: get_instance();
 
     	$conditions = array();
-    	$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
-    	$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_TYPE, 'template');
+    	$conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
+    	$conditions[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, 'template');
     	$condition = new AndCondition($conditions);
 
-    	$templates = $rdm->retrieve_learning_objects(null, $condition, array(new ObjectTableOrder(LearningObject :: PROPERTY_TITLE)));
+    	$templates = $rdm->retrieve_content_objects(null, $condition, array(new ObjectTableOrder(ContentObject :: PROPERTY_TITLE)));
 
     	$html[] = '<?xml version="1.0" encoding="utf-8" ?>';
     	$html[] = '<Templates>';

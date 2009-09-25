@@ -6,7 +6,7 @@ require_once Path :: get_application_path() . '/lib/weblcms/course/course.class.
 require_once Path :: get_application_path() . '/lib/weblcms/category_manager/course_category.class.php';
 require_once Path :: get_application_path() . '/lib/weblcms/course/course_user_relation.class.php';
 require_once Path :: get_application_path() . '/lib/weblcms/course_group/course_group.class.php';
-require_once dirname(__FILE__) . '/../webservices/provider/learning_object_publication_user.class.php';
+require_once dirname(__FILE__) . '/../webservices/provider/content_object_publication_user.class.php';
 
 
 /**
@@ -145,41 +145,41 @@ class ReportingValidator extends Validator
     {
         $this->errorSource = Translation :: get('ErrorRetrievingNewPublicationsInCourseTool');
 
-        if(empty($input_course[LearningObjectPublicationUser :: PROPERTY_COURSE_ID]))
+        if(empty($input_course[ContentObjectPublicationUser :: PROPERTY_COURSE_ID]))
         {
             $this->errorMessage = Translation :: get('CourseVisualCodeIsRequired');
             return false;
         }
 
-        if(empty($input_course[LearningObjectPublicationUser :: PROPERTY_USER_ID]))
+        if(empty($input_course[ContentObjectPublicationUser :: PROPERTY_USER_ID]))
         {
             $this->errorMessage = Translation :: get('UsernameIsRequired');
             return false;
         }
 
-        if(empty($input_course[LearningObjectPublicationUser :: PROPERTY_TOOL]))
+        if(empty($input_course[ContentObjectPublicationUser :: PROPERTY_TOOL]))
         {
             $this->errorMessage = Translation :: get('ToolNameIsRequired');
             return false;
         }
 
-        $course = $this->get_course_id($input_course[LearningObjectPublicationUser :: PROPERTY_COURSE_ID]);
+        $course = $this->get_course_id($input_course[ContentObjectPublicationUser :: PROPERTY_COURSE_ID]);
         if($course===false)
         {
-            $this->errorMessage = Translation :: get('Course').' '.$input_course[LearningObjectPublicationUser :: PROPERTY_COURSE_ID].' '.Translation :: get('wasNotFoundInTheDatabase');
+            $this->errorMessage = Translation :: get('Course').' '.$input_course[ContentObjectPublicationUser :: PROPERTY_COURSE_ID].' '.Translation :: get('wasNotFoundInTheDatabase');
             return false;
         }
         else
-            $input_course[LearningObjectPublicationUser :: PROPERTY_COURSE_ID] = $course;
+            $input_course[ContentObjectPublicationUser :: PROPERTY_COURSE_ID] = $course;
 
-        $user = $this->get_person_id($input_course[LearningObjectPublicationUser :: PROPERTY_USER_ID]);
+        $user = $this->get_person_id($input_course[ContentObjectPublicationUser :: PROPERTY_USER_ID]);
         if($user===false)
         {
-            $this->errorMessage = Translation :: get('User').' '.$input_course[LearningObjectPublicationUser :: PROPERTY_USER_ID].' '.Translation :: get('wasNotFoundInTheDatabase');
+            $this->errorMessage = Translation :: get('User').' '.$input_course[ContentObjectPublicationUser :: PROPERTY_USER_ID].' '.Translation :: get('wasNotFoundInTheDatabase');
             return false;
         }
         else
-            $input_course[LearningObjectPublicationUser :: PROPERTY_USER_ID] = $user;
+            $input_course[ContentObjectPublicationUser :: PROPERTY_USER_ID] = $user;
 
         return true;
     }
@@ -230,9 +230,9 @@ class ReportingValidator extends Validator
 
     function transform_publication_to_human_format(&$publication)
     {
-        $publication[LearningObject :: PROPERTY_OWNER_ID] = $this->udm->retrieve_user($publication[LearningObject ::PROPERTY_OWNER_ID])->get_username();
-        $publication[LearningObject :: PROPERTY_CREATION_DATE] = date('l jS \of F Y h:i:s A',$publication[LearningObject :: PROPERTY_CREATION_DATE]);
-        $publication[LearningObject :: PROPERTY_MODIFICATION_DATE] = date('l jS \of F Y h:i:s A',$publication[LearningObject :: PROPERTY_MODIFICATION_DATE]);
+        $publication[ContentObject :: PROPERTY_OWNER_ID] = $this->udm->retrieve_user($publication[ContentObject ::PROPERTY_OWNER_ID])->get_username();
+        $publication[ContentObject :: PROPERTY_CREATION_DATE] = date('l jS \of F Y h:i:s A',$publication[ContentObject :: PROPERTY_CREATION_DATE]);
+        $publication[ContentObject :: PROPERTY_MODIFICATION_DATE] = date('l jS \of F Y h:i:s A',$publication[ContentObject :: PROPERTY_MODIFICATION_DATE]);
     }
 
     private function get_person_id($person_name)

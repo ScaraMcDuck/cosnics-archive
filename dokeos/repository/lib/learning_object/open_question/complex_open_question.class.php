@@ -3,11 +3,11 @@
  * @package repository.learningobject
  * @subpackage exercise
  */
-require_once dirname(__FILE__) . '/../../complex_learning_object_item.class.php';
+require_once dirname(__FILE__) . '/../../complex_content_object_item.class.php';
 /**
  * This class represents a complex exercise (used to create complex learning objects)
  */
-class ComplexOpenQuestion extends ComplexLearningObjectItem
+class ComplexOpenQuestion extends ComplexContentObjectItem
 {
 	const PROPERTY_WEIGHT = 'weight';
 	

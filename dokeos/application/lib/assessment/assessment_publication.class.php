@@ -43,21 +43,21 @@ class AssessmentPublication extends DataClass
 	}
 
 	/**
-	 * Returns the learning_object of this AssessmentPublication.
-	 * @return the learning_object.
+	 * Returns the content_object of this AssessmentPublication.
+	 * @return the content_object.
 	 */
-	function get_learning_object()
+	function get_content_object()
 	{
 		return $this->get_default_property(self :: PROPERTY_LEARNING_OBJECT);
 	}
 
 	/**
-	 * Sets the learning_object of this AssessmentPublication.
-	 * @param learning_object
+	 * Sets the content_object of this AssessmentPublication.
+	 * @param content_object
 	 */
-	function set_learning_object($learning_object)
+	function set_content_object($content_object)
 	{
-		$this->set_default_property(self :: PROPERTY_LEARNING_OBJECT, $learning_object);
+		$this->set_default_property(self :: PROPERTY_LEARNING_OBJECT, $content_object);
 	}
 
 	/**
@@ -283,7 +283,7 @@ class AssessmentPublication extends DataClass
     function get_publication_object()
     {
         $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->retrieve_learning_object($this->get_learning_object());
+        return $rdm->retrieve_content_object($this->get_content_object());
     }
 
     function get_publication_publisher()

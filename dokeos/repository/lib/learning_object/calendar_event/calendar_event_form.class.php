@@ -4,13 +4,13 @@
  * @package repository.learningobject
  * @subpackage calendar_event
  */
-require_once dirname(__FILE__) . '/../../learning_object_form.class.php';
+require_once dirname(__FILE__) . '/../../content_object_form.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once dirname(__FILE__) . '/calendar_event.class.php';
 /**
  * This class represents a form to create or update calendar events
  */
-class CalendarEventForm extends LearningObjectForm
+class CalendarEventForm extends ContentObjectForm
 {
 	const TOTAL_PROPERTIES = 4;
 	const PARAM_REPEAT = 'repeated';
@@ -123,7 +123,7 @@ class CalendarEventForm extends LearningObjectForm
 	// Inherited
 	function setDefaults($defaults = array ())
 	{
-		$lo = $this->get_learning_object();
+		$lo = $this->get_content_object();
 		if (isset ($lo))
 		{
 			$defaults[CalendarEvent :: PROPERTY_START_DATE] = $lo->get_start_date();
@@ -172,16 +172,16 @@ class CalendarEventForm extends LearningObjectForm
 
 	function set_csv_values($valuearray)
 	{	
-		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
-		$defaults[LearningObject :: PROPERTY_PARENT_ID] = $valuearray[1];
-		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[2];	
+		$defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
+		$defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
+		$defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];	
 		$defaults[CalendarEvent :: PROPERTY_START_DATE] = $valuearray[3];
 		$defaults[CalendarEvent :: PROPERTY_END_DATE] = $valuearray[4];
 		parent :: set_values($defaults);
 	}
 
 	// Inherited
-	function create_learning_object()
+	function create_content_object()
 	{
 		$object = new CalendarEvent();
 		$values = $this->exportValues();
@@ -212,13 +212,13 @@ class CalendarEventForm extends LearningObjectForm
 			}
 		}
 			
-		$this->set_learning_object($object);
-		return parent :: create_learning_object();
+		$this->set_content_object($object);
+		return parent :: create_content_object();
 	}
 	// Inherited
-	function update_learning_object()
+	function update_content_object()
 	{
-		$object = $this->get_learning_object();
+		$object = $this->get_content_object();
 		$values = $this->exportValues();
 		$object->set_start_date(DokeosUtilities :: time_from_datepicker($values[CalendarEvent :: PROPERTY_START_DATE]));
 		$object->set_end_date(DokeosUtilities :: time_from_datepicker($values[CalendarEvent :: PROPERTY_END_DATE]));
@@ -247,7 +247,7 @@ class CalendarEventForm extends LearningObjectForm
 			}
 		}
 		
-		return parent :: update_learning_object();
+		return parent :: update_content_object();
 	}
 }
 ?>

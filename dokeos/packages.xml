@@ -45,13 +45,13 @@
 					<severity>1</severity>
 				</dependency>
 			</extensions>
-			<learning_objects>
+			<content_objects>
 				<dependency>
 		  			<id>personal_message</id>
 		  			<version type="4">1.0.0</version>
 		  			<severity>4</severity>
 				</dependency>
-			</learning_objects>
+			</content_objects>
 			<applications>
 				<dependency>
 		  			<id>personal_calendar</id>
@@ -84,13 +84,13 @@
 					<severity>1</severity>
 				</dependency>
 			</server>
-			<learning_objects>
+			<content_objects>
 				<dependency>
 		  			<id>calendar_event</id>
 		  			<version type="4">1.0.0</version>
 		  			<severity>4</severity>
 				</dependency>
-			</learning_objects>
+			</content_objects>
 			<applications>
 				<dependency>
 		  			<id>weblcms</id>

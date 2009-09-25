@@ -112,7 +112,7 @@ class ProfilePublication extends DataClass
     function get_publication_object()
     {
         $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->retrieve_learning_object($this->get_profile());
+        return $rdm->retrieve_content_object($this->get_profile());
     }
 
     function get_publication_publisher()

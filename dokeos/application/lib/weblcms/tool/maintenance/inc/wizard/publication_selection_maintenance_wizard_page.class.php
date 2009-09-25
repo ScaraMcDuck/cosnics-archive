@@ -14,8 +14,8 @@ class PublicationSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 	function buildForm()
 	{
 		$datamanager = WeblcmsDataManager :: get_instance();
-		$condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_parent()->get_course_id());
-		$publications_set = $datamanager->retrieve_learning_object_publications_new($condition, new ObjectTableOrder(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC));
+		$condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_parent()->get_course_id());
+		$publications_set = $datamanager->retrieve_content_object_publications_new($condition, new ObjectTableOrder(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC));
 		while ($publication = $publications_set->next_result())
 		{
 			$publications[$publication->get_tool()][] = $publication;
@@ -28,8 +28,8 @@ class PublicationSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 			foreach ($tool_publications as $index => $publication)
 			{
 				$label = $index == 0 ? Translation :: get(ucfirst($tool).'ToolTitle') : '';
-				$learning_object = $publication->get_learning_object();
-				$this->addElement('checkbox', 'publications['.$publication->get_id().']', $label, $learning_object->get_title());
+				$content_object = $publication->get_content_object();
+				$this->addElement('checkbox', 'publications['.$publication->get_id().']', $label, $content_object->get_title());
 			}
 		}
 		
@@ -50,7 +50,7 @@ class PublicationSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 		}
 		
 		$this->addElement('html', '<h3>' . Translation :: get('Other') . '</h3>');
-		$this->addElement('checkbox', 'learning_object_categories', Translation :: get('PublicationCategories'));
+		$this->addElement('checkbox', 'content_object_categories', Translation :: get('PublicationCategories'));
 		
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'));
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');

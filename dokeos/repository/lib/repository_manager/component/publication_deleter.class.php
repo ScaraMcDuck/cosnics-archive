@@ -23,11 +23,11 @@ class RepositoryManagerPublicationDeleterComponent extends RepositoryManagerComp
 		{
 			$failures = 0;
 
-			$object = $this->get_parent()->retrieve_learning_object($id);
+			$object = $this->get_parent()->retrieve_content_object($id);
 			// TODO: Roles & Rights.
 			if ($object->get_owner_id() == $this->get_user_id())
 			{
-				$versions = $object->get_learning_object_versions();
+				$versions = $object->get_content_object_versions();
 
 				foreach ($versions as $version)
 				{

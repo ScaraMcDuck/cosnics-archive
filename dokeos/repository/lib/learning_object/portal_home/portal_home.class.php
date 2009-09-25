@@ -4,11 +4,11 @@
  * @package repository.learningobject
  * @subpackage announcement
  */
-require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) . '/../../content_object.class.php';
 /**
  * This class represents an announcement
  */
-class PortalHome extends LearningObject
+class PortalHome extends ContentObject
 {
 
 }

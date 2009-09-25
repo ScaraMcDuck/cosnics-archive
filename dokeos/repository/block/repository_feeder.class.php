@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/../lib/repository_block.class.php';
-require_once dirname(__FILE__).'/../lib/learning_object_display.class.php';
+require_once dirname(__FILE__).'/../lib/content_object_display.class.php';
 
 class RepositoryFeeder extends RepositoryBlock
 {
@@ -27,11 +27,11 @@ class RepositoryFeeder extends RepositoryBlock
 		}
 		else
 		{
-			$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($configuration['use_object']);
-			$display = LearningObjectDisplay :: factory($learning_object);
+			$content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($configuration['use_object']);
+			$display = ContentObjectDisplay :: factory($content_object);
 
-			$feed = $display->parse_file($learning_object->get_url());
-			$html[] = $this->display_header($learning_object);
+			$feed = $display->parse_file($content_object->get_url());
+			$html[] = $this->display_header($content_object);
 			if($feed)
 			{
 			    $html[] = '<div class="tool_menu">';
@@ -54,26 +54,26 @@ class RepositoryFeeder extends RepositoryBlock
 		return implode("\n", $html);
 	}
 
-    function display_header($learning_object = null)
+    function display_header($content_object = null)
     {
         $html = array();
 
         $html[] = '<div class="block" id="block_' . $this->get_block_info()->get_id() . '" style="background-image: url(' . Theme :: get_image_path() . 'block_rss_feed.png);">';
-        $html[] = $this->display_title($learning_object);
+        $html[] = $this->display_title($content_object);
         $html[] = '<div class="description"' . ($this->get_block_info()->is_visible() ? '' : ' style="display: none"') . '>';
 
         return implode("\n", $html);
     }
 
-    function display_title($learning_object = null)
+    function display_title($content_object = null)
     {
-        if (!$learning_object)
+        if (!$content_object)
         {
             $title = Translation :: get('Newsfeed');
         }
         else
         {
-            $title = $learning_object->get_title();
+            $title = $content_object->get_title();
         }
 
         $html = array();

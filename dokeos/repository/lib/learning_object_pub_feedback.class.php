@@ -2,22 +2,22 @@
 
 require_once dirname(__FILE__).'/repository_data_manager.class.php';
 
-class LearningObjectPubFeedback extends LearningObject
+class ContentObjectPubFeedback extends ContentObject
 {
 	const CLASS_NAME = __CLASS__;
     const PROPERTY_ID = 'id';
 	const PROPERTY_PUBLICATION_ID = 'publication_id';
-	const PROPERTY_CLOI_ID = 'complex_learning_object_id';
+	const PROPERTY_CLOI_ID = 'complex_content_object_id';
 	const PROPERTY_FEEDBACK_ID = 'feedback_id';
 
 	/**
-	 * Default properties of the learning_object_feedback object, stored in an associative
+	 * Default properties of the content_object_feedback object, stored in an associative
 	 * array.
 	 */
 	private $defaultProperties;
 
 
-	function LearningObjectPubFeedback($publication_id = 0,$cloi_id = 0, $feedback_id = 0 , $defaultProperties = array ())
+	function ContentObjectPubFeedback($publication_id = 0,$cloi_id = 0, $feedback_id = 0 , $defaultProperties = array ())
 	{
 		$this->defaultProperties = $defaultProperties;
 	}
@@ -100,22 +100,22 @@ class LearningObjectPubFeedback extends LearningObject
 
 	function delete()
 	{
-		return RepositoryDataManager :: get_instance()->delete_learning_object_pub_feedback($this);
+		return RepositoryDataManager :: get_instance()->delete_content_object_pub_feedback($this);
 	}
 
 	function create()
 	{
 		$gdm = RepositoryDataManager :: get_instance();
-        $id = $gdm->get_next_learning_object_pub_feedback_id();
+        $id = $gdm->get_next_content_object_pub_feedback_id();
         $this->set_id($id);
 
-        return $gdm->create_learning_object_pub_feedback($this);
+        return $gdm->create_content_object_pub_feedback($this);
 	}
 
 	function update()
 	{
 		$gdm = RepositoryDataManager :: get_instance();
-		$success = $gdm->update_learning_object_pub_feedback($this);
+		$success = $gdm->update_content_object_pub_feedback($this);
 		if (!$success)
 		{
 			return false;

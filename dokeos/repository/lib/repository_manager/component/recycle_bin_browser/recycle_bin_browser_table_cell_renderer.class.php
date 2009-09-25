@@ -4,13 +4,13 @@
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/recycle_bin_browser_table_column_model.class.php';
-require_once dirname(__FILE__).'/../../../learning_object_table/default_learning_object_table_cell_renderer.class.php';
-require_once dirname(__FILE__).'/../../../learning_object.class.php';
+require_once dirname(__FILE__).'/../../../content_object_table/default_content_object_table_cell_renderer.class.php';
+require_once dirname(__FILE__).'/../../../content_object.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 /**
  * Cell renderer for the recycle bin browser table
  */
-class RecycleBinBrowserTableCellRenderer extends DefaultLearningObjectTableCellRenderer
+class RecycleBinBrowserTableCellRenderer extends DefaultContentObjectTableCellRenderer
 {
 	/**
 	 * The recycle bin browser component in which the learning objects will be
@@ -32,24 +32,24 @@ class RecycleBinBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 		$this->parent_title_cache = array();
 	}
 	// Inherited
-	function render_cell($column, $learning_object)
+	function render_cell($column, $content_object)
 	{
 		if ($column === RecycleBinBrowserTableColumnModel :: get_action_column())
 		{
-			return $this->get_action_links($learning_object);
+			return $this->get_action_links($content_object);
 		}
 		switch ($column->get_name())
 		{
-			case LearningObject :: PROPERTY_TITLE :
-				$title = parent :: render_cell($column, $learning_object);
+			case ContentObject :: PROPERTY_TITLE :
+				$title = parent :: render_cell($column, $content_object);
 				$title_short = $title;
 				if(strlen($title_short) > 53)
 				{
 					$title_short = substr($title_short,0,50).'&hellip;';
 				}
-				return '<a href="'.htmlentities($this->browser->get_learning_object_viewing_url($learning_object)).'" title="'.$title.'">'.$title_short.'</a>';
-			case LearningObject :: PROPERTY_PARENT_ID :
-				$pid = $learning_object->get_parent_id();
+				return '<a href="'.htmlentities($this->browser->get_content_object_viewing_url($content_object)).'" title="'.$title.'">'.$title_short.'</a>';
+			case ContentObject :: PROPERTY_PARENT_ID :
+				$pid = $content_object->get_parent_id();
 				if (!isset($this->parent_title_cache[$pid]))
 				{
 				 	$category = RepositoryDataManager :: get_instance()->retrieve_categories(new EqualityCondition(RepositoryCategory :: PROPERTY_ID, $pid))->next_result();
@@ -58,24 +58,24 @@ class RecycleBinBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 				}
 				return $this->parent_title_cache[$pid];
 		}
-		return parent :: render_cell($column, $learning_object);
+		return parent :: render_cell($column, $content_object);
 	}
 	/**
 	 * Gets the action links to display
-	 * @param LearningObject $learning_object The learning object for which the
+	 * @param ContentObject $content_object The learning object for which the
 	 * action links should be returned
 	 * @return string A HTML representation of the action links
 	 */
-	private function get_action_links($learning_object)
+	private function get_action_links($content_object)
 	{
 		$toolbar_data = array();
 		$toolbar_data[] = array(
-			'href' => $this->browser->get_learning_object_restoring_url($learning_object),
+			'href' => $this->browser->get_content_object_restoring_url($content_object),
 			'img' => Theme :: get_common_image_path().'action_restore.png',
 			'label' => Translation :: get('Restore')
 		);
 		$toolbar_data[] = array(
-			'href' => $this->browser->get_learning_object_deletion_url($learning_object),
+			'href' => $this->browser->get_content_object_deletion_url($content_object),
 			'img' => Theme :: get_common_image_path().'action_delete.png',
 			'label' => Translation :: get('Delete'),
 			'confirm' => true

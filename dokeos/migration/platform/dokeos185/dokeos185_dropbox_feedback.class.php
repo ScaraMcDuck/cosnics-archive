@@ -4,8 +4,8 @@
  */
 
 require_once dirname(__FILE__) . '/../../lib/import/import_dropbox_feedback.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/feedback/feedback.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/content_object/feedback/feedback.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/content_object_publication.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repository_category.class.php';
 
 /**

@@ -10,7 +10,7 @@ require_once Path :: get_common_path() . 'data_class.class.php';
  * @author Sven Vanpoucke
  */
 
-class ComplexLearningObjectItem extends DataClass
+class ComplexContentObjectItem extends DataClass
 {
 	
 	const CLASS_NAME = __CLASS__;
@@ -22,7 +22,7 @@ class ComplexLearningObjectItem extends DataClass
 
 	private $additionalProperties;
 
-    function ComplexLearningObjectItem($defaultProperties = array (), $additionalProperties = array())
+    function ComplexContentObjectItem($defaultProperties = array (), $additionalProperties = array())
     {
 		parent :: __construct($defaultProperties);
 		$this->additionalProperties = $additionalProperties;
@@ -142,20 +142,20 @@ class ComplexLearningObjectItem extends DataClass
 	function create()
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-		$id = $rdm->get_next_complex_learning_object_item_id();
+		$id = $rdm->get_next_complex_content_object_item_id();
 		$this->set_id($id);
 		$this->set_add_date(DokeosUtilities :: to_db_date(time()));
-		return $rdm->create_complex_learning_object_item($this);
+		return $rdm->create_complex_content_object_item($this);
 	}
 	
 	function update()
 	{
-		return RepositoryDataManager :: get_instance()->update_complex_learning_object_item($this);
+		return RepositoryDataManager :: get_instance()->update_complex_content_object_item($this);
 	}
 	
 	function delete()
 	{
-		return RepositoryDataManager :: get_instance()->delete_complex_learning_object_item($this);
+		return RepositoryDataManager :: get_instance()->delete_complex_content_object_item($this);
 	}
 	
 	/**
@@ -185,14 +185,14 @@ class ComplexLearningObjectItem extends DataClass
 	 * @param String type
 	 * @param Array defaultProperties
 	 * @param Array additionalProperties
-	 * @return ComplexLearningObjectItem
+	 * @return ComplexContentObjectItem
 	 */
 	static function factory($type, $defaultProperties = array(), $additionalProperties = array())
 	{
 		if($type)
 		{
 			$class = 'Complex'.DokeosUtilities :: underscores_to_camelcase($type);
-			require_once dirname(__FILE__).'/learning_object/'.$type.'/complex_'.$type.'.class.php';
+			require_once dirname(__FILE__).'/content_object/'.$type.'/complex_'.$type.'.class.php';
 			return new $class ($defaultProperties, $additionalProperties); 
 		}
 		else

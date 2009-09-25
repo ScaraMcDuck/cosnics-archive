@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/../personal_calendar_manager.class.php';
 require_once dirname(__FILE__).'/../personal_calendar_manager_component.class.php';
-require_once Path :: get_repository_path() . 'lib/export/learning_object_export.class.php';
+require_once Path :: get_repository_path() . 'lib/export/content_object_export.class.php';
 
 class PersonalCalendarManagerIcalExporterComponent extends PersonalCalendarManagerComponent
 {
@@ -18,10 +18,10 @@ class PersonalCalendarManagerIcalExporterComponent extends PersonalCalendarManag
         if ($id)
         {
             $calendar_event_publication = $this->retrieve_calendar_event_publication($id);
-            $learning_object = $calendar_event_publication->get_publication_object();
+            $content_object = $calendar_event_publication->get_publication_object();
             
-            $exporter = LearningObjectExport :: factory('ical', $learning_object);
-			$path = $exporter->export_learning_object();
+            $exporter = ContentObjectExport :: factory('ical', $content_object);
+			$path = $exporter->export_content_object();
 			
 			Filesystem :: file_send_for_download($path, true, basename($path));
 			Filesystem :: remove($path);

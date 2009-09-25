@@ -259,7 +259,7 @@ function FileUpload( $resourceType, $currentFolder, $sCommand )
 				else
 				{	
 					require_once(dirname(__FILE__).'/../../../../../../../common/global.inc.php');
-					require_once Path :: get_repository_path() . 'lib/learning_object/document/document.class.php';
+					require_once Path :: get_repository_path() . 'lib/content_object/document/document.class.php';
 					
 					$user = Session :: get_user_id();
 					$document = new Document();

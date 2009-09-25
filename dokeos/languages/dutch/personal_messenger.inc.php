@@ -1,12 +1,12 @@
 <?php
 $lang['personal_messenger']['ObjectCreated'] = 'Object aangemaakt';
-$lang['personal_messenger']['LearningObjectCreated'] = 'Leerobject aangemaakt';
+$lang['personal_messenger']['ContentObjectCreated'] = 'Leerobject aangemaakt';
 $lang['personal_messenger']['SelectRecipients'] = 'Ontvangers selecteren';
 $lang['personal_messenger']['Searching'] = 'Zoeken';
 $lang['personal_messenger']['NoResults'] = 'Geen resultaten gevonden';
 $lang['personal_messenger']['Error'] = 'Fout';
 $lang['personal_messenger']['Recipients'] = 'Ontvangers';
-$lang['personal_messenger']['Ok'] = 'Oké';
+$lang['personal_messenger']['Ok'] = 'Okï¿½';
 $lang['personal_messenger']['Inbox'] = 'Postvak IN';
 $lang['personal_messenger']['Outbox'] = 'Postvak UIT';
 $lang['personal_messenger']['InvalidDataRetrievedFromDatabase'] = 'Ongeldige data';

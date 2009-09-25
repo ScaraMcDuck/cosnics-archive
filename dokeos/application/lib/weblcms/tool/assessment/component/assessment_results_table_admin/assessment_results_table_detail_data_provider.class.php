@@ -3,7 +3,7 @@
  * @package application.weblcms.tool.assessment.component.assessment_results_table
  */
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_data_provider.class.php';
-require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
+require_once Path :: get_repository_path(). 'lib/content_object.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once Path :: get_library_path().'condition/and_condition.class.php';
@@ -51,7 +51,7 @@ class AssessmentResultsTableDetailDataProvider extends ObjectTableDataProvider
     {
     	$order_property = $this->get_order_property($order_property);
     	$order_direction = $this->get_order_direction($order_direction);
-    	$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($this->pid);
+    	$pub = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($this->pid);
     	return $this->get_user_assessments($pub);
     }
     
@@ -81,7 +81,7 @@ class AssessmentResultsTableDetailDataProvider extends ObjectTableDataProvider
 	 */
     function get_object_count()
     {
-    	$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($this->pid);
+    	$pub = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($this->pid);
     	return count($this->get_user_assessments($pub));
     }
 }

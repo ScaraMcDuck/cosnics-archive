@@ -20,8 +20,8 @@ class ResultsPdfExport extends ResultsExport
  	
  	function export_publication_id($id)
 	{
-		$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($id);
-		$assessment = $publication->get_learning_object();
+		$publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($id);
+		$assessment = $publication->get_content_object();
 		$track = new WeblcmsAssessmentAttemptsTracker();
 		$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $id);
 		$user_assessments = $track->retrieve_tracker_items($condition);
@@ -39,8 +39,8 @@ class ResultsPdfExport extends ResultsExport
 		$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ID, $id);
 		$user_assessments = $track->retrieve_tracker_items($condition);
 		$user_assessment = $user_assessments[0];
-		$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($user_assessment->get_assessment_id());
-		$assessment = $publication->get_learning_object();
+		$publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($user_assessment->get_assessment_id());
+		$assessment = $publication->get_content_object();
 		$this->export_header($assessment);
 		$this->export_user_assessment($user_assessment, $assessment->get_id());
 		return $this->data;
@@ -67,8 +67,8 @@ class ResultsPdfExport extends ResultsExport
 		$data[self :: PROPERTY_DATE_TIME_TAKEN] = $user_assessment->get_date();
 		$this->data[] = array('key' => 'Result', 'data' => array($data));
 		
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment_id, ComplexLearningObjectItem :: get_table_name());
-		$clo_questions = $this->rdm->retrieve_complex_learning_object_items($condition);
+		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $assessment_id, ComplexContentObjectItem :: get_table_name());
+		$clo_questions = $this->rdm->retrieve_complex_content_object_items($condition);
 		while ($clo_question = $clo_questions->next_result())
 		{
 			$this->export_question($clo_question, $user_assessment);
@@ -84,7 +84,7 @@ class ResultsPdfExport extends ResultsExport
 	
 	function export_question($clo_question, $user_assessment)
 	{
-		$question = $this->rdm->retrieve_learning_object($clo_question->get_ref());
+		$question = $this->rdm->retrieve_content_object($clo_question->get_ref());
 		
 		$track = new WeblcmsQuestionAttemptsTracker();
 		$condition_q = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_CID, $clo_question->get_id());
@@ -125,7 +125,7 @@ class ResultsPdfExport extends ResultsExport
 	
 	function export_feedback($feedback_id)
 	{
-		$feedback = $this->rdm->retrieve_learning_object($feedback_id, 'feedback');
+		$feedback = $this->rdm->retrieve_content_object($feedback_id, 'feedback');
 		$data[self :: PROPERTY_FEEDBACK_TITLE] = $feedback->get_title();
 		$data[self :: PROPERTY_FEEDBACK_DESCRIPTION] = strip_tags($feedback->get_description());
 		$this->data[] = array('key' => 'Feedback', 'data' => array($data));

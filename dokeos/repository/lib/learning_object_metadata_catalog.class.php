@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/repository_data_class.class.php';
 
-class LearningObjectMetadataCatalog extends RepositoryDataClass
+class ContentObjectMetadataCatalog extends RepositoryDataClass
 {
 	const CLASS_NAME = __CLASS__;
 	
@@ -20,7 +20,7 @@ class LearningObjectMetadataCatalog extends RepositoryDataClass
     const CATALOG_MIN              = 'min';
     const CATALOG_SEC              = 'sec';
     
-	function LearningObjectMetadataCatalog($defaultProperties = array ())
+	function ContentObjectMetadataCatalog($defaultProperties = array ())
 	{
 	    parent :: __construct($defaultProperties);
 	}
@@ -110,12 +110,12 @@ class LearningObjectMetadataCatalog extends RepositoryDataClass
 	    //$id = $this->get_id();
 	    if(!$this->is_identified())
 	    {
-	        $this->set_id($dm->get_next_learning_object_metadata_catalog_id());
+	        $this->set_id($dm->get_next_content_object_metadata_catalog_id());
 	    }
 	    
 	    $this->set_creation_date(time());
 	    
-	    return $dm->create_learning_object_metadata_catalog($this);
+	    return $dm->create_content_object_metadata_catalog($this);
 	}
 	
 	function update()
@@ -128,7 +128,7 @@ class LearningObjectMetadataCatalog extends RepositoryDataClass
 	    $this->set_modification_date(time());
 	    
 	    $dm = RepositoryDataManager :: get_instance();
-	    $result = $dm->update_learning_object_metadata_catalog($this);
+	    $result = $dm->update_content_object_metadata_catalog($this);
 	    
 	    return $result;
 	}
@@ -136,7 +136,7 @@ class LearningObjectMetadataCatalog extends RepositoryDataClass
 	function delete()
 	{
 	    $dm = RepositoryDataManager :: get_instance();
-	    $result = $dm->delete_learning_object_metadata_catalog($this);
+	    $result = $dm->delete_content_object_metadata_catalog($this);
 	    
 	    return $result;
 	}

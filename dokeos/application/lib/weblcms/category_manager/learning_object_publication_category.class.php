@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
  *	@author Sven Vanpoucke
  */
 
-class LearningObjectPublicationCategory extends PlatformCategory
+class ContentObjectPublicationCategory extends PlatformCategory
 {
 	const CLASS_NAME = __CLASS__;
 	
@@ -21,13 +21,13 @@ class LearningObjectPublicationCategory extends PlatformCategory
 	function create()
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
-		$this->set_id($wdm->get_next_learning_object_publication_category_id());
+		$this->set_id($wdm->get_next_content_object_publication_category_id());
 		
         $condition = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $this->get_parent());
         $sort = $wdm->retrieve_max_sort_value(self :: get_table_name(), PlatformCategory :: PROPERTY_DISPLAY_ORDER, $condition);
         $this->set_display_order($sort + 1);
 		
-		return $wdm->create_learning_object_publication_category($this);
+		return $wdm->create_content_object_publication_category($this);
 	}
 	
 	function create_dropbox($course_code)
@@ -43,12 +43,12 @@ class LearningObjectPublicationCategory extends PlatformCategory
 	
 	function update()
 	{
-		return WeblcmsDataManager :: get_instance()->update_learning_object_publication_category($this);
+		return WeblcmsDataManager :: get_instance()->update_content_object_publication_category($this);
 	}
 	
 	function delete()
 	{
-		return WeblcmsDataManager :: get_instance()->delete_learning_object_publication_category($this);
+		return WeblcmsDataManager :: get_instance()->delete_content_object_publication_category($this);
 	}
 	
 	static function get_default_property_names()

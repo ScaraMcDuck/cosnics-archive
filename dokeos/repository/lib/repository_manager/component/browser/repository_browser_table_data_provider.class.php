@@ -35,10 +35,10 @@ class RepositoryBrowserTableDataProvider extends ObjectTableDataProvider
 		$order_direction = $this->get_order_direction($order_direction);
 
       	// We always use title as second sorting parameter
-//		$order_property[] = LearningObject :: PROPERTY_TITLE;
+//		$order_property[] = ContentObject :: PROPERTY_TITLE;
 //		$order_direction[] = SORT_ASC;
 
-      return $this->get_browser()->retrieve_learning_objects(null, $this->get_condition(), $order_property, $order_direction, $offset, $count);
+      return $this->get_browser()->retrieve_content_objects(null, $this->get_condition(), $order_property, $order_direction, $offset, $count);
     }
   /**
    * Gets the number of learning objects in the table
@@ -46,7 +46,7 @@ class RepositoryBrowserTableDataProvider extends ObjectTableDataProvider
    */
     function get_object_count()
     {
-      return $this->get_browser()->count_learning_objects(null, $this->get_condition());
+      return $this->get_browser()->count_content_objects(null, $this->get_condition());
     }
 }
 ?>

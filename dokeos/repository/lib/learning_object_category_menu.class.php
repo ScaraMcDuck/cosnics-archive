@@ -5,7 +5,7 @@
  */
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
-require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
+require_once Path :: get_repository_path(). 'lib/content_object.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once Path :: get_library_path() . 'html/menu/tree_menu_renderer.class.php';
 require_once Path :: get_library_path() . 'html/menu/options_menu_renderer.class.php';
@@ -15,7 +15,7 @@ require_once dirname(__FILE__) . '/category_manager/repository_category.class.ph
  * categories of learning objects.
  * @author Bart Mollet
  */
-class LearningObjectCategoryMenu extends HTML_Menu
+class ContentObjectCategoryMenu extends HTML_Menu
 {
 	/**
 	 * The owner of the categories
@@ -42,7 +42,7 @@ class LearningObjectCategoryMenu extends HTML_Menu
 	 * @param array $extra_items An array of extra tree items, added to the
 	 *                           root.
 	 */
-	function LearningObjectCategoryMenu($owner, $current_category, $url_format = '?category=%s', $extra_items = array())
+	function ContentObjectCategoryMenu($owner, $current_category, $url_format = '?category=%s', $extra_items = array())
 	{
 		$this->owner = $owner;
 		$this->urlFmt = $url_format;
@@ -65,10 +65,10 @@ class LearningObjectCategoryMenu extends HTML_Menu
 		$menu = array();
 		$menu_item = array();
 		
-		$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, 0);
-		$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->owner);
+		$conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, 0);
+		$conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->owner);
 		$condition = new AndCondition($conditions);
-		$count = $this->data_manager->count_learning_objects(null, $condition);
+		$count = $this->data_manager->count_content_objects(null, $condition);
 		
 		$menu_item['title'] = Translation :: get('MyRepository') . ' (' . $count . ')';
 		$menu_item['url'] = $this->get_category_url(0);
@@ -108,11 +108,11 @@ class LearningObjectCategoryMenu extends HTML_Menu
 		while ($category = $objects->next_result())
 		{
 			$conditions = array();
-			$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $category->get_id());
-			$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->owner);
+			$conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $category->get_id());
+			$conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->owner);
 			$condition = new AndCondition($conditions);
 			
-			$count = $this->data_manager->count_learning_objects(null, $condition);
+			$count = $this->data_manager->count_content_objects(null, $condition);
 		
 			$menu_item = array();
 			$menu_item['title'] = $category->get_name() . ' (' . $count . ')';

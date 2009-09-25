@@ -2,13 +2,13 @@
 /**
  * @package export
  */
-require_once dirname(__FILE__).'/../learning_object_import.class.php';
+require_once dirname(__FILE__).'/../content_object_import.class.php';
 require_once Path :: get_library_path().'import/import.class.php';
 
 /**
  * Exports learning object to the dokeos learning object format (xml)
  */
-class CsvImport extends LearningObjectImport
+class CsvImport extends ContentObjectImport
 {
 	private $rdm;
 	
@@ -17,10 +17,10 @@ class CsvImport extends LearningObjectImport
 		$this->rdm = RepositoryDataManager :: get_instance();	
 	}
 	
-	public function import_learning_object()
+	public function import_content_object()
 	{
 		$category = Request :: get(RepositoryManager :: PARAM_CATEGORY_ID);
-		$csvarray = Import :: read_csv($this->get_learning_object_file_property('tmp_name'));			
+		$csvarray = Import :: read_csv($this->get_content_object_file_property('tmp_name'));			
 		$csvcreator = new CSVCreator();
 
 		$true=$csvcreator->quota_check($csvarray,$this->get_user());
@@ -32,7 +32,7 @@ class CsvImport extends LearningObjectImport
 			{
 				for($i = 0;$i <count($temparray);$i++)
 				{
-					$temparray[$i]->create_learning_object();
+					$temparray[$i]->create_content_object();
 				}
 				
 				return $temparray[$i];

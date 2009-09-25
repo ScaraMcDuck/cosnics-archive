@@ -9,7 +9,7 @@
 /**
  * This class can be used to display the difference between physical_locations
  */
-class PhysicalLocationDifferenceDisplay extends LearningObjectDifferenceDisplay
+class PhysicalLocationDifferenceDisplay extends ContentObjectDifferenceDisplay
 {
 }
 ?>

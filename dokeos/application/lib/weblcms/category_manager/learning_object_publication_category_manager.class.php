@@ -4,12 +4,12 @@
  */
 require_once Path :: get_application_library_path(). 'category_manager/category_manager.class.php';
 require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
-require_once dirname(__FILE__) . '/learning_object_publication_category.class.php';
+require_once dirname(__FILE__) . '/content_object_publication_category.class.php';
 
-class LearningObjectPublicationCategoryManager extends CategoryManager
+class ContentObjectPublicationCategoryManager extends CategoryManager
 {
 	
-	function LearningObjectPublicationCategoryManager($parent)
+	function ContentObjectPublicationCategoryManager($parent)
 	{
 		$trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($parent->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MANAGE_CATEGORIES)), Translation :: get('ManageCategories')));
@@ -18,7 +18,7 @@ class LearningObjectPublicationCategoryManager extends CategoryManager
 
 	function get_category()
 	{
-		$category = new LearningObjectPublicationCategory();
+		$category = new ContentObjectPublicationCategory();
 		$category->set_tool($this->get_parent()->get_tool_id());
 		$category->set_course($this->get_parent()->get_course_id());
 		$category->set_allow_change(1);
@@ -29,7 +29,7 @@ class LearningObjectPublicationCategoryManager extends CategoryManager
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
 		
-		$category = $wdm->retrieve_learning_object_publication_categories(new EqualityCondition('id', $category_id))->next_result();
+		$category = $wdm->retrieve_content_object_publication_categories(new EqualityCondition('id', $category_id))->next_result();
 		if($category)
 		{
 			if($category->get_tool() == 'document' && !$category->get_allow_change()) 
@@ -37,12 +37,12 @@ class LearningObjectPublicationCategoryManager extends CategoryManager
 		}
 		
 		$conditions = array();
-		$conditions[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $this->get_parent()->get_course_id());
-		$conditions[] = new InCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $category_id);
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_parent()->get_course_id());
+		$conditions[] = new InCondition(ContentObjectPublication :: PROPERTY_CATEGORY_ID, $category_id);
 		$conditions[] = new EqualityCondition('tool', $this->get_parent()->get_tool_id());
 		$condition = new AndCondition($conditions);
 		
-		$count = $wdm->count_learning_object_publications_new($condition);
+		$count = $wdm->count_content_object_publications_new($condition);
 		return ($count == 0);
 	}
 	
@@ -50,7 +50,7 @@ class LearningObjectPublicationCategoryManager extends CategoryManager
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
 		
-		$category = $wdm->retrieve_learning_object_publication_categories(new EqualityCondition('id', $category_id))->next_result();
+		$category = $wdm->retrieve_content_object_publication_categories(new EqualityCondition('id', $category_id))->next_result();
 		if($category)
 		{
 			if($category->get_tool() == 'document' && !$category->get_allow_change()) 
@@ -66,11 +66,11 @@ class LearningObjectPublicationCategoryManager extends CategoryManager
 		
 		if($condition)
 			$conditions[] = $condition;
-		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_COURSE, $this->get_parent()->get_course_id());
-		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_TOOL, $this->get_parent()->get_tool_id());
+		$conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_COURSE, $this->get_parent()->get_course_id());
+		$conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_TOOL, $this->get_parent()->get_tool_id());
 		$condition = new AndCondition($conditions);
 		
-		return $wdm->count_learning_object_publication_categories($condition);
+		return $wdm->count_content_object_publication_categories($condition);
 	}
 	
 	function retrieve_categories($condition, $offset, $count, $order_property, $order_direction)
@@ -82,11 +82,11 @@ class LearningObjectPublicationCategoryManager extends CategoryManager
 			$conditions[] = $condition;
 		}
 		
-		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_COURSE, $this->get_parent()->get_course_id());
-		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_TOOL, $this->get_parent()->get_tool_id());
+		$conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_COURSE, $this->get_parent()->get_course_id());
+		$conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_TOOL, $this->get_parent()->get_tool_id());
 		$condition = new AndCondition($conditions);
 		
-		return $wdm->retrieve_learning_object_publication_categories($condition, $offset, $count, $order_property, $order_direction);
+		return $wdm->retrieve_content_object_publication_categories($condition, $offset, $count, $order_property, $order_direction);
 	}
 	
 	function get_next_category_display_order($parent_id)
@@ -95,7 +95,7 @@ class LearningObjectPublicationCategoryManager extends CategoryManager
 		$category = $this->get_category();
 		$category->set_parent($parent_id);
 		
-		return $wdm->select_next_learning_object_publication_category_display_order($category);
+		return $wdm->select_next_content_object_publication_category_display_order($category);
 	}
 }
 ?>

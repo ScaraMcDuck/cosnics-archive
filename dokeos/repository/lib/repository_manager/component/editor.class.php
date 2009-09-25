@@ -10,7 +10,7 @@
  */
 require_once dirname(__FILE__).'/../repository_manager.class.php';
 require_once dirname(__FILE__).'/../repository_manager_component.class.php';
-require_once dirname(__FILE__).'/../../learning_object_form.class.php';
+require_once dirname(__FILE__).'/../../content_object_form.class.php';
 /**
  * Repository manager component to edit an existing learning object.
  */
@@ -27,7 +27,7 @@ class RepositoryManagerEditorComponent extends RepositoryManagerComponent
 		$id = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
 		if ($id)
 		{
-			$object = $this->retrieve_learning_object($id);
+			$object = $this->retrieve_content_object($id);
 			// TODO: Roles & Rights.
 			if ($object->get_owner_id() != $this->get_user_id())
 			{
@@ -41,17 +41,17 @@ class RepositoryManagerEditorComponent extends RepositoryManagerComponent
 
 				$this->redirect(Translation :: get('EditNotAllowed'), true, $parameters);
 			}
-			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $object, 'edit', 'post', $this->get_url(array (RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $id)));
+			$form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $object, 'edit', 'post', $this->get_url(array (RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $id)));
 			if ($form->validate())
 			{
-				$success = $form->update_learning_object();
+				$success = $form->update_content_object();
 				$category_id = $object->get_parent_id();
 
                 $parameters = array();
                 $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS;
                 $parameters[RepositoryManager :: PARAM_CATEGORY_ID] = $category_id;
 
-				$this->redirect(Translation :: get($success == LearningObjectForm :: RESULT_SUCCESS ? 'ObjectUpdated' : 'ObjectUpdateFailed'), ($success == LearningObjectForm :: RESULT_SUCCESS ? false : true), $parameters);
+				$this->redirect(Translation :: get($success == ContentObjectForm :: RESULT_SUCCESS ? 'ObjectUpdated' : 'ObjectUpdateFailed'), ($success == ContentObjectForm :: RESULT_SUCCESS ? false : true), $parameters);
 			}
 			else
 			{

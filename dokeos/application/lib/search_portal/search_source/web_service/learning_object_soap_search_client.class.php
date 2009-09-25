@@ -3,7 +3,7 @@
  * @package application.searchportal
  * @subpackage webservice
  */
-class LearningObjectSoapSearchClient
+class ContentObjectSoapSearchClient
 {
 	const KEY_REPOSITORY_TITLE = 'RepositoryTitle';
 	const KEY_REPOSITORY_URL = 'RepositoryURL';
@@ -12,7 +12,7 @@ class LearningObjectSoapSearchClient
 	
 	private $client;
 
-	function LearningObjectSoapSearchClient($definition_file, $encoding = 'iso-8859-1')
+	function ContentObjectSoapSearchClient($definition_file, $encoding = 'iso-8859-1')
 	{
 		try
 		{
@@ -20,7 +20,7 @@ class LearningObjectSoapSearchClient
 		}
 		catch (SoapFault $ex)
 		{
-			throw LearningObjectSoapSearchUtilities :: soap_fault_to_exception($ex);
+			throw ContentObjectSoapSearchUtilities :: soap_fault_to_exception($ex);
 		}
 	}
 
@@ -37,7 +37,7 @@ class LearningObjectSoapSearchClient
 		}
 		catch (SoapFault $ex)
 		{
-			throw LearningObjectSoapSearchUtilities :: soap_fault_to_exception($ex);
+			throw ContentObjectSoapSearchUtilities :: soap_fault_to_exception($ex);
 		}
 	}
 }

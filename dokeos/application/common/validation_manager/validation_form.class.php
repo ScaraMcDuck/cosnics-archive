@@ -53,7 +53,7 @@ class ValidationForm extends FormValidator {
         return $fb->create();
     }
 
-    function render_learning_object($object)
+    function render_content_object($object)
     {
     }
 

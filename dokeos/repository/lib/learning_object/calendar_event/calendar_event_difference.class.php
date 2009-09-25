@@ -9,7 +9,7 @@
 /**
  * This class can be used to get the difference between calendar events
  */
-class CalendarEventDifference extends LearningObjectDifference
+class CalendarEventDifference extends ContentObjectDifference
 {
 	function get_difference()
 	{

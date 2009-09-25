@@ -3,7 +3,7 @@
  * @package repository.learningobject
  * @subpackage wiki
  */
-class WikiDisplay extends LearningObjectDisplay
+class WikiDisplay extends ContentObjectDisplay
 {
 }
 ?>

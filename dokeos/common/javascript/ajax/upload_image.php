@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/../../global.inc.php';
-require_once Path :: get_repository_path() . 'lib/learning_object/document/document.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object/document/document.class.php';
 
 if (! empty($_FILES))
 {
@@ -32,8 +32,8 @@ if (! empty($_FILES))
     $dimensions = getimagesize($full_path);
     
     $properties = array();
-    $properties[LearningObject :: PROPERTY_ID] = $document->get_id();
-    $properties[LearningObject :: PROPERTY_TITLE] = $document->get_title();
+    $properties[ContentObject :: PROPERTY_ID] = $document->get_id();
+    $properties[ContentObject :: PROPERTY_TITLE] = $document->get_title();
     $properties['fullPath'] = $full_path;
     $properties['webPath'] = $document->get_url();
     $properties[Document :: PROPERTY_FILENAME] = $document->get_filename();

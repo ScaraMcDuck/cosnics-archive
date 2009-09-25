@@ -23,27 +23,27 @@ class DefaultAssessmentPublicationTableCellRenderer implements ObjectTableCellRe
 
 	/**
 	 * Renders a table cell
-	 * @param LearningObjectTableColumnModel $column The column which should be
+	 * @param ContentObjectTableColumnModel $column The column which should be
 	 * rendered
 	 * @param AssessmentPublication $assessment_publication - The assessment_publication
 	 * @return string A HTML representation of the rendered table cell
 	 */
 	function render_cell($column, $assessment_publication)
 	{
-		$learning_object = $assessment_publication->get_publication_object();
+		$content_object = $assessment_publication->get_publication_object();
 		
 		switch ($column->get_name())
 		{
-            case LearningObject :: PROPERTY_TITLE :
+            case ContentObject :: PROPERTY_TITLE :
             	
             	if($assessment_publication->get_hidden())
             	{
-            		return '<span style="color: #999999;">' . $learning_object->get_title() . '</span>';
+            		return '<span style="color: #999999;">' . $content_object->get_title() . '</span>';
             	}
             	
-                return $learning_object->get_title();
-            case LearningObject :: PROPERTY_DESCRIPTION :
-				$description = DokeosUtilities :: truncate_string($learning_object->get_description(), 200);
+                return $content_object->get_title();
+            case ContentObject :: PROPERTY_DESCRIPTION :
+				$description = DokeosUtilities :: truncate_string($content_object->get_description(), 200);
             	
             	if($assessment_publication->get_hidden())
             	{
@@ -51,11 +51,11 @@ class DefaultAssessmentPublicationTableCellRenderer implements ObjectTableCellRe
             	}
             	
                 return $description;
-            case LearningObject :: PROPERTY_TYPE :
-                $type = Translation :: get($learning_object->get_type());
+            case ContentObject :: PROPERTY_TYPE :
+                $type = Translation :: get($content_object->get_type());
                 if($type == 'assessment')
                 {
-                	$type = $learning_object->get_assessment_type();
+                	$type = $content_object->get_assessment_type();
                 }
                 	
 				if($assessment_publication->get_hidden())

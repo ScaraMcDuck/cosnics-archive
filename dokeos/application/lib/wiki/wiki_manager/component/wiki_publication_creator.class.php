@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/../wiki_manager.class.php';
 require_once dirname(__FILE__).'/../wiki_manager_component.class.php';
 require_once dirname(__FILE__).'/../../forms/wiki_publication_form.class.php';
-require_once Path :: get_application_path() . '/lib/weblcms/learning_object_repo_viewer.class.php';
+require_once Path :: get_application_path() . '/lib/weblcms/content_object_repo_viewer.class.php';
 
 /**
  * Component to create a new wiki_publication object
@@ -26,7 +26,7 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManagerComponent
         $object = Request :: get('object');
 
         /*
-         *  We make use of the LearningObjectRepoViewer setting the type to wiki
+         *  We make use of the ContentObjectRepoViewer setting the type to wiki
          */
 		$pub = new RepoViewer($this, 'wiki', true);
 
@@ -42,7 +42,7 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManagerComponent
 		else
 		{
             $wp = new WikiPublication();
-            $wp->set_learning_object($object);
+            $wp->set_content_object($object);
             $form = new WikiPublicationForm(WikiPublicationForm :: TYPE_CREATE, $wp, $this->get_url(array('object' => $object, 'tool_action' => 'publish')),$this->get_user());
             if($form->validate())
             {

@@ -61,7 +61,7 @@ class RepositoryManagerTemplateBrowserComponent extends RepositoryManagerCompone
     function get_condition()
     {
     	$conditions = array();
-    	$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, 0);
+    	$conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, 0);
     	
     	$cond = $this->form->get_filter_conditions();
         if($cond)
@@ -72,8 +72,8 @@ class RepositoryManagerTemplateBrowserComponent extends RepositoryManagerCompone
      	$query = $this->action_bar->get_query();
         if(isset($query) && $query != '')
         {
-            $or_conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);
-            $or_conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query);
+            $or_conditions[] = new LikeCondition(ContentObject :: PROPERTY_TITLE, $query);
+            $or_conditions[] = new LikeCondition(ContentObject :: PROPERTY_DESCRIPTION, $query);
 
             $conditions[] = new OrCondition($or_conditions);
         }

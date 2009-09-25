@@ -151,19 +151,19 @@ require_once dirname(__FILE__).'/component/webconference_browser/webconference_b
 	}
 
 	// Dummy Methods which are needed because we don't work with learning objects
-	function learning_object_is_published($object_id)
+	function content_object_is_published($object_id)
 	{
 	}
 
-	function any_learning_object_is_published($object_ids)
+	function any_content_object_is_published($object_ids)
 	{
 	}
 
-	function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 	}
 
-	function get_learning_object_publication_attribute($object_id)
+	function get_content_object_publication_attribute($object_id)
 	{
 
 	}
@@ -173,22 +173,22 @@ require_once dirname(__FILE__).'/component/webconference_browser/webconference_b
 
 	}
 
-	function delete_learning_object_publications($object_id)
+	function delete_content_object_publications($object_id)
 	{
 
 	}
 
-	function update_learning_object_publication_id($publication_attr)
+	function update_content_object_publication_id($publication_attr)
 	{
 
 	}
 
-	function get_learning_object_publication_locations($learning_object)
+	function get_content_object_publication_locations($content_object)
 	{
 
 	}
 
-	function publish_learning_object($learning_object, $location)
+	function publish_content_object($content_object, $location)
 	{
 
 	}

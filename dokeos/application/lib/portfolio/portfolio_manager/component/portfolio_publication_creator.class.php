@@ -51,17 +51,17 @@ class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioMana
 			{
 				$this->display_header($trail);
 				
-				$condition = new InCondition(LearningObject :: PROPERTY_ID, $object, LearningObject :: get_table_name());
-	            $learning_objects = RepositoryDataManager :: get_instance()->retrieve_learning_objects(null, $condition);
+				$condition = new InCondition(ContentObject :: PROPERTY_ID, $object, ContentObject :: get_table_name());
+	            $content_objects = RepositoryDataManager :: get_instance()->retrieve_content_objects(null, $condition);
 	
-	            $html[] = '<div class="learning_object padding_10">';
-	            $html[] = '<div class="title">' . Translation :: get('SelectedLearningObjects') . '</div>';
+	            $html[] = '<div class="content_object padding_10">';
+	            $html[] = '<div class="title">' . Translation :: get('SelectedContentObjects') . '</div>';
 	            $html[] = '<div class="description">';
 	            $html[] = '<ul class="attachments_list">';
 	            
-	            while ($learning_object = $learning_objects->next_result())
+	            while ($content_object = $content_objects->next_result())
 	            {
-	                $html[] = '<li><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $learning_object->get_icon_name() . '.png" alt="' . htmlentities(Translation :: get(LearningObject :: type_to_class($learning_object->get_type()) . 'TypeName')) . '"/> ' . $learning_object->get_title() . '</li>';
+	                $html[] = '<li><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $content_object->get_icon_name() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($content_object->get_type()) . 'TypeName')) . '"/> ' . $content_object->get_title() . '</li>';
 	            }
 	            
 	            $html[] = '</ul>';

@@ -3,7 +3,7 @@
 	<package>
 		<name>Fill-in-the-blanks Question</name>
 		<code>fill_in_blanks_question</code>
-		<section>learning_object</section>
+		<section>content_object</section>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/f/fill_in_blanks_question/fill_in_blanks_question-1.0.0.zip</filename>

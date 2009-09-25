@@ -4,19 +4,19 @@
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/complex_browser_table_column_model.class.php';
-require_once dirname(__FILE__).'/../../../learning_object_table/default_learning_object_table_cell_renderer.class.php';
-require_once dirname(__FILE__).'/../../../learning_object.class.php';
-require_once dirname(__FILE__).'/../../../learning_object.class.php';
+require_once dirname(__FILE__).'/../../../content_object_table/default_content_object_table_cell_renderer.class.php';
+require_once dirname(__FILE__).'/../../../content_object.class.php';
+require_once dirname(__FILE__).'/../../../content_object.class.php';
 /**
  * Cell rendere for the learning object browser table
  */
-class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRenderer
+class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRenderer
 {
 	/**
 	 * The repository browser component
 	 */
 	protected $browser;
-	protected $learning_object;
+	protected $content_object;
 	protected $rdm;
 	protected $condition;
 	/**
@@ -31,72 +31,72 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 		$this->condition = $condition;
 	}
 
-	function retrieve_learning_object($lo_id)
+	function retrieve_content_object($lo_id)
 	{
-		if(!$this->learning_object || $this->learning_object->get_id() != $lo_id)
+		if(!$this->content_object || $this->content_object->get_id() != $lo_id)
 		{
-			$learning_object = $this->rdm->retrieve_learning_object($lo_id);
-			$this->learning_object = $learning_object;
+			$content_object = $this->rdm->retrieve_content_object($lo_id);
+			$this->content_object = $content_object;
 		}
 		else
 		{
-			$learning_object = $this->learning_object;
+			$content_object = $this->content_object;
 		}
 
-		return $learning_object;
+		return $content_object;
 	}
 
 	// Inherited
-	function render_cell($column, $cloi, $learning_object = null)
+	function render_cell($column, $cloi, $content_object = null)
 	{
 		if ($column === ComplexBrowserTableColumnModel :: get_modification_column())
 		{
 			return $this->get_modification_links($cloi);
 		}
 
-		if(!$learning_object)
-			$learning_object = $this->retrieve_learning_object($cloi->get_ref());
+		if(!$content_object)
+			$content_object = $this->retrieve_content_object($cloi->get_ref());
 
 		switch ($column->get_name())
 		{
-			case Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_TYPE)) :
-				$type = $learning_object->get_type();
-				$icon = $learning_object->get_icon_name();
-				$url = '<img src="'.Theme :: get_common_image_path() . 'learning_object/' .$icon.'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($type).'TypeName')).'"/>';
-				return $url;//'<a href="'.htmlentities($this->browser->get_type_filter_url($learning_object->get_type())).'">'.$url.'</a>';
-			case Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_TITLE)) :
-				$title = htmlspecialchars($learning_object->get_title());
+			case Translation :: get(DokeosUtilities :: underscores_to_camelcase(ContentObject :: PROPERTY_TYPE)) :
+				$type = $content_object->get_type();
+				$icon = $content_object->get_icon_name();
+				$url = '<img src="'.Theme :: get_common_image_path() . 'content_object/' .$icon.'.png" alt="'.htmlentities(Translation :: get(ContentObject :: type_to_class($type).'TypeName')).'"/>';
+				return $url;//'<a href="'.htmlentities($this->browser->get_type_filter_url($content_object->get_type())).'">'.$url.'</a>';
+			case Translation :: get(DokeosUtilities :: underscores_to_camelcase(ContentObject :: PROPERTY_TITLE)) :
+				$title = htmlspecialchars($content_object->get_title());
 				$title_short = $title;
                 $title_short = DokeosUtilities::truncate_string($title_short,53,false);
 
-				if($learning_object->is_complex_learning_object())
+				if($content_object->is_complex_content_object())
 				{
 					$title_short = '<a href="' . $this->browser->get_url(
 						array(ComplexBuilder :: PARAM_ROOT_LO => $this->browser->get_root(),
 							  ComplexBuilder :: PARAM_CLOI_ID => $cloi->get_id(), 'publish' => Request :: get('publish'))) . '">' . $title_short . '</a>';
 				}
 
-				return $title_short; //'<a href="'.htmlentities($this->browser->get_learning_object_viewing_url($learning_object)).'" title="'.$title.'">'.$title_short.'</a>';
-			case Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_DESCRIPTION)) :
-				$description = strip_tags($learning_object->get_description());
+				return $title_short; //'<a href="'.htmlentities($this->browser->get_content_object_viewing_url($content_object)).'" title="'.$title.'">'.$title_short.'</a>';
+			case Translation :: get(DokeosUtilities :: underscores_to_camelcase(ContentObject :: PROPERTY_DESCRIPTION)) :
+				$description = strip_tags($content_object->get_description());
 				if(strlen($description) > 75)
 				{
 					mb_internal_encoding("UTF-8");
-					$description = mb_substr(strip_tags($learning_object->get_description()),0,200).'&hellip;';
+					$description = mb_substr(strip_tags($content_object->get_description()),0,200).'&hellip;';
 				}
                  return DokeosUtilities::truncate_string($description,75);
 			case Translation :: get('Subitems'):
 				if($cloi->is_complex())
 				{
-					$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $cloi->get_ref(), ComplexLearningObjectItem :: get_table_name());
-					return $this->rdm->count_complex_learning_object_items($condition);
+					$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $cloi->get_ref(), ComplexContentObjectItem :: get_table_name());
+					return $this->rdm->count_complex_content_object_items($condition);
 				}
 				return 0;
 		}
 	}
 	/**
 	 * Gets the action links to display
-	 * @param LearningObject $learning_object The learning object for which the
+	 * @param ContentObject $content_object The learning object for which the
 	 * action links should be returned
 	 * @return string A HTML representation of the action links
 	 */
@@ -104,7 +104,7 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 	{
 		$toolbar_data = array();
 
-		$edit_url = $this->browser->get_complex_learning_object_item_edit_url($cloi, $this->browser->get_root());
+		$edit_url = $this->browser->get_complex_content_object_item_edit_url($cloi, $this->browser->get_root());
 		if($cloi->is_extended() || get_parent_class($this->browser) == 'ComplexBuilder')
 		{
 			$toolbar_data[] = array(
@@ -121,9 +121,9 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 			);
 		}
 
-		$delete_url = $this->browser->get_complex_learning_object_item_delete_url($cloi, $this->browser->get_root());
-		$moveup_url = $this->browser->get_complex_learning_object_item_move_url($cloi, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_UP);
-		$movedown_url = $this->browser->get_complex_learning_object_item_move_url($cloi, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_DOWN);
+		$delete_url = $this->browser->get_complex_content_object_item_delete_url($cloi, $this->browser->get_root());
+		$moveup_url = $this->browser->get_complex_content_object_item_move_url($cloi, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_UP);
+		$movedown_url = $this->browser->get_complex_content_object_item_move_url($cloi, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_DOWN);
 
 		$toolbar_data[] = array(
 			'href' => $delete_url,
@@ -180,7 +180,7 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 		$moveup_allowed = true;
 		$movedown_allowed = true;
 
-		$count = $this->rdm->count_complex_learning_object_items($this->condition);
+		$count = $this->rdm->count_complex_content_object_items($this->condition);
 		if($count == 1)
 		{
 			$moveup_allowed = false;

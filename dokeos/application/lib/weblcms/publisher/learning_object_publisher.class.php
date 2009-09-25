@@ -3,8 +3,8 @@
  * @package application.lib.profiler.publisher
  */
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
-require_once Path :: get_repository_path(). 'lib/learning_object_display.class.php';
-require_once dirname(__FILE__).'/../learning_object_publication_form.class.php';
+require_once Path :: get_repository_path(). 'lib/content_object_display.class.php';
+require_once dirname(__FILE__).'/../content_object_publication_form.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 
 //require_once Path :: get_application_library_path() . 'publisher/component/publication_candidate_table/publication_candidate_table.class.php';
@@ -13,11 +13,11 @@ require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
  * This class represents a profile publisher component which can be used
  * to preview a learning object in the learning object publisher.
  */
-class LearningObjectPublisher
+class ContentObjectPublisher
 {
 	private $parent;
 	
-	function LearningObjectPublisher($parent)
+	function ContentObjectPublisher($parent)
 	{
 		$this->parent = $parent;
 	}
@@ -37,18 +37,18 @@ class LearningObjectPublisher
 		
 		if (count($ids) > 0)
 		{
-			$condition = new InCondition(LearningObject :: PROPERTY_ID, $ids, LearningObject :: get_table_name());
-			$learning_objects = RepositoryDataManager :: get_instance()->retrieve_learning_objects(null, $condition);
-			//DokeosUtilities :: order_learning_objects_by_title($learning_objects);
+			$condition = new InCondition(ContentObject :: PROPERTY_ID, $ids, ContentObject :: get_table_name());
+			$content_objects = RepositoryDataManager :: get_instance()->retrieve_content_objects(null, $condition);
+			//DokeosUtilities :: order_content_objects_by_title($content_objects);
 			
-			$html[] = '<div class="learning_object padding_10">';
-			$html[] = '<div class="title">'. Translation :: get('SelectedLearningObjects') .'</div>';
+			$html[] = '<div class="content_object padding_10">';
+			$html[] = '<div class="title">'. Translation :: get('SelectedContentObjects') .'</div>';
 			$html[] = '<div class="description">';
 			$html[] = '<ul class="attachments_list">';
 			
-			while($learning_object = $learning_objects->next_result())
+			while($content_object = $content_objects->next_result())
 			{
-				$html[] = '<li><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$learning_object->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($learning_object->get_type()).'TypeName')).'"/> '.$learning_object->get_title().'</li>';
+				$html[] = '<li><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$content_object->get_type().'.png" alt="'.htmlentities(Translation :: get(ContentObject :: type_to_class($content_object->get_type()).'TypeName')).'"/> '.$content_object->get_title().'</li>';
 			}
 			
 			$html[] = '</ul>';
@@ -56,10 +56,10 @@ class LearningObjectPublisher
 			$html[] = '</div>';
 		}
 
-		$form = new LearningObjectPublicationForm(LearningObjectPublicationForm :: TYPE_MULTI, $ids, $this->parent, $this->parent->with_mail_option(), $this->parent->get_course());
+		$form = new ContentObjectPublicationForm(ContentObjectPublicationForm :: TYPE_MULTI, $ids, $this->parent, $this->parent->with_mail_option(), $this->parent->get_course());
 		if ($form->validate())
 		{
-			$publication = $form->create_learning_object_publications();
+			$publication = $form->create_content_object_publications();
 			
 			$parameters = array();
 			//$parameters['pcattree'] = $publication->get_category_id();

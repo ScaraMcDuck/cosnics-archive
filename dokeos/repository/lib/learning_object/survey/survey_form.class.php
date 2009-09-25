@@ -4,25 +4,25 @@
  * @package repository.learningobject
  * @subpackage assessment
  */
-require_once dirname(__FILE__).'/../../learning_object_form.class.php';
+require_once dirname(__FILE__).'/../../content_object_form.class.php';
 require_once dirname(__FILE__).'/survey.class.php';
 /**
  * This class represents a form to create or update assessment
  */
-class SurveyForm extends LearningObjectForm
+class SurveyForm extends ContentObjectForm
 {
 	function set_csv_values($valuearray)
 	{
-		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
-		$defaults[LearningObject :: PROPERTY_PARENT_ID] = $valuearray[1];
-		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[2];	
+		$defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
+		$defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
+		$defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];	
 
 		parent :: set_values($defaults);			
 	}
 	
 	function setDefaults($defaults = array ())
 	{
-		$object = $this->get_learning_object();
+		$object = $this->get_content_object();
 		if ($object != null) 
 		{
 			$defaults[Survey :: PROPERTY_MAXIMUM_ATTEMPTS] = $object->get_maximum_attempts();
@@ -60,7 +60,7 @@ class SurveyForm extends LearningObjectForm
 	}
 
 	// Inherited
-	function create_learning_object()
+	function create_content_object()
 	{
 		$object = new Survey();
 		$values = $this->exportValues();
@@ -81,13 +81,13 @@ class SurveyForm extends LearningObjectForm
 		else
 			$object->set_anonymous(0);
 			
-		$this->set_learning_object($object);
-		return parent :: create_learning_object();
+		$this->set_content_object($object);
+		return parent :: create_content_object();
 	}
 	
-	function update_learning_object()
+	function update_content_object()
 	{
-		$object = $this->get_learning_object();
+		$object = $this->get_content_object();
 		$values = $this->exportValues();
 		
 		$object->set_maximum_attempts($values[Survey :: PROPERTY_MAXIMUM_ATTEMPTS]);
@@ -101,15 +101,15 @@ class SurveyForm extends LearningObjectForm
 		$object->set_finish_text($values[Survey :: PROPERTY_FINISH_TEXT]);
 		$object->set_introduction_text($values[Survey :: PROPERTY_INTRODUCTION_TEXT]);
 
-		$this->set_learning_object($object);
+		$this->set_content_object($object);
 		
 		if (isset($values[Survey :: PROPERTY_ANONYMOUS]))
 			$object->set_anonymous($values[Survey :: PROPERTY_ANONYMOUS]);
 		else
 			$object->set_anonymous(0);
 			
-		$this->set_learning_object($object);
-		return parent :: update_learning_object();
+		$this->set_content_object($object);
+		return parent :: update_content_object();
 	}
 }
 ?>

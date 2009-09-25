@@ -7,12 +7,12 @@
 /**
  * This class can be used to display templates
  */
-class TemplateDisplay extends LearningObjectDisplay
+class TemplateDisplay extends ContentObjectDisplay
 {
 	function get_full_html()
 	{
 		$html = parent :: get_full_html();
-		$object = $this->get_learning_object();
+		$object = $this->get_content_object();
 		return str_replace(self::DESCRIPTION_MARKER, '<div class="template_design" style="margin-top: 1em;">' . $object->get_design() . '</div>' . self::DESCRIPTION_MARKER, $html);
 	}
 }

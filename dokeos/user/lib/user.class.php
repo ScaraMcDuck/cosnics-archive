@@ -634,7 +634,7 @@ class User extends DataClass
 		foreach($types as $type)
 		{
 			$userquota = new UserQuota();
-                        $userquota->set_learning_object_type($type);
+                        $userquota->set_content_object_type($type);
                         $userquota->set_user_quota($version_quota);
                         $userquota->set_user_id($this->get_id());
                         $userquota->create();

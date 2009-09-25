@@ -7,7 +7,7 @@
 /**
  * This class can be used to display portfolios
  */
-class PortfolioDisplay extends LearningObjectDisplay
+class PortfolioDisplay extends ContentObjectDisplay
 {
 }
 ?>

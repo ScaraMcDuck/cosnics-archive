@@ -18,7 +18,7 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManagerComponent
 	function run()
 	{
 		$object = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
-		$location = RepositoryRights :: get_location_by_identifier('learning_object', $object);
+		$location = RepositoryRights :: get_location_by_identifier('content_object', $object);
 		
 		$manager = new RightsEditorManager($this, $location);
 		$manager->run();

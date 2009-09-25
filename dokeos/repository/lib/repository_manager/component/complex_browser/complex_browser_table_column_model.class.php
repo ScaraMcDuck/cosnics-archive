@@ -24,7 +24,7 @@ class ComplexBrowserTableColumnModel extends ObjectTableColumnModel
 	}
 	/**
 	 * Gets the modification column
-	 * @return LearningObjectTableColumn
+	 * @return ContentObjectTableColumn
 	 */
 	static function get_modification_column()
 	{
@@ -38,10 +38,10 @@ class ComplexBrowserTableColumnModel extends ObjectTableColumnModel
 	private static function get_default_columns($show_subitems_column = true, $additional_columns = array())
 	{
 		$columns = array();
-		$columns[] = new StaticTableColumn(Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_TYPE)));
-		$columns[] = new StaticTableColumn(Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_TITLE)));
-		$columns[] = new StaticTableColumn(Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_DESCRIPTION)));
-		//$columns[] = new ObjectTableColumn(ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER);
+		$columns[] = new StaticTableColumn(Translation :: get(DokeosUtilities :: underscores_to_camelcase(ContentObject :: PROPERTY_TYPE)));
+		$columns[] = new StaticTableColumn(Translation :: get(DokeosUtilities :: underscores_to_camelcase(ContentObject :: PROPERTY_TITLE)));
+		$columns[] = new StaticTableColumn(Translation :: get(DokeosUtilities :: underscores_to_camelcase(ContentObject :: PROPERTY_DESCRIPTION)));
+		//$columns[] = new ObjectTableColumn(ComplexContentObjectItem :: PROPERTY_DISPLAY_ORDER);
 
 		if($show_subitems_column)
 		{
@@ -53,7 +53,7 @@ class ComplexBrowserTableColumnModel extends ObjectTableColumnModel
 			$columns[] = $additional_column;
 		}
 
-		//$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_MODIFICATION_DATE);
+		//$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_MODIFICATION_DATE);
 		$columns[] = self :: get_modification_column();
 		return $columns;
 	}

@@ -29,13 +29,13 @@ class RepositoryManagerComplexDeleterComponent extends RepositoryManagerComponen
 
 			foreach ($ids as $cloi_id)
 			{
-				$cloi = $this->retrieve_complex_learning_object_item($cloi_id);
+				$cloi = $this->retrieve_complex_content_object_item($cloi_id);
 				if($parent == 0) $parent = $cloi->get_parent();
 
 				if ($cloi->get_user_id() == $this->get_user_id())
 				{
 					// TODO: check if deletion is allowed
-					//if ($this->get_parent()->complex_learning_object_item_deletion_allowed($cloi))
+					//if ($this->get_parent()->complex_content_object_item_deletion_allowed($cloi))
 					{
 						if(!$cloi->delete())
 						{

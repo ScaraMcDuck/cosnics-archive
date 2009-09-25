@@ -4,9 +4,9 @@
  */
 
 require_once dirname(__FILE__) . '/../../lib/import/import_survey.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/learning_style_survey/learning_style_survey.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/content_object/learning_style_survey/learning_style_survey.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/content_object_publication.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/content_object/category/category.class.php';
 
 /**
  * This class presents a Dokeos185 survey
@@ -368,9 +368,9 @@ class Dokeos185Survey extends ImportSurvey
 		/*
 		if($this->item_property->get_visibility() <= 1) 
 		{
-			$publication = new LearningObjectPublication();
+			$publication = new ContentObjectPublication();
 			
-			$publication->set_learning_object($lcms_announcement);
+			$publication->set_content_object($lcms_announcement);
 			$publication->set_course_id($new_course_code);
 			$publication->set_publisher_id($new_user_id);
 			$publication->set_tool('announcement');

@@ -10,7 +10,7 @@ class WikiBuilderHomepageSelectorComponent extends WikiBuilderComponent
 		$trail = new BreadcrumbTrail();
 
 		$root = $this->get_root_lo();
-		$cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item(Request :: get(ComplexBuilder :: PARAM_SELECTED_CLOI_ID));
+		$cloi = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item(Request :: get(ComplexBuilder :: PARAM_SELECTED_CLOI_ID));
 		
 		$cloi->set_is_homepage(1);
 		$cloi->update();

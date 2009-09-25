@@ -20,14 +20,14 @@ class AssessmentPublicationForm extends FormValidator
 	const PARAM_TO_DATE = 'to_date';
 
 	private $publication;
-	private $learning_object;
+	private $content_object;
 	private $user;
 
-    function AssessmentPublicationForm($form_type, $learning_object, $user, $action)
+    function AssessmentPublicationForm($form_type, $content_object, $user, $action)
     {
     	parent :: __construct('assessment_publication_settings', 'post', $action);
 
-    	$this->learning_object = $learning_object;
+    	$this->content_object = $content_object;
     	$this->user = $user;
 		$this->form_type = $form_type;
 
@@ -48,7 +48,7 @@ class AssessmentPublicationForm extends FormValidator
     /**
      * Sets the publication. Use this function if you're using this form to
      * change the settings of a learning object publication.
-     * @param LearningObjectPublication $publication
+     * @param ContentObjectPublication $publication
      */
     function set_publication($publication)
     {
@@ -116,7 +116,7 @@ class AssessmentPublicationForm extends FormValidator
     function build_multi_form()
     {
     	$this->build_form();
-    	$this->addElement('hidden', 'ids', serialize($this->learning_object));
+    	$this->addElement('hidden', 'ids', serialize($this->content_object));
     }
     
 	/**
@@ -153,9 +153,9 @@ class AssessmentPublicationForm extends FormValidator
 
 	/**
 	 * Creates a learning object publication using the values from the form.
-	 * @return LearningObjectPublication The new publication
+	 * @return ContentObjectPublication The new publication
 	 */
-    function create_learning_object_publication()
+    function create_content_object_publication()
     {
 		$values = $this->exportValues();
 		if ($values[self :: PARAM_FOREVER] != 0)
@@ -173,7 +173,7 @@ class AssessmentPublicationForm extends FormValidator
 		$groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
 
 		$pub = new AssessmentPublication();
-		$pub->set_learning_object($this->learning_object->get_id());
+		$pub->set_content_object($this->content_object->get_id());
 		$pub->set_publisher($this->form_user->get_id());
 		$pub->set_published(time());
 		$pub->set_from_date($from);
@@ -192,7 +192,7 @@ class AssessmentPublicationForm extends FormValidator
 		}
     }
 
-    function create_learning_object_publications()
+    function create_content_object_publications()
     {
 		$values = $this->exportValues();
 		if ($values[self :: PARAM_FOREVER] != 0)
@@ -214,7 +214,7 @@ class AssessmentPublicationForm extends FormValidator
     	foreach($ids as $id)
     	{
 			$pub = new AssessmentPublication();
-			$pub->set_learning_object($id);
+			$pub->set_content_object($id);
 			$pub->set_publisher($this->user->get_id());
 			$pub->set_published(time());
 			$pub->set_from_date($from);
@@ -231,7 +231,7 @@ class AssessmentPublicationForm extends FormValidator
     	return true;
     }
     
-    function update_learning_object_publication()
+    function update_content_object_publication()
     {
 		$values = $this->exportValues();
 		if ($values[self :: PARAM_FOREVER] != 0)

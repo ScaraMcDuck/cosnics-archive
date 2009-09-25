@@ -43,7 +43,7 @@ class GroupManagerViewerComponent extends GroupManagerComponent
 			$this->ab = $this->get_action_bar();
 			echo $this->ab->as_html() . '<br />';
 
-			echo '<div class="clear"></div><div class="learning_object" style="background-image: url('. Theme :: get_common_image_path() .'place_group.png);">';
+			echo '<div class="clear"></div><div class="content_object" style="background-image: url('. Theme :: get_common_image_path() .'place_group.png);">';
 			echo '<div class="title">'. Translation :: get('Description') .'</div>';
 			echo $group->get_description();
 			echo '</div>';
@@ -53,7 +53,7 @@ class GroupManagerViewerComponent extends GroupManagerComponent
 
 			if($group_rights_templates->size() > 0)
 			{
-				echo '<div class="clear"></div><div class="learning_object" style="background-image: url('. Theme :: get_common_image_path() .'place_rights.png);">';
+				echo '<div class="clear"></div><div class="content_object" style="background-image: url('. Theme :: get_common_image_path() .'place_rights.png);">';
 				echo '<div class="title">'. Translation :: get('RightsTemplates') .'</div>';
 				echo '<ul>';
 				while ($group_rights_template = $group_rights_templates->next_result())
@@ -65,7 +65,7 @@ class GroupManagerViewerComponent extends GroupManagerComponent
 				echo '</div>';
 			}
 
-			echo '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path() .'place_users.png);">';
+			echo '<div class="content_object" style="background-image: url('. Theme :: get_common_image_path() .'place_users.png);">';
 			echo '<div class="title">'. Translation :: get('Users') .'</div>';
 			$table = new GroupRelUserBrowserTable($this, array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $id), $this->get_condition());
 			echo $table->as_html();

@@ -3,7 +3,7 @@
  * @package repository.learningobject
  * @subpackage exercise
  */
-class OrderingQuestionDisplay extends LearningObjectDisplay
+class OrderingQuestionDisplay extends ContentObjectDisplay
 {
 
     function get_full_html()
@@ -16,7 +16,7 @@ class OrderingQuestionDisplay extends LearningObjectDisplay
     {
         $html = array();
 
-        $lo = $this->get_learning_object();
+        $lo = $this->get_content_object();
         $options = $lo->get_options();
 
         $html[] = parent :: get_description();
@@ -49,7 +49,7 @@ class OrderingQuestionDisplay extends LearningObjectDisplay
 
     function get_order_options()
     {
-        $answer_count = count($this->get_learning_object()->get_options());
+        $answer_count = count($this->get_content_object()->get_options());
 
         $options = array();
         for($i = 1; $i <= $answer_count; $i ++)

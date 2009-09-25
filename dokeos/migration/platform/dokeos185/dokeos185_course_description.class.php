@@ -6,8 +6,8 @@
 
 require_once dirname(__FILE__).'/../../lib/import/import_course_description.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repository_category.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/description/description.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/content_object/description/description.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/content_object_publication.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 Course Description
@@ -182,9 +182,9 @@ class Dokeos185CourseDescription extends ImportCourseDescription
 		$lcms_content->set_owner_id($user_id);
 		$lcms_content->create();
 		
-		$publication = new LearningObjectPublication();
+		$publication = new ContentObjectPublication();
 			
-		$publication->set_learning_object($lcms_content);
+		$publication->set_content_object($lcms_content);
 		$publication->set_course_id($new_course_code);
 		$publication->set_publisher_id($user_id);
 		$publication->set_tool('description');

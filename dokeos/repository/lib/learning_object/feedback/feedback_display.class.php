@@ -6,7 +6,7 @@
 /**
  * This class can be used to display feedbacks
  */
-class FeedbackDisplay extends LearningObjectDisplay
+class FeedbackDisplay extends ContentObjectDisplay
 {
 }
 ?>

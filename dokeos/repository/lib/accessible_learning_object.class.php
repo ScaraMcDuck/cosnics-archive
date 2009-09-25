@@ -6,7 +6,7 @@
 /**
  * This interface provides some common accessor functions for learning objects.
  */
-interface AccessibleLearningObject
+interface AccessibleContentObject
 {
 	/**
 	 * Gets the type of the learning object

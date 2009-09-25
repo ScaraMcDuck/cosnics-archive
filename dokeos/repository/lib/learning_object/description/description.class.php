@@ -4,11 +4,11 @@
  * @package repository.learningobject
  * @subpackage description
  */
-require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) . '/../../content_object.class.php';
 /**
  * A Description
  */
-class Description extends LearningObject {
+class Description extends ContentObject {
 }
 
 ?>

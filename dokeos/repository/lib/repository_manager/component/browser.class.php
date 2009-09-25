@@ -31,7 +31,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
 
         $this->action_bar = $this->get_action_bar();
         $this->form = new RepositoryFilterForm($this, $this->get_url(array('category' => $this->get_parent_id())));
-        $output = $this->get_learning_objects_html();
+        $output = $this->get_content_objects_html();
 
         $query = $this->action_bar->get_query();
         if(isset($query) && $query != '')
@@ -68,7 +68,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
      * Gets the  table which shows the learning objects in the currently active
      * category
      */
-    private function get_learning_objects_html()
+    private function get_content_objects_html()
     {
         $condition = $this->get_condition();
         $parameters = $this->get_parameters(true);
@@ -100,19 +100,19 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
 
     private function get_condition()
     {
-        $conditions[] = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $this->get_parent_id());
-        $conditions[] = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->get_user_id());
+        $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $this->get_parent_id());
+        $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id());
         
         $types = array('learning_path_item', 'portfolio_item');
         
         foreach($types as $type)
-        	$conditions[] = new NotCondition(new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type));
+        	$conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type));
 
         $query = $this->action_bar->get_query();
         if(isset($query) && $query != '')
         {
-            $or_conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);
-            $or_conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query);
+            $or_conditions[] = new LikeCondition(ContentObject :: PROPERTY_TITLE, $query);
+            $or_conditions[] = new LikeCondition(ContentObject :: PROPERTY_DESCRIPTION, $query);
 
             $conditions[] = new OrCondition($or_conditions);
         }

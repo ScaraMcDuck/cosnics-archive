@@ -12,7 +12,7 @@
  *  @author Hans De Bisschop
  *  @author Dieter De Neef
  */
-class PersonalMessageDifference extends LearningObjectDifference
+class PersonalMessageDifference extends ContentObjectDifference
 {
 }
 ?>

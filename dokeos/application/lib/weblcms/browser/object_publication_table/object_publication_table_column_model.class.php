@@ -4,8 +4,8 @@
  */
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_column_model.class.php';
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_column.class.php';
-require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
-require_once dirname(__FILE__) . '/../../learning_object_publication.class.php';
+require_once Path :: get_repository_path(). 'lib/content_object.class.php';
+require_once dirname(__FILE__) . '/../../content_object_publication.class.php';
 /**
  * This class represents a column model for a publication candidate table
  */
@@ -33,7 +33,7 @@ class ObjectPublicationTableColumnModel extends ObjectTableColumnModel
 	/**
 	 * Gets the columns of this table.
 	 * @return array An array of all columns in this table.
-	 * @see LearningObjectTableColumn
+	 * @see ContentObjectTableColumn
 	 */
 	function get_columns()
 	{
@@ -47,17 +47,17 @@ class ObjectPublicationTableColumnModel extends ObjectTableColumnModel
 		$wdm = WeblcmsDataManager :: get_instance();
 		
 		$columns = array();
-		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE, true, $wdm->get_alias(LearningObject :: get_table_name()));
-		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION, true, $wdm->get_alias(LearningObject :: get_table_name()));
-		$columns[] = new ObjectTableColumn(LearningObjectPublication :: PROPERTY_PUBLICATION_DATE, true, $wdm->get_alias(LearningObjectPublication :: get_table_name()));
-		$columns[] = new ObjectTableColumn(LearningObjectPublication :: PROPERTY_PUBLISHER_ID, true, $wdm->get_alias(LearningObjectPublication :: get_table_name()));
+		$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TITLE, true, $wdm->get_alias(ContentObject :: get_table_name()));
+		$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_DESCRIPTION, true, $wdm->get_alias(ContentObject :: get_table_name()));
+		$columns[] = new ObjectTableColumn(ContentObjectPublication :: PROPERTY_PUBLICATION_DATE, true, $wdm->get_alias(ContentObjectPublication :: get_table_name()));
+		$columns[] = new ObjectTableColumn(ContentObjectPublication :: PROPERTY_PUBLISHER_ID, true, $wdm->get_alias(ContentObjectPublication :: get_table_name()));
 		$columns[] = new ObjectTableColumn('published_for', false);
 		return $columns;
 	}
 	
 	/**
 	 * Gets the column wich contains the action buttons.
-	 * @return LearningObjectTableColumn The action column.
+	 * @return ContentObjectTableColumn The action column.
 	 */
 	static function get_action_column()
 	{

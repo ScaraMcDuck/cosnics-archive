@@ -1,6 +1,6 @@
 <?php
-$lang['personal_calendar']['Ok'] = 'Oké';
-$lang['personal_calendar']['LearningObjectCreated'] = 'Leerobject aangemaakt';
+$lang['personal_calendar']['Ok'] = 'Okï¿½';
+$lang['personal_calendar']['ContentObjectCreated'] = 'Leerobject aangemaakt';
 $lang['personal_calendar']['MyAgenda'] = 'Mijn Agenda';
 $lang['personal_calendar']['dateTimeFormatLong'] = '%A %d %B %Y om %H:%M';
 $lang['personal_calendar']['From'] = 'Van';
@@ -11,7 +11,7 @@ $lang['personal_calendar']['NoProfileSelected'] = 'Geen profiel geselecteerd';
 $lang['personal_calendar']['Publish'] = 'Enquete publiceren';
 $lang['personal_calendar']['Back'] = 'Vorige';
 $lang['personal_calendar']['Delete'] = 'Verwijderen';
-$lang['personal_calendar']['LearningObjectPublicationDeleted'] = 'Publicatie gewist';
+$lang['personal_calendar']['ContentObjectPublicationDeleted'] = 'Publicatie gewist';
 $lang['personal_calendar']['NoPublicationSelected'] = 'Geen publicatie geselecteerd';
 $lang['personal_calendar']['PublishCalendarEvent'] = 'Publiceer kalender item';
 $lang['personal_calendar']['InvalidDataRetrievedFromDatabase'] = 'Ongeldige data';
@@ -24,7 +24,7 @@ $lang['personal_calendar']['CategoryTypeName'] = 'Categorie';
 $lang['personal_calendar']['Repeat'] = 'Herhaal';
 $lang['personal_calendar']['Attachments'] = 'Bijlagen';
 $lang['personal_calendar']['AddAttachments'] = 'Bijlagen toevoegen';
-$lang['personal_calendar']['SelectedLearningObjects'] = 'Geselecteerde leerobjecten';
+$lang['personal_calendar']['SelectedContentObjects'] = 'Geselecteerde leerobjecten';
 $lang['personal_calendar']['ObjectNotPublished'] = 'Leerobject niet gepubliceerd';
 $lang['personal_calendar']['ObjectPublished'] = 'Leerobject gepubliceerd';
 $lang['personal_calendar']['Today'] = 'vandaag';

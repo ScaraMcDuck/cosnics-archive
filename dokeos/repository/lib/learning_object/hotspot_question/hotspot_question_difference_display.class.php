@@ -6,7 +6,7 @@
 /**
  * This class can be used to display the difference between open question
  */
-class HotspotQuestionDifferenceDisplay extends LearningObjectDifferenceDisplay
+class HotspotQuestionDifferenceDisplay extends ContentObjectDifferenceDisplay
 {
 }
 ?>

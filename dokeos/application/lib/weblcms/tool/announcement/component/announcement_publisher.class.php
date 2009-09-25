@@ -2,8 +2,8 @@
 
 require_once dirname(__FILE__) . '/../announcement_tool.class.php';
 require_once dirname(__FILE__) . '/../announcement_tool_component.class.php';
-require_once dirname(__FILE__) . '/../../../learning_object_repo_viewer.class.php';
-require_once dirname(__FILE__) . '/../../../publisher/learning_object_publisher.class.php';
+require_once dirname(__FILE__) . '/../../../content_object_repo_viewer.class.php';
+require_once dirname(__FILE__) . '/../../../publisher/content_object_publisher.class.php';
 
 class AnnouncementToolPublisherComponent extends AnnouncementToolComponent
 {
@@ -18,7 +18,7 @@ class AnnouncementToolPublisherComponent extends AnnouncementToolComponent
 		$trail->add_help('courses announcement tool');
 
 		$object = Request :: get('object');
-		$pub = new LearningObjectRepoViewer($this, 'announcement', true);
+		$pub = new ContentObjectRepoViewer($this, 'announcement', true);
 
 		if(!isset($object))
 		{
@@ -26,8 +26,8 @@ class AnnouncementToolPublisherComponent extends AnnouncementToolComponent
 		}
 		else
 		{
-			//$html[] = 'LearningObject: ';
-			$publisher = new LearningObjectPublisher($pub);
+			//$html[] = 'ContentObject: ';
+			$publisher = new ContentObjectPublisher($pub);
 			$html[] = $publisher->get_publications_form($object);
 		}
 

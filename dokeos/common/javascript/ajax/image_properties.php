@@ -1,18 +1,18 @@
 <?php
 require_once dirname(__FILE__) . '/../../global.inc.php';
 require_once Path :: get_repository_path() . 'lib/repository_data_manager.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object/document/document.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object/document/document.class.php';
 
-$object = Request :: post('learning_object');
-$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($object);
+$object = Request :: post('content_object');
+$object = RepositoryDataManager :: get_instance()->retrieve_content_object($object);
 
 $full_path = $object->get_full_path();
 $dimensions = getimagesize($full_path);
 
 $properties = array();
-$properties[LearningObject :: PROPERTY_ID] = $object->get_id();
-$properties[LearningObject :: PROPERTY_TITLE] = $object->get_title();
+$properties[ContentObject :: PROPERTY_ID] = $object->get_id();
+$properties[ContentObject :: PROPERTY_TITLE] = $object->get_title();
 $properties['fullPath'] = $full_path;
 $properties['webPath'] = $object->get_url();
 $properties[Document :: PROPERTY_FILENAME] = $object->get_filename();

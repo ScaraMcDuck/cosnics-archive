@@ -16,7 +16,7 @@ class SubscriptionBrowserTable extends ObjectTable
 	
 	/**
 	 * Constructor
-	 * @see LearningObjectTable::LearningObjectTable()
+	 * @see ContentObjectTable::ContentObjectTable()
 	 */
 	function SubscriptionBrowserTable($browser, $parameters, $condition)
 	{

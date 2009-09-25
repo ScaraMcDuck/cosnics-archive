@@ -1,6 +1,6 @@
 <?php
 
-require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_form.class.php';
 
 class ForumDisplayForumPostEditorComponent extends ForumDisplayComponent
 {
@@ -23,24 +23,24 @@ class ForumDisplayForumPostEditorComponent extends ForumDisplayComponent
 										'pid' => $pid, 'post' => $post));
 
 			$datamanager = RepositoryDataManager :: get_instance();
-			$cloi = $datamanager->retrieve_complex_learning_object_item($post);
-			$learning_object = $datamanager->retrieve_learning_object($cloi->get_ref());
+			$cloi = $datamanager->retrieve_complex_content_object_item($post);
+			$content_object = $datamanager->retrieve_content_object($cloi->get_ref());
 
-			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $url);
+			$form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $url);
 
 			if( $form->validate() || Request :: get('validated'))
 			{
-				$form->update_learning_object();
+				$form->update_content_object();
 				if($form->is_version())
 				{
-					$cloi->set_ref($learning_object->get_latest_version()->get_id());
+					$cloi->set_ref($content_object->get_latest_version()->get_id());
 					$cloi->update();
 				}
 
 				if($cloi->get_display_order() == 1)
 				{
-					$parent = $datamanager->retrieve_learning_object($cloi->get_parent());
-					$parent->set_title($learning_object->get_title());
+					$parent = $datamanager->retrieve_content_object($cloi->get_parent());
+					$parent->set_title($content_object->get_title());
 					$parent->update();
 				}
 

@@ -1,7 +1,7 @@
 <?php
 
-require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
-require_once Path :: get_repository_path() . 'lib/complex_learning_object_item_form.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_form.class.php';
+require_once Path :: get_repository_path() . 'lib/complex_content_object_item_form.class.php';
 require_once Path :: get_application_path() . 'common/repo_viewer/repo_viewer.class.php';
 
 class ForumDisplayForumSubforumCreatorComponent extends ForumDisplayComponent
@@ -38,11 +38,11 @@ class ForumDisplayForumSubforumCreatorComponent extends ForumDisplayComponent
 			}
 			else
 			{
-				$cloi = ComplexLearningObjectItem :: factory('forum');
+				$cloi = ComplexContentObjectItem :: factory('forum');
 
 				if($is_subforum)
 				{
-					$subforum = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item($forum)->get_ref();
+					$subforum = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($forum)->get_ref();
 					$cloi->set_parent($subforum);
 				}
 				else

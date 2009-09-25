@@ -1,11 +1,11 @@
 <?php
-require_once dirname(__FILE__).'/../../learning_object.class.php';
+require_once dirname(__FILE__).'/../../content_object.class.php';
 require_once dirname(__FILE__).'/matching_question_option.class.php';
 /**
  * @package repository.learningobject
  * @subpackage exercise
  */
-class MatchingQuestion extends LearningObject
+class MatchingQuestion extends ContentObject
 {
 	const PROPERTY_OPTIONS = 'options';
 	const PROPERTY_MATCHES = 'matches';

@@ -11,7 +11,7 @@
  * This class can be used to display the differences between two versions of a
  * learning object.
  */
-class LearningObjectDifferenceDisplay {
+class ContentObjectDifferenceDisplay {
 
 	/**
 	 * The learning object difference.
@@ -19,10 +19,10 @@ class LearningObjectDifferenceDisplay {
 	private $difference;
 	/**
 	 * Constructor
-	 * @param LearningObjectDifference $difference The learning object
+	 * @param ContentObjectDifference $difference The learning object
 	 * difference
 	 */
-    protected function LearningObjectDifferenceDisplay($difference)
+    protected function ContentObjectDifferenceDisplay($difference)
 	{
 		$this->difference = $difference;
 	}
@@ -36,7 +36,7 @@ class LearningObjectDifferenceDisplay {
 		$diff = $this->get_difference();
 
 		$html = array();
-		$html[] = '<div class="difference" style="background-image: url('.Theme :: get_common_image_path() . 'learning_object/' . $diff->get_object()->get_icon_name().'.png);">';
+		$html[] = '<div class="difference" style="background-image: url('.Theme :: get_common_image_path() . 'content_object/' . $diff->get_object()->get_icon_name().'.png);">';
 		$html[] = '<div class="titleleft">';
 		$html[] = $diff->get_object()->get_title();
 		$html[] = date(" (d M Y, H:i:s O)",$diff->get_object()->get_creation_date());
@@ -89,7 +89,7 @@ class LearningObjectDifferenceDisplay {
 	}
 	/**
 	 * Gets the difference associated with this display class
-	 * @return LearningObjectDifference
+	 * @return ContentObjectDifference
 	 */
 	function get_difference()
 	{
@@ -103,7 +103,7 @@ class LearningObjectDifferenceDisplay {
 	function get_legend()
 	{
 		$html = array();
-		$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'place_legend.png);">';
+		$html[] = '<div class="content_object" style="background-image: url('.Theme :: get_common_image_path().'place_legend.png);">';
 		$html[] = '<div class="title">'. Translation :: get('Legend') .'</div>';
 		$html[] = '<span class="compare_delete">'. Translation :: get('CompareExample') .'</span>: '. Translation :: get('CompareDeleteInfo') .'<br />';
 		$html[] = '<span class="compare_add">'. Translation :: get('CompareExample') .'</span>: '. Translation :: get('CompareAddInfo') .'<br />';
@@ -115,13 +115,13 @@ class LearningObjectDifferenceDisplay {
 	}
 	/**
 	 * Creates a new learning object difference display class
-	 * @param LearningObjectDifference $difference
+	 * @param ContentObjectDifference $difference
 	 */
     function factory($difference)
 	{
 		$type = $difference->get_object()->get_type();
-		$class = LearningObject :: type_to_class($type).'DifferenceDisplay';
-		require_once dirname(__FILE__).'/learning_object/'.$type.'/'.$type.'_difference_display.class.php';
+		$class = ContentObject :: type_to_class($type).'DifferenceDisplay';
+		require_once dirname(__FILE__).'/content_object/'.$type.'/'.$type.'_difference_display.class.php';
 		return new $class($difference);
 	}
 	

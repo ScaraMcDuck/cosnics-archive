@@ -6,7 +6,7 @@
  */
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_column_model.class.php';
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_column.class.php';
-require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
+require_once Path :: get_repository_path(). 'lib/content_object.class.php';
 require_once Path :: get_application_path() . 'lib/distribute/announcement_distribution.class.php';
 
 class DefaultAnnouncementDistributionTableColumnModel extends ObjectTableColumnModel
@@ -20,7 +20,7 @@ class DefaultAnnouncementDistributionTableColumnModel extends ObjectTableColumnM
 	}
 	/**
 	 * Gets the default columns for this model
-	 * @return LearningObjectTableColumn[]
+	 * @return ContentObjectTableColumn[]
 	 */
 	private static function get_default_columns()
 	{

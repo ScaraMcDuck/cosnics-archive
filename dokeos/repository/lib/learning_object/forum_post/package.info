@@ -3,7 +3,7 @@
 	<package>
 		<name>Forum Post</name>
 		<code>forum_post</code>
-		<section>learning_object</section>
+		<section>content_object</section>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/f/forum_post/forum_post-1.0.0.zip</filename>

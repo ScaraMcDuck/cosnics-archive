@@ -4,7 +4,7 @@ require_once Path :: get_library_path() . 'installer.class.php';
 require_once Path :: get_admin_path() . 'lib/registration.class.php';
 require_once Path :: get_repository_path() . 'lib/repository_data_manager.class.php';
 
-class PackageInstallerLearningObjectType extends PackageInstallerType
+class PackageInstallerContentObjectType extends PackageInstallerType
 {
 
     function install()
@@ -12,11 +12,11 @@ class PackageInstallerLearningObjectType extends PackageInstallerType
         $source = $this->get_source();
         $attributes = $source->get_attributes();
         $object_name = $attributes->get_code();
-        $object_path = Path :: get_repository_path() . 'lib/learning_object/' . $object_name;
+        $object_path = Path :: get_repository_path() . 'lib/content_object/' . $object_name;
         
         if ($this->verify_dependencies())
         {
-            $this->get_parent()->installation_successful('dependencies', Translation :: get('LearningObjectDependenciesVerified'));
+            $this->get_parent()->installation_successful('dependencies', Translation :: get('ContentObjectDependenciesVerified'));
             
             /**********************************************
              * Do the actual install of the objects here. *
@@ -36,18 +36,18 @@ class PackageInstallerLearningObjectType extends PackageInstallerType
                     }
                     else
                     {
-                        $this->get_parent()->installation_successful('initilization', Translation :: get('LearningObjectStorageUnitsSuccessfullyCreated'));
+                        $this->get_parent()->installation_successful('initilization', Translation :: get('ContentObjectStorageUnitsSuccessfullyCreated'));
                     }
                 }
             }
             
             if (! $this->add_registration())
             {
-                $this->get_parent()->add_message(Translation :: get('LearningObjectRegistrationNotAdded'), PackageInstaller :: TYPE_WARNING);
+                $this->get_parent()->add_message(Translation :: get('ContentObjectRegistrationNotAdded'), PackageInstaller :: TYPE_WARNING);
             }
             else
             {
-                $this->get_parent()->add_message(Translation :: get('LearningObjectRegistrationAdded'));
+                $this->get_parent()->add_message(Translation :: get('ContentObjectRegistrationAdded'));
             }
         }
         else

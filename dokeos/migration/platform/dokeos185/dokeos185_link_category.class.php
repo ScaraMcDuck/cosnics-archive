@@ -5,7 +5,7 @@
  */
 
 require_once dirname(__FILE__).'/../../lib/import/import_link_category.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/category_manager/learning_object_publication_category.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/category_manager/content_object_publication_category.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 Link Category
@@ -143,7 +143,7 @@ class Dokeos185LinkCategory extends ImportLinkCategory
 		$mgdm = MigrationDataManager :: get_instance();
 		$new_course_code = $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		
-		$lcms_link_category = new LearningObjectPublicationCategory();
+		$lcms_link_category = new ContentObjectPublicationCategory();
 		
 		$lcms_link_category->set_course($new_course_code);
 		$lcms_link_category->set_tool('link');

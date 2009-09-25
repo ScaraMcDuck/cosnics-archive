@@ -1,24 +1,24 @@
 <?php
 require_once dirname(__FILE__) . '/repository_data_class.class.php';
 
-class LearningObjectMetadata extends RepositoryDataClass
+class ContentObjectMetadata extends RepositoryDataClass
 {
 	const CLASS_NAME = __CLASS__;
 	
-	const PROPERTY_LEARNING_OBJECT = 'learning_object_id';
+	const PROPERTY_LEARNING_OBJECT = 'content_object_id';
 	const PROPERTY_OVERRIDE_ID     = 'override_id';
 	const PROPERTY_TYPE            = 'type';
 	const PROPERTY_PROPERTY        = 'property';
 	const PROPERTY_VALUE           = 'value';
 	
-	function LearningObjectMetadata($defaultProperties = array ())
+	function ContentObjectMetadata($defaultProperties = array ())
 	{
 	    parent :: __construct($defaultProperties);
 	}
 	
 	/*************************************************************************/
 	
-	function set_learning_object_id($id)
+	function set_content_object_id($id)
 	{
 	    if(isset($id) && is_numeric($id))
 	    {
@@ -26,7 +26,7 @@ class LearningObjectMetadata extends RepositoryDataClass
 	    }
 	}
 	
-	function get_learning_object_id()
+	function get_content_object_id()
 	{
 	    return $this->get_default_property(self :: PROPERTY_LEARNING_OBJECT);
 	}
@@ -119,12 +119,12 @@ class LearningObjectMetadata extends RepositoryDataClass
 	    //if(!isset($id) || $id == parent :: NO_UID)
 	    if(!$this->is_identified())
 	    {
-	        $this->set_id($dm->get_next_learning_object_metadata_id());
+	        $this->set_id($dm->get_next_content_object_metadata_id());
 	    }
 	    
 	    $this->set_creation_date(time());
 	    
-	    return $dm->create_learning_object_metadata($this);
+	    return $dm->create_content_object_metadata($this);
 	}
 	
 	function update()
@@ -137,7 +137,7 @@ class LearningObjectMetadata extends RepositoryDataClass
 	    $this->set_modification_date(time());
 	    
 	    //$dm = RepositoryDataManager :: get_instance();
-	    $result = $this->get_data_manager()->update_learning_object_metadata($this);
+	    $result = $this->get_data_manager()->update_content_object_metadata($this);
 	    
 	    return $result;
 	}
@@ -145,7 +145,7 @@ class LearningObjectMetadata extends RepositoryDataClass
 	function delete()
 	{
 	    $dm = RepositoryDataManager :: get_instance();
-	    $result = $dm->delete_learning_object_metadata($this);
+	    $result = $dm->delete_content_object_metadata($this);
 	    
 	    return $result;
 	}

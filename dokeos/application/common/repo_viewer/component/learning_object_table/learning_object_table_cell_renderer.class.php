@@ -2,14 +2,14 @@
 /**
  * @package application.lib.profiler.publisher.publication_candidate_table
  */
-require_once Path :: get_repository_path(). 'lib/learning_object_table/default_learning_object_table_cell_renderer.class.php';
-require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
+require_once Path :: get_repository_path(). 'lib/content_object_table/default_content_object_table_cell_renderer.class.php';
+require_once Path :: get_repository_path(). 'lib/content_object.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
-require_once dirname(__FILE__).'/learning_object_table_column_model.class.php';
+require_once dirname(__FILE__).'/content_object_table_column_model.class.php';
 /**
  * This class is a cell renderer for a publication candidate table
  */
-class LearningObjectTableCellRenderer extends DefaultLearningObjectTableCellRenderer
+class ContentObjectTableCellRenderer extends DefaultContentObjectTableCellRenderer
 {
 	private $table_actions;
 	/**
@@ -19,35 +19,35 @@ class LearningObjectTableCellRenderer extends DefaultLearningObjectTableCellRend
 	 * @param string $edit_and_publish_url_format URL for editing and publishing
 	 * the selected learning object.
 	 */
-	function LearningObjectTableCellRenderer($table_actions)
+	function ContentObjectTableCellRenderer($table_actions)
 	{
 		$this->table_actions = $table_actions;
 	}
 	/*
 	 * Inherited
 	 */
-	function render_cell($column, $learning_object)
+	function render_cell($column, $content_object)
 	{
-		if ($column === LearningObjectTableColumnModel :: get_action_column())
+		if ($column === ContentObjectTableColumnModel :: get_action_column())
 		{
-			return $this->get_publish_links($learning_object);
+			return $this->get_publish_links($content_object);
 		}
-		return parent :: render_cell($column, $learning_object);
+		return parent :: render_cell($column, $content_object);
 	}
 	/**
 	 * Gets the links to publish or edit and publish a learning object.
-	 * @param LearningObject $learning_object The learning object for which the
+	 * @param ContentObject $content_object The learning object for which the
 	 * links should be returned.
 	 * @return string A HTML-representation of the links.
 	 */
-	private function get_publish_links($learning_object)
+	private function get_publish_links($content_object)
 	{
 		$toolbar_data = array();
 		$table_actions = $this->table_actions;
 		
 		foreach($table_actions as $table_action)
 		{
-			$table_action['href'] = str_replace('%d', $learning_object->get_id(), $table_action['href']);
+			$table_action['href'] = str_replace('%d', $content_object->get_id(), $table_action['href']);
 			$toolbar_data[] = $table_action;
 		}
 		

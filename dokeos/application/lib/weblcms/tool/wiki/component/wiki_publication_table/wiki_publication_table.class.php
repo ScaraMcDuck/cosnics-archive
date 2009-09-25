@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/wiki_publication_table_data_provider.class.php';
 require_once dirname(__FILE__).'/wiki_publication_table_column_model.class.php';
 require_once dirname(__FILE__).'/wiki_publication_table_cell_renderer.class.php';
-//require_once dirname(__FILE__).'/../../../../learning_object_publication_table.class.php';
+//require_once dirname(__FILE__).'/../../../../content_object_publication_table.class.php';
 require_once Path::get_library_path() . 'html/table/object_table/object_table.class.php';
 /**
  * This class represents a table with learning objects which are candidates for

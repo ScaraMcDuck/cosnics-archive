@@ -35,7 +35,7 @@ class PersonalMessengerManagerPublisherComponent extends PersonalMessengerManage
             {
                 $publication = PersonalMessengerDataManager :: get_instance()->retrieve_personal_message_publication($reply);
                 $lo_id = $publication->get_personal_message();
-                $lo = RepositoryDataManager :: get_instance()->retrieve_learning_object($lo_id, 'personal_message');
+                $lo = RepositoryDataManager :: get_instance()->retrieve_content_object($lo_id, 'personal_message');
                 $title = $lo->get_title();
                 $defaults['title'] = (substr($title, 0, 3) == 'RE:') ? $title : 'RE: ' . $title;
                 $pub->set_creation_defaults($defaults);
@@ -51,7 +51,7 @@ class PersonalMessengerManagerPublisherComponent extends PersonalMessengerManage
         }
         else
         {
-            //$html[] = 'LearningObject: ';
+            //$html[] = 'ContentObject: ';
             $publisher = new PersonalMessagePublisher($pub);
             $html[] = $publisher->get_publication_form($object);
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Send')));

@@ -10,14 +10,14 @@
  */
 require_once dirname(__FILE__).'/../repository_manager.class.php';
 require_once dirname(__FILE__).'/../repository_manager_component.class.php';
-require_once dirname(__FILE__).'/browser/shared_learning_objects_browser/repository_shared_learning_objects_browser_table.class.php';
+require_once dirname(__FILE__).'/browser/shared_content_objects_browser/repository_shared_content_objects_browser_table.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 require_once dirname(__FILE__).'/../../forms/repository_filter_form.class.php';
 /**
  * Default repository manager component which allows the user to browse through
  * the different categories and learning objects in the repository.
  */
-class RepositoryManagerSharedLearningObjectsBrowserComponent extends RepositoryManagerComponent
+class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryManagerComponent
 {
     private $form;
 
@@ -32,7 +32,7 @@ class RepositoryManagerSharedLearningObjectsBrowserComponent extends RepositoryM
 
         $this->action_bar = $this->get_action_bar();
         $this->form = new RepositoryFilterForm($this, $this->get_url());
-        $output = $this->get_learning_objects_html();
+        $output = $this->get_content_objects_html();
 
         //$query = $this->action_bar->get_query();
         //if(isset($query) && $query != '')
@@ -69,7 +69,7 @@ class RepositoryManagerSharedLearningObjectsBrowserComponent extends RepositoryM
      * Gets the  table which shows the learning objects in the currently active
      * category
      */
-    private function get_learning_objects_html()
+    private function get_content_objects_html()
     {
         $condition = $this->get_condition();
         $parameters = $this->get_parameters(true);
@@ -78,7 +78,7 @@ class RepositoryManagerSharedLearningObjectsBrowserComponent extends RepositoryM
         {
             $parameters[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE] = $types;
         }
-        $table = new RepositorySharedLearningObjectsBrowserTable($this, $parameters, $condition);
+        $table = new RepositorySharedContentObjectsBrowserTable($this, $parameters, $condition);
         return $table->as_html();
     }
 
@@ -89,11 +89,11 @@ class RepositoryManagerSharedLearningObjectsBrowserComponent extends RepositoryM
         return $action_bar;
     }
 
-    function has_right($learning_object_id,$right)
+    function has_right($content_object_id,$right)
     {
         foreach ($this->list as $key => $value)
         {
-            if($value['learning_object'] == $learning_object_id && $value['right'] == $right)
+            if($value['content_object'] == $content_object_id && $value['right'] == $right)
                 return true;
         }
         return false;
@@ -105,8 +105,8 @@ class RepositoryManagerSharedLearningObjectsBrowserComponent extends RepositoryM
         $query = $this->action_bar->get_query();
         if(isset($query) && $query != '')
         {
-            $or_conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);
-            $or_conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query);
+            $or_conditions[] = new LikeCondition(ContentObject :: PROPERTY_TITLE, $query);
+            $or_conditions[] = new LikeCondition(ContentObject :: PROPERTY_DESCRIPTION, $query);
 
             $conditions[] = new OrCondition($or_conditions);
         }
@@ -138,9 +138,9 @@ class RepositoryManagerSharedLearningObjectsBrowserComponent extends RepositoryM
         }
 
 		$location_ids = array();
-        $shared_learning_objects = $rdm->retrieve_shared_learning_objects_for_user($user->get_id(),$rights);
+        $shared_content_objects = $rdm->retrieve_shared_content_objects_for_user($user->get_id(),$rights);
 
-        while($user_right_location = $shared_learning_objects->next_result())
+        while($user_right_location = $shared_content_objects->next_result())
         {
             if(!in_array($user_right_location->get_location_id(), $location_ids))
                 $location_ids[] = $user_right_location->get_location_id();
@@ -148,9 +148,9 @@ class RepositoryManagerSharedLearningObjectsBrowserComponent extends RepositoryM
             $this->list[] = array('location_id' => $user_right_location->get_location_id(),'user' => $user_right_location->get_user_id(), 'right' => $user_right_location->get_right_id());
         }
         
-     	$shared_learning_objects = $rdm->retrieve_shared_learning_objects_for_groups($group_ids,$rights);
+     	$shared_content_objects = $rdm->retrieve_shared_content_objects_for_groups($group_ids,$rights);
 
-        while($group_right_location = $shared_learning_objects->next_result())
+        while($group_right_location = $shared_content_objects->next_result())
         {
             if(!in_array($group_right_location->get_location_id(), $location_ids))
                 $location_ids[] = $group_right_location->get_location_id();
@@ -172,14 +172,14 @@ class RepositoryManagerSharedLearningObjectsBrowserComponent extends RepositoryM
 	            {
 	                if($value['location_id'] == $location->get_id())
 	                {
-	                    $value['learning_object'] = $location->get_identifier();
+	                    $value['content_object'] = $location->get_identifier();
 	                    $this->list[$key] = $value;
 	                }
 	            }
 	        }
 	
 	        if($ids)
-	            $conditions[] = new InCondition('id',$ids, LearningObject :: get_table_name());
+	            $conditions[] = new InCondition('id',$ids, ContentObject :: get_table_name());
 	
 	
 	        if($conditions)
@@ -188,7 +188,7 @@ class RepositoryManagerSharedLearningObjectsBrowserComponent extends RepositoryM
         
         if(!$condition)
         {
-            $condition = new EqualityCondition('id', -1, LearningObject :: get_table_name());
+            $condition = new EqualityCondition('id', -1, ContentObject :: get_table_name());
         }
 
         return $condition;

@@ -64,7 +64,7 @@ class AlexiaManagerViewerComponent extends AlexiaManagerComponent
         $link = $publication->get_publication_object();
         $html = array();
         
-        $display = LearningObjectDisplay :: factory($link);
+        $display = ContentObjectDisplay :: factory($link);
         $html[] = $display->get_full_html();
         
         return implode("\n",$html);

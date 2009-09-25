@@ -9,7 +9,7 @@
 /**
  * This class can be used to get the difference between documents
  */
-class DocumentDifference extends LearningObjectDifference
+class DocumentDifference extends ContentObjectDifference
 {
 	function get_difference()
 	{

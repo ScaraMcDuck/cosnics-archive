@@ -8,11 +8,11 @@ class RepositoryManagerMetadataViewerComponent extends RepositoryManagerMetadata
 	    $trail = new BreadcrumbTrail(false);
 		$trail->add_help('repository metadata');
 
-		if($this->check_learning_object_from_params())
+		if($this->check_content_object_from_params())
 		{
-			$learning_object = $this->get_learning_object_from_params(); 
+			$content_object = $this->get_content_object_from_params(); 
 		
-            $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager::PARAM_LEARNING_OBJECT_ID => $id)), $learning_object->get_title()));
+            $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager::PARAM_LEARNING_OBJECT_ID => $id)), $content_object->get_title()));
             $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager :: ACTION_EDIT_LEARNING_OBJECT_METADATA, RepositoryManager::PARAM_LEARNING_OBJECT_ID => $id)), Translation :: get('Metadata')));
 			
             $metadata_type = $this->get_metadata_type();
@@ -22,8 +22,8 @@ class RepositoryManagerMetadataViewerComponent extends RepositoryManagerMetadata
             switch ($metadata_type) 
             { 
             	 case self :: METADATA_FORMAT_LOM:
-            		 $mapper = new IeeeLomMapper($learning_object);
-            		 $form = new MetadataLOMExportForm($learning_object, $mapper);
+            		 $mapper = new IeeeLomMapper($content_object);
+            		 $form = new MetadataLOMExportForm($content_object, $mapper);
             		 break;
             		 
              	/*

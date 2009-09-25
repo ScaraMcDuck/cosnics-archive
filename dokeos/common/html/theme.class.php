@@ -161,9 +161,9 @@ class Theme
         return $icon->as_html();
     }
 
-    function get_learning_object_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
+    function get_content_object_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
     {
-        $image = 'learning_object/' . $image;
+        $image = 'content_object/' . $image;
         return self :: get_common_image($image, $extension, $label, $href, $display, $confirmation);
     }
 

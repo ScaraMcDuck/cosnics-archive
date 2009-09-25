@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/../wiki_manager.class.php';
 require_once dirname(__FILE__).'/../wiki_manager_component.class.php';
 require_once dirname(__FILE__).'/../../forms/wiki_publication_form.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_form.class.php';
 
 /**
  * Component to edit an existing wiki_publication object
@@ -25,12 +25,12 @@ class WikiManagerWikiPublicationUpdaterComponent extends WikiManagerComponent
 
 		$wiki_publication = $this->retrieve_wiki_publication(Request :: get(WikiManager :: PARAM_WIKI_PUBLICATION));
 
-        $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $wiki_publication->get_learning_object(), 'edit', 'post', $this->get_url(array(WikiManager :: PARAM_WIKI_PUBLICATION => $wiki_publication->get_id())));
+        $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $wiki_publication->get_content_object(), 'edit', 'post', $this->get_url(array(WikiManager :: PARAM_WIKI_PUBLICATION => $wiki_publication->get_id())));
         $this->display_header($trail);
 		if($form->validate() || Request :: get('validated'))
 		{
             if(Request :: get('validated'))
-			$success = $form->update_learning_object();
+			$success = $form->update_content_object();
 
             $pub_form = new WikiPublicationForm(WikiPublicationForm :: TYPE_EDIT, $wiki_publication, $this->get_url(array(WikiManager ::PARAM_WIKI_PUBLICATION => $wiki_publication->get_id(), 'validated' => 1)),$this->get_user());
             if($pub_form->validate())

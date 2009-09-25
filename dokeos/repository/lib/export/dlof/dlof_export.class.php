@@ -2,14 +2,14 @@
 /**
  * @package export
  */
-require_once dirname(__FILE__).'/../learning_object_export.class.php';
+require_once dirname(__FILE__).'/../content_object_export.class.php';
 require_once Path :: get_library_path() . 'filecompression/filecompression.class.php';
 require_once 'XML/Serializer.php';
 
 /**
  * Exports learning object to the dokeos learning object format (xml)
  */
-class DlofExport extends LearningObjectExport
+class DlofExport extends ContentObjectExport
 {
 	/**
 	 * @var RepositoryDataManager
@@ -33,42 +33,42 @@ class DlofExport extends LearningObjectExport
 	/**
 	 * Array of already exported learning objects to prevent doubles
 	 */
-	private $exported_learning_objects;
+	private $exported_content_objects;
 	
-	function DlofExport($learning_object)
+	function DlofExport($content_object)
 	{
 		$this->rdm = RepositoryDataManager :: get_instance();
-		$this->exported_learning_objects = array();
-		parent :: __construct($learning_object);	
+		$this->exported_content_objects = array();
+		parent :: __construct($content_object);	
 	}
 	
-	public function export_learning_object()
+	public function export_content_object()
 	{
-		$learning_objects = $this->get_learning_object();
+		$content_objects = $this->get_content_object();
 		$this->doc = new DOMDocument('1.0', 'UTF-8');
   		$this->doc->formatOutput = true;
 
-  		$this->root = $this->doc->createElement('learning_objects');
+  		$this->root = $this->doc->createElement('content_objects');
 		$this->doc->appendChild($this->root);
 		
 		$user = null;
 		
-		foreach($learning_objects as $lo)
+		foreach($content_objects as $lo)
 		{
 			if(!$user)
 				$user = $lo->get_owner_id();
 				
-			$this->render_learning_object($lo);
+			$this->render_content_object($lo);
 		}
   
-  		$temp_dir = Path :: get(SYS_TEMP_PATH). $user . '/export_learning_objects/';
+  		$temp_dir = Path :: get(SYS_TEMP_PATH). $user . '/export_content_objects/';
   		
   		if(!is_dir($temp_dir))
   		{
   			mkdir($temp_dir, 0777, true);
   		}
 
-  		$xml_path = $temp_dir . 'learning_object.xml';
+  		$xml_path = $temp_dir . 'content_object.xml';
 		$this->doc->save($xml_path);
 		
 		foreach($this->files as $hash => $path)
@@ -78,7 +78,7 @@ class DlofExport extends LearningObjectExport
 		}
 		
 		$zip = Filecompression :: factory();
-		//$zip->set_filename('learning_objects_export');
+		//$zip->set_filename('content_objects_export');
 		$zippath = $zip->create_archive($temp_dir);
 		
 		Filesystem :: remove($temp_dir);
@@ -86,27 +86,27 @@ class DlofExport extends LearningObjectExport
 		return $zippath;
 	}
 
-	function render_learning_object($learning_object)
+	function render_content_object($content_object)
 	{
-		if(in_array($learning_object->get_id(), $this->exported_learning_objects))
+		if(in_array($content_object->get_id(), $this->exported_content_objects))
 			return;
 		
-		$this->exported_learning_objects[] = $learning_object->get_id();
+		$this->exported_content_objects[] = $content_object->get_id();
 			
 		$doc = $this->doc;
 		$root = $this->root;
 		
-		$lo = $doc->createElement('learning_object');
+		$lo = $doc->createElement('content_object');
   		$root->appendChild( $lo );
   		
   		$id = $doc->createAttribute('id');
   		$lo->appendChild($id);
   		
-  		$id_value = $doc->createTextNode('object' . $learning_object->get_id());
+  		$id_value = $doc->createTextNode('object' . $content_object->get_id());
   		$id->appendChild($id_value);
   		
-  		$export_prop = array(LearningObject :: PROPERTY_TYPE, LearningObject :: PROPERTY_TITLE, LearningObject :: PROPERTY_DESCRIPTION, LearningObject :: PROPERTY_COMMENT,
-  						  	 LearningObject :: PROPERTY_CREATION_DATE, LearningObject :: PROPERTY_MODIFICATION_DATE);
+  		$export_prop = array(ContentObject :: PROPERTY_TYPE, ContentObject :: PROPERTY_TITLE, ContentObject :: PROPERTY_DESCRIPTION, ContentObject :: PROPERTY_COMMENT,
+  						  	 ContentObject :: PROPERTY_CREATION_DATE, ContentObject :: PROPERTY_MODIFICATION_DATE);
   		
   		$general = $doc->createElement('general');
   		$lo->appendChild( $general );
@@ -116,19 +116,19 @@ class DlofExport extends LearningObjectExport
 	  		$property = $doc->createElement( $prop);
 	  		$general->appendChild($property);
 	  		
-	  		$text = $doc->createTextNode($learning_object->get_default_property($prop));
+	  		$text = $doc->createTextNode($content_object->get_default_property($prop));
 			$text = $property->appendChild($text);
   		}
   		
-  		if($learning_object->get_type() == 'document')
+  		if($content_object->get_type() == 'document')
   		{
-  			$this->files[$learning_object->get_hash()] = $learning_object->get_full_path();
+  			$this->files[$content_object->get_hash()] = $content_object->get_full_path();
   		}
   		
   		$extended = $doc->createElement('extended');
   		$lo->appendChild( $extended );
   		
-  		foreach($learning_object->get_additional_properties() as $prop => $value)
+  		foreach($content_object->get_additional_properties() as $prop => $value)
   		{
   			$property = $doc->createElement($prop); 
 	  		$extended->appendChild($property);
@@ -141,13 +141,13 @@ class DlofExport extends LearningObjectExport
 		$lo->appendChild($type);
   		
 		//Complex children (subitems)
-		if($learning_object->is_complex_learning_object())
+		if($content_object->is_complex_content_object())
 		{	
 			$text = $doc->createTextNode('complex');
 			$type->appendChild($text);
 			
-			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $learning_object->get_id(), ComplexLearningObjectItem :: get_table_name());
-			$children = $this->rdm->retrieve_complex_learning_object_items($condition);
+			$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $content_object->get_id(), ComplexContentObjectItem :: get_table_name());
+			$children = $this->rdm->retrieve_complex_content_object_items($condition);
 			
 			if($children->size() > 0)
 			{
@@ -175,7 +175,7 @@ class DlofExport extends LearningObjectExport
 					$text = $property->appendChild($text);
 		  		}
 				
-				$this->render_learning_object($this->rdm->retrieve_learning_object($child->get_ref()));
+				$this->render_content_object($this->rdm->retrieve_content_object($child->get_ref()));
 			}
 		}
 		else
@@ -185,7 +185,7 @@ class DlofExport extends LearningObjectExport
 		}
 
 		//Attachments
-		$attachments = $learning_object->get_attached_learning_objects();
+		$attachments = $content_object->get_attached_content_objects();
 		if(count($attachments) > 0)
 		{
 			$attachments_element = $doc->createElement('attachments');
@@ -202,12 +202,12 @@ class DlofExport extends LearningObjectExport
 				$id_ref_value = $doc->createTextNode('object' . $attachment->get_id());
 				$id_ref->appendChild($id_ref_value);
 				
-				$this->render_learning_object($attachment);
+				$this->render_content_object($attachment);
 			}
 		}
 		
 		//Includes
-		$includes = $learning_object->get_included_learning_objects();
+		$includes = $content_object->get_included_content_objects();
 		if(count($includes) > 0)
 		{
 			$includes_element = $doc->createElement('includes');
@@ -224,7 +224,7 @@ class DlofExport extends LearningObjectExport
 				$id_ref_value = $doc->createTextNode('object' . $include->get_id());
 				$id_ref->appendChild($id_ref_value);
 				
-				$this->render_learning_object($include);
+				$this->render_content_object($include);
 			}
 		}
 	}

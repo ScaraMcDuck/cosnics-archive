@@ -5,8 +5,8 @@
  */
 require_once dirname(__FILE__).'/../repository_manager.class.php';
 require_once dirname(__FILE__).'/../repository_manager_component.class.php';
-require_once dirname(__FILE__).'/../../import/learning_object_import.class.php';
-require_once dirname(__FILE__).'/../../learning_object_import_form.class.php';
+require_once dirname(__FILE__).'/../../import/content_object_import.class.php';
+require_once dirname(__FILE__).'/../../content_object_import_form.class.php';
 /**
  * Repository manager component which provides functionality to delete a
  * learning object from the users repository.
@@ -19,16 +19,16 @@ class RepositoryManagerImporterComponent extends RepositoryManagerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail(false);
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('LearningObjectImport')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ContentObjectImport')));
 		$trail->add_help('repository importer');
 		
-		$import_form = new LearningObjectImportForm('import', 'post', $this->get_url(), $this->get_parameter(RepositoryManager :: PARAM_CATEGORY_ID), $this->get_user());
+		$import_form = new ContentObjectImportForm('import', 'post', $this->get_url(), $this->get_parameter(RepositoryManager :: PARAM_CATEGORY_ID), $this->get_user());
 
 		if ($import_form->validate())
 		{
-			$succes = $import_form->import_learning_object();
+			$succes = $import_form->import_content_object();
 
-			$message = $succes ? 'LearningObjectImported' : 'LearningObjectNotImported';
+			$message = $succes ? 'ContentObjectImported' : 'ContentObjectNotImported';
 			$this->redirect(Translation :: get($message), !$succes, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS));
 		}
 		else

@@ -1,9 +1,9 @@
 <?php
 
 
-require_once Path :: get_application_path() . 'lib/weblcms/learning_object_repo_viewer.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object/feedback/feedback.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object_pub_feedback.class.php';
+require_once Path :: get_application_path() . 'lib/weblcms/content_object_repo_viewer.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object/feedback/feedback.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_pub_feedback.class.php';
 
 class ComplexDisplayComplexFeedbackComponent extends ComplexDisplayComponent
 {
@@ -55,23 +55,23 @@ class ComplexDisplayComplexFeedbackComponent extends ComplexDisplayComponent
              */
 
             //$rdm = RepositoryDataManager :: get_instance();
-            $learning_object_pub_feedback = new LearningObjectPubFeedback();
+            $content_object_pub_feedback = new ContentObjectPubFeedback();
             if(isset($this->cid))
-                $learning_object_pub_feedback->set_cloi_id($this->cid);
+                $content_object_pub_feedback->set_cloi_id($this->cid);
             else
-                $learning_object_pub_feedback->set_cloi_id(0);
+                $content_object_pub_feedback->set_cloi_id(0);
 
             if(isset($this->pid))
-                $learning_object_pub_feedback->set_publication_id($this->pid);
+                $content_object_pub_feedback->set_publication_id($this->pid);
             else
-                $learning_object_pub_feedback->set_publication_id(0);
+                $content_object_pub_feedback->set_publication_id(0);
 
             if(isset($this->fid))
-                $learning_object_pub_feedback->set_feedback_id($this->fid);
+                $content_object_pub_feedback->set_feedback_id($this->fid);
             else
-                $learning_object_pub_feedback->set_feedback_id(0);
+                $content_object_pub_feedback->set_feedback_id(0);
 
-            $learning_object_pub_feedback->create();
+            $content_object_pub_feedback->create();
 
             $this->redirect(Translation :: get('FeedbackAdded'), '', array(Tool :: PARAM_ACTION => Request :: get('tool_action'), 'display_action' => 'discuss', 'selected_cloi' => $this->pub->get_parameter('selected_cloi'), 'pid' => $this->pid));
         }

@@ -19,7 +19,7 @@ class AnnouncementDistributionForm extends FormValidator
 	/**
 	 * The learning object that will be published
 	 */
-	private $learning_object;
+	private $content_object;
 	/**
 	 * The publication that will be changed (when using this form to edit a
 	 * publication)
@@ -30,16 +30,16 @@ class AnnouncementDistributionForm extends FormValidator
 
 	/**
 	 * Creates a new learning object publication form.
-	 * @param LearningObject The learning object that will be published
+	 * @param ContentObject The learning object that will be published
 	 * @param string $tool The tool in which the object will be published
 	 * @param boolean $email_option Add option in form to send the learning
 	 * object by email to the receivers
 	 */
-    function AnnouncementDistributionForm($form_type, $learning_object, $form_user, $action)
+    function AnnouncementDistributionForm($form_type, $content_object, $form_user, $action)
     {
 		parent :: __construct('publish', 'post', $action);
 		$this->form_type = $form_type;
-		$this->learning_object = $learning_object;
+		$this->content_object = $content_object;
 		$this->form_user = $form_user;
 
 		switch($this->form_type)
@@ -75,7 +75,7 @@ class AnnouncementDistributionForm extends FormValidator
     function build_multi_form()
     {
     	$this->build_form();
-    	$this->addElement('hidden', 'ids', serialize($this->learning_object));
+    	$this->addElement('hidden', 'ids', serialize($this->content_object));
     }
 
 	/**
@@ -108,7 +108,7 @@ class AnnouncementDistributionForm extends FormValidator
 
 	/**
 	 * Creates a learning object publication using the values from the form.
-	 * @return LearningObjectPublication The new publication
+	 * @return ContentObjectPublication The new publication
 	 */
     function create_announcement_distribution()
     {
@@ -116,7 +116,7 @@ class AnnouncementDistributionForm extends FormValidator
 		$recipients = $values['recipients'];
 
 		$pub = new AnnouncementDistribution();
-		$pub->set_announcement($this->learning_object->get_id());
+		$pub->set_announcement($this->content_object->get_id());
 		$pub->set_publisher($this->form_user->get_id());
 		$pub->set_published(time());
 		$pub->set_target_users($recipients['user']);

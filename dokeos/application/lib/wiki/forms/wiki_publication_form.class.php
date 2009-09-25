@@ -90,7 +90,7 @@ class WikiPublicationForm extends FormValidator
     function update_wiki_publication()
     {
     	$wiki_publication = $this->wiki_publication;
-        $wiki_publication->set_learning_object($wiki_publication->get_learning_object()->get_id());
+        $wiki_publication->set_content_object($wiki_publication->get_content_object()->get_id());
         
     	$values = $this->exportValues();
 
@@ -113,17 +113,17 @@ class WikiPublicationForm extends FormValidator
 
         if($this->email_option && $values[self::PARAM_EMAIL])
 		{
-//			$learning_object = $this->learning_object;
-//			$display = LearningObjectDisplay::factory($learning_object);
+//			$content_object = $this->content_object;
+//			$display = ContentObjectDisplay::factory($content_object);
 //
 //			$adm = AdminDataManager :: get_instance();
 //			$site_name_setting = PlatformSetting :: get('site_name');
 //
-//			$subject = '['.$site_name_setting.'] '.$learning_object->get_title();
+//			$subject = '['.$site_name_setting.'] '.$content_object->get_title();
 //			$body = new html2text($display->get_full_html());
 //			// TODO: send email to correct users/course_groups. For testing, the email is sent now to the repo_viewer.
 //			$user = $this->user;
-//			$mail = Mail :: factory($learning_object->get_title(), $body->get_text(), $user->get_email());
+//			$mail = Mail :: factory($content_object->get_title(), $body->get_text(), $user->get_email());
 //
 //			if($mail->send())
 //			{
@@ -165,17 +165,17 @@ class WikiPublicationForm extends FormValidator
 
         if($this->email_option && $values[self::PARAM_EMAIL])
 		{
-//			$learning_object = $this->learning_object;
-//			$display = LearningObjectDisplay::factory($learning_object);
+//			$content_object = $this->content_object;
+//			$display = ContentObjectDisplay::factory($content_object);
 //
 //			$adm = AdminDataManager :: get_instance();
 //			$site_name_setting = PlatformSetting :: get('site_name');
 //
-//			$subject = '['.$site_name_setting.'] '.$learning_object->get_title();
+//			$subject = '['.$site_name_setting.'] '.$content_object->get_title();
 //			$body = new html2text($display->get_full_html());
 //			// TODO: send email to correct users/course_groups. For testing, the email is sent now to the repo_viewer.
 //			$user = $this->user;
-//			$mail = Mail :: factory($learning_object->get_title(), $body->get_text(), $user->get_email());
+//			$mail = Mail :: factory($content_object->get_title(), $body->get_text(), $user->get_email());
 //
 //			if($mail->send())
 //			{
