@@ -12,7 +12,7 @@
   <property name="notes" type="text" length="250" fixed="true" default=""/>
   <property name="timepicker_min" type="integer" unsigned="1" notnull="1"/>
   <property name="timepicker_max" type="integer" unsigned="1" notnull="1"/>
-  <property name="auto_accept" type="boolean" default="0">
+  <property name="auto_accept" type="boolean" default="0" />
   <property name="status" type="integer" unsigned="1" default="0" />
  </properties>
  <index name="id" type="primary">
