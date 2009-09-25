@@ -1084,8 +1084,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
     function set_module_id_visible($module_id, $visible)
     {
-    	$conditions = new EqualityCondition(CourseModule :: PROPERTY_ID, $module_id);
-    	$properties = array(CourseModule :: PROPERTY_VISIBLE, $visible);
+    	$condition = new EqualityCondition(CourseModule :: PROPERTY_ID, $module_id);
+    	$properties = array(CourseModule :: PROPERTY_VISIBLE => $visible);
     	return $this->database->update_objects(CourseModule :: get_table_name(), $properties, $condition);
     }
     
