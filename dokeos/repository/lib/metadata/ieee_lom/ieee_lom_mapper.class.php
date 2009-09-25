@@ -1740,7 +1740,7 @@ class IeeeLomMapper extends MetadataMapper
         {
             //debug($submitted_values[$start_value]);
             
-            $this->save_recursive_langstrings($submitted_values[$start_value], $start_value, &$saved_metadata_id);
+            $this->save_recursive_langstrings($submitted_values[$start_value], $start_value, $saved_metadata_id);
             
             /*
              * Delete metadata that were not sent back for saving
@@ -1767,7 +1767,7 @@ class IeeeLomMapper extends MetadataMapper
 	    {
 	        foreach ($submitted_values as $index => $sub_values)
 	        {
-	            $this->save_recursive_langstrings($sub_values, $property_name . '['. $index . ']', &$saved_metadata_id);
+	            $this->save_recursive_langstrings($sub_values, $property_name . '['. $index . ']', $saved_metadata_id);
 	        }
 	    }
 	}
