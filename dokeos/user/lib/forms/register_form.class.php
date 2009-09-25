@@ -91,8 +91,8 @@ class RegisterForm extends FormValidator {
 		if (PlatformSetting :: get('allow_teacher_registration', 'user'))
 		{
 			$status = array();  
-			$status[STUDENT] = Translation :: get('Student');  
-			$status[COURSEMANAGER]  = Translation :: get('CourseAdmin');
+			$status[5] = Translation :: get('Student');  
+			$status[1]  = Translation :: get('CourseAdmin');
 			$this->addElement('select',User :: PROPERTY_STATUS,Translation :: get('Status'),$status);
 		}
 		//  Send email 
