@@ -15,8 +15,8 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
     private $userDM;
     private $database;
 
-    const ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE = 'pmb';
-    const ALIAS_LEARNING_OBJECT_TABLE = 'lo';
+    const ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE = 'pmb';
+    const ALIAS_CONTENT_OBJECT_TABLE = 'lo';
 
     function initialize()
     {
@@ -158,8 +158,8 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
         {
             if ($type == 'user')
             {
-                $query = 'SELECT ' . self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.*, ' . self :: ALIAS_LEARNING_OBJECT_TABLE . '.' . $this->database->escape_column_name('title') . ' FROM ' . $this->database->escape_table_name('publication') . ' AS ' . self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . ' JOIN ' . RepositoryDataManager :: get_instance()->escape_table_name('content_object') . ' AS ' . self :: ALIAS_LEARNING_OBJECT_TABLE . ' ON ' . self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.`profile_id` = ' . self :: ALIAS_LEARNING_OBJECT_TABLE . '.`id`';
-                $query .= ' WHERE ' . self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ProfilePublication :: PROPERTY_PUBLISHER) . '=?';
+                $query = 'SELECT ' . self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE . '.*, ' . self :: ALIAS_CONTENT_OBJECT_TABLE . '.' . $this->database->escape_column_name('title') . ' FROM ' . $this->database->escape_table_name('publication') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE . ' JOIN ' . RepositoryDataManager :: get_instance()->escape_table_name('content_object') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_TABLE . ' ON ' . self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE . '.`profile_id` = ' . self :: ALIAS_CONTENT_OBJECT_TABLE . '.`id`';
+                $query .= ' WHERE ' . self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ProfilePublication :: PROPERTY_PUBLISHER) . '=?';
 
                 $order = array();
                 for($i = 0; $i < count($order_property); $i ++)
@@ -169,17 +169,17 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
                     }
                     elseif ($order_property[$i] == 'location')
                     {
-                        $order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_COURSE_ID) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
-                        $order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_TOOL) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                        $order[] = self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_COURSE_ID) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                        $order[] = self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_TOOL) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
                     }
                     elseif ($order_property[$i] == 'title')
                     {
-                        $order[] = self :: ALIAS_LEARNING_OBJECT_TABLE . '.' . $this->database->escape_column_name('title') . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                        $order[] = self :: ALIAS_CONTENT_OBJECT_TABLE . '.' . $this->database->escape_column_name('title') . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
                     }
                     else
                     {
-                        //$order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name($order_property[$i], true) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
-                        $order[] = self :: ALIAS_LEARNING_OBJECT_TABLE . '.' . $this->database->escape_column_name('title') . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                        //$order[] = self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name($order_property[$i], true) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                        $order[] = self :: ALIAS_CONTENT_OBJECT_TABLE . '.' . $this->database->escape_column_name('title') . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
                     }
                 }
                 if (count($order))

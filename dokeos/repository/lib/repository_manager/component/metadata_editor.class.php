@@ -28,8 +28,8 @@ class RepositoryManagerMetadataEditorComponent extends RepositoryManagerMetadata
 		{
 			$content_object = $this->get_content_object_from_params(); 
 			
-            $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager::PARAM_LEARNING_OBJECT_ID => $content_object->get_id())), $content_object->get_title()));
-            $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager :: ACTION_EDIT_LEARNING_OBJECT_METADATA, RepositoryManager::PARAM_LEARNING_OBJECT_ID => $content_object->get_id())), Translation :: translate('Metadata')));
+            $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager::PARAM_CONTENT_OBJECT_ID => $content_object->get_id())), $content_object->get_title()));
+            $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager :: ACTION_EDIT_CONTENT_OBJECT_METADATA, RepositoryManager::PARAM_CONTENT_OBJECT_ID => $content_object->get_id())), Translation :: translate('Metadata')));
 			
             $metadata_type = $this->get_metadata_type();
 			
@@ -40,7 +40,7 @@ class RepositoryManagerMetadataEditorComponent extends RepositoryManagerMetadata
                 case self :: METADATA_FORMAT_LOM:
                                         
                     $mapper = new IeeeLomMapper($content_object);
-                    $form = new MetadataLOMEditForm($content_object->get_id(), $mapper, $this->get_url(array(RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $content_object->get_id())), $this->get_catalogs());
+                    $form = new MetadataLOMEditForm($content_object->get_id(), $mapper, $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id())), $this->get_catalogs());
                     break;
                 
                 /*
@@ -102,12 +102,12 @@ class RepositoryManagerMetadataEditorComponent extends RepositoryManagerMetadata
 	function render_action_bar($id)
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-		$action_bar->add_common_action(new ToolbarItem('XML', Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array('go'=> RepositoryManager :: ACTION_VIEW_LEARNING_OBJECT_METADATA, RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $id))));
+		$action_bar->add_common_action(new ToolbarItem('XML', Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array('go'=> RepositoryManager :: ACTION_VIEW_CONTENT_OBJECT_METADATA, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $id))));
 		
 		$external_repositories = ExternalExport :: retrieve_external_export();
 		if(count($external_repositories) > 0)
 		{
-		    $action_bar->add_common_action(new ToolbarItem('ExternalRepository', Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array('go'=> RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_BROWSE, RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $id))));
+		    $action_bar->add_common_action(new ToolbarItem('ExternalRepository', Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array('go'=> RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_BROWSE, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $id))));
 		}
 		
 		echo $action_bar->as_html();

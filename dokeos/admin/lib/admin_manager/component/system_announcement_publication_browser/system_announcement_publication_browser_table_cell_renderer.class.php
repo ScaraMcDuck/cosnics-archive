@@ -39,7 +39,7 @@ class SystemAnnouncementPublicationBrowserTableCellRenderer extends DefaultSyste
             case SystemAnnouncementPublication :: PROPERTY_PUBLISHED :
                 return Text :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $system_announcement_publication->get_published());
                 break;
-            case SystemAnnouncementPublication :: PROPERTY_LEARNING_OBJECT_ID :
+            case SystemAnnouncementPublication :: PROPERTY_CONTENT_OBJECT_ID :
                 $title = parent :: render_cell($column, $system_announcement_publication);
                 $title_short = $title;
                 //				if(strlen($title_short) > 53)

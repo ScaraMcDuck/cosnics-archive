@@ -14,8 +14,8 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 
 	private $database;
 
-	const ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE = 'lop';
-	const ALIAS_LEARNING_OBJECT_TABLE = 'lo';
+	const ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE = 'lop';
+	const ALIAS_CONTENT_OBJECT_TABLE = 'lo';
 	
 	function initialize()
 	{
@@ -129,9 +129,9 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		{
 			if ($type == 'user')
 			{
-				$query  = 'SELECT '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE.'.*, '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.'. $this->database->escape_column_name('title') .' FROM '.$this->database->escape_table_name('publication').' AS '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE;
-				$query .= ' JOIN '.RepositoryDataManager :: get_instance()->escape_table_name('content_object').' AS '. self :: ALIAS_LEARNING_OBJECT_TABLE .' ON '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .'.`personal_message` = '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.`id`';
-				$query .= ' WHERE '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE. '.'.$this->database->escape_column_name(PersonalMessagePublication :: PROPERTY_USER).'=?';
+				$query  = 'SELECT '.self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE.'.*, '. self :: ALIAS_CONTENT_OBJECT_TABLE .'.'. $this->database->escape_column_name('title') .' FROM '.$this->database->escape_table_name('publication').' AS '. self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE;
+				$query .= ' JOIN '.RepositoryDataManager :: get_instance()->escape_table_name('content_object').' AS '. self :: ALIAS_CONTENT_OBJECT_TABLE .' ON '. self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE .'.`personal_message` = '. self :: ALIAS_CONTENT_OBJECT_TABLE .'.`id`';
+				$query .= ' WHERE '.self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE. '.'.$this->database->escape_column_name(PersonalMessagePublication :: PROPERTY_USER).'=?';
 
 				$order = array ();
 				for ($i = 0; $i < count($order_property); $i ++)
@@ -141,12 +141,12 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 					}
 					elseif($order_property[$i] == 'title')
 					{
-						$order[] = self :: ALIAS_LEARNING_OBJECT_TABLE. '.' .$this->database->escape_column_name('title').' '. ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+						$order[] = self :: ALIAS_CONTENT_OBJECT_TABLE. '.' .$this->database->escape_column_name('title').' '. ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
 					}
 					else
 					{
-						//$order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE. '.' .$this->database->escape_column_name($order_property[$i], true).' '. ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
-						$order[] = self :: ALIAS_LEARNING_OBJECT_TABLE. '.' .$this->database->escape_column_name('title').' '. ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+						//$order[] = self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE. '.' .$this->database->escape_column_name($order_property[$i], true).' '. ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+						$order[] = self :: ALIAS_CONTENT_OBJECT_TABLE. '.' .$this->database->escape_column_name('title').' '. ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
 					}
 				}
 				if (count($order))

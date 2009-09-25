@@ -58,7 +58,7 @@ class RepositoryInstaller extends Installer
 			$this->add_message(self :: TYPE_NORMAL, Translation :: get('ContentObjectRegistration') . ': <em>' . $folder . '</em>');
 			
 			$content_object_registration = new Registration();
-			$content_object_registration->set_type(Registration :: TYPE_LEARNING_OBJECT);
+			$content_object_registration->set_type(Registration :: TYPE_CONTENT_OBJECT);
 			$content_object_registration->set_name($folder);
 			$content_object_registration->set_status(Registration :: STATUS_ACTIVE);
 			

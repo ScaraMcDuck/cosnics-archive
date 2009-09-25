@@ -97,7 +97,7 @@ class AssessmentManagerBrowserComponent extends AssessmentManagerComponent
 			$search_conditions[] = new LikeCondition(ContentObject :: PROPERTY_TITLE, $query);
 			$search_conditions[] = new LikeCondition(ContentObject :: PROPERTY_DESCRIPTION, $query);
 			$subselect_condition = new OrCondition($search_conditions);
-			$conditions[] = new SubselectCondition(AssessmentPublication :: PROPERTY_LEARNING_OBJECT, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
+			$conditions[] = new SubselectCondition(AssessmentPublication :: PROPERTY_CONTENT_OBJECT, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
 		}
 		
 		$access = array();

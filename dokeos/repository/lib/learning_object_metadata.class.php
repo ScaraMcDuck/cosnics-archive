@@ -5,7 +5,7 @@ class ContentObjectMetadata extends RepositoryDataClass
 {
 	const CLASS_NAME = __CLASS__;
 	
-	const PROPERTY_LEARNING_OBJECT = 'content_object_id';
+	const PROPERTY_CONTENT_OBJECT = 'content_object_id';
 	const PROPERTY_OVERRIDE_ID     = 'override_id';
 	const PROPERTY_TYPE            = 'type';
 	const PROPERTY_PROPERTY        = 'property';
@@ -22,13 +22,13 @@ class ContentObjectMetadata extends RepositoryDataClass
 	{
 	    if(isset($id) && is_numeric($id))
 	    {
-	        $this->set_default_property(self :: PROPERTY_LEARNING_OBJECT, $id);
+	        $this->set_default_property(self :: PROPERTY_CONTENT_OBJECT, $id);
 	    }
 	}
 	
 	function get_content_object_id()
 	{
-	    return $this->get_default_property(self :: PROPERTY_LEARNING_OBJECT);
+	    return $this->get_default_property(self :: PROPERTY_CONTENT_OBJECT);
 	}
 	
 	/*************************************************************************/
@@ -95,7 +95,7 @@ class ContentObjectMetadata extends RepositoryDataClass
 	
 	static function get_default_property_names($extended_property_names = array())
 	{
-	    $extended_property_names[] = self :: PROPERTY_LEARNING_OBJECT;
+	    $extended_property_names[] = self :: PROPERTY_CONTENT_OBJECT;
 	    $extended_property_names[] = self :: PROPERTY_OVERRIDE_ID;
 	    $extended_property_names[] = self :: PROPERTY_PROPERTY;
 	    $extended_property_names[] = self :: PROPERTY_TYPE;

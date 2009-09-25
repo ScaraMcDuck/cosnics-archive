@@ -56,7 +56,7 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
 		$previous_application = '';
 		$message = '';
 
-		$ids = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
+		$ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
 		if(!is_array($ids))
 			$ids = array($ids);
 

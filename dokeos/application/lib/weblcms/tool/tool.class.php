@@ -46,7 +46,7 @@ abstract class Tool
 	const ACTION_VIEW_ATTACHMENT = 'view_attachment';
     const ACTION_FEEDBACK_CLOI = 'feedback_cloi';
     const ACTION_VIEW_REPORTING_TEMPLATE = 'view_reporting_template';
-    const ACTION_BUILD_COMPLEX_LEARNING_OBJECT = 'builder';
+    const ACTION_BUILD_COMPLEX_CONTENT_OBJECT = 'builder';
 
 
 	/**
@@ -215,7 +215,7 @@ abstract class Tool
             case self :: ACTION_VIEW_REPORTING_TEMPLATE:
                 $component = ToolComponent::factory('', 'AccessDetailsViewer', $this);
                 break;
-            case self :: ACTION_BUILD_COMPLEX_LEARNING_OBJECT:
+            case self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT:
             	$component = ToolComponent::factory('', 'ComplexBuilder', $this);
                 break;
 		}
@@ -587,7 +587,7 @@ abstract class Tool
     
     function get_complex_builder_url($pid)
     {
-    	return $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BUILD_COMPLEX_LEARNING_OBJECT, Tool :: PARAM_PUBLICATION_ID => $pid));
+    	return $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $pid));
     }
 
     static function get_pcattree_parents($pcattree)

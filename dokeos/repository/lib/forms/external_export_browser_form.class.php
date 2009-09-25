@@ -43,7 +43,7 @@ class ExternalExportBrowserForm extends FormValidator
 	        $url = Redirect :: get_url(array('application' => RepositoryManager :: APPLICATION_NAME,
 	        							'go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_EXPORT, 
 	                                   RepositoryManagerExternalRepositoryExportComponent :: PARAM_EXPORT_ID => $export->get_id(),
-	                                   RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $this->content_object_id));
+	                                   RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $this->content_object_id));
 	        
 	        $table[] = '<tr>';
     	    $table[] = '<td style="vertical-align:top">';

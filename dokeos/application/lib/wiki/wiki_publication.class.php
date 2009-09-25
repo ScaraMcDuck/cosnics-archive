@@ -17,7 +17,7 @@ class WikiPublication extends DataClass
 	/**
 	 * WikiPublication properties
 	 */
-	const PROPERTY_LEARNING_OBJECT = 'content_object_id';
+	const PROPERTY_CONTENT_OBJECT = 'content_object_id';
 	const PROPERTY_PARENT_ID = 'parent_id';
 	const PROPERTY_CATEGORY = 'category_id';
 	const PROPERTY_FROM_DATE = 'from_date';
@@ -35,7 +35,7 @@ class WikiPublication extends DataClass
 	 */
 	static function get_default_property_names()
 	{
-		return parent :: get_default_property_names(array (self :: PROPERTY_LEARNING_OBJECT, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CATEGORY, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_MODIFIED, self :: PROPERTY_DISPLAY_ORDER, self :: PROPERTY_EMAIL_SENT));
+		return parent :: get_default_property_names(array (self :: PROPERTY_CONTENT_OBJECT, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CATEGORY, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_MODIFIED, self :: PROPERTY_DISPLAY_ORDER, self :: PROPERTY_EMAIL_SENT));
 	}
 
 	/**
@@ -52,7 +52,7 @@ class WikiPublication extends DataClass
 	 */
 	function get_content_object()
 	{
-		return $this->get_default_property(self :: PROPERTY_LEARNING_OBJECT);
+		return $this->get_default_property(self :: PROPERTY_CONTENT_OBJECT);
 	}
 
 	/**
@@ -61,7 +61,7 @@ class WikiPublication extends DataClass
 	 */
 	function set_content_object($content_object)
 	{
-		$this->set_default_property(self :: PROPERTY_LEARNING_OBJECT, $content_object);
+		$this->set_default_property(self :: PROPERTY_CONTENT_OBJECT, $content_object);
 	}
 	/**
 	 * Returns the parent_id of this WikiPublication.

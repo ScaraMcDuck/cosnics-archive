@@ -23,8 +23,8 @@ require_once dirname(__FILE__) . '/../category_manager/course_category.class.php
 
 class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 {
-    const ALIAS_LEARNING_OBJECT_TABLE = 'lo';
-    const ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE = 'lop';
+    const ALIAS_CONTENT_OBJECT_TABLE = 'lo';
+    const ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE = 'lop';
 
     /**
      * @var Database
@@ -89,13 +89,13 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
     public function content_object_is_published($object_id)
     {
-        $condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, $object_id);
+        $condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_id);
         return $this->database->count_objects(ContentObjectPublication :: get_table_name(), $condition) >= 1;
     }
 
     public function any_content_object_is_published($object_ids)
     {
-        $condition = new InCondition(ContentObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, $object_ids);
+        $condition = new InCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_ids);
         return $this->database->count_objects(ContentObjectPublication :: get_table_name(), $condition) >= 1;
     }
 
@@ -105,8 +105,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         {
             if ($type == 'user')
             {
-                $query = 'SELECT ' . self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.*, ' . self :: ALIAS_LEARNING_OBJECT_TABLE . '.' . $this->database->escape_column_name('title') . ' FROM ' . $this->database->escape_table_name('content_object_publication') . ' AS ' . self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . ' JOIN ' . RepositoryDataManager :: get_instance()->escape_table_name('content_object') . ' AS ' . self :: ALIAS_LEARNING_OBJECT_TABLE . ' ON ' . self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.`content_object_id` = ' . self :: ALIAS_LEARNING_OBJECT_TABLE . '.`id`';
-                $query .= ' WHERE ' . self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_PUBLISHER_ID) . '=?';
+                $query = 'SELECT ' . self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE . '.*, ' . self :: ALIAS_CONTENT_OBJECT_TABLE . '.' . $this->database->escape_column_name('title') . ' FROM ' . $this->database->escape_table_name('content_object_publication') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE . ' JOIN ' . RepositoryDataManager :: get_instance()->escape_table_name('content_object') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_TABLE . ' ON ' . self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE . '.`content_object_id` = ' . self :: ALIAS_CONTENT_OBJECT_TABLE . '.`id`';
+                $query .= ' WHERE ' . self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_PUBLISHER_ID) . '=?';
 
                 $order = array();
                 for($i = 0; $i < count($order_property); $i ++)
@@ -116,17 +116,17 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
                     }
                     elseif ($order_property[$i] == 'location')
                     {
-                        $order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_COURSE_ID) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
-                        $order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_TOOL) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                        $order[] = self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_COURSE_ID) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                        $order[] = self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_TOOL) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
                     }
                     elseif ($order_property[$i] == 'title')
                     {
-                        $order[] = self :: ALIAS_LEARNING_OBJECT_TABLE . '.' . $this->database->escape_column_name('title') . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                        $order[] = self :: ALIAS_CONTENT_OBJECT_TABLE . '.' . $this->database->escape_column_name('title') . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
                     }
                     else
                     {
-                        //$order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name($order_property[$i], true) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
-                        $order[] = self :: ALIAS_LEARNING_OBJECT_TABLE . '.' . $this->database->escape_column_name('title') . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                        //$order[] = self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name($order_property[$i], true) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                        $order[] = self :: ALIAS_CONTENT_OBJECT_TABLE . '.' . $this->database->escape_column_name('title') . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
                     }
                 }
                 if (count($order))
@@ -139,7 +139,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         }
         else
         {
-            $query = 'SELECT * FROM ' . $this->database->escape_table_name('content_object_publication') . ' WHERE ' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_LEARNING_OBJECT_ID) . '=?';
+            $query = 'SELECT * FROM ' . $this->database->escape_table_name('content_object_publication') . ' WHERE ' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID) . '=?';
             $statement = $this->database->get_connection()->prepare($query);
             $param = $object_id;
         }
@@ -156,7 +156,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
             $info->set_location($record[ContentObjectPublication :: PROPERTY_COURSE_ID] . ' &gt; ' . $record[ContentObjectPublication :: PROPERTY_TOOL]);
             //TODO: set correct URL
             $info->set_url('run.php?application=weblcms&amp;go=courseviewer&course=' . $record[ContentObjectPublication :: PROPERTY_COURSE_ID] . '&amp;tool=' . $record[ContentObjectPublication :: PROPERTY_TOOL] . '&amp;tool_action=view&amp;pid=' . $info->get_id());
-            $info->set_publication_object_id($record[ContentObjectPublication :: PROPERTY_LEARNING_OBJECT_ID]);
+            $info->set_publication_object_id($record[ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID]);
 
             $publication_attr[] = $info;
         }
@@ -182,7 +182,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $publication_attr->set_location($record[ContentObjectPublication :: PROPERTY_COURSE_ID] . ' &gt; ' . $record[ContentObjectPublication :: PROPERTY_TOOL]);
         //TODO: set correct URL
         $publication_attr->set_url('index_weblcms.php?tool=' . $record[ContentObjectPublication :: PROPERTY_TOOL] . '&amp;cidReq=' . $record[ContentObjectPublication :: PROPERTY_COURSE_ID]);
-        $publication_attr->set_publication_object_id($record[ContentObjectPublication :: PROPERTY_LEARNING_OBJECT_ID]);
+        $publication_attr->set_publication_object_id($record[ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID]);
 
         return $publication_attr;
     }
@@ -378,7 +378,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     {
         $where = $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_ID) . '=' . $publication_attr->get_id();
         $props = array();
-        $props[$this->database->escape_column_name(ContentObjectPublication :: PROPERTY_LEARNING_OBJECT_ID)] = $publication_attr->get_publication_object_id();
+        $props[$this->database->escape_column_name(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID)] = $publication_attr->get_publication_object_id();
         $this->database->get_connection()->loadModule('Extended');
         if ($this->database->get_connection()->extended->autoExecute($this->database->get_table_name('content_object_publication'), $props, MDB2_AUTOQUERY_UPDATE, $where))
         {
@@ -411,7 +411,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
     function delete_content_object_publications($object_id)
     {
-        $condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, $object_id);
+        $condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_id);
         $publications = $this->retrieve_content_object_publications_new($condition);
 
         while ($publication = $publications->next_result())

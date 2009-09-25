@@ -87,7 +87,7 @@ abstract class RepositoryDataManager
 	function get_registered_types($only_master_types = false)
 	{
 		$adm = AdminDataManager :: get_instance();
-		$condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_LEARNING_OBJECT);
+		$condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_CONTENT_OBJECT);
 		
 		$order = new ObjectTableOrder(Registration :: PROPERTY_NAME, SORT_ASC);
 

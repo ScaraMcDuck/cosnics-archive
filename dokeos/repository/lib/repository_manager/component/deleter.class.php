@@ -16,7 +16,7 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 	 */
 	function run()
 	{
-		$ids = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
+		$ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
 		if (!empty ($ids))
 		{
 			if (!is_array($ids))
@@ -117,7 +117,7 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 			}
 
 			$parameters = array();
-			$parameters[Application :: PARAM_ACTION] = ($permanent ? RepositoryManager :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS : RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS);
+			$parameters[Application :: PARAM_ACTION] = ($permanent ? RepositoryManager :: ACTION_BROWSE_RECYCLED_CONTENT_OBJECTS : RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS);
 
 			$this->redirect(Translation :: get($message), ($failures ? true : false), $parameters);
 		}

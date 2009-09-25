@@ -36,10 +36,10 @@ class RepositoryManagerPublicationBrowserComponent extends RepositoryManagerComp
 
 		$condition = $this->get_search_condition();
 		$parameters = $this->get_parameters(true);
-		$types = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE);
+		$types = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE);
 		if (is_array($types) && count($types))
 		{
-			$parameters[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE] = $types;
+			$parameters[RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE] = $types;
 		}
 
 		$table = new PublicationBrowserTable($this, $parameters, $condition);

@@ -17,7 +17,7 @@ class RepositoryManagerExporterComponent extends RepositoryManagerComponent
 	 */
 	function run()
 	{
-		$ids = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
+		$ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
 		
 		if($ids)
 		{

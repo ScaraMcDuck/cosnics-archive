@@ -54,7 +54,7 @@ class DatabaseUserDataManager extends UserDataManager
 	{
 		$conditions = array();
 		$conditions[] = new EqualityCondition(UserQuota :: PROPERTY_USER_ID, $user_quota->get_user_id());
-		$conditions[] = new EqualityCondition(UserQuota :: PROPERTY_LEARNING_OBJECT_TYPE, $user_quota->get_content_object_type());
+		$conditions[] = new EqualityCondition(UserQuota :: PROPERTY_CONTENT_OBJECT_TYPE, $user_quota->get_content_object_type());
 		$condition = new AndCondition($conditions);
 
 		return $this->database->update($user_quota, $condition);
@@ -183,7 +183,7 @@ class DatabaseUserDataManager extends UserDataManager
 	{
 		$conditions = array();
 		$conditions[] = new EqualityCondition(User :: PROPERTY_USER_ID, $user->get_id());
-		$conditions[] = new EqualityCondition(UserQuota :: PROPERTY_LEARNING_OBJECT_TYPE, $type);
+		$conditions[] = new EqualityCondition(UserQuota :: PROPERTY_CONTENT_OBJECT_TYPE, $type);
 		$condition = new AndCondition($conditions);
 
 		$version_type_quota_set = $this->database->count_objects(UserQuota :: get_table_name(), $condition) > 0;

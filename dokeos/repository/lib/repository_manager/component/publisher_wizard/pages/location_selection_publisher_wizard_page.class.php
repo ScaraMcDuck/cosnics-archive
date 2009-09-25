@@ -17,7 +17,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 	public function LocationSelectionPublisherWizardPage($name,$parent)
 	{
 		parent :: PublisherWizardPage($name, $parent);
-		$ids = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
+		$ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
 
 		$trail = new BreadCrumbTrail(false);
 		$trail->add(new BreadCrumb($this->get_parent()->get_url(), Translation :: get('Publish')));

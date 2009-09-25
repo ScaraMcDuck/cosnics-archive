@@ -12,8 +12,8 @@ class RepositoryManagerMetadataViewerComponent extends RepositoryManagerMetadata
 		{
 			$content_object = $this->get_content_object_from_params(); 
 		
-            $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager::PARAM_LEARNING_OBJECT_ID => $id)), $content_object->get_title()));
-            $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager :: ACTION_EDIT_LEARNING_OBJECT_METADATA, RepositoryManager::PARAM_LEARNING_OBJECT_ID => $id)), Translation :: get('Metadata')));
+            $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager::PARAM_CONTENT_OBJECT_ID => $id)), $content_object->get_title()));
+            $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager :: ACTION_EDIT_CONTENT_OBJECT_METADATA, RepositoryManager::PARAM_CONTENT_OBJECT_ID => $id)), Translation :: get('Metadata')));
 			
             $metadata_type = $this->get_metadata_type();
             

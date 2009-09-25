@@ -29,13 +29,13 @@ require_once 'MDB2.php';
 
 class DatabaseRepositoryDataManager extends RepositoryDataManager
 {
-    const ALIAS_LEARNING_OBJECT_PUB_FEEDBACK_TABLE = 'lopf';
-	const ALIAS_LEARNING_OBJECT_TABLE = 'lect';
-	const ALIAS_LEARNING_OBJECT_VERSION_TABLE = 'lov';
-	const ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE = 'loa';
+    const ALIAS_CONTENT_OBJECT_PUB_FEEDBACK_TABLE = 'lopf';
+	const ALIAS_CONTENT_OBJECT_TABLE = 'lect';
+	const ALIAS_CONTENT_OBJECT_VERSION_TABLE = 'lov';
+	const ALIAS_CONTENT_OBJECT_ATTACHMENT_TABLE = 'loa';
 	const ALIAS_TYPE_TABLE = 'tt';
-	const ALIAS_LEARNING_OBJECT_PARENT_TABLE = 'lop';
-	const ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE = 'coem';
+	const ALIAS_CONTENT_OBJECT_PARENT_TABLE = 'lop';
+	const ALIAS_COMPLEX_CONTENT_OBJECT_ITEM_TABLE = 'coem';
 
 	/**
 	 * The database connection.
@@ -114,11 +114,11 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		if ($this->is_extended_type($type))
 		{
-			$query = 'SELECT * FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID).'='.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID).' WHERE '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID).'=?';
+			$query = 'SELECT * FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_CONTENT_OBJECT_TABLE.' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_CONTENT_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID).'='.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID).' WHERE '.self :: ALIAS_CONTENT_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID).'=?';
 		}
 		else
 		{
-			$query = 'SELECT * FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_ID).'=?';
+			$query = 'SELECT * FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_CONTENT_OBJECT_TABLE.' WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_ID).'=?';
 		}
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
@@ -140,41 +140,41 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			 * need come last, so they are actually in the associative array
 			 * representing the record.
 			 */
-			$query .= $this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_PARENT_TABLE.' JOIN ';
+			$query .= $this->escape_table_name('content_object').' AS '.self :: ALIAS_CONTENT_OBJECT_PARENT_TABLE.' JOIN ';
 		}
 		if (isset ($type))
 		{
 			if ($this->is_extended_type($type))
 			{
-				$query .= $this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID).' = '.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID);
+				$query .= $this->escape_table_name('content_object').' AS '.self :: ALIAS_CONTENT_OBJECT_TABLE.' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_CONTENT_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID).' = '.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID);
 			}
 			else
 			{
-				$query .= $this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE;
+				$query .= $this->escape_table_name('content_object').' AS '.self :: ALIAS_CONTENT_OBJECT_TABLE;
 				$match = new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type);
 				$condition = isset ($condition) ? new AndCondition($match, $condition) : $match;
 			}
 		}
 		else
 		{
-			$query .= $this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE;
+			$query .= $this->escape_table_name('content_object').' AS '.self :: ALIAS_CONTENT_OBJECT_TABLE;
 		}
 		if ($state >= 0)
 		{
 			$conds = array();
 			if ($different_parent_state)
 			{
-				$query .= ' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_PARENT_ID).' = '.self :: ALIAS_LEARNING_OBJECT_PARENT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID);
-				$conds[] = new NotCondition(new EqualityCondition(self :: ALIAS_LEARNING_OBJECT_PARENT_TABLE.'.'.ContentObject :: PROPERTY_STATE, $state));
+				$query .= ' ON '.self :: ALIAS_CONTENT_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_PARENT_ID).' = '.self :: ALIAS_CONTENT_OBJECT_PARENT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID);
+				$conds[] = new NotCondition(new EqualityCondition(self :: ALIAS_CONTENT_OBJECT_PARENT_TABLE.'.'.ContentObject :: PROPERTY_STATE, $state));
 			}
-			$conds[] = new EqualityCondition(self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.ContentObject :: PROPERTY_STATE, $state);
+			$conds[] = new EqualityCondition(self :: ALIAS_CONTENT_OBJECT_TABLE.'.'.ContentObject :: PROPERTY_STATE, $state);
 			if (isset($condition))
 			{
 				$conds[] = $condition;
 			}
 			$condition = new AndCondition($conds);
 		}
-		$query .= ' JOIN ' . $this->escape_table_name('content_object_version') . ' AS ' . self :: ALIAS_LEARNING_OBJECT_VERSION_TABLE . ' ON ' . self :: ALIAS_LEARNING_OBJECT_TABLE . '.' . ContentObject :: PROPERTY_ID . ' = ' . self :: ALIAS_LEARNING_OBJECT_VERSION_TABLE . '.' . ContentObject :: PROPERTY_ID;
+		$query .= ' JOIN ' . $this->escape_table_name('content_object_version') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . ' ON ' . self :: ALIAS_CONTENT_OBJECT_TABLE . '.' . ContentObject :: PROPERTY_ID . ' = ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . '.' . ContentObject :: PROPERTY_ID;
 
 		$params = array ();
 		if (isset ($condition))
@@ -248,35 +248,35 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			if ($this->is_extended_type($type))
 			{
-				$query = 'SELECT COUNT('.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER).') FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID).' = '.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID);
+				$query = 'SELECT COUNT('.self :: ALIAS_CONTENT_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER).') FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_CONTENT_OBJECT_TABLE.' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_CONTENT_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID).' = '.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID);
 			}
 			else
 			{
-				$query = 'SELECT COUNT('.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER).') FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE;
+				$query = 'SELECT COUNT('.self :: ALIAS_CONTENT_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER).') FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_CONTENT_OBJECT_TABLE;
 				$match = new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type);
 				$condition = isset ($condition) ? new AndCondition(array ($match, $condition)) : $match;
 			}
 		}
 		else
 		{
-			$query = 'SELECT COUNT('.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER).') FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE;
+			$query = 'SELECT COUNT('.self :: ALIAS_CONTENT_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER).') FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_CONTENT_OBJECT_TABLE;
 		}
 		if ($state >= 0)
 		{
 			$conds = array();
 			if ($different_parent_state)
 			{
-				$query .= ' JOIN '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_PARENT_TABLE.' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_PARENT_ID).' = '.self :: ALIAS_LEARNING_OBJECT_PARENT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID);
-				$conds[] = new NotCondition(new EqualityCondition(self :: ALIAS_LEARNING_OBJECT_PARENT_TABLE.'.'.ContentObject :: PROPERTY_STATE, $state));
+				$query .= ' JOIN '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_CONTENT_OBJECT_PARENT_TABLE.' ON '.self :: ALIAS_CONTENT_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_PARENT_ID).' = '.self :: ALIAS_CONTENT_OBJECT_PARENT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID);
+				$conds[] = new NotCondition(new EqualityCondition(self :: ALIAS_CONTENT_OBJECT_PARENT_TABLE.'.'.ContentObject :: PROPERTY_STATE, $state));
 			}
-			$conds[] = new EqualityCondition(self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.ContentObject :: PROPERTY_STATE, $state);
+			$conds[] = new EqualityCondition(self :: ALIAS_CONTENT_OBJECT_TABLE.'.'.ContentObject :: PROPERTY_STATE, $state);
 			if (isset($condition))
 			{
 				$conds[] = $condition;
 			}
 			$condition = new AndCondition($conds);
 		}
-		$query .= ' JOIN ' . $this->escape_table_name('content_object_version') . ' AS ' . self :: ALIAS_LEARNING_OBJECT_VERSION_TABLE . ' ON ' . self :: ALIAS_LEARNING_OBJECT_TABLE . '.' . ContentObject :: PROPERTY_ID . ' = ' . self :: ALIAS_LEARNING_OBJECT_VERSION_TABLE . '.' . ContentObject :: PROPERTY_ID;
+		$query .= ' JOIN ' . $this->escape_table_name('content_object_version') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . ' ON ' . self :: ALIAS_CONTENT_OBJECT_TABLE . '.' . ContentObject :: PROPERTY_ID . ' = ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . '.' . ContentObject :: PROPERTY_ID;
 
 		$params = array ();
 		if (isset ($condition))
@@ -296,7 +296,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	// Inherited
 	function count_content_object_versions($object)
 	{
-		$query = 'SELECT COUNT('.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID).') FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' WHERE '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER).'=?';
+		$query = 'SELECT COUNT('.self :: ALIAS_CONTENT_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID).') FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_CONTENT_OBJECT_TABLE.' WHERE '.self :: ALIAS_CONTENT_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER).'=?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($object->get_object_number());
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
@@ -394,7 +394,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	//Inherited.
 	function retrieve_content_object_by_user($user_id)
 	{
-		$query = 'SELECT * FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_OWNER_ID).'=?';
+		$query = 'SELECT * FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_CONTENT_OBJECT_TABLE.' WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_OWNER_ID).'=?';
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($user_id);
 		return new DatabaseContentObjectResultSet($this, $res, isset($type));
@@ -465,7 +465,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if ($object->is_latest_version())
 		{
 			$object_number = $object->get_object_number();
-			$query = 'SELECT * FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' WHERE '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER).'=? ORDER BY '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'. $this->escape_column_name(ContentObject :: PROPERTY_ID) .' DESC';
+			$query = 'SELECT * FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_CONTENT_OBJECT_TABLE.' WHERE '.self :: ALIAS_CONTENT_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER).'=? ORDER BY '.self :: ALIAS_CONTENT_OBJECT_TABLE.'.'. $this->escape_column_name(ContentObject :: PROPERTY_ID) .' DESC';
 			$this->connection->setLimit(1);
 			$statement = $this->connection->prepare($query);
 			$res = $statement->execute($object_number);
@@ -935,7 +935,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		elseif ($prefix_content_object_properties && self :: is_content_object_column($name))
 		{
-			$prefix = self :: ALIAS_LEARNING_OBJECT_TABLE.'.';
+			$prefix = self :: ALIAS_CONTENT_OBJECT_TABLE.'.';
 		}
 		return $prefix.$this->connection->quoteIdentifier($name);
 	}
@@ -1000,7 +1000,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			}
 			if ($this->is_extended_type($type))
 			{
-				$query = 'SELECT '.implode('+', $sum).' AS disk_space FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID).' = '.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID);
+				$query = 'SELECT '.implode('+', $sum).' AS disk_space FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_CONTENT_OBJECT_TABLE.' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_CONTENT_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID).' = '.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID);
 				$condition = $condition_owner;
 			}
 			else
@@ -1083,7 +1083,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 	function is_attached ($object, $type = null)
 	{
-		$query = 'SELECT COUNT('.$this->escape_column_name("content_object_id").') FROM '.$this->escape_table_name('content_object_attachment').' AS '.self :: ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE .' WHERE '. self :: ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE . '.attachment_id';
+		$query = 'SELECT COUNT('.$this->escape_column_name("content_object_id").') FROM '.$this->escape_table_name('content_object_attachment').' AS '.self :: ALIAS_CONTENT_OBJECT_ATTACHMENT_TABLE .' WHERE '. self :: ALIAS_CONTENT_OBJECT_ATTACHMENT_TABLE . '.attachment_id';
 		if (isset($type))
 		{
 			$query.= '=?';
@@ -1252,7 +1252,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		// Retrieve main table
 
 		$query = 'SELECT * FROM '.$this->escape_table_name('complex_content_object_item').' AS '.
-				 self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE;
+				 self :: ALIAS_COMPLEX_CONTENT_OBJECT_ITEM_TABLE;
 
 		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_ID, $clo_item_id, ComplexContentObjectItem :: get_table_name());
 
@@ -1352,15 +1352,15 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 */
 	function count_complex_content_object_items($condition)
 	{
-		/*$query = 'SELECT COUNT('.self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE.'.'.
+		/*$query = 'SELECT COUNT('.self :: ALIAS_COMPLEX_CONTENT_OBJECT_ITEM_TABLE.'.'.
 				 $this->escape_column_name(ComplexContentObjectItem :: PROPERTY_ID).') FROM '.
 				 $this->escape_table_name('complex_content_object_item').' AS '.
-				 self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE;
+				 self :: ALIAS_COMPLEX_CONTENT_OBJECT_ITEM_TABLE;
 
 		$params = array ();
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this->database, $params, self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE);
+			$translator = new ConditionTranslator($this->database, $params, self :: ALIAS_COMPLEX_CONTENT_OBJECT_ITEM_TABLE);
             $query .= $translator->render_query($condition);
             $params = $translator->get_parameters();
 		} dump($query);
@@ -1379,7 +1379,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 */
 	function retrieve_complex_content_object_items($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1, $type = null)
 	{
-		$alias = self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE;
+		$alias = self :: ALIAS_COMPLEX_CONTENT_OBJECT_ITEM_TABLE;
 		
 		$query = 'SELECT ' . $alias . '.* FROM ' . $this->escape_table_name('complex_content_object_item') . ' AS ' . $alias;
         $params = array ();
@@ -1389,7 +1389,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
             switch($type)
             {
                 case 'complex_wiki_page':
-                $query .= ' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID).' = '.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(ComplexContentObjectItem :: PROPERTY_ID);
+                $query .= ' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_COMPLEX_CONTENT_OBJECT_ITEM_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID).' = '.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(ComplexContentObjectItem :: PROPERTY_ID);
             }
 		}
 		$lo_alias = $this->get_database()->get_alias('content_object');
@@ -1578,7 +1578,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	function update_user_view_rel_content_object($user_view_rel_content_object)
 	{
 		$conditions[] = new EqualityCondition(UserViewRelContentObject :: PROPERTY_VIEW_ID, $user_view_rel_content_object->get_view_id());
-		$conditions[] = new EqualityCondition(UserViewRelContentObject :: PROPERTY_LEARNING_OBJECT_TYPE, $user_view_rel_content_object->get_content_object_type());
+		$conditions[] = new EqualityCondition(UserViewRelContentObject :: PROPERTY_CONTENT_OBJECT_TYPE, $user_view_rel_content_object->get_content_object_type());
 
 		$condition = new AndCondition($conditions);
 

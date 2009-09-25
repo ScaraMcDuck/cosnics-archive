@@ -15,7 +15,7 @@ class RepositoryManagerContentObjectCopierComponent extends RepositoryManagerCom
      */
     function run()
     {
-    	$lo_ids = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
+    	$lo_ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
     	$target_user = Request :: get(RepositoryManager :: PARAM_TARGET_USER);
     	
     	if(!is_array($lo_ids))

@@ -27,7 +27,7 @@ class DefaultSystemAnnouncementPublicationTableCellRenderer implements ObjectTab
     {
         switch ($column->get_name())
         {
-            case SystemAnnouncementPublication :: PROPERTY_LEARNING_OBJECT_ID :
+            case SystemAnnouncementPublication :: PROPERTY_CONTENT_OBJECT_ID :
                 return $profile_publication->get_publication_object()->get_title();
             default :
                 return '&nbsp;';

@@ -15,7 +15,7 @@ class RepositoryManagerTemplateDeleterComponent extends RepositoryManagerCompone
 	 */
 	function run()
 	{
-		$ids = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
+		$ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
 		$failures = 0;
 
 		if (!empty ($ids))

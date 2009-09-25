@@ -22,7 +22,7 @@ class UserQuota extends DataClass
 	const CLASS_NAME					= __CLASS__;
 	
 	const PROPERTY_USER_ID				= 'user_id';
-	const PROPERTY_LEARNING_OBJECT_TYPE	= 'content_object_type';
+	const PROPERTY_CONTENT_OBJECT_TYPE	= 'content_object_type';
 	const PROPERTY_USER_QUOTA 			= 'user_quota';
 
 	/**
@@ -31,7 +31,7 @@ class UserQuota extends DataClass
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_LEARNING_OBJECT_TYPE, self :: PROPERTY_USER_QUOTA);
+		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_CONTENT_OBJECT_TYPE, self :: PROPERTY_USER_QUOTA);
 	}
 	
 	/**
@@ -57,7 +57,7 @@ class UserQuota extends DataClass
 	 */
 	function get_content_object_type()
 	{
-		return $this->get_default_property(self :: PROPERTY_LEARNING_OBJECT_TYPE);
+		return $this->get_default_property(self :: PROPERTY_CONTENT_OBJECT_TYPE);
 	}
 	
 	/**
@@ -84,7 +84,7 @@ class UserQuota extends DataClass
 	 */
 	function set_content_object_type($type)
 	{
-		$this->set_default_property(self :: PROPERTY_LEARNING_OBJECT_TYPE, $type);
+		$this->set_default_property(self :: PROPERTY_CONTENT_OBJECT_TYPE, $type);
 	}
 	
 	/**

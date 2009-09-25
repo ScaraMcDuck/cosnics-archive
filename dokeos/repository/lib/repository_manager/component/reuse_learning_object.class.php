@@ -17,7 +17,7 @@ class RepositoryManagerReuseContentObjectComponent extends RepositoryManagerComp
 		$trail = new BreadcrumbTrail(false);
 		$trail->add_help('repository general');
 
-        $object = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
+        $object = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
 
         $rdm = RepositoryDataManager :: get_instance();
 
@@ -31,7 +31,7 @@ class RepositoryManagerReuseContentObjectComponent extends RepositoryManagerComp
 
         if($new_lo->create())
         {
-            $this->redirect(Translation :: get('ContentObjectReused'), false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_SHARED_LEARNING_OBJECTS));
+            $this->redirect(Translation :: get('ContentObjectReused'), false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_SHARED_CONTENT_OBJECTS));
         }
 	}
 }

@@ -35,7 +35,7 @@ class RepositoryManagerContentObjectSelectorComponent extends RepositoryManagerC
 
 		if(!Request :: get('publish'))
 		{
-			$trail->add(new Breadcrumb($this->get_link(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS)), Translation :: get('Repository')));
+			$trail->add(new Breadcrumb($this->get_link(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('Repository')));
 		}
 
 		if(isset($cloi_id) && isset($root_id))
@@ -53,8 +53,8 @@ class RepositoryManagerContentObjectSelectorComponent extends RepositoryManagerC
 		$root = $this->retrieve_content_object($root_id);
 		if(!Request :: get('publish'))
 		{
-			$trail->add(new Breadcrumb($this->get_link(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $root_id)), $root->get_title()));
-			$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id)), Translation :: get('ViewComplexContentObject')));
+			$trail->add(new Breadcrumb($this->get_link(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $root_id)), $root->get_title()));
+			$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id)), Translation :: get('ViewComplexContentObject')));
 			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('AddExistingContentObject')));
 		}
 
@@ -71,10 +71,10 @@ class RepositoryManagerContentObjectSelectorComponent extends RepositoryManagerC
 	{
 		$condition = $this->get_condition();
 		$parameters = $this->get_parameters(true);
-		$types = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE);
+		$types = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE);
 		if (is_array($types) && count($types))
 		{
-			$parameters[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE] = $types;
+			$parameters[RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE] = $types;
 		}
 		$parameters = array_merge($parameters,
 			array(RepositoryManager :: PARAM_CLOI_ID => $this->get_cloi_id(),

@@ -25,7 +25,7 @@ class SearchPortalManager extends WebApplication
 	const PARAM_QUERY = 'query';
 	const PARAM_URL = 'url';
 
-	const LEARNING_OBJECTS_PER_PAGE = 10;
+	const CONTENT_OBJECTS_PER_PAGE = 10;
 
 	/**
 	 * The parameters that should be passed with every request.
@@ -138,7 +138,7 @@ END;
 				$count = $results->size();
 				if ($count)
 				{
-					$pager = self :: create_pager($count, self :: LEARNING_OBJECTS_PER_PAGE);
+					$pager = self :: create_pager($count, self :: CONTENT_OBJECTS_PER_PAGE);
 					$pager_links = self :: get_pager_links($pager);
 					$offset = $pager->getOffsetByPageId();
 					$first = $offset[0] - 1;
@@ -154,7 +154,7 @@ END;
 					echo $pager_links;
 					$i = 0;
 					echo '<ul class="portal_search_results">';
-					while ($i ++ < self :: LEARNING_OBJECTS_PER_PAGE && $object = $results->next_result())
+					while ($i ++ < self :: CONTENT_OBJECTS_PER_PAGE && $object = $results->next_result())
 					{
 						self :: display_result($object);
 					}

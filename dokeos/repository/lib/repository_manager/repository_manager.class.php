@@ -42,9 +42,9 @@ class RepositoryManager extends CoreApplication
  	*/
     // SortableTable hogs 'action' so we'll use something else.
     const PARAM_CATEGORY_ID = 'category';
-    const PARAM_LEARNING_OBJECT_ID = 'object';
-    const PARAM_DESTINATION_LEARNING_OBJECT_ID = 'destination';
-    const PARAM_LEARNING_OBJECT_TYPE = 'type';
+    const PARAM_CONTENT_OBJECT_ID = 'object';
+    const PARAM_DESTINATION_CONTENT_OBJECT_ID = 'destination';
+    const PARAM_CONTENT_OBJECT_TYPE = 'type';
     const PARAM_DELETE_PERMANENTLY = 'delete_permanently';
     const PARAM_DELETE_VERSION = 'delete_version';
     const PARAM_DELETE_RECYCLED = 'delete_recycle';
@@ -79,46 +79,46 @@ class RepositoryManager extends CoreApplication
    /**#@+
     * Constant defining an action of the repository manager.
  	*/
-    const ACTION_BROWSE_LEARNING_OBJECTS = 'browse';
-    const ACTION_BROWSE_SHARED_LEARNING_OBJECTS = 'browse_shared';
-    const ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS = 'recycler';
-    const ACTION_VIEW_LEARNING_OBJECTS = 'view';
-    const ACTION_CREATE_LEARNING_OBJECTS = 'create';
-    const ACTION_EDIT_LEARNING_OBJECTS = 'edit';
-    const ACTION_REVERT_LEARNING_OBJECTS = 'revert';
-    const ACTION_DELETE_LEARNING_OBJECTS = 'delete';
-    const ACTION_DELETE_LEARNING_OBJECT_PUBLICATIONS = 'deletepublications';
-    const ACTION_RESTORE_LEARNING_OBJECTS = 'restore';
-    const ACTION_MOVE_LEARNING_OBJECTS = 'move';
-    const ACTION_EDIT_LEARNING_OBJECT_METADATA = 'metadata_edit';
-    const ACTION_VIEW_LEARNING_OBJECT_METADATA = 'metadata_view';
-    const ACTION_EDIT_LEARNING_OBJECT_RIGHTS = 'rights';
+    const ACTION_BROWSE_CONTENT_OBJECTS = 'browse';
+    const ACTION_BROWSE_SHARED_CONTENT_OBJECTS = 'browse_shared';
+    const ACTION_BROWSE_RECYCLED_CONTENT_OBJECTS = 'recycler';
+    const ACTION_VIEW_CONTENT_OBJECTS = 'view';
+    const ACTION_CREATE_CONTENT_OBJECTS = 'create';
+    const ACTION_EDIT_CONTENT_OBJECTS = 'edit';
+    const ACTION_REVERT_CONTENT_OBJECTS = 'revert';
+    const ACTION_DELETE_CONTENT_OBJECTS = 'delete';
+    const ACTION_DELETE_CONTENT_OBJECT_PUBLICATIONS = 'deletepublications';
+    const ACTION_RESTORE_CONTENT_OBJECTS = 'restore';
+    const ACTION_MOVE_CONTENT_OBJECTS = 'move';
+    const ACTION_EDIT_CONTENT_OBJECT_METADATA = 'metadata_edit';
+    const ACTION_VIEW_CONTENT_OBJECT_METADATA = 'metadata_view';
+    const ACTION_EDIT_CONTENT_OBJECT_RIGHTS = 'rights';
     const ACTION_VIEW_MY_PUBLICATIONS = 'publicationbrowser';
     const ACTION_VIEW_QUOTA = 'quota';
-    const ACTION_COMPARE_LEARNING_OBJECTS = 'compare';
-    const ACTION_UPDATE_LEARNING_OBJECT_PUBLICATION = 'publicationupdater';
-    const ACTION_CREATE_COMPLEX_LEARNING_OBJECTS = 'createcomplex';
-    const ACTION_UPDATE_COMPLEX_LEARNING_OBJECTS = 'updatecomplex';
-    const ACTION_DELETE_COMPLEX_LEARNING_OBJECTS = 'deletecomplex';
-    const ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS = 'browsecomplex';
-    const ACTION_MOVE_COMPLEX_LEARNING_OBJECTS = 'movecomplex';
-    const ACTION_SELECT_LEARNING_OBJECTS = 'selectobjects';
-    const ACTION_ADD_LEARNING_OBJECT = 'addobject';
-    const ACTION_EXPORT_LEARNING_OBJECTS = 'export';
-    const ACTION_IMPORT_LEARNING_OBJECTS = 'import';
-    const ACTION_PUBLISH_LEARNING_OBJECT = 'publish';
+    const ACTION_COMPARE_CONTENT_OBJECTS = 'compare';
+    const ACTION_UPDATE_CONTENT_OBJECT_PUBLICATION = 'publicationupdater';
+    const ACTION_CREATE_COMPLEX_CONTENT_OBJECTS = 'createcomplex';
+    const ACTION_UPDATE_COMPLEX_CONTENT_OBJECTS = 'updatecomplex';
+    const ACTION_DELETE_COMPLEX_CONTENT_OBJECTS = 'deletecomplex';
+    const ACTION_BROWSE_COMPLEX_CONTENT_OBJECTS = 'browsecomplex';
+    const ACTION_MOVE_COMPLEX_CONTENT_OBJECTS = 'movecomplex';
+    const ACTION_SELECT_CONTENT_OBJECTS = 'selectobjects';
+    const ACTION_ADD_CONTENT_OBJECT = 'addobject';
+    const ACTION_EXPORT_CONTENT_OBJECTS = 'export';
+    const ACTION_IMPORT_CONTENT_OBJECTS = 'import';
+    const ACTION_PUBLISH_CONTENT_OBJECT = 'publish';
     const ACTION_MANAGE_CATEGORIES = 'manage_categories';
     const ACTION_VIEW_ATTACHMENT = 'view_attachment';
-    const ACTION_BUILD_COMPLEX_LEARNING_OBJECT = 'build_complex';
+    const ACTION_BUILD_COMPLEX_CONTENT_OBJECT = 'build_complex';
     const ACTION_VIEW_REPO = 'repo_viewer';
-    const ACTION_REUSE_LEARNING_OBJECT = 'reuse_content_object';
+    const ACTION_REUSE_CONTENT_OBJECT = 'reuse_content_object';
     const ACTION_DOWNLOAD_DOCUMENT = 'document_downloader';
     const ACTION_EXTERNAL_REPOSITORY_BROWSE          = 'ext_rep_browse';
     const ACTION_EXTERNAL_REPOSITORY_EXPORT          = 'ext_rep_export';
     const ACTION_EXTERNAL_REPOSITORY_METADATA_REVIEW = 'ext_rep_metadata_review';
     const ACTION_EXTERNAL_REPOSITORY_CATALOG         = 'ext_rep_catalog';
 	const ACTION_BROWSE_TEMPLATES = 'templates';
-	const ACTION_COPY_LEARNING_OBJECT = 'lo_copy';
+	const ACTION_COPY_CONTENT_OBJECT = 'lo_copy';
 	const ACTION_IMPORT_TEMPLATE = 'import_template';
 	const ACTION_DELETE_TEMPLATE = 'delete_template';
     
@@ -158,9 +158,9 @@ class RepositoryManager extends CoreApplication
     {
         $this->publication_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_MY_PUBLICATIONS), false, false, 'dddd');
         $this->quota_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_QUOTA, self :: PARAM_CATEGORY_ID => null));
-        $this->create_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_LEARNING_OBJECTS));
-        $this->import_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_IMPORT_LEARNING_OBJECTS));
-        $this->recycle_bin_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS, self :: PARAM_CATEGORY_ID => null));
+        $this->create_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_CONTENT_OBJECTS));
+        $this->import_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_IMPORT_CONTENT_OBJECTS));
+        $this->recycle_bin_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_RECYCLED_CONTENT_OBJECTS, self :: PARAM_CATEGORY_ID => null));
 
 		/*
 		 * Only setting breadcrumbs here. Some stuff still calls
@@ -171,62 +171,62 @@ class RepositoryManager extends CoreApplication
         $component = null;
         switch ($action)
         {
-            case self :: ACTION_CREATE_COMPLEX_LEARNING_OBJECTS :
+            case self :: ACTION_CREATE_COMPLEX_CONTENT_OBJECTS :
                 $component = RepositoryManagerComponent :: factory('ComplexCreator', $this);
                 break;
-            case self :: ACTION_UPDATE_COMPLEX_LEARNING_OBJECTS :
+            case self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECTS :
                 $component = RepositoryManagerComponent :: factory('ComplexUpdater', $this);
                 break;
-            case self :: ACTION_DELETE_COMPLEX_LEARNING_OBJECTS :
+            case self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECTS :
                 $component = RepositoryManagerComponent :: factory('ComplexDeleter', $this);
                 break;
-            case self :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS :
+            case self :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECTS :
                 $component = RepositoryManagerComponent :: factory('ComplexBrowser', $this);
                 break;
-            case self :: ACTION_SELECT_LEARNING_OBJECTS :
+            case self :: ACTION_SELECT_CONTENT_OBJECTS :
                 $component = RepositoryManagerComponent :: factory('ContentObjectSelector', $this);
                 break;
-            case self :: ACTION_ADD_LEARNING_OBJECT :
+            case self :: ACTION_ADD_CONTENT_OBJECT :
                 $component = RepositoryManagerComponent :: factory('AddContentObjects', $this);
                 break;
-            case self :: ACTION_VIEW_LEARNING_OBJECTS :
+            case self :: ACTION_VIEW_CONTENT_OBJECTS :
                 $component = RepositoryManagerComponent :: factory('Viewer', $this);
                 break;
-            case self :: ACTION_COMPARE_LEARNING_OBJECTS :
+            case self :: ACTION_COMPARE_CONTENT_OBJECTS :
                 $component = RepositoryManagerComponent :: factory('Comparer', $this);
                 break;
-            case self :: ACTION_CREATE_LEARNING_OBJECTS :
+            case self :: ACTION_CREATE_CONTENT_OBJECTS :
                 $this->force_menu_url($this->create_url, true);
                 $component = RepositoryManagerComponent :: factory('Creator', $this);
                 break;
-            case self :: ACTION_EDIT_LEARNING_OBJECTS :
+            case self :: ACTION_EDIT_CONTENT_OBJECTS :
                 $component = RepositoryManagerComponent :: factory('Editor', $this);
                 break;
-            case self :: ACTION_REVERT_LEARNING_OBJECTS :
+            case self :: ACTION_REVERT_CONTENT_OBJECTS :
                 $component = RepositoryManagerComponent :: factory('Reverter', $this);
                 break;
-            case self :: ACTION_DELETE_LEARNING_OBJECTS :
+            case self :: ACTION_DELETE_CONTENT_OBJECTS :
                 $component = RepositoryManagerComponent :: factory('Deleter', $this);
                 break;
-            case self :: ACTION_DELETE_LEARNING_OBJECT_PUBLICATIONS :
+            case self :: ACTION_DELETE_CONTENT_OBJECT_PUBLICATIONS :
                 $component = RepositoryManagerComponent :: factory('PublicationDeleter', $this);
                 break;
-            case self :: ACTION_RESTORE_LEARNING_OBJECTS :
+            case self :: ACTION_RESTORE_CONTENT_OBJECTS :
                 $component = RepositoryManagerComponent :: factory('Restorer', $this);
                 break;
-            case self :: ACTION_MOVE_LEARNING_OBJECTS :
+            case self :: ACTION_MOVE_CONTENT_OBJECTS :
                 $component = RepositoryManagerComponent :: factory('Mover', $this);
                 break;
-            case self :: ACTION_EDIT_LEARNING_OBJECT_METADATA :
+            case self :: ACTION_EDIT_CONTENT_OBJECT_METADATA :
                 $component = RepositoryManagerComponent :: factory('MetadataEditor', $this);
                 break;
-            case self :: ACTION_VIEW_LEARNING_OBJECT_METADATA :
+            case self :: ACTION_VIEW_CONTENT_OBJECT_METADATA :
                 $component = RepositoryManagerComponent :: factory('MetadataViewer', $this);
                 break;
-            case self :: ACTION_EDIT_LEARNING_OBJECT_RIGHTS :
+            case self :: ACTION_EDIT_CONTENT_OBJECT_RIGHTS :
                 $component = RepositoryManagerComponent :: factory('RightsEditor', $this);
                 break;
-            case self :: ACTION_UPDATE_LEARNING_OBJECT_PUBLICATION :
+            case self :: ACTION_UPDATE_CONTENT_OBJECT_PUBLICATION :
                 $component = RepositoryManagerComponent :: factory('PublicationUpdater', $this);
                 break;
             case self :: ACTION_VIEW_QUOTA :
@@ -239,22 +239,22 @@ class RepositoryManager extends CoreApplication
                 $this->force_menu_url($this->publication_url, true);
                 $component = RepositoryManagerComponent :: factory('PublicationBrowser', $this);
                 break;
-            case self :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS :
+            case self :: ACTION_BROWSE_RECYCLED_CONTENT_OBJECTS :
                 $this->set_parameter(self :: PARAM_CATEGORY_ID, null);
                 $this->force_menu_url($this->recycle_bin_url, true);
                 $component = RepositoryManagerComponent :: factory('RecycleBinBrowser', $this);
                 break;
-            case self :: ACTION_MOVE_COMPLEX_LEARNING_OBJECTS :
+            case self :: ACTION_MOVE_COMPLEX_CONTENT_OBJECTS :
                 $component = RepositoryManagerComponent :: factory('ComplexOrderMover', $this);
                 break;
-            case self :: ACTION_EXPORT_LEARNING_OBJECTS :
+            case self :: ACTION_EXPORT_CONTENT_OBJECTS :
                 $component = RepositoryManagerComponent :: factory('Exporter', $this);
                 break;
-            case self :: ACTION_IMPORT_LEARNING_OBJECTS :
+            case self :: ACTION_IMPORT_CONTENT_OBJECTS :
                 $this->force_menu_url($this->import_url, true);
                 $component = RepositoryManagerComponent :: factory('Importer', $this);
                 break;
-            case self :: ACTION_PUBLISH_LEARNING_OBJECT :
+            case self :: ACTION_PUBLISH_CONTENT_OBJECT :
                 $component = RepositoryManagerComponent :: factory('Publisher', $this);
                 break;
             case self :: ACTION_MANAGE_CATEGORIES :
@@ -278,16 +278,16 @@ class RepositoryManager extends CoreApplication
             case self :: ACTION_VIEW_ATTACHMENT :
                 $component = RepositoryManagerComponent :: factory('AttachmentViewer', $this);
                 break;
-            case self :: ACTION_BUILD_COMPLEX_LEARNING_OBJECT :
+            case self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT :
                 $component = RepositoryManagerComponent :: factory('ComplexBuilder', $this);
                 break;
             case self :: ACTION_VIEW_REPO :
                 $component = RepositoryManagerComponent :: factory('RepoViewer', $this);
                 break;
-            case self :: ACTION_BROWSE_SHARED_LEARNING_OBJECTS :
+            case self :: ACTION_BROWSE_SHARED_CONTENT_OBJECTS :
                 $component = RepositoryManagerComponent :: factory('SharedContentObjectsBrowser', $this);
                 break;
-            case self :: ACTION_REUSE_LEARNING_OBJECT :
+            case self :: ACTION_REUSE_CONTENT_OBJECT :
                 $component = RepositoryManagerComponent :: factory('ReuseContentObject', $this);
                 break;
             case self :: ACTION_EXTERNAL_REPOSITORY_BROWSE :
@@ -305,7 +305,7 @@ class RepositoryManager extends CoreApplication
             case self :: ACTION_BROWSE_TEMPLATES :
             	$component = RepositoryManagerComponent :: factory('TemplateBrowser', $this);
                 break;
-            case self :: ACTION_COPY_LEARNING_OBJECT :
+            case self :: ACTION_COPY_CONTENT_OBJECT :
             	$component = RepositoryManagerComponent :: factory('ContentObjectCopier', $this);
                 break;
             case self :: ACTION_IMPORT_TEMPLATE :
@@ -315,7 +315,7 @@ class RepositoryManager extends CoreApplication
             	$component = RepositoryManagerComponent :: factory('TemplateDeleter', $this);
                 break;
             default :
-                $this->set_action(self :: ACTION_BROWSE_LEARNING_OBJECTS);
+                $this->set_action(self :: ACTION_BROWSE_CONTENT_OBJECTS);
                 $component = RepositoryManagerComponent :: factory('Browser', $this);
         }
         $component->run();
@@ -351,52 +351,52 @@ class RepositoryManager extends CoreApplication
             switch ($_POST['action'])
             {
                 case self :: PARAM_RECYCLE_SELECTED :
-                    $this->set_action(self :: ACTION_DELETE_LEARNING_OBJECTS);
-                    Request :: set_get(self :: PARAM_LEARNING_OBJECT_ID,$selected_ids);
+                    $this->set_action(self :: ACTION_DELETE_CONTENT_OBJECTS);
+                    Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID,$selected_ids);
                     Request :: set_get(self :: PARAM_DELETE_RECYCLED,1);
                     break;
                 case self :: PARAM_MOVE_SELECTED :
-                    $this->set_action(self :: ACTION_MOVE_LEARNING_OBJECTS);
-                    Request :: set_get(self :: PARAM_LEARNING_OBJECT_ID,$selected_ids);
+                    $this->set_action(self :: ACTION_MOVE_CONTENT_OBJECTS);
+                    Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID,$selected_ids);
                     break;
                 case self :: PARAM_RESTORE_SELECTED :
-                    $this->set_action(self :: ACTION_RESTORE_LEARNING_OBJECTS);
-                    Request :: set_get(self :: PARAM_LEARNING_OBJECT_ID,$selected_ids);
+                    $this->set_action(self :: ACTION_RESTORE_CONTENT_OBJECTS);
+                    Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID,$selected_ids);
                     break;
                 case self :: PARAM_DELETE_SELECTED :
-                    $this->set_action(self :: ACTION_DELETE_LEARNING_OBJECTS);
-                    Request :: set_get(self :: PARAM_LEARNING_OBJECT_ID,$selected_ids);
+                    $this->set_action(self :: ACTION_DELETE_CONTENT_OBJECTS);
+                    Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID,$selected_ids);
                     Request :: set_get(self :: PARAM_DELETE_PERMANENTLY,1);
                     break;
                 case self :: PARAM_REMOVE_SELECTED_CLOI :
-                    $this->set_action(self :: ACTION_DELETE_COMPLEX_LEARNING_OBJECTS);
+                    $this->set_action(self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECTS);
                     Request :: set_get(self :: PARAM_CLOI_ID,$selected_ids);
                     break;
                 case self :: PARAM_ADD_OBJECTS :
-                    $this->set_action(self :: ACTION_ADD_LEARNING_OBJECT);
+                    $this->set_action(self :: ACTION_ADD_CONTENT_OBJECT);
                     Request :: set_get(self :: PARAM_CLOI_REF,$selected_ids);
                     break;
                 case self :: PARAM_PUBLISH_SELECTED :
-                    $this->set_action(self :: ACTION_PUBLISH_LEARNING_OBJECT);
-                    Request :: set_get(self :: PARAM_LEARNING_OBJECT_ID,$selected_ids);
+                    $this->set_action(self :: ACTION_PUBLISH_CONTENT_OBJECT);
+                    Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID,$selected_ids);
                     break;
                 case self :: PARAM_DELETE_SELECTED_USER_VIEW:
                     $this->set_action(self :: ACTION_DELETE_USER_VIEW);
                     Request :: set_get(self :: PARAM_USER_VIEW,$selected_ids);
                     break;
                 case self :: PARAM_COPY_TO_TEMPLATES:
-                	$this->set_action(self :: ACTION_COPY_LEARNING_OBJECT);
-                	Request :: set_get(self :: PARAM_LEARNING_OBJECT_ID, $selected_ids);
+                	$this->set_action(self :: ACTION_COPY_CONTENT_OBJECT);
+                	Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID, $selected_ids);
                 	Request :: set_get(self :: PARAM_TARGET_USER, 0);
                 	break;
                 case self :: PARAM_COPY_FROM_TEMPLATES:
-                	$this->set_action(self :: ACTION_COPY_LEARNING_OBJECT);
-                	Request :: set_get(self :: PARAM_LEARNING_OBJECT_ID, $template_ids);
+                	$this->set_action(self :: ACTION_COPY_CONTENT_OBJECT);
+                	Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID, $template_ids);
                 	Request :: set_get(self :: PARAM_TARGET_USER, $this->get_user_id());
                 	break;
                 case self :: PARAM_DELETE_TEMPLATES:
                 	$this->set_action(self :: ACTION_DELETE_TEMPLATE);
-                	Request :: set_get(self :: PARAM_LEARNING_OBJECT_ID, $template_ids);
+                	Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID, $template_ids);
                 	break;
             }
         }
@@ -416,10 +416,10 @@ class RepositoryManager extends CoreApplication
         }
 
         $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS)), Translation :: get('Repository')));
+        $trail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('Repository')));
 
 		/*$categories = $this->breadcrumbs;
-		if (count($categories) > 0 && $this->get_action() == self :: ACTION_BROWSE_LEARNING_OBJECTS)
+		if (count($categories) > 0 && $this->get_action() == self :: ACTION_BROWSE_CONTENT_OBJECTS)
 		{
 			foreach($categories as $category)
 			{
@@ -668,7 +668,7 @@ class RepositoryManager extends CoreApplication
 
     function get_publication_update_url($publication_attribute)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE_LEARNING_OBJECT_PUBLICATION, self:: PARAM_PUBLICATION_APPLICATION => $publication_attribute->get_application(), self :: PARAM_PUBLICATION_ID => $publication_attribute->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE_CONTENT_OBJECT_PUBLICATION, self:: PARAM_PUBLICATION_APPLICATION => $publication_attribute->get_application(), self :: PARAM_PUBLICATION_ID => $publication_attribute->get_id()));
     }
 
     /**
@@ -680,13 +680,13 @@ class RepositoryManager extends CoreApplication
     {
         if ($content_object->get_state() == ContentObject :: STATE_RECYCLED)
         {
-            return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $content_object->get_id(), self :: PARAM_CATEGORY_ID => null));
+            return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_CONTENT_OBJECTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(), self :: PARAM_CATEGORY_ID => null));
         }
         if ($content_object->get_type() == 'category')
         {
-            return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS, self :: PARAM_CATEGORY_ID => $content_object->get_id()));
+            return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECTS, self :: PARAM_CATEGORY_ID => $content_object->get_id()));
         }
-        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $content_object->get_id(), self :: PARAM_CATEGORY_ID => $content_object->get_parent_id()));
+        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_CONTENT_OBJECTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(), self :: PARAM_CATEGORY_ID => $content_object->get_parent_id()));
     }
     /**
      * Gets the url to view a learning object.
@@ -699,7 +699,7 @@ class RepositoryManager extends CoreApplication
         {
             return null;
         }
-        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $content_object->get_id()));
+        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_CONTENT_OBJECTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
     }
     /**
      * Gets the url to delete a learning object's publications.
@@ -708,7 +708,7 @@ class RepositoryManager extends CoreApplication
      */
     function get_content_object_delete_publications_url($content_object)
     {
-        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_LEARNING_OBJECT_PUBLICATIONS, self :: PARAM_LEARNING_OBJECT_ID => $content_object->get_id()));
+        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_CONTENT_OBJECT_PUBLICATIONS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
     }
     /**
      * Gets the url to recycle a learning object (move the object to the
@@ -722,7 +722,7 @@ class RepositoryManager extends CoreApplication
         {
             return null;
         }
-        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $content_object->get_id(), self :: PARAM_DELETE_RECYCLED => 1));
+        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_CONTENT_OBJECTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(), self :: PARAM_DELETE_RECYCLED => 1));
     }
     /**
      * Gets the url to restore a learning object from the recycle bin.
@@ -735,7 +735,7 @@ class RepositoryManager extends CoreApplication
         {
             return null;
         }
-        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_RESTORE_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $content_object->get_id()));
+        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_RESTORE_CONTENT_OBJECTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
     }
     /**
      * Gets the url to delete a learning object from recycle bin.
@@ -764,7 +764,7 @@ class RepositoryManager extends CoreApplication
                 $param = self :: PARAM_DELETE_RECYCLED;
             }
         }
-        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $content_object->get_id(), $param => 1));
+        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_CONTENT_OBJECTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(), $param => 1));
     }
 
     /**
@@ -779,7 +779,7 @@ class RepositoryManager extends CoreApplication
             return null;
         }
 
-        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_REVERT_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $content_object->get_id()));
+        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_REVERT_CONTENT_OBJECTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
     }
 
     /**
@@ -789,7 +789,7 @@ class RepositoryManager extends CoreApplication
      */
     function get_content_object_moving_url($content_object)
     {
-        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MOVE_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $content_object->get_id()));
+        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MOVE_CONTENT_OBJECTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
     }
     /**
      * Gets the url to edit the metadata of a learning object.
@@ -798,7 +798,7 @@ class RepositoryManager extends CoreApplication
      */
     function get_content_object_metadata_editing_url($content_object)
     {
-        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_LEARNING_OBJECT_METADATA, self :: PARAM_LEARNING_OBJECT_ID => $content_object->get_id()));
+        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_CONTENT_OBJECT_METADATA, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
     }
     /**
      * Gets the url to edit the rights on a learning object.
@@ -807,7 +807,7 @@ class RepositoryManager extends CoreApplication
      */
     function get_content_object_rights_editing_url($content_object)
     {
-        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_LEARNING_OBJECT_RIGHTS, self :: PARAM_LEARNING_OBJECT_ID => $content_object->get_id()));
+        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_CONTENT_OBJECT_RIGHTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
     }
     /**
      * Gets the defined learning object types
@@ -840,8 +840,8 @@ class RepositoryManager extends CoreApplication
     function get_type_filter_url($type)
     {
         $params = array ();
-        $params[self :: PARAM_ACTION] = self :: ACTION_BROWSE_LEARNING_OBJECTS;
-        $params[self :: PARAM_LEARNING_OBJECT_TYPE] = array ($type);
+        $params[self :: PARAM_ACTION] = self :: ACTION_BROWSE_CONTENT_OBJECTS;
+        $params[self :: PARAM_CONTENT_OBJECT_TYPE] = array ($type);
         return $this->get_url($params);
     }
 
@@ -942,7 +942,7 @@ class RepositoryManager extends CoreApplication
         {
         // We need this because the percent sign in '%s' gets escaped.
             $temp_replacement = '__CATEGORY_ID__';
-            $url_format = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS, self :: PARAM_CATEGORY_ID => $temp_replacement));
+            $url_format = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECTS, self :: PARAM_CATEGORY_ID => $temp_replacement));
             $url_format = str_replace($temp_replacement, '%s', $url_format);
             $category = $this->get_parameter(self :: PARAM_CATEGORY_ID);
             if (!isset ($category))
@@ -1063,14 +1063,14 @@ class RepositoryManager extends CoreApplication
             'action' => 'import',
             'url' => $this->get_link(array(Application :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE)));
         
-        $info['search'] = $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS));
+        $info['search'] = $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECTS));
         $info['links'] = $links;
         return $info;
     }
     
     static function get_document_downloader_url($document_id)
     {
-    	$parameters = array(self :: PARAM_ACTION => self :: ACTION_DOWNLOAD_DOCUMENT, self :: PARAM_LEARNING_OBJECT_ID => $document_id);
+    	$parameters = array(self :: PARAM_ACTION => self :: ACTION_DOWNLOAD_DOCUMENT, self :: PARAM_CONTENT_OBJECT_ID => $document_id);
     	return Redirect :: get_link(self :: APPLICATION_NAME, $parameters, null, null, Redirect :: TYPE_CORE);
     }
 
@@ -1094,21 +1094,21 @@ class RepositoryManager extends CoreApplication
 
     function get_complex_content_object_item_edit_url($cloi, $root_id)
     {
-        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_UPDATE_COMPLEX_LEARNING_OBJECTS,
+        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECTS,
         self :: PARAM_CLOI_ID => $cloi->get_id(),
         self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
     }
 
     function get_complex_content_object_item_delete_url($cloi, $root_id)
     {
-        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_COMPLEX_LEARNING_OBJECTS,
+        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECTS,
         self :: PARAM_CLOI_ID => $cloi->get_id(),
         self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
     }
 
     function get_complex_content_object_item_move_url($cloi, $root_id, $direction)
     {
-        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MOVE_COMPLEX_LEARNING_OBJECTS,
+        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MOVE_COMPLEX_CONTENT_OBJECTS,
         self :: PARAM_CLOI_ID => $cloi->get_id(),
         self :: PARAM_CLOI_ROOT_ID => $root_id,
         self :: PARAM_MOVE_DIRECTION => $direction, 'publish' => Request :: get('publish')));
@@ -1116,34 +1116,34 @@ class RepositoryManager extends CoreApplication
 
     function get_browse_complex_content_object_url($object)
     {
-        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BUILD_COMPLEX_LEARNING_OBJECT,
+        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT,
         ComplexBuilder :: PARAM_ROOT_LO => $object->get_id()));
     }
 
     function get_add_existing_content_object_url($root_id, $clo_id)
     {
-        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_SELECT_LEARNING_OBJECTS,
+        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_SELECT_CONTENT_OBJECTS,
         self :: PARAM_CLOI_ID => $clo_id,
         self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
     }
 
     function get_add_content_object_url($content_object, $cloi_id, $root_id)
     {
-        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_ADD_LEARNING_OBJECT,
+        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_ADD_CONTENT_OBJECT,
         self :: PARAM_CLOI_REF => $content_object->get_id(),
         self :: PARAM_CLOI_ID => $cloi_id,
         self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
     }
     function get_content_object_exporting_url($content_object)
     {
-        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EXPORT_LEARNING_OBJECTS,
-        self :: PARAM_LEARNING_OBJECT_ID => $content_object->get_id()));
+        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EXPORT_CONTENT_OBJECTS,
+        self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
     }
 
     function get_publish_content_object_url($content_object)
     {
-        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_PUBLISH_LEARNING_OBJECT,
-        self :: PARAM_LEARNING_OBJECT_ID => $content_object->get_id()));
+        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_PUBLISH_CONTENT_OBJECT,
+        self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
     }
 
     function count_categories($conditions = null)
@@ -1204,7 +1204,7 @@ class RepositoryManager extends CoreApplication
 
     function get_shared_content_objects_url()
     {
-        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_SHARED_LEARNING_OBJECTS));
+        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_SHARED_CONTENT_OBJECTS));
     }
 
     function create_user_view_url()
@@ -1226,7 +1226,7 @@ class RepositoryManager extends CoreApplication
     
     function get_copy_content_object_url($lo_id, $to_user_id)
     {
-    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COPY_LEARNING_OBJECT, self :: PARAM_LEARNING_OBJECT_ID => $lo_id,
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COPY_CONTENT_OBJECT, self :: PARAM_CONTENT_OBJECT_ID => $lo_id,
     								self :: PARAM_TARGET_USER => $to_user_id));
     }
 
@@ -1237,12 +1237,12 @@ class RepositoryManager extends CoreApplication
     
  	function get_delete_template_url($template_id)
     {
-    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_TEMPLATE, self :: PARAM_LEARNING_OBJECT_ID => $template_id));
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_TEMPLATE, self :: PARAM_CONTENT_OBJECT_ID => $template_id));
     }
     
     function get_reuse_content_object_url($content_object)
     {
-        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_REUSE_LEARNING_OBJECT, self :: PARAM_LEARNING_OBJECT_ID => $content_object->get_id()));
+        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_REUSE_CONTENT_OBJECT, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
     }
 
     /**

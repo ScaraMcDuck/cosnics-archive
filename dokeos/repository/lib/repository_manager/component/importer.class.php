@@ -29,7 +29,7 @@ class RepositoryManagerImporterComponent extends RepositoryManagerComponent
 			$succes = $import_form->import_content_object();
 
 			$message = $succes ? 'ContentObjectImported' : 'ContentObjectNotImported';
-			$this->redirect(Translation :: get($message), !$succes, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS));
+			$this->redirect(Translation :: get($message), !$succes, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS));
 		}
 		else
 		{

@@ -67,7 +67,7 @@ class PackageInstallerContentObjectType extends PackageInstallerType
         $object_name = $attributes->get_code();
         
         $registration = new Registration();
-        $registration->set_type(Registration :: TYPE_LEARNING_OBJECT);
+        $registration->set_type(Registration :: TYPE_CONTENT_OBJECT);
         $registration->set_name($attributes->get_code());
         $registration->set_status(1);
         $registration->set_version($attributes->get_version());

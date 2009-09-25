@@ -12,7 +12,7 @@ class UserViewRelContentObject extends DataClass
 	const CLASS_NAME = __CLASS__;
 	
 	const PROPERTY_VIEW_ID = 'view_id';
-	const PROPERTY_LEARNING_OBJECT_TYPE = 'content_object_type';
+	const PROPERTY_CONTENT_OBJECT_TYPE = 'content_object_type';
 	const PROPERTY_VISIBILITY = 'visibility';
 	
 	/**
@@ -21,7 +21,7 @@ class UserViewRelContentObject extends DataClass
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_VIEW_ID, self :: PROPERTY_VISIBILITY, self :: PROPERTY_LEARNING_OBJECT_TYPE);
+		return array (self :: PROPERTY_VIEW_ID, self :: PROPERTY_VISIBILITY, self :: PROPERTY_CONTENT_OBJECT_TYPE);
 	}
 	
 	/**
@@ -70,12 +70,12 @@ class UserViewRelContentObject extends DataClass
 	
 	function get_content_object_type()
 	{
-		return $this->get_default_property(self :: PROPERTY_LEARNING_OBJECT_TYPE);
+		return $this->get_default_property(self :: PROPERTY_CONTENT_OBJECT_TYPE);
 	}
 	
 	function set_content_object_type($content_object_type)
 	{
-		$this->set_default_property(self :: PROPERTY_LEARNING_OBJECT_TYPE, $content_object_type);
+		$this->set_default_property(self :: PROPERTY_CONTENT_OBJECT_TYPE, $content_object_type);
 	}
 	
 	function create()

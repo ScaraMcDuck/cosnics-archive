@@ -41,7 +41,7 @@ class RepositoryManagerComplexOrderMoverComponent extends RepositoryManagerCompo
                 $succes = false;
             }
 
-            $this->redirect($succes ? Translation :: get('ComplexContentObjectItemsMoved') : Translation :: get('ComplexContentObjectItemsNotMoved'), false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $parent, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root, 'publish' => Request :: get('publish'), 'clo_action' => 'organise'));
+            $this->redirect($succes ? Translation :: get('ComplexContentObjectItemsMoved') : Translation :: get('ComplexContentObjectItemsNotMoved'), false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $parent, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root, 'publish' => Request :: get('publish'), 'clo_action' => 'organise'));
         }
         else
         {

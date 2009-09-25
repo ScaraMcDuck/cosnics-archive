@@ -119,7 +119,7 @@ class CalendarBrowser extends ContentObjectPublicationBrowser
 			$subselect_conditions[] = $this->get_parent()->get_condition();
 		}
 		$subselect_condition = new AndCondition($subselect_conditions);
-		$conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
+		$conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
 		$condition = new AndCondition($conditions);
 		
 		$this->publications = $datamanager->retrieve_content_object_publications_new($condition)->as_array();		
