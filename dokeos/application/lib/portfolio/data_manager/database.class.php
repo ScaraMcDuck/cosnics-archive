@@ -190,7 +190,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
         {
             if ($type == 'user')
             {
-                $query = 'SELECT ' . $this->database->get_alias('portfolio_publication') . '.*, lo.' . $this->database->escape_column_name('title') . ' FROM ' . $this->database->escape_table_name('portfolio_publication') . ' AS ' . $this->database->get_alias('portfolio_publication') . ' JOIN ' . RepositoryDataManager :: get_instance()->escape_table_name('learning_object') . ' AS lo ON ' . $this->database->get_alias('portfolio_publication') . '.`learning_object` = lo.`id`';
+                $query = 'SELECT ' . $this->database->get_alias('portfolio_publication') . '.*, lo.' . $this->database->escape_column_name('title') . ' FROM ' . $this->database->escape_table_name('portfolio_publication') . ' AS ' . $this->database->get_alias('portfolio_publication') . ' JOIN ' . RepositoryDataManager :: get_instance()->escape_table_name('learning_object') . ' AS lo ON ' . $this->database->get_alias('portfolio_publication') . '.`learning_object_id` = lo.`id`';
                 $query .= ' WHERE ' . $this->database->get_alias('portfolio_publication') . '.' . $this->database->escape_column_name(PortfolioPublication :: PROPERTY_PUBLISHER) . '=?';
 
                 $order = array();
