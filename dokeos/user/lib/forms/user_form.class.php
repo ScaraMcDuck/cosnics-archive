@@ -116,8 +116,8 @@ class UserForm extends FormValidator {
 
 		// Status
 		$status = array();
-		$status[STUDENT] = Translation :: get('Student');
-		$status[COURSEMANAGER]  = Translation :: get('CourseAdmin');
+		$status[5] = Translation :: get('Student');
+		$status[1]  = Translation :: get('CourseAdmin');
 		$this->addElement('select',User :: PROPERTY_STATUS,Translation :: get('Status'),$status);
 		// Platform admin
 		if ($this->user->is_platform_admin() && $this->user->get_id() == $this->form_user->get_id() && $this->form_type == self :: TYPE_EDIT)
@@ -172,9 +172,6 @@ class UserForm extends FormValidator {
      */
     function build_editing_form()
     {
-    	$user = $this->user;
-    	$parent = $this->parent;
-
     	$this->build_basic_form();
 
     	$this->addElement('hidden', User :: PROPERTY_USER_ID);
@@ -215,7 +212,6 @@ class UserForm extends FormValidator {
     	{
 			$user->set_picture_file($_FILES[User :: PROPERTY_PICTURE_URI]);
     	}
-		$udm = UserDataManager :: get_instance();
 
 		$user->set_lastname($values[User :: PROPERTY_LASTNAME]);
 		$user->set_firstname($values[User :: PROPERTY_FIRSTNAME]);
