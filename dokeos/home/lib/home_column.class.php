@@ -10,7 +10,7 @@ class HomeColumn extends DataClass
     const PROPERTY_TITLE = 'title';
     const PROPERTY_SORT = 'sort';
     const PROPERTY_WIDTH = 'width';
-    const PROPERTY_ROW = 'row';
+    const PROPERTY_ROW = 'row_id';
     const PROPERTY_USER = 'user_id';
 
     /**

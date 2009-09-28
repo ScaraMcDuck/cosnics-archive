@@ -9,7 +9,7 @@ class HomeRow extends DataClass
     
     const PROPERTY_TITLE = 'title';
     const PROPERTY_SORT = 'sort';
-    const PROPERTY_TAB = 'tab';
+    const PROPERTY_TAB = 'tab_id';
     const PROPERTY_USER = 'user_id';
     
     /**
