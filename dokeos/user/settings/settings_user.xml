@@ -88,7 +88,7 @@
 					<option name="false" value="0" />
 				</options>
 			</setting>
-			<setting name="days_valid" field="text" default="3660" />
+			<setting name="days_valid" field="text" default="366" />
 			<setting name="show_email_addresses" field="radio" default="1">
 				<options type="static">
 					<option name="true" value="1" />
