@@ -14,4 +14,10 @@
 	<index name="id" type="primary">
 		<indexproperty name="id" />
 	</index>
+	<index name="content_object_id">
+		<indexproperty name="content_object_id" />
+	</index>
+	<index name="publisher_id">
+		<indexproperty name="publisher_id" />
+	</index>
 </object>
