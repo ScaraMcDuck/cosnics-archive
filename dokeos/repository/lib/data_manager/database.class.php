@@ -30,7 +30,7 @@ require_once 'MDB2.php';
 class DatabaseRepositoryDataManager extends RepositoryDataManager
 {
     const ALIAS_CONTENT_OBJECT_PUB_FEEDBACK_TABLE = 'lopf';
-	const ALIAS_CONTENT_OBJECT_TABLE = 'lect';
+	const ALIAS_CONTENT_OBJECT_TABLE = 'coct';
 	const ALIAS_CONTENT_OBJECT_VERSION_TABLE = 'lov';
 	const ALIAS_CONTENT_OBJECT_ATTACHMENT_TABLE = 'loa';
 	const ALIAS_TYPE_TABLE = 'tt';
