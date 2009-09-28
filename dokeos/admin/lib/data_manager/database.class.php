@@ -380,7 +380,7 @@ class DatabaseAdminDataManager extends AdminDataManager
         }
         else
         {
-            $query = 'SELECT * FROM ' . $this->database->get_table_name('system_announcement_publication') . ' WHERE ' . $this->database->escape_column_name('object_id') . '=?';
+            $query = 'SELECT * FROM ' . $this->database->get_table_name('system_announcement_publication') . ' WHERE ' . $this->database->escape_column_name('content_object_id') . '=?';
             $statement = $this->database->get_connection()->prepare($query);
             $res = $statement->execute($object_id);
         }
