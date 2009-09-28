@@ -35,6 +35,7 @@ class SubscriptionOverviewBrowserTableColumnModel extends DefaultSubscriptionTab
 		$columns[] = new ObjectTableColumn(Subscription :: PROPERTY_START_TIME, false);
 		$columns[] = new ObjectTableColumn(Subscription :: PROPERTY_STOP_TIME, false);
 		$columns[] = new ObjectTableColumn(Subscription :: PROPERTY_ACCEPTED, true);
+		$columns[] = new ObjectTableColumn('AdditionalUsers', false);
 		return $columns;
 	}
 	

@@ -43,6 +43,19 @@ class SubscriptionOverviewBrowserTableCellRenderer extends DefaultSubscriptionTa
 				case User :: PROPERTY_FIRSTNAME:
 					$user = UserDataManager :: get_instance()->retrieve_user($subscription->get_user_id());
 					return $user->get_fullname();
+				case 'AdditionalUsers':
+					$additional_users = $this->browser->retrieve_subscription_users(new EqualityCondition(SubscriptionUser :: PROPERTY_SUBSCRIPTION_ID, $subscription->get_id()));
+					$size = $additional_users->size();
+					
+					$title = '';
+					
+					while($add_user = $additional_users->next_result())
+					{
+						$user = UserDataManager :: get_instance()->retrieve_user($add_user->get_user_id());
+						$title .= $user->get_fullname() . "\n";
+					}
+					
+					return '<div style="width: 100%;" title="' . $title . '">' . $size . '</div>';
 			}
 		}
 		
