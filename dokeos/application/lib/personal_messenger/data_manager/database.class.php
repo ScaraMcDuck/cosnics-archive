@@ -130,7 +130,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 			if ($type == 'user')
 			{
 				$query  = 'SELECT '.self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE.'.*, '. self :: ALIAS_CONTENT_OBJECT_TABLE .'.'. $this->database->escape_column_name('title') .' FROM '.$this->database->escape_table_name('publication').' AS '. self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE;
-				$query .= ' JOIN '.RepositoryDataManager :: get_instance()->escape_table_name('content_object').' AS '. self :: ALIAS_CONTENT_OBJECT_TABLE .' ON '. self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE .'.`personal_message` = '. self :: ALIAS_CONTENT_OBJECT_TABLE .'.`id`';
+				$query .= ' JOIN '.RepositoryDataManager :: get_instance()->escape_table_name('content_object').' AS '. self :: ALIAS_CONTENT_OBJECT_TABLE .' ON '. self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE .'.`personal_message_id` = '. self :: ALIAS_CONTENT_OBJECT_TABLE .'.`id`';
 				$query .= ' WHERE '.self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE. '.'.$this->database->escape_column_name(PersonalMessagePublication :: PROPERTY_USER).'=?';
 
 				$order = array ();
