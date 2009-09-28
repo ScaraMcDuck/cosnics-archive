@@ -26,7 +26,7 @@ class PersonalMessagePublication extends DataClass
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'publication';
 
-	const PROPERTY_PERSONAL_MESSAGE = 'personal_message';
+	const PROPERTY_PERSONAL_MESSAGE = 'personal_message_id';
 	const PROPERTY_STATUS = 'status';
 	const PROPERTY_USER = 'user_id';
 	const PROPERTY_SENDER = 'sender_id';

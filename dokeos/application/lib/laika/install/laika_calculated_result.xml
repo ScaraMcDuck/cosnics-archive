@@ -12,4 +12,13 @@
 	<index name="id" type="primary">
 		<indexproperty name="id"/>
 	</index>
+	<index name="user_id">
+		<indexproperty name="user_id" />
+	</index>
+	<index name="attempt_id">
+		<indexproperty name="attempt_id" />
+	</index>
+	<index name="scale_id">
+		<indexproperty name="scale_id" />
+	</index>
 </object>

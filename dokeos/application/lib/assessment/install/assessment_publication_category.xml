@@ -12,4 +12,7 @@
 	<index name="parent_id">
 		<indexproperty name="parent_id" />
 	</index>
+	<index name="display_order">
+		<indexproperty name="display_order" />
+	</index>
 </object>
