@@ -312,7 +312,7 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
         {
             if ($type == 'user')
             {
-                $query = 'SELECT ' . $this->database->get_alias(AssessmentPublication :: get_table_name()) . '.*, lo.' . $this->database->escape_column_name('title') . ' FROM ' . $this->database->escape_table_name(AssessmentPublication :: get_table_name()) . ' AS ' . $this->database->get_alias(AssessmentPublication :: get_table_name()) . ' JOIN ' . RepositoryDataManager :: get_instance()->escape_table_name('content_object') . ' AS lo ON ' . $this->database->get_alias(AssessmentPublication :: get_table_name()) . '.`object_id` = lo.`id`';
+                $query = 'SELECT ' . $this->database->get_alias(AssessmentPublication :: get_table_name()) . '.*, lo.' . $this->database->escape_column_name('title') . ' FROM ' . $this->database->escape_table_name(AssessmentPublication :: get_table_name()) . ' AS ' . $this->database->get_alias(AssessmentPublication :: get_table_name()) . ' JOIN ' . RepositoryDataManager :: get_instance()->escape_table_name('content_object') . ' AS lo ON ' . $this->database->get_alias(AssessmentPublication :: get_table_name()) . '.`content_object_id` = lo.`id`';
                 $query .= ' WHERE ' . $this->database->get_alias(AssessmentPublication :: get_table_name()) . '.' . $this->database->escape_column_name(AssessmentPublication :: PROPERTY_PUBLISHER) . '=?';
 
                 $order = array();
