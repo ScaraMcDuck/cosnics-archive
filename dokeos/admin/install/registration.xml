@@ -10,4 +10,10 @@
 	<index name="id" type="primary">
 		<indexproperty name="id" />
 	</index>
+	<index name="type">
+		<indexproperty name="type" />
+	</index>
+	<index name="status">
+		<indexproperty name="status" />
+	</index>
 </object>
