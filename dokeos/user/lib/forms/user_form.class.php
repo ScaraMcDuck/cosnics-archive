@@ -386,6 +386,7 @@ class UserForm extends FormValidator {
 			$defaults['ExpirationDate' . self :: PARAM_FOREVER] = 1;
 			
 			//$defaults['from_date'] = time();
+			//echo DokeosUtilities :: to_db_date(strtotime('+ ' . intval(PlatformSetting :: get('days_valid', 'user')) . 'Days', time()));
 			$defaults['ExpirationDate' . 'to_date'] = DokeosUtilities :: to_db_date(strtotime('+ ' . intval(PlatformSetting :: get('days_valid', 'user')) . 'Days', time()));
 			$defaults['pw']['pass'] = $user->get_password();
 
