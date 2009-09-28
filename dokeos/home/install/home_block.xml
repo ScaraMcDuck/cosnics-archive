@@ -2,7 +2,7 @@
 <object name="block">
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1" />
-		<property name="`column`" type="integer" unsigned="1" notnull="1" />
+		<property name="column_id" type="integer" unsigned="1" notnull="1" />
 		<property name="title" type="text" length="255" unsigned="1" notnull="1" fixed="true"/>
 		<property name="sort" type="integer" unsigned="1" notnull="1" />
 		<property name="application" type="text" length="255" unsigned="1" notnull="1" fixed="true"/>
@@ -12,5 +12,17 @@
 	</properties>
 	<index name="id" type="primary">
 		<indexproperty name="id" />
+	</index>
+	<index name="application">
+		<indexproperty name="application" />
+	</index>
+	<index name="component">
+		<indexproperty name="component" />
+	</index>
+	<index name="user_id">
+		<indexproperty name="user_id" />
+	</index>
+	<index name="column_id">
+		<indexproperty name="column_id" />
 	</index>
 </object>

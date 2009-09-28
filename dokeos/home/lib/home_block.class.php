@@ -10,7 +10,7 @@ class HomeBlock extends DataClass
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'block';
     
-    const PROPERTY_COLUMN = 'column';
+    const PROPERTY_COLUMN = 'column_id';
     const PROPERTY_TITLE = 'title';
     const PROPERTY_SORT = 'sort';
     const PROPERTY_APPLICATION = 'application';

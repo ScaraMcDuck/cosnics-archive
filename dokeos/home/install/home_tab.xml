@@ -9,4 +9,7 @@
 	<index name="id" type="primary">
 		<indexproperty name="id" />
 	</index>
+	<index name="user_id">
+		<indexproperty name="user_id" />
+	</index>
 </object>
