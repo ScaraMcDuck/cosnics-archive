@@ -12,7 +12,7 @@ class SystemAnnouncementPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     
-    const PROPERTY_CONTENT_OBJECT_ID = 'object_id';
+    const PROPERTY_CONTENT_OBJECT_ID = 'content_object_id';
     const PROPERTY_FROM_DATE = 'from_date';
     const PROPERTY_TO_DATE = 'to_date';
     const PROPERTY_HIDDEN = 'hidden';

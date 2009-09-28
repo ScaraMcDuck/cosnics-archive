@@ -17,7 +17,7 @@ class AssessmentPublication extends DataClass
 	/**
 	 * AssessmentPublication properties
 	 */
-	const PROPERTY_CONTENT_OBJECT = 'object_id';
+	const PROPERTY_CONTENT_OBJECT = 'content_object_id';
 	const PROPERTY_FROM_DATE = 'from_date';
 	const PROPERTY_TO_DATE = 'to_date';
 	const PROPERTY_HIDDEN = 'hidden';
