@@ -1,4 +1,5 @@
 var API_1484_11 = new Object();
+var API = new Object();
 
 API_1484_11.Initialize = DokeosInitialize;
 API_1484_11.Terminate = DokeosTerminate;
@@ -10,6 +11,17 @@ API_1484_11.GetErrorString = DokeosGetErrorString;
 API_1484_11.GetDiagnostic = DokeosGetDiagnostic;
 API_1484_11.values = new Array();
 API_1484_11.version = "1.0";
+
+API.LMSInitialize = DokeosInitialize;
+API.LMSFinish = DokeosTerminate;
+API.LMSGetValue = DokeosGetValue;
+API.LMSSetValue = DokeosSetValue;
+API.LMSCommit = DokeosCommit;
+API.LMSGetLastError = DokeosGetLastError;
+API.LMSGetErrorString = DokeosGetErrorString;
+API.LMSGetDiagnostic = DokeosGetDiagnostic;
+API.values = new Array();
+API.version = "1.0";
 
 var last_error = 0;
 var initialized = false;
@@ -43,7 +55,10 @@ function DokeosTerminate(params)
 	}
 	
 	if(!initialized)
+	{
+		last_error = 301;
 		return "false";
+	}
 
 	initialized = false;
 	last_error = 0;
@@ -98,6 +113,7 @@ function DokeosGetValue(variable)
 	if(!initialized)
 	{
 		last_error = 122;
+		last_error = 301;
 		return "";
 	}
 	
@@ -166,6 +182,7 @@ function DokeosSetValue(variable, value)
 	if(!initialized)
 	{
 		last_error = 132;
+		last_error = 301;
 		return "false";
 	}
 	
@@ -248,6 +265,7 @@ function DokeosCommit(params)
 	if(!initialized)
 	{
 		last_error = 142;
+		last_error = 301;
 		return "false";
 	}
 	

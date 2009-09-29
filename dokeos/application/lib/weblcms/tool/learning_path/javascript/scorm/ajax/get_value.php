@@ -38,7 +38,41 @@ if(substr($variable, 0, 15) == 'cmi.objectives.')
 			$value = $objective->get_id();
 	}
 }
-else 
+ // SCORM 1.2 functions
+elseif(substr($variable, 0, 9) == 'cmi.core.')
+{
+	$left = substr($variable, 9);
+	
+	switch($left)
+	{
+		case '_children' :
+			$value = 'student_id, student_name, lesson_location, credit, lesson_status, entry, score, total_time, exit, session_time';
+			break;
+		case 'student_id' :
+			$value = Session :: get_user_id();
+			break;
+		case 'student_name' :
+			$user_id = Session :: get_user_id();
+			$user = UserDataManager :: get_instance()->retrieve_user($user_id);
+			$value = $user->get_lastname() . ',' . $user->get_firstname();
+			break;
+		case 'credit' :
+			$value = 'credit';
+			break;
+		case 'lesson_status' :
+			$value = 'not attempted';
+			break;
+		case 'entry':
+			if($tracker->get_status() == 'not attempted')
+				$value = 'ab-initio';
+			else
+				$value = 'resume';		
+			break;
+		case 'score._children':
+			$value = 'raw, min, max';
+	}	
+}
+else
 {
 	switch($variable)
 	{
@@ -54,6 +88,7 @@ else
 					$value = $primary->get_minimum_satisfied_measure();
 			}
 			break;
+		
 	}
 }
 
