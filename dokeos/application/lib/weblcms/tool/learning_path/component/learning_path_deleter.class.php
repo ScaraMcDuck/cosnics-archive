@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../../../trackers/weblcms_lp_attempt_tracker.class.php';
 require_once dirname(__FILE__).'/../../../trackers/weblcms_lpi_attempt_tracker.class.php';
-require_once dirname(__FILE__).'/../../../trackers/weblcms_learning_path_assessment_attempts_tracker.class.php';
+//require_once dirname(__FILE__).'/../../../trackers/weblcms_learning_path_assessment_attempts_tracker.class.php';
 require_once dirname(__FILE__).'/../../../trackers/weblcms_learning_path_question_attempts_tracker.class.php';
 
 class LearningPathToolDeleterComponent extends LearningPathToolComponent
@@ -44,7 +44,7 @@ class LearningPathToolDeleterComponent extends LearningPathToolComponent
 				$message = htmlentities(Translation :: get('ContentObjectPublicationDeleted'));
 			}
 
-			$this->redirect($message, '', array('pid' => null));
+			$this->redirect($message, '', array('tool_action' => null, 'pid' => null));
 		}
 	}
 
