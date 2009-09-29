@@ -95,7 +95,7 @@ class ScormImport extends ContentObjectImport
 	private function build_organizations($organizations, $resources_list, $sequencing_collections)
 	{
 		$learning_paths = array();
-		
+
 		foreach($organizations as $organization)
 		{
 			$learning_path = $this->create_learning_path($organization, $sequencing_collections);
