@@ -118,7 +118,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
 		if ($this->browser->is_allowed(EDIT_RIGHT)) 
 		{
 			$actions['delete'] = array(
-				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_DELETE_PUBLICATION, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
+				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
 				'label' => Translation :: get('Delete'), 
 				'img' => Theme :: get_common_image_path().'action_delete.png'
 			);

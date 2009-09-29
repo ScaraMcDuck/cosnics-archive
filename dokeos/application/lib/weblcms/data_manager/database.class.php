@@ -393,10 +393,10 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     function delete_content_object_publication($publication)
     {
         $parameters['id'] = $publication->get_id();
-        $query = 'DELETE FROM ' . $this->database->escape_table_name('content_object_publication_user') . ' WHERE publication = ?';
+        $query = 'DELETE FROM ' . $this->database->escape_table_name('content_object_publication_user') . ' WHERE publication_id = ?';
         $statement = $this->database->get_connection()->prepare($query);
         $statement->execute($publication->get_id());
-        $query = 'DELETE FROM ' . $this->database->escape_table_name('content_object_publication_course_group') . ' WHERE publication = ?';
+        $query = 'DELETE FROM ' . $this->database->escape_table_name('content_object_publication_course_group') . ' WHERE publication_id = ?';
         $statement = $this->database->get_connection()->prepare($query);
         $statement->execute($publication->get_id());
         $query = 'UPDATE ' . $this->database->escape_table_name('content_object_publication') . ' SET ' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX) . '=' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX) . '-1 WHERE ' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX) . '>?';
