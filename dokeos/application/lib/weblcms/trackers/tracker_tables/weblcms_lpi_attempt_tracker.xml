@@ -8,6 +8,10 @@
   		<property name="total_time" type="integer" unsigned="1" notnull="1" />
   		<property name="score" type="integer" unsigned="1" notnull="1" default="0"/>
   		<property name="status" type="text" length="50" fixed="true" notnull="1" default="incomplete"/>
+  		<property name="lesson_location" type="text" length="255" fixed="true"/>
+  		<property name="suspend_data" type="text" />
+  		<property name="min_score" type="integer" unsigned="1" notnull="1" default="0"/>
+  		<property name="max_score" type="integer" unsigned="1" notnull="1" default="0"/>
  	</properties>
  	<index name="id" type="primary">
   		<indexproperty name="id"/>

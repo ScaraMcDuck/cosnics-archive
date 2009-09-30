@@ -45,7 +45,38 @@ switch($variable)
 		$tracker->set_status($value);
 		$tracker->update();
 		break;
-
+	case 'cmi.core.lesson_status':
+		$tracker->set_status($value);
+		$tracker->update();
+		break;
+	case 'cmi.core.lesson_location':
+		$tracker->set_lesson_location($value);
+		$tracker->update();
+		break;
+	case 'cmi.suspend_data':
+		$tracker->set_suspend_data($value);
+		$tracker->update();
+		break;
+	case 'cmi.core.session_time':
+		list($h, $m, $s) = explode(':', $value);
+		$s = explode('.', $s);
+		$s = $s[0];
+		$total_seconds = ($h * 3600) + ($m * 60) + ($s);
+		$tracker->set_total_time($tracker->get_total_time() + $total_seconds);
+		$tracker->update();
+		break;
+	case 'cmi.core.score.raw':
+		$tracker->set_score($value);
+		$tracker->update();
+		break;
+	case 'cmi.core.score.max':
+		$tracker->set_max_score($value);
+		$tracker->update();
+		break;
+	case 'cmi.core.score.min':
+		$tracker->set_min_score($value);
+		$tracker->update();
+		break;
 }
 
 ?>
