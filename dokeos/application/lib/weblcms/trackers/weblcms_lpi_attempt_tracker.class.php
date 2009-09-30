@@ -11,6 +11,10 @@ class WeblcmsLpiAttemptTracker extends MainTracker
 	const PROPERTY_TOTAL_TIME = 'total_time';
 	const PROPERTY_SCORE = 'score';
 	const PROPERTY_STATUS = 'status';
+	const PROPERTY_LESSON_LOCATION = 'lesson_location';
+	const PROPERTY_SUSPEND_DATA = 'suspend_data';
+	const PROPERTY_MAX_SCORE = 'max_score';
+	const PROPERTY_MIN_SCORE = 'min_score';
 
 	/**
 	 * Constructor sets the default values
@@ -52,7 +56,8 @@ class WeblcmsLpiAttemptTracker extends MainTracker
     function get_default_property_names()
     {
     	return array_merge(parent :: get_default_property_names(), array(self :: PROPERTY_LP_VIEW_ID, self :: PROPERTY_START_TIME,
-    		self :: PROPERTY_LP_ITEM_ID, self :: PROPERTY_TOTAL_TIME, self :: PROPERTY_SCORE, self :: PROPERTY_STATUS));
+    		self :: PROPERTY_LP_ITEM_ID, self :: PROPERTY_TOTAL_TIME, self :: PROPERTY_SCORE, self :: PROPERTY_STATUS,
+    		self :: PROPERTY_LESSON_LOCATION, self :: PROPERTY_SUSPEND_DATA, self :: PROPERTY_MAX_SCORE, self :: PROPERTY_MIN_SCORE));
     }
 
     function get_lp_view_id()
@@ -113,6 +118,46 @@ class WeblcmsLpiAttemptTracker extends MainTracker
     function set_status($status)
     {
     	$this->set_property(self :: PROPERTY_STATUS, $status);
+    }
+    
+	function get_lesson_location()
+    {
+    	return $this->get_property(self :: PROPERTY_LESSON_LOCATION);
+    }
+
+    function set_lesson_location($lesson_location)
+    {
+    	$this->set_property(self :: PROPERTY_LESSON_LOCATION, $lesson_location);
+    }
+    
+	function get_suspend_data()
+    {
+    	return $this->get_property(self :: PROPERTY_SUSPEND_DATA);
+    }
+
+    function set_suspend_data($suspend_data)
+    {
+    	$this->set_property(self :: PROPERTY_SUSPEND_DATA, $suspend_data);
+    }
+    
+	function get_min_score()
+    {
+    	return $this->get_property(self :: PROPERTY_MIN_SCORE);
+    }
+
+    function set_min_score($min_score)
+    {
+    	$this->set_property(self :: PROPERTY_MIN_SCORE, $min_score);
+    }
+    
+	function get_max_score()
+    {
+    	return $this->get_property(self :: PROPERTY_MAX_SCORE);
+    }
+
+    function set_max_score($max_score)
+    {
+    	$this->set_property(self :: PROPERTY_MAX_SCORE, $max_score);
     }
 
     function empty_tracker($event)

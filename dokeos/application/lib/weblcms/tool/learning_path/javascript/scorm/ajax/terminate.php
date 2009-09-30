@@ -21,9 +21,9 @@ $scorm_item = $rdm->retrieve_content_object($learning_path_item->get_reference()
 if(!$scorm_item->get_completion_set_by_content() && $tracker->get_status() == 'not attempted')
 {
 	$tracker->set_status('completed');
+	$tracker->set_total_time($tracker->get_total_time() + (time() - $tracker->get_start_time()));
 }
 
-$tracker->set_total_time($tracker->get_total_time() + (time() - $tracker->get_start_time()));
 $tracker->update();
 
 if(!$scorm_item->get_objective_set_by_content())

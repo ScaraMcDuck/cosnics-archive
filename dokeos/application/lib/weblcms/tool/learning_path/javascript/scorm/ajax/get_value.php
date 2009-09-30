@@ -70,6 +70,30 @@ elseif(substr($variable, 0, 9) == 'cmi.core.')
 			break;
 		case 'score._children':
 			$value = 'raw, min, max';
+			break;
+		case 'score.max':
+			$value = $tracker->get_max_score();
+			break;
+		case 'score.min':
+			$value = $tracker->get_max_score();
+			break;
+		case 'score.raw':
+			$value = $tracker->get_score();
+			break;
+		case 'lesson_location':
+			$value = $tracker->get_lesson_location();
+			break;
+		case 'total_time':
+			$seconds = $tracker->get_total_time();
+			$hours = ($seconds / 3600);
+			$seconds = ($seconds % 3600);
+			$minutes = ($seconds / 60);
+			$seconds = ($seconds % 60);
+			$value = $hours . ':' . $minutes . ':' . $seconds;
+			break;
+		case 'lesson_mode':
+			$value = 'browse';
+			break;
 	}	
 }
 else
@@ -88,7 +112,13 @@ else
 					$value = $primary->get_minimum_satisfied_measure();
 			}
 			break;
-		
+		case 'cmi.launch_data' :
+			$value = $scorm_item->get_data_from_lms();
+			break;
+		case 'cmi.suspend_data':
+			$value = $tracker->get_suspend_data();
+			break;
+
 	}
 }
 
