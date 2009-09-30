@@ -22,6 +22,8 @@ class ScormItem extends ContentObject
 	const PROPERTY_COMPLETION_SET_BY_CONTENT = 'completion_set_by_content';
 	const PROPERTY_OBJECTIVE_SET_BY_CONTENT = 'objective_set_by_content';
 	const PROPERTY_IDENTIFIER = 'identifier';
+	const PROPERTY_MASTERY_SCORE = 'mastery_score';
+	const PROPERTY_PREREQUISITES = 'prerequisites';
 	
 	static function get_additional_property_names()
 	{
@@ -29,7 +31,8 @@ class ScormItem extends ContentObject
 					  self :: PROPERTY_TIME_LIMIT_ACTION, self :: PROPERTY_DATA_FROM_LMS, self :: PROPERTY_COMPLETION_TRESHOLD,
 					  self :: PROPERTY_HIDE_LMS_UI, self :: PROPERTY_CONTROL_MODE, self :: PROPERTY_TIME_LIMIT,
 					  self :: PROPERTY_OBJECTIVES, self :: PROPERTY_CONDITION_RULES, self :: PROPERTY_COMPLETION_SET_BY_CONTENT,
-					  self :: PROPERTY_OBJECTIVE_SET_BY_CONTENT, self :: PROPERTY_IDENTIFIER);
+					  self :: PROPERTY_OBJECTIVE_SET_BY_CONTENT, self :: PROPERTY_IDENTIFIER, self :: PROPERTY_MASTERY_SCORE,
+					  self :: PROPERTY_PREREQUISITES);
 	}
 	
 	function get_path()
@@ -117,6 +120,16 @@ class ScormItem extends ContentObject
 		$this->set_additional_property(self :: PROPERTY_TIME_LIMIT, $time_limit);
 	}
 	
+	function get_mastery_score()
+	{
+		return $this->get_additional_property(self :: PROPERTY_MASTERY_SCORE);
+	}
+	
+	function set_mastery_score($mastery_score)
+	{
+		$this->set_additional_property(self :: PROPERTY_MASTERY_SCORE, $mastery_score);
+	}
+	
 	function set_control_mode($control_mode)
 	{
 		if(!is_array($control_mode))
@@ -133,6 +146,16 @@ class ScormItem extends ContentObject
 	function get_objectives()
 	{
 		return unserialize($this->get_additional_property(self :: PROPERTY_OBJECTIVES));
+	}
+	
+	function set_prerequisites($prerequisites)
+	{
+		$this->set_additional_property(self :: PROPERTY_PREREQUISITES, $prerequisites);
+	}
+	
+	function get_prerequisites()
+	{
+		return $this->get_additional_property(self :: PROPERTY_PREREQUISITES);
 	}
 	
 	function add_objective($objective, $primary = false)
