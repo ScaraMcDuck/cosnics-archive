@@ -205,8 +205,28 @@ class ScormImport extends ContentObjectImport
 		if($item['adlcp:dataFromLMS'])
 			$scorm_item->set_data_from_lms($item['adlcp:dataFromLMS']);
 		
+		//SCORM1.2
+		if($item['adlcp:datafromlms'])
+			$scorm_item->set_data_from_lms($item['adlcp:datafromlms']);
+		
 		if($item['adlcp:timeLimitAction'])
 			$scorm_item->set_time_limit_action($item['adlcp:timeLimitAction']);
+			
+		//SCORM1.2		
+		if($item['adlcp:timelimitaction'])
+			$scorm_item->set_time_limit_action($item['adlcp:timelimitaction']);
+		
+		//SCORM1.2
+		if($item['adlcp:maxtimeallowed'])
+			$scorm_item->set_time_limit($item['adlcp:maxtimeallowed']);
+		
+		//SCORM1.2
+		if($item['adlcp:masteryscore'])
+			$scorm_item->set_mastery_score($item['adlcp:masteryscore']);
+	
+		//SCORM1.2
+		if($item['adlcp:prerequisites']['_content'])
+			$scorm_item->set_prerequisites($item['adlcp:prerequisites']['_content']);
 		
 		$hideLMSUI = $item['adlnav:presentation']['adlnav:navigationInterface']['adlnav:hideLMSUI'];
 		if($hideLMSUI)
@@ -215,102 +235,107 @@ class ScormImport extends ContentObjectImport
 		//Sequencing;
 		$item_sequencing = $item['imsss:sequencing'][0];
 
-		//$item_sequencing = array_filter($item_sequencing, array($this, "remove_null_values"));
-
-		$global_sequencing = array();
-		foreach($sequencing_collections['imsss:sequencing'] as $sequencing)
-		{ 
-			if($sequencing['ID'] == $item_sequencing['IDRef'])
-			{
-				$global_sequencing = $sequencing;	
-			}
-		}
-
-		$sequencing = array_merge($global_sequencing, $item_sequencing);
-
-		if($sequencing['imsss:controlMode'])
-			$scorm_item->set_control_mode($sequencing['imsss:controlMode']);	
-		
-		$limit_conditions = $sequencing['imsss:limitConditions'];
-		if($limit_conditions['attemptAbsoluteDurationLimit'])
-			$scorm_item->set_time_limit($limit_conditions['attemptAbsoluteDurationLimit']);	
-		
-		$objectives = $sequencing['imsss:objectives'];
-
-		$primary_objective = $objectives['imsss:primaryObjective'];
-		
-		if($primary_objective)
+		if($item_sequencing)
 		{
-			$objective = new Objective();
-			
-			if($primary_objective['objectiveID'])
-				$objective->set_id($primary_objective['objectiveID']);
-			
-			if($primary_objective['satisfiedByMeasure'])
-				$objective->set_satisfied_by_measure($primary_objective['satisfiedByMeasure']);	
-			
-			if($primary_objective['imsss:minNormalizedMeasure'])
-				$objective->set_minimum_satisfied_measure($primary_objective['imsss:minNormalizedMeasure']);	
-
-			$objective->set_contributes_to_rollup(1);	
-			
-			$scorm_item->add_objective($objective, true);
-		}
-		
-		$other_objectives = $objectives['imsss:objective'];
-		foreach($other_objectives as $other_objective)
-		{
-			$objective = new Objective();
-			
-			if($other_objective['objectiveID'])
-				$objective->set_id($other_objective['objectiveID']);
-			
-			if($other_objective['satisfiedByMeasure'])
-				$objective->set_satisfied_by_measure($other_objective['satisfiedByMeasure']);	
-			
-			if($other_objective['imsss:minNormalizedMeasure'])
-				$objective->set_minimum_satisfied_measure($other_objective['imsss:minNormalizedMeasure']);
+			//$item_sequencing = array_filter($item_sequencing, array($this, "remove_null_values"));
 	
-			$scorm_item->add_objective($objective, false);
-		}
-		
-		$objective_set_by_content = $sequencing['imsss:deliveryControls']['objectiveSetByContent'];
-		if($objective_set_by_content == 'true')
-			$scorm_item->set_objective_set_by_content(1);
-		
-		$sequencing_rules = $sequencing['imsss:sequencingRules'];
-		$types = array('pre', 'post', 'exit');
-		
-		foreach($types as $type)
-		{
-			$condition_rules = $sequencing_rules['imsss:' . $type . 'ConditionRule'];
-			foreach($condition_rules as $xml_condition_rule)
-			{
-				$conditions = $xml_condition_rule['imsss:ruleConditions']['imsss:ruleCondition'];
-				$action = $xml_condition_rule['imsss:ruleAction']['action'];
-				
-				$condition_rule = new ConditionRule();
-				$condition_rule->set_action($action);
-				if($xml_condition_rule['imsss:ruleConditions']['conditionCombination'])
-					$condition_rule->set_conditions_operator($xml_condition_rule['imsss:ruleConditions']['conditionCombination']);
-				
-				foreach($conditions as $condition)
+			$global_sequencing = array();
+			foreach($sequencing_collections['imsss:sequencing'] as $sequencing)
+			{ 
+				if($sequencing['ID'] == $item_sequencing['IDRef'])
 				{
-					$cond = new RuleCondition();
-					$cond->set_condition($condition['condition']);
-					
-					if($condition['operator'] == 'not')
-						$cond->set_not_condition(true);
-					
-					if($condition['referencedObjective'])
-						$cond->set_referenced_objective($condition['referencedObjective']);
-					
-					$condition_rule->add_condition($cond);
+					$global_sequencing = $sequencing;	
 				}
+			}
 	
-				$scorm_item->add_condition_rule($condition_rule, $type);
+			$sequencing = array_merge($global_sequencing, $item_sequencing);
+	
+			if($sequencing['imsss:controlMode'])
+				$scorm_item->set_control_mode($sequencing['imsss:controlMode']);	
+			
+			$limit_conditions = $sequencing['imsss:limitConditions'];
+			if($limit_conditions['attemptAbsoluteDurationLimit'])
+				$scorm_item->set_time_limit($limit_conditions['attemptAbsoluteDurationLimit']);	
+			
+			$objectives = $sequencing['imsss:objectives'];
+	
+			$primary_objective = $objectives['imsss:primaryObjective'];
+			
+			if($primary_objective)
+			{
+				$objective = new Objective();
+				
+				if($primary_objective['objectiveID'])
+					$objective->set_id($primary_objective['objectiveID']);
+				
+				if($primary_objective['satisfiedByMeasure'])
+					$objective->set_satisfied_by_measure($primary_objective['satisfiedByMeasure']);	
+				
+				if($primary_objective['imsss:minNormalizedMeasure'])
+					$objective->set_minimum_satisfied_measure($primary_objective['imsss:minNormalizedMeasure']);	
+	
+				$objective->set_contributes_to_rollup(1);	
+				
+				$scorm_item->add_objective($objective, true);
+			}
+			
+			$other_objectives = $objectives['imsss:objective'];
+			foreach($other_objectives as $other_objective)
+			{
+				$objective = new Objective();
+				
+				if($other_objective['objectiveID'])
+					$objective->set_id($other_objective['objectiveID']);
+				
+				if($other_objective['satisfiedByMeasure'])
+					$objective->set_satisfied_by_measure($other_objective['satisfiedByMeasure']);	
+				
+				if($other_objective['imsss:minNormalizedMeasure'])
+					$objective->set_minimum_satisfied_measure($other_objective['imsss:minNormalizedMeasure']);
+		
+				$scorm_item->add_objective($objective, false);
+			}
+			
+			$objective_set_by_content = $sequencing['imsss:deliveryControls']['objectiveSetByContent'];
+			if($objective_set_by_content == 'true')
+				$scorm_item->set_objective_set_by_content(1);
+			
+			$sequencing_rules = $sequencing['imsss:sequencingRules'];
+			$types = array('pre', 'post', 'exit');
+			
+			foreach($types as $type)
+			{
+				$condition_rules = $sequencing_rules['imsss:' . $type . 'ConditionRule'];
+				foreach($condition_rules as $xml_condition_rule)
+				{
+					$conditions = $xml_condition_rule['imsss:ruleConditions']['imsss:ruleCondition'];
+					$action = $xml_condition_rule['imsss:ruleAction']['action'];
+					
+					$condition_rule = new ConditionRule();
+					$condition_rule->set_action($action);
+					if($xml_condition_rule['imsss:ruleConditions']['conditionCombination'])
+						$condition_rule->set_conditions_operator($xml_condition_rule['imsss:ruleConditions']['conditionCombination']);
+					
+					foreach($conditions as $condition)
+					{
+						$cond = new RuleCondition();
+						$cond->set_condition($condition['condition']);
+						
+						if($condition['operator'] == 'not')
+							$cond->set_not_condition(true);
+						
+						if($condition['referencedObjective'])
+							$cond->set_referenced_objective($condition['referencedObjective']);
+						
+						$condition_rule->add_condition($cond);
+					}
+		
+					$scorm_item->add_condition_rule($condition_rule, $type);
+				}
 			}
 		}
+		
+		
 		
 		$scorm_item->create();
 		

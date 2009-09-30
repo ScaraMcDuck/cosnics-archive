@@ -57,10 +57,10 @@ elseif(substr($variable, 0, 9) == 'cmi.core.')
 			$value = $user->get_lastname() . ',' . $user->get_firstname();
 			break;
 		case 'credit' :
-			$value = 'credit';
+			$value = 'no-credit';
 			break;
 		case 'lesson_status' :
-			$value = 'not attempted';
+			$value = $tracker->get_status();
 			break;
 		case 'entry':
 			if($tracker->get_status() == 'not attempted')
