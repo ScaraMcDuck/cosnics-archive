@@ -56,11 +56,13 @@ class ScormImport extends ContentObjectImport
 		$resources_base_path = $xml_data['resources']['xml:base'];
 		$resources_path = $this->get_user()->get_id() . '/' . $xml_data['identifier'] . '/' . $base_path . $resources_base_path;
 		$resources_list = $this->build_resources_list($xml_data['resources']['resource'], $resources_path);
-
+		
 		$sequencing_collections = $xml_data['imsss:sequencingCollection']; 
 		
+		$version = 'SCORM' . $xml_data['version'];
+		
 		// Build the organizations tree
-		$learning_paths = $this->build_organizations($xml_data['organizations']['organization'], $resources_list, $sequencing_collections);
+		$learning_paths = $this->build_organizations($xml_data['organizations']['organization'], $resources_list, $sequencing_collections, $version);
 		//dump($xml_data);
 		// Remove the temporary files
 		FileSystem :: remove($extracted_files_dir);
@@ -92,14 +94,14 @@ class ScormImport extends ContentObjectImport
 	 * Build the learning path list from the SCORM organizations
 	 * @param Array of Strings - SCORM organizations
 	 */
-	private function build_organizations($organizations, $resources_list, $sequencing_collections)
+	private function build_organizations($organizations, $resources_list, $sequencing_collections, $version)
 	{
 		$learning_paths = array();
 
 		foreach($organizations as $organization)
 		{
-			$learning_path = $this->create_learning_path($organization, $sequencing_collections);
-			$this->build_items($organization['item'], $resources_list, $learning_path, $sequencing_collections);
+			$learning_path = $this->create_learning_path($organization, $sequencing_collections, $version);
+			$this->build_items($organization['item'], $resources_list, $learning_path, $sequencing_collections, $version);
 			$learning_paths[] = $learning_path;
 		}
 		
@@ -114,13 +116,13 @@ class ScormImport extends ContentObjectImport
 	 * @param Array of Strings $resources_list - The resources list
 	 * @param LearningPath $parent_learning_path - The parent learning path
 	 */
-	private function build_items($items, $resources_list, $parent_learning_path, $sequencing_collections)
+	private function build_items($items, $resources_list, $parent_learning_path, $sequencing_collections, $version)
 	{
 		foreach($items as $item)
 		{
 			if($item['item'])
 			{
-				$sub_learning_path = $this->create_learning_path($item, $sequencing_collections);
+				$sub_learning_path = $this->create_learning_path($item, $sequencing_collections, $version);
 				$this->build_items($item['item'], $resources_list, $sub_learning_path, $sequencing_collections);
 				$this->add_sub_learning_path_to_learning_path($parent_learning_path, $sub_learning_path);
 			}
@@ -140,7 +142,7 @@ class ScormImport extends ContentObjectImport
 	 * @param String $title
 	 * @return LearningPath
 	 */
-	private function create_learning_path($item, $sequencing_collections)
+	private function create_learning_path($item, $sequencing_collections, $version)
 	{
 		$title = $item['title'];
 		$learning_path = AbstractContentObject :: factory('learning_path');
@@ -148,7 +150,7 @@ class ScormImport extends ContentObjectImport
 		$learning_path->set_description($title);
 		$learning_path->set_parent_id($this->get_category());
 		$learning_path->set_owner_id($this->get_user()->get_id());
-		
+		$learning_path->set_version($version);
 		$lp_sequencing = $item['imsss:sequencing'][0];
 
 		//$lp_sequencing = array_filter($lp_sequencing, array($this, "remove_null_values"));

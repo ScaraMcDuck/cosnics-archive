@@ -9,6 +9,7 @@ require_once dirname(__FILE__).'/../../../trackers/weblcms_lpi_attempt_tracker.c
 require_once dirname(__FILE__).'/../../../trackers/weblcms_lpi_attempt_objective_tracker.class.php';
 require_once dirname(__FILE__).'/../../../trackers/weblcms_learning_path_question_attempts_tracker.class.php';
 require_once Path :: get_repository_path() . 'lib/complex_display/complex_display.class.php';
+require_once dirname(__FILE__) . '/learning_path_viewer/prerequisites_translator.class.php';
 
 class LearningPathToolViewerComponent extends LearningPathToolComponent
 {
@@ -70,13 +71,14 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		$trail->merge($menu->get_breadcrumbs());
 
 		$navigation = $this->get_navigation_menu($menu->count_steps(), $step, $object, $menu);
-
+		$objects = $menu->get_objects();
+		
 		// Retrieve correct display and show it on screen
 		if(Request :: get('lp_action') == 'view_progress')
 		{
 			$url = $this->get_url(array('tool_action' => 'view', 'pid' => $pid, 'lp_action' => 'view_progress'));
 			require_once(Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_progress_reporting_template.class.php');
-			$objects = $menu->get_objects();
+			
 			$cid = Request :: get('cid');
 			$details = Request :: get('details');
 
@@ -113,21 +115,36 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		{
 			if($cloi)
 			{
-				$lpi_tracker = $menu->get_current_tracker();
-				if(!$lpi_tracker)
+				$allowed = true;
+				
+				if($root_object->get_version() == 'SCORM1.2')
 				{
-					$lpi_tracker = $this->create_lpi_tracker($this->trackers['lp_tracker'], $cloi);
-					$lpi_attempt_data[$cloi->get_id()]['active_tracker'] = $lpi_tracker;
+					$translator = new PrerequisitesTranslator($lpi_attempt_data, $objects);
+					if(!$translator->can_execute_item($object))
+					{
+						$display = '<div class="error-message">' . Translation :: get('NotYetAllowedToView') . '</div>';
+						$allowed = false;	
+					}
 				}
-				else
+				
+				if($allowed)
 				{
-					$lpi_tracker->set_start_time(time());
-					$lpi_tracker->update();
+					$lpi_tracker = $menu->get_current_tracker();
+					if(!$lpi_tracker)
+					{
+						$lpi_tracker = $this->create_lpi_tracker($this->trackers['lp_tracker'], $cloi);
+						$lpi_attempt_data[$cloi->get_id()]['active_tracker'] = $lpi_tracker;
+					}
+					else
+					{
+						$lpi_tracker->set_start_time(time());
+						$lpi_tracker->update();
+					}
+	
+					$this->trackers['lpi_tracker'] = $lpi_tracker;
+	
+					$display = LearningPathContentObjectDisplay :: factory($this, $object->get_type())->display_content_object($object, $lpi_attempt_data[$cloi->get_id()], $menu->get_continue_url(), $menu->get_previous_url(), $menu->get_jump_urls());
 				}
-
-				$this->trackers['lpi_tracker'] = $lpi_tracker;
-
-				$display = LearningPathContentObjectDisplay :: factory($this, $object->get_type())->display_content_object($object, $lpi_attempt_data[$cloi->get_id()], $menu->get_continue_url(), $menu->get_previous_url(), $menu->get_jump_urls());
 			}
 			else
 			{

@@ -1699,5 +1699,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $condition = new EqualityCondition(Course :: PROPERTY_VISUAL, $visual_code);
         return $this->database->retrieve_object(Course :: get_table_name(), $condition);
     }
+    
 }
 ?>

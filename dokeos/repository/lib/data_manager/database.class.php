@@ -1786,6 +1786,5 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	    return $this->database->retrieve_result_set($query, $table_name, $condition, $offset, $max_objects, $order_by);
 	}
 	
-	
 }
 ?>
