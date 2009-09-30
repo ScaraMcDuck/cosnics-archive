@@ -12,10 +12,11 @@ class LearningPath extends ContentObject
 	}
 	
 	const PROPERTY_CONTROL_MODE = 'control_mode';
+	const PROPERTY_VERSION = 'version';
 	
 	static function get_additional_property_names()
 	{
-		return array (self :: PROPERTY_CONTROL_MODE);
+		return array (self :: PROPERTY_CONTROL_MODE, self :: PROPERTY_VERSION);
 	}
 	
 	function get_control_mode()
@@ -29,6 +30,16 @@ class LearningPath extends ContentObject
 			$control_mode = array($control_mode);
 			
 		$this->set_additional_property(self :: PROPERTY_CONTROL_MODE, serialize($control_mode));
+	}
+	
+	function get_version()
+	{
+		return $this->get_additional_property(self :: PROPERTY_VERSION);
+	}
+	
+	function set_version($version)
+	{
+		$this->set_additional_property(self :: PROPERTY_VERSION, $version);
 	}
 }
 ?>

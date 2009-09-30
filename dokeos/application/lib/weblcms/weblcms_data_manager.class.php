@@ -709,5 +709,6 @@ abstract class WeblcmsDataManager
 	abstract function count_course_sections($conditions = null);
 	abstract function retrieve_course_sections($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
+	
 }
 ?>

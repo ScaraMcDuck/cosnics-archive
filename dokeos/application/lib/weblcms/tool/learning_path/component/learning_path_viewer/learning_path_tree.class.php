@@ -19,6 +19,7 @@ class LearningPathTree extends HTML_Menu
 	
 	private $current_step;
 	private $lp_id;
+	private $lp;
 	private $lpi_tracker_data;
 	
 	/**
@@ -47,13 +48,14 @@ class LearningPathTree extends HTML_Menu
 	 */
 	function LearningPathTree($lp_id, $current_step, $url_format, $lpi_tracker_data)
 	{
+		$this->dm = RepositoryDataManager :: get_instance();
 		$this->current_step = $current_step;
 		$this->lp_id = $lp_id;
+		$this->lp = $this->dm->retrieve_content_object($lp_id);
 		$this->urlFmt = $url_format;
 		$this->lpi_tracker_data = $lpi_tracker_data;
 		$this->translator = new RuleConditionTranslator();
 		
-		$this->dm = RepositoryDataManager :: get_instance();
 		$menu = $this->get_menu($lp_id);
 		parent :: __construct($menu);
 		$this->array_renderer = new HTML_Menu_ArrayRenderer();
@@ -73,8 +75,7 @@ class LearningPathTree extends HTML_Menu
 	function get_menu($lp_id)
 	{
 		$menu = array();
-		$datamanager = $this->dm;
-		$lo = $datamanager->retrieve_content_object($lp_id);
+		$lo = $this->lp;
 		$lp_item = array();
 		$lp_item['title'] = $lo->get_title();
 		//$menu_item['url'] = $this->get_url($lp_id);
@@ -158,14 +159,17 @@ class LearningPathTree extends HTML_Menu
 				
 				if(get_class($lo) == 'ScormItem')
 				{
-					$this->jump_urls[$lo->get_identifier()] = $this->step_urls[$this->step];
-					$status = $this->translator->get_status_from_item($lo, $lpi_tracker_data); 
-					//dump($status);
-					switch($status)
+					if($this->lp->get_version() == 'SCORM2004')
 					{
-						case 'skip': $this->step_urls[$this->step] = null; break;
-						case 'disabled': $this->jump_urls[$lo->get_identifier()] = $this->step_urls[$this->step] = null; break;
-						case 'hidden_from_choice': $this->jump_urls[$lo->get_identifier()] = null; break;
+						$this->jump_urls[$lo->get_identifier()] = $this->step_urls[$this->step];
+						$status = $this->translator->get_status_from_item($lo, $lpi_tracker_data); 
+	
+						switch($status)
+						{
+							case 'skip': $this->step_urls[$this->step] = null; break;
+							case 'disabled': $this->jump_urls[$lo->get_identifier()] = $this->step_urls[$this->step] = null; break;
+							case 'hidden_from_choice': $this->jump_urls[$lo->get_identifier()] = null; break;
+						}
 					}
 				}
 				

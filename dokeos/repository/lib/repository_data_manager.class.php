@@ -940,6 +940,5 @@ abstract class RepositoryDataManager
     abstract function retrieve_external_export_fedora($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null);
 
     abstract function retrieve_catalog($query, $table_name, $condition = null, $offset = null, $max_objects = null, $order_by = null);
-    
 }
 ?>

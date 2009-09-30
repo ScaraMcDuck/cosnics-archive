@@ -3,6 +3,7 @@
 	<properties>
   		<property name="id" type="integer" unsigned="1" notnull="1" />
   		<property name="control_mode" type="text" length="255" fixed="1" default="" />
+  		<property name="version" type="text" length="10" fixed="1" default="dokeos" />
  	</properties>
  	<index name="id" type="primary">
   		<indexproperty name="id"/>
