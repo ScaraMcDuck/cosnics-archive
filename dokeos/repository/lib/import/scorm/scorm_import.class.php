@@ -225,11 +225,11 @@ class ScormImport extends ContentObjectImport
 		//SCORM1.2
 		if($item['adlcp:masteryscore'])
 			$scorm_item->set_mastery_score($item['adlcp:masteryscore']);
-	
-		//SCORM1.2
+
+		//SCORM1.2 
 		if($item['adlcp:prerequisites']['_content'])
 			$scorm_item->set_prerequisites($item['adlcp:prerequisites']['_content']);
-		
+
 		$hideLMSUI = $item['adlnav:presentation']['adlnav:navigationInterface']['adlnav:hideLMSUI'];
 		if($hideLMSUI)
 			$scorm_item->set_hide_lms_ui($hideLMSUI);
@@ -337,8 +337,6 @@ class ScormImport extends ContentObjectImport
 			}
 		}
 		
-		
-		
 		$scorm_item->create();
 		
 		return $scorm_item;
@@ -372,7 +370,8 @@ class ScormImport extends ContentObjectImport
 		$wrapper->set_parent($learning_path->get_id());
 		$wrapper->set_user_id($this->get_user()->get_id());
 		$wrapper->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($learning_path->get_id()));
-		$wrapper->create();
+		$wrapper->set_prerequisites($scorm_item->get_prerequisites());
+		$wrapper->create(); 
 		
 		return $wrapper;
 	}
@@ -385,7 +384,7 @@ class ScormImport extends ContentObjectImport
 	 */
 	private function add_sub_learning_path_to_learning_path($learning_path, $sub_learning_path)
 	{
-		$wrapper = ComplexContentObjectItem :: factory('learning_path_item');
+		$wrapper = ComplexContentObjectItem :: factory('learning_path');
 		$wrapper->set_ref($sub_learning_path->get_id());
 		$wrapper->set_parent($learning_path->get_id());
 		$wrapper->set_user_id($this->get_user()->get_id());

@@ -120,7 +120,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 				if($root_object->get_version() == 'SCORM1.2')
 				{
 					$translator = new PrerequisitesTranslator($lpi_attempt_data, $objects);
-					if(!$translator->can_execute_item($object))
+					if(!$translator->can_execute_item($cloi))
 					{
 						$display = '<div class="error-message">' . Translation :: get('NotYetAllowedToView') . '</div>';
 						$allowed = false;	
