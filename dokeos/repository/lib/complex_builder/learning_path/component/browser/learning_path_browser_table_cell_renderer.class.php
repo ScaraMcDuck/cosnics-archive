@@ -36,6 +36,12 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
 				$lo = $this->lpi_ref_object;
 			}
 		}
+		
+		if ($column === ComplexBrowserTableColumnModel :: get_modification_column())
+		{
+			return $this->get_modification_links($cloi);
+		}
+		
 		switch ($column->get_name())
 		{
 			case Translation :: get(DokeosUtilities :: underscores_to_camelcase(ContentObject :: PROPERTY_TITLE)) :
@@ -56,6 +62,18 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
 
 		return parent :: render_cell($column, $cloi, $lo);
 	}
-
+	
+	protected function get_modification_links($cloi)
+	{
+		$additional_items = array();
+		
+		$additional_items[] = array(
+				'href' => $this->browser->get_prerequisites_url($cloi->get_id()),
+				'label' => Translation :: get('BuildPrerequisites'),
+				'img' => Theme :: get_common_image_path().'action_maintenance.png'
+			);
+		
+		return parent :: get_modification_links($cloi, $additional_items);
+	}
 }
 ?>

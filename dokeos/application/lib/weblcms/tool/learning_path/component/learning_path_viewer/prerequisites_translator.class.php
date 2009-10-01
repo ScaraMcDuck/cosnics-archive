@@ -5,11 +5,13 @@ class PrerequisitesTranslator
 	private $lpi_tracker_data;
 	private $objects;
 	private $items;
+	private $version;
 	
-	function PrerequisitesTranslator($lpi_tracker_data, $objects)
+	function PrerequisitesTranslator($lpi_tracker_data, $objects, $version)
 	{
 		$this->lpi_tracker_data = $lpi_tracker_data;
 		$this->objects = $objects;
+		$this->version = $version;
 	}
 	
 	function can_execute_item($item)
@@ -26,7 +28,10 @@ class PrerequisitesTranslator
 	
 	function prerequisite_completed($prereq_identifier)
 	{	
-		$real_id = $this->retrieve_real_id_from_prerequisite_identifier($prereq_identifier);
+		if($this->version == 'SCORM1.2')
+			$real_id = $this->retrieve_real_id_from_prerequisite_identifier($prereq_identifier);
+		else 
+			$real_id = $prereq_identifier;
 
 		foreach($this->lpi_tracker_data[$real_id]['trackers'] as $tracker_data)
 		{

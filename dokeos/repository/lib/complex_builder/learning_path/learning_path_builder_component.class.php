@@ -8,6 +8,11 @@ class LearningPathBuilderComponent extends ComplexBuilderComponent
 	{
 		return parent :: factory('LearningPath', $component_name, $builder);
 	}
+	
+	function get_prerequisites_url($selected_cloi)
+	{
+		return $this->get_parent()->get_prerequisites_url($selected_cloi);
+	}
 }
 
 ?>

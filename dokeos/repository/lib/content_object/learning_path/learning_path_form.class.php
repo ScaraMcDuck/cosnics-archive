@@ -18,6 +18,7 @@ class LearningPathForm extends ContentObjectForm
 	function create_content_object()
 	{
 		$object = new LearningPath();
+		$object->set_version('dokeos');
 		$this->set_content_object($object);
 		return parent :: create_content_object();
 	}
