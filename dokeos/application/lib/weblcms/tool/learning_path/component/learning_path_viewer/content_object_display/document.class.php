@@ -14,12 +14,12 @@ class DocumentDisplay extends LearningPathContentObjectDisplay
 		
 		if($this->is_showable($name))
 		{
-			$html[] = $this->display_link($document->get_url());
+			$html[] = $this->display_link($this->get_parent()->get_url(array(LearningPathTool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_DOCUMENT, 'id' => $document->get_id())));
 		}
 		else
 		{
 			$info = sprintf(Translation :: get('LPDownloadDocument'), $document->get_filename(), $document->get_filesize());
-			$info .= '<br /><a target="about:blank" href="' . $document->get_url() . '">' . Translation :: get('Download') . '</a>';
+			$info .= '<br /><a target="about:blank" href="' . RepositoryManager :: get_document_downloader_url($document->get_id()) . '">' . Translation :: get('Download') . '</a>';
 			
 			$html[] = '<h3>' . $document->get_title() . '</h3>';
 			$html[] = $this->display_box($info);
