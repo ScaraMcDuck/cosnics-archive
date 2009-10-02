@@ -223,6 +223,9 @@ class Text
             return $haystack;
         }
         
+        $matches = array();
+        $matches_done = array();
+        
         preg_match_all("/$needle+/i", $haystack, $matches);
         
         if (is_array($matches[0]) && count($matches[0]) >= 1)

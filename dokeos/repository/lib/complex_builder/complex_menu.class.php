@@ -44,7 +44,7 @@ class ComplexMenu extends HTML_Menu
 	 * @param array $extra_items An array of extra tree items, added to the
 	 *                           root.
 	 */
-	function ComplexMenu($root, $cloi, $url_format = '?go=build_complex&builder_action=browse&cloi=%s&root_lo=%s', $view_entire_structure = false)
+	function ComplexMenu($root, $cloi, $url_format = '?application=repository&go=build_complex&builder_action=browse&cloi=%s&root_lo=%s', $view_entire_structure = false)
 	{
 		$this->view_entire_structure = $view_entire_structure;
 		$extra = array('publish');

@@ -33,7 +33,9 @@ class LearningPathBuilderPrerequisitesBuilderComponent extends LearningPathBuild
 		
 		if($form->validate())
 		{
-			$form->build_prerequisites();	
+			$succes = $form->build_prerequisites();
+			$message = $succes ? 'PrerequisitesBuild' : 'PrerequisitesNotBuild';
+			$this->redirect($message, !$succes, array_merge($parameters, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO)));	
 		}
 		else 
 		{
