@@ -409,7 +409,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 			if($tracker->get_total_time())
 				$lpi_attempt_data[$item_id]['time'] += $tracker->get_total_time();
 
-			if($tracker->get_status() == 'completed')
+			if($tracker->get_status() == 'completed' || $tracker->get_status() == 'passed')
 				$lpi_attempt_data[$item_id]['completed'] = 1;
 			else
 				$lpi_attempt_data[$item_id]['active_tracker'] = $tracker;
