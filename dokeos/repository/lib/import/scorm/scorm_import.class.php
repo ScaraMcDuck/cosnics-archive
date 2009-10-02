@@ -358,6 +358,7 @@ class ScormImport extends ContentObjectImport
 		$learning_path_item->set_title($scorm_item->get_title());
 		$learning_path_item->set_description($scorm_item->get_description());
 		$learning_path_item->set_reference($scorm_item->get_id());
+		$learning_path_item->set_mastery_score($scorm_item->get_mastery_score());
 		
 		$limit_conditions = $item['imsss:sequencing']['imsss:limitConditions'];
 		if($limit_conditions['attemptLimit'])

@@ -49,6 +49,7 @@ class LearningPathToolAssessmentCloViewerComponent extends LearningPathToolCompo
 		
 		$lpi_tracker->set_score($total_score);
 		$lpi_tracker->set_total_time($lpi_tracker->get_total_time() + (time() - $lpi_tracker->get_start_time()));
+		
 		$lpi_tracker->set_status('completed');
 		$lpi_tracker->update();
 	}

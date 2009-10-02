@@ -16,7 +16,6 @@
   		<property name="completion_set_by_content" type="integer" unsigned="1" lenght="1" default="0" />
   		<property name="objective_set_by_content" type="integer" unsigned="1" lenght="1" default="0" />
   		<property name="identifier" type="text" lenght="500" />
-  		<property name="mastery_score" type="integer" length="3" unsigned="1"  />
  	</properties>
  	<index name="id" type="primary">
   		<indexproperty name="id"/>

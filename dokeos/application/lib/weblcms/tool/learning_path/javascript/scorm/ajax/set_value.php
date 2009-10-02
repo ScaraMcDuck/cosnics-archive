@@ -46,6 +46,18 @@ switch($variable)
 		$tracker->update();
 		break;
 	case 'cmi.core.lesson_status':
+		if($value == 'completed')
+		{
+			$mastery_score = $learning_path_item->get_mastery_score();
+			if($mastery_score > $tracker->get_score())
+			{
+				$value = 'failed';
+			}
+			else 
+			{
+				$value = 'passed';
+			}
+		}
 		$tracker->set_status($value);
 		$tracker->update();
 		break;
