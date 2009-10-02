@@ -2,9 +2,9 @@
 
 require_once dirname(__FILE__) . '/../learning_path_builder_component.class.php';
 require_once dirname(__FILE__) . '/../../complex_repo_viewer.class.php';
-require_once dirname(__FILE__) . '/prerequisites_builder/prerequisites_builder_form.class.php';
+require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 
-class LearningPathBuilderPrerequisitesBuilderComponent extends LearningPathBuilderComponent
+class LearningPathBuilderMasteryScoreSetterComponent extends LearningPathBuilderComponent
 {
 	function run()
 	{
@@ -29,12 +29,13 @@ class LearningPathBuilderPrerequisitesBuilderComponent extends LearningPathBuild
 		}
 		
 		$selected_cloi = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($cloi_id);
-		$form = new PrerequisitesBuilderForm($this->get_user(), $selected_cloi, $this->get_url($parameters));
+		$lp_item = RepositoryDataManager :: get_instance()->retrieve_content_object($selected_cloi->get_ref());
+		$form = $this->get_form($this->get_url($parameters), $lp_item);
 		
 		if($form->validate())
 		{
-			$succes = $form->build_prerequisites();
-			$message = $succes ? 'PrerequisitesBuild' : 'PrerequisitesNotBuild';
+			$succes = $this->set_mastery_score($lp_item, $form->exportValues());
+			$message = $succes ? 'MasteryScoreSet' : 'MasteryScoreNotSet';
 			$this->redirect(Translation :: get($message), !$succes, array_merge($parameters, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO)));	
 		}
 		else 
@@ -44,6 +45,33 @@ class LearningPathBuilderPrerequisitesBuilderComponent extends LearningPathBuild
 			$this->display_footer();
 		}
 		
+	}
+	
+	function get_form($url, $lp_item)
+	{
+		$form = new Formvalidator('mastery_score', 'post', $url);
+		
+		$values = array();
+		for($i = 0 ; $i <= 100; $i++)
+			$values[$i] = $i; 
+		
+		$form->addElement('select', 'mastery_score', Translation :: get('MasteryScore'), $values);
+		
+		if($lp_item->get_mastery_score())
+		{
+			$form->setDefaults(array('mastery_score' => $lp_item->get_mastery_score()));
+		}
+		
+		$buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('SetMasteryScore'), array('class' => 'positive'));
+		$form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+		
+		return $form;
+	}
+	
+	function set_mastery_score($lp_item, $values)
+	{
+		$lp_item->set_mastery_score($values['mastery_score']);
+		return $lp_item->update();
 	}
 }
 

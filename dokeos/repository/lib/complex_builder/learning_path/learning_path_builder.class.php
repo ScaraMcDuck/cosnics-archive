@@ -7,6 +7,7 @@ class LearningPathBuilder extends ComplexBuilder
 {
 	const ACTION_CREATE_LP_ITEM = 'create_item';
 	const ACTION_BUILD_PREREQUISITES = 'prerequisites';
+	const ACTION_SET_MASTERY_SCORE = 'mastery_score';
 	
 	function run()
 	{
@@ -29,6 +30,9 @@ class LearningPathBuilder extends ComplexBuilder
 			case self :: ACTION_BUILD_PREREQUISITES :
 				$component = LearningPathBuilderComponent :: factory('PrerequisitesBuilder', $this);
 				break;
+			case self :: ACTION_SET_MASTERY_SCORE:
+				$component = LearningPathBuilderComponent :: factory('MasteryScoreSetter', $this);
+				break;
 		}
 		
 		if(!$component)
@@ -41,6 +45,16 @@ class LearningPathBuilder extends ComplexBuilder
 	{
 		$cloi_id = ($this->get_cloi()) ? ($this->get_cloi()->get_id()) : null;
 		return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_BUILD_PREREQUISITES, 
+									self :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(),
+									self :: PARAM_CLOI_ID => $cloi_id,
+									self :: PARAM_SELECTED_CLOI_ID => $selected_cloi,
+									'publish' => Request :: get('publish')));
+	}
+	
+	function get_mastery_score_url($selected_cloi)
+	{
+		$cloi_id = ($this->get_cloi()) ? ($this->get_cloi()->get_id()) : null;
+		return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_SET_MASTERY_SCORE, 
 									self :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(),
 									self :: PARAM_CLOI_ID => $cloi_id,
 									self :: PARAM_SELECTED_CLOI_ID => $selected_cloi,
