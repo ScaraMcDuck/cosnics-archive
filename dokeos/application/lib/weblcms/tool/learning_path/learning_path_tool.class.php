@@ -20,7 +20,8 @@ class LearningPathTool extends Tool
 	const ACTION_VIEW_STATISTICS = 'stats';
 	const ACTION_VIEW_CLO = 'view_clo';
 	const ACTION_VIEW_ASSESSMENT_CLO = 'view_assessment_clo';
-
+	const ACTION_VIEW_DOCUMENT = 'view_document';
+	
 	const PARAM_LEARNING_PATH = 'lp';
 	const PARAM_LP_STEP = 'step';
 	const PARAM_LEARNING_PATH_ID = 'lpid';
@@ -67,6 +68,9 @@ class LearningPathTool extends Tool
 					break;
 				case self :: ACTION_VIEW_ASSESSMENT_CLO:
 					$component = LearningPathToolComponent :: factory('AssessmentCloViewer', $this);
+					break;
+				case self :: ACTION_VIEW_DOCUMENT:
+					$component = LearningPathToolComponent :: factory('DocumentViewer', $this);
 					break;
 				default:
 					$component = LearningPathToolComponent :: factory('Browser', $this);
