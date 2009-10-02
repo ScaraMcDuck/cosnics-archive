@@ -75,7 +75,7 @@ elseif(substr($variable, 0, 9) == 'cmi.core.')
 			$value = $tracker->get_max_score();
 			break;
 		case 'score.min':
-			$value = $tracker->get_max_score();
+			$value = $tracker->get_min_score();
 			break;
 		case 'score.raw':
 			$value = $tracker->get_score();
