@@ -13,6 +13,11 @@ class LearningPathBuilderComponent extends ComplexBuilderComponent
 	{
 		return $this->get_parent()->get_prerequisites_url($selected_cloi);
 	}
+	
+	function get_mastery_score_url($selected_cloi)
+	{
+		return $this->get_parent()->get_mastery_score_url($selected_cloi);
+	}
 }
 
 ?>

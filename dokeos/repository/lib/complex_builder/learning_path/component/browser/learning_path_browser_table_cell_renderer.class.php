@@ -24,6 +24,7 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
 	function render_cell($column, $cloi)
 	{
 		$lo = $this->retrieve_content_object($cloi->get_ref());
+		$ref_lo = $lo;
 		if($lo->get_type() == 'learning_path_item')
 		{
 			if(!$this->lpi_ref_object || $this->lpi_ref_object->get_id() != $lo->get_reference())
@@ -39,7 +40,7 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
 		
 		if ($column === ComplexBrowserTableColumnModel :: get_modification_column())
 		{
-			return $this->get_modification_links($cloi);
+			return $this->get_modification_links($cloi, $ref_lo);
 		}
 		
 		switch ($column->get_name())
@@ -63,15 +64,27 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
 		return parent :: render_cell($column, $cloi, $lo);
 	}
 	
-	protected function get_modification_links($cloi)
+	protected function get_modification_links($cloi, $lo)
 	{
 		$additional_items = array();
-		
-		$additional_items[] = array(
-				'href' => $this->browser->get_prerequisites_url($cloi->get_id()),
-				'label' => Translation :: get('BuildPrerequisites'),
-				'img' => Theme :: get_common_image_path().'action_maintenance.png'
-			);
+
+		if($lo->get_type() == 'learning_path_item')
+		{
+			$additional_items[] = array(
+					'href' => $this->browser->get_prerequisites_url($cloi->get_id()),
+					'label' => Translation :: get('BuildPrerequisites'),
+					'img' => Theme :: get_common_image_path().'action_maintenance.png'
+				);
+				
+			if($this->lpi_ref_object->get_type() == 'assessment')
+			{
+				$additional_items[] = array(
+					'href' => $this->browser->get_mastery_score_url($cloi->get_id()),
+					'label' => Translation :: get('SetMasteryScore'),
+					'img' => Theme :: get_common_image_path().'action_quota.png'
+				);
+			}
+		}
 		
 		return parent :: get_modification_links($cloi, $additional_items);
 	}
