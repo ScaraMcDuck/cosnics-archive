@@ -215,15 +215,12 @@ class PrerequisitesBuilderForm extends FormValidator
     function setDefaults($defaults = array())
     {
     	$prerequisites = $this->clo_item->get_prerequisites();
-    	if($prerequisites)
+    	if($prerequisites && !$this->isSubmitted())
     	{
-    		dump($prerequisites);
-    		
     		$pattern = '/\([^\)]*\)/';
     		$matches = array();
     		preg_match_all($pattern, $prerequisites, $matches);
     		$groups = $matches[0];
-    		dump($groups);
     		
     		foreach($groups as $i => $group)
     		{
@@ -232,7 +229,6 @@ class PrerequisitesBuilderForm extends FormValidator
     			$group = str_replace(')', '', $group);
     			
     			$or_values = explode('|', $group);
-    			dump($or_values);
     			
     			$item_counter = 0;
     			foreach($or_values as $or_value)
@@ -254,7 +250,6 @@ class PrerequisitesBuilderForm extends FormValidator
     				}
     					
     				$and_values = explode('&', $or_value);
-    				dump($and_values);
     				foreach($and_values as $and_value)
     				{
     					if(Text :: char_at($and_value, 0) == '~')
@@ -277,9 +272,7 @@ class PrerequisitesBuilderForm extends FormValidator
     		
     		$this->number_of_groups = count($groups);
     		
-    		dump($prerequisites);
     		$operators = explode('_', $prerequisites);
-    		dump($operators);
     		
     		$defaults['group_operator'] = $operators;
     	}

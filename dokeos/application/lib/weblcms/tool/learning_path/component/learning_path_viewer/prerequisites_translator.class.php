@@ -26,18 +26,49 @@ class PrerequisitesTranslator
 		return $executable;
 	}
 	
-	function prerequisite_completed($prereq_identifier)
+	function prerequisite_completed($prerequisites)
 	{	
-		if($this->version == 'SCORM1.2')
-			$real_id = $this->retrieve_real_id_from_prerequisite_identifier($prereq_identifier);
-		else 
-			$real_id = $prereq_identifier;
-
-		foreach($this->lpi_tracker_data[$real_id]['trackers'] as $tracker_data)
+		$matches = $items = array();
+		$pattern = '/[^\(\)\&\|~]*/';
+		preg_match_all($pattern, $prerequisites, $matches);
+		
+		foreach($matches[0] as $match)
 		{
-			if($tracker_data->get_status() == 'completed' || $tracker_data->get_status() == 'passed')
-				return true;
+			if($match)
+			{
+				if(!in_array($match, $items))
+					$items[] = $match;
+			}
 		}
+		
+		foreach($items as $item)
+		{
+			if($this->version == 'SCORM1.2')
+				$real_id = $this->retrieve_real_id_from_prerequisite_identifier($item);
+			else 
+				$real_id = $item;
+	
+			$value = 0;
+				
+			foreach($this->lpi_tracker_data[$real_id]['trackers'] as $tracker_data)
+			{
+				if($tracker_data->get_status() == 'completed' || $tracker_data->get_status() == 'passed')
+				{
+					$value = 1;
+					break;
+				}
+			}
+			
+			$prerequisites = str_replace($item, $value, $prerequisites);
+		}
+		
+		$prerequisites = str_replace('&', '&&', $prerequisites);
+		$prerequisites = str_replace('|', '||', $prerequisites);
+		$prerequisites = str_replace('~', '!', $prerequisites);
+		$prerequisites = '$value = ' . $prerequisites . ';';
+		eval($prerequisites);
+		
+		return $value;
 	}
 	
 	function retrieve_real_id_from_prerequisite_identifier($identifier)
