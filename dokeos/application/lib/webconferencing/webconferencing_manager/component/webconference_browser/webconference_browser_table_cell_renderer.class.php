@@ -116,7 +116,7 @@ class WebconferenceBrowserTableCellRenderer extends DefaultWebconferenceTableCel
                 //add returnUrl
                 $view_url = $view_url . '&returnUrl='. Path :: get('WEB_PATH');
 
-                return '<a href="'.htmlentities($view_url).'" title="'.$confname.'">'.$confname.'</a>';
+                return '<a href="'.htmlentities($view_url).'" target="_blank" title="'.$confname.'">'.$confname.'</a>';
                 break;
         }
 
