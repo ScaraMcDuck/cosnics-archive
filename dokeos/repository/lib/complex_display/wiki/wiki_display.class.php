@@ -229,7 +229,7 @@ class WikiDisplay extends ComplexDisplay
                 )
             );
 
-            if($this->get_parent()->get_parent()->is_allowed(EDIT_RIGHT))
+            //if($this->get_parent()->get_parent()->is_allowed(EDIT_RIGHT))
             {
 	            $action_bar->add_tool_action(
 	                new ToolbarItem(
