@@ -48,7 +48,7 @@ class BlogToolViewerComponent extends BlogToolComponent
         if(Request :: get('tool_action') == 'view' && Request :: get('pid')!=null)
         {
             if(Request :: get('pcattree')!=0)
-            $this->add_pcattree_breadcrumbs(Request :: get('pcattree'), &$trail);
+            $this->add_pcattree_breadcrumbs(Request :: get('pcattree'), $trail);
             $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get('pid'))->get_content_object()->get_title()));
         }
 
