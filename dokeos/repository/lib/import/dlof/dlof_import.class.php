@@ -145,7 +145,7 @@ class DlofImport extends ContentObjectImport
 			$lo->set_parent_id($this->get_category());
 			
 			$extended = $content_object->getElementsByTagName('extended')->item(0);
-		
+
 			if($extended->hasChildNodes())
 			{
 				$nodes = $extended->childNodes;
@@ -159,7 +159,7 @@ class DlofImport extends ContentObjectImport
 				
 				if($type == 'document')
 				{
-					$hash = $additionalProperties['hash']; dump($hash); dump($this->files[$hash]);
+					$hash = $additionalProperties['hash'];
 					$additionalProperties['hash'] = $this->files[$hash]['hash'];
 					$additionalProperties['path'] = $this->files[$hash]['path'];
 				}
@@ -167,8 +167,13 @@ class DlofImport extends ContentObjectImport
 				$lo->set_additional_properties($additionalProperties);
 			}
 			
-			//$lo->set_id('test');
-			$lo->create_all();
+			if($type == 'document')
+			{
+				if($this->files[$hash])
+					$lo->create_all();
+			}
+			else
+				$lo->create_all();
 			
 			$this->content_object_reference[$id] = $lo->get_id();
 			
@@ -260,7 +265,8 @@ class DlofImport extends ContentObjectImport
 			
 			foreach($children as $child)
 			{
-				$lo->attach_content_object($this->content_object_reference[$child]);
+				if($this->content_object_reference[$child])
+					$lo->attach_content_object($this->content_object_reference[$child]);
 			}
 		}
 	}
@@ -274,7 +280,8 @@ class DlofImport extends ContentObjectImport
 			
 			foreach($children as $child)
 			{
-				$lo->include_content_object($this->content_object_reference[$child]);
+				if($this->content_object_reference[$child])
+					$lo->include_content_object($this->content_object_reference[$child]);
 			}
 		}
 	}
