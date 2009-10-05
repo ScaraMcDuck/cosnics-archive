@@ -148,7 +148,7 @@ class PersonalCalendarManager extends WebApplication
 
 		$pcdm = PersonalCalendarDatamanager::get_instance();
 		$conditions = array();
-		$conditions[] = new EqualityCondition('user', $this->get_user_id(), $pcdm->get_database()->get_alias('publication_user'));
+		$conditions[] = new EqualityCondition('user_id', $this->get_user_id(), $pcdm->get_database()->get_alias('publication_user'));
 		if (count($user_groups) > 0)
 		{
 			$conditions[] = new InCondition('group_id', $user_groups, $pcdm->get_database()->get_alias('publication_group'));

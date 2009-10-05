@@ -16,7 +16,10 @@ require_once 'MDB2.php';
  */
 class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 {
-    private $database;
+    /**
+     * @var Database
+     */
+	private $database;
 
     function initialize()
     {
@@ -177,8 +180,8 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
     function retrieve_shared_calendar_event_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
     {
         $query = 'SELECT DISTINCT ' . $this->database->get_alias(CalendarEventPublication :: get_table_name()) . '.* FROM ' . $this->database->escape_table_name(CalendarEventPublication :: get_table_name()) . ' AS ' . $this->database->get_alias(CalendarEventPublication :: get_table_name());
-        $query .= ' LEFT JOIN ' . $this->database->escape_table_name('publication_user') . ' AS ' . $this->database->get_alias('publication_user') . ' ON ' . $this->database->get_alias(CalendarEventPublication :: get_table_name()) . '.id = ' . $this->database->get_alias('publication_user') . '.publication';
-        $query .= ' LEFT JOIN ' . $this->database->escape_table_name('publication_group') . ' AS ' . $this->database->get_alias('publication_group') . ' ON ' . $this->database->get_alias(CalendarEventPublication :: get_table_name()) . '.id = ' . $this->database->get_alias('publication_group') . '.publication';
+        $query .= ' LEFT JOIN ' . $this->database->escape_table_name('publication_user') . ' AS ' . $this->database->get_alias('publication_user') . ' ON ' . $this->database->get_alias(CalendarEventPublication :: get_table_name()) . '.id = ' . $this->database->get_alias('publication_user') . '.publication_id';
+        $query .= ' LEFT JOIN ' . $this->database->escape_table_name('publication_group') . ' AS ' . $this->database->get_alias('publication_group') . ' ON ' . $this->database->get_alias(CalendarEventPublication :: get_table_name()) . '.id = ' . $this->database->get_alias('publication_group') . '.publication_id';
         
         return $this->database->retrieve_result_set($query, CalendarEventPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, CalendarEventPublication :: CLASS_NAME);
     }
@@ -187,7 +190,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
     function update_calendar_event_publication($calendar_event_publication)
     {
         // Delete target users and groups
-        $condition = new EqualityCondition('publication', $calendar_event_publication->get_id());
+        $condition = new EqualityCondition('publication_id', $calendar_event_publication->get_id());
         $this->database->delete_objects(CalendarEventPublicationUser :: get_table_name(), $condition);
         $this->database->delete_objects(CalendarEventPublicationGroup :: get_table_name(), $condition);
 

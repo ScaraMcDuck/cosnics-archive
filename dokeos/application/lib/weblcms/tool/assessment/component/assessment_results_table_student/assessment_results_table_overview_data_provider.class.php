@@ -102,7 +102,7 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
 		/*$access = array();
 		if (!empty($user_id))
 		{
-			$access[] = new EqualityCondition('user', $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
+			$access[] = new EqualityCondition('user_id', $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
 		}
 		
 		if(count($course_groups) > 0)
