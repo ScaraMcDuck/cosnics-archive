@@ -23,7 +23,7 @@ class CategoryManagerAjaxCategoryMoverComponent extends CategoryManagerComponent
 		
 		$counter = 1;
 		
-		$categories = $this->retrieve_categories(new EqualityCondition('parent', $old_parent), null, null, array(new ObjectTableOrder('display_order')));
+		$categories = $this->retrieve_categories(new EqualityCondition('parent_id', $old_parent), null, null, array(new ObjectTableOrder('display_order')));
 		while($cat = $categories->next_result())
 		{
 			$cat->set_display_order($counter);

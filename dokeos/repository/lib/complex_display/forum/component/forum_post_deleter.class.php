@@ -27,7 +27,7 @@ class ForumDisplayForumPostDeleterComponent extends ForumDisplayComponent
                 $cloi = $datamanager->retrieve_complex_content_object_item($post);
                 $cloi->delete();
 
-                $siblings = $datamanager->count_complex_content_object_items(new EqualityCondition('parent', $cloi->get_parent()));
+                $siblings = $datamanager->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $cloi->get_parent()));
                 if($siblings == 0)
                 {
                     /*$wrappers = $datamanager->retrieve_complex_content_object_items(new EqualityCondition('ref', $cloi->get_parent()));

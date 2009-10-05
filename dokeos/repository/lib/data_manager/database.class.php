@@ -1474,11 +1474,11 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 		$query = 'UPDATE ' . $this->database->escape_table_name('content_object').' SET ' .
 		 		 $this->database->escape_column_name('state').'=1 WHERE '.
-		 		 $this->database->escape_column_name('parent').'=?';
+		 		 $this->database->escape_column_name('parent_id').'=?';
 		$statement = $this->database->get_connection()->prepare($query);
 		$statement->execute(array($category->get_id()));
 
-		$categories = $this->retrieve_categories(new EqualityCondition('parent', $category->get_id()));
+		$categories = $this->retrieve_categories(new EqualityCondition('parent_id', $category->get_id()));
 		while($category = $categories->next_result())
 			$this->delete_category($category);
 
@@ -1639,11 +1639,11 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
     function retrieve_last_post($forum_id)
     {
         $alias = $this->database->get_alias('complex_content_object_item');
-    	$query = 'SELECT ' . $alias . '.* , fo.last_post, fot.last_post, cloi2.add_date from '.$this->database->escape_table_name('complex_content_object_item') . ' AS ' . $alias . 
-                 ' LEFT JOIN ' . $this->database->escape_table_name('forum') . ' AS fo ON fo.id=' . $alias . '.ref' .
-    			 ' LEFT JOIN ' . $this->database->escape_table_name('forum_topic') . ' AS fot ON fot.id=' . $alias . '.ref' .
-    			 ' LEFT JOIN ' . $this->database->escape_table_name('complex_content_object_item') . ' AS cloi2 ON cloi2.id=fo.last_post OR cloi2.id=fot.last_post' . 
-                 ' WHERE ' . $alias . '.parent=? ORDER BY '.$this->database->escape_column_name('cloi2.add_date').' DESC LIMIT 1';
+    	$query = 'SELECT ' . $alias . '.* , fo.last_post_id, fot.last_post_id, cloi2.add_date from '.$this->database->escape_table_name('complex_content_object_item') . ' AS ' . $alias . 
+                 ' LEFT JOIN ' . $this->database->escape_table_name('forum') . ' AS fo ON fo.id=' . $alias . '.ref_id' .
+    			 ' LEFT JOIN ' . $this->database->escape_table_name('forum_topic') . ' AS fot ON fot.id=' . $alias . '.ref_id' .
+    			 ' LEFT JOIN ' . $this->database->escape_table_name('complex_content_object_item') . ' AS cloi2 ON cloi2.id=fo.last_post_id OR cloi2.id=fot.last_post_id' . 
+                 ' WHERE ' . $alias . '.parent_id=? ORDER BY '.$this->database->escape_column_name('cloi2.add_date').' DESC LIMIT 1';
         $statement = $this->database->get_connection()->prepare($query); 
         $res = $statement->execute($forum_id);
         return new DatabaseComplexContentObjectItemResultSet($this, $res, true);

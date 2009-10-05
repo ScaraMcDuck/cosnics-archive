@@ -30,7 +30,7 @@ class CategoryManagerAjaxCategoryDeleterComponent extends CategoryManagerCompone
 	{
 		$bool = true;
 		
-		$categories = $this->retrieve_categories(new EqualityCondition('parent', $id));
+		$categories = $this->retrieve_categories(new EqualityCondition('parent_id', $id));
 		while($category = $categories->next_result())
 		{
 			$bool &= $category->delete();
