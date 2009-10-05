@@ -16,7 +16,7 @@ class ForumTopic extends ContentObject
 	function create()
 	{
 		$succes = parent :: create();
-		$children = RepositoryDataManager :: get_instance()->count_complex_content_object_items(new EqualityCondition('parent', $this->get_id()));
+		$children = RepositoryDataManager :: get_instance()->count_complex_content_object_items(new EqualityCondition('parent_id', $this->get_id()));
 				
 		if($children == 0)
 		{

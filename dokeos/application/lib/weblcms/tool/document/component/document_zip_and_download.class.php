@@ -104,7 +104,7 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
 
 			$conditions[] = new EqualityCondition('course',$course);
 			$conditions[] = new EqualityCondition('tool',$tool);
-			$conditions[] = new EqualityCondition('parent',$parent_cat);
+			$conditions[] = new EqualityCondition('parent_id',$parent_cat);
 			$condition = new AndCondition($conditions); //dump($condition);
 
 			$categories = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication_categories($condition);
