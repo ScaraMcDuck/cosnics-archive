@@ -20,28 +20,21 @@ class ForumPublicationPublisher
         $author = $this->parent->get_user_id();
         $date = mktime(date());
 
-        if(is_array($object))
+        if(!is_array($object))
         {
-            foreach ($object as $key => $id)
-            {
-                $pb = new ForumPublication();
-                $pb->set_author($author);
-                $pb->set_date($date);
-                $pb->set_forum_id($id);
-                if (!$pb->create())
-                {
-                    $error = true;
-                }
-            }
+            $object = array($object);
         }else
         {
-            $pb = new ForumPublication();
-            $pb->set_author($author);
-            $pb->set_date($date);
-            $pb->set_forum_id($object);
-            if (!$pb->create())
+            foreach($object as $id)
             {
-                $error = true;
+	        	$pb = new ForumPublication();
+	            $pb->set_author($author);
+	            $pb->set_date($date);
+	            $pb->set_forum_id($id);
+	            if (!$pb->create())
+	            {
+	                $error = true;
+	            }
             }
         }
         

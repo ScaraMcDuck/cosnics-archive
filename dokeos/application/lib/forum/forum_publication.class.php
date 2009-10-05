@@ -127,6 +127,12 @@ class ForumPublication extends DataClass
 	{
 		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
+	
+	function create()
+	{
+		$this->set_display_order(ForumDataManager :: get_instance()->get_next_publication_display_order());
+		return parent :: create();
+	}
 }
 
 ?>
