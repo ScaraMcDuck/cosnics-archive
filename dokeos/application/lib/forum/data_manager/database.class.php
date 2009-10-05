@@ -15,6 +15,11 @@ require_once 'MDB2.php';
 
 class DatabaseForumDataManager extends ForumDataManager
 {
+	/**
+	 * Database
+	 *
+	 * @var Database
+	 */
 	private $database;
 
 	function initialize()
@@ -93,6 +98,11 @@ class DatabaseForumDataManager extends ForumDataManager
 
         $publication->set_display_order($newIndex);
         $publication->update();
+	}
+	
+	function get_next_publication_display_order()
+	{
+		return $this->database->retrieve_next_sort_value(ForumPublication :: get_table_name(), ForumPublication :: PROPERTY_DISPLAY_ORDER);
 	}
 
 }
