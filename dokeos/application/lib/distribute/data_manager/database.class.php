@@ -54,7 +54,7 @@ class DatabaseDistributeDataManager extends DistributeDataManager
 			foreach($users as $index => $user_id)
 			{
 				$props = array();
-				$props[$this->database->escape_column_name('distribution')] = $announcement_distribution->get_id();
+				$props[$this->database->escape_column_name('distribution_id')] = $announcement_distribution->get_id();
 				$props[$this->database->escape_column_name('user')] = $user_id;
 				$this->database->get_connection()->extended->autoExecute($this->database->get_table_name('announcement_distribution_user'), $props, MDB2_AUTOQUERY_INSERT);
 			}
@@ -63,7 +63,7 @@ class DatabaseDistributeDataManager extends DistributeDataManager
 			foreach($groups as $index => $group_id)
 			{
 				$props = array();
-				$props[$this->database->escape_column_name('distribution')] = $announcement_distribution->get_id();
+				$props[$this->database->escape_column_name('distribution_id')] = $announcement_distribution->get_id();
 				$props[$this->database->escape_column_name('group_id')] = $group_id;
 				$this->database->get_connection()->extended->autoExecute($this->database->get_table_name('announcement_distribution_group'), $props, MDB2_AUTOQUERY_INSERT);
 			}

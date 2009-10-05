@@ -17,8 +17,8 @@ class AnnouncementDistribution extends DataClass
 	/**
 	 * DistributePublication properties
 	 */
-	const PROPERTY_ANNOUNCEMENT = 'announcement';
-	const PROPERTY_PUBLISHER = 'publisher';
+	const PROPERTY_ANNOUNCEMENT = 'announcement_id';
+	const PROPERTY_PUBLISHER = 'publisher_id';
 	const PROPERTY_PUBLISHED = 'published';
 	const PROPERTY_STATUS = 'status';
 
