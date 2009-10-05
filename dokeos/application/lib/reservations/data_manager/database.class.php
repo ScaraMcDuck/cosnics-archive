@@ -159,12 +159,13 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 	function delete_item($item)
 	{
 		$condition = new EqualityCondition(Item :: PROPERTY_ID, $item->get_id());
-		$succes1 = $this->db->delete('item', $condition);
+		$succes = $this->db->delete('item', $condition);
 		
 		$condition = new EqualityCondition(Reservation :: PROPERTY_ITEM, $item->get_id());
-		$succes2 = $this->db->delete('reservation', $condition);
-		
-		$succes = $succes1 & $succes2;
+		//$succes2 = $this->db->delete('reservation', $condition);
+		$reservations = $this->retrieve_reservations($condition);
+		while($reservation = $reservations->next_result())
+			$succes &= $reservation->delete();
 		
 		return $succes;
 	}
