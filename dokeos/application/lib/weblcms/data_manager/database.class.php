@@ -354,7 +354,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     function update_content_object_publication($publication)
     {    	
         // Delete target users and course_groups
-        $condition = new EqualityCondition('publication', $publication->get_id());
+        $condition = new EqualityCondition('publication_id', $publication->get_id());
         $this->database->delete_objects('content_object_publication_user', $condition);
         $this->database->delete_objects('content_object_publication_course_group', $condition);
 

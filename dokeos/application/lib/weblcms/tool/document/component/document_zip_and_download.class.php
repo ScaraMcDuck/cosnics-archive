@@ -55,7 +55,7 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
 			$access = array();
 			if (!empty($user_id))
 			{
-				$access[] = new InCondition('user', $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
+				$access[] = new InCondition('user_id', $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
 			}
 			if(!empty($course_groups))
 			{
