@@ -421,6 +421,8 @@ class ContentObjectPublicationForm extends FormValidator
 			$tool = $this->repo_viewer->get_tool()->get_tool_id();
 			$tool = (is_null($tool) ? 'introduction' : $tool);
 			$category = $values[self :: PARAM_CATEGORY_ID];
+			if(!$category)
+				$category = 0;
 
 			$wdm = WeblcmsDataManager :: get_instance();
 			$index = $wdm->get_next_content_object_publication_display_order_index($course, $tool, $category);
