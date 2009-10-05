@@ -69,7 +69,7 @@ class DatabaseWikiDataManager extends WikiDataManager
 	{
 		$condition = new EqualityCondition(WikiPublication :: PROPERTY_ID, $id);
 		$object = $this->database->retrieve_object(WikiPublication :: get_table_name(), $condition);
-        $object->set_default_property('content_object', RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_default_property('content_object')));
+        $object->set_default_property('content_object_id', RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_default_property('content_object_id')));
         return $object;
 	}
 
@@ -82,6 +82,8 @@ class DatabaseWikiDataManager extends WikiDataManager
     {
         $condition = new EqualityCondition(WikiPublication :: PROPERTY_ID, $id);
 		$object = $this->database->retrieve_object(WikiPubFeedback :: get_table_name(), $condition);
+		
+		return $object;
     }
 
     function retrieve_wiki_pub_feedbacks($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)

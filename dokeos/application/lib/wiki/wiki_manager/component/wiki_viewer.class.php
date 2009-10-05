@@ -23,8 +23,12 @@ class WikiManagerWikiViewerComponent extends WikiManagerComponent
 
 		$this->set_parameter(WikiManager :: PARAM_ACTION, WikiManager :: ACTION_VIEW_WIKI);
         $this->set_parameter(WikiManager :: PARAM_WIKI_PUBLICATION, Request :: get(WikiManager :: PARAM_WIKI_PUBLICATION));
+
         $this->cd = ComplexDisplay :: factory($this, 'wiki');
-        $this->cd->set_root_lo(WikiDataManager :: get_instance()->retrieve_wiki_publication($this->get_parameter(WikiManager :: PARAM_WIKI_PUBLICATION))->get_content_object());
+
+        $pub = WikiDataManager :: get_instance()->retrieve_wiki_publication(Request :: get(WikiManager :: PARAM_WIKI_PUBLICATION));
+        
+        $this->cd->set_root_lo($pub->get_content_object());
         $this->display_header($trail, false);
         $this->cd->run();
         $this->display_footer();

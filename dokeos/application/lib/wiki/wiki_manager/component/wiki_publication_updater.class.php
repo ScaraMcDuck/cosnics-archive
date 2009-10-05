@@ -29,8 +29,8 @@ class WikiManagerWikiPublicationUpdaterComponent extends WikiManagerComponent
         $this->display_header($trail);
 		if($form->validate() || Request :: get('validated'))
 		{
-            if(Request :: get('validated'))
-			$success = $form->update_content_object();
+            if(!Request :: get('validated'))
+				$success = $form->update_content_object();
 
             $pub_form = new WikiPublicationForm(WikiPublicationForm :: TYPE_EDIT, $wiki_publication, $this->get_url(array(WikiManager ::PARAM_WIKI_PUBLICATION => $wiki_publication->get_id(), 'validated' => 1)),$this->get_user());
             if($pub_form->validate())
