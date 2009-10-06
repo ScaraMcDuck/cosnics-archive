@@ -55,7 +55,7 @@ class DatabaseDistributeDataManager extends DistributeDataManager
 			{
 				$props = array();
 				$props[$this->database->escape_column_name('distribution_id')] = $announcement_distribution->get_id();
-				$props[$this->database->escape_column_name('user')] = $user_id;
+				$props[$this->database->escape_column_name('user_id')] = $user_id;
 				$this->database->get_connection()->extended->autoExecute($this->database->get_table_name('announcement_distribution_user'), $props, MDB2_AUTOQUERY_INSERT);
 			}
 			
