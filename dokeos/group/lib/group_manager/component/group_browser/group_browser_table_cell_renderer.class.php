@@ -53,9 +53,9 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
 //				}
                 return DokeosUtilities :: truncate_string($description);
 			case Translation :: get('Users') :
-				return $group->count_users();
+				return $group->count_users(true, true);
 			case Translation :: get('Subgroups') :
-				return $group->count_subgroups(true);
+				return $group->count_subgroups(true, true);
 		}
 
 		return parent :: render_cell($column, $group);

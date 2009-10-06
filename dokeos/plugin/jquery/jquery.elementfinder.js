@@ -216,8 +216,13 @@
 			{
 				e.preventDefault();
 				var the_element = $('#' + $(this).attr('id'), inactiveBox);
-				the_element.removeClass('disabled');
-				the_element.css("background-image", the_element.css("background-image").replace("_na.png", ".png"));
+				
+				if (typeof the_element.css("background-image") !== 'undefined')
+				{
+					the_element.removeClass('disabled');
+					the_element.css("background-image", the_element.css("background-image").replace("_na.png", ".png"));
+				}
+				
 				removeActivatedElement($(this).attr('id'));
 				$(this).parent().parent().remove();
 				

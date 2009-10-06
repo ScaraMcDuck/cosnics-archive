@@ -136,6 +136,17 @@ div.empty_column
 	-webkit-border-radius: 10px;
 }
 
+#homeMessageContainer
+{
+	position: fixed;
+	width: 625px;
+	height: 400px;
+	background-color: #FFFFFF;
+	border: 2px solid #E5EDF9;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+
 a.modalCloseImg
 {
 	background: url(../img/home/background_modal_close.png) no-repeat;

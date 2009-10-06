@@ -26,9 +26,11 @@ class GroupMenu extends HTML_Menu
 
 	private $include_root;
 
-	private $exclude_children;
-
 	private $current_category;
+
+	private $show_complete_tree;
+
+	private $hide_current_category;
 
 	/**
 	 * Creates a new category navigation menu.
@@ -41,15 +43,16 @@ class GroupMenu extends HTML_Menu
 	 * @param array $extra_items An array of extra tree items, added to the
 	 *                           root.
 	 */
-	function GroupMenu($current_category, $url_format = '?application=group&go=browse&group_id=%s', $include_root = true, $exclude_children = false)
+	function GroupMenu($current_category, $url_format = '?application=group&go=browse&group_id=%s', $include_root = true, $show_complete_tree = false, $hide_current_category = false)
 	{
 		$this->include_root = $include_root;
-		$this->exclude_children = $exclude_children;
+		$this->show_complete_tree = $show_complete_tree;
+		$this->hide_current_category = $hide_current_category;
 
 		if ($current_category == '0' || is_null($current_category))
 		{
 			$condition = new EqualityCondition(Group :: PROPERTY_PARENT, 0);
-			$group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, new ObjectTableOrder(Group :: PROPERTY_SORT))->next_result();
+			$group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, new ObjectTableOrder(Group :: PROPERTY_NAME))->next_result();
 			$this->current_category = $group;
 		}
 		else
@@ -69,7 +72,7 @@ class GroupMenu extends HTML_Menu
 		$include_root = $this->include_root;
 
 		$condition = new EqualityCondition(Group :: PROPERTY_PARENT, 0);
-		$group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, new ObjectTableOrder(Group :: PROPERTY_SORT))->next_result();
+		$group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, new ObjectTableOrder(Group :: PROPERTY_NAME))->next_result();
 
 		if (!$include_root)
 		{
@@ -106,27 +109,29 @@ class GroupMenu extends HTML_Menu
 	 */
 	private function get_menu_items($parent_id = 0)
 	{
-		$exclude_children = $this->exclude_children;
 		$current_category = $this->current_category;
 
+		$show_complete_tree = $this->show_complete_tree;
+		$hide_current_category = $this->hide_current_category;
+
 		$condition = new EqualityCondition(Group :: PROPERTY_PARENT, $parent_id);
-		$groups = GroupDataManager :: get_instance()->retrieve_groups($condition, null, null, new ObjectTableOrder(Group :: PROPERTY_SORT));
+		$groups = GroupDataManager :: get_instance()->retrieve_groups($condition, null, null, new ObjectTableOrder(Group :: PROPERTY_NAME));
 
 		while ($group = $groups->next_result())
 		{
 			$group_id = $group->get_id();
 
-			if (!($exclude_children && $group_id == $current_category->get_id()))
+			if (!($group_id == $current_category->get_id() && $hide_current_category))
 			{
 				$menu_item = array();
 				$menu_item['title'] = $group->get_name();
 				$menu_item['url'] = $this->get_url($group->get_id());
 
-				if ($group->is_parent_of($current_category) || $group->get_id() == $current_category->get_id())
+				if ($group->is_parent_of($current_category) || $group->get_id() == $current_category->get_id() || $show_complete_tree)
 				{
     				if($group->has_children())
     				{
-    					$menu_item['sub'] = $this->get_menu_items($group->get_id());
+   				        $menu_item['sub'] = $this->get_menu_items($group->get_id());
     				}
 				}
 				else

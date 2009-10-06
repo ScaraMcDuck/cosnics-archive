@@ -180,7 +180,7 @@ class GroupForm extends FormValidator {
 	{
 		$group = $this->group;
 
-		$group_menu = new GroupMenu($group->get_id(), null, true, true);
+		$group_menu = new GroupMenu($group->get_id(), null, true, true, true);
 		$renderer = new OptionsMenuRenderer();
 		$group_menu->render($renderer, 'sitemap');
 		return $renderer->toArray();
