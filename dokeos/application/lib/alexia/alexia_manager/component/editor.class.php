@@ -42,7 +42,7 @@ class AlexiaManagerEditorComponent extends AlexiaManagerComponent
 
 				if($form->is_version())
 				{
-					$alexia_publication->set_content_object($content_object->get_latest_version());
+					$alexia_publication->set_content_object($content_object->get_latest_version()->get_id());
 					$alexia_publication->update();
 				}
 			
