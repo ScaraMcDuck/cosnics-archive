@@ -48,6 +48,7 @@ class RepositoryManager extends CoreApplication
     const PARAM_DELETE_PERMANENTLY = 'delete_permanently';
     const PARAM_DELETE_VERSION = 'delete_version';
     const PARAM_DELETE_RECYCLED = 'delete_recycle';
+    const PARAM_EXPORT_SELECTED = 'export_selected';
     const PARAM_EMPTY_RECYCLE_BIN = 'empty';
     const PARAM_RECYCLE_SELECTED = 'recycle_selected';
     const PARAM_MOVE_SELECTED = 'move_selected';
@@ -397,6 +398,10 @@ class RepositoryManager extends CoreApplication
                 case self :: PARAM_DELETE_TEMPLATES:
                 	$this->set_action(self :: ACTION_DELETE_TEMPLATE);
                 	Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID, $template_ids);
+                	break;
+                case self :: PARAM_EXPORT_SELECTED:
+                	$this->set_action(self :: ACTION_EXPORT_CONTENT_OBJECTS);
+                	Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID, $selected_ids);
                 	break;
             }
         }
