@@ -44,34 +44,15 @@ class RepositoryManagerExporterComponent extends RepositoryManagerComponent
 				$exporter = ContentObjectExport :: factory('dlof', $content_objects);
 				$path = $exporter->export_content_object();
 				
-				header('Expires: Wed, 01 Jan 1990 00:00:00 GMT');
-				header('Cache-Control: public');
-				header('Pragma: no-cache');
-				header('Content-type: application/octet-stream');
-				header('Content-length: '.filesize($path));
+				/*Filesystem :: file_send_for_download($path, true, 'content_objects.dlof');
+				Filesystem :: remove($path);*/
 				
-				if (preg_match("/MSIE 5.5/", $_SERVER['HTTP_USER_AGENT']))
-				{
-					header('Content-Disposition: filename=content_objects.dlof');
-				}
-				else
-				{
-					header('Content-Disposition: attachment; filename=content_objects.dlof');
-				}
+				Filesystem :: copy_file($path, Path :: get(SYS_TEMP_PATH) . $this->get_user_id() . '/content_objects.dlof', true);
+				$webpath = Path :: get(WEB_TEMP_PATH) . $this->get_user_id() . '/content_objects.dlof';
 				
-				if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE'))
-				{
-					header('Pragma: ');
-					header('Cache-Control: ');
-					header('Cache-Control: public'); // IE cannot download from sessions without a cache
-				}
-				
-				header('Content-Description: content_objects.dlof');
-				header('Content-transfer-encoding: binary');
-				$fp = fopen($path, 'r');
-				fpassthru($fp);
-				fclose($fp);
-				Filesystem :: remove($path);
+				$this->display_header();
+				$this->display_message('<a href="' . $webpath . '">' . Translation :: get('Download') . '</a>');
+				$this->display_footer();
 			}
 			else
 			{
