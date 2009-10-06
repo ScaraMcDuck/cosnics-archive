@@ -216,6 +216,7 @@ class DatabaseGroupDataManager extends GroupDataManager
     function is_groupname_available($groupname, $group_id = null)
 	{
 		$condition = new EqualityCondition(Group :: PROPERTY_NAME,$groupname);
+
 		if($group_id)
 		{
 			$conditions = array();
@@ -223,6 +224,7 @@ class DatabaseGroupDataManager extends GroupDataManager
 			$conditions = new EqualityCondition(Group :: PROPERTY_ID, $group_id);
 			$condition = new AndCondition($conditions);
 		}
+
 		return !($this->database->count_objects(Group :: get_table_name(), $condition) == 1);
 	}
 
@@ -240,10 +242,10 @@ class DatabaseGroupDataManager extends GroupDataManager
 		{
 			$translator = new ConditionTranslator($this->database, $params);
             $query .= $translator->render_query($condition);
-            $params2 = $translator->get_parameters();
+            $cond_params = $translator->get_parameters();
 		}
 
-		$params[] = $params2[0];
+		$params[] = $cond_params[0];
 
 		$statement = $this->database->get_connection()->prepare($query);
 		// TODO: Some error-handling please !
@@ -257,14 +259,9 @@ class DatabaseGroupDataManager extends GroupDataManager
 		$params = array ();
 		$params[] = $number_of_elements * 2;
 
-		if (isset ($condition))
-		{
-			$translator = new ConditionTranslator($this->database, $params);
-            $query .= $translator->render_query($condition);
-            $params2 = $translator->get_parameters();
-		}
-
-		$params[] = $params2[0];
+		$translator = new ConditionTranslator($this->database, $params);
+        $query .= $translator->render_query($condition);
+        $params = array_merge($params, $translator->get_parameters());
 
 		$statement = $this->database->get_connection()->prepare($query);
 		// TODO: Some error-handling please !
@@ -289,12 +286,9 @@ class DatabaseGroupDataManager extends GroupDataManager
 		$params[] = $delta;
 		$params[] = $delta;
 
-		if (isset ($condition))
-		{
-			$translator = new ConditionTranslator($this->database, $params, false);
-            $query .= $translator->render_query($condition);
-            $params = $translator->get_parameters();
-		}
+		$translator = new ConditionTranslator($this->database, $params);
+        $query .= $translator->render_query($condition);
+        $params = array_merge($params, $translator->get_parameters());
 
 		$statement = $this->database->get_connection()->prepare($query);
 		// TODO: Some error-handling please !
@@ -312,12 +306,9 @@ class DatabaseGroupDataManager extends GroupDataManager
 		$params = array ();
 		$params[] = $delta;
 
-		if (isset ($condition))
-		{
-			$translator = new ConditionTranslator($this->database, $params, false);
-            $query .= $translator->render_query($condition);
-            $params = $translator->get_parameters();
-		}
+		$translator = new ConditionTranslator($this->database, $params);
+        $query .= $translator->render_query($condition);
+        $params = array_merge($params, $translator->get_parameters());
 
 		$statement = $this->database->get_connection()->prepare($query);
 		// TODO: Some error-handling please !
@@ -429,12 +420,9 @@ class DatabaseGroupDataManager extends GroupDataManager
 		$params[] = $offset;
 		$params[] = $offset;
 
-		if (isset ($condition))
-		{
-			$translator = new ConditionTranslator($this->database, $params, false);
-            $query .= $translator->render_query($condition);
-            $params = $translator->get_parameters();
-		}
+		$translator = new ConditionTranslator($this->database, $params);
+        $query .= $translator->render_query($condition);
+        $params = array_merge($params, $translator->get_parameters());
 
 		$statement = $this->database->get_connection()->prepare($query);
 		// TODO: Some error-handling please !
