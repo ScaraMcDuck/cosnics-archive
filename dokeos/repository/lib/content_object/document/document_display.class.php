@@ -24,7 +24,14 @@ class DocumentDisplay extends ContentObjectDisplay
 		}
 		else
 		{
-			$html = preg_replace('|</div>\s*$|s', '<div class="document_link" style="margin-top: 1em;"><a href="'.htmlentities($url).'">'.htmlentities($name).'</a> ('.Filesystem::format_file_size($object->get_filesize()).')</div></div>', $html);
+			if(strtolower(substr($name, -4)) == 'html' || strtolower(substr($name, -3)) == 'htm' || strtolower(substr($name, -3)) == 'txt')
+			{
+				$html = preg_replace('|</div>\s*$|s', '<iframe border="0" style="border: 1px solid grey;" width="100%" height="500"  src="' . $url . '&display=1"></iframe>', $html);
+			}
+			else
+			{
+				$html = preg_replace('|</div>\s*$|s', '<div class="document_link" style="margin-top: 1em;"><a href="'.htmlentities($url).'">'.htmlentities($name).'</a> ('.Filesystem::format_file_size($object->get_filesize()).')</div></div>', $html);
+			}
 		}
 		
 		return $html;
