@@ -70,8 +70,8 @@ class HTML_QuickForm_upload_or_create extends HTML_QuickForm_group
     function toHtml()
     {
     	$html[] = $this->_elements[0]->toHtml();
-        $html[] = $this->_elements[1]->toHtml();
         $html[] = '<div style="display: inline;" id="uncompress">';
+        $html[] = $this->_elements[1]->toHtml();
 		$html[] = $this->_elements[4]->toHtml();
         $html[] = '</div>';         
         $html[] = '<br />';
