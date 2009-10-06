@@ -172,7 +172,7 @@ class LaikaBrowserFilterForm extends FormValidator
 
 	function get_groups()
 	{
-		$group_menu = new GroupMenu(null, null, false);
+		$group_menu = new GroupMenu(null, null, false, true);
 		$renderer = new OptionsMenuRenderer();
 		$group_menu->render($renderer, 'sitemap');
 

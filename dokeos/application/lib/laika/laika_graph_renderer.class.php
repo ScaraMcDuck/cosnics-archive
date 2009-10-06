@@ -400,7 +400,7 @@ class LaikaGraphRenderer
 		foreach($scales as $scale)
 		{
 			$config['Values'][] = $scale->get_id();
-			$config['Description'][$scale->get_id()] = $scale->get_title();
+			$config['Description'][$scale->get_id()] = html_entity_decode($scale->get_title());
 		}
 
 		return $config;

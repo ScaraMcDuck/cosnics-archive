@@ -112,9 +112,14 @@ class LaikaGrapherFilterForm extends FormValidator
 		$group[] = $this->createElement('radio', self :: GRAPH_FILTER_TYPE, null,Translation :: get('RenderGraph'), LaikaGraphRenderer :: RENDER_GRAPH);
 		$group[] = $this->createElement('radio', self :: GRAPH_FILTER_TYPE, null,Translation :: get('RenderTable'), LaikaGraphRenderer :: RENDER_TABLE);
 		$this->addGroup($group, self :: GRAPH_FILTER_TYPE, Translation :: get('RenderType'), '<br/>', false);
-		$this->addElement('checkbox', self :: GRAPH_FILTER_SAVE, Translation :: get('SaveToRepository'));
-		$maximum_attempts = PlatformSetting :: get('maximum_attempts', LaikaManager :: APPLICATION_NAME);
 
+		$allow_save = PlatformSetting :: get('allow_save', LaikaManager :: APPLICATION_NAME);
+		if ($allow_save == true)
+		{
+		    $this->addElement('checkbox', self :: GRAPH_FILTER_SAVE, Translation :: get('SaveToRepository'));
+		}
+
+		$maximum_attempts = PlatformSetting :: get('maximum_attempts', LaikaManager :: APPLICATION_NAME);
 		if ($maximum_attempts > 1)
 		{
 			$group = array();
@@ -154,7 +159,7 @@ class LaikaGrapherFilterForm extends FormValidator
 
 	function get_groups()
 	{
-		$group_menu = new GroupMenu(null, null, false);
+		$group_menu = new GroupMenu(null, null, false, true);
 		$renderer = new OptionsMenuRenderer();
 		$group_menu->render($renderer, 'sitemap');
 
