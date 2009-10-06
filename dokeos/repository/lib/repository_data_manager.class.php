@@ -216,7 +216,7 @@ abstract class RepositoryDataManager
 	{
 		$applications = $this->get_registered_applications();
 		$info = array();
-		foreach($applications as $index => $application_name)
+		foreach($applications as $application_name)
 		{
 			$application = Application::factory($application_name,$user);
 			$attributes = $application->get_content_object_publication_attributes($id, $type, $offset, $count, $order_property, $order_direction);
