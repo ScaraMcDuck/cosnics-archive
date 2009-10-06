@@ -1229,7 +1229,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			 $this->escape_column_name('display_order').'='.
 			 $this->escape_column_name('display_order').'-1 WHERE '.
 			 $this->escape_column_name('display_order').'>? AND ' .
-			 $this->escape_column_name('parent') . '=?';
+			 $this->escape_column_name('parent_id') . '=?';
 		$statement = $this->connection->prepare($query);
 		$statement->execute(array($clo_item->get_display_order(), $clo_item->get_parent()));
 

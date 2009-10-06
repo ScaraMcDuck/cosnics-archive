@@ -9,12 +9,14 @@ require_once Path :: get_repository_path() . 'lib/repository_manager/component/c
  */
 class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
 {
+	private $count;
 	/**
 	 * Constructor
 	 * @param RepositoryManagerBrowserComponent $browser
 	 */
 	function LearningPathBrowserTableCellRenderer($browser, $condition)
 	{
+		$this->count = RepositoryDataManager :: get_instance()->count_complex_content_object_items($condition);
 		parent :: __construct($browser, $condition);
 	}
 
@@ -71,7 +73,7 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
 		
 		if($lo->get_type() == 'learning_path_item')
 		{
-			if($parent->get_version() == 'dokeos')
+			if($parent->get_version() == 'dokeos' && $this->count > 1)
 			{	
 				$additional_items[] = array(
 					'href' => $this->browser->get_prerequisites_url($cloi->get_id()),
