@@ -70,7 +70,7 @@ class DlofExport extends ContentObjectExport
 
   		$xml_path = $temp_dir . 'content_object.xml';
 		$this->doc->save($xml_path);
-		
+
 		foreach($this->files as $hash => $path)
 		{
 			$newfile = $temp_dir . 'data/' . $hash;
