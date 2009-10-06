@@ -11,8 +11,12 @@
  */
 abstract class Mail
 {
+    const FROM_NAME = 'name';
+    const FROM_EMAIL = 'email';
+
     /**
      * The sender of the mail
+     * An array containing the name AND the e-mail address
      */
     private $from;
     /**
@@ -58,10 +62,10 @@ abstract class Mail
      * @todo This function now uses the DefaultMail-class. The class to use
      * should be configurable.
      */
-    public static function factory($subject, $message, $to, $from = null, $cc = array(), $bcc = array())
+    public static function factory($subject, $message, $to, $from = array(), $cc = array(), $bcc = array())
     {
         // TODO: This value should come from configuration and can be one of the available mail-implementations
-        $mail_file = 'default';
+        $mail_file = 'phpmailer';
         require_once dirname(__FILE__) . '/' . $mail_file . '/' . $mail_file . '_mail.class.php';
         $mail_class = DokeosUtilities :: underscores_to_camelcase($mail_file) . 'Mail';
         return new $mail_class($subject, $message, $to, $from, $cc, $bcc);
@@ -119,6 +123,16 @@ abstract class Mail
     function get_from()
     {
         return $this->from;
+    }
+
+    function get_from_name()
+    {
+        return $this->from[self :: FROM_NAME];
+    }
+
+    function get_from_email()
+    {
+        return $this->from[self :: FROM_EMAIL];
     }
 
     /**
