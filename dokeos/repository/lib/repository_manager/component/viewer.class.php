@@ -217,19 +217,19 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					if($dm->get_number_of_categories($this->get_user_id()) > 1)
 					{
 						$move_url = $this->get_content_object_moving_url($object);
-						$action_bar->add_common_action(new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path().'action_move.png', $move_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
+						$action_bar->add_common_action(new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path().'action_move.png', $move_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 					}
 	
 					$metadata_url = $this->get_content_object_metadata_editing_url($object);
-					$action_bar->add_common_action(new ToolbarItem(Translation :: get('Metadata'), Theme :: get_common_image_path().'action_metadata.png', $metadata_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
+					$action_bar->add_common_action(new ToolbarItem(Translation :: get('Metadata'), Theme :: get_common_image_path().'action_metadata.png', $metadata_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 	
 					$rights_url = $this->get_content_object_rights_editing_url($object);
-					$action_bar->add_common_action(new ToolbarItem(Translation :: get('Rights'), Theme :: get_common_image_path().'action_rights.png', $rights_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
+					$action_bar->add_common_action(new ToolbarItem(Translation :: get('Rights'), Theme :: get_common_image_path().'action_rights.png', $rights_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 	
 					if($object->is_complex_content_object())
 					{
 						$clo_url = $this->get_browse_complex_content_object_url($object);
-						$action_bar->add_common_action(new ToolbarItem(Translation :: get('BrowseComplex'), Theme :: get_common_image_path().'action_browser.png', $clo_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
+						$action_bar->add_common_action(new ToolbarItem(Translation :: get('BrowseComplex'), Theme :: get_common_image_path().'action_browser.png', $clo_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 					}
 				}
 				else
