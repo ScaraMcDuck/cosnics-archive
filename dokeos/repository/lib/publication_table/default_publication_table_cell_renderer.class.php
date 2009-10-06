@@ -36,7 +36,7 @@ class DefaultPublicationTableCellRenderer implements ObjectTableCellRenderer
 				$application = $content_object_publication->get_application();
 
 				if($application == 'weblcms')
-				{
+				{ 
 					$location = $content_object_publication->get_location();
 					$codes = explode("&gt;",$location);
 					$course_id = trim($codes[0]);
