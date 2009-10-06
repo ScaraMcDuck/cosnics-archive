@@ -87,7 +87,7 @@ else
 }
 
 header('Content-Type: text/xml');
-echo '<?xml version="1.0" encoding="iso-8859-1"?>', "\n", '<tree>', "\n";
+echo '<?xml version="1.0" encoding="utf-8"?>', "\n", '<tree>', "\n";
 
 if (isset($tree))
 {
@@ -124,13 +124,13 @@ function dump_tree($tree, $objects)
 		else
 			$title = $node['obj']->get_title();
 
-		echo '<node id="category_', $id, '" classes="type_category unlinked" title="', htmlentities($title), '">', "\n";
+		echo '<node id="category_', $id, '" classes="type_category unlinked" title="', htmlspecialchars($title), '">', "\n";
 		dump_tree($node['sub'], $objects);
 		foreach ($objects[$id] as $lo)
 		{
 			$id = $lo->get_id();
 			$value = DokeosUtilities :: content_object_for_element_finder($lo);
-			echo '<leaf id="lo_', $id, '" classes="', $value['classes'], '" title="', htmlentities($value['title']), '" description="', htmlentities($value['description']), '"/>', "\n";
+			echo '<leaf id="lo_', $id, '" classes="', $value['classes'], '" title="', htmlspecialchars($value['title']), '" description="', htmlspecialchars($value['description']), '"/>', "\n";
 		}
 		echo '</node>', "\n";
 	}
