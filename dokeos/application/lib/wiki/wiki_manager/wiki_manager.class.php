@@ -150,6 +150,11 @@ require_once dirname(__FILE__).'/component/wiki_publication_browser/wiki_publica
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
 	}
 
+	function is_allowed()
+	{
+		return true;
+	}
+	
 	// Dummy Methods which are needed because we don't work with learning objects
 	function content_object_is_published($object_id)
 	{
