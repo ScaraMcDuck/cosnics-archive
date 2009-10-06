@@ -963,7 +963,7 @@ class RepositoryManager extends CoreApplication
             
             $templates = array ();
             $templates['title'] = Translation :: get('BrowseTemplates');
-            $templates['url'] = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_TEMPLATES));
+            $templates['url'] = $this->get_url(array(self :: PARAM_CATEGORY_ID => null, self :: PARAM_ACTION => self :: ACTION_BROWSE_TEMPLATES));
             $templates['class'] = 'item';
             
             $import = array ();
