@@ -41,7 +41,10 @@ class LaikaManagerViewerComponent extends LaikaManagerComponent
 
 		$html = array();
 
-		$html[] = $this->get_action_bar_html();
+		if (LaikaRights :: is_allowed(LaikaRights :: VIEW_RIGHT, 'mailer', 'laika_component'))
+		{
+		    $html[] = $this->get_action_bar_html();
+		}
 		$html[] = '<br />';
 		$html[] = '<div id="action_bar_browser">';
 
