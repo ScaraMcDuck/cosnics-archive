@@ -172,7 +172,7 @@ class CalendarEventPublicationForm extends FormValidator
     	}
     	return true;
     }
-    
+
     function set_publication($publication)
     {
     	$this->publication = $publication;
@@ -180,7 +180,7 @@ class CalendarEventPublicationForm extends FormValidator
 		$this->addElement('hidden','action');
 		$defaults['action'] = 'edit';
 		$defaults['pid'] = $publication->get_id();
-		
+
 		$udm = UserDataManager :: get_instance();
 		$gdm = GroupDataManager :: get_instance();
 
@@ -223,7 +223,7 @@ class CalendarEventPublicationForm extends FormValidator
 
 		parent::setDefaults($defaults);
     }
-    
+
     function update_calendar_event_publication()
     {
 		$values = $this->exportValues();
