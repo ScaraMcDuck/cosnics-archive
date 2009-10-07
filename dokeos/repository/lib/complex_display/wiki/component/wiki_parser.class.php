@@ -88,7 +88,7 @@ class WikiDisplayWikiParserComponent extends WikiDisplayComponent
     	$title = $viewTitle;
         foreach($pages as $page)
         {
-            $cloi = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition('ref',$page->get_id()))->next_result();
+            $cloi = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition('ref_id',$page->get_id()))->next_result();
             if(!empty($cloi))
             break;
         }

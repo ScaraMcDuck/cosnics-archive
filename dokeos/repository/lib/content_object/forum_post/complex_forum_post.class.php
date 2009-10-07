@@ -48,7 +48,7 @@ class ComplexForumPost extends ComplexContentObjectItem
 		$siblings = $datamanager->count_complex_content_object_items(new EqualityCondition('parent_id', $this->get_parent()));
 		if($siblings == 0)
 		{
-			$wrappers = $datamanager->retrieve_complex_content_object_items(new EqualityCondition('ref', $this->get_parent()));
+			$wrappers = $datamanager->retrieve_complex_content_object_items(new EqualityCondition('ref_id', $this->get_parent()));
 			while($wrapper = $wrappers->next_result())
 			{
 				$wrapper->delete();
