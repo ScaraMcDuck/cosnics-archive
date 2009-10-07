@@ -50,6 +50,9 @@
 					<option name="false" value="0" />
 				</options>
 			</setting>
+			<setting name="show_variable_in_translation" field="checkbox" default="0">
+				<options type="static"><option name="show_variable_in_translation" value="1" /></options>
+			</setting>
 		</category>
 		<category name="visual">
 			<setting name="platform_language" field="select" default="english">
