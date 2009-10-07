@@ -51,6 +51,8 @@ define('WEB_USER_PATH', 'WEB_USER_PATH');
 define('SYS_USER_PATH', 'SYS_USER_PATH');
 define('WEB_SCORM_PATH', 'WEB_SCORM_PATH');
 define('SYS_SCORM_PATH', 'SYS_SCORM_PATH');
+define('WEB_HOTPOTATOES_PATH', 'WEB_HOTPOTATOES_PATH');
+define('SYS_HOTPOTATOES_PATH', 'SYS_HOTPOTATOES_PATH');
 
 class Path
 {
@@ -167,6 +169,10 @@ class Path
                 return self :: get(SYS_FILE_PATH) . 'scorm/';
             case WEB_SCORM_PATH :
                 return self :: get(WEB_FILE_PATH) . 'scorm/';
+            case SYS_HOTPOTATOES_PATH :
+                return self :: get(SYS_FILE_PATH) . 'hotpotatoes/';
+            case WEB_HOTPOTATOES_PATH :
+                return self :: get(WEB_FILE_PATH) . 'hotpotatoes/';
             default :
                 return;
         }

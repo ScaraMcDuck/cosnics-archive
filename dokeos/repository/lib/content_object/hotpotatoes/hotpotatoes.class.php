@@ -61,6 +61,16 @@ class Hotpotatoes extends ContentObject
 		return $this->set_additional_property(self :: PROPERTY_PATH, $path);
 	}
 	
+	function get_full_path()
+	{
+		return Path :: get(SYS_HOTPOTATOES_PATH) . $this->get_owner_id() . '/' . $this->get_path();
+	}
+	
+	function get_full_url()
+	{
+		return Path :: get(WEB_HOTPOTATOES_PATH) . $this->get_owner_id() . '/' . $this->get_path();
+	}
+	
 	function delete()
 	{
 		$this->delete_file();
@@ -69,8 +79,8 @@ class Hotpotatoes extends ContentObject
 	
 	function delete_file()
 	{
-		$path = Path :: get(SYS_REPO_PATH) . $this->get_path();
-		Filesystem::remove($path);
+		$dir = dirname($this->get_full_path());
+		Filesystem::remove($dir);
 	}
 	
 	function add_javascript($postback_url, $goback_url, $tracker_id)
@@ -84,7 +94,7 @@ class Hotpotatoes extends ContentObject
 	
 	private function read_file_content()
 	{
-		$full_file_path = Path :: get(SYS_REPO_PATH) . $this->get_path();
+		$full_file_path = $this->get_full_path();
 		
 		if(is_file($full_file_path)) 
 		{
@@ -100,8 +110,8 @@ class Hotpotatoes extends ContentObject
 	
 	private function write_file_content($content)
 	{
-		$full_file_path = Path :: get(SYS_REPO_PATH) . substr($this->get_path(), 0, strlen($this->get_path()) - 4) . '.' . Session :: get_user_id() . '.t.htm';
-		$full_web_path = Path :: get(WEB_REPO_PATH) . substr($this->get_path(), 0, strlen($this->get_path()) - 4) . '.' . Session :: get_user_id() . '.t.htm';
+		$full_file_path = $this->get_full_path() . '.t.htm';
+		$full_web_path = $this->get_full_url() . '.t.htm';
 		Filesystem::remove($full_file_path);
 		
 		if (($fp = fopen(urldecode($full_file_path), "w"))) 
