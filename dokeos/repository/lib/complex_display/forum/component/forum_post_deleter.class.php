@@ -30,7 +30,7 @@ class ForumDisplayForumPostDeleterComponent extends ForumDisplayComponent
                 $siblings = $datamanager->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $cloi->get_parent()));
                 if($siblings == 0)
                 {
-                    /*$wrappers = $datamanager->retrieve_complex_content_object_items(new EqualityCondition('ref', $cloi->get_parent()));
+                    /*$wrappers = $datamanager->retrieve_complex_content_object_items(new EqualityCondition('ref_id', $cloi->get_parent()));
                     while($wrapper = $wrappers->next_result())
                     {
                         $wrapper->delete();
