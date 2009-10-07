@@ -209,12 +209,6 @@ abstract class WikiManagerComponent
 		return $this->get_parent()->get_browse_wiki_publications_url();
 	}
 
-
-	function get_browse_url()
-	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
-	}
-
     private function load_rights()
 	{
 		/**

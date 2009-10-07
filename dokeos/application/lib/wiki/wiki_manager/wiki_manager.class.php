@@ -24,9 +24,6 @@ require_once dirname(__FILE__).'/component/wiki_publication_browser/wiki_publica
 	const ACTION_BROWSE_WIKI_PUBLICATIONS = 'browse_wiki_publications';
     const ACTION_VIEW_WIKI = 'view';
 
-
-	const ACTION_BROWSE = 'browse';
-
 	/**
 	 * Constructor
 	 * @param User $user The current user
@@ -57,9 +54,6 @@ require_once dirname(__FILE__).'/component/wiki_publication_browser/wiki_publica
 				break;
 			case self :: ACTION_CREATE_WIKI_PUBLICATION :
 				$component = WikiManagerComponent :: factory('WikiPublicationCreator', $this);
-				break;
-			case self :: ACTION_BROWSE:
-				$component = WikiManagerComponent :: factory('Browser', $this);
 				break;
             case self :: ACTION_VIEW_WIKI:
 				$component = WikiManagerComponent :: factory('WikiViewer', $this);
@@ -143,11 +137,6 @@ require_once dirname(__FILE__).'/component/wiki_publication_browser/wiki_publica
 	function get_browse_wiki_publications_url()
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_WIKI_PUBLICATIONS));
-	}
-
-	function get_browse_url()
-	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
 	}
 
 	function is_allowed()
