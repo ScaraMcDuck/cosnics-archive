@@ -20,6 +20,11 @@ class Translation
      * The application we're currently translating
      */
     private $application;
+    
+    /**
+     * To determine wether we should show the variable in a tooltip window or not (used for translation purposes)
+     */
+    private $show_variable_in_translation;
 
     /**
      * Constructor.
@@ -30,6 +35,8 @@ class Translation
         {
             global $language_interface;
             $this->language = $language_interface;
+            if(class_exists('PlatformSetting'))
+            	$this->show_variable_in_translation = PlatformSetting :: get('show_variable_in_translation');
         }
         else
         {
@@ -120,11 +127,11 @@ class Translation
         
         if (isset($strings[$language][$application][$variable]))
         {
-            return $strings[$language][$application][$variable];
+            $value = $strings[$language][$application][$variable];
         }
         elseif (isset($strings[$language]['common'][$variable]))
         {
-            return $strings[$language]['common'][$variable];
+            $value = $strings[$language]['common'][$variable];
         }
         else
         {
@@ -132,8 +139,18 @@ class Translation
             {
                 return $variable;
             }
-            return '[=' . self :: application_to_class($application) . '=' . $variable . '=]';
+            else
+            {
+            	return '[=' . self :: application_to_class($application) . '=' . $variable . '=]';
+            }
         }
+        
+        if($this->show_variable_in_translation)
+        {
+        	return '<span title="' . $application . ' - ' . $variable . '">' . $value . '</span>';
+        }
+        
+        return $value;
     }
 
     function add_language_file_to_array($language, $application)
