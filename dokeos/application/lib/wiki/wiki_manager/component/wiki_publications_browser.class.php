@@ -19,8 +19,7 @@ class WikiManagerWikiPublicationsBrowserComponent extends WikiManagerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE)), Translation :: get('Wiki')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseWikiPublications')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Wiki')));
 
 		$this->display_header($trail);
         $this->action_bar = $this->get_toolbar();
