@@ -12,7 +12,7 @@ class HotpotatoesDisplay extends ContentObjectDisplay
 	function get_full_html()
 	{	
 		$object = $this->get_content_object();
-		$path = Path :: get(WEB_REPO_PATH) . $object->get_path();
+		$path = $object->get_full_url();
 		$html = '<iframe src="' . $path . '" width="100%" height="600">
   				 <p>Your browser does not support iframes.</p>
 				 </iframe>';

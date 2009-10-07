@@ -59,8 +59,6 @@ class HotpotatoesForm extends ContentObjectForm
     	$this->addRule('file', Translation :: get('ThisFileIsRequired'), 'required');
     	$this->addElement('category');
 	}
-
-	private $includes;
 	
 	// Inherited
 	function create_content_object()
@@ -77,9 +75,6 @@ class HotpotatoesForm extends ContentObjectForm
 		$this->set_content_object($object);
 		//$object->add_javascript();
 		$succes = parent :: create_content_object();
-		
-		foreach($this->includes as $include)
-			$object->include_content_object($include);
 		
 		return $succes;
 	}
@@ -102,9 +97,6 @@ class HotpotatoesForm extends ContentObjectForm
 		$this->set_content_object($object);
 		
 		$succes = parent :: update_content_object();
-		
-		foreach($this->includes as $include)
-			$object->include_content_object($include);
 		
 		return $succes;
 	}
@@ -136,58 +128,49 @@ class HotpotatoesForm extends ContentObjectForm
 	function upload()
 	{  
 		$owner = $this->get_owner_id();
-		$filename = Filesystem :: create_unique_name(Path :: get(SYS_REPO_PATH).$owner, $_FILES['file']['name']);
-
-		$repo_path = Path :: get(SYS_REPO_PATH) . $owner . '/';
-		$full_path = $repo_path . $filename;
-		
-		if(!is_dir($repo_path))
-				Filesystem :: create_dir($repo_path);
+		$filename = Filesystem :: create_unique_name(Path :: get(SYS_HOTPOTATOES_PATH).$owner, $_FILES['file']['name']);
+		$filename_split = explode('.', $filename);
+		unset($filename_split[count($filename_split) - 1]);
+		$file = implode('.', $filename_split); 
+				
+		$hotpot_path = Path :: get(SYS_HOTPOTATOES_PATH) . $owner . '/';
+		$real_path = $hotpot_path . Filesystem :: create_unique_name($hotpot_path, $file) . '/';
+		if(!is_dir($real_path))
+				Filesystem :: create_dir($real_path);
+				
+		$full_path = $real_path . $filename;
 		
 		move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "'.$full_path.'"');
 		chmod($full_path, 0777);
 		
-		return $owner . '/' . $filename;
+		return substr($full_path, strlen($hotpot_path));
 	}
 	
 	function manage_zip_file($object, $path)
 	{
-		$owner = $this->get_owner_id();
-		$full_path = Path :: get(SYS_REPO_PATH) . $path;
-		$repo_path = Path :: get(SYS_REPO_PATH) . $owner . '/';
-		
+		$zip_file_name = basename($path);
+		$hotpot_path = Path :: get(SYS_HOTPOTATOES_PATH) . $this->get_owner_id() . '/';
+		$full_path = $hotpot_path . dirname($path) . '/';
+
 		$filecompression = Filecompression::factory();
-		$dir = $filecompression->extract_file($full_path);
+		$dir = $filecompression->extract_file($full_path . $zip_file_name);
 		$entries = Filesystem::get_directory_content($dir);
 		
-		$this->includes = array();
-		
-		foreach($entries as $index => $entry)
+		foreach($entries as $entry)
 		{
-			$filename = Filesystem :: create_unique_name($repo_path, basename($entry));
-			$full_new_path = $repo_path . $filename;
-			$new_path = $owner . '/' . $filename;
+			$filename = basename($entry);
+			$full_new_path = $full_path . $filename;
+			$new_path = substr($full_new_path, strlen($hotpot_path));
 			
 			Filesystem :: move_file($entry, $full_new_path, false);
 			if(substr($filename, -4) == '.htm' || substr($filename, -5) == '.html')
 			{
 				$return_path = $new_path;
 			}
-			else
-			{
-				$doc = new Document();
-				$doc->set_path($new_path);
-				$doc->set_filename($filename);
-				$doc->set_filesize(Filesystem::get_disk_space($full_new_path));
-				$doc->set_parent_id(0);
-				$this->set_content_object($doc);
-				parent :: create_content_object();
-				$this->includes[] = $doc->get_id();
-			}
 		}
 		
 		Filesystem :: remove($dir);
-		Filesystem :: remove($full_path);
+		Filesystem :: remove($full_path . $zip_file_name);
 		
 		return $return_path;
 	}
