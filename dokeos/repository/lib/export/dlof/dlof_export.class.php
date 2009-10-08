@@ -94,8 +94,8 @@ class DlofExport extends ContentObjectExport
 		
 		foreach($this->scorm_files as $scorm_dir)
 		{
-			$newfile = $temp_dir . 'scorm/' . dirname($scorm_dir);
-			Filesystem :: copy_file($scorm_dir, $newfile, true);
+			$newfile = $temp_dir . 'scorm/' . basename(rtrim($hotpot_dir, '/'));
+			Filesystem :: coprecurse_copyy_file($scorm_dir, $newfile, true);
 		}
 		
 		$zip = Filecompression :: factory();
