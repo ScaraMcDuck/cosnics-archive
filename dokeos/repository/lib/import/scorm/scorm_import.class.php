@@ -63,7 +63,7 @@ class ScormImport extends ContentObjectImport
 		$version = 'SCORM' . $xml_data['version'];
 		
 		// Build the organizations tree
-		$learning_paths = $this->build_organizations($xml_data['organizations']['organization'], $resources_list, $sequencing_collections, $version);
+		$learning_paths = $this->build_organizations($xml_data['organizations']['organization'], $resources_list, $sequencing_collections, $version, $xml_data['identifier']);
 		//dump($xml_data);
 		// Remove the temporary files
 		FileSystem :: remove($extracted_files_dir);
@@ -95,13 +95,13 @@ class ScormImport extends ContentObjectImport
 	 * Build the learning path list from the SCORM organizations
 	 * @param Array of Strings - SCORM organizations
 	 */
-	private function build_organizations($organizations, $resources_list, $sequencing_collections, $version)
+	private function build_organizations($organizations, $resources_list, $sequencing_collections, $version, $path = null)
 	{
 		$learning_paths = array();
 
 		foreach($organizations as $organization)
 		{
-			$learning_path = $this->create_learning_path($organization, $sequencing_collections, $version);
+			$learning_path = $this->create_learning_path($organization, $sequencing_collections, $version, $path);
 			$this->build_items($organization['item'], $resources_list, $learning_path, $sequencing_collections, $version);
 			$learning_paths[] = $learning_path;
 		}
@@ -143,7 +143,7 @@ class ScormImport extends ContentObjectImport
 	 * @param String $title
 	 * @return LearningPath
 	 */
-	private function create_learning_path($item, $sequencing_collections, $version)
+	private function create_learning_path($item, $sequencing_collections, $version, $path = null)
 	{
 		$title = $item['title'];
 		$learning_path = AbstractContentObject :: factory('learning_path');
@@ -152,6 +152,10 @@ class ScormImport extends ContentObjectImport
 		$learning_path->set_parent_id($this->get_category());
 		$learning_path->set_owner_id($this->get_user()->get_id());
 		$learning_path->set_version($version);
+		
+		if($path)
+			$learning_path->set_path($path);
+		
 		$lp_sequencing = $item['imsss:sequencing'][0];
 
 		//$lp_sequencing = array_filter($lp_sequencing, array($this, "remove_null_values"));
