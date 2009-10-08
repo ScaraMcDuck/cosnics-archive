@@ -86,13 +86,11 @@ class DlofExport extends ContentObjectExport
 			$newfile = $temp_dir . 'data/' . $hash;
 			Filesystem :: copy_file($path, $newfile, true);
 		}
-		dump($this->hotpot_files);
 		foreach($this->hotpot_files as $hotpot_dir)
 		{
 			$newfile = $temp_dir . 'hotpotatoes/';
-			dump($newfile);
-			Filesystem :: recurse_copy($hotpot_dir, $newfile, true);
-		} exit();
+			Filesystem :: recurse_copy($hotpot_dir, $newfile . basename(rtrim($hotpot_dir, '/')), true);
+		}
 		
 		foreach($this->scorm_files as $scorm_dir)
 		{
