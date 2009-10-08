@@ -74,7 +74,7 @@ class RepositoryManager extends CoreApplication
     const PARAM_DELETE_TEMPLATES = 'delete_templates';
     const PARAM_COPY_FROM_TEMPLATES = 'copy_template';
     const PARAM_COPY_TO_TEMPLATES = 'copy_to_template';
-    
+
 
 	/**#@-*/
    /**#@+
@@ -122,7 +122,7 @@ class RepositoryManager extends CoreApplication
 	const ACTION_COPY_CONTENT_OBJECT = 'lo_copy';
 	const ACTION_IMPORT_TEMPLATE = 'import_template';
 	const ACTION_DELETE_TEMPLATE = 'delete_template';
-    
+
     const ACTION_BROWSE_USER_VIEWS = 'browse_views';
     const ACTION_CREATE_USER_VIEW = 'create_view';
     const ACTION_DELETE_USER_VIEW = 'delete_view';
@@ -338,7 +338,7 @@ class RepositoryManager extends CoreApplication
             {
                 $selected_ids = array ($selected_ids);
             }
-            
+
        		$template_ids = $_POST[TemplateBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
             if (empty ($template_ids))
             {
@@ -348,7 +348,7 @@ class RepositoryManager extends CoreApplication
             {
                 $template_ids = array ($template_ids);
             }
-            
+
             switch ($_POST['action'])
             {
                 case self :: PARAM_RECYCLE_SELECTED :
@@ -960,12 +960,12 @@ class RepositoryManager extends CoreApplication
             $create['title'] = Translation :: get('Create');
             $create['url'] = $this->get_content_object_creation_url();
             $create['class'] = 'create';
-            
+
             $templates = array ();
             $templates['title'] = Translation :: get('BrowseTemplates');
             $templates['url'] = $this->get_url(array(self :: PARAM_CATEGORY_ID => null, self :: PARAM_ACTION => self :: ACTION_BROWSE_TEMPLATES));
-            $templates['class'] = 'item';
-            
+            $templates['class'] = 'template';
+
             $import = array ();
             $import['title'] = Translation :: get('Import');
             $import['url'] = $this->get_content_object_importing_url();
@@ -1062,17 +1062,17 @@ class RepositoryManager extends CoreApplication
     public function get_application_platform_admin_links()
     {
         $info = parent :: get_application_platform_admin_links();
-        
+
         $links[]	= array('name' => Translation :: get('ImportTemplate'),
             'description' => Translation :: get('ImportTemplateDescription'),
             'action' => 'import',
             'url' => $this->get_link(array(Application :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE)));
-        
+
         $info['search'] = $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECTS));
         $info['links'] = $links;
         return $info;
     }
-    
+
     static function get_document_downloader_url($document_id)
     {
     	$parameters = array(self :: PARAM_ACTION => self :: ACTION_DOWNLOAD_DOCUMENT, self :: PARAM_CONTENT_OBJECT_ID => $document_id);
@@ -1192,7 +1192,7 @@ class RepositoryManager extends CoreApplication
         $rdm = RepositoryDataManager :: get_instance();
         return $rdm->retrieve_external_export($condition, $offset, $count, $order_property, $order_direction);
     }
-    
+
     /**
      * Renders the users block and returns it.
      */
@@ -1228,7 +1228,7 @@ class RepositoryManager extends CoreApplication
         return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_USER_VIEW,
         self :: PARAM_USER_VIEW => $user_view_id));
     }
-    
+
     function get_copy_content_object_url($lo_id, $to_user_id)
     {
     	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COPY_CONTENT_OBJECT, self :: PARAM_CONTENT_OBJECT_ID => $lo_id,
@@ -1239,12 +1239,12 @@ class RepositoryManager extends CoreApplication
     {
     	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE));
     }
-    
+
  	function get_delete_template_url($template_id)
     {
     	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_TEMPLATE, self :: PARAM_CONTENT_OBJECT_ID => $template_id));
     }
-    
+
     function get_reuse_content_object_url($content_object)
     {
         return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_REUSE_CONTENT_OBJECT, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
@@ -1272,7 +1272,7 @@ class RepositoryManager extends CoreApplication
 
         $lo = $this->retrieve_content_object($content_object->get_id());
         if($lo->get_owner_id() == 0) return true;
-        
+
    		$user = $udm->retrieve_user($user_id);
         $groups = $user->get_groups();
         foreach($groups as $group)
@@ -1300,7 +1300,7 @@ class RepositoryManager extends CoreApplication
 
             $list[] = array('location_id' => $user_right_location->get_location_id(),'user' => $user_right_location->get_user_id(), 'right' => $user_right_location->get_right_id());
         }
-        
+
      	$shared_content_objects = $rdm->retrieve_shared_content_objects_for_groups($group_ids,$rights);
 
         while($group_right_location = $shared_content_objects->next_result())
@@ -1315,7 +1315,7 @@ class RepositoryManager extends CoreApplication
         {
 	        $location_cond = new InCondition('id',$location_ids);
         	$locations = $rdm->retrieve_locations($location_cond);
-	
+
 	        while($location = $locations->next_result())
 	        {
 	            foreach ($list as $key => $value)
