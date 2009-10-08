@@ -150,6 +150,11 @@ ul.tree-menu li div a.search_results
 	background-image: url(../img/common/treemenu/search.png);
 }
 
+ul.tree-menu li div a.template
+{
+	background-image: url(../img/common/treemenu/template.png);
+}
+
 ul.tree-menu li div a.category
 {
 	background-image: url(../img/common/treemenu/tree-folder-closed.png);
