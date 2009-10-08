@@ -106,19 +106,21 @@ class Filesystem
 	    	return self :: copy_file($source, $destination, $overwrite);
 	    
 	   	$bool = true;
-	    	
-	    $new_folder = $destination . basename(rtrim($source, '/'));
-	    self :: create_dir($new_folder);
-	    
+	   	
 	    $content = self :: get_directory_content($source, self :: LIST_FILES_AND_DIRECTORIES, false);
 	    foreach($content as $file)
 	    {
 	    	$path_to_file = $source . '/' . $file;
-	    	$path_to_new_file = $new_folder . '/' . $file;
+	    	$path_to_new_file = $destination . '/' . $file;
 	    	if(!is_dir($path_to_file))
+	    	{
 	    		$bool &= self :: copy_file($path_to_file, $path_to_new_file, $overwrite);
+	    	}
 	    	else
+	    	{
+	    		self :: create_dir($path_to_new_file);
 	    		$bool &= self :: recurse_copy($path_to_file, $path_to_new_file, $overwrite);
+	    	}
 	    }
 	    
 	    return $bool;

@@ -26,6 +26,11 @@ class DlofImport extends ContentObjectImport
 	 * @var Array 
 	 */
 	private $files;
+
+	/*
+	 * Array of hp files that are created
+	 */
+	private $hp_files;
 	
 	/**
 	 * The reference to store the file id's of each content_object and the new content_object
@@ -71,31 +76,13 @@ class DlofImport extends ContentObjectImport
 	
 	public function import_content_object()
 	{
-		$user = $this->get_user();
-		
 		$zip = Filecompression :: factory();
 		$temp = $zip->extract_file($this->get_content_object_file_property('tmp_name'));
 		$dir = $temp . '/';
 		
-		$lo_data_dir = $dir . 'data/';
 		$path = $dir . 'content_object.xml';
+		$this->import_files($dir);
 		
-		if (file_exists($lo_data_dir))
-		{
-			$files = Filesystem :: get_directory_content($lo_data_dir, Filesystem :: LIST_FILES_AND_DIRECTORIES, false);
-			$repdir = Path :: get(SYS_REPO_PATH);
-			
-			foreach($files as $f)
-			{
-				$usr_path = $user->get_id() . '/' . Text :: char_at($f, 0);
-				$full_path =  $repdir . $usr_path;
-			
-				$hash = Filesystem :: create_unique_name($full_path, $f);
-				
-				Filesystem :: copy_file($dir . 'data/' . $f, $full_path . '/' . $hash, false);
-				$this->files[$f] = array('hash' => $hash, 'path' => $usr_path . '/' . $hash); 
-			}
-		}
 		$doc = $this->doc;
 		$doc = new DOMDocument();
 		
@@ -117,6 +104,43 @@ class DlofImport extends ContentObjectImport
 		}
 		
 		return true;
+	}
+	
+	private function import_files($dir)
+	{
+		$user = $this->get_user();
+		
+		$lo_data_dir = $dir . 'data/';
+		if (file_exists($lo_data_dir))
+		{
+			$files = Filesystem :: get_directory_content($lo_data_dir, Filesystem :: LIST_FILES_AND_DIRECTORIES, false);
+			$repdir = Path :: get(SYS_REPO_PATH);
+			
+			foreach($files as $f)
+			{
+				$usr_path = $user->get_id() . '/' . Text :: char_at($f, 0);
+				$full_path =  $repdir . $usr_path;
+			
+				$hash = Filesystem :: create_unique_name($full_path, $f);
+				
+				Filesystem :: copy_file($dir . 'data/' . $f, $full_path . '/' . $hash, false);
+				$this->files[$f] = array('hash' => $hash, 'path' => $usr_path . '/' . $hash); 
+			}
+		}
+		
+		$hp_dir = $dir . 'hotpotatoes/';
+		if (file_exists($hp_dir))
+		{
+			$files = Filesystem :: get_directory_content($hp_dir, Filesystem :: LIST_FILES_AND_DIRECTORIES, false);
+			$new_dir = Path :: get(SYS_HOTPOTATOES_PATH) . $user->get_id() . '/';
+			
+			foreach($files as $f)
+			{
+				$dirname = Filesystem :: create_unique_name($new_dir, $f);
+				Filesystem :: recurse_copy($dir . 'hotpotatoes/' . $f, $new_dir . $dirname, false);
+				$this->hp_files[$f] = $dirname;
+			}
+		}
 	}
 	
 	public function create_content_object($content_object)
@@ -162,6 +186,19 @@ class DlofImport extends ContentObjectImport
 					$hash = $additionalProperties['hash'];
 					$additionalProperties['hash'] = $this->files[$hash]['hash'];
 					$additionalProperties['path'] = $this->files[$hash]['path'];
+				}
+				
+				if($type == 'hotpotatoes')
+				{
+					$path = $additionalProperties['path'];
+					foreach($this->hp_files as $folder => $new_folder)
+					{
+						if(strpos(dirname($path), $folder) !== false)
+						{
+							$additionalProperties['path'] = str_replace($folder, $new_folder, $path);
+							break;
+						}
+					}
 				}
 
 				$lo->set_additional_properties($additionalProperties);
