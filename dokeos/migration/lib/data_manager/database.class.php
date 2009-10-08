@@ -125,7 +125,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	{
 		$title = $this->connection->quote($title, "text", true);
 		
-		$query = 'SELECT id FROM ' . $this->get_table_name('repository_content_object'). ' WHERE owner=\'' . $owner . '\' AND type=\'' . $type .
+		$query = 'SELECT id FROM ' . $this->get_table_name('repository_content_object'). ' WHERE owner_id=\'' . $owner . '\' AND type=\'' . $type .
 		 		'\' AND title=' . $title . '';
 		
 		if($parent)
@@ -393,7 +393,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	{
 		$path = $this->connection->quote($path, "text", true);
 		$query = 'SELECT id FROM ' . $this->get_table_name('repository_document'). ' WHERE path=' . $path . ' AND id IN ' .
-						'(SELECT id FROM ' . $this->get_table_name('repository_content_object'). ' WHERE owner = ' . $owner_id . ')';
+						'(SELECT id FROM ' . $this->get_table_name('repository_content_object'). ' WHERE owner_id = ' . $owner_id . ')';
 		
 		$result = $this->connection->query($query);
 		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
