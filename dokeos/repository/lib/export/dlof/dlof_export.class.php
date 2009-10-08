@@ -108,6 +108,13 @@ class DlofExport extends ContentObjectExport
   		{
   			$this->scorm_files[] = $content_object->get_full_path();
   		}
+  		
+  		if($content_object->get_type() == 'learning_path_item' || $content_object->get_type() == 'portfolio_item')
+  		{
+  			$id = $content_object->get_reference();
+  			$this->render_content_object($this->rdm->retrieve_content_object($id));
+  			$content_object->set_reference('object' . $id);
+  		}
 	}
 	
 	function add_files($temp_dir)

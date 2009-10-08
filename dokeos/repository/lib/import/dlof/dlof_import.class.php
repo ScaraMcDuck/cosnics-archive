@@ -73,6 +73,13 @@ class DlofImport extends ContentObjectImport
 	 */
 	private $lo_includes;
 	
+	/**
+	 * Used to determine which references need to be changed (used in learning path item, portfolio item)
+	 *
+	 * @var $references[$content_object] = id;
+	 */
+	private $references;
+	
 	function DlofImport($content_object_file, $user, $category)
 	{
 		$this->rdm = RepositoryDataManager :: get_instance();
@@ -102,6 +109,7 @@ class DlofImport extends ContentObjectImport
 		$this->create_complex_wrappers();
 		$this->create_attachments();
 		$this->create_includes();
+		$this->update_references();
 		
 		if($temp)
 		{
@@ -162,7 +170,7 @@ class DlofImport extends ContentObjectImport
 		}
 	}
 	
-	public function import_extra_properties($type, $additionalProperties)
+	public function import_extra_properties($type, $additionalProperties, $lo)
 	{
 		if($type == 'document')
 		{
@@ -251,12 +259,17 @@ class DlofImport extends ContentObjectImport
 					$additionalProperties[$node->nodeName] = convert_uudecode($node->nodeValue);
 				}
 				
-				$additionalProperties = $this->import_extra_properties($type, $additionalProperties);	
+				$additionalProperties = $this->import_extra_properties($type, $additionalProperties, $lo);	
 
 				$lo->set_additional_properties($additionalProperties);
 			}
 			
 			$lo->create_all();
+			
+			if($type == 'learning_path_item' || $type == 'portfolio_item')
+			{
+				$this->references[$lo->get_id()] = $additionalProperties['reference_id'];
+			}
 			
 			$this->content_object_reference[$id] = $lo->get_id();
 			
@@ -366,6 +379,17 @@ class DlofImport extends ContentObjectImport
 				if($this->content_object_reference[$child])
 					$lo->include_content_object($this->content_object_reference[$child]);
 			}
+		}
+	}
+	
+	function update_references()
+	{ 
+		foreach($this->references as $lo_id => $reference)
+		{
+			$real_reference = $this->content_object_reference[$reference];
+			$lo = $this->rdm->retrieve_content_object($lo_id);
+			$lo->set_reference($real_reference);
+			$lo->update();
 		}
 	}
 }
