@@ -81,22 +81,7 @@ class DlofExport extends ContentObjectExport
   		$xml_path = $temp_dir . 'content_object.xml';
 		$this->doc->save($xml_path);
 
-		foreach($this->files as $hash => $path)
-		{
-			$newfile = $temp_dir . 'data/' . $hash;
-			Filesystem :: copy_file($path, $newfile, true);
-		}
-		foreach($this->hotpot_files as $hotpot_dir)
-		{
-			$newfile = $temp_dir . 'hotpotatoes/';
-			Filesystem :: recurse_copy($hotpot_dir, $newfile . basename(rtrim($hotpot_dir, '/')), true);
-		}
-		
-		foreach($this->scorm_files as $scorm_dir)
-		{
-			$newfile = $temp_dir . 'scorm/' . basename(rtrim($hotpot_dir, '/'));
-			Filesystem :: coprecurse_copyy_file($scorm_dir, $newfile, true);
-		}
+		$this->add_files($temp_dir);
 		
 		$zip = Filecompression :: factory();
 		//$zip->set_filename('content_objects_export');
@@ -105,6 +90,44 @@ class DlofExport extends ContentObjectExport
 		Filesystem :: remove($temp_dir);
 		
 		return $zippath;
+	}
+	
+	function export_additional_properties($content_object)
+	{
+		if($content_object->get_type() == 'document')
+  		{
+  			$this->files[$content_object->get_hash()] = $content_object->get_full_path();
+  		}
+  		
+  		if($content_object->get_type() == 'hotpotatoes')
+  		{
+  			$this->hotpot_files[] = dirname($content_object->get_full_path());
+  		}
+  		
+  		if($content_object->get_type() == 'learning_path' && $content_object->get_path())
+  		{
+  			$this->scorm_files[] = $content_object->get_full_path();
+  		}
+	}
+	
+	function add_files($temp_dir)
+	{
+		foreach($this->files as $hash => $path)
+		{
+			$newfile = $temp_dir . 'data/' . $hash;
+			Filesystem :: copy_file($path, $newfile, true);
+		}
+		foreach($this->hotpot_files as $hotpot_dir)
+		{
+			$newfile = $temp_dir . 'hotpotatoes/' . basename(rtrim($hotpot_dir, '/'));
+			Filesystem :: recurse_copy($hotpot_dir, $newfile, true);
+		}
+		
+		foreach($this->scorm_files as $scorm_dir)
+		{
+			$newfile = $temp_dir . 'scorm/' . basename(rtrim($scorm_dir, '/')); 
+			Filesystem :: recurse_copy($scorm_dir, $newfile, true);
+		}
 	}
 
 	function render_content_object($content_object)
@@ -141,15 +164,7 @@ class DlofExport extends ContentObjectExport
 			$text = $property->appendChild($text);
   		}
   		
-  		if($content_object->get_type() == 'document')
-  		{
-  			$this->files[$content_object->get_hash()] = $content_object->get_full_path();
-  		}
-  		
-  		if($content_object->get_type() == 'hotpotatoes')
-  		{
-  			$this->hotpot_files[] = dirname($content_object->get_full_path());
-  		}
+  		$this->export_additional_properties($content_object);
   		
   		$extended = $doc->createElement('extended');
   		$lo->appendChild( $extended );

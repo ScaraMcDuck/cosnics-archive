@@ -52,5 +52,10 @@ class LearningPath extends ContentObject
 	{
 		$this->set_additional_property(self :: PROPERTY_PATH, $path);
 	}
+	
+	function get_full_path()
+	{
+		return Path :: get(SYS_SCORM_PATH) . $this->get_owner_id() . '/' . $this->get_path() . '/';
+	}
 }
 ?>

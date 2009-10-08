@@ -32,6 +32,11 @@ class DlofImport extends ContentObjectImport
 	 */
 	private $hp_files;
 	
+	/*
+	 * Array of scorm files that are created
+	 */
+	private $scorm_files;
+	
 	/**
 	 * The reference to store the file id's of each content_object and the new content_object
 	 * @var Array of INT
@@ -141,6 +146,71 @@ class DlofImport extends ContentObjectImport
 				$this->hp_files[$f] = $dirname;
 			}
 		}
+		
+		$scorm_dir = $dir . 'scorm/';
+		if (file_exists($scorm_dir))
+		{
+			$files = Filesystem :: get_directory_content($scorm_dir, Filesystem :: LIST_FILES_AND_DIRECTORIES, false);
+			$new_dir = Path :: get(SYS_SCORM_PATH) . $user->get_id() . '/';
+			
+			foreach($files as $f)
+			{
+				$dirname = Filesystem :: create_unique_name($new_dir, $f);
+				Filesystem :: recurse_copy($dir . 'scorm/' . $f, $new_dir . $dirname, false);
+				$this->scorm_files[$f] = $dirname;
+			}
+		}
+	}
+	
+	public function import_extra_properties($type, $additionalProperties)
+	{
+		if($type == 'document')
+		{
+			$hash = $additionalProperties['hash'];
+			$additionalProperties['hash'] = $this->files[$hash]['hash'];
+			$additionalProperties['path'] = $this->files[$hash]['path'];
+		}
+		
+		if($type == 'hotpotatoes')
+		{
+			$path = $additionalProperties['path'];
+			foreach($this->hp_files as $folder => $new_folder)
+			{
+				if(strpos(dirname($path), $folder) !== false)
+				{
+					$additionalProperties['path'] = str_replace($folder, $new_folder, $path);
+					break;
+				}
+			}
+		}
+
+		if($type == 'learning_path')
+		{
+			$path = $additionalProperties['path'];
+			foreach($this->scorm_files as $folder => $new_folder)
+			{
+				if($path == $folder)
+				{
+					$additionalProperties['path'] = $new_folder;
+					break;
+				}
+			}
+		}
+		
+		if($type == 'scorm_item')
+		{
+			$path = $additionalProperties['path'];
+			foreach($this->scorm_files as $folder => $new_folder)
+			{
+				if(strpos($path, $folder) !== false)
+				{
+					$additionalProperties['path'] = str_replace($folder, $new_folder, $path);
+					break;
+				}
+			}
+		}
+		
+		return $additionalProperties;
 	}
 	
 	public function create_content_object($content_object)
@@ -181,36 +251,12 @@ class DlofImport extends ContentObjectImport
 					$additionalProperties[$node->nodeName] = convert_uudecode($node->nodeValue);
 				}
 				
-				if($type == 'document')
-				{
-					$hash = $additionalProperties['hash'];
-					$additionalProperties['hash'] = $this->files[$hash]['hash'];
-					$additionalProperties['path'] = $this->files[$hash]['path'];
-				}
-				
-				if($type == 'hotpotatoes')
-				{
-					$path = $additionalProperties['path'];
-					foreach($this->hp_files as $folder => $new_folder)
-					{
-						if(strpos(dirname($path), $folder) !== false)
-						{
-							$additionalProperties['path'] = str_replace($folder, $new_folder, $path);
-							break;
-						}
-					}
-				}
+				$additionalProperties = $this->import_extra_properties($type, $additionalProperties);	
 
 				$lo->set_additional_properties($additionalProperties);
 			}
 			
-			if($type == 'document')
-			{
-				if($this->files[$hash])
-					$lo->create_all();
-			}
-			else
-				$lo->create_all();
+			$lo->create_all();
 			
 			$this->content_object_reference[$id] = $lo->get_id();
 			

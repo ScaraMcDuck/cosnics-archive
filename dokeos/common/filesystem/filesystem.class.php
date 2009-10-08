@@ -104,7 +104,6 @@ class Filesystem
     {
 	    if(!is_dir($source))
 	    	return self :: copy_file($source, $destination, $overwrite);
-	    
 	   	$bool = true;
 	   	
 	    $content = self :: get_directory_content($source, self :: LIST_FILES_AND_DIRECTORIES, false);
