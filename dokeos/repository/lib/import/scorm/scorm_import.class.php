@@ -5,6 +5,7 @@
  * @copyright 2009 - Sven Vanpoucke
  */
 require_once dirname(__FILE__).'/../content_object_import.class.php';
+require_once dirname(__FILE__).'/../../abstract_content_object.class.php';
 require_once Path :: get_library_path() . 'filecompression/filecompression.class.php';
 
 /**

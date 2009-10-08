@@ -91,6 +91,38 @@ class Filesystem
             return copy($source, $destination);
         }
     }
+    
+    /**
+     * Made a recursive copy function to copy entire directories
+     *
+     * @param String $source
+     * @param String $destination
+     * @param Bool $overwrite
+     * @return Bool succes
+     */
+    function recurse_copy($source, $destination, $overwrite = false) 
+    {
+	    if(!is_dir($source))
+	    	return self :: copy_file($source, $destination, $overwrite);
+	    
+	   	$bool = true;
+	    	
+	    $new_folder = $destination . basename(rtrim($source, '/'));
+	    self :: create_dir($new_folder);
+	    
+	    $content = self :: get_directory_content($source, self :: LIST_FILES_AND_DIRECTORIES, false);
+	    foreach($content as $file)
+	    {
+	    	$path_to_file = $source . '/' . $file;
+	    	$path_to_new_file = $new_folder . '/' . $file;
+	    	if(!is_dir($path_to_file))
+	    		$bool &= self :: copy_file($path_to_file, $path_to_new_file, $overwrite);
+	    	else
+	    		$bool &= self :: recurse_copy($path_to_file, $path_to_new_file, $overwrite);
+	    }
+	    
+	    return $bool;
+	} 
 
     /**
      * Moves a file. If the destination directory doesn't exist, this function

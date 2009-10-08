@@ -25,6 +25,16 @@ class DlofExport extends ContentObjectExport
 	 */
 	private $files;
 	
+	/**
+	 * Array of hotpotatoes files to export
+	 */
+	private $hotpot_files;
+	
+	/**
+	 * Array of scorm files to export
+	 */
+	private $scorm_files;
+	
 	/*
 	 * The <learnings_objects> tag in the xml file
 	 */
@@ -74,7 +84,20 @@ class DlofExport extends ContentObjectExport
 		foreach($this->files as $hash => $path)
 		{
 			$newfile = $temp_dir . 'data/' . $hash;
-			Filesystem :: copy_file($path, $newfile);
+			Filesystem :: copy_file($path, $newfile, true);
+		}
+		dump($this->hotpot_files);
+		foreach($this->hotpot_files as $hotpot_dir)
+		{
+			$newfile = $temp_dir . 'hotpotatoes/';
+			dump($newfile);
+			Filesystem :: recurse_copy($hotpot_dir, $newfile, true);
+		} exit();
+		
+		foreach($this->scorm_files as $scorm_dir)
+		{
+			$newfile = $temp_dir . 'scorm/' . dirname($scorm_dir);
+			Filesystem :: copy_file($scorm_dir, $newfile, true);
 		}
 		
 		$zip = Filecompression :: factory();
@@ -123,6 +146,11 @@ class DlofExport extends ContentObjectExport
   		if($content_object->get_type() == 'document')
   		{
   			$this->files[$content_object->get_hash()] = $content_object->get_full_path();
+  		}
+  		
+  		if($content_object->get_type() == 'hotpotatoes')
+  		{
+  			$this->hotpot_files[] = dirname($content_object->get_full_path());
   		}
   		
   		$extended = $doc->createElement('extended');
