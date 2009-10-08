@@ -393,7 +393,6 @@ class Dokeos185Course extends ImportCourse
 			$lcms_course->set_language('english');
 		
 		$lcms_course->set_name($this->get_title());
-		$lcms_course->set_default_property('description', $this->get_description());
 		$category_id = $mgdm->get_id_reference($this->get_category_code(), 'weblcms_course_category');
 		echo $category_id;
                 if($category_id)
