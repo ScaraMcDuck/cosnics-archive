@@ -129,7 +129,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 		 		'\' AND title=' . $title . '';
 		
 		if($parent)
-			$query = $query . ' AND parent=' . $parent;
+			$query = $query . ' AND parent_id=' . $parent;
 	
 		$result = $this->connection->query($query);
 		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
@@ -376,7 +376,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 		 		'\' AND tool=\'' . $tool . '\'';
 		
 		if($parent)
-			$query = $query . ' AND parent=' . $parent;
+			$query = $query . ' AND parent_id=' . $parent;
 		$result = $this->connection->query($query);
 		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$result->free();
