@@ -372,7 +372,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	function publication_category_exist($title,$course_code,$tool,$parent = null)
 	{
 		$title = $this->connection->quote($title, "text", true);
-		$query = 'SELECT id FROM ' . $this->get_table_name('weblcms_content_object_publication_category'). ' WHERE name=' . $title . ' AND course=\'' . $course_code .
+		$query = 'SELECT id FROM ' . $this->get_table_name('weblcms_content_object_publication_category'). ' WHERE name=' . $title . ' AND course_id=\'' . $course_code .
 		 		'\' AND tool=\'' . $tool . '\'';
 		
 		if($parent)
@@ -408,7 +408,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	 */
 	function get_owner($course)
 	{
-		$query = 'SELECT user_id FROM ' . $this->get_table_name('weblcms_course_user_relation'). ' WHERE course_code = \'' . $course . '\' AND status=1;';
+		$query = 'SELECT user_id FROM ' . $this->get_table_name('weblcms_course_user_relation'). ' WHERE course_id = \'' . $course . '\' AND status=1;';
 		
 		$result = $this->connection->query($query);
 		$owners = array();
@@ -427,7 +427,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 		{
 			$query = 'SELECT CRL.user_id FROM ' . $this->get_table_name('weblcms_course_user_relation'). ' CRL WHERE CRL.user_id IN (
 					  SELECT UU.user_id FROM ' . $this->get_table_name('user_user'). ' UU WHERE CONCAT(UU.lastname,\' \',UU.firstname) IN (
-					  SELECT C.titular FROM ' . $this->get_table_name('weblcms_course'). ' C WHERE C.id = CRL.course_code)) AND CRL.status = 1 AND CRL.course_code = \'' . $course . '\';';
+					  SELECT C.titular FROM ' . $this->get_table_name('weblcms_course'). ' C WHERE C.id = CRL.course_id)) AND CRL.status = 1 AND CRL.course_code = \'' . $course . '\';';
 			
 			$result = $this->connection->query($query);
 			$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
@@ -437,7 +437,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 			else
 			{
 				$query = 'SELECT COUNT(LOP.publisher) as count, LOP.publisher FROM ' . $this->get_table_name('weblcms_content_object_publication'). ' LOP WHERE LOP.publisher IN (
-						  SELECT CRL.user_id FROM ' . $this->get_table_name('weblcms_course_user_relation'). ' CRL WHERE CRL.course_code = \''. $course .'\' AND CRL.status = 1) AND
+						  SELECT CRL.user_id FROM ' . $this->get_table_name('weblcms_course_user_relation'). ' CRL WHERE CRL.course_id = \''. $course .'\' AND CRL.status = 1) AND
 						  LOP.course = \''. $course .'\' GROUP BY LOP.publisher;';
 				
 				$result = $this->connection->query($query);
