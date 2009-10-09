@@ -212,7 +212,13 @@ class DlofExport extends ContentObjectExport
 				$sub_item->appendChild($id_ref);
 				
 				$id_ref_value = $doc->createTextNode('object' . $child->get_ref());
-				$id_ref->appendChild($id_ref_value);				
+				$id_ref->appendChild($id_ref_value);
+
+				$id = $doc->createAttribute('id');
+				$sub_item->appendChild($id);
+				
+				$id_value = $doc->createTextNode($child->get_id());
+				$id->appendChild($id_value);
 				
 				foreach($child->get_additional_properties() as $prop => $value)
 		  		{
