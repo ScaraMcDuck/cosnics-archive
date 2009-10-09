@@ -24,6 +24,8 @@ class RepositoryCategory extends PlatformCategory
 				$this->set_user_id($user_id);
 			}
         }
+		else
+			$user_id = $this->get_user_id();
 		
 		$rdm = RepositoryDataManager :: get_instance();
 		$this->set_id($rdm->get_next_category_id());
