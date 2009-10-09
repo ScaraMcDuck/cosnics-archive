@@ -269,7 +269,7 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
 		$tablename = 'personal_agenda';
 		$classname = 'Dokeos185PersonalAgenda';
 			
-		return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($db, $tablename, $classname, null, $parameters['offset'], $parameters['limit']);	
 	}
 	static function get_database_table($parameters)
 	{
