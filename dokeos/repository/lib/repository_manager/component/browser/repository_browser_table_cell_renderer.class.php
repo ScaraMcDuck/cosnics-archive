@@ -80,9 +80,9 @@ class RepositoryBrowserTableCellRenderer extends DefaultContentObjectTableCellRe
 
             if($this->browser->get_user()->is_platform_admin())
             {
-            	$toolbar_data[] = array('href' => $this->browser->get_copy_content_object_url($content_object->get_id(), 0), 'img' => Theme :: get_common_image_path() . 'export_unknown.png', 'label' => Translation :: get('CopyToTemplates'));
+            	$toolbar_data[] = array('href' => $this->browser->get_copy_content_object_url($content_object->get_id(), 0), 'img' => Theme :: get_common_image_path() . 'export_template.png', 'label' => Translation :: get('CopyToTemplates'));
             }
-            
+
           	if ($content_object->is_complex_content_object())
             {
                 $toolbar_data[] = array('href' => $this->browser->get_browse_complex_content_object_url($content_object), 'img' => Theme :: get_common_image_path() . 'action_browser.png', 'label' => Translation :: get('BrowseComplex'));
