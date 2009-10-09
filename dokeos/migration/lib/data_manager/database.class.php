@@ -373,7 +373,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	{
 		$title = $this->connection->quote($title, "text", true);
 		$query = 'SELECT id FROM ' . $this->get_table_name('weblcms_content_object_publication_category'). ' WHERE name=' . $title . ' AND course_id=\'' . $course_code .
-		 		'\' AND tool=\'' . $tool . '\'';
+		 		'\' AND tool_id=\'' . $tool . '\'';
 		
 		if($parent)
 			$query = $query . ' AND parent_id=' . $parent;
