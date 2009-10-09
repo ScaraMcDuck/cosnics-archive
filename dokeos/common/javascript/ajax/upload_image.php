@@ -4,33 +4,38 @@ require_once Path :: get_repository_path() . 'lib/content_object/document/docume
 
 if (! empty($_FILES))
 {
-    //$_FILES['Filedata']['name'] = 'test.jpg';
-    
-
     $upload_path = Path :: get(SYS_REPO_PATH);
     $owner = Request :: get('owner');
-    
-    $original_filename = $_FILES['Filedata']['name'];
-    $filename = Filesystem :: create_unique_name($upload_path . $owner, $original_filename);
-    $path = $owner . '/' . $filename;
-    $full_path = $upload_path . $path;
+
+	$filename = $_FILES['Filedata']['name'];
+	$hash = md5($_FILES['Filedata']['name']);
+
+	$path = $owner . '/' . Text :: char_at($hash, 0);
+	$full_path =  $upload_path . $path;
+
+	FileSystem :: create_dir($full_path);
+	$hash = Filesystem::create_unique_name($full_path, $hash);
+
+	$path = $path . '/' . $hash;
+	$full_path = $full_path . '/' . $hash;
+
     move_uploaded_file($_FILES['Filedata']['tmp_name'], $full_path) or die('Failed to create "' . $full_path . '"');
-    
+
     $document = new Document();
     $document->set_owner_id($owner);
     $document->set_parent_id(0);
     $document->set_path($path);
     $document->set_filename($filename);
     $document->set_filesize(Filesystem :: get_disk_space($full_path));
-    
-    $title_parts = explode('.', $original_filename);
+
+    $title_parts = explode('.', $filename);
     $extension = array_pop($title_parts);
     $title = DokeosUtilities :: underscores_to_camelcase_with_spaces(implode('_', $title_parts));
     $document->set_title($title);
     $document->create();
-    
+
     $dimensions = getimagesize($full_path);
-    
+
     $properties = array();
     $properties[ContentObject :: PROPERTY_ID] = $document->get_id();
     $properties[ContentObject :: PROPERTY_TITLE] = $document->get_title();
@@ -42,7 +47,7 @@ if (! empty($_FILES))
     $properties['width'] = $dimensions[0];
     $properties['height'] = $dimensions[1];
     $properties['type'] = $document->get_extension();
-    
+
     echo json_encode($properties);
 }
 ?>
