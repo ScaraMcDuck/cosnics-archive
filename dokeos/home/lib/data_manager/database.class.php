@@ -131,6 +131,7 @@ class DatabaseHomeDataManager extends HomeDataManager
         $query = 'SELECT * FROM ' . $this->database->escape_table_name(HomeBlock :: get_table_name()) . ' AS ' . self :: ALIAS_BLOCK_TABLE . ' WHERE ' . $this->database->escape_column_name(HomeBlock :: PROPERTY_COLUMN) . ' IN (SELECT ' . $this->database->escape_column_name(HomeColumn :: PROPERTY_ID) . ' FROM ' . $this->database->escape_table_name(HomeColumn :: get_table_name()) . ' AS ' . self :: ALIAS_COLUMN_TABLE . ' WHERE ' . $this->database->escape_column_name(HomeColumn :: PROPERTY_ROW) . ' IN (SELECT ' . $this->database->escape_column_name(HomeRow :: PROPERTY_ID) . ' FROM ' . $this->database->escape_table_name(HomeRow :: get_table_name()) . ' AS ' . self :: ALIAS_ROW_TABLE . ' WHERE ' . $this->database->escape_column_name(HomeRow :: PROPERTY_TAB) . ' = ?))';
         $statement = $this->database->get_connection()->prepare($query);
         $res = $statement->execute($home_tab->get_id());
+        $statement->free();
         return new ObjectResultSet($this->database, $res, HomeBlock :: CLASS_NAME);
     }
 
@@ -246,6 +247,7 @@ class DatabaseHomeDataManager extends HomeDataManager
 
             $statement = $this->database->get_connection()->prepare($query);
             $statement->execute(array($old_home_block->get_sort(), $old_home_block->get_column()));
+        	$statement->free();
         }
 
         return true;
@@ -281,6 +283,7 @@ class DatabaseHomeDataManager extends HomeDataManager
 
             $statement = $this->database->get_connection()->prepare($query);
             $statement->execute(array($old_home_row->get_sort(), $old_home_row->get_tab()));
+        	$statement->free();
         }
 
         return true;
@@ -306,6 +309,7 @@ class DatabaseHomeDataManager extends HomeDataManager
 
             $statement = $this->database->get_connection()->prepare($query);
             $statement->execute(array($old_home_column->get_sort(), $old_home_column->get_row()));
+        	$statement->free();
         }
 
         return true;
