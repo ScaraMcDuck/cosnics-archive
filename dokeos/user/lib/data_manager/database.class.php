@@ -306,7 +306,7 @@ class DatabaseUserDataManager extends UserDataManager
 				 $this->database->escape_column_name(BuddyListItem :: PROPERTY_CATEGORY_ID).'=?;';
 		$statement = $this->database->get_connection()->prepare($query);
 		$statement->execute(array($buddy_list_category->get_id()));
-
+		$statement->free();
 		return $succes;
 	}
 
