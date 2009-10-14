@@ -342,7 +342,6 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
                     $query .= ' ORDER BY ' . implode(', ', $order);
                 }
                 $statement = $this->database->get_connection()->prepare($query);
-                $statement->free();
                 $param = Session :: get_user_id();
             }
         }
@@ -350,10 +349,10 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
         {
             $query = 'SELECT * FROM ' . $this->database->escape_table_name(AssessmentPublication :: get_table_name()) . ' WHERE ' . $this->database->escape_column_name(AssessmentPublication :: PROPERTY_CONTENT_OBJECT) . '=?';
             $statement = $this->database->get_connection()->prepare($query);
-            $statement->free();
             $param = $object_id;
         }
         $res = $statement->execute($param);
+        $statement->free();
         $publication_attr = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
