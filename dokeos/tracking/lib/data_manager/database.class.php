@@ -352,7 +352,9 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 		$query .= $this->database->escape_column_name(EventRelTracker :: PROPERTY_EVENT_ID).' NOT IN (SELECT '.$this->database->escape_column_name(Event :: PROPERTY_ID).' FROM '.$this->database->escape_table_name(Event :: get_table_name()).') OR ';
 		$query .= $this->database->escape_column_name(EventRelTracker :: PROPERTY_TRACKER_ID).' NOT IN (SELECT '.$this->database->escape_column_name(TrackerRegistration :: PROPERTY_ID).' FROM '.$this->database->escape_table_name(TrackerRegistration :: get_table_name()).')';
 		$sth = $this->database->get_connection()->prepare($query);
-		return $sth->execute();
+		$res = $sth->execute();
+		$sth->free();
+		return $res;
     }
 }
 ?>
