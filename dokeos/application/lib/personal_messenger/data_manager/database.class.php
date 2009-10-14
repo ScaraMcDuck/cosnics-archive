@@ -166,7 +166,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		}
 
 		$res = $statement->execute($param);
-
+		$statement->free();
 		$publication_attr = array();
 		while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
