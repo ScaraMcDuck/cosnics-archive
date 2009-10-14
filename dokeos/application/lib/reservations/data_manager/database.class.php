@@ -128,6 +128,7 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 				 $this->db->escape_column_name(Category :: PROPERTY_PARENT) . '=?';
 		$statement = $this->db->get_connection()->prepare($query); 
 		$statement->execute(array($category->get_display_order(), $category->get_parent()));
+		$statement->free();
 	}
 	
 	function update_category($category)
@@ -303,6 +304,7 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 		
 		$sth = $this->db->get_connection()->prepare($query);
 		$res = $sth->execute($params);
+		$sth->free();
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		$res->free();
 	
@@ -336,6 +338,7 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 		
 		$sth = $this->db->get_connection()->prepare($query);
 		$res = $sth->execute($params);
+		$sth->free();
 
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 
@@ -553,6 +556,7 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 		$this->db->get_connection()->setLimit(intval(0),intval(1));
 		$statement = $this->db->get_connection()->prepare($query);
 		$res = $statement->execute(array($category_id, $user_id));
+		$statement->free();
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		
 		$id = $record['quota_box_id'];
@@ -572,6 +576,7 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 					$this->db->get_connection()->setLimit(intval(0),intval(1));
 					$statement = $this->db->get_connection()->prepare($query);
 					$res = $statement->execute(array($category_id, $group->get_id()));
+					$statement->free();
 					$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 					
 					$id = $record['quota_box_id'];
