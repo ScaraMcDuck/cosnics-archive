@@ -253,8 +253,8 @@ class Dokeos185DropboxFile extends ImportDropboxFile
 		}
 
                 //Close the logfile
-		$this->passedtime = $this->logfile->write_passed_time();
-		$this->logfile->close_file();
+		/*$this->passedtime = $this->logfile->write_passed_time();
+		$this->logfile->close_file();*/
                 
 		return true;
 	}
