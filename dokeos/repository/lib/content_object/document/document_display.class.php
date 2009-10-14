@@ -20,17 +20,17 @@ class DocumentDisplay extends ContentObjectDisplay
 		
 		if(strtolower(substr($name, -3)) == 'jpg' || strtolower(substr($name, -4)) == 'jpeg' || strtolower(substr($name, -3)) == 'bmp' || strtolower(substr($name, -3)) == 'png')
 		{
-			$html = preg_replace('|</div>\s*$|s', '<a href="'.htmlentities($url).'"><img style="max-width: 100%" src="' . $url . '" /></a></div>' , $html);
+			$html = preg_replace('|</div>\s*$|s', '<br /><a href="'.htmlentities($url).'"><img style="max-width: 100%" src="' . $url . '" /></a></div>' , $html);
 		}
 		else
 		{
 			if(strtolower(substr($name, -4)) == 'html' || strtolower(substr($name, -3)) == 'htm' || strtolower(substr($name, -3)) == 'txt')
 			{
-				$html = preg_replace('|</div>\s*$|s', '<iframe border="0" style="border: 1px solid grey;" width="100%" height="500"  src="' . $url . '&display=1"></iframe>', $html);
+				$html = preg_replace('|</div>\s*$|s', '<br /><iframe border="0" style="border: 1px solid grey;" width="100%" height="500"  src="' . $url . '&display=1"></iframe>', $html);
 			}
 			else
 			{
-				$html = preg_replace('|</div>\s*$|s', '<div class="document_link" style="margin-top: 1em;"><a href="'.htmlentities($url).'">'.htmlentities($name).'</a> ('.Filesystem::format_file_size($object->get_filesize()).')</div></div>', $html);
+				$html = preg_replace('|</div>\s*$|s', '<br /><div class="document_link" style="margin-top: 1em;"><a href="'.htmlentities($url).'">'.htmlentities($name).'</a> ('.Filesystem::format_file_size($object->get_filesize()).')</div></div>', $html);
 			}
 		}
 		

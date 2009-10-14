@@ -105,7 +105,7 @@ abstract class ContentObjectDisplay
             $html[] = '</div>';
         }
         $html[] = $this->get_attached_content_objects_as_html();
-        $html[] = '</div><div class="clear"></div>';
+        $html[] = '</div>';
         /*if ($parent_id = $object->get_parent_id())
         {
             $parent_object = RepositoryDataManager :: get_instance()->retrieve_content_object($parent_id);
