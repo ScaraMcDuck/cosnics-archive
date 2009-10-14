@@ -167,7 +167,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         $query = 'DELETE FROM '.$this->escape_table_name('rights_template_right_location').' WHERE '.$this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_RIGHT_ID).'=? AND '.$this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_RIGHTS_TEMPLATE_ID).'=? AND '.$this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_LOCATION_ID).'=?';
         $sth = $this->connection->prepare($query);
         $res = $sth->execute(array($rights_templaterightlocation->get_right_id(), $rights_templaterightlocation->get_rights_template_id(), $rights_templaterightlocation->get_location_id()));
-
+		$sth->free();
         return true;
     }
 
@@ -185,6 +185,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 
         $sth = $this->connection->prepare($query);
         $res = $sth->execute($params);
+        $sth->free();
 
         return true;
     }
@@ -423,6 +424,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         $this->connection->setLimit(1);
         $statement = $this->connection->prepare($query);
         $res = $statement->execute($params);
+        $statement->free();
 
         if ($res->numRows() >= 1)
         {
@@ -466,6 +468,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         $this->connection->setLimit(1);
         $statement = $this->connection->prepare($query);
         $res = $statement->execute($params);
+        $statement->free();
 
         if ($res->numRows() >= 1)
         {
@@ -519,6 +522,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         $this->connection->setLimit(intval($max_objects),intval($offset));
         $statement = $this->connection->prepare($query);
         $res = $statement->execute($params);
+        $statement->free();
         return new DatabaseRightsTemplateResultSet($this, $res);
     }
 
@@ -528,6 +532,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         $this->connection->setLimit(1);
         $statement = $this->connection->prepare($query);
         $res = $statement->execute($id);
+        $statement->free();
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
         $res->free();
         return self :: record_to_location($record);
@@ -539,6 +544,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         $this->connection->setLimit(1);
         $statement = $this->connection->prepare($query);
         $res = $statement->execute($id);
+        $statement->free();
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
         $res->free();
         return self :: record_to_right($record);
@@ -550,6 +556,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         $this->connection->setLimit(1);
         $statement = $this->connection->prepare($query);
         $res = $statement->execute($id);
+        $statement->free();
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
         $res->free();
         return self :: record_to_rights_template($record);
@@ -585,6 +592,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         $this->connection->setLimit(intval($max_objects),intval($offset));
         $statement = $this->connection->prepare($query);
         $res = $statement->execute($params);
+        $statement->free();
         return new DatabaseRightResultSet($this, $res);
     }
 
@@ -621,6 +629,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         $this->connection->setLimit(intval($max_objects),intval($offset));
         $statement = $this->connection->prepare($query);
         $res = $statement->execute($params);
+        $statement->free();
         return new DatabaseLocationResultSet($this, $res);
     }
 
@@ -639,6 +648,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 
         $sth = $this->connection->prepare($query);
         $res = $sth->execute($params);
+        $sth->free();
         $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
         return $record[0];
     }
@@ -658,6 +668,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 
         $sth = $this->connection->prepare($query);
         $res = $sth->execute($params);
+        $sth->free();
         $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
         return $record[0];
     }
@@ -698,6 +709,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         $statement = $this->connection->prepare($query);
         // TODO: Some error-handling please !
         $res = $statement->execute($params);
+        $statement->free();
 
         // Update all necessary right-values
         $conditions = array();
@@ -720,6 +732,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         $statement = $this->connection->prepare($query);
         // TODO: Some error-handling please !
         $res = $statement->execute($params);
+        $statement->free();
 
         // TODO: For now we just return true ...
         return true;
@@ -747,6 +760,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         $statement = $this->connection->prepare($query);
         // TODO: Some error-handling please !
         $statement->execute($params);
+        $statement->free();
 
         // TODO: For now we just return true ...
         return true;
@@ -780,6 +794,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         $statement = $this->connection->prepare($query);
         // TODO: Some error-handling please !
         $statement->execute($params);
+        $statement->free();
 
         // Update some more nested-values
         $conditions = array();
@@ -804,6 +819,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         $statement = $this->connection->prepare($query);
         // TODO: Some error-handling please !
         $statement->execute($params);
+        $statement->free();
 
         return true;
     }
@@ -922,6 +938,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         $statement = $this->connection->prepare($query);
         // TODO: Some error-handling please !
         $statement->execute($params);
+        $statement->free();
 
         // Remove the subtree where the location was before
         if (!$this->delete_nested_values($location))
@@ -969,7 +986,8 @@ class DatabaseRightsDataManager extends RightsDataManager
         $query = 'DELETE FROM '.$this->escape_table_name('rights_template').' WHERE '.$this->escape_column_name(RightsTemplate :: PROPERTY_ID).'=?';
         $sth = $this->connection->prepare($query);
         $res = $sth->execute(array($rights_template->get_id()));
-
+		$sth->free();
+        
         return true;
     }
 
@@ -984,7 +1002,9 @@ class DatabaseRightsDataManager extends RightsDataManager
         $query .= $this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_LOCATION_ID).' NOT IN (SELECT '.$this->escape_column_name(Location :: PROPERTY_ID).' FROM '.$this->escape_table_name('location').') OR ';
         $query .= $this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_RIGHTS_TEMPLATE_ID).' NOT IN (SELECT '.$this->escape_column_name(RightsTemplate :: PROPERTY_ID).' FROM '.$this->escape_table_name('rights_template').')';
         $sth = $this->connection->prepare($query);
-        return $sth->execute();
+        $res = $sth->execute(); 
+        $sth->free();
+        return $res;
     }
 
     function retrieve_shared_content_objects_for_user($user_id,$rights)
@@ -1032,6 +1052,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 //        $this->connection->setLimit(intval($max_objects),intval($offset));
         $statement = $this->connection->prepare($query);
         $res = $statement->execute($params);
+        $statement->free();
         return new ObjectResultSet($this->database, $res, GroupRightLocation :: CLASS_NAME);
     }
 
