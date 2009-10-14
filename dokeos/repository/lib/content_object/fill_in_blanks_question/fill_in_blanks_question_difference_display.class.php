@@ -6,7 +6,7 @@
 /**
  * This class can be used to display the difference between a"fill in the blanks"-questions
  */
-class FillInBlanksDifferenceDisplay extends ContentObjectDifferenceDisplay
+class FillInBlanksQuestionDifferenceDisplay extends ContentObjectDifferenceDisplay
 {
 }
 ?>
