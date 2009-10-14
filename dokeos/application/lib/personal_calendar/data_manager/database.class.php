@@ -83,6 +83,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 
                 $statement = $this->database->get_connection()->prepare($query);
                 $res = $statement->execute(Session :: get_user_id());
+                $statement->free();
             }
         }
         else
