@@ -101,6 +101,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare('SELECT '.$this->escape_column_name(ContentObject :: PROPERTY_TYPE).' FROM '.$this->escape_table_name('content_object').' WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_ID).'=?');
 		$res = $statement->execute($id);
+		$statement->free();
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		return $record[0];
 	}
@@ -123,6 +124,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($id);
+		$statement->free();
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$res->free();
 		return self :: record_to_content_object($record, isset($type));
@@ -217,6 +219,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$this->connection->setLimit(intval($max_objects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
+		$statement->free();
 		return new DatabaseContentObjectResultSet($this, $res, isset($type));
 	}
 
@@ -237,6 +240,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($id);
+		$statement->free();
 		return $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 	}
 
@@ -288,6 +292,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
+		$sth->free();
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		$res->free();
 		return $record[0];
@@ -299,6 +304,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$query = 'SELECT COUNT('.self :: ALIAS_CONTENT_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_ID).') FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_CONTENT_OBJECT_TABLE.' WHERE '.self :: ALIAS_CONTENT_OBJECT_TABLE.'.'.$this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER).'=?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($object->get_object_number());
+		$sth->free();
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		$res->free();
 		return $record[0];
@@ -397,6 +403,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$query = 'SELECT * FROM '.$this->escape_table_name('content_object').' AS '.self :: ALIAS_CONTENT_OBJECT_TABLE.' WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_OWNER_ID).'=?';
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($user_id);
+		$statement->free();
 		return new DatabaseContentObjectResultSet($this, $res, isset($type));
 	}
 
@@ -419,11 +426,12 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$query = 'DELETE FROM '.$this->escape_table_name('content_object_attachment').' WHERE '.$this->escape_column_name('content_object_id').'=? OR '.$this->escape_column_name('attachment_id').'=?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute(array($object->get_id(), $object->get_id()));
-
+		$sth->free();
 		// Delete object
 		$query = 'DELETE FROM '.$this->escape_table_name('content_object').' WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_ID).'=?';
 		$statement = $this->connection->prepare($query);
 		$statement->execute($object->get_id());
+		$statement->free();
 
 		// Delete entry in version table
 		$query = 'DELETE FROM '.$this->escape_table_name('content_object_version').' WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER).'=?';
@@ -454,12 +462,14 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$query = 'DELETE FROM '.$this->escape_table_name('content_object').' WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_ID).'=?';
 		$statement = $this->connection->prepare($query);
 		$statement->execute($object->get_id());
+		$statement->free();
 
 		if ($object->is_extended())
 		{
 			$query = 'DELETE FROM '.$this->escape_table_name($object->get_type()).' WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_ID).'=?';
 			$statement = $this->connection->prepare($query);
 			$statement->execute($object->get_id());
+			$statement->free();
 		}
 
 		if ($object->is_latest_version())
@@ -469,6 +479,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$this->connection->setLimit(1);
 			$statement = $this->connection->prepare($query);
 			$res = $statement->execute($object_number);
+			$statement->free();
 			$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$res->free();
 
@@ -504,6 +515,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			return false;
 		}
+		$sth->free();
 	}
 
 	// Inherited.
@@ -515,10 +527,12 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			{
 				$sth = $this->connection->prepare('DELETE FROM '.$this->escape_table_name($type));
 				$sth->execute();
+				$sth->free();
 			}
 		}
 		$sth = $this->connection->prepare('DELETE FROM '.$this->escape_table_name('content_object'));
 		$sth->execute();
+		$sth->free();
 	}
 
 	function is_latest_version($object)
@@ -527,6 +541,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($object->get_object_number());
+		$statement->free();
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		if ($record['id'] == $object->get_id())
@@ -545,6 +560,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		//$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($path);
+		$statement->free();
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 
 		if ($record['ids'] == 1)
@@ -577,11 +593,13 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$this->connection->setLimit($places);
 		$statement = $this->connection->prepare($query);
 		$statement->execute(array($object->get_parent_id(), $object->get_type(), $oldIndex));
+		$statement->free();
 		$rowsMoved = $this->connection->affectedRows();
 		$query = 'UPDATE '.$this->escape_table_name('content_object').' SET '.$this->escape_column_name(ContentObject :: PROPERTY_DISPLAY_ORDER_INDEX).'=? WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_ID).'=?';
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$statement->execute(array($oldIndex - $places, $object->get_id()));
+		$statement->free();
 		return $rowsMoved;
 	}
 
@@ -592,11 +610,13 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$this->connection->setLimit($places);
 		$statement = $this->connection->prepare($query);
 		$statement->execute(array($object->get_parent_id(), $publication->get_type(), $oldIndex));
+		$statement->free();
 		$rowsMoved = $this->connection->affectedRows();
 		$query = 'UPDATE '.$this->escape_table_name('content_object').' SET '.$this->escape_column_name(ContentObject :: PROPERTY_DISPLAY_ORDER_INDEX).'=? WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_ID).'=?';
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$statement->execute(array($oldIndex + $places, $publication->get_id()));
+		$statement->free();
 		return $rowsMoved;
 	}
 
@@ -623,6 +643,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$query = 'SELECT '.$this->escape_column_name('attachment_id').' FROM '.$this->escape_table_name('content_object_attachment').' WHERE '.$this->escape_column_name('content_object_id').'=?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($id);
+		$sth->free();
 		$attachments = array();
 		while ($record = $res->fetchRow(MDB2_FETCHMODE_ORDERED))
 		{
@@ -639,6 +660,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$query = 'SELECT '.$this->escape_column_name('include_id').' FROM '.$this->escape_table_name('content_object_include').' WHERE '.$this->escape_column_name('content_object_id').'=?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($id);
+		$sth->free();
 		$includes = array();
 		while ($record = $res->fetchRow(MDB2_FETCHMODE_ORDERED))
 		{
@@ -661,6 +683,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$query = 'SELECT '.$this->escape_column_name(ContentObject :: PROPERTY_ID).' FROM '.$this->escape_table_name('content_object').' WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER).'=? AND '.$this->escape_column_name(ContentObject :: PROPERTY_STATE).'=?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute(array($object_number, $object->get_state()));
+		$sth->free();
 		$attachments = array();
 		while ($record = $res->fetchRow(MDB2_FETCHMODE_ORDERED))
 		{
@@ -677,6 +700,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($object_number);
+		$statement->free();
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$res->free();
 
@@ -699,6 +723,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$query = 'DELETE FROM '.$this->escape_table_name('content_object_attachment').' WHERE '.$this->escape_column_name('content_object_id').'=? AND '.$this->escape_column_name('attachment_id').'=?';
 		$statement = $this->connection->prepare($query);
 		$affectedRows = $statement->execute(array ($object->get_id(), $attachment_id));
+		$statement->free();
 		return ($affectedRows > 0);
 	}
 
@@ -718,6 +743,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$query = 'DELETE FROM '.$this->escape_table_name('content_object_include').' WHERE '.$this->escape_column_name('content_object_id').'=? AND '.$this->escape_column_name('include_id').'=?';
 		$statement = $this->connection->prepare($query);
 		$affectedRows = $statement->execute(array ($object->get_id(), $include_id));
+		$statement->free();
 		return ($affectedRows > 0);
 	}
 
@@ -734,6 +760,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$this->connection->setLimit(count($object_ids));
 		$statement = $this->connection->prepare($query);
 		$affectedRows = $statement->execute($params);
+		$statement->free();
 		return ($affectedRows == count($object_ids));
 	}
 
@@ -771,7 +798,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$query = 'SELECT '.$this->escape_column_name(ContentObject :: PROPERTY_ID).' FROM '.$this->escape_table_name('content_object').' WHERE '.$this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER).' =? ORDER BY '.$this->escape_column_name(ContentObject :: PROPERTY_ID).' ASC';
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($object->get_object_number());
-
+		$statement->free();
 		while($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$version_ids[] = $record[ContentObject :: PROPERTY_ID];
@@ -1020,6 +1047,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 			$sth = $this->connection->prepare($query);
 			$res = $sth->execute($params);
+			$sth->free();
 			$record = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 			$disk_space += $record->disk_space;
 			$res->free();
@@ -1096,6 +1124,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
+		$sth->free();
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		$res->free();
 		if ($record[0] > 0)
@@ -1204,6 +1233,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		//$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
+		$statement->free();
 
 		if ($clo_item->is_extended())
 		{
@@ -1223,6 +1253,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			//$this->connection->setLimit(1);
 			$statement = $this->connection->prepare($query);
 			$res = $statement->execute($params);
+			$statement->free();
 		}
 
 		$query = 'UPDATE '.$this->escape_table_name('complex_content_object_item').' SET '.
@@ -1232,7 +1263,8 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			 $this->escape_column_name('parent_id') . '=?';
 		$statement = $this->connection->prepare($query);
 		$statement->execute(array($clo_item->get_display_order(), $clo_item->get_parent()));
-
+		$statement->free();
+		
 		return true;
 
 	}
@@ -1267,6 +1299,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
+		$statement->free();
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		if(!$record)
 			return null;
@@ -1327,6 +1360,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$this->connection->setLimit(1);
 			$statement = $this->connection->prepare($query);
 			$res = $statement->execute($params);
+			$statement->free();
 			$rec2 = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$res->free();
 
@@ -1426,6 +1460,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$this->connection->setLimit(intval($max_objects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
+		$statement->free();
 
 		return new DatabaseComplexContentObjectItemResultSet($this, $res, true);
 		//return $this->database->retrieve_objects('complex_content_object_item', $condition, $offset, $max_objects, $order_by, $order_dir, 'DatabaseComplexContentObjectItemResultSet');
@@ -1448,6 +1483,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
+		$sth->free();
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		$res->free();
 
@@ -1471,13 +1507,15 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 				 $this->database->escape_column_name(RepositoryCategory :: PROPERTY_PARENT) . '=?';
 		$statement = $this->database->get_connection()->prepare($query);
 		$statement->execute(array($category->get_display_order(), $category->get_parent()));
-
+		$statement->free();
+		
 		$query = 'UPDATE ' . $this->database->escape_table_name('content_object').' SET ' .
 		 		 $this->database->escape_column_name('state').'=1 WHERE '.
 		 		 $this->database->escape_column_name('parent_id').'=?';
 		$statement = $this->database->get_connection()->prepare($query);
 		$statement->execute(array($category->get_id()));
-
+		$statement->free();
+		
 		$categories = $this->retrieve_categories(new EqualityCondition('parent_id', $category->get_id()));
 		while($category = $categories->next_result())
 			$this->delete_category($category);
@@ -1532,6 +1570,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 		$sth = $this->database->get_connection()->prepare($query);
 		$res = $sth->execute($params);
+		$sth->free();
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		$res->free();
 
@@ -1633,7 +1672,10 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 				 $this->database->escape_column_name(UserViewRelContentObject :: PROPERTY_VIEW_ID).'=?;';
 
 		$statement = $this->database->get_connection()->prepare($query);
-		return $statement->execute(array($user_view->get_id()));
+		$res = $statement->execute(array($user_view->get_id()));
+		$statement->free();
+		
+		return $res;
 	}
 
     function retrieve_last_post($forum_id)
@@ -1646,6 +1688,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
                  ' WHERE ' . $alias . '.parent_id=? ORDER BY '.$this->database->escape_column_name('cloi2.add_date').' DESC LIMIT 1';
         $statement = $this->database->get_connection()->prepare($query); 
         $res = $statement->execute($forum_id);
+        $statement->free();
         return new DatabaseComplexContentObjectItemResultSet($this, $res, true);
     }
     
