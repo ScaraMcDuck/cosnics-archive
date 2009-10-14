@@ -460,8 +460,8 @@ class Dokeos185DataManager extends OldMigrationDataManager
 		}
 		
 		$statement = $this->db->prepare($query);
-		
 		$result = $statement->execute($params);
+		$statement->free();
 		unset($query);
 		unset($statement);
 		$params = array();
