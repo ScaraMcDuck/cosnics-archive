@@ -250,7 +250,7 @@ class DatabaseGroupDataManager extends GroupDataManager
 		$statement = $this->database->get_connection()->prepare($query);
 		// TODO: Some error-handling please !
 		$res = $statement->execute($params);
-
+		$statement->free();
 		// Update all necessary right-values
 		$condition = new InequalityCondition(Group :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
 
@@ -266,7 +266,7 @@ class DatabaseGroupDataManager extends GroupDataManager
 		$statement = $this->database->get_connection()->prepare($query);
 		// TODO: Some error-handling please !
 		$res = $statement->execute($params);
-
+		$statement->free();
 		// TODO: For now we just return true ...
         return true;
 	}
@@ -313,7 +313,7 @@ class DatabaseGroupDataManager extends GroupDataManager
 		$statement = $this->database->get_connection()->prepare($query);
 		// TODO: Some error-handling please !
 		$statement->execute($params);
-
+		$statement->free();
         return true;
 	}
 
@@ -427,7 +427,7 @@ class DatabaseGroupDataManager extends GroupDataManager
 		$statement = $this->database->get_connection()->prepare($query);
 		// TODO: Some error-handling please !
 		$statement->execute($params);
-
+		$statement->free();
 		// Remove the subtree where the group was before
 		if (!$this->delete_nested_values($group))
 		{
