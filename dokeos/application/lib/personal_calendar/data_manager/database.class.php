@@ -90,6 +90,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
             $query = 'SELECT * FROM ' . $this->database->get_table_name(CalendarEventPublication :: get_table_name()) . ' WHERE ' . $this->database->escape_column_name(CalendarEventPublication :: PROPERTY_CALENDAR_EVENT) . '=?';
             $statement = $this->database->get_connection()->prepare($query);
             $res = $statement->execute($object_id);
+            $statement->free();
         }
         $publication_attr = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
