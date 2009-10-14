@@ -265,8 +265,16 @@ function FileUpload( $resourceType, $currentFolder, $sCommand )
 					$document = new Document();
 					
 					$filename = basename($sFilePath);
-					$path = str_replace(Path :: get(SYS_REPO_PATH), '', $sFilePath);
-					//$test = fopen(dirname(__FILE__) . '/test.txt', 'w+'); fwrite($test, $sFilePath); fwrite($test, $path); fclose($test);
+					$hash = md5($filename);
+		
+					$path = $user . '/' . Text :: char_at($hash, 0);
+					$full_path =  Path :: get(SYS_REPO_PATH) . $path;
+					FileSystem :: create_dir($full_path);
+					$hash = Filesystem::create_unique_name($full_path, $hash);
+					$path .= '/' . $hash;
+					
+					FileSystem :: move_file($sFilePath, $full_path . '/' . $hash);
+					
 					$document->set_filename($filename);
 					$document->set_path($path);
 					$document->set_filesize(filesize($sFilePath));
@@ -274,6 +282,7 @@ function FileUpload( $resourceType, $currentFolder, $sCommand )
 					$document->set_description($filename);
 					$document->set_parent_id(0);
 					$document->set_owner_id($user);
+					$document->set_hash($hash);
 					$document->create();
 				}
 			}
@@ -284,8 +293,10 @@ function FileUpload( $resourceType, $currentFolder, $sCommand )
 	else
 		$sErrorNumber = '202' ;
 
-	$sFileUrl = CombinePaths( GetResourceTypePath( $resourceType, $sCommand ) , $currentFolder ) ;
-	$sFileUrl = CombinePaths( $sFileUrl, $sFileName ) ;
+	/*$sFileUrl = CombinePaths( GetResourceTypePath( $resourceType, $sCommand ) , $currentFolder ) ;
+	$sFileUrl = CombinePaths( $sFileUrl, $sFileName ) ;*/
+		
+	$sFileUrl = Path :: get(WEB_REPO_PATH) . $path;
 
 	SendUploadResults( $sErrorNumber, $sFileUrl, $sFileName ) ;
 

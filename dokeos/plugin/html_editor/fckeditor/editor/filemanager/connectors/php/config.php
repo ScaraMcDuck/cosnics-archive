@@ -54,7 +54,7 @@ $Config['ForceSingleExtension'] = true ;
 $Config['SecureImageUploads'] = true;
 
 // What the user can do with this connector.
-$Config['ConfigAllowedCommands'] = array('QuickUpload', 'FileUpload', 'GetFolders', 'GetFoldersAndFiles', 'CreateFolder') ;
+$Config['ConfigAllowedCommands'] = array('QuickUpload', 'FileUpload', 'GetFolders', 'GetFoldersAndFiles') ;
 
 // Allowed Resource Types.
 $Config['ConfigAllowedTypes'] = array('File', 'Image', 'Flash', 'Media') ;
