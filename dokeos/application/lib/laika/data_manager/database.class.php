@@ -333,6 +333,7 @@ class DatabaseLaikaDatamanager extends LaikaDatamanager
 		$statement = $connection->prepare($query);
 
 		$res = $statement->execute($params);
+		$statement->free();
 		return new ObjectResultSet($database, $res, LaikaAttempt :: CLASS_NAME);
 	}
 
