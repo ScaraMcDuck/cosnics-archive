@@ -101,10 +101,11 @@ class DatabaseAdminDataManager extends AdminDataManager
         $query = 'DELETE FROM ' . $this->database->escape_table_name('system_announcement_publication_user') . ' WHERE system_announcement_publication_id = ?';
         $statement = $this->database->get_connection()->prepare($query);
         $statement->execute($parameters['id']);
+        $statement->free();
         $query = 'DELETE FROM ' . $this->database->escape_table_name('system_announcement_publication_group') . ' WHERE system_announcement_publication_id = ?';
         $statement = $this->database->get_connection()->prepare($query);
         $statement->execute($parameters['id']);
-
+		$statement->free();
         // Add updated target users and course_groups
         $users = $system_announcement_publication->get_target_users();
         $this->database->get_connection()->loadModule('Extended');
@@ -251,7 +252,7 @@ class DatabaseAdminDataManager extends AdminDataManager
         $query = 'SELECT * FROM ' . $this->database->escape_table_name('system_announcement_publication_group') . ' WHERE system_announcement_publication_id = ?';
         $sth = $this->database->get_connection()->prepare($query);
         $res = $sth->execute($system_announcement_publication->get_id());
-
+		$sth->free();
         $groups = array();
         while ($target_group = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
@@ -266,7 +267,7 @@ class DatabaseAdminDataManager extends AdminDataManager
         $query = 'SELECT * FROM ' . $this->database->escape_table_name('system_announcement_publication_user') . ' WHERE system_announcement_publication_id = ?';
         $sth = $this->database->get_connection()->prepare($query);
         $res = $sth->execute($system_announcement_publication->get_id());
-
+		$sth->free();
         $users = array();
         while ($target_user = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
@@ -289,7 +290,7 @@ class DatabaseAdminDataManager extends AdminDataManager
         $query = 'UPDATE ' . $this->database->escape_table_name('admin_category') . ' SET ' . $this->database->escape_column_name(AdminCategory :: PROPERTY_DISPLAY_ORDER) . '=' . $this->database->escape_column_name(AdminCategory :: PROPERTY_DISPLAY_ORDER) . '-1 WHERE ' . $this->database->escape_column_name(AdminCategory :: PROPERTY_DISPLAY_ORDER) . '>? AND ' . $this->database->escape_column_name(AdminCategory :: PROPERTY_PARENT) . '=?';
         $statement = $this->database->get_connection()->prepare($query);
         $statement->execute(array($category->get_display_order(), $category->get_parent()));
-
+		$statement->free();
         return $succes;
     }
 
@@ -339,6 +340,7 @@ class DatabaseAdminDataManager extends AdminDataManager
 
         $sth = $this->database->get_connection()->prepare($query);
         $res = $sth->execute($params);
+ 		$sth->free();
         $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
         $res->free();
 
@@ -376,6 +378,7 @@ class DatabaseAdminDataManager extends AdminDataManager
 
                 $statement = $this->database->get_connection()->prepare($query);
                 $res = $statement->execute(Session :: get_user_id());
+            	$statement->free();
             }
         }
         else
@@ -383,6 +386,7 @@ class DatabaseAdminDataManager extends AdminDataManager
             $query = 'SELECT * FROM ' . $this->database->get_table_name('system_announcement_publication') . ' WHERE ' . $this->database->escape_column_name('content_object_id') . '=?';
             $statement = $this->database->get_connection()->prepare($query);
             $res = $statement->execute($object_id);
+            $statement->free();
         }
         $publication_attr = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
