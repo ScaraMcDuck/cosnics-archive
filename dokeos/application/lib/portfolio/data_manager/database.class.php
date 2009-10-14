@@ -229,6 +229,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
             $param = $object_id;
         }
         $res = $statement->execute($param);
+        $statement->free();
         $publication_attr = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
@@ -253,6 +254,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
         $statement = $this->database->get_connection()->prepare($query);
         $this->database->get_connection()->setLimit(0, 1);
         $res = $statement->execute($publication_id);
+        $statement->free();
 
         $publication_attr = array();
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
