@@ -110,6 +110,7 @@ class DatabaseMenuDataManager extends MenuDataManager
 
             $statement = $this->database->get_connection()->prepare($query);
             $statement->execute(array($old_navigation_item->get_sort(), $old_navigation_item->get_category()));
+        	$statement->free();
         }
 
         return true;
