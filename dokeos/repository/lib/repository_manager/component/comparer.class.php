@@ -18,7 +18,7 @@ class RepositoryManagerComparerComponent extends RepositoryManagerComponent
 	 */
 	function run()
 	{
-		$trail = new BreadcrumbTrail();
+		$trail = new BreadcrumbTrail(false);
 
 		$object_id = Request :: get(RepositoryManager :: PARAM_COMPARE_OBJECT);
 		$version_id = Request :: get(RepositoryManager :: PARAM_COMPARE_VERSION);
@@ -32,8 +32,8 @@ class RepositoryManagerComparerComponent extends RepositoryManagerComponent
 				$trail->add(new Breadcrumb($this->get_recycle_bin_url(), Translation :: get('RecycleBin')));
 				$this->force_menu_url($this->get_recycle_bin_url());
 			}
-			$trail->add(new Breadcrumb(null, $object->get_title() . ($object->is_latest_version() ? '' : ' ('.Translation :: get('OldVersion').')')));
-			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('DifferenceBetweenTwoVersions')));
+			$trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $object_id)), $object->get_title()));
+			$trail->add(new Breadcrumb(null, Translation :: get('DifferenceBetweenTwoVersions')));
 			$trail->add_help('repository comparer');
 			$this->display_header($trail, false, true);
 
