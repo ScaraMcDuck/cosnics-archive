@@ -27,7 +27,7 @@ abstract class ContentObjectDifference
 	 * @param ContentObject $object The learning object to compare.
 	 * @param ContentObject $version The learning object to compare with.
 	 */
-	protected function ContentObjectDifference($object, $version)
+	protected function ContentObjectDifference($version, $object)
 	{
 		$this->object = $object;
 		$this->version = $version;
@@ -63,6 +63,7 @@ abstract class ContentObjectDifference
 		$version_string = explode("\n", strip_tags($version_string));
 
 		$td = new Difference_Engine($version_string, $object_string);
+		//$td = new Difference_Engine($object_string, $version_string);
 
 		return $td->getDiff();
 	}
