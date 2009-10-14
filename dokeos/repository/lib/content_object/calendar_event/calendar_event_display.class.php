@@ -26,7 +26,7 @@ class CalendarEventDisplay extends ContentObjectDisplay
 		
 		if ($repeats)
 		{
-			$prepend[] = '<div class="calendar_event_range">';
+			$prepend[] = '<div class="calendar_event_range" style="font-weight: bold;">';
 			$prepend[] = Translation :: get('Repeats');
 			$prepend[] = ' ';
 			$prepend[] = strtolower($object->get_repeat_as_string());
@@ -42,7 +42,7 @@ class CalendarEventDisplay extends ContentObjectDisplay
 		}
 		else
 		{
-			$prepend[] = '<div class="calendar_event_range">';
+			$prepend[] = '<div class="calendar_event_range" style="font-weight: bold;">';
 			$prepend[] = Translation :: get('From');
 			$prepend[] = ' ';
 			$prepend[] = Text :: format_locale_date($date_format,$object->get_start_date());
