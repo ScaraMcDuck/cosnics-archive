@@ -14,7 +14,7 @@ class OpenQuestionDifference extends ContentObjectDifference
 		$version = $this->get_version();
 		
 		$object_string = $object->get_question_type();
-	    $version_string = $verwion->get_question_type();
+	    $version_string = $version->get_question_type();
 		
 		$td = new Difference_Engine($object_string, $version_string);
 		
