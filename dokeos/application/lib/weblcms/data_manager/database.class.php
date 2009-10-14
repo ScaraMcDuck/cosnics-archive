@@ -67,6 +67,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $this->database->get_connection()->setLimit($limit, $offset);
         $statement = $this->database->get_connection()->prepare($query, null, ($is_manip ? MDB2_PREPARE_MANIP : null));
         $res = $statement->execute($params);
+        $statement->free();
         return $res;
     }
 
@@ -144,6 +145,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
             $param = $object_id;
         }
         $res = $statement->execute($param);
+        $statement->free();
         $publication_attr = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
@@ -169,7 +171,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $statement = $this->database->get_connection()->prepare($query);
         $this->database->get_connection()->setLimit(0, 1);
         $res = $statement->execute($publication_id);
-
+		$statement->free();
         $publication_attr = array();
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 
@@ -396,16 +398,20 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $query = 'DELETE FROM ' . $this->database->escape_table_name('content_object_publication_user') . ' WHERE publication_id = ?';
         $statement = $this->database->get_connection()->prepare($query);
         $statement->execute($publication->get_id());
+        $statement->free();
         $query = 'DELETE FROM ' . $this->database->escape_table_name('content_object_publication_course_group') . ' WHERE publication_id = ?';
         $statement = $this->database->get_connection()->prepare($query);
         $statement->execute($publication->get_id());
+        $statement->free();
         $query = 'UPDATE ' . $this->database->escape_table_name('content_object_publication') . ' SET ' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX) . '=' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX) . '-1 WHERE ' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX) . '>?';
         $statement = $this->database->get_connection()->prepare($query);
         $statement->execute(array($publication->get_display_order_index()));
+        $statement->free();
         $query = 'DELETE FROM ' . $this->database->escape_table_name('content_object_publication') . ' WHERE ' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_ID) . '=?';
         $this->database->get_connection()->setLimit(0, 1);
         $statement = $this->database->get_connection()->prepare($query);
         $statement->execute($publication->get_id());
+        $statement->free();
         return true;
     }
 
@@ -580,6 +586,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $query = 'SELECT * FROM ' . $this->database->escape_table_name('course_module') . ' WHERE course_id = ?';
         $statement = $this->database->get_connection()->prepare($query);
         $res = $statement->execute($course_code);
+        $statement->free();
         // If no modules are defined for this course -> insert them in database
         // @todo This is not the right place to do this, should happen upon course creation
         if ($res->numRows() == 0 && ! $auto_added)
@@ -1384,6 +1391,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $query = 'SELECT user_id FROM ' . $this->database->escape_table_name(CourseUserRelation :: get_table_name()) . ' WHERE ' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_COURSE) . '=?';
         $statement = $this->database->get_connection()->prepare($query);
         $res = $statement->execute($course_group->get_course_code());
+        $statement->free();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
             $course_user_ids[] = $record[User :: PROPERTY_USER_ID];
