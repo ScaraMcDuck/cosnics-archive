@@ -377,6 +377,7 @@ class Database
         {
             return false;
         }
+        $sth->free();
     }
 
     /**
@@ -406,6 +407,7 @@ class Database
         {
             return false;
         }
+        $statement->free();
     }
 
     /**
@@ -456,6 +458,7 @@ class Database
         $sth = $this->connection->prepare($query);
 
         $res = $sth->execute($params);
+        $sth->free();
         $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
         return $record[0];
     }
@@ -543,7 +546,7 @@ class Database
 
         $sth = $this->connection->prepare($query);
         $res = $sth->execute($params);
-
+		$sth->free();
         if ($res->numRows() >= 1)
         {
             $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
@@ -622,6 +625,7 @@ class Database
         $statement = $this->connection->prepare($query);
 
         $res = $statement->execute($params);
+        $statement->free();
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
         $res->free();
 
@@ -655,7 +659,7 @@ class Database
         $statement = $this->connection->prepare($query);
 
         $res = $statement->execute($params);
-
+		$statement->free();
         $distinct_elements = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
@@ -680,6 +684,7 @@ class Database
         $statement = $this->connection->prepare($query);
 
         $res = $statement->execute($params);
+        $statement->free();
         $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
         return $record[0];
     }
