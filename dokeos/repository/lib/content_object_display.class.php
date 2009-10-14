@@ -83,7 +83,9 @@ abstract class ContentObjectDisplay
         $html[] = '<div class="content_object" style="background-image: url('.Theme :: get_common_image_path() . 'content_object/' .$object->get_icon_name().($object->is_latest_version() ? '' : '_na').'.png);">';
         $html[] = '<div class="title">'. $object->get_title() .'</div>';
         $html[] = self::TITLE_MARKER;
+        $html[] = '<div class="description" style="overflow: auto;">';
         $html[] = $this->get_description();
+        $html[] = '</div>';
         $html[] = '<div class="clear"></div>';
         $html[] = self::DESCRIPTION_MARKER;
         if (isset($buttons))
@@ -103,7 +105,7 @@ abstract class ContentObjectDisplay
             $html[] = '</div>';
         }
         $html[] = $this->get_attached_content_objects_as_html();
-        $html[] = '</div>';
+        $html[] = '</div><div class="clear"></div>';
         /*if ($parent_id = $object->get_parent_id())
         {
             $parent_object = RepositoryDataManager :: get_instance()->retrieve_content_object($parent_id);
