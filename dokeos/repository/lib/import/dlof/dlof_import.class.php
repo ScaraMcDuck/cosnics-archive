@@ -44,6 +44,13 @@ class DlofImport extends ContentObjectImport
 	private $content_object_reference;
 	
 	/**
+	 * The array that has the reference for all the old ids of the wrappers => all the new ids of the wrappers
+	 *
+	 * @var Array of INT
+	 */
+	private $wrapper_reference;
+	
+	/**
 	 * The array where the subitems are stored untill all the learning objects are created
 	 * With this array the wrappers will then be created
 	 * 
@@ -80,6 +87,23 @@ class DlofImport extends ContentObjectImport
 	 */
 	private $references;
 	
+	/**
+	 * In this array we store the learning path item wrappers because we need to change the prerequisites after all the wrappers have been
+	 * created
+	 *
+	 * @var $learning_path_item_wrappers[] = $wrapper_object;
+	 */
+	private $learning_path_item_wrappers;
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param unknown_type $content_object_file
+	 * @param unknown_type $user
+	 * @param unknown_type $category
+	 * @return DlofImport
+	 */
+	
 	function DlofImport($content_object_file, $user, $category)
 	{
 		$this->rdm = RepositoryDataManager :: get_instance();
@@ -110,6 +134,7 @@ class DlofImport extends ContentObjectImport
 		$this->create_attachments();
 		$this->create_includes();
 		$this->update_references();
+		$this->update_learning_path_prerequisites();
 		
 		if($temp)
 		{
@@ -291,6 +316,10 @@ class DlofImport extends ContentObjectImport
 						{
 							$idref = $attrNode->value;
 						}
+						elseif($attrName == 'id')
+						{
+							$my_id = $attrNode->value;
+						}
 						else
 						{ 
 							$properties[$attrName] = $attrNode->value;
@@ -298,7 +327,7 @@ class DlofImport extends ContentObjectImport
 					}
 				}
 				
-				$this->lo_subitems[$id][] = array('id' => $idref, 'properties' => $properties);
+				$this->lo_subitems[$id][] = array('id' => $my_id, 'idref' => $idref, 'properties' => $properties);
 			}
 			
 			// Attachments
@@ -336,7 +365,7 @@ class DlofImport extends ContentObjectImport
 			$real_parent_id = $this->content_object_reference[$parent_id];
 			foreach($children as $child)
 			{
-				$real_child_id = $this->content_object_reference[$child['id']];
+				$real_child_id = $this->content_object_reference[$child['idref']];
 				
 				$childlo = $this->rdm->retrieve_content_object($real_child_id);
 				
@@ -348,6 +377,13 @@ class DlofImport extends ContentObjectImport
 				$cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($real_parent_id));
 				$cloi->set_additional_properties($child['properties']);
 				$cloi->create();
+
+				if($childlo->get_type() == 'learning_path_item')
+				{
+					$this->learning_path_item_wrappers[] = $cloi;
+				}
+				
+				$this->wrapper_reference[$child['id']] = $cloi->get_id();
 			}
 		}
 	}
@@ -391,6 +427,31 @@ class DlofImport extends ContentObjectImport
 			$lo->set_reference($real_reference);
 			$lo->update();
 		}
+	}
+	
+	function update_learning_path_prerequisites()
+	{
+		foreach($this->learning_path_item_wrappers as $lp_wrapper)
+		{
+			$ref = $this->rdm->retrieve_content_object($lp_wrapper->get_ref());
+			$reference = $this->rdm->retrieve_content_object($ref->get_reference());
+			if($reference->get_type() != 'scorm_item')
+			{
+				if($prereq = $lp_wrapper->get_prerequisites())
+				{
+					$pattern = '/[^()&|~]+/';
+					$prereq = preg_replace_callback($pattern, array($this, 'test_matches'), $prereq);
+					$lp_wrapper->set_prerequisites($prereq);
+					$lp_wrapper->update();
+				}
+			}
+			
+		}
+	}
+	
+	function test_matches($matches)
+	{
+		return $this->wrapper_reference[$matches[0]];
 	}
 }
 ?>

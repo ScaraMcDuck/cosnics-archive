@@ -32,6 +32,7 @@ class PrerequisitesTranslator
 		$pattern = '/[^\(\)\&\|~]*/';
 		preg_match_all($pattern, $prerequisites, $matches);
 		
+		rsort($matches[0], SORT_NUMERIC);
 		foreach($matches[0] as $match)
 		{
 			if($match)
@@ -48,13 +49,13 @@ class PrerequisitesTranslator
 			else 
 				$real_id = $item;
 	
-			$value = 0;
+			$value = false;
 				
 			foreach($this->lpi_tracker_data[$real_id]['trackers'] as $tracker_data)
 			{
 				if($tracker_data->get_status() == 'completed' || $tracker_data->get_status() == 'passed')
 				{
-					$value = 1;
+					$value = true;
 					break;
 				}
 			}
