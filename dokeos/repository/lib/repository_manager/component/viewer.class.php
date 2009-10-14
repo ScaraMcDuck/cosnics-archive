@@ -242,6 +242,8 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					}
 				}
 			}
+			
+			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('CopyToTemplates'), Theme :: get_common_image_path() . 'export_unknown.png',$this->get_copy_content_object_url($object->get_id(), 0)));
 	
 			return $action_bar;
 		}
