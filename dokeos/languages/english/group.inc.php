@@ -20,7 +20,6 @@ $lang['group']['GroupCreate'] = 'Group created';
 $lang['group']['GroupNotCreated'] = 'Group not created';
 $lang['group']['GroupCreateExport'] = 'Create group export';
 $lang['group']['GroupUpdate'] = 'Group updated';
-$lang['group']['NoGroupSelected'] = 'No group selected';
 $lang['group']['GroupCreateCsv'] = 'Create groups from CSV';
 $lang['group']['ModifyGroupRoles'] = 'Modify group roles';
 $lang['group']['ModifyRolesForGroup'] = 'Modify roles for group';

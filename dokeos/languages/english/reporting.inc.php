@@ -106,7 +106,6 @@ $lang['reporting']['Note'] = 'Note';
 $lang['reporting']['BlogItem'] = 'Blog item';
 $lang['reporting']['CalendarEvent'] = 'Calendar event';
 $lang['reporting']['FillInBlanksQuestion'] = 'Fill in blanks question';
-$lang['reporting']['ForumPost'] = 'Forum post';
 $lang['reporting']['ForumTopic'] = 'Forum topic';
 $lang['reporting']['GlossaryItem'] = 'Glossary item';
 $lang['reporting']['Hotpotatoes'] = 'Hotpotatoes';

@@ -10,7 +10,6 @@ $lang['assessment']['UpdateAssessmentPublication'] = 'Update assessment publicat
 $lang['assessment']['CategoriesMoved'] = 'Categories moved';
 $lang['assessment']['MoveAssessmentPublications'] = 'Move assessment publications';
 $lang['assessment']['SelectCategory'] = 'Select category';
-$lang['assessment']['QtiImported'] = 'Qti imported';
 $lang['assessment']['UsersInvited'] = 'Users invited';
 $lang['assessment']['NoAssessmentPublicationsSelected'] = 'No assessment publications selected';
 $lang['assessment']['Assessments'] = 'Assessments';

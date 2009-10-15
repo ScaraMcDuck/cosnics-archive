@@ -188,4 +188,9 @@ $lang['migration']['calenderEvent'] = 'Calender event';
 $lang['migration']['toolIntro'] = 'Tool introduction';
 $lang['migration']['PersonalAgenda'] = 'Personal agenda';
 $lang['migration']['DropboxFeedback'] = 'Dropbox feedback';
+$lang['migration']['Roles'] = 'Roles';
+$lang['migration']['learning_path'] = 'Learning path';
+$lang['migration']['ForumPost'] = 'Forum post';
+$lang['migration']['Profile'] = 'Profile';
+$lang['migration']['ForumThread'] = 'Forum thread';
 ?>
