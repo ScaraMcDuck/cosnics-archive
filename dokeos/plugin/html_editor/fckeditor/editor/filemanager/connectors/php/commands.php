@@ -277,7 +277,7 @@ function FileUpload( $resourceType, $currentFolder, $sCommand )
 					
 					$document->set_filename($filename);
 					$document->set_path($path);
-					$document->set_filesize(filesize($sFilePath));
+					$document->set_filesize(filesize($full_path . '/' . $hash));
 					$document->set_title($filename);
 					$document->set_description($filename);
 					$document->set_parent_id(0);
