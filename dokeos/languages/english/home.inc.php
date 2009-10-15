@@ -70,7 +70,7 @@ $lang['home']['HomeTabTitle'] = 'Title';
 $lang['home']['HomeRowTab'] = 'Tab';
 $lang['home']['AddTab'] = 'Add tab';
 $lang['home']['Tab'] = 'Tab';
-$lang['home']['EnterUsername'] = 'Enter your username';
-$lang['home']['Password'] = 'Password';
-$lang['home']['AlexiaLinkBlockIntroduction'] = 'A selection of the most recently published links in the online library. Use the link at the bottom or the tab-menu at the top for a complete listing of available links.';
+$lang['home']['BlockAdded'] = 'Block added';
+$lang['home']['Site'] = 'Site';
+$lang['home']['PortalHome'] = 'Portal home';
 ?>

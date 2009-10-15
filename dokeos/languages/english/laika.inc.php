@@ -14,7 +14,7 @@ $lang['laika']['SomethingWentWrong'] = 'Something went wrong';
 $lang['laika']['LaikaResultsHTML'] = 'Laika results HTMl';
 $lang['laika']['AllGroups'] = 'All groups';
 $lang['laika']['PercentileCodes'] = 'Percentile codes';
-$lang['laika']['Number'] = 'N°';
+$lang['laika']['Number'] = 'NÂ°';
 $lang['laika']['Laika'] = 'Laika';
 $lang['laika']['BrowseResults'] = 'Browse results';
 $lang['laika']['TakeLaikaTest'] = 'Take Laika test';
@@ -49,4 +49,5 @@ $lang['laika']['OnlyIncludeFirstAttempt'] = 'Only include first attempt';
 $lang['laika']['OnlyIncludeMostRecentAttempt'] = 'Only include most recent attempt';
 $lang['laika']['IncludeAllAttempts'] = 'Include all attempts';
 $lang['laika']['AttemptsToInclude'] = 'Attempts to include';
+$lang['laika']['ManageRoles'] = 'Manage roles';
 ?>

@@ -60,4 +60,8 @@ $lang['install']['HashingAlgorithm'] = 'Hashing algorithm';
 $lang['install']['TestUserAccountCreated'] = 'Testuser account created';
 $lang['install']['Linker'] = 'Linker';
 $lang['install']['Credentials'] = 'Credentials';
+$lang['install']['ApplicationRemoveFailed'] = 'Application remove failed';
+$lang['install']['ApplicationRemoveSuccess'] = 'Application remove success';
+$lang['install']['Administrator'] = 'Administrator';
+$lang['install']['Security'] = 'Security';
 ?>

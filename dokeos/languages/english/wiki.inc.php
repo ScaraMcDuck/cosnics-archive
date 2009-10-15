@@ -7,4 +7,5 @@ $lang['wiki']['UpdateWikiPublication'] = 'Update wiki publication';
 $lang['wiki']['WikiPublicationUpdated'] = 'Wiki publication updated';
 $lang['wiki']['WikiPublicationNotUpdated'] = 'Wiki publication not updated';
 $lang['wiki']['NoWikiPublicationsSelected'] = 'No wiki publications selected';
+$lang['wiki']['Wiki'] = 'Wiki';
 ?>

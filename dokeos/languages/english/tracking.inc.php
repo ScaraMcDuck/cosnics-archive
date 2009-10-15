@@ -35,4 +35,8 @@ $lang['tracking']['ArchiveSettingsTitle'] = ' ';
 $lang['tracking']['ArchiveSettingsInfo'] = ' ';
 $lang['tracking']['ArchiveTrackersSelectionTitle'] = ' ';
 $lang['tracking']['ArchiveTrackersSelectionInfo'] = ' ';
+$lang['tracking']['Archive'] = 'Archive';
+$lang['tracking']['EnableSelectedEvents'] = 'Enable selected events';
+$lang['tracking']['DisableSelectedEvents'] = 'Disable selected events';
+$lang['tracking']['EmptySelectedEvents'] = 'Empty selected events';
 ?>
