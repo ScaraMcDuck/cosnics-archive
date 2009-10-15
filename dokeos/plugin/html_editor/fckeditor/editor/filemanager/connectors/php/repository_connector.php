@@ -34,12 +34,27 @@ function GetRepositoryCategoriesAndDocuments($sResourceType)
 
 	while($document = $documents->next_result())
 	{
-		$html[] = '<File name="' . $document->get_filename() . '" size="' . $document->get_filesize() . '" url="' . $document->get_url() . '"/>';
+		if(IsExtensionAllowed($sResourceType, $document->get_filename()))
+			$html[] = '<File name="' . $document->get_filename() . '" size="' . $document->get_filesize() . '" url="' . $document->get_url() . '"/>';
 	}
 	
 	$html[] = '</Files>';
 
 	echo implode($html, "\n");
+}
+
+function IsExtensionAllowed($type, $filename)
+{
+	global $Config;
+	
+	$allowedext = $Config['AllowedExtensions'][$type]; 
+	foreach($allowedext as $ext)
+	{
+		if(strtolower(substr($filename, (-1 * strlen($ext)))) == $ext)
+			return true;
+	}
+	
+	return false;
 }
 
 function GetRepositoryCategories($sResourceType, $sCurrentFolder)
