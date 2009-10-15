@@ -8,7 +8,7 @@ function GetRepositoryCategoriesAndDocuments($sResourceType)
 	$rdm = RepositoryDataManager :: get_instance();
 	$category_id = Request :: get('CurrentCategory');
 	
-	$html[] = '<Folders>';
+	/*$html[] = '<Folders>';
 	
 	$conditions = array();
 	$conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_PARENT, $category_id);
@@ -21,7 +21,7 @@ function GetRepositoryCategoriesAndDocuments($sResourceType)
 		$html[] = '<Folder name="' . $category->get_name() . '" id="' . $category->get_id() . '"/>';
 	}
 	
-	$html[] = '</Folders>';
+	$html[] = '</Folders>';*/
 	$html[] = '<Files>';
 	
 	$conditions = array();
@@ -58,7 +58,7 @@ function GetRepositoryCategories($sResourceType, $sCurrentFolder)
 	$categories = $rdm->retrieve_categories($condition);
 	while($category = $categories->next_result())
 	{
-		$html[] = '<Folder name="' . $category->get_name() . '" />';
+		$html[] = '<Folder name="' . $category->get_name() . '" id="' . $category->get_id() . '"/>';
 	}
 	
 	$html[] = '</Folders>';
