@@ -47,7 +47,11 @@ function GetRepositoryCategories($sResourceType, $sCurrentFolder)
 	$user_id = Session :: get_user_id();
 	$rdm = RepositoryDataManager :: get_instance();
 	$category_id = Request :: get('CurrentCategory');
+	$category = $rdm->retrieve_categories(new EqualityCondition(RepositoryCategory :: PROPERTY_ID, $category_id))->next_result();
 	
+	$parent = $category ? $category->get_parent() : 0;
+	
+	$html[] = '<Parent id="' . $parent . '" />';
 	$html[] = '<Folders>';
 	
 	$conditions = array();
