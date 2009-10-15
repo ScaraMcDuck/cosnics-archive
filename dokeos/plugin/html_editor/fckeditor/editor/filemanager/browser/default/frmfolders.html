@@ -34,6 +34,7 @@ var sActiveFolder ;
 
 var bIsLoaded = false ;
 var iIntervalId ;
+var sParentId = 0;
 
 var oListManager = new Object() ;
 
@@ -85,7 +86,7 @@ oListManager.ShowUpFolder = function( upFolderPath )
 	{
 		document.getElementById('linkUpIcon').onclick = document.getElementById('linkUp').onclick = function()
 		{
-			LoadFolders( upFolderPath ) ;
+			LoadFolders( upFolderPath , sParentId) ;
 			return false ;
 		}
 	}
@@ -100,7 +101,7 @@ function CheckLoaded()
 	{
 		window.clearInterval( iIntervalId ) ;
 		bIsLoaded = true ;
-		OpenFolder( sActiveFolder, oConnector.CurrentCategoryId ) ;
+		LoadFolders( sActiveFolder, oConnector.CurrentCategoryId ) ;
 	}
 }
 
@@ -131,10 +132,10 @@ function LoadFolders( folderPath, folderId  )
 	}
 
 	sActiveFolder = folderPath ;
+	
 	window.parent.frames['frmActualFolder'].SetCurrentFolder( oConnector.ResourceType, folderPath ) ;
 	window.parent.frames['frmCreateFolder'].SetCurrentFolder( oConnector.ResourceType, folderPath ) ;
 	window.parent.frames['frmUpload'].SetCurrentFolder( oConnector.ResourceType, folderPath ) ;
-
 	
 	oConnector.SendCommand( 'GetFolders', null, GetFoldersCallBack ) ;
 }
@@ -147,6 +148,9 @@ function GetFoldersCallBack( fckXml )
 	// Get the current folder path.
 	var oNode = fckXml.SelectSingleNode( 'Connector/CurrentFolder' ) ;
 	var sCurrentFolderPath = oNode.attributes.getNamedItem('path').value ;
+
+	var oNode = fckXml.SelectSingleNode( 'Connector/Parent' ) ;
+	sParentId = oNode.attributes.getNamedItem('id').value ;
 
 	var oNodes = fckXml.SelectNodes( 'Connector/Folders/Folder' ) ;
 
