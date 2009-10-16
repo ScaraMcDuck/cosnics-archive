@@ -69,7 +69,7 @@ class RepositorySharedContentObjectsBrowserTableCellRenderer extends DefaultShar
             else
                 $toolbar_data[] = array('img' => Theme :: get_common_image_path() . 'action_publish_na.png');
             if($this->browser->has_right($content_object->get_id(), RepositoryRights :: REUSE_RIGHT))
-                $toolbar_data[] = array('href' => $this->browser->get_reuse_content_object_url($content_object), 'label' => Translation :: get('ReUse'), 'img' => Theme :: get_common_image_path() . 'action_reuse.png');
+                $toolbar_data[] = array('href' => $this->browser->get_copy_content_object_url($content_object->get_id(), $this->browser->get_user_id()), 'label' => Translation :: get('ReUse'), 'img' => Theme :: get_common_image_path() . 'action_reuse.png');
             else
                 $toolbar_data[] = array('img' => Theme :: get_common_image_path() . 'action_reuse_na.png');
 
