@@ -180,9 +180,9 @@ class DatabaseTrackingDataManager extends TrackingDataManager
         return $trackers;
     }
 
-    function retrieve_event_tracker_relations($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+    function retrieve_event_tracker_relations($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->database->retrieve_objects(EventRelTracker :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+        return $this->database->retrieve_objects(EventRelTracker :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
     /**
@@ -218,9 +218,9 @@ class DatabaseTrackingDataManager extends TrackingDataManager
      * Retrieves all events
      * @return array of events
      */
-    function retrieve_events($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+    function retrieve_events($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-    	return $this->database->retrieve_objects(Event :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+    	return $this->database->retrieve_objects(Event :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
     /**
@@ -264,13 +264,13 @@ class DatabaseTrackingDataManager extends TrackingDataManager
     function retrieve_tracker_items($table_name, $classname, $condition)
     {
         //$items = $this->database->retrieve_objects($table_name, $condition);
-        $items = $this->database->retrieve_objects($table_name, $condition, null, null, array(), array(), $classname);
+        $items = $this->database->retrieve_objects($table_name, $condition, null, null, array(), $classname);
         return $items->as_array();
     }
 
     function retrieve_tracker_items_result_set($table_name, $classname, $condition, $order_by)
     {
-        return $this->database->retrieve_objects($table_name, $condition, null, null, $order_by, array(), $classname);
+        return $this->database->retrieve_objects($table_name, $condition, null, null, $order_by, $classname);
     }
 
     function count_tracker_items($tablename, $condition)

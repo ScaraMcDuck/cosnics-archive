@@ -3,9 +3,9 @@ require_once Path :: get_common_path() . 'sub_manager_component.class.php';
 
 class RightsTemplateManagerComponent extends SubManagerComponent
 {
-	function retrieve_rights_templates($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_rights_templates($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_rights_templates($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_rights_templates($condition, $offset, $count, $order_property);
 	}
 
 	function count_rights_templates($conditions = null)
@@ -23,9 +23,9 @@ class RightsTemplateManagerComponent extends SubManagerComponent
 		return $this->get_parent()->get_rights_template_deleting_url($rights_template);
 	}
 
-	function retrieve_locations($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_locations($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_locations($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_locations($condition, $offset, $count, $order_property);
 	}
 
 	function count_locations($conditions = null)
@@ -47,7 +47,7 @@ class RightsTemplateManagerComponent extends SubManagerComponent
 	{
 		return $this->get_parent()->retrieve_rights_template($id);
 	}
-	
+
 	function get_manage_rights_template_rights_url($rights_template)
 	{
 		return $this->get_parent()->get_manage_rights_template_rights_url($rights_template);

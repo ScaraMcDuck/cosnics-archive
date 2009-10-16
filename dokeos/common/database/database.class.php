@@ -345,7 +345,7 @@ class Database
 	        {
             	$query .= ' LIMIT ' . $max_objects;
         	}
-        	
+
         	//$this->connection->setLimit(intval($max_objects), intval($offset));
         	//$this->connection->setLimit(intval($max_objects));
     		$statement = $this->connection->prepare($query);
@@ -471,11 +471,10 @@ class Database
      * @param Int $offset the starting offset
      * @param Int $max_objects the max amount of objects to be retrieved
      * @param Array(String) $order_by the list of column names that the objects have to be ordered by
-     * @param Array(String) $order_dir the list of order directions for the orderBy list
      * @param String $resultset - Optional, the resultset to map the items to
      * @return ResultSet
      */
-    function retrieve_objects($table_name, $condition = null, $offset = null, $max_objects = null, $order_by = array(), $order_dir = array(), $class_name = null)
+    function retrieve_objects($table_name, $condition = null, $offset = null, $max_objects = null, $order_by = array(), $class_name = null)
     {
         $query = 'SELECT * FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
         return $this->retrieve_result_set($query, $table_name, $condition, $offset, $max_objects, $order_by, $class_name);
@@ -598,7 +597,7 @@ class Database
         }
     }
 
-    function retrieve_object($table_name, $condition = null, $order_by = array(), $order_dir = array(), $class_name = null)
+    function retrieve_object($table_name, $condition = null, $order_by = array(), $class_name = null)
     {
         $query = 'SELECT * FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
 

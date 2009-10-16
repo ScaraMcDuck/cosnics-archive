@@ -71,21 +71,21 @@ abstract class HomeDataManager
 
     abstract function count_home_blocks($condition = null);
 
-    abstract function retrieve_home_rows($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+    abstract function retrieve_home_rows($condition = null, $offset = null, $count = null, $order_property = null);
 
     abstract function retrieve_home_column($id);
 
-    abstract function retrieve_home_columns($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+    abstract function retrieve_home_columns($condition = null, $offset = null, $count = null, $order_property = null);
 
     abstract function retrieve_home_block($id);
 
-    abstract function retrieve_home_blocks($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+    abstract function retrieve_home_blocks($condition = null, $offset = null, $count = null, $order_property = null);
 
     abstract function retrieve_home_tab($id);
 
     abstract function retrieve_home_tab_blocks($home_tab);
 
-    abstract function retrieve_home_tabs($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+    abstract function retrieve_home_tabs($condition = null, $offset = null, $count = null, $order_property = null);
 
     abstract function truncate_home($user_id);
 
@@ -94,7 +94,7 @@ abstract class HomeDataManager
     abstract function retrieve_home_column_at_sort($parent, $sort, $direction);
 
     abstract function retrieve_home_block_at_sort($parent, $sort, $direction);
-    
+
     abstract function retrieve_home_tab_at_sort($user, $sort, $direction);
 
     abstract function update_home_block($home_block);
@@ -127,7 +127,7 @@ abstract class HomeDataManager
 
     abstract function delete_home_block_configs($home_block);
 
-    abstract function retrieve_home_block_config($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+    abstract function retrieve_home_block_config($condition = null, $offset = null, $count = null, $order_property = null);
 
     abstract function count_home_block_config($condition = null);
 

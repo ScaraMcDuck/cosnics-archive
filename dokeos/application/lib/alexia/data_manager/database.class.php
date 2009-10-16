@@ -78,10 +78,10 @@ class DatabaseAlexiaDataManager extends AlexiaDataManager
 		{
 			$condition = new EqualityCondition(AlexiaPublicationGroup :: PROPERTY_PUBLICATION, $alexia_publication->get_id());
 			$succes = $this->database->delete(AlexiaPublicationGroup :: get_table_name(), $condition);
-	
+
 			$condition = new EqualityCondition(AlexiaPublicationUser :: PROPERTY_PUBLICATION, $alexia_publication->get_id());
 			$succes = $this->database->delete(AlexiaPublicationUser :: get_table_name(), $condition);
-	
+
 			foreach($alexia_publication->get_target_groups() as $group)
 			{
 				$alexia_publication_group = new AlexiaPublicationGroup();
@@ -89,7 +89,7 @@ class DatabaseAlexiaDataManager extends AlexiaDataManager
 				$alexia_publication_group->set_group_id($group);
 				$succes = $alexia_publication_group->create();
 			}
-	
+
 			foreach($alexia_publication->get_target_users() as $user)
 			{
 				$alexia_publication_user = new AlexiaPublicationUser();
@@ -98,7 +98,7 @@ class DatabaseAlexiaDataManager extends AlexiaDataManager
 				$succes = $alexia_publication_user->create();
 			}
 		}
-		
+
 		return $succes;
 	}
 
@@ -135,11 +135,11 @@ class DatabaseAlexiaDataManager extends AlexiaDataManager
 	function retrieve_alexia_publication($id)
 	{
 		$condition = new EqualityCondition(AlexiaPublication :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(AlexiaPublication :: get_table_name(), $condition, array(), array(), AlexiaPublication :: CLASS_NAME);
+		return $this->database->retrieve_object(AlexiaPublication :: get_table_name(), $condition, array(), AlexiaPublication :: CLASS_NAME);
 	}
 
 	function retrieve_alexia_publications($condition = null, $offset = null, $max_objects = null, $order_by = array())
-	{		
+	{
         $rdm = RepositoryDataManager :: get_instance();
         $publication_alias = $this->database->get_alias(AlexiaPublication :: get_table_name());
         $publication_user_alias = $this->database->get_alias(AlexiaPublicationUser :: get_table_name());
@@ -150,7 +150,7 @@ class DatabaseAlexiaDataManager extends AlexiaDataManager
         $query .= ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->database->escape_column_name(AlexiaPublication :: PROPERTY_CONTENT_OBJECT, $publication_alias) . ' = ' . $rdm->get_database()->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
         $query .= ' LEFT JOIN ' . $this->database->escape_table_name(AlexiaPublicationUser :: get_table_name()) . ' AS ' . $publication_user_alias . ' ON ' . $this->database->escape_column_name(AlexiaPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->database->escape_column_name(AlexiaPublicationUser :: PROPERTY_PUBLICATION, $publication_user_alias);
         $query .= ' LEFT JOIN ' . $this->database->escape_table_name(AlexiaPublicationGroup :: get_table_name()) . ' AS ' . $publication_group_alias . ' ON ' . $this->database->escape_column_name(AlexiaPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->database->escape_column_name(AlexiaPublicationGroup :: PROPERTY_PUBLICATION, $publication_group_alias);
-		
+
 		return $this->database->retrieve_result_set($query, AlexiaPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, AlexiaPublication :: CLASS_NAME);
 	}
 
@@ -172,7 +172,7 @@ class DatabaseAlexiaDataManager extends AlexiaDataManager
 
 	function retrieve_alexia_publication_groups($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->database->retrieve_objects(AlexiaPublicationGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by, array(), AlexiaPublicationGroup :: CLASS_NAME);
+		return $this->database->retrieve_objects(AlexiaPublicationGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by, AlexiaPublicationGroup :: CLASS_NAME);
 	}
 
 	function create_alexia_publication_user($alexia_publication_user)
@@ -193,7 +193,7 @@ class DatabaseAlexiaDataManager extends AlexiaDataManager
 
 	function retrieve_alexia_publication_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->database->retrieve_objects(AlexiaPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, array(), AlexiaPublicationUser :: CLASS_NAME);
+		return $this->database->retrieve_objects(AlexiaPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, AlexiaPublicationUser :: CLASS_NAME);
 	}
 }
 ?>

@@ -257,9 +257,9 @@ class CourseGroupTable
 	 * You should not be concerned with this method. It is only public because
 	 * of technical limitations.
 	 */
-	function get_course_groups($offset, $count, $order_column, $order_direction)
+	function get_course_groups($offset, $count, $order_column)
 	{
-		$course_groups = $this->get_data_provider()->get_course_groups($offset, $count, $this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0), $order_direction));
+		$course_groups = $this->get_data_provider()->get_course_groups($offset, $count, $this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0)));
 		if(is_null($course_groups))
 		{
 			return array();

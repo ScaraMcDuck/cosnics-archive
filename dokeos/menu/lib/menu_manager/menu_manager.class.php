@@ -21,19 +21,19 @@ require_once dirname(__FILE__) . '/component/navigation_item_browser/navigation_
 class MenuManager extends CoreApplication
 {
     const APPLICATION_NAME = 'menu';
-    
+
     const PARAM_ERROR_MESSAGE = 'error_message';
     const PARAM_COMPONENT_ACTION = 'action';
     const PARAM_DIRECTION = 'direction';
     const PARAM_CATEGORY = 'category';
     const PARAM_DELETE_SELECTED = 'delete_selected';
-    
+
     const ACTION_RENDER_BAR = 'render_bar';
     const ACTION_RENDER_MINI_BAR = 'render_mini_bar';
     const ACTION_RENDER_TREE = 'render_tree';
     const ACTION_RENDER_SITEMAP = 'render_sitemap';
     const ACTION_SORT_MENU = 'sort';
-    
+
     const ACTION_COMPONENT_BROWSE_CATEGORY = 'browse';
     const ACTION_COMPONENT_ADD_CATEGORY = 'add';
     const ACTION_COMPONENT_EDIT_CATEGORY = 'edit';
@@ -41,7 +41,7 @@ class MenuManager extends CoreApplication
     const ACTION_COMPONENT_MOVE_CATEGORY = 'move';
     const ACTION_COMPONENT_CAT_EDIT = 'edit_category';
     const ACTION_COMPONENT_CAT_ADD = 'add_category';
-    
+
     private $parameters;
     private $user;
     private $breadcrumbs;
@@ -104,9 +104,9 @@ class MenuManager extends CoreApplication
         return MenuDataManager :: get_instance()->count_navigation_items($condition);
     }
 
-    function retrieve_navigation_items($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_navigation_items($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return MenuDataManager :: get_instance()->retrieve_navigation_items($condition, $offset, $count, $order_property, $order_direction);
+        return MenuDataManager :: get_instance()->retrieve_navigation_items($condition, $offset, $count, $order_property);
     }
 
     function retrieve_navigation_item($id)
@@ -123,10 +123,10 @@ class MenuManager extends CoreApplication
     {
         $links = array();
         $links[] = array('name' => Translation :: get('Manage'), 'description' => Translation :: get('ManageDescription'), 'action' => 'sort', 'url' => $this->get_link(array(Application :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU)));
-        
+
         $info = parent :: get_application_platform_admin_links();
         $info['links'] = $links;
-        
+
         return $info;
     }
 
@@ -134,7 +134,7 @@ class MenuManager extends CoreApplication
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SORT_MENU, self :: PARAM_COMPONENT_ACTION => self :: ACTION_COMPONENT_ADD_CATEGORY));
     }
-    
+
 	function get_category_navigation_item_creation_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SORT_MENU, self :: PARAM_COMPONENT_ACTION => self :: ACTION_COMPONENT_CAT_ADD));
@@ -146,7 +146,7 @@ class MenuManager extends CoreApplication
 		{
 			return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SORT_MENU, self :: PARAM_COMPONENT_ACTION => self :: ACTION_COMPONENT_CAT_EDIT, self :: PARAM_CATEGORY => $navigation_item->get_id()));
 		}
-		
+
     	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SORT_MENU, self :: PARAM_COMPONENT_ACTION => self :: ACTION_COMPONENT_EDIT_CATEGORY, self :: PARAM_CATEGORY => $navigation_item->get_id()));
     }
 
@@ -173,7 +173,7 @@ class MenuManager extends CoreApplication
             {
                 $selected_ids = array($selected_ids);
             }
-            
+
             switch ($_POST['action'])
             {
                 case self :: PARAM_DELETE_SELECTED :

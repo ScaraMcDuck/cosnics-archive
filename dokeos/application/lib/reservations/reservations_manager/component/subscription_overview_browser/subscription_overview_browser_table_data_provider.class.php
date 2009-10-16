@@ -25,15 +25,13 @@ class SubscriptionOverviewBrowserTableDataProvider extends ObjectTableDataProvid
    * @param int $offset
    * @param int $count
    * @param string $order_property
-   * @param int $order_direction (SORT_ASC or SORT_DESC)
    * @return ResultSet A set of matching learning objects.
    */
-    function get_objects($offset, $count, $order_property = null, $order_direction = null)
+    function get_objects($offset, $count, $order_property = null)
     {
 		$order_property = $this->get_order_property($order_property);
-		$order_direction = $this->get_order_property($order_direction);
-        return ReservationsDataManager :: get_instance()->retrieve_overview_list_items($this->get_condition(), $offset, $count, $order_property, $order_direction);
-     
+        return ReservationsDataManager :: get_instance()->retrieve_overview_list_items($this->get_condition(), $offset, $count, $order_property);
+
     }
   /**
    * Gets the number of learning objects in the table

@@ -12,41 +12,41 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table_
  */
 class RepositoryBrowserTableDataProvider extends ObjectTableDataProvider
 {
-  /**
-   * Constructor
-   * @param RepositoryManagerComponent $browser
-   * @param Condition $condition
-   */
-  function RepositoryBrowserTableDataProvider($browser, $condition)
-  {
-		parent :: __construct($browser, $condition);
-  }
-  /**
-   * Gets the learning objects
-   * @param int $offset
-   * @param int $count
-   * @param string $order_property
-   * @param int $order_direction (SORT_ASC or SORT_DESC)
-   * @return ResultSet A set of matching learning objects.
-   */
-    function get_objects($offset, $count, $order_property = null, $order_direction = null)
+
+    /**
+     * Constructor
+     * @param RepositoryManagerComponent $browser
+     * @param Condition $condition
+     */
+    function RepositoryBrowserTableDataProvider($browser, $condition)
     {
-		$order_property = $this->get_order_property($order_property);
-		$order_direction = $this->get_order_direction($order_direction);
-
-      	// We always use title as second sorting parameter
-//		$order_property[] = ContentObject :: PROPERTY_TITLE;
-//		$order_direction[] = SORT_ASC;
-
-      return $this->get_browser()->retrieve_content_objects(null, $this->get_condition(), $order_property, $order_direction, $offset, $count);
+        parent :: __construct($browser, $condition);
     }
-  /**
-   * Gets the number of learning objects in the table
-   * @return int
-   */
+
+    /**
+     * Gets the learning objects
+     * @param int $offset
+     * @param int $count
+     * @param string $order_property
+     * @return ResultSet A set of matching learning objects.
+     */
+    function get_objects($offset, $count, $order_property = null)
+    {
+        $order_property = $this->get_order_property($order_property);
+
+        // We always use title as second sorting parameter
+        //		$order_property[] = ContentObject :: PROPERTY_TITLE;
+
+        return $this->get_browser()->retrieve_content_objects(null, $this->get_condition(), $order_property, $offset, $count);
+    }
+
+    /**
+     * Gets the number of learning objects in the table
+     * @return int
+     */
     function get_object_count()
     {
-      return $this->get_browser()->count_content_objects(null, $this->get_condition());
+        return $this->get_browser()->count_content_objects(null, $this->get_condition());
     }
 }
 ?>

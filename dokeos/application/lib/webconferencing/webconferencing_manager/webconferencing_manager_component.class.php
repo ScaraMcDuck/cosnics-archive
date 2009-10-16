@@ -174,9 +174,9 @@ abstract class WebconferencingManagerComponent
 		return $this->get_parent()->count_webconferences($condition);
 	}
 
-	function retrieve_webconferences($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_webconferences($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_webconferences($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_webconferences($condition, $offset, $count, $order_property);
 	}
 
  	function retrieve_webconference($id)
@@ -189,9 +189,9 @@ abstract class WebconferencingManagerComponent
 		return $this->get_parent()->count_webconference_options($condition);
 	}
 
-	function retrieve_webconference_options($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_webconference_options($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_webconference_options($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_webconference_options($condition, $offset, $count, $order_property);
 	}
 
  	function retrieve_webconference_option($id)

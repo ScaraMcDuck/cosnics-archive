@@ -45,9 +45,9 @@ abstract class PersonalMessengerManagerComponent extends WebApplicationComponent
 	/**
 	 * @see PersonalMessengerManager :: retrieve_personal_message_publications()
 	 */
-	function retrieve_personal_message_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
+	function retrieve_personal_message_publications($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
 	{
-		return $this->get_parent()->retrieve_personal_message_publications($condition, $order_by, $order_dir, $offset, $max_objects);
+		return $this->get_parent()->retrieve_personal_message_publications($condition, $order_by, $offset, $max_objects);
 	}
 
 	/**

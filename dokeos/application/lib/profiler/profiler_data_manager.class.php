@@ -4,7 +4,7 @@
  */
 abstract class ProfilerDataManager
 {
-    
+
     private static $instance;
 
     protected function ProfilerDataManager()
@@ -34,7 +34,7 @@ abstract class ProfilerDataManager
     abstract function any_content_object_is_published($object_ids);
 
     /**
-     * Returns whether a given object id is published in this application 
+     * Returns whether a given object id is published in this application
      * @param int $object_id
      * @return boolean Is the object is published
      */
@@ -43,11 +43,6 @@ abstract class ProfilerDataManager
     /**
      * Gets the publication attributes of a given learning object id
      * @param int $object_id The object id
-     * @param string $type Type of retrieval
-     * @param int $offset
-     * @param int $count
-     * @param int $order_property
-     * @param int $order_direction
      * @return ContentObjectPublicationAttribute
      */
     abstract function get_content_object_publication_attribute($object_id);
@@ -59,10 +54,9 @@ abstract class ProfilerDataManager
      * @param int $offset
      * @param int $count
      * @param int $order_property
-     * @param int $order_direction
      * @return array An array of Learing Object Publication Attributes
      */
-    abstract function get_content_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+    abstract function get_content_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_property = null);
 
     /**
      * Counts the publication attributes
@@ -95,15 +89,14 @@ abstract class ProfilerDataManager
     abstract function retrieve_profile_publication($id);
 
     /**
-     * Retrieve a series of profile publications 
+     * Retrieve a series of profile publications
      * @param Condition $condition
      * @param array $order_by
-     * @param array $order_dir
      * @param int $offset
      * @param int $max_objects
      * @return ProfilePublicationResultSet
      */
-    abstract function retrieve_profile_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1);
+    abstract function retrieve_profile_publications($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
 
     /**
      * Update the publication
@@ -161,7 +154,7 @@ abstract class ProfilerDataManager
 
     abstract function count_categories($conditions = null);
 
-    abstract function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+    abstract function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null);
 
 }
 ?>

@@ -100,7 +100,7 @@ class DatabaseWebconferencingDataManager extends WebconferencingDataManager
         return $this->database->retrieve_object(Webconference :: get_table_name(), $condition);
     }
 
-    function retrieve_webconferences($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+    function retrieve_webconferences($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         $webconference_alias = $this->database->get_alias(Webconference :: get_table_name());
         $webconference_user_alias = $this->database->get_alias(WebconferenceUser :: get_table_name());
@@ -152,19 +152,19 @@ class DatabaseWebconferencingDataManager extends WebconferencingDataManager
         return $this->database->retrieve_object(WebconferenceOption :: get_table_name(), $condition);
     }
 
-    function retrieve_webconference_options($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+    function retrieve_webconference_options($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->database->retrieve_objects(WebconferenceOption :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+        return $this->database->retrieve_objects(WebconferenceOption :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
-    function retrieve_webconference_groups($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+    function retrieve_webconference_groups($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->database->retrieve_objects(WebconferenceGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, WebconferenceGroup :: CLASS_NAME);
+        return $this->database->retrieve_objects(WebconferenceGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by, WebconferenceGroup :: CLASS_NAME);
     }
 
-    function retrieve_webconference_users($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+    function retrieve_webconference_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->database->retrieve_objects(WebconferenceUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, WebconferenceUser :: CLASS_NAME);
+        return $this->database->retrieve_objects(WebconferenceUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, WebconferenceUser :: CLASS_NAME);
     }
 
     function create_webconference_user($webconference_user)

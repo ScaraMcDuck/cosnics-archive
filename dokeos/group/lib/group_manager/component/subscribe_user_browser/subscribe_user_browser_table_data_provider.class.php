@@ -10,9 +10,9 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table_
  * retrieve information about the learning objects to display.
  */
 class SubscribeUserBrowserTableDataProvider extends ObjectTableDataProvider
-{  
+{
   private $udm;
-  
+
   /**
    * Constructor
    * @param WeblcmsComponent $browser
@@ -28,15 +28,12 @@ class SubscribeUserBrowserTableDataProvider extends ObjectTableDataProvider
    * @param int $offset
    * @param int $count
    * @param string $order_property
-   * @param int $order_direction (SORT_ASC or SORT_DESC)
    * @return ResultSet A set of matching learning objects.
    */
-    function get_objects($offset, $count, $order_property = null, $order_direction = null)
+    function get_objects($offset, $count, $order_property = null)
     {
-		$order_property = $this->get_order_property($order_property);
-		$order_direction = $this->get_order_direction($order_direction);
-       
-      return $this->udm->retrieve_users($this->get_condition(), $offset, $count, $order_property, $order_direction);
+        $order_property = $this->get_order_property($order_property);
+		return $this->udm->retrieve_users($this->get_condition(), $offset, $count, $order_property);
     }
   /**
    * Gets the number of users in the table

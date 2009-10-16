@@ -13,7 +13,7 @@ require_once dirname(__FILE__).'/../../reservations_manager.class.php';
 class SubscriptionUserBrowserTable extends ObjectTable
 {
 	const DEFAULT_NAME = 'reservations_table';
-	
+
 	/**
 	 * Constructor
 	 * @see ContentObjectTable::ContentObjectTable()
@@ -25,11 +25,11 @@ class SubscriptionUserBrowserTable extends ObjectTable
 		$data_provider = new SubscriptionUserBrowserTableDataProvider($browser, $condition);
 		parent :: __construct($data_provider, SubscriptionUserBrowserTable :: DEFAULT_NAME, $model, $renderer);
 		$this->set_additional_parameters($parameters);
-		
+
 		$this->set_default_row_count(20);
 	}
-	
-	function get_objects($offset, $count, $order_column, $order_direction)
+
+	function get_objects($offset, $count, $order_column)
 	{
 		$subscription_users = $this->get_data_provider()->get_objects();
 		$table_data = array ();

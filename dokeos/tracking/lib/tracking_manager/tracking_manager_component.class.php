@@ -43,7 +43,7 @@ abstract class TrackingManagerComponent extends CoreApplicationComponent
         return $this->get_parent()->get_change_active_url($type, $event_id, $tracker_id);
     }
 
-    /** 
+    /**
      * Retrieves the event viewer url
      * @see TrackingManager :: get_event_viewer_url()
      */
@@ -52,7 +52,7 @@ abstract class TrackingManagerComponent extends CoreApplicationComponent
         return $this->get_parent()->get_event_viewer_url($event);
     }
 
-    /** 
+    /**
      * Retrieves the empty tracker url
      * @see TrackingManager :: get_empty_tracker_url()
      */
@@ -75,12 +75,11 @@ abstract class TrackingManagerComponent extends CoreApplicationComponent
      * @param int $offset
      * @param int $count
      * @param String $order_property
-     * @param String $order_direction
      * @see TrackingManager :: retrieve_events();
      */
-    function retrieve_events($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_events($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->get_parent()->retrieve_events($condition, $offset, $count, $order_property, $order_direction);
+        return $this->get_parent()->retrieve_events($condition, $offset, $count, $order_property);
     }
 
     /**
@@ -135,7 +134,7 @@ abstract class TrackingManagerComponent extends CoreApplicationComponent
 
     /**
      * Retrieves an event by name
-     * @param string $eventname 
+     * @param string $eventname
      * @return Event event
      * @see TrackingManager :: retrieve_event_by_name
      */

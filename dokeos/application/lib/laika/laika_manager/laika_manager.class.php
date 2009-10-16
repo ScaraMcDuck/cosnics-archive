@@ -89,7 +89,7 @@ class LaikaManager extends WebApplication
 	/**
 	 * @see Application::get_content_object_publication_attributes()
 	 */
-	public function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	public function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
 	{
 		return null;
 	}
@@ -141,10 +141,10 @@ class LaikaManager extends WebApplication
 		return $ldm->retrieve_laika_question($id);
 	}
 
-	function retrieve_laika_questions($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_laika_questions($condition = null, $offset = null, $count = null, $order_property = null)
 	{
 		$ldm = LaikaDataManager :: get_instance();
-		return $ldm->retrieve_laika_questions($condition, $offset, $count, $order_property, $order_direction);
+		return $ldm->retrieve_laika_questions($condition, $offset, $count, $order_property);
 	}
 
 	function has_taken_laika($user)
@@ -159,10 +159,10 @@ class LaikaManager extends WebApplication
 		return $ldm->retrieve_laika_scale($id);
 	}
 
-	function retrieve_laika_scales($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_laika_scales($condition = null, $offset = null, $count = null, $order_property = null)
 	{
 		$ldm = LaikaDataManager :: get_instance();
-		return $ldm->retrieve_laika_scales($condition, $offset, $count, $order_property, $order_direction);
+		return $ldm->retrieve_laika_scales($condition, $offset, $count, $order_property);
 	}
 
 	function retrieve_laika_cluster($id)
@@ -171,10 +171,10 @@ class LaikaManager extends WebApplication
 		return $ldm->retrieve_laika_cluster($id);
 	}
 
-	function retrieve_laika_clusters($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_laika_clusters($condition = null, $offset = null, $count = null, $order_property = null)
 	{
 		$ldm = LaikaDataManager :: get_instance();
-		return $ldm->retrieve_laika_clusters($condition, $offset, $count, $order_property, $order_direction);
+		return $ldm->retrieve_laika_clusters($condition, $offset, $count, $order_property);
 	}
 
 	function retrieve_laika_result($id)
@@ -183,10 +183,10 @@ class LaikaManager extends WebApplication
 		return $ldm->retrieve_laika_result($id);
 	}
 
-	function retrieve_laika_results($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_laika_results($condition = null, $offset = null, $count = null, $order_property = null)
 	{
 		$ldm = LaikaDataManager :: get_instance();
-		return $ldm->retrieve_laika_results($condition, $offset, $count, $order_property, $order_direction);
+		return $ldm->retrieve_laika_results($condition, $offset, $count, $order_property);
 	}
 
 	function retrieve_laika_calculated_result($id)
@@ -195,16 +195,16 @@ class LaikaManager extends WebApplication
 		return $ldm->retrieve_laika_calculated_result($id);
 	}
 
-	function retrieve_laika_calculated_results($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_laika_calculated_results($condition = null, $offset = null, $count = null, $order_property = null)
 	{
 		$ldm = LaikaDataManager :: get_instance();
-		return $ldm->retrieve_laika_calculated_results($condition, $offset, $count, $order_property, $order_direction);
+		return $ldm->retrieve_laika_calculated_results($condition, $offset, $count, $order_property);
 	}
 
-	function retrieve_laika_table_calculated_results($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_laika_table_calculated_results($condition = null, $offset = null, $count = null, $order_property = null)
 	{
 		$ldm = LaikaDataManager :: get_instance();
-		return $ldm->retrieve_laika_table_calculated_results($condition, $offset, $count, $order_property, $order_direction);
+		return $ldm->retrieve_laika_table_calculated_results($condition, $offset, $count, $order_property);
 	}
 
 	function retrieve_laika_answer($id)
@@ -213,10 +213,10 @@ class LaikaManager extends WebApplication
 		return $ldm->retrieve_laika_answer($id);
 	}
 
-	function retrieve_laika_answers($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_laika_answers($condition = null, $offset = null, $count = null, $order_property = null)
 	{
 		$ldm = LaikaDataManager :: get_instance();
-		return $ldm->retrieve_laika_answers($condition, $offset, $count, $order_property, $order_direction);
+		return $ldm->retrieve_laika_answers($condition, $offset, $count, $order_property);
 	}
 
 	function retrieve_laika_attempt($id)
@@ -225,10 +225,10 @@ class LaikaManager extends WebApplication
 		return $ldm->retrieve_laika_attempt($id);
 	}
 
-	function retrieve_laika_attempts($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_laika_attempts($condition = null, $offset = null, $count = null, $order_property = null)
 	{
 		$ldm = LaikaDataManager :: get_instance();
-		return $ldm->retrieve_laika_attempts($condition, $offset, $count, $order_property, $order_direction);
+		return $ldm->retrieve_laika_attempts($condition, $offset, $count, $order_property);
 	}
 
 	function count_laika_attempts($condition = null)
@@ -249,10 +249,10 @@ class LaikaManager extends WebApplication
 		return $ldm->count_laika_table_calculated_results($condition);
 	}
 
-	function retrieve_laika_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_laika_users($condition = null, $offset = null, $count = null, $order_property = null)
 	{
 		$ldm = LaikaDataManager :: get_instance();
-		return $ldm->retrieve_laika_users($condition, $offset, $count, $order_property, $order_direction);
+		return $ldm->retrieve_laika_users($condition, $offset, $count, $order_property);
 	}
 
 	function count_laika_users($condition = null)

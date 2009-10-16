@@ -13,7 +13,7 @@ require_once dirname(__FILE__).'/../../rights_template_manager.class.php';
 class LocationRightsTemplateBrowserTable extends ObjectTable
 {
 	const DEFAULT_NAME = 'rights_template_browser_table';
-	
+
 	/**
 	 * Constructor
 	 * @see ContentObjectTable::ContentObjectTable()
@@ -27,10 +27,10 @@ class LocationRightsTemplateBrowserTable extends ObjectTable
 		$this->set_additional_parameters($parameters);
 		$this->set_default_row_count(20);
 	}
-	
-	function get_objects($offset, $count, $order_column, $order_direction)
+
+	function get_objects($offset, $count, $order_column)
 	{
-		$rights_templates = $this->get_data_provider()->get_objects($offset, $count, $this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0)), $order_direction);
+		$rights_templates = $this->get_data_provider()->get_objects($offset, $count, $this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0)));
 		$table_data = array ();
 		$column_count = $this->get_column_model()->get_column_count();
 		while ($rights_template = $rights_templates->next_result())

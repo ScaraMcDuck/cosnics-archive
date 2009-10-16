@@ -74,7 +74,7 @@ abstract class WeblcmsDataManager
 	 * @return array An array of ContentObjectPublicationAttributes objects;
 	 *               empty if the object has not been published anywhere.
 	 */
-	abstract function get_content_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function get_content_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_property = null);
 
 	/**
 	 * Retrieves the attributes for the given publication.
@@ -122,10 +122,6 @@ abstract class WeblcmsDataManager
 	 *                                 that the user is a member of. Defaults
 	 *                                 to false.
 	 * @param array $order_by The properties to order publications by.
-	 * @param array $order_dir An array representing the sorting direction
-	 *                        for the corresponding property of $order_by.
-	 *                        Use SORT_ASC for ascending order, SORT_DESC
-	 *                        for descending.
 	 * @param int $offset The index of the first publication to retrieve.
 	 * @param int $max_objects The maximum number of objects to retrieve.
 	 * @return ResultSet A set of ContentObjectPublications.
@@ -331,9 +327,9 @@ abstract class WeblcmsDataManager
 	 * @return boolean True if creation succceeded, false otherwise.
 	 */
 	abstract function create_content_object_publication($publication);
-	
+
 	abstract function create_content_object_publication_user($publication_user);
-	
+
 	abstract function create_content_object_publication_course_group($publication_course_group);
 
 	/**
@@ -467,7 +463,6 @@ abstract class WeblcmsDataManager
 	 * @param string $category
 	 * @param Condition $condition
 	 * @param array $order_by
-	 * @param array $order_dir
 	 * @param int $offset
 	 * @param int $max_objects
 	 * @return CourseResultSet
@@ -478,7 +473,6 @@ abstract class WeblcmsDataManager
 	 * Retrieve a series of courses for a specific user + the relation
 	 * @param Condition $condition
 	 * @param array $order_by
-	 * @param array $order_dir
 	 * @param int $offset
 	 * @param int $max_objects
 	 * @return CourseResultSet
@@ -567,7 +561,7 @@ abstract class WeblcmsDataManager
 	 * @param int $user_id
 	 * @param string $course_user_category
 	 */
-	abstract function retrieve_course_user_relations($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_course_user_relations($condition = null, $offset = null, $count = null, $order_property = null);
 
 	/**
 	 * Creates a storage unit
@@ -589,7 +583,7 @@ abstract class WeblcmsDataManager
 	 * Retrieves the personal course categories for a given user.
 	 * @return DatabaseUserCourseCategoryResultSet The resultset of course categories.
 	 */
-	abstract function retrieve_course_user_categories($conditions = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_course_user_categories($conditions = null, $offset = null, $count = null, $order_property = null);
 
 	/**
 	 * Retrieves a personal course category for the user.
@@ -605,7 +599,7 @@ abstract class WeblcmsDataManager
 	 * @return CourseUserCategory The course user category.
 	 */
 	abstract function retrieve_course_user_category_at_sort($user_id, $sort, $direction);
-	
+
 	 /**
 	  * Adds a record to the access log of a course module
 	  * @param string $course_code
@@ -646,7 +640,7 @@ abstract class WeblcmsDataManager
 	 * Retrieves the course_groups defined in a given course
 	 * @param string $course_code
 	 */
-	abstract function retrieve_course_groups($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_course_groups($condition = null, $offset = null, $count = null, $order_property = null);
 	/**
 	 * Retrieves the course_groups from a given course in which the given user is
 	 * subscribed
@@ -658,7 +652,7 @@ abstract class WeblcmsDataManager
 	/**
 	 * Retrieves the users in a course_group
 	 */
-	abstract function retrieve_course_group_users($course_group,$condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_course_group_users($course_group,$condition = null, $offset = null, $count = null, $order_property = null);
 	/**
 	 * Counts the users in a course_group
 	 */
@@ -666,7 +660,7 @@ abstract class WeblcmsDataManager
 	/**
 	 * Retrieves the users that can be subscribed to a course_group
 	 */
-	abstract function retrieve_possible_course_group_users($course_group,$condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_possible_course_group_users($course_group,$condition = null, $offset = null, $count = null, $order_property = null);
 	/**
 	 * Counts the users that can be subscribed to a course_group
 	 */
@@ -693,22 +687,22 @@ abstract class WeblcmsDataManager
 	abstract function update_category($category);
 	abstract function create_category($category);
 	abstract function count_categories($conditions = null);
-	abstract function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null);
 
 	abstract function get_next_content_object_publication_category_id();
 	abstract function delete_content_object_publication_category($content_object_publication_category);
 	abstract function update_content_object_publication_category($content_object_publication_category);
 	abstract function create_content_object_publication_category($content_object_publication_category);
 	abstract function count_content_object_publication_categories($conditions = null);
-	abstract function retrieve_content_object_publication_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_content_object_publication_categories($condition = null, $offset = null, $count = null, $order_property = null);
 
 	abstract function get_next_course_section_id();
 	abstract function delete_course_section($course_section);
 	abstract function update_course_section($course_section);
 	abstract function create_course_section($course_section);
 	abstract function count_course_sections($conditions = null);
-	abstract function retrieve_course_sections($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_course_sections($condition = null, $offset = null, $count = null, $order_property = null);
 
-	
+
 }
 ?>

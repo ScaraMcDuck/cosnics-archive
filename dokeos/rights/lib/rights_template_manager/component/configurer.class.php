@@ -72,9 +72,8 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 //
 //		$parent_condition = new AndCondition($parent_conditions);
 //		$order = array(new ObjectTableOrder(Location :: PROPERTY_LEFT_VALUE));
-//		$order_direction = array(SORT_ASC);
 //
-//		$parents = $this->retrieve_locations($parent_condition, null, null, $order, $order_direction);
+//		$parents = $this->retrieve_locations($parent_condition, null, null, $order);
 //
 //		while($parent = $parents->next_result())
 //		{

@@ -76,7 +76,7 @@ class ForumManagerBrowserComponent extends ForumManagerComponent
         $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_TOOL, $this->get_parent()->get_tool_id());
         $condition = new AndCondition($conditions);
 
-        $categories = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication_categories($condition, $offset, $count, $order_property, $order_direction);
+        $categories = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication_categories($condition, $offset, $count, $order_property);
 
         while($category = $categories->next_result())
         {
@@ -118,7 +118,7 @@ class ForumManagerBrowserComponent extends ForumManagerComponent
             $forum = $rdm->retrieve_content_object($publication->get_forum_id(), 'forum');
             $title = '<a href="' . $this->get_url(array(ForumManager::PARAM_ACTION => ForumManager::ACTION_VIEW, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM, ForumManager::PARAM_PUBLICATION_ID => $publication->get_forum_id())) . '">' . $forum->get_title() . '</a><br />' . DokeosUtilities::truncate_string($forum->get_description());
 
-            //$last_post = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $publication->get_forum_id(), ComplexContentObjectItem :: get_table_name()), array(new ObjectTableOrder(ComplexContentObjectItem :: PROPERTY_ADD_DATE, SORT_DESC)), array(), 0, 1 )->next_result();
+            //$last_post = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $publication->get_forum_id(), ComplexContentObjectItem :: get_table_name()), array(new ObjectTableOrder(ComplexContentObjectItem :: PROPERTY_ADD_DATE, SORT_DESC)), 0, 1 )->next_result();
             //$last_post = $rdm->retrieve_content_object($publication->get_last_post());
             $last_post = $rdm->retrieve_complex_content_object_item($forum->get_last_post());
 

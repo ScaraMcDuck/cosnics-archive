@@ -266,14 +266,14 @@ class GroupManager extends CoreApplication
 		return $parms;
 	}
 
-	function retrieve_groups($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_groups($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return GroupDataManager :: get_instance()->retrieve_groups($condition, $offset, $count, $order_property, $order_direction);
+		return GroupDataManager :: get_instance()->retrieve_groups($condition, $offset, $count, $order_property);
 	}
 
-	function retrieve_group_rel_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_group_rel_users($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return GroupDataManager :: get_instance()->retrieve_group_rel_users($condition, $offset, $count, $order_property, $order_direction);
+		return GroupDataManager :: get_instance()->retrieve_group_rel_users($condition, $offset, $count, $order_property);
 	}
 
 	function retrieve_group_rel_user($user_id, $group_id)

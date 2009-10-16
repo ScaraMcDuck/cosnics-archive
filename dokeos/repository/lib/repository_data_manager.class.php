@@ -88,7 +88,7 @@ abstract class RepositoryDataManager
 	{
 		$adm = AdminDataManager :: get_instance();
 		$condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_CONTENT_OBJECT);
-		
+
 		$order = new ObjectTableOrder(Registration :: PROPERTY_NAME, SORT_ASC);
 
 		$content_objects = $adm->retrieve_registrations($condition, $order);
@@ -134,7 +134,7 @@ abstract class RepositoryDataManager
 //		$condition1 = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $owner);
 //		$condition2 = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, 0);
 //		$condition = new AndCondition($condition1, $condition2);
-//		$objects = $this->retrieve_content_objects('category', $condition, null, null, 0, 1, -1);
+//		$objects = $this->retrieve_content_objects('category', $condition, null, 0, 1, -1);
 //		return $objects->next_result();
 //	}
 
@@ -212,14 +212,14 @@ abstract class RepositoryDataManager
 	 * @return array An array of ContentObjectPublicationAttributes objects;
 	 *               empty if the object has not been published anywhere.
 	 */
-	function get_content_object_publication_attributes($user, $id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_content_object_publication_attributes($user, $id, $type = null, $offset = null, $count = null, $order_property = null)
 	{
 		$applications = $this->get_registered_applications();
 		$info = array();
 		foreach($applications as $application_name)
 		{
 			$application = Application::factory($application_name,$user);
-			$attributes = $application->get_content_object_publication_attributes($id, $type, $offset, $count, $order_property, $order_direction);
+			$attributes = $application->get_content_object_publication_attributes($id, $type, $offset, $count, $order_property);
 			if(!is_null($attributes) && count($attributes) > 0)
 			{
 				$info = array_merge($info, $attributes);
@@ -227,7 +227,7 @@ abstract class RepositoryDataManager
 		}
 
 		$admin = new AdminManager($user);
-		$attributes = $admin->get_content_object_publication_attributes($id, $type, $offset, $count, $order_property, $order_direction);
+		$attributes = $admin->get_content_object_publication_attributes($id, $type, $offset, $count, $order_property);
 		if(!is_null($attributes) && count($attributes) > 0)
 		{
 			$info = array_merge($info, $attributes);
@@ -260,7 +260,7 @@ abstract class RepositoryDataManager
 	{
 		if($object->get_owner_id() == 0)
 			return true;
-			
+
 		$homeportal = PlatformSetting :: get('portal_home');
 		if($object->get_id() == $homeportal)
 			return false;
@@ -294,10 +294,10 @@ abstract class RepositoryDataManager
 			$versions = $this->get_version_ids($object);
 			$forbidden = array_merge($children, $versions);
 		}
-		
+
 		if($this->is_content_object_included($object))
 			return false;
-		
+
 		$conditions = array();
 		$conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $object->get_id());
 		$conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $object->get_id(), ComplexContentObjectItem :: get_table_name());
@@ -305,19 +305,19 @@ abstract class RepositoryDataManager
 		$count_wrapper_items = $this->count_complex_content_object_items($condition);
 		if($count_wrapper_items > 0)
 			return false;
-		
+
 		$count_portfolio_wrapper_items = $this->count_content_objects('portfolio_item', new EqualityCondition(PortfolioItem :: PROPERTY_REFERENCE, $object->get_id()));
 		if($count_portfolio_wrapper_items > 0)
 			return false;
-		
+
 		$count_learning_path_wrapper_items = $this->count_content_objects('learning_path_item', new EqualityCondition(LearningPathItem :: PROPERTY_REFERENCE, $object->get_id()));
 		if($count_learning_path_wrapper_items > 0)
 			return false;
-	
+
 		$count_children = $this->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $object->get_id(), ComplexContentObjectItem :: get_table_name()));
 		if($count_children > 0)
 			return false;
-			
+
 		return !$this->any_content_object_is_published($forbidden);
 	}
 
@@ -444,11 +444,6 @@ abstract class RepositoryDataManager
 	 *                             documentation.
 	 * @param array $order_by An array of properties to sort the learning
 	 *                       objects on.
-	 * @param array $order_dir An array that indicates the sorting direction
-	 *                        for the property at the corresponding position
-	 *                        in $order_by. The PHP constant SORT_DESC sorts
-	 *                        the objects in descending order; SORT_ASC is
-	 *                        the default and uses ascending order.
 	 * @param int $offset The index of the first object to return. If
 	 *                    omitted or negative, the result set will start
 	 *                    from the first object.
@@ -470,7 +465,7 @@ abstract class RepositoryDataManager
 	 *                                        tree structures.
 	 * @return ResultSet A set of matching learning objects.
 	 */
-	abstract function retrieve_content_objects($type = null, $condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1, $state = ContentObject :: STATE_NORMAL, $different_parent_state = false);
+	abstract function retrieve_content_objects($type = null, $condition = null, $order_by = array (), $offset = 0, $max_objects = -1, $state = ContentObject :: STATE_NORMAL, $different_parent_state = false);
 
 	/**
 	 * Retrieves the additional properties of the given learning object.
@@ -650,7 +645,7 @@ abstract class RepositoryDataManager
 	 * Retrieves the complex learning object items with the given condition
 	 * @param Condition
 	 */
-	abstract function retrieve_complex_content_object_items($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1);
+	abstract function retrieve_complex_content_object_items($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
 
 	/**
 	 * Deletes the given learning object version from persistent storage.
@@ -860,13 +855,13 @@ abstract class RepositoryDataManager
 
 		return $this->applications;
 	}
-	
+
 	function delete_clois_for_content_object($content_object)
 	{
 		$conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $content_object->get_id());
 		$conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $content_object->get_id(), ComplexContentObjectItem :: get_table_name());
 		$condition = new OrCondition($conditions);
-		
+
 		return $this->delete_complex_content_object_items($condition);
 	}
 
@@ -892,22 +887,22 @@ abstract class RepositoryDataManager
 	abstract function update_category($category);
 	abstract function create_category($category);
 	abstract function count_categories($conditions = null);
-	abstract function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null);
 
 	abstract function get_next_user_view_id();
 	abstract function delete_user_view($user_view);
 	abstract function update_user_view($user_view);
 	abstract function create_user_view($user_view);
 	abstract function count_user_views($conditions = null);
-	abstract function retrieve_user_views($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_user_views($condition = null, $offset = null, $count = null, $order_property = null);
 
 	abstract function update_user_view_rel_content_object($user_view_rel_content_object);
 	abstract function create_user_view_rel_content_object($user_view_rel_content_object);
     abstract function create_content_object_pub_feedback($content_object_publication_feedback);
     abstract function update_content_object_pub_feedback($content_object_publication_feedback);
     abstract function delete_content_object_pub_feedback($content_object_publication_feedback);
-	abstract function retrieve_user_view_rel_content_objects($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
-    abstract function retrieve_content_object_pub_feedback($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_user_view_rel_content_objects($condition = null, $offset = null, $count = null, $order_property = null);
+    abstract function retrieve_content_object_pub_feedback($condition = null, $offset = null, $count = null, $order_property = null);
 
 	/**
 	 * Gets the number of categories the user has defined in his repository
@@ -927,17 +922,17 @@ abstract class RepositoryDataManager
 	}
 
     abstract function retrieve_last_post($forum_id);
-    
+
     abstract function create_content_object_metadata($content_object_metadata);
     abstract function delete_content_object_metadata($content_object_metadata);
     abstract function update_content_object_metadata($content_object_metadata);
-    abstract function retrieve_content_object_metadata($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null);
+    abstract function retrieve_content_object_metadata($condition = null, $offset = null, $max_objects = null, $order_by = null);
     abstract function get_next_content_object_metadata_id();
-    
-    //abstract function retrieve_content_object_metadata_catalog($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null);
-    
-    abstract function retrieve_external_export($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null);
-    abstract function retrieve_external_export_fedora($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null);
+
+    //abstract function retrieve_content_object_metadata_catalog($condition = null, $offset = null, $max_objects = null, $order_by = null);
+
+    abstract function retrieve_external_export($condition = null, $offset = null, $max_objects = null, $order_by = null);
+    abstract function retrieve_external_export_fedora($condition = null, $offset = null, $max_objects = null, $order_by = null);
 
     abstract function retrieve_catalog($query, $table_name, $condition = null, $offset = null, $max_objects = null, $order_by = null);
 }

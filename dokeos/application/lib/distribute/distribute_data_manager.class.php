@@ -54,7 +54,7 @@ abstract class DistributeDataManager
 
 	abstract function retrieve_announcement_distribution($id);
 
-	abstract function retrieve_announcement_distributions($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_announcement_distributions($condition = null, $offset = null, $count = null, $order_property = null);
 
     abstract function retrieve_announcement_distribution_target_groups($announcement_distribution);
 

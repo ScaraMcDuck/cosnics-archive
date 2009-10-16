@@ -177,9 +177,9 @@ abstract class WikiManagerComponent
 		return $this->get_parent()->count_wiki_publications($condition);
 	}
 
-	function retrieve_wiki_publications($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_wiki_publications($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_wiki_publications($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_wiki_publications($condition, $offset, $count, $order_property);
 	}
 
  	function retrieve_wiki_publication($id)

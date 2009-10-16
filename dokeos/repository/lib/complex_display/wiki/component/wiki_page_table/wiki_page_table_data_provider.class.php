@@ -44,11 +44,11 @@ class WikiPageTableDataProvider extends ObjectTableDataProvider
 	/*
 	 * Inherited
 	 */
-    function get_objects($offset, $count, $order_property = null, $order_direction = null)
+    function get_objects($offset, $count, $order_property = null)
     {
     	$dm = RepositoryDataManager :: get_instance();
         $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->owner, ComplexContentObjectItem :: get_table_name());
-        return $dm->retrieve_complex_content_object_items($condition, $order_property, $order_direction, $offset, $count);
+        return $dm->retrieve_complex_content_object_items($condition, $order_property, $offset, $count);
     }
 	/*
 	 * Inherited

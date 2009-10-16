@@ -78,9 +78,9 @@ class RightsManager extends CoreApplication
         $component->run();
     }
 
-    function retrieve_rights_templates($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_rights_templates($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return RightsDataManager :: get_instance()->retrieve_rights_templates($condition, $offset, $count, $order_property, $order_direction);
+        return RightsDataManager :: get_instance()->retrieve_rights_templates($condition, $offset, $count, $order_property);
     }
 
     function count_rights_templates($condition = null)
@@ -98,14 +98,14 @@ class RightsManager extends CoreApplication
         return RightsDataManager :: get_instance()->delete_rights_template($rights_template);
     }
 
-    function retrieve_rights($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_rights($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return RightsDataManager :: get_instance()->retrieve_rights($condition, $offset, $count, $order_property, $order_direction);
+        return RightsDataManager :: get_instance()->retrieve_rights($condition, $offset, $count, $order_property);
     }
 
-    function retrieve_locations($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_locations($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return RightsDataManager :: get_instance()->retrieve_locations($condition, $offset, $count, $order_property, $order_direction);
+        return RightsDataManager :: get_instance()->retrieve_locations($condition, $offset, $count, $order_property);
     }
 
     function retrieve_rights_template($id)
@@ -158,14 +158,14 @@ class RightsManager extends CoreApplication
         return RightsDataManager :: get_instance()->retrieve_rights_template_right_location($right_id, $rights_template_id, $location_id);
     }
 
-    function retrieve_user_right_locations($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_user_right_locations($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return RightsDataManager :: get_instance()->retrieve_user_right_locations($condition, $offset, $count, $order_property, $order_direction);
+        return RightsDataManager :: get_instance()->retrieve_user_right_locations($condition, $offset, $count, $order_property);
     }
 
-    function retrieve_group_right_locations($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_group_right_locations($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return RightsDataManager :: get_instance()->retrieve_group_right_locations($condition, $offset, $count, $order_property, $order_direction);
+        return RightsDataManager :: get_instance()->retrieve_group_right_locations($condition, $offset, $count, $order_property);
     }
 
     function retrieve_group_right_location($right_id, $group_id, $location_id)

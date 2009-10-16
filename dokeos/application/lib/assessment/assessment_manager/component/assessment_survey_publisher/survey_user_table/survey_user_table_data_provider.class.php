@@ -21,7 +21,7 @@ class SurveyUserTableDataProvider extends ObjectTableDataProvider
 	 * The possible types of learning objects which can be selected.
 	 */
 	private $pid;
-	
+
 	private $parent;
 	/**
 	 * Constructor.
@@ -39,20 +39,19 @@ class SurveyUserTableDataProvider extends ObjectTableDataProvider
 	/*
 	 * Inherited
 	 */
-    function get_objects($offset, $count, $order_property = null, $order_direction = null)
+    function get_objects($offset, $count, $order_property = null)
     {
     	$order_property = $this->get_order_property($order_property);
-    	$order_direction = $this->get_order_direction($order_direction);
     	//$survey_id = $this->survey->get_id();
     	$condition = new EqualityCondition(SurveyInvitation :: PROPERTY_SURVEY_ID, $this->pid);
-    	$results = AssessmentDataManager :: get_instance()->retrieve_survey_invitations($condition, $offset, $count, $order_property, $order_direction);
+    	$results = AssessmentDataManager :: get_instance()->retrieve_survey_invitations($condition, $offset, $count, $order_property);
     	while ($object = $results->next_result())
     	{
     		$objects[] = $object;
     	}
     	return $objects;
     }
-    
+
 	/*
 	 * Inherited
 	 */

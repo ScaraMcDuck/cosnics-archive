@@ -58,7 +58,7 @@ abstract class PersonalCalendarDataManager
 	/**
 	 * @see Application::get_content_object_publication_attributes()
 	 */
-	abstract function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null);
 	/**
 	 * @see Application::get_content_object_publication_attribute()
 	 */
@@ -84,41 +84,40 @@ abstract class PersonalCalendarDataManager
 	 * Retrieve a profile publication
 	 * @param int $id
 	 * @return ProfilePublication
-	 */	
+	 */
 	abstract function retrieve_calendar_event_publication($id);
     /**
-	 * Retrieve a series of profile publications 
+	 * Retrieve a series of profile publications
 	 * @param Condition $condition
 	 * @param array $order_by
-	 * @param array $order_dir
 	 * @param int $offset
 	 * @param int $max_objects
 	 * @return ProfilePublicationResultSet
-	 */	
-    abstract function retrieve_calendar_event_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1);
+	 */
+    abstract function retrieve_calendar_event_publications($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
     /**
 	 * Update the publication
 	 * @param ProfilePublication $profile_publication
 	 * @return boolean
-	 */	
+	 */
     abstract function update_calendar_event_publication($publication);
     /**
 	 * Delete the publication
 	 * @param ProfilePublication $profile_publication
 	 * @return boolean
-	 */	
+	 */
     abstract function delete_calendar_event_publication($publication);
     /**
 	 * Delete the publications
 	 * @param Array $object_id An array of publication ids
 	 * @return boolean
-	 */	
+	 */
     abstract function delete_calendar_event_publications($object_id);
     /**
 	 * Update the publication id
 	 * @param ContentObjectPublicationAttribure $publication_attr
 	 * @return boolean
-	 */	
+	 */
     abstract function update_calendar_event_publication_id($publication_attr);
     /**
 	 * Create a publication
@@ -126,9 +125,9 @@ abstract class PersonalCalendarDataManager
 	 * @return boolean
 	 */
     abstract function create_calendar_event_publication($publication);
-    
+
     abstract function retrieve_calendar_event_publication_target_groups($calendar_event_publication);
-    
+
     abstract function retrieve_calendar_event_publication_target_users($calendar_event_publication);
 }
 ?>

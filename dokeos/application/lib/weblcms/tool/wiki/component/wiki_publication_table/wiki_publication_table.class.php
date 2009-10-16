@@ -14,7 +14,7 @@ require_once Path::get_library_path() . 'html/table/object_table/object_table.cl
 class WikiPublicationTable extends ObjectTable
 {
 	const DEFAULT_NAME = 'publication_table';
-	
+
 	/**
 	 * Constructor.
 	 * @param int $owner The id of the current user.
@@ -28,7 +28,7 @@ class WikiPublicationTable extends ObjectTable
 	 * @see PublicationCandidateTableCellRenderer::PublicationCandidateTableCellRenderer()
 	 */
 	function WikiPublicationTable($parent, $owner, $types, $query)
-	{		
+	{
 		$model = new WikiPublicationTableColumnModel();
 		$renderer = new WikiPublicationTableCellRenderer($parent);
         $data_provider = new WikiPublicationTableDataProvider($parent, $owner, $types, $query);
@@ -37,7 +37,7 @@ class WikiPublicationTable extends ObjectTable
 		if($parent->is_allowed(EDIT_RIGHT))
         {
 			$actions = array();
-			
+
 			$actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('RemoveSelected'));
 			$actions[] = new ObjectTableFormAction(Tool :: ACTION_HIDE, Translation :: get('Hide'), false);
 			$actions[] = new ObjectTableFormAction(Tool :: ACTION_SHOW, Translation :: get('Show'), false);
@@ -45,16 +45,16 @@ class WikiPublicationTable extends ObjectTable
         	$this->set_form_actions($actions);
         }
 	}
-	
-	
-	
+
+
+
 	/**
 	 * You should not be concerned with this method. It is only public because
 	 * of technical limitations.
 	 */
-	function get_objects($offset, $count, $order_column, $order_direction)
+	function get_objects($offset, $count, $order_column)
 	{
-		$objects = $this->get_data_provider()->get_objects($offset, $count, $this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0)), $order_direction);
+		$objects = $this->get_data_provider()->get_objects($offset, $count, $this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0)));
 		$table_data = array ();
 		$column_count = $this->get_column_model()->get_column_count();
 		foreach ($objects as $object)

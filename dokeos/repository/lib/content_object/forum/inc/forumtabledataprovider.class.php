@@ -16,10 +16,10 @@ class ForumTableDataProvider implements ContentObjectTableDataProvider
     	$this->forum = $forum;
     }
 
-    function get_content_objects($offset, $count, $order_property, $order_direction)
+    function get_content_objects($offset, $count, $order_property)
     {
     	$dm = RepositoryDataManager :: get_instance();
-    	return $dm->retrieve_content_objects(null, $this->get_condition(), array($order_property), array($order_direction));
+    	return $dm->retrieve_content_objects(null, $this->get_condition(), array($order_property));
     }
 
     function get_content_object_count()

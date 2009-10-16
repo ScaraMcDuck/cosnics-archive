@@ -492,7 +492,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         }
     }
 
-    function retrieve_rights_templates($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+    function retrieve_rights_templates($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         $query = 'SELECT * FROM '. $this->escape_table_name('rights_template');
 
@@ -562,7 +562,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         return self :: record_to_rights_template($record);
     }
 
-    function retrieve_rights($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+    function retrieve_rights($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         $query = 'SELECT * FROM '. $this->escape_table_name('right');
 
@@ -596,7 +596,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         return new DatabaseRightResultSet($this, $res);
     }
 
-    function retrieve_locations($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+    function retrieve_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         $query = 'SELECT * FROM '. $this->escape_table_name('location');// . ' AS ' . $this->database->get_alias('location');
 
@@ -609,7 +609,6 @@ class DatabaseRightsDataManager extends RightsDataManager
         }
 
         $order_by[] = new ObjectTableOrder(Location :: PROPERTY_LOCATION);
-        $order_dir[] = SORT_ASC;
 
         $orders = array();
         foreach($order_by as $order)
@@ -1030,7 +1029,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         $res = $statement->execute($params);
         return new ObjectResultSet($this->database, $res, UserRightLocation :: CLASS_NAME);
     }
-    
+
  	function retrieve_shared_content_objects_for_groups($group_ids,$rights)
     {
         $query = 'SELECT * FROM '. $this->escape_table_name('group_right_location');
@@ -1112,14 +1111,14 @@ class DatabaseRightsDataManager extends RightsDataManager
         return $this->database->retrieve_object(GroupRightLocation :: get_table_name(), $condition);
     }
 
-    function retrieve_user_right_locations($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+    function retrieve_user_right_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->database->retrieve_objects(UserRightLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+        return $this->database->retrieve_objects(UserRightLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
-    function retrieve_group_right_locations($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+    function retrieve_group_right_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->database->retrieve_objects(GroupRightLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+        return $this->database->retrieve_objects(GroupRightLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 }
 ?>

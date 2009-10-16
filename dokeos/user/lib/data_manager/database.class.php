@@ -173,9 +173,9 @@ class DatabaseUserDataManager extends UserDataManager
 		return $this->database->count_objects(User :: get_table_name(), $condition);
 	}
 
-	function retrieve_users($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+	function retrieve_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->database->retrieve_objects(User :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+		return $this->database->retrieve_objects(User :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 
 	//Inherited.
@@ -217,9 +217,9 @@ class DatabaseUserDataManager extends UserDataManager
 		*/
 	}
 
-	function retrieve_user_rights_templates($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+	function retrieve_user_rights_templates($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->database->retrieve_objects(UserRightsTemplate :: get_table_name(), $condition);
+		return $this->database->retrieve_objects(UserRightsTemplate :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 
 	function add_rights_template_link($user, $rights_template_id)
@@ -310,9 +310,9 @@ class DatabaseUserDataManager extends UserDataManager
 		return $succes;
 	}
 
-	function retrieve_buddy_list_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_buddy_list_categories($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->database->retrieve_objects(BuddyListCategory :: get_table_name(), $condition, $offset, $count, $order_property, $order_direction);
+		return $this->database->retrieve_objects(BuddyListCategory :: get_table_name(), $condition, $offset, $count, $order_property);
 	}
 
 	function get_next_buddy_list_item_id()
@@ -345,9 +345,9 @@ class DatabaseUserDataManager extends UserDataManager
 		return $this->database->delete(BuddyListItem :: get_table_name(), $condition);
 	}
 
-	function retrieve_buddy_list_items($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_buddy_list_items($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->database->retrieve_objects(BuddyListItem :: get_table_name(), $condition, $offset, $count, $order_property, $order_direction);
+		return $this->database->retrieve_objects(BuddyListItem :: get_table_name(), $condition, $offset, $count, $order_property);
 	}
 }
 ?>

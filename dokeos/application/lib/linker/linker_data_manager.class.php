@@ -37,23 +37,23 @@ abstract class LinkerDataManager
 		}
 		return self :: $instance;
 	}
-	
+
 	abstract function initialize();
-	
+
 	abstract function create_storage_unit($name,$properties,$indexes);
-	
+
 	abstract function get_next_link_id();
-	
+
 	abstract function delete_link($link);
-	
+
 	abstract function update_link($link);
-	
+
 	abstract function create_link($link);
-	
+
 	abstract function retrieve_link($id);
-	
+
 	abstract function count_links($conditions = null);
-	
-	abstract function retrieve_links($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+
+	abstract function retrieve_links($condition = null, $offset = null, $count = null, $order_property = null);
 }
 ?>

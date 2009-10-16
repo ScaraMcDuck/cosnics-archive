@@ -105,9 +105,9 @@ require_once dirname(__FILE__).'/component/wiki_publication_browser/wiki_publica
 		return WikiDataManager :: get_instance()->count_wiki_publications($condition);
 	}
 
-	function retrieve_wiki_publications($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_wiki_publications($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return WikiDataManager :: get_instance()->retrieve_wiki_publications($condition, $offset, $count, $order_property, $order_direction);
+		return WikiDataManager :: get_instance()->retrieve_wiki_publications($condition, $offset, $count, $order_property);
 	}
 
  	function retrieve_wiki_publication($id)
@@ -143,7 +143,7 @@ require_once dirname(__FILE__).'/component/wiki_publication_browser/wiki_publica
 	{
 		return true;
 	}
-	
+
 	// Dummy Methods which are needed because we don't work with learning objects
 	function content_object_is_published($object_id)
 	{
@@ -153,7 +153,7 @@ require_once dirname(__FILE__).'/component/wiki_publication_browser/wiki_publica
 	{
 	}
 
-	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
 	{
 	}
 

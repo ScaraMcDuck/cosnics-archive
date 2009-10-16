@@ -13,7 +13,7 @@ require_once dirname(__FILE__).'/../../group_manager.class.php';
 class GroupRelUserBrowserTable extends ObjectTable
 {
 	const DEFAULT_NAME = 'group_browser_table';
-	
+
 	/**
 	 * Constructor
 	 * @see ContentObjectTable::ContentObjectTable()
@@ -26,21 +26,21 @@ class GroupRelUserBrowserTable extends ObjectTable
 		parent :: __construct($data_provider, GroupRelUserBrowserTable :: DEFAULT_NAME, $model, $renderer);
 		$this->set_additional_parameters($parameters);
 		$actions = array();
-		
+
 		$actions[] = new ObjectTableFormAction(GroupManager :: PARAM_UNSUBSCRIBE_SELECTED, Translation :: get('UnsubscribeSelected'), false);
-		
+
 		$this->set_form_actions($actions);
 		$this->set_default_row_count(20);
 	}
-	
+
 	/**
 	 * A typical ObjectTable would get the database-id of the object as a
 	 * unique identifier. GroupRelUser has no such field since it's
 	 * a relation, so we need to overwrite this function here.
 	 */
-	function get_objects($offset, $count, $order_column, $order_direction)
+	function get_objects($offset, $count, $order_column)
 	{
-		$grouprelusers = $this->get_data_provider()->get_objects($offset, $count, $this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0)), $order_direction);
+		$grouprelusers = $this->get_data_provider()->get_objects($offset, $count, $this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0)));
 		$table_data = array ();
 		$column_count = $this->get_column_model()->get_column_count();
 		while ($groupreluser = $grouprelusers->next_result())

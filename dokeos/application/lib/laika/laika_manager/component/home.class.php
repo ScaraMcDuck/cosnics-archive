@@ -185,7 +185,7 @@ class LaikaManagerHomeComponent extends LaikaManagerComponent
 
 	function get_laika_attempt()
 	{
-		return $this->retrieve_laika_attempts($this->get_attempt_condition(), 0, 1, new ObjectTableOrder(LaikaAttempt :: PROPERTY_DATE, SORT_DESC), array(SORT_DESC))->next_result();
+		return $this->retrieve_laika_attempts($this->get_attempt_condition(), 0, 1, new ObjectTableOrder(LaikaAttempt :: PROPERTY_DATE, SORT_DESC))->next_result();
 	}
 }
 ?>

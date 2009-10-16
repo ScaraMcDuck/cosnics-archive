@@ -49,11 +49,11 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
     function retrieve_profile_publication($id)
     {
         $condition = new EqualityCondition(ProfilePublication :: PROPERTY_ID, $id);
-        return $this->database->retrieve_object(ProfilePublication :: get_table_name(), $condition, array(), array(), ProfilePublication :: CLASS_NAME);
+        return $this->database->retrieve_object(ProfilePublication :: get_table_name(), $condition, array(), ProfilePublication :: CLASS_NAME);
     }
 
     //Inherited.
-    function retrieve_profile_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
+    function retrieve_profile_publications($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
         $udm = UserDataManager :: get_instance();
         $publication_alias = $this->database->get_alias(ProfilePublication :: get_table_name());
@@ -286,9 +286,9 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
         return $this->database->count_objects(ProfilerCategory :: get_table_name(), $conditions);
     }
 
-    function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->database->retrieve_objects(ProfilerCategory :: get_table_name(), $condition, $offset, $count, $order_property, $order_direction, 'ProfilerCategory');
+        return $this->database->retrieve_objects(ProfilerCategory :: get_table_name(), $condition, $offset, $count, $order_property, 'ProfilerCategory');
     }
 
     function select_next_category_display_order($parent_category_id)

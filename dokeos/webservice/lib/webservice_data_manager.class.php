@@ -47,53 +47,53 @@ abstract class WebserviceDataManager
 		}
 		return self :: $instance;
 	}
-	
+
 	abstract function initialize();
-	
+
 	abstract function get_next_webservice_id();
-	
+
 	abstract function get_next_webservice_category_id();
-	
+
 	abstract function count_webservices($conditions = null);
-	
-	abstract function truncate_webservice($id);    
-	
+
+	abstract function truncate_webservice($id);
+
 	abstract function truncate_webservice_credential($webserviceCredential);
-	
+
 	abstract function retrieve_webservice($id);
 
     abstract function retrieve_webservice_by_name($name);
-	
-	abstract function retrieve_webservices($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
-	
+
+	abstract function retrieve_webservices($condition = null, $offset = null, $count = null, $order_property = null);
+
 	abstract function retrieve_webservice_category($id);
-	
-	abstract function retrieve_webservice_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
-	
+
+	abstract function retrieve_webservice_categories($condition = null, $offset = null, $count = null, $order_property = null);
+
 	abstract function retrieve_webservice_credential_by_hash($hash);
 
     abstract function retrieve_webservice_credentials_by_ip($ip);
-	
+
 	abstract function retrieve_webservice_credential_by_user_id($user_id);
-	
+
 	abstract function create_storage_unit($name,$properties,$indexes);
-	
+
 	abstract function delete_webservice($webservice);
-	
+
 	abstract function delete_webservice_category($webserviceCategory);
-	
+
 	abstract function delete_webservice_credential($webserviceCredential);
 
     abstract function delete_expired_webservice_credentials();
-	
+
 	abstract function update_webservice($webservice);
-	
-	abstract function update_webservice_category($webserviceCategory);	
-	
+
+	abstract function update_webservice_category($webserviceCategory);
+
 	abstract function create_webservice($webservice);
-	
+
 	abstract function create_webservice_category($webserviceCategory);
-	
+
 	abstract function create_webservice_credential($webserviceCredential);
 
 }

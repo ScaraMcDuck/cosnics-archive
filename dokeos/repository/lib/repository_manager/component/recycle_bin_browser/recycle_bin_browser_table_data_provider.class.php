@@ -19,7 +19,7 @@ class RecycleBinBrowserTableDataProvider extends RepositoryBrowserTableDataProvi
 		parent :: __construct($browser, $condition);
 	}
 	// Inherited
-    function get_objects($offset, $count, $order_property = null, $order_direction = null)
+    function get_objects($offset, $count, $order_property = null)
     {
     	if (is_null($order_property))
     	{
@@ -29,22 +29,12 @@ class RecycleBinBrowserTableDataProvider extends RepositoryBrowserTableDataProvi
     	{
     		$order_property = array($order_property);
     	}
-    	
-    	if (is_null($order_direction))
-    	{
-    		$order_direction = array();
-    	}
-    	elseif(!is_array($order_direction))
-    	{
-    		$order_direction = array($order_direction);
-    	}	
-    	
+
       	// We always use title as second sorting parameter
 //		$order_property[] = ContentObject :: PROPERTY_TITLE;
-//		$order_direction[] = SORT_ASC;
-		
-    	$objects = $this->get_browser()->retrieve_content_objects(null, $this->get_condition(), $order_property, $order_direction, $offset, $count, ContentObject :: STATE_RECYCLED, false);
-    
+
+    	$objects = $this->get_browser()->retrieve_content_objects(null, $this->get_condition(), $order_property, $offset, $count, ContentObject :: STATE_RECYCLED, false);
+
     	return $objects;
     }
 	// Inherited

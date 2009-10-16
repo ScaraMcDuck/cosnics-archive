@@ -7,7 +7,7 @@ require_once Path :: get_application_path() . 'lib/web_application_component.cla
  * Basic functionality of a component to talk with the assessment application
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author
  */
 abstract class AssessmentManagerComponent extends WebApplicationComponent
 {
@@ -28,9 +28,9 @@ abstract class AssessmentManagerComponent extends WebApplicationComponent
 		return $this->get_parent()->count_assessment_publications($condition);
 	}
 
-	function retrieve_assessment_publications($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_assessment_publications($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_assessment_publications($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_assessment_publications($condition, $offset, $count, $order_property);
 	}
 
  	function retrieve_assessment_publication($id)
@@ -43,9 +43,9 @@ abstract class AssessmentManagerComponent extends WebApplicationComponent
 		return $this->get_parent()->count_assessment_publication_groups($condition);
 	}
 
-	function retrieve_assessment_publication_groups($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_assessment_publication_groups($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_assessment_publication_groups($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_assessment_publication_groups($condition, $offset, $count, $order_property);
 	}
 
  	function retrieve_assessment_publication_group($id)
@@ -58,9 +58,9 @@ abstract class AssessmentManagerComponent extends WebApplicationComponent
 		return $this->get_parent()->count_assessment_publication_users($condition);
 	}
 
-	function retrieve_assessment_publication_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_assessment_publication_users($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_assessment_publication_users($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_assessment_publication_users($condition, $offset, $count, $order_property);
 	}
 
  	function retrieve_assessment_publication_user($id)
@@ -89,52 +89,52 @@ abstract class AssessmentManagerComponent extends WebApplicationComponent
 	{
 		return $this->get_parent()->get_browse_assessment_publications_url();
 	}
-	
+
 	function get_manage_assessment_publication_categories_url()
 	{
 		return $this->get_parent()->get_manage_assessment_publication_categories_url();
 	}
-	
+
 	function get_assessment_publication_viewer_url($assessment_publication)
 	{
 		return $this->get_parent()->get_assessment_publication_viewer_url($assessment_publication);
 	}
-	
+
 	function get_assessment_results_viewer_url($assessment_publication)
 	{
 		return $this->get_parent()->get_assessment_results_viewer_url($assessment_publication);
 	}
-	
+
 	function get_import_qti_url()
 	{
 		return $this->get_parent()->get_import_qti_url();
 	}
-	
+
  	function get_export_qti_url($assessment_publication)
 	{
 		return $this->get_parent()->get_export_qti_url($assessment_publication);
 	}
-	
+
  	function get_change_assessment_publication_visibility_url($assessment_publication)
 	{
 		return $this->get_parent()->get_change_assessment_publication_visibility_url($assessment_publication);
 	}
-	
+
  	function get_move_assessment_publication_url($assessment_publication)
 	{
 		return $this->get_parent()->get_move_assessment_publication_url($assessment_publication);
 	}
-	
+
 	function get_results_exporter_url($tracker_id)
 	{
 		return $this->get_parent()->get_results_exporter_url($tracker_id);
 	}
-	
+
  	function get_download_documents_url($assessment_publication)
 	{
 		return $this->get_parent()->get_download_documents_url($assessment_publication);
 	}
-	
+
 	function get_publish_survey_url($assessment_publication)
 	{
 		return $this->get_parent()->get_publish_survey_url($assessment_publication);

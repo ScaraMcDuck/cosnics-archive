@@ -57,34 +57,34 @@ class GroupRightManager extends SubManager
         return Path :: get_rights_path() . 'lib/group_right_manager/component/';
     }
 
-	function retrieve_locations($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
-	{
-		return $this->get_parent()->retrieve_locations($condition, $offset, $count, $order_property, $order_direction);
-	}
+    function retrieve_locations($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return $this->get_parent()->retrieve_locations($condition, $offset, $count, $order_property);
+    }
 
-	function count_locations($conditions = null)
-	{
-		return $this->get_parent()->count_locations($conditions);
-	}
+    function count_locations($conditions = null)
+    {
+        return $this->get_parent()->count_locations($conditions);
+    }
 
-	function retrieve_location($location_id)
-	{
-		return $this->get_parent()->retrieve_location($location_id);
-	}
+    function retrieve_location($location_id)
+    {
+        return $this->get_parent()->retrieve_location($location_id);
+    }
 
-	function retrieve_group_right_location($right_id, $group_id, $location_id)
-	{
-		return $this->get_parent()->retrieve_group_right_location($right_id, $group_id, $location_id);
-	}
-	
-	function retrieve_groups($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
-	{
-		return GroupDataManager :: get_instance()->retrieve_groups($condition, $offset, $count, $order_property, $order_direction);
-	}
+    function retrieve_group_right_location($right_id, $group_id, $location_id)
+    {
+        return $this->get_parent()->retrieve_group_right_location($right_id, $group_id, $location_id);
+    }
 
-	function count_groups($conditions = null)
-	{
-		return GroupDataManager :: get_instance()->count_groups($conditions);
-	}
+    function retrieve_groups($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return GroupDataManager :: get_instance()->retrieve_groups($condition, $offset, $count, $order_property);
+    }
+
+    function count_groups($conditions = null)
+    {
+        return GroupDataManager :: get_instance()->count_groups($conditions);
+    }
 }
 ?>

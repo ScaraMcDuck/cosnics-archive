@@ -122,7 +122,7 @@ class WikiDisplay extends ComplexDisplay
         require_once Path :: get_repository_path() .'/lib/content_object/wiki_page/complex_wiki_page.class.php';
         $conditions[] = new EqualityCondition(ComplexWikiPage :: PROPERTY_PARENT,$wiki_id);
         $conditions[] = new EqualityCondition(ComplexWikiPage :: PROPERTY_IS_HOMEPAGE,1);
-        $wiki_homepage = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new AndCondition($conditions),array (),array (), 0, -1, 'complex_wiki_page')->as_array();
+        $wiki_homepage = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new AndCondition($conditions),array (), 0, -1, 'complex_wiki_page')->as_array();
         return $wiki_homepage[0];
     }
 

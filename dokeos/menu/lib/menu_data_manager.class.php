@@ -63,7 +63,7 @@ abstract class MenuDataManager
 
     abstract function count_navigation_items($condition = null);
 
-    abstract function retrieve_navigation_items($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+    abstract function retrieve_navigation_items($condition = null, $offset = null, $count = null, $order_property = null);
 
     abstract function retrieve_navigation_item($id);
 

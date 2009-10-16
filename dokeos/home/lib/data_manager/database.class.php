@@ -102,28 +102,28 @@ class DatabaseHomeDataManager extends HomeDataManager
         return $this->database->count_objects(HomeBlock :: get_table_name(), $condition);
     }
 
-    function retrieve_home_rows($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+    function retrieve_home_rows($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
     	$order_by[] = new ObjectTableOrder(HomeRow :: PROPERTY_SORT);
-        return $this->database->retrieve_objects(HomeRow :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, HomeRow :: CLASS_NAME);
+        return $this->database->retrieve_objects(HomeRow :: get_table_name(), $condition, $offset, $max_objects, $order_by, HomeRow :: CLASS_NAME);
     }
 
     function retrieve_home_row($id)
     {
         $condition = new EqualityCondition(HomeRow :: PROPERTY_ID, $id);
-        return $this->database->retrieve_object(HomeRow :: get_table_name(), $condition, array(), array(), HomeRow :: CLASS_NAME);
+        return $this->database->retrieve_object(HomeRow :: get_table_name(), $condition, array(), HomeRow :: CLASS_NAME);
     }
 
-    function retrieve_home_tabs($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+    function retrieve_home_tabs($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
     	$order_by[] = new ObjectTableOrder(HomeTab :: PROPERTY_SORT);
-        return $this->database->retrieve_objects(HomeTab :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, HomeTab :: CLASS_NAME);
+        return $this->database->retrieve_objects(HomeTab :: get_table_name(), $condition, $offset, $max_objects, $order_by, HomeTab :: CLASS_NAME);
     }
 
     function retrieve_home_tab($id)
     {
         $condition = new EqualityCondition(HomeTab :: PROPERTY_ID, $id);
-        return $this->database->retrieve_object(HomeTab :: get_table_name(), $condition, array(), array(), HomeTab :: CLASS_NAME);
+        return $this->database->retrieve_object(HomeTab :: get_table_name(), $condition, array(), HomeTab :: CLASS_NAME);
     }
 
     function retrieve_home_tab_blocks($home_tab)
@@ -135,28 +135,28 @@ class DatabaseHomeDataManager extends HomeDataManager
         return new ObjectResultSet($this->database, $res, HomeBlock :: CLASS_NAME);
     }
 
-    function retrieve_home_columns($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+    function retrieve_home_columns($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
     	$order_by[] = new ObjectTableOrder(HomeColumn :: PROPERTY_SORT);
-        return $this->database->retrieve_objects(HomeColumn :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, HomeColumn :: CLASS_NAME);
+        return $this->database->retrieve_objects(HomeColumn :: get_table_name(), $condition, $offset, $max_objects, $order_by, HomeColumn :: CLASS_NAME);
     }
 
     function retrieve_home_column($id)
     {
         $condition = new EqualityCondition(HomeColumn :: PROPERTY_ID, $id);
-        return $this->database->retrieve_object(HomeColumn :: get_table_name(), $condition, array(), array(), HomeColumn :: CLASS_NAME);
+        return $this->database->retrieve_object(HomeColumn :: get_table_name(), $condition, array(), HomeColumn :: CLASS_NAME);
     }
 
-    function retrieve_home_blocks($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+    function retrieve_home_blocks($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
     	$order_by[] = new ObjectTableOrder(HomeBlock :: PROPERTY_SORT);
-        return $this->database->retrieve_objects(HomeBlock :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, HomeBlock :: CLASS_NAME);
+        return $this->database->retrieve_objects(HomeBlock :: get_table_name(), $condition, $offset, $max_objects, $order_by, HomeBlock :: CLASS_NAME);
     }
 
     function retrieve_home_block($id)
     {
         $condition = new EqualityCondition(HomeBlock :: PROPERTY_ID, $id);
-        return $this->database->retrieve_object(HomeBlock :: get_table_name(), $condition, array(), array(), HomeBlock :: CLASS_NAME);
+        return $this->database->retrieve_object(HomeBlock :: get_table_name(), $condition, array(), HomeBlock :: CLASS_NAME);
     }
 
     function retrieve_max_sort_value($table, $column, $condition = null)
@@ -339,7 +339,7 @@ class DatabaseHomeDataManager extends HomeDataManager
 
         $condition = new AndCondition($conditions);
 
-        return $this->database->retrieve_object(HomeBlock :: get_table_name(), $condition, array(new ObjectTableOrder(HomeBlock :: PROPERTY_SORT, $order_direction)), array(), HomeBlock :: CLASS_NAME);
+        return $this->database->retrieve_object(HomeBlock :: get_table_name(), $condition, array(new ObjectTableOrder(HomeBlock :: PROPERTY_SORT, $order_direction)), HomeBlock :: CLASS_NAME);
     }
 
     function retrieve_home_column_at_sort($parent, $sort, $direction)
@@ -360,7 +360,7 @@ class DatabaseHomeDataManager extends HomeDataManager
 
         $condition = new AndCondition($conditions);
 
-        return $this->database->retrieve_object(HomeColumn :: get_table_name(), $condition, array(new ObjectTableOrder(HomeColumn :: PROPERTY_SORT, $order_direction)), array(), HomeColumn :: CLASS_NAME);
+        return $this->database->retrieve_object(HomeColumn :: get_table_name(), $condition, array(new ObjectTableOrder(HomeColumn :: PROPERTY_SORT, $order_direction)), HomeColumn :: CLASS_NAME);
     }
 
     function retrieve_home_row_at_sort($parent, $sort, $direction)
@@ -381,14 +381,14 @@ class DatabaseHomeDataManager extends HomeDataManager
 
         $condition = new AndCondition($conditions);
 
-        return $this->database->retrieve_object(HomeRow :: get_table_name(), $condition, array(new ObjectTableOrder(HomeRow :: PROPERTY_SORT, $order_direction)), array(), HomeRow :: CLASS_NAME);
+        return $this->database->retrieve_object(HomeRow :: get_table_name(), $condition, array(new ObjectTableOrder(HomeRow :: PROPERTY_SORT, $order_direction)), HomeRow :: CLASS_NAME);
     }
 
     function retrieve_home_tab_at_sort($user, $sort, $direction)
     {
         $conditions = array();
         $conditions[] = new EqualityCondition(HomeTab :: PROPERTY_USER, $user);
-    	
+
         if ($direction == 'up')
         {
             $conditions[] = new InequalityCondition(HomeTab :: PROPERTY_SORT, InequalityCondition :: LESS_THAN, $sort);
@@ -399,10 +399,10 @@ class DatabaseHomeDataManager extends HomeDataManager
             $conditions[] = new InequalityCondition(HomeTab :: PROPERTY_SORT, InequalityCondition :: GREATER_THAN, $sort);
             $order_direction = SORT_ASC;
         }
-        
+
         $condition = new AndCondition($conditions);
 
-        return $this->database->retrieve_object(HomeTab :: get_table_name(), $condition, array(new ObjectTableOrder(HomeTab :: PROPERTY_SORT, $order_direction)), array(), HomeTab :: CLASS_NAME);
+        return $this->database->retrieve_object(HomeTab :: get_table_name(), $condition, array(new ObjectTableOrder(HomeTab :: PROPERTY_SORT, $order_direction)), HomeTab :: CLASS_NAME);
     }
 
     function delete_home_row($home_row)
@@ -474,9 +474,9 @@ class DatabaseHomeDataManager extends HomeDataManager
         return $this->database->delete(HomeBlockConfig :: get_table_name(), $condition);
     }
 
-    function retrieve_home_block_config($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+    function retrieve_home_block_config($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->database->retrieve_objects(HomeBlockConfig :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, HomeBlockConfig :: CLASS_NAME);
+        return $this->database->retrieve_objects(HomeBlockConfig :: get_table_name(), $condition, $offset, $max_objects, $order_by, HomeBlockConfig :: CLASS_NAME);
     }
 
     function count_home_block_config($condition = null)

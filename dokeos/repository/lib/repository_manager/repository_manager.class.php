@@ -592,10 +592,10 @@ class RepositoryManager extends CoreApplication
     /**
      * @see RepositoryDataManager::retrieve_content_objects()
      */
-    function retrieve_content_objects($type = null, $condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1, $state = ContentObject :: STATE_NORMAL, $different_parent_state = false)
+    function retrieve_content_objects($type = null, $condition = null, $order_by = array (), $offset = 0, $max_objects = -1, $state = ContentObject :: STATE_NORMAL, $different_parent_state = false)
     {
         $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->retrieve_content_objects($type, $condition, $order_by, $order_dir, $offset, $max_objects, $state, $different_parent_state);
+        return $rdm->retrieve_content_objects($type, $condition, $order_by, $offset, $max_objects, $state, $different_parent_state);
     }
 
     /**
@@ -652,10 +652,10 @@ class RepositoryManager extends CoreApplication
     /**
      * @see RepositoryDataManager::get_content_object_publication_attributes()
      */
-    function get_content_object_publication_attributes($user, $id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function get_content_object_publication_attributes($user, $id, $type = null, $offset = null, $count = null, $order_property = null)
     {
         $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->get_content_object_publication_attributes($user, $id, $type, $offset, $count, $order_property, $order_direction);
+        return $rdm->get_content_object_publication_attributes($user, $id, $type, $offset, $count, $order_property);
     }
 
     /**
@@ -1081,10 +1081,10 @@ class RepositoryManager extends CoreApplication
         return $rdm->count_complex_content_object_items($condition);
     }
 
-    function retrieve_complex_content_object_items($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
+    function retrieve_complex_content_object_items($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
         $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->retrieve_complex_content_object_items($condition, $order_by, $order_dir, $offset, $max_objects);
+        return $rdm->retrieve_complex_content_object_items($condition, $order_by, $offset, $max_objects);
     }
 
     function retrieve_complex_content_object_item($cloi_id)
@@ -1153,10 +1153,10 @@ class RepositoryManager extends CoreApplication
         return $rdm->count_categories($conditions);
     }
 
-    function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null)
     {
         $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->retrieve_categories($condition, $offset, $count, $order_property, $order_direction);
+        return $rdm->retrieve_categories($condition, $offset, $count, $order_property);
     }
 
     function count_user_views($conditions = null)
@@ -1165,28 +1165,28 @@ class RepositoryManager extends CoreApplication
         return $rdm->count_user_views($conditions);
     }
 
-    function retrieve_user_views($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_user_views($condition = null, $offset = null, $count = null, $order_property = null)
     {
         $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->retrieve_user_views($condition, $offset, $count, $order_property, $order_direction);
+        return $rdm->retrieve_user_views($condition, $offset, $count, $order_property);
     }
 
-    function retrieve_content_object_metadata($condition = null, $offset = null, $max_objects = null, $order_property = null, $order_direction = null)
+    function retrieve_content_object_metadata($condition = null, $offset = null, $max_objects = null, $order_property = null)
     {
         $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->retrieve_content_object_metadata($condition, $offset, $max_objects, $order_property, $order_direction);
+        return $rdm->retrieve_content_object_metadata($condition, $offset, $max_objects, $order_property);
     }
 
-    function retrieve_content_object_metadata_catalog($condition = null, $offset = null, $max_objects = null, $order_property = null, $order_direction = null)
+    function retrieve_content_object_metadata_catalog($condition = null, $offset = null, $max_objects = null, $order_property = null)
     {
         $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->retrieve_content_object_metadata_catalog($condition, $offset, $max_objects, $order_property, $order_direction);
+        return $rdm->retrieve_content_object_metadata_catalog($condition, $offset, $max_objects, $order_property);
     }
 
-    function retrieve_external_export($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_external_export($condition = null, $offset = null, $count = null, $order_property = null)
     {
         $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->retrieve_external_export($condition, $offset, $count, $order_property, $order_direction);
+        return $rdm->retrieve_external_export($condition, $offset, $count, $order_property);
     }
 
     /**

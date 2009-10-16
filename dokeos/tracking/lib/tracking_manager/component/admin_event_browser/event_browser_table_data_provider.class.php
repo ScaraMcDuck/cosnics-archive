@@ -35,16 +35,14 @@ class EventBrowserTableDataProvider extends ObjectTableDataProvider
      * @param int $offset
      * @param int $count
      * @param string $order_property
-     * @param int $order_direction (SORT_ASC or SORT_DESC)
      * @return ResultSet A set of matching learning objects.
      */
-    function get_objects($offset, $count, $order_property = null, $order_direction = null)
+    function get_objects($offset, $count, $order_property = null)
     {
         // We always use title as second sorting parameter
        // $order_property = array($order_property);
-        //$order_direction = array($order_direction);
-        
-        return $this->get_browser()->retrieve_events($this->get_condition(), $offset, $count, $order_property, $order_direction);
+
+        return $this->get_browser()->retrieve_events($this->get_condition(), $offset, $count, $order_property);
     }
 
     /**

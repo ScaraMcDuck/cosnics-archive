@@ -16,7 +16,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 
 	const ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE = 'lop';
 	const ALIAS_CONTENT_OBJECT_TABLE = 'lo';
-	
+
 	function initialize()
 	{
         $this->database = new Database(array());
@@ -55,13 +55,13 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
     function retrieve_personal_message_publication($id)
 	{
 	    $condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_ID, $id);
-	    return $this->database->retrieve_object(PersonalMessagePublication :: get_table_name(), $condition, array(), array(), PersonalMessagePublication :: CLASS_NAME);
+	    return $this->database->retrieve_object(PersonalMessagePublication :: get_table_name(), $condition, array(), PersonalMessagePublication :: CLASS_NAME);
 	}
 
     // Inherited.
-    function retrieve_personal_message_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
+    function retrieve_personal_message_publications($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
 	{
-	    return $this->database->retrieve_objects(PersonalMessagePublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, PersonalMessagePublication :: CLASS_NAME);
+	    return $this->database->retrieve_objects(PersonalMessagePublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, PersonalMessagePublication :: CLASS_NAME);
 	}
 
 	// Inherited.

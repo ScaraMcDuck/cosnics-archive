@@ -174,9 +174,9 @@ abstract class PortfolioManagerComponent
 		return $this->get_parent()->count_portfolio_publications($condition);
 	}
 
-	function retrieve_portfolio_publications($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_portfolio_publications($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_portfolio_publications($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_portfolio_publications($condition, $offset, $count, $order_property);
 	}
 
  	function retrieve_portfolio_publication($id)
@@ -189,9 +189,9 @@ abstract class PortfolioManagerComponent
 		return $this->get_parent()->count_portfolio_publication_groups($condition);
 	}
 
-	function retrieve_portfolio_publication_groups($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_portfolio_publication_groups($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_portfolio_publication_groups($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_portfolio_publication_groups($condition, $offset, $count, $order_property);
 	}
 
  	function retrieve_portfolio_publication_group($id)
@@ -204,9 +204,9 @@ abstract class PortfolioManagerComponent
 		return $this->get_parent()->count_portfolio_publication_users($condition);
 	}
 
-	function retrieve_portfolio_publication_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_portfolio_publication_users($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_portfolio_publication_users($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_portfolio_publication_users($condition, $offset, $count, $order_property);
 	}
 
  	function retrieve_portfolio_publication_user($id)
@@ -225,7 +225,7 @@ abstract class PortfolioManagerComponent
 	{
 		return $this->get_parent()->get_delete_portfolio_publication_url($portfolio_publication);
 	}
-	
+
 	function get_create_portfolio_item_url($parent_id)
 	{
 		return $this->get_parent()->get_create_portfolio_item_url($parent_id);

@@ -271,10 +271,10 @@ class AdminManager extends CoreApplication
         return $adm->retrieve_remote_package($id);
     }
 
-    function retrieve_remote_packages($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
+    function retrieve_remote_packages($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
         $adm = AdminDataManager :: get_instance();
-        return $adm->retrieve_remote_packages($condition, $order_by, $order_dir, $offset, $max_objects);
+        return $adm->retrieve_remote_packages($condition, $order_by, $offset, $max_objects);
     }
 
     function retrieve_registration($id)
@@ -283,25 +283,24 @@ class AdminManager extends CoreApplication
         return $adm->retrieve_registration($id);
     }
 
-    function retrieve_registrations($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
+    function retrieve_registrations($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
         $adm = AdminDataManager :: get_instance();
-        return $adm->retrieve_registrations($condition, $order_by, $order_dir, $offset, $max_objects);
+        return $adm->retrieve_registrations($condition, $order_by, $offset, $max_objects);
     }
 
     /**
      * Retrieve a series of system announcements
      * @param Condition $condition
      * @param array $order_by
-     * @param array $order_dir
      * @param int $offset
      * @param int $max_objects
      * @return SystemAnnouncementPublicationResultSet
      */
-    function retrieve_system_announcement_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
+    function retrieve_system_announcement_publications($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
         $pmdm = AdminDataManager :: get_instance();
-        return $pmdm->retrieve_system_announcement_publications($condition, $order_by, $order_dir, $offset, $max_objects);
+        return $pmdm->retrieve_system_announcement_publications($condition, $order_by, $offset, $max_objects);
     }
 
     function get_system_announcement_publication_deleting_url($system_announcement_publication)
@@ -341,9 +340,9 @@ class AdminManager extends CoreApplication
     /*
 	 * Inherited
 	 */
-    function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
     {
-        return AdminDataManager :: get_instance()->get_content_object_publication_attributes($object_id, $type, $offset, $count, $order_property, $order_direction);
+        return AdminDataManager :: get_instance()->get_content_object_publication_attributes($object_id, $type, $offset, $count, $order_property);
     }
 
     /*

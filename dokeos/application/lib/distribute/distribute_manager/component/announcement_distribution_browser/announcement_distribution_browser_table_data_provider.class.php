@@ -27,14 +27,12 @@ class AnnouncementDistributionBrowserTableDataProvider extends ObjectTableDataPr
 	 * @param int $offset
 	 * @param int $count
 	 * @param string $order_property
-	 * @param int $order_direction (SORT_ASC or SORT_DESC)
 	 * @return ResultSet A set of matching announcement distributions.
 	 */
-	function get_objects($offset, $count, $order_property = null, $order_direction = null)
+	function get_objects($offset, $count, $order_property = null)
 	{
 		$order_property = $this->get_order_property($order_property);
-		$order_direction = $this->get_order_direction($order_direction);
-		return $this->get_browser()->retrieve_announcement_distributions($this->get_condition(), $offset, $count, $order_property, $order_direction);
+		return $this->get_browser()->retrieve_announcement_distributions($this->get_condition(), $offset, $count, $order_property);
 	}
 	/**
 	 * Gets the number of announcement distributions in the table

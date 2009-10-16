@@ -69,9 +69,9 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 		return DistributeDataManager :: get_instance()->count_announcement_distributions($condition);
 	}
 
-	function retrieve_announcement_distributions($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_announcement_distributions($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return DistributeDataManager :: get_instance()->retrieve_announcement_distributions($condition, $offset, $count, $order_property, $order_direction);
+		return DistributeDataManager :: get_instance()->retrieve_announcement_distributions($condition, $offset, $count, $order_property);
 	}
 
  	function retrieve_announcement_distribution($id)
@@ -118,7 +118,7 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 	{
 	}
 
-	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
 	{
 	}
 

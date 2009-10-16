@@ -74,9 +74,9 @@ class HelpManager extends CoreApplication
 		return HelpDataManager :: get_instance()->count_help_items($condition);
 	}
 
-	public function retrieve_help_items($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	public function retrieve_help_items($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return HelpDataManager :: get_instance()->retrieve_help_items($condition, $offset , $count, $order_property, $order_direction);
+		return HelpDataManager :: get_instance()->retrieve_help_items($condition, $offset, $count, $order_property);
 	}
 
 	public function retrieve_help_item($name, $language)

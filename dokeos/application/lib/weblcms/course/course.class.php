@@ -130,15 +130,15 @@ class Course extends DataClass
 				      self :: PROPERTY_CREATION_DATE, self :: PROPERTY_EXPIRATION_DATE,
 				      self :: PROPERTY_LAST_EDIT, self :: PROPERTY_LAST_VISIT));
 	}
-	
+
 	/**
 	 * inherited
 	 */
 	function get_data_manager()
 	{
-		return WeblcmsDataManager :: get_instance();	
+		return WeblcmsDataManager :: get_instance();
 	}
-	
+
 	/**
 	 * Returns the visual code of this course object
 	 * @return string the visual code
@@ -499,12 +499,12 @@ class Course extends DataClass
 		{
 			return false;
 		}
-		
+
 		if (!$this->initialize_course_sections())
 		{
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -560,7 +560,7 @@ class Course extends DataClass
 	{
 		$wdm = WeblcmsDataManager::get_instance();
 		$condition = new EqualityCondition(CourseGroup :: PROPERTY_COURSE_CODE, $this->get_id());
-		$result = $wdm->retrieve_course_groups($condition, null, null, array(CourseGroup :: PROPERTY_NAME));
+		$result = $wdm->retrieve_course_groups($condition, null, null, array(new ObjectTableOrder(CourseGroup :: PROPERTY_NAME)));
 		return ($as_array ? $result->as_array() : $result);
 	}
 
@@ -586,7 +586,7 @@ class Course extends DataClass
 	{
 		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-	
+
 	function initialize_course_sections()
 	{
 	    $sections = array();
@@ -607,7 +607,7 @@ class Course extends DataClass
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 

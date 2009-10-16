@@ -70,9 +70,9 @@ class Database{APPLICATION_NAME}DataManager extends {APPLICATION_NAME}DataManage
 		return $this->database->retrieve_object({OBJECTS.OBJECT_CLASS} :: get_table_name(), $condition);
 	}
 
-	function retrieve_{OBJECTS.L_OBJECT_CLASSES}($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+	function retrieve_{OBJECTS.L_OBJECT_CLASSES}($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->database->retrieve_objects({OBJECTS.OBJECT_CLASS} :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+		return $this->database->retrieve_objects({OBJECTS.OBJECT_CLASS} :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 	
 	<!-- END OBJECTS -->

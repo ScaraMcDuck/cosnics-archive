@@ -11,7 +11,7 @@ require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 class ContentObjectSoapSearchServer
 {
 	const MAX_RESULTS = 100;
-	
+
 	private $server;
 
 	function ContentObjectSoapSearchServer($encoding = 'iso-8859-1')
@@ -43,7 +43,7 @@ class ContentObjectSoapSearchServer
 		$dm = RepositoryDataManager :: get_instance();
 		$adm = AdminDataManager :: get_instance();
 		$condition = DokeosUtilities :: query_to_condition($query);
-		$objects = $dm->retrieve_content_objects(null, $condition, array (ContentObject :: PROPERTY_TITLE), array (SORT_ASC), 0, self :: MAX_RESULTS);
+		$objects = $dm->retrieve_content_objects(null, $condition, array (ContentObject :: PROPERTY_TITLE), 0, self :: MAX_RESULTS);
 		$object_count = $dm->count_content_objects(null, $condition);
 		$soap_objects = array ();
 		while ($lo = $objects->next_result())
@@ -53,7 +53,7 @@ class ContentObjectSoapSearchServer
 			$url = $lo->get_view_url();
 			$soap_objects[] = new SoapContentObject($lo->get_type(), $title, $description, $lo->get_creation_date(), $lo->get_modification_date(), $url);
 		}
-		
+
 		$site_name_setting = PlatformSetting :: get('site_name');
 		return array($site_name_setting->get_value(), Path :: get(WEB_PATH), $soap_objects, $object_count);
 	}

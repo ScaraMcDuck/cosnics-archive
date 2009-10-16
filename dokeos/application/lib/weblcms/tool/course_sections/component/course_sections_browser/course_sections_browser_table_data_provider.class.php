@@ -25,16 +25,14 @@ class CourseSectionsBrowserTableDataProvider extends ObjectTableDataProvider
    * @param int $offset
    * @param int $count
    * @param string $order_property
-   * @param int $order_direction (SORT_ASC or SORT_DESC)
    * @return ResultSet A set of matching courses.
    */
-    function get_objects($offset, $count, $order_property = null, $order_direction = null)
+    function get_objects($offset, $count, $order_property = null)
     {
 		$order_property = $this->get_order_property($order_property);
-		$order_direction = $this->get_order_direction($order_direction);
-       
+
         $wdm = WeblcmsDataManager :: get_instance();
-        return $wdm->retrieve_course_sections($this->get_condition(), $offset, $count, $order_property, $order_direction);
+        return $wdm->retrieve_course_sections($this->get_condition(), $offset, $count, $order_property);
     }
   /**
    * Gets the number of courses in the table
@@ -42,7 +40,7 @@ class CourseSectionsBrowserTableDataProvider extends ObjectTableDataProvider
    */
     function get_object_count()
     {
-     	$wdm = WeblcmsDataManager :: get_instance();   
+     	$wdm = WeblcmsDataManager :: get_instance();
         return $wdm->count_course_sections($this->get_condition());
     }
 }

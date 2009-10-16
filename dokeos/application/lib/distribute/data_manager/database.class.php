@@ -40,7 +40,7 @@ class DatabaseDistributeDataManager extends DistributeDataManager
 	{
 		return $this->database->get_next_id(AnnouncementDistribution :: get_table_name());
 	}
-	
+
 	function create_group_moderator($group_moderator)
 	{
 		return $this->database->create($group_moderator);
@@ -58,7 +58,7 @@ class DatabaseDistributeDataManager extends DistributeDataManager
 				$props[$this->database->escape_column_name('user_id')] = $user_id;
 				$this->database->get_connection()->extended->autoExecute($this->database->get_table_name('announcement_distribution_user'), $props, MDB2_AUTOQUERY_INSERT);
 			}
-			
+
 			$groups = $announcement_distribution->get_target_groups();
 			foreach($groups as $index => $group_id)
 			{
@@ -99,9 +99,9 @@ class DatabaseDistributeDataManager extends DistributeDataManager
 		return $this->database->retrieve_object(AnnouncementDistribution :: get_table_name(), $condition);
 	}
 
-	function retrieve_announcement_distributions($condition = null, $offset = null, $max_objects = null, $order_by = array(), $order_dir = array())
+	function retrieve_announcement_distributions($condition = null, $offset = null, $max_objects = null, $order_by = array())
 	{
-		return $this->database->retrieve_objects(AnnouncementDistribution :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+		return $this->database->retrieve_objects(AnnouncementDistribution :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 
 	function retrieve_announcement_distribution_target_groups($announcement_distribution)

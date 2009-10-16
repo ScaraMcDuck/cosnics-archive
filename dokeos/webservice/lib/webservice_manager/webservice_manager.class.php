@@ -67,9 +67,9 @@ require_once Path :: get_library_path() . 'core_application.class.php';
 
 	}
 
-	function retrieve_webservices($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_webservices($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return WebserviceDataManager :: get_instance()->retrieve_webservices($condition, $offset, $count, $order_property, $order_direction);
+		return WebserviceDataManager :: get_instance()->retrieve_webservices($condition, $offset, $count, $order_property);
 	}
 
  	function count_webservices($condition = null)
@@ -77,9 +77,9 @@ require_once Path :: get_library_path() . 'core_application.class.php';
 		return WebserviceDataManager :: get_instance()->count_webservices($condition);
 	}
 
-	function retrieve_webservice_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_webservice_categories($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return WebserviceDataManager :: get_instance()->retrieve_webservice_categories($condition, $offset, $count, $order_property, $order_direction);
+		return WebserviceDataManager :: get_instance()->retrieve_webservice_categories($condition, $offset, $count, $order_property);
 	}
 
 	function retrieve_webservice($id)
@@ -116,7 +116,7 @@ require_once Path :: get_library_path() . 'core_application.class.php';
 			$webserviceCategory = 0;
 		else
 			$webserviceCategory = $webserviceCategory->get_id();
-			
+
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGE_ROLES, self :: PARAM_WEBSERVICE_CATEGORY_ID => $webserviceCategory));
 	}
 

@@ -91,9 +91,9 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 		return PortfolioDataManager :: get_instance()->count_portfolio_publications($condition);
 	}
 
-	function retrieve_portfolio_publications($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_portfolio_publications($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return PortfolioDataManager :: get_instance()->retrieve_portfolio_publications($condition, $offset, $count, $order_property, $order_direction);
+		return PortfolioDataManager :: get_instance()->retrieve_portfolio_publications($condition, $offset, $count, $order_property);
 	}
 
  	function retrieve_portfolio_publication($id)
@@ -106,9 +106,9 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 		return PortfolioDataManager :: get_instance()->count_portfolio_publication_groups($condition);
 	}
 
-	function retrieve_portfolio_publication_groups($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_portfolio_publication_groups($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_groups($condition, $offset, $count, $order_property, $order_direction);
+		return PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_groups($condition, $offset, $count, $order_property);
 	}
 
  	function retrieve_portfolio_publication_group($id)
@@ -121,9 +121,9 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 		return PortfolioDataManager :: get_instance()->count_portfolio_publication_users($condition);
 	}
 
-	function retrieve_portfolio_publication_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_portfolio_publication_users($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_users($condition, $offset, $count, $order_property, $order_direction);
+		return PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_users($condition, $offset, $count, $order_property);
 	}
 
  	function retrieve_portfolio_publication_user($id)
@@ -143,7 +143,7 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_PORTFOLIO_PUBLICATION,
 								    self :: PARAM_PORTFOLIO_PUBLICATION => $portfolio_publication));
 	}
-	
+
  	function get_create_portfolio_item_url($parent_id)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_PORTFOLIO_ITEM,
@@ -161,7 +161,7 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PORTFOLIO,
 									self :: PARAM_USER_ID => $user));
 	}
-	
+
 	function get_browse_url()
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
@@ -177,9 +177,9 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 		return PortfolioDataManager :: get_instance()->any_content_object_is_published($object_ids);
 	}
 
-	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
 	{
-		return PortfolioDataManager :: get_instance()->get_content_object_publication_attributes($object_id, $type, $offset, $count, $order_property, $order_direction);
+		return PortfolioDataManager :: get_instance()->get_content_object_publication_attributes($object_id, $type, $offset, $count, $order_property);
 	}
 
 	function get_content_object_publication_attribute($publication_id)
@@ -205,14 +205,14 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 	function get_content_object_publication_locations($content_object)
 	{
 		$allowed_types = array('portfolio');
-        
+
         $type = $content_object->get_type();
         if (in_array($type, $allowed_types))
         {
             $locations = array(__CLASS__);
             return $locations;
         }
-        
+
         return array();
 	}
 
@@ -225,7 +225,7 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
         $publication->set_hidden(0);
         $publication->set_from_date(0);
         $publication->set_to_date(0);
-        
+
         $publication->create();
         return Translation :: get('PublicationCreated');
 	}

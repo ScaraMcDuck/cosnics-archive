@@ -228,11 +228,10 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 	 * @param $offset
 	 * @param $count
 	 * @param $order_property
-	 * @param $order_direction
 	 */
-	function retrieve_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_users($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return UserDataManager :: get_instance()->retrieve_users($condition, $offset, $count, $order_property, $order_direction);
+		return UserDataManager :: get_instance()->retrieve_users($condition, $offset, $count, $order_property);
 	}
 
 	/**

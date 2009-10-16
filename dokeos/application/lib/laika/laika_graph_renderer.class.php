@@ -95,7 +95,7 @@ class LaikaGraphRenderer
 			$ldm = LaikaDataManager :: get_instance();
 			$condition = new InCondition(LaikaScale :: PROPERTY_ID, $scales);
 
-			$scales = $ldm->retrieve_laika_scales($condition, null, null, new ObjectTableOrder(LaikaScale :: PROPERTY_TITLE), array(SORT_ASC));
+			$scales = $ldm->retrieve_laika_scales($condition, null, null, new ObjectTableOrder(LaikaScale :: PROPERTY_TITLE));
 		}
 
 		$this->scales = $scales->as_array();

@@ -21,9 +21,9 @@ abstract class LinkerManagerComponent extends WebApplicationComponent
 		return $this->get_parent()->count_links($condition);
 	}
 
-	function retrieve_links($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_links($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_links($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_links($condition, $offset, $count, $order_property);
 	}
 
 	function retrieve_link($id)

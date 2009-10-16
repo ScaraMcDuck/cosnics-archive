@@ -317,7 +317,7 @@ class Location extends DataClass
 		$parent_condition = new AndCondition($parent_conditions);
 		$order[] = new ObjectTableOrder(Location :: PROPERTY_LEFT_VALUE, SORT_DESC);
 
-		return $rdm->retrieve_locations($parent_condition, null, null, $order, $order_direction);
+		return $rdm->retrieve_locations($parent_condition, null, null, $order);
 	}
 
 	function get_parent_location($include_self = true)
@@ -340,7 +340,7 @@ class Location extends DataClass
 		$locked_parent_condition = new AndCondition($locked_parent_conditions);
 		$order[] = new ObjectTableOrder(Location :: PROPERTY_LEFT_VALUE);
 
-		$locked_parents = $rdm->retrieve_locations($locked_parent_condition, null, 1, $order, $order_direction);
+		$locked_parents = $rdm->retrieve_locations($locked_parent_condition, null, 1, $order);
 
 		if ($locked_parents->size() > 0)
 		{

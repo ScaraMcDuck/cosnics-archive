@@ -41,7 +41,7 @@ abstract class WebApplication extends Application
      * @return array An array of ContentObjectPublicationAttributes objects;
      *               empty if the object has not been published anywhere.
      */
-    function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
     {
     	return array();
     }
@@ -86,7 +86,7 @@ abstract class WebApplication extends Application
     {
     	return null;
     }
-    
+
     function add_publication_attributes_elements($form)
     {
     }

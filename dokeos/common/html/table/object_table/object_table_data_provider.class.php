@@ -63,20 +63,6 @@ abstract class ObjectTableDataProvider
         $this->browser = $browser;
     }
 
-    function get_order_direction($order_direction)
-    {
-        if (is_null($order_direction))
-        {
-            $order_direction = array();
-        }
-        elseif (! is_array($order_direction))
-        {
-            $order_direction = array($order_direction);
-        }
-        
-        return $order_direction;
-    }
-
     function get_order_property($order_property)
     {
         if (is_null($order_property))
@@ -87,11 +73,11 @@ abstract class ObjectTableDataProvider
         {
             $order_property = array($order_property);
         }
-        
+
         return $order_property;
     }
 
-    abstract function get_objects($offset, $count, $order_property = null, $order_direction = null);
+    abstract function get_objects($offset, $count, $order_property = null);
 
     abstract function get_object_count();
 }
