@@ -285,7 +285,7 @@ EOT;
 		//$this->add_textfield(ContentObject :: PROPERTY_TITLE, Translation :: get('Title'), true, 'size="100" style="width: 100%"');
 		//$this->add_textfield(ContentObject :: PROPERTY_TITLE, Translation :: get('Title'), true, array('size' => '100'));
 		$this->addElement('html', '<div id="message"></div>');
-		$this->add_textfield(ContentObject :: PROPERTY_TITLE, Translation :: get(get_class($this) . 'Title'), true, array('size' => '100', 'id' => 'title'));
+		$this->add_textfield(ContentObject :: PROPERTY_TITLE, Translation :: get(get_class($this) . 'Title'), true, array('size' => '100', 'id' => 'title','style' => 'width: 95%'));
 		$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/content_object_form.js'));
 		if ($this->allows_category_selection())
 		{
@@ -293,7 +293,7 @@ EOT;
 			$select->setSelected($this->content_object->get_parent_id());
 		}
 		$value = PlatformSetting :: get('description_required', 'repository');
-		$required = ($value == 1)?true:false;
+		$required = ($value == 1) ? true : false;
 		$this->add_html_editor(ContentObject :: PROPERTY_DESCRIPTION, Translation :: get(get_class($this) . 'Description'), $required);
 	}
 
