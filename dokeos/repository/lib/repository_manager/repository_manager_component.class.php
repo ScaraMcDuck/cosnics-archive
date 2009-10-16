@@ -20,7 +20,7 @@ abstract class RepositoryManagerComponent extends CoreApplicationComponent
 	{
 		$this->get_parent()->display_header($breadcrumbtrail, $display_search, $display_menu, $helpitem);
 	}
-	
+
 	/**
 	 * Constructor
 	 * @param RepositoryManager $repository_manager The repository manager which
@@ -92,9 +92,9 @@ abstract class RepositoryManagerComponent extends CoreApplicationComponent
 	/**
 	 * @see RepositoryManager::retrieve_content_objects()
 	 */
-	function retrieve_content_objects($type = null, $condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1, $state = ContentObject :: STATE_NORMAL, $different_parent_state = false)
+	function retrieve_content_objects($type = null, $condition = null, $order_by = array (), $offset = 0, $max_objects = -1, $state = ContentObject :: STATE_NORMAL, $different_parent_state = false)
 	{
-		return $this->get_parent()->retrieve_content_objects($type, $condition, $order_by, $order_dir, $offset, $max_objects, $state, $different_parent_state);
+		return $this->get_parent()->retrieve_content_objects($type, $condition, $order_by, $offset, $max_objects, $state, $different_parent_state);
 	}
 
 	/**
@@ -153,9 +153,9 @@ abstract class RepositoryManagerComponent extends CoreApplicationComponent
 	/**
 	 * @see RepositoryManager::get_content_object_publication_attributes()
 	 */
-	function get_content_object_publication_attributes($user, $id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_content_object_publication_attributes($user, $id, $type = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->get_content_object_publication_attributes($user, $id, $type, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->get_content_object_publication_attributes($user, $id, $type, $offset, $count, $order_property);
 	}
 	/**
 	 * @see RepositoryManager::get_content_object_publication_attribute()
@@ -288,9 +288,9 @@ abstract class RepositoryManagerComponent extends CoreApplicationComponent
 		return $this->get_parent()->count_complex_content_object_items($condition);
 	}
 
-	function retrieve_complex_content_object_items($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
+	function retrieve_complex_content_object_items($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
 	{
-		return $this->get_parent()->retrieve_complex_content_object_items($condition, $order_by, $order_dir, $offset, $max_objects);
+		return $this->get_parent()->retrieve_complex_content_object_items($condition, $order_by, $offset, $max_objects);
 	}
 
 	function retrieve_complex_content_object_item($cloi_id)
@@ -343,9 +343,9 @@ abstract class RepositoryManagerComponent extends CoreApplicationComponent
 		return $this->get_parent()->count_categories($conditions);
 	}
 
-	function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_categories($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_categories($condition, $offset, $count, $order_property);
 	}
 
 	function get_browse_user_views_url()
@@ -373,16 +373,16 @@ abstract class RepositoryManagerComponent extends CoreApplicationComponent
 		return $this->get_parent()->count_user_views($conditions);
 	}
 
-	function retrieve_user_views($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_user_views($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_user_views($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_user_views($condition, $offset, $count, $order_property);
 	}
     
  	function get_copy_content_object_url($lo_id, $to_user_id)
     {
     	return $this->get_parent()->get_copy_content_object_url($lo_id, $to_user_id);
     }
-    
+
     function get_delete_template_url($template_id)
     {
     	return $this->get_parent()->get_delete_template_url($template_id);

@@ -56,9 +56,9 @@ class DatabaseMenuDataManager extends MenuDataManager
         return $this->database->count_objects(NavigationItem :: get_table_name(), $condition);
     }
 
-    function retrieve_navigation_items($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+    function retrieve_navigation_items($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->database->retrieve_objects(NavigationItem :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+        return $this->database->retrieve_objects(NavigationItem :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
     function retrieve_navigation_item($id)
@@ -85,7 +85,7 @@ class DatabaseMenuDataManager extends MenuDataManager
 
         $condition = new AndCondition($conditions);
 		$order[] = new ObjectTableOrder(NavigationItem :: PROPERTY_SORT , $order_direction);
-        
+
         return $this->database->retrieve_object(NavigationItem :: get_table_name(), $condition, $order);
     }
 

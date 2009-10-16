@@ -188,9 +188,9 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
 	/**
 	 * @see WeblcmsManager :: get_content_object_publication_attributes()
 	 */
-	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->get_content_object_publication_attributes($object_id, $type, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->get_content_object_publication_attributes($object_id, $type, $offset, $count, $order_property);
 	}
 
 	/**
@@ -228,17 +228,17 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
 	/**
 	 * @see WeblcmsManager :: retrieve_course_categories()
 	 */
-	function retrieve_course_categories($conditions = null, $offset = null, $count = null, $order_by = null, $order_dir = null)
+	function retrieve_course_categories($conditions = null, $offset = null, $count = null, $order_by = null)
 	{
-		return $this->get_parent()->retrieve_course_categories($conditions, $offset, $count, $order_by, $order_dir);
+		return $this->get_parent()->retrieve_course_categories($conditions, $offset, $count, $order_by);
 	}
 
 	/**
 	 * @see WeblcmsManager :: retrieve_course_user_categories()
 	 */
-	function retrieve_course_user_categories ($conditions = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_course_user_categories ($conditions = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_course_user_categories($conditions, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_course_user_categories($conditions, $offset, $count, $order_property);
 	}
 
 	/**
@@ -292,25 +292,25 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
 	/**
 	 * @see WeblcmsManager :: retrieve_course_user_relations()
 	 */
-	function retrieve_course_user_relations($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_course_user_relations($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_course_user_relations($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_course_user_relations($condition, $offset, $count, $order_property);
 	}
 
 	/**
 	 * @see WeblcmsManager :: retrieve_courses()
 	 */
-	function retrieve_courses($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_courses($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_courses($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_courses($condition, $offset, $count, $order_property);
 	}
 
 	/**
 	 * @see WeblcmsManager :: retrieve_user_courses()
 	 */
-	function retrieve_user_courses($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_user_courses($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_user_courses($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_user_courses($condition, $offset, $count, $order_property);
 	}
 
 	/**
@@ -498,12 +498,12 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     {
     	return $this->get_parent()->display_header($breadcrumbtrail, $display_search, $display_title, $help_item);
     }
-    
+
     function is_allowed($right)
     {
     	return $this->get_parent()->is_allowed($right);
     }
-    
+
     function get_course_group()
     {
     	return $this->get_parent()->get_course_group();

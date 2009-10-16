@@ -57,16 +57,16 @@ class SearchPortalManager extends WebApplication
 		$supports_remote = WebServiceSearchSource :: is_supported();
 		Display :: header($trail);
 		Display :: tool_title(Translation :: get('SearchPortal'));
-		
+
 		$form = new FormValidator('search_simple', 'get', $this->get_url(), '', null, false);
 		$form->addElement('text', self :: PARAM_QUERY, '', 'size="40" class="search_query_no_icon" id="inputString" onkeyup="lookup(this.value);"');
 		//$form->addElement('submit', 'submit', Translation :: get('Search'));
-		
+
 		$buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Search'), array('class' => 'normal search'));
 		//$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
 		$form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-		
+
 		$form->addElement('hidden','application');
 		if ($supports_remote)
 		{
@@ -82,7 +82,7 @@ class SearchPortalManager extends WebApplication
 		$form->setDefaults(array('application'=>'search_portal'));
 		echo $renderer->toHTML();
 		echo '</div>';
-		
+
 		if ($form->validate())
 		{
 			$form_values = $form->exportValues();
@@ -105,9 +105,9 @@ END;
 		}
 		Display :: footer();
 	}
-	
+
     /**
-	 * Renders the search portal block and returns it. 
+	 * Renders the search portal block and returns it.
 	 */
 	function render_block($block)
 	{
@@ -267,7 +267,7 @@ END;
 	 * learning objects.
 	 * @return array An empty array.
 	 */
-	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
 	{
 		return array ();
 	}
@@ -280,18 +280,18 @@ END;
 	{
 		return null;
 	}
-		
+
 	/**
 	 * Inherited
 	 */
 	function get_content_object_publication_locations($content_object)
 	{
-		return array();	
+		return array();
 	}
-	
+
 	function publish_content_object($content_object, $location)
 	{
-		
+
 	}
 
 	function count_publication_attributes($type = null, $condition = null)
@@ -334,17 +334,17 @@ END;
 		}
 		return $link;
 	}
-	
+
 	function get_platform_setting($variable, $application = self :: APPLICATION_NAME)
 	{
 		return PlatformSetting :: get($variable, $application = self :: APPLICATION_NAME);
 	}
-	
+
 	function get_path($path_type)
 	{
 		return Path :: get($path_type);
 	}
-	
+
 	function get_application_name()
 	{
 		return self :: APPLICATION_NAME;

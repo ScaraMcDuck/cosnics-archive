@@ -9,25 +9,25 @@ require_once dirname(__FILE__).'/../repository_search_result.class.php';
 class LocalRepositorySearchSource implements SearchSource
 {
 	private $data_manager;
-	
+
 	function LocalRepositorySearchSource($data_manager)
 	{
 		$this->data_manager = $data_manager;
 	}
-	
+
 	function search ($query)
 	{
 		$condition = DokeosUtilities :: query_to_condition($query);
-		
+
 		$adm = AdminDataManager :: get_instance();
 		$repository_title = PlatformSetting :: get('site_name');
-		
+
 		$repository_url = Path :: get(WEB_PATH);
-		$returned_results = $this->data_manager->retrieve_content_objects(null, $condition, array (ContentObject :: PROPERTY_TITLE), array (SORT_ASC));
+		$returned_results = $this->data_manager->retrieve_content_objects(null, $condition, array (new ObjectTableOrder(ContentObject :: PROPERTY_TITLE)));
 		$result_count = count($returned_results);
 		return new RepositorySearchResult($repository_title, $repository_url, $returned_results, $result_count);
 	}
-	
+
 	static function is_supported()
 	{
 		return true;

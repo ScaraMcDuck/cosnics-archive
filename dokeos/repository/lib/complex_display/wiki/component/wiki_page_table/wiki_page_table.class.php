@@ -29,16 +29,16 @@ class WikiPageTable extends ObjectTable
 	 */
 	function WikiPageTable($parent,$owner)
 	{
-		
+
         $model = new WikiPageTableColumnModel();
 		$renderer = new WikiPageTableCellRenderer($parent);
         $data_provider = new WikiPageTableDataProvider($parent,$owner);
 		parent :: __construct($data_provider, WikiPageTable :: DEFAULT_NAME, $model, $renderer);
 
 		$actions = array();
-        
+
 		$actions[] = new ObjectTableFormAction(WikiDisplay :: ACTION_DELETE, Translation :: get('RestoreSelected'));
-        $this->set_form_actions($actions);   
+        $this->set_form_actions($actions);
 
 	}
 
@@ -48,26 +48,26 @@ class WikiPageTable extends ObjectTable
 	 * You should not be concerned with this method. It is only public because
 	 * of technical limitations.
 	 */
-	function get_objects($offset, $count, $order_column, $order_direction)
+	function get_objects($offset, $count, $order_column)
 	{
-		$objects = $this->get_data_provider()->get_objects($offset, $count, /*$this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0))*/null, $order_direction)->as_array();
-        $table_data = array ();        
+		$objects = $this->get_data_provider()->get_objects($offset, $count, /*$this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0))*/null)->as_array();
+        $table_data = array ();
 		$column_count = $this->get_column_model()->get_column_count();
 		foreach ($objects as $object)
-		{            
+		{
 			$row = array ();
 			if ($this->has_form_actions())
-			{                
+			{
 				$row[] = $object->get_id();
 			}
 			for ($i = 0; $i < $column_count; $i ++)
 			{
 				$row[] = $this->get_cell_renderer()->render_cell($this->get_column_model()->get_column($i), $object);
 			}
-			$table_data[] = $row;            
+			$table_data[] = $row;
 		}
 		return $table_data;
-        
+
 	}
 }
 ?>

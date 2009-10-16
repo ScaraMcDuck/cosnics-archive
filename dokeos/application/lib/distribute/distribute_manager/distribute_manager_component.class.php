@@ -25,9 +25,9 @@ abstract class DistributeManagerComponent extends WebApplicationComponent
 		return $this->get_parent()->count_announcement_distributions($condition);
 	}
 
-	function retrieve_announcement_distributions($condition = null, $offset = null, $count = null, $order_property = array(), $order_direction = array())
+	function retrieve_announcement_distributions($condition = null, $offset = null, $count = null, $order_property = array())
 	{
-		return $this->get_parent()->retrieve_announcement_distributions($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_announcement_distributions($condition, $offset, $count, $order_property);
 	}
 
  	function retrieve_announcement_distribution($id)

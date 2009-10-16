@@ -25,7 +25,7 @@ class WikiPublicationTableDataProvider extends ObjectTableDataProvider
 	 * The search query, or null if none.
 	 */
 	private $query;
-	
+
 	private $parent;
 	/**
 	 * Constructor.
@@ -44,16 +44,15 @@ class WikiPublicationTableDataProvider extends ObjectTableDataProvider
 	/*
 	 * Inherited
 	 */
-    function get_objects($offset, $count, $order_property = null, $order_direction = null)
+    function get_objects($offset, $count, $order_property = null)
     {
     	$order_property = $this->get_order_property($order_property);
-    	$order_direction = $this->get_order_direction($order_direction);
-    	$dm = RepositoryDataManager :: get_instance();       
-    	return $this->get_publications($offset, $count, $order_property, $order_direction);
+    	$dm = RepositoryDataManager :: get_instance();
+    	return $this->get_publications($offset, $count, $order_property);
     }
-    
+
     function get_publications($from, $count, $column, $direction)
-    {        
+    {
     	$datamanager = WeblcmsDataManager :: get_instance();
 		if($this->parent->is_allowed(EDIT_RIGHT))
 		{
@@ -66,11 +65,11 @@ class WikiPublicationTableDataProvider extends ObjectTableDataProvider
 			$course_groups = $this->parent->get_course_groups();
 		}
 		$course = $this->parent->get_course_id();
-		
+
 		$conditions = array();
 		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course);
 		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'wiki');
-		
+
 		$access = array();
 		$access[] = new InCondition('user_id', $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
 		$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
@@ -79,10 +78,10 @@ class WikiPublicationTableDataProvider extends ObjectTableDataProvider
 			$access[] = new AndCondition(array(new EqualityCondition('user_id', null, $datamanager->get_database()->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('content_object_publication_course_group'))));
 		}
 		$conditions[] = new OrCondition($access);
-		
+
 		$conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $this->get_condition());
 		$condition = new AndCondition($conditions);
-		
+
 		$publications = $datamanager->retrieve_content_object_publications_new($condition);
 		$visible_publications = array ();
 		while ($publication = $publications->next_result())
@@ -93,7 +92,7 @@ class WikiPublicationTableDataProvider extends ObjectTableDataProvider
 				continue;
 			}
 			$visible_publications[] = $publication;
-		}        
+		}
 		$publications = $visible_publications;
 		return $publications;
     }
@@ -111,7 +110,7 @@ class WikiPublicationTableDataProvider extends ObjectTableDataProvider
     function get_condition()
     {
     	$owner = $this->owner;
-    	
+
     	$conds = array();
     	//$conds[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $owner->get_id());
     	$type_cond = array();

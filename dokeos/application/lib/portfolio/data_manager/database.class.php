@@ -77,10 +77,10 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		{
 			$condition = new EqualityCondition(PortfolioPublicationGroup :: PROPERTY_PORTFOLIO_PUBLICATION, $portfolio_publication->get_id());
 			$succes &= $this->database->delete(PortfolioPublicationGroup :: get_table_name(), $condition);
-	
+
 			$condition = new EqualityCondition(PortfolioPublicationUser :: PROPERTY_PORTFOLIO_PUBLICATION, $portfolio_publication->get_id());
 			$succes &= $this->database->delete(PortfolioPublicationUser :: get_table_name(), $condition);
-	
+
 			foreach($portfolio_publication->get_target_groups() as $group)
 			{
 				$pfpg = new PortfolioPublicationGroup();
@@ -88,7 +88,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 				$pfpg->set_group_id($group);
 				$succes &= $pfpg->create();
 			}
-	
+
 			foreach($portfolio_publication->get_target_users() as $user)
 			{
 				$pfpu = new PortfolioPublicationUser();
@@ -97,7 +97,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 				$succes &= $pfpu->create();
 			}
 		}
-		
+
 		return $succes;
 	}
 
@@ -126,9 +126,9 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		return $this->database->retrieve_object(PortfolioPublication :: get_table_name(), $condition);
 	}
 
-	function retrieve_portfolio_publications($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+	function retrieve_portfolio_publications($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->database->retrieve_objects(PortfolioPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+		return $this->database->retrieve_objects(PortfolioPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 
 	function create_portfolio_publication_group($portfolio_publication_group)
@@ -147,9 +147,9 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		return $this->database->count_objects(PortfolioPublicationGroup :: get_table_name(), $condition);
 	}
 
-	function retrieve_portfolio_publication_groups($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+	function retrieve_portfolio_publication_groups($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->database->retrieve_objects(PortfolioPublicationGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+		return $this->database->retrieve_objects(PortfolioPublicationGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 
 	function create_portfolio_publication_user($portfolio_publication_user)
@@ -168,9 +168,9 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		return $this->database->count_objects(PortfolioPublicationUser :: get_table_name(), $condition);
 	}
 
-	function retrieve_portfolio_publication_users($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+	function retrieve_portfolio_publication_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->database->retrieve_objects(PortfolioPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+		return $this->database->retrieve_objects(PortfolioPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 
 	function content_object_is_published($object_id)
@@ -282,14 +282,14 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 	{
 		$condition = new EqualityCondition(PortfolioPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
         $publications = $this->retrieve_portfolio_publications($condition);
-        
+
         $succes = true;
-        
+
         while($publication = $publications->next_result())
         {
         	$succes &= $publication->delete();
         }
-        
+
         return $succes;
 	}
 
@@ -308,6 +308,6 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
             return false;
         }
 	}
-	
+
 }
 ?>

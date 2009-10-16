@@ -343,7 +343,7 @@ class WeblcmsManager extends WebApplication
 			$title_short = substr($title_short, 0, 50).'&hellip;';
 		}
 		Display :: header($breadcrumbtrail);
-		
+
 		if (isset ($this->tool_class))
 		{
 			/*echo '<div style="float: right; margin: 0 0 0.5em 0.5em; padding: 0.5em; border: 1px solid #DDD; background: #FAFAFA;">';
@@ -410,7 +410,7 @@ class WeblcmsManager extends WebApplication
 				$this->display_error_message($msg);
 			}
 		}
-		
+
 		//echo 'Last visit: '.date('r',$this->get_last_visit_date());
 	}
 
@@ -536,9 +536,9 @@ class WeblcmsManager extends WebApplication
 	/*
 	 * Inherited
 	 */
-	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
 	{
-		return WeblcmsDataManager :: get_instance()->get_content_object_publication_attributes($this->get_user(), $object_id, $type, $offset, $count, $order_property, $order_direction);
+		return WeblcmsDataManager :: get_instance()->get_content_object_publication_attributes($this->get_user(), $object_id, $type, $offset, $count, $order_property);
 	}
 
 	/*
@@ -631,25 +631,25 @@ class WeblcmsManager extends WebApplication
 		$pub->set_display_order_index($do);
 		$pub->set_publication_date(time());
 		$pub->set_modified_date(time());
-		
+
 		$pub->set_hidden($attributes[ContentObjectPublication :: PROPERTY_HIDDEN]);
 		if(is_null($pub->is_hidden()))
 			$pub->set_hidden(0);
-			
+
 		if($attributes['forever'] == 0)
 		{
 			$pub->set_from_date(DokeosUtilities :: time_from_datepicker($attributes['from_date']));
 			$pub->set_to_date(DokeosUtilities :: time_from_datepicker($attributes['to_date']));
 		}
-		
+
 		$pub->create();
 
 		$course = $dm->retrieve_course($course);
-		
+
 		return Translation :: get('PublicationCreated') . ': <b>' . Translation :: get('Course') . '</b>: ' . $course->get_name() .
 			   ' - <b>' . Translation :: get('Tool') . '</b>: ' . $tool;
 	}
-	
+
  	function add_publication_attributes_elements($form)
     {
     	$form->addElement('category', Translation :: get('PublicationDetails'));
@@ -657,7 +657,7 @@ class WeblcmsManager extends WebApplication
     	$form->add_forever_or_timewindow('PublicationPeriod', self :: APPLICATION_NAME . '_opt_');
     	$form->addElement('category');
     	$form->addElement('html', '<br />');
-    	
+
     	$defaults[self :: APPLICATION_NAME . '_opt_forever'] = 1;
     	$form->setDefaults($defaults);
     }
@@ -707,18 +707,18 @@ class WeblcmsManager extends WebApplication
 	 * @param string $parent The parent of the course category.
 	 * @return DatabaseCourseCategoryResultSet The resultset of course category.
 	 */
-	function retrieve_course_categories($conditions = null, $offset = null, $count = null, $order_by = null, $order_dir = null)
+	function retrieve_course_categories($conditions = null, $offset = null, $count = null, $order_by = null)
 	{
-		return WeblcmsDataManager :: get_instance()->retrieve_course_categories($conditions, $offset, $count, $order_by, $order_dir);
+		return WeblcmsDataManager :: get_instance()->retrieve_course_categories($conditions, $offset, $count, $order_by);
 	}
 
 	/**
 	 * Retrieves the personal course categories for a given user.
 	 * @return DatabaseUserCourseCategoryResultSet The resultset of course categories.
 	 */
-	function retrieve_course_user_categories($conditions = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_course_user_categories($conditions = null, $offset = null, $count = null, $order_property = null)
 	{
-		return WeblcmsDataManager :: get_instance()->retrieve_course_user_categories($conditions, $offset, $count, $order_property, $order_direction);
+		return WeblcmsDataManager :: get_instance()->retrieve_course_user_categories($conditions, $offset, $count, $order_property);
 	}
 
 	/**
@@ -791,9 +791,9 @@ class WeblcmsManager extends WebApplication
 	 * @param int $user_id
 	 * @param string $course_user_category
 	 */
-	function retrieve_course_user_relations($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_course_user_relations($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return WeblcmsDataManager :: get_instance()->retrieve_course_user_relations($condition, $offset, $count, $order_property, $order_direction);
+		return WeblcmsDataManager :: get_instance()->retrieve_course_user_relations($condition, $offset, $count, $order_property);
 	}
 
 	/**
@@ -802,28 +802,26 @@ class WeblcmsManager extends WebApplication
 	 * @param string $category
 	 * @param Condition $condition
 	 * @param array $order_by
-	 * @param array $order_dir
 	 * @param int $offset
 	 * @param int $max_objects
 	 * @return CourseResultSet
 	 */
-	function retrieve_courses($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_courses($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return WeblcmsDataManager :: get_instance()->retrieve_courses($condition, $offset, $count, $order_property, $order_direction);
+		return WeblcmsDataManager :: get_instance()->retrieve_courses($condition, $offset, $count, $order_property);
 	}
 
 	/**
 	 * Retrieve a series of courses for a specific user + the relation
 	 * @param Condition $condition
 	 * @param array $order_by
-	 * @param array $order_dir
 	 * @param int $offset
 	 * @param int $max_objects
 	 * @return CourseResultSet
 	 */
-	function retrieve_user_courses($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_user_courses($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return WeblcmsDataManager :: get_instance()->retrieve_user_courses($condition, $offset, $count, $order_property, $order_direction);
+		return WeblcmsDataManager :: get_instance()->retrieve_user_courses($condition, $offset, $count, $order_property);
 	}
 
 	/**
@@ -1308,6 +1306,6 @@ class WeblcmsManager extends WebApplication
 	{
 		return self :: APPLICATION_NAME;
 	}
-	
+
 }
 ?>

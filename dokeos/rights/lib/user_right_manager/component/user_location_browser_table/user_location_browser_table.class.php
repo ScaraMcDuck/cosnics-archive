@@ -28,9 +28,9 @@ class UserLocationBrowserTable extends ObjectTable
 		$this->set_default_row_count(20);
 	}
 
-	function get_objects($offset, $count, $order_column, $order_direction)
+	function get_objects($offset, $count, $order_column)
 	{
-		$locations = $this->get_data_provider()->get_objects($offset, $count, $this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0)), $order_direction);
+		$locations = $this->get_data_provider()->get_objects($offset, $count, $this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0)));
 		$table_data = array ();
 		$column_count = $this->get_column_model()->get_column_count();
 		while ($location = $locations->next_result())

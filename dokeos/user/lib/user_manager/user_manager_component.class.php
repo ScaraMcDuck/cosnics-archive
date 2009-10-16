@@ -9,14 +9,14 @@ require_once Path :: get_library_path() . 'core_application_component.class.php'
  * represented by a user manager component and should extend this class.
  */
 
-abstract class UserManagerComponent extends CoreApplicationComponent  
+abstract class UserManagerComponent extends CoreApplicationComponent
 {
 	/**
 	 * Constructor
 	 * @param UserManager $user_manager The user manager which
 	 * provides this component
 	 */
-    function UserManagerComponent($user_manager) 
+    function UserManagerComponent($user_manager)
     {
     	parent :: __construct($user_manager);
     }
@@ -24,9 +24,9 @@ abstract class UserManagerComponent extends CoreApplicationComponent
 	/**
 	 * @see UserManager::retrieve_users()
 	 */
-	function retrieve_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_users($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_users($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_users($condition, $offset, $count, $order_property);
 	}
 
 	/**
@@ -36,7 +36,7 @@ abstract class UserManagerComponent extends CoreApplicationComponent
 	{
 		return $this->get_parent()->count_users($conditions);
 	}
-	
+
 	/**
 	 * @see UserManager::retrieve_user()
 	 */
@@ -73,42 +73,42 @@ abstract class UserManagerComponent extends CoreApplicationComponent
 	{
 		return $this->get_parent()->get_user_delete_url($user);
 	}
-	
+
 	function get_change_user_url($user)
 	{
 		return $this->get_parent()->get_change_user_url($user);
 	}
-	
+
 	function get_manage_user_rights_url($user)
 	{
 		return $this->get_parent()->get_manage_user_rights_url($user);
 	}
-	
+
 	function get_create_buddylist_category_url()
 	{
 		return $this->get_parent()->get_create_buddylist_category_url();
 	}
-	
+
  	function get_delete_buddylist_category_url($category_id)
 	{
 		return $this->get_parent()->get_delete_buddylist_category_url($category_id);
 	}
-	
+
  	function get_update_buddylist_category_url($category_id)
 	{
 		return $this->get_parent()->get_update_buddylist_category_url($category_id);
 	}
-	
+
  	function get_create_buddylist_item_url()
 	{
 		return $this->get_parent()->get_create_buddylist_item_url();
 	}
-	
+
  	function get_delete_buddylist_item_url($item_id)
 	{
 		return $this->get_parent()->get_delete_buddylist_item_url($item_id);
 	}
-	
+
  	function get_change_buddylist_item_status_url($item_id, $status)
 	{
 		return $this->get_parent()->get_change_buddylist_item_status_url($item_id, $status);

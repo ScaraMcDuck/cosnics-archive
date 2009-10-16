@@ -73,22 +73,22 @@ class DatabaseWikiDataManager extends WikiDataManager
         return $object;
 	}
 
-	function retrieve_wiki_publications($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+	function retrieve_wiki_publications($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-        return $this->database->retrieve_objects(WikiPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+        return $this->database->retrieve_objects(WikiPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 
     function retrieve_wiki_pub_feedback($id)
     {
         $condition = new EqualityCondition(WikiPublication :: PROPERTY_ID, $id);
 		$object = $this->database->retrieve_object(WikiPubFeedback :: get_table_name(), $condition);
-		
+
 		return $object;
     }
 
-    function retrieve_wiki_pub_feedbacks($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+    function retrieve_wiki_pub_feedbacks($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->database->retrieve_objects(WikiPubFeedback :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+        return $this->database->retrieve_objects(WikiPubFeedback :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
     function get_next_wiki_pub_feedback_id()

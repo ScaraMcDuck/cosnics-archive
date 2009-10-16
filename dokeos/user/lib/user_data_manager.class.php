@@ -189,7 +189,7 @@ abstract class UserDataManager
 	/**
 	 * Retrieves users.
 	 */
-	abstract function retrieve_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_users($condition = null, $offset = null, $count = null, $order_property = null);
 
 	/**
 	 * Counts the amount of users currently in the database
@@ -235,7 +235,7 @@ abstract class UserDataManager
 	 */
 	abstract function is_username_available($username, $user_id = null);
 
-	abstract function retrieve_user_rights_templates($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_user_rights_templates($condition = null, $offset = null, $count = null, $order_property = null);
 
 	abstract function create_user_rights_template($user_rights_template);
 
@@ -253,12 +253,12 @@ abstract class UserDataManager
 	abstract function create_buddy_list_category($buddy_list_category);
 	abstract function update_buddy_list_category($buddy_list_category);
 	abstract function delete_buddy_list_category($buddy_list_category);
-	abstract function retrieve_buddy_list_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_buddy_list_categories($condition = null, $offset = null, $count = null, $order_property = null);
 
 	abstract function get_next_buddy_list_item_id();
 	abstract function create_buddy_list_item($buddy_list_item);
 	abstract function update_buddy_list_item($buddy_list_item);
 	abstract function delete_buddy_list_item($buddy_list_item);
-	abstract function retrieve_buddy_list_items($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_buddy_list_items($condition = null, $offset = null, $count = null, $order_property = null);
 }
 ?>

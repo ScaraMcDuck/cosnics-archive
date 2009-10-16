@@ -44,14 +44,13 @@ class ContentObjectTableDataProvider extends ObjectTableDataProvider
 	/*
 	 * Inherited
 	 */
-    function get_objects($offset, $count, $order_property = null, $order_direction = null)
+    function get_objects($offset, $count, $order_property = null)
     {
         $order_property = $this->get_order_property($order_property);
-        $order_direction = $this->get_order_direction($order_direction);
 
         $dm = RepositoryDataManager :: get_instance();
 
-        return $dm->retrieve_content_objects(null, $this->get_condition(), $order_property, $order_direction, $offset, $count);
+        return $dm->retrieve_content_objects(null, $this->get_condition(), $order_property, $offset, $count);
     }
 	/*
 	 * Inherited
@@ -68,7 +67,7 @@ class ContentObjectTableDataProvider extends ObjectTableDataProvider
     function get_condition()
     {
         $owner = $this->owner;
-        
+
         if(!Request :: get('SharedBrowser') == 1)
         {
             $category = Request :: get('category');
@@ -106,58 +105,58 @@ class ContentObjectTableDataProvider extends ObjectTableDataProvider
 		        $or_conditions[] = new LikeCondition(ContentObject :: PROPERTY_DESCRIPTION, $query);
 		        $conditions[] = new OrCondition($or_conditions);
 		    }
-		
+
 		    $rdm = RightsDataManager :: get_instance();
-		      
+
 		    $user = $this->owner;
 		    $groups = $user->get_groups();
 		    foreach($groups as $group)
 		    {
 		    	$group_ids[] = $group->get_id();
 		    }
-		
+
 		    //retrieve all the rights
 		    $reflect = new ReflectionClass(Application :: application_to_class(RepositoryManager :: APPLICATION_NAME) . 'Rights');
 		    $rights_db = $reflect->getConstants();
-		
+
 		    foreach($rights_db as $right_id)
 		    {
 		        if($right_id != RepositoryRights :: VIEW_RIGHT && $right_id != RepositoryRights :: USE_RIGHT && $right_id != RepositoryRights :: REUSE_RIGHT)
 		            continue;
 		        $rights[] = $right_id;
 		    }
-		
+
 			$location_ids = array();
 		    $shared_content_objects = $rdm->retrieve_shared_content_objects_for_user($user->get_id(),$rights);
-		
+
 		    while($user_right_location = $shared_content_objects->next_result())
 		    {
 		        if(!in_array($user_right_location->get_location_id(), $location_ids))
 		            $location_ids[] = $user_right_location->get_location_id();
-		
+
 		        $this->list[] = array('location_id' => $user_right_location->get_location_id(),'user' => $user_right_location->get_user_id(), 'right' => $user_right_location->get_right_id());
 		    }
-		      
+
 		   	$shared_content_objects = $rdm->retrieve_shared_content_objects_for_groups($group_ids,$rights);
-		
+
 		    while($group_right_location = $shared_content_objects->next_result())
 		    {
 		        if(!in_array($group_right_location->get_location_id(), $location_ids))
 		            $location_ids[] = $group_right_location->get_location_id();
-		
+
 		        $this->list[] = array('location_id' => $group_right_location->get_location_id(),'group' => $group_right_location->get_group_id(), 'right' => $group_right_location->get_right_id());
 		    }
-		
-		      
+
+
 		    if(count($location_ids) > 0)
 		    {
 		    	$location_cond = new InCondition('id',$location_ids);
 		    	$locations = $rdm->retrieve_locations($location_cond);
-		
+
 		       	while($location = $locations->next_result())
 		       	{
 		          	$ids[] = $location->get_identifier();
-				
+
 				    foreach ($this->list as $key => $value)
 				    {
 				        if($value['location_id'] == $location->get_id())
@@ -167,20 +166,20 @@ class ContentObjectTableDataProvider extends ObjectTableDataProvider
 				        }
 				    }
 				}
-				
+
 				if($ids)
 				    $conditions[] = new InCondition('id',$ids, ContentObject :: get_table_name());
-				
-				
+
+
 				if($conditions)
 				    $condition = new AndCondition($conditions);
 		    }
-				 
+
 			if(!$condition)
 			{
 			    $condition = new EqualityCondition('id', -1, ContentObject :: get_table_name());
 			}
-				
+
 			return $condition;
         }
     }

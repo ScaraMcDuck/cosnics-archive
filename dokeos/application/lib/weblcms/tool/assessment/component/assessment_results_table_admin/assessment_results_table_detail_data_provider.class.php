@@ -25,9 +25,9 @@ class AssessmentResultsTableDetailDataProvider extends ObjectTableDataProvider
 	 * The search query, or null if none.
 	 */
 	private $query;
-	
+
 	private $parent;
-	
+
 	private $pid;
 	/**
 	 * Constructor.
@@ -47,18 +47,17 @@ class AssessmentResultsTableDetailDataProvider extends ObjectTableDataProvider
 	/*
 	 * Inherited
 	 */
-    function get_objects($offset, $count, $order_property = null, $order_direction = null)
+    function get_objects($offset, $count, $order_property = null)
     {
     	$order_property = $this->get_order_property($order_property);
-    	$order_direction = $this->get_order_direction($order_direction);
     	$pub = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($this->pid);
     	return $this->get_user_assessments($pub);
     }
-    
-    function get_user_assessments($pub) 
+
+    function get_user_assessments($pub)
     {
     	$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $pub->get_id());
-    	
+
     	if(!$this->parent->is_allowed(EDIT_RIGHT))
     	{
     		$conditions = array();
@@ -66,7 +65,7 @@ class AssessmentResultsTableDetailDataProvider extends ObjectTableDataProvider
 			$conditions[] = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID, $this->parent->get_user_id());
 			$condition = new AndCondition($conditions);
     	}
-    	
+
     	$track = new WeblcmsAssessmentAttemptsTracker();
     	$user_assessments = $track->retrieve_tracker_items($condition);
     	foreach($user_assessments as $user_assessment)
@@ -75,7 +74,7 @@ class AssessmentResultsTableDetailDataProvider extends ObjectTableDataProvider
     	}
     	return $all_assessments;
     }
- 
+
 	/*
 	 * Inherited
 	 */

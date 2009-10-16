@@ -8,7 +8,7 @@ class PackageInstallerApplicationType extends PackageInstallerType
 {
 
     function install()
-    {        
+    {
         $source = $this->get_source();
         $attributes = $source->get_attributes();
         $application_name = $attributes->get_code();
@@ -80,7 +80,7 @@ class PackageInstallerApplicationType extends PackageInstallerType
         $conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_APPLICATION);
         $condition = new AndCondition($conditions);
 
-        $registrations = AdminDataManager :: get_instance()->retrieve_registrations($condition, array(), array(), 0, 1);
+        $registrations = AdminDataManager :: get_instance()->retrieve_registrations($condition, array(), 0, 1);
         $registration = $registrations->next_result();
         $registration->set_version($attributes->get_version());
         return $registration->update();

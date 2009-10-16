@@ -34,19 +34,19 @@ class WeblcmsCategoryManager extends CategoryManager
 		return $wdm->count_categories($condition);
 	}
 
-	function retrieve_categories($condition, $offset, $count, $order_property, $order_direction)
+	function retrieve_categories($condition, $offset, $count, $order_property)
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
-		return $wdm->retrieve_categories($condition, $offset, $count, $order_property, $order_direction);
+		return $wdm->retrieve_categories($condition, $offset, $count, $order_property);
 	}
-	
+
 	function get_next_category_display_order($parent_id)
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
-		
+
         $condition = new EqualityCondition(CourseCategory :: PROPERTY_PARENT, $parent_id);
         $sort = $wdm->retrieve_max_sort_value(CourseCategory :: get_table_name(), CourseCategory :: PROPERTY_DISPLAY_ORDER, $condition);
-		
+
 		return $sort + 1;
 	}
 }

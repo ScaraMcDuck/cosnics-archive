@@ -35,17 +35,17 @@ abstract class CategoryManagerComponent
 	{
 		return $this->parent->get_user_id();
 	}
-	
+
 	function get_user()
 	{
 		return $this->parent->get_user();
 	}
-	
+
 	function display_header($breadcrumbtrail)
 	{
 		return $this->parent->display_header($breadcrumbtrail);
 	}
-	
+
 	function display_footer()
 	{
 		return $this->parent->display_footer();
@@ -83,7 +83,7 @@ abstract class CategoryManagerComponent
 	{
 		$this->parent->set_parameter($name, $value);
 	}
-	
+
 	function set_default_content_object($type, $content_object)
 	{
 		$this->parent->set_default_content_object($type, $content_object);
@@ -96,102 +96,102 @@ abstract class CategoryManagerComponent
 	{
 		return $this->parent->get_default_content_object($type);
 	}
-	
+
 	function redirect($action = null, $message = null, $error_message = false, $extra_params = array())
 	{
 		return $this->parent->redirect($action, $message, $error_message, $extra_params);
 	}
-	
+
 	function repository_redirect($action = null, $message = null, $cat_id = 0, $error_message = false, $extra_params = array())
 	{
 		return $this->parent->repository_redirect($action, $message, $cat_id, $error_message, $extra_params);
 	}
-	
+
 	function get_extra_parameters()
 	{
 		return $this->parent->get_extra_parameters();
 	}
-	
+
 	function set_extra_parameters($parameters)
 	{
 		$this->parent->set_extra_parameters($parameters);
 	}
-	
+
 	function count_categories($condition)
 	{
 		return $this->parent->count_categories($condition);
 	}
-	
-	function retrieve_categories($condition, $offset, $count, $order_property, $order_direction)
+
+	function retrieve_categories($condition, $offset, $count, $order_property)
 	{
-		return $this->parent->retrieve_categories($condition, $offset, $count, $order_property, $order_direction);
+		return $this->parent->retrieve_categories($condition, $offset, $count, $order_property);
 	}
-	
+
 	function get_next_category_display_order($parent_id)
 	{
 		return $this->parent->get_next_category_display_order($parent_id);
 	}
-	
+
 	function get_browse_categories_url($category_id = 0)
 	{
 		return $this->get_parent()->get_browse_categories_url($category_id);
 	}
-	
+
 	function get_create_category_url($category_id)
 	{
 		return $this->get_parent()->get_create_category_url($category_id);
 	}
-	
+
 	function get_update_category_url($category_id)
 	{
 		return $this->get_parent()->get_update_category_url($category_id);
 	}
-	
+
 	function get_delete_category_url($category_id)
 	{
 		return $this->get_parent()->get_delete_category_url($category_id);
 	}
-	
+
 	function get_move_category_url($category_id, $direction = 1)
 	{
 		return $this->get_parent()->get_move_category_url($category_id, $direction);
 	}
-	
+
 	function get_copy_general_categories_url()
 	{
 		return $this->get_parent()->get_copy_general_categories_url();
 	}
-	
+
 	function get_change_category_parent_url($category_id)
 	{
 		return $this->get_parent()->get_change_category_parent_url($category_id);
 	}
-	
+
 	function get_category()
 	{
 		return $this->get_parent()->get_category();
 	}
-	
+
 	function get_category_form()
 	{
 		return $this->get_parent()->get_category_form();
 	}
-	
+
 	function allowed_to_delete_category($category_id)
 	{
 		return $this->get_parent()->allowed_to_delete_category($category_id);
 	}
-	
+
 	function allowed_to_edit_category($category_id)
 	{
 		return $this->get_parent()->allowed_to_edit_category($category_id);
 	}
-	
+
 	function get_breadcrumb_trail()
 	{
 		return $this->get_parent()->get_breadcrumb_trail();
 	}
-	
+
 	static function factory($type, $parent)
 	{
 		$filename = dirname(__FILE__).'/component/'.DokeosUtilities :: camelcase_to_underscores($type).'.class.php';

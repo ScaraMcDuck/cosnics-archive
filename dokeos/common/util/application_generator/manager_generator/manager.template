@@ -118,9 +118,9 @@ require_once dirname(__FILE__).'/component/{OBJECTS.L_OBJECT_CLASS}_browser/{OBJ
 		return {APPLICATION_NAME}DataManager :: get_instance()->count_{OBJECTS.L_OBJECT_CLASSES}($condition);
 	}
 	
-	function retrieve_{OBJECTS.L_OBJECT_CLASSES}($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_{OBJECTS.L_OBJECT_CLASSES}($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return {APPLICATION_NAME}DataManager :: get_instance()->retrieve_{OBJECTS.L_OBJECT_CLASSES}($condition, $offset, $count, $order_property, $order_direction);
+		return {APPLICATION_NAME}DataManager :: get_instance()->retrieve_{OBJECTS.L_OBJECT_CLASSES}($condition, $offset, $count, $order_property);
 	}
 	
  	function retrieve_{OBJECTS.L_OBJECT_CLASS}($id)
@@ -169,7 +169,7 @@ require_once dirname(__FILE__).'/component/{OBJECTS.L_OBJECT_CLASS}_browser/{OBJ
 	{
 	}
 
-	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
 	{
 	}
 

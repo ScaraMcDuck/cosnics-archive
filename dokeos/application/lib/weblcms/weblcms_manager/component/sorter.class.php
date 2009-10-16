@@ -216,7 +216,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
 		$relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $this->get_user_id());
 		$relation_condition = new AndCondition($relation_conditions);
 
-		$relations = $this->retrieve_course_user_relations($relation_condition, null, null, array(CourseUserRelation :: PROPERTY_SORT));
+		$relations = $this->retrieve_course_user_relations($relation_condition, null, null, array(new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT)));
 
 		$conditions = array();
 		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id());
@@ -282,7 +282,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
 			$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
 			$condition = new AndCondition($conditions);
 			$courses = $this->retrieve_user_courses($condition);
-		
+
 			echo $this->display_course_digest($courses, $course_category, $cat_key, $course_categories->size());
 			$cat_key++;
 		}

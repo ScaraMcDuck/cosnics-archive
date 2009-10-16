@@ -74,9 +74,9 @@ class DatabaseForumDataManager extends ForumDataManager
 		return $this->database->retrieve_object(ForumPublication :: get_table_name(), $condition);
 	}
 
-	function retrieve_forum_publications($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+	function retrieve_forum_publications($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->database->retrieve_objects(ForumPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+		return $this->database->retrieve_objects(ForumPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 
     function move_forum_publication($publication, $places)
@@ -99,7 +99,7 @@ class DatabaseForumDataManager extends ForumDataManager
         $publication->set_display_order($newIndex);
         $publication->update();
 	}
-	
+
 	function get_next_publication_display_order()
 	{
 		return $this->database->retrieve_next_sort_value(ForumPublication :: get_table_name(), ForumPublication :: PROPERTY_DISPLAY_ORDER);

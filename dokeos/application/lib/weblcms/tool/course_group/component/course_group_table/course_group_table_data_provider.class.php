@@ -16,14 +16,13 @@ class CourseGroupTableDataProvider
 	{
 		return $this->course_group_tool;
 	}
-    function get_course_groups($offset, $count, $order_property, $order_direction)
+    function get_course_groups($offset, $count, $order_property)
     {
 		$dm = WeblcmsDataManager :: get_instance();
 
 		$order_property = array($order_property);
-		$order_direction = array($order_direction);
 
-		return $dm->retrieve_course_groups($this->course_group_tool->get_condition(), $offset, $count, $order_property, $order_direction);
+		return $dm->retrieve_course_groups($this->course_group_tool->get_condition(), $offset, $count, $order_property);
     }
 
     function get_course_group_count()

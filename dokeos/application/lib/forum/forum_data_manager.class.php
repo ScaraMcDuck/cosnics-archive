@@ -47,7 +47,7 @@ abstract class ForumDataManager
 	abstract function delete_forum_publication($forum_publication);
 	abstract function count_forum_publications($conditions = null);
 	abstract function retrieve_forum_publication($id);
-	abstract function retrieve_forum_publications($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_forum_publications($condition = null, $offset = null, $count = null, $order_property = null);
     abstract function move_forum_publication($publication, $places);
 
 }

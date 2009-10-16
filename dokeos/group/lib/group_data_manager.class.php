@@ -50,53 +50,53 @@ abstract class GroupDataManager
 		}
 		return self :: $instance;
 	}
-	
+
 	abstract function initialize();
-	
+
 	abstract function get_next_group_id();
-	
+
 	abstract function delete_group($group);
-	
+
 	abstract function delete_group_rel_user($groupreluser);
-	
+
 	abstract function update_group($group);
-	
+
 	abstract function create_group($group);
-	
+
 	abstract function create_group_rel_user($groupreluser);
 
 	abstract function create_storage_unit($name,$properties,$indexes);
-	
+
 	abstract function count_groups($conditions = null);
-	
+
 	abstract function count_group_rel_users($conditions = null);
-	
+
 	abstract function retrieve_group($id);
-	
+
 	abstract function truncate_group($id);
-	
-	abstract function retrieve_groups($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
-	
+
+	abstract function retrieve_groups($condition = null, $offset = null, $count = null, $order_property = null);
+
 	abstract function retrieve_group_rel_user($user_id, $group_id);
-	
-	abstract function retrieve_group_rel_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
-	
+
+	abstract function retrieve_group_rel_users($condition = null, $offset = null, $count = null, $order_property = null);
+
 	abstract function retrieve_user_groups($user_id);
-	
-	abstract function retrieve_group_rights_templates($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null);
-	
+
+	abstract function retrieve_group_rights_templates($condition = null, $offset = null, $max_objects = null, $order_by = null);
+
 	abstract function delete_group_rights_templates($condition);
-	
+
 	abstract function add_rights_template_link($group, $rights_template_id);
-	
+
 	abstract function delete_rights_template_link($group, $rights_template_id);
-	
+
 	abstract function update_rights_template_links($group, $rights_templates);
-	
+
 	abstract function add_nested_values($previous_visited, $number_of_elements = 1);
-	
+
 	abstract function delete_nested_values($group);
-	
+
 	abstract function move_group($group, $new_parent_id, $new_previous_id = 0);
 }
 ?>

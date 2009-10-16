@@ -122,7 +122,7 @@ abstract class TrackingDataManager
     /**
      * Retrieves all events
      */
-    abstract function retrieve_events($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+    abstract function retrieve_events($condition = null, $offset = null, $count = null, $order_property = null);
 
     /**
      * Counts the events for a given condition

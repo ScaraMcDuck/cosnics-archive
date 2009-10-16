@@ -14,7 +14,7 @@ abstract class AlexiaManagerComponent extends WebApplicationComponent
 	{
 		parent :: __construct($am);
 	}
-	
+
     /**
      * @see AlexiaManager :: count_alexia_publications
      */
@@ -34,26 +34,26 @@ abstract class AlexiaManagerComponent extends WebApplicationComponent
     /**
      * @see AlexiaManager :: retrieve_alexia_publications()
      */
-    function retrieve_alexia_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
+    function retrieve_alexia_publications($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
-        return $this->get_parent()->retrieve_alexia_publications($condition, $order_by, $order_dir, $offset, $max_objects);
+        return $this->get_parent()->retrieve_alexia_publications($condition, $order_by, $offset, $max_objects);
     }
-    
+
     function get_publication_viewing_url($alexia_publication)
     {
         return $this->get_parent()->get_publication_viewing_url($alexia_publication);
     }
-    
+
     function get_publication_editing_url($alexia_publication)
     {
         return $this->get_parent()->get_publication_editing_url($alexia_publication);
     }
-    
+
     function get_introduction_editing_url($introduction)
     {
         return $this->get_parent()->get_introduction_editing_url($introduction);
     }
-    
+
     function get_publication_deleting_url($alexia_publication)
     {
         return $this->get_parent()->get_publication_deleting_url($alexia_publication);

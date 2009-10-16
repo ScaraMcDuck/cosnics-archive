@@ -152,13 +152,13 @@ class ContentObject extends DataClass implements AccessibleContentObject
 		$this->additionalProperties = $additionalProperties;
 		$this->oldState = $defaultProperties[self :: PROPERTY_STATE];
 	}
-	
+
 	/**
 	 * inherited
 	 */
 	function get_data_manager()
 	{
-		return RepositoryDataManager :: get_instance();	
+		return RepositoryDataManager :: get_instance();
 	}
 
 	/**
@@ -555,7 +555,7 @@ class ContentObject extends DataClass implements AccessibleContentObject
 		$dm = RepositoryDataManager :: get_instance();
 		return $dm->exclude_content_object($this, $id);
 	}
-	
+
 	/**
 	 * Gets an additional (type-specific) property of this learning object by
 	 * name.
@@ -646,13 +646,13 @@ class ContentObject extends DataClass implements AccessibleContentObject
 
 		if($this->get_owner_id() == 0)
 			return true;
-		
+
 		$location = new Location();
 		$location->set_location($this->get_title());
 		$location->set_application(RepositoryManager :: APPLICATION_NAME);
 		$location->set_type('content_object');
 		$location->set_identifier($this->get_id());
-		
+
 		$parent = $this->get_parent_id();
 		if (!$parent)
 		{
@@ -681,7 +681,7 @@ class ContentObject extends DataClass implements AccessibleContentObject
 		$this->set_id($id);
 		$object_number = $dm->get_next_content_object_number();
 		$this->set_object_number($object_number);
-		
+
 		if (!$dm->create_content_object($this, 'new'))
 		{
 			return false;
@@ -689,13 +689,13 @@ class ContentObject extends DataClass implements AccessibleContentObject
 
 		if($this->get_owner_id() == 0)
 			return true;
-		
+
 		$location = new Location();
 		$location->set_location($this->get_title());
 		$location->set_application(RepositoryManager :: APPLICATION_NAME);
 		$location->set_type('content_object');
 		$location->set_identifier($this->get_id());
-		
+
 		$parent = $this->get_parent_id();
 		if (!$parent)
 		{
@@ -784,7 +784,7 @@ class ContentObject extends DataClass implements AccessibleContentObject
 	private static function get_child_ids($id)
 	{
 		$cond = new EqualityCondition(self :: PROPERTY_PARENT_ID, $id);
-		$children = RepositoryDataManager :: get_instance()->retrieve_content_objects(null, $cond, array(), array(), 0, -1, -1);
+		$children = RepositoryDataManager :: get_instance()->retrieve_content_objects(null, $cond, array(), 0, -1, -1);
 		$ids = array();
 		while ($child = $children->next_result())
 		{

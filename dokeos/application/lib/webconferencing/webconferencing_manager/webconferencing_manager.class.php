@@ -101,9 +101,9 @@ require_once dirname(__FILE__).'/component/webconference_browser/webconference_b
 		return WebconferencingDataManager :: get_instance()->count_webconferences($condition);
 	}
 
-	function retrieve_webconferences($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_webconferences($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return WebconferencingDataManager :: get_instance()->retrieve_webconferences($condition, $offset, $count, $order_property, $order_direction);
+		return WebconferencingDataManager :: get_instance()->retrieve_webconferences($condition, $offset, $count, $order_property);
 	}
 
  	function retrieve_webconference($id)
@@ -116,9 +116,9 @@ require_once dirname(__FILE__).'/component/webconference_browser/webconference_b
 		return WebconferencingDataManager :: get_instance()->count_webconference_options($condition);
 	}
 
-	function retrieve_webconference_options($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_webconference_options($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return WebconferencingDataManager :: get_instance()->retrieve_webconference_options($condition, $offset, $count, $order_property, $order_direction);
+		return WebconferencingDataManager :: get_instance()->retrieve_webconference_options($condition, $offset, $count, $order_property);
 	}
 
  	function retrieve_webconference_option($id)
@@ -159,7 +159,7 @@ require_once dirname(__FILE__).'/component/webconference_browser/webconference_b
 	{
 	}
 
-	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
 	{
 	}
 

@@ -42,12 +42,12 @@ abstract class ReservationsManagerComponent {
 	{
 		$this->get_parent()->display_footer();
 	}
-	
+
 	function display_search_form()
 	{
 		$this->get_parent()->display_search_form();
 	}
-	
+
 	function get_search_condition()
 	{
 		return $this->get_parent()->get_search_condition();
@@ -84,7 +84,7 @@ abstract class ReservationsManagerComponent {
 	{
 		$this->get_parent()->display_warning_page($message);
 	}
-	
+
 	/**
 	 * @see DCDAManager::display_popup_form()
 	 */
@@ -173,7 +173,7 @@ abstract class ReservationsManagerComponent {
 	{
 		return $this->get_parent()->redirect($type, $message, $error_message, $extra_params);
 	}
-	
+
 	/**
 	 * @see DCDAManager::get_web_code_path()
 	 */
@@ -181,7 +181,7 @@ abstract class ReservationsManagerComponent {
 	{
 		return $this->get_parent()->get_path($path_type);
 	}
-	
+
 	/**
 	 * Create a new user manager component
 	 * @param string $type The type of the component to create.
@@ -199,297 +199,297 @@ abstract class ReservationsManagerComponent {
 		require_once $filename;
 		return new $class($parent);
 	}
-	
+
 	function has_right($type, $id, $right)
 	{
 		return $this->get_parent()->has_right($type, $id, $right);
 	}
-	
+
 	function has_enough_credits_for($item, $start_date, $stop_date, $user_id)
 	{
 		return $this->get_parent()->has_enough_credits_for($item, $start_date, $stop_date, $user_id);
 	}
-	
+
 	function count_items($condition = null)
 	{
 		return $this->get_parent()->count_items($condition);
 	}
-	
-	function retrieve_items($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+
+	function retrieve_items($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_items($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_items($condition, $offset, $count, $order_property);
 	}
-	
+
 	function count_categories($condition = null)
 	{
 		return $this->get_parent()->count_categories($condition);
 	}
-	
-	function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+
+	function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_categories($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_categories($condition, $offset, $count, $order_property);
 	}
-	
+
 	function count_reservations($condition = null)
 	{
 		return $this->get_parent()->count_reservations($condition);
 	}
-	
-	function retrieve_reservations($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+
+	function retrieve_reservations($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_reservations($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_reservations($condition, $offset, $count, $order_property);
 	}
-	
+
 	function count_subscriptions($condition = null)
 	{
 		return $this->get_parent()->count_subscriptions($condition);
 	}
-	
-	function retrieve_subscriptions($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+
+	function retrieve_subscriptions($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_subscriptions($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_subscriptions($condition, $offset, $count, $order_property);
 	}
-	
+
 	function count_quotas($condition = null)
 	{
 		return $this->get_parent()->count_quotas($condition);
 	}
-	
-	function retrieve_quotas($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+
+	function retrieve_quotas($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_quotas($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_quotas($condition, $offset, $count, $order_property);
 	}
-	
+
 	function count_quota_boxes($condition = null)
 	{
 		return $this->get_parent()->count_quota_boxes($condition);
 	}
-	
-	function retrieve_quota_boxes($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+
+	function retrieve_quota_boxes($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_quota_boxes($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_quota_boxes($condition, $offset, $count, $order_property);
 	}
-	
-	function retrieve_quota_box_rel_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+
+	function retrieve_quota_box_rel_categories($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_quota_box_rel_categories($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_quota_box_rel_categories($condition, $offset, $count, $order_property);
 	}
-	
+
 	function count_quota_box_rel_categories($condition = null)
 	{
 		return $this->get_parent()->count_quota_box_rel_categories($condition);
 	}
-	
+
 	function count_subscription_users($condition = null)
 	{
 		return $this->get_parent()->count_subscription_users($condition);
 	}
-	
-	function retrieve_subscription_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+
+	function retrieve_subscription_users($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_subscription_users($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_subscription_users($condition, $offset, $count, $order_property);
 	}
-	
-	function retrieve_overview_items($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+
+	function retrieve_overview_items($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_overview_items($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_overview_items($condition, $offset, $count, $order_property);
 	}
-	
+
 	function count_overview_items($condition)
 	{
 		return $this->get_parent()->count_overview_items($condition);
 	}
-	
+
 	function get_browse_categories_url($category_id = 0)
 	{
 		return $this->get_parent()->get_browse_categories_url($category_id);
 	}
-	
+
 	function get_create_category_url($category_id)
 	{
 		return $this->get_parent()->get_create_category_url($category_id);
 	}
-	
+
 	function get_update_category_url($category_id)
 	{
 		return $this->get_parent()->get_update_category_url($category_id);
 	}
-	
+
 	function get_delete_category_url($category_id)
 	{
 		return $this->get_parent()->get_delete_category_url($category_id);
 	}
-	
+
 	function get_move_category_url($category_id, $direction = 1)
 	{
 		return $this->get_parent()->get_move_category_url($category_id, $direction);
 	}
-	
+
 	function get_blackout_category_url($category_id, $blackout)
 	{
 		return $this->get_parent()->get_blackout_category_url($category_id, $blackout);
 	}
-	
+
 	function get_credit_category_url($category_id)
 	{
 		return $this->get_parent()->get_credit_category_url($category_id);
 	}
-	
+
 	function get_browse_items_url($item_id = 0)
 	{
 		return $this->get_parent()->get_browse_items_url($item_id);
 	}
-	
+
 	function get_create_item_url($cat_id)
 	{
 		return $this->get_parent()->get_create_item_url($cat_id);
 	}
-	
+
 	function get_update_item_url($item_id, $cat_id = 0)
 	{
 		return $this->get_parent()->get_update_item_url($item_id, $cat_id);
 	}
-	
+
 	function get_delete_item_url($item_id, $cat_id = 0)
 	{
 		return $this->get_parent()->get_delete_item_url($item_id, $cat_id);
 	}
-	
+
 	function get_browse_reservations_url($item_id = 0)
 	{
 		return $this->get_parent()->get_browse_reservations_url($item_id);
 	}
-	
+
 	function get_create_reservation_url($item_id)
 	{
 		return $this->get_parent()->get_create_reservation_url($item_id);
 	}
-	
+
 	function get_update_reservation_url($reservation_id, $item_id = 0)
 	{
 		return $this->get_parent()->get_update_reservation_url($reservation_id, $item_id);
 	}
-	
+
 	function get_delete_reservation_url($reservation_id, $item_id = 0)
 	{
 		return $this->get_parent()->get_delete_reservation_url($reservation_id, $item_id);
 	}
-	
+
 	function get_browse_subscriptions_url($subscription_id = 0)
 	{
 		return $this->get_parent()->get_browse_subscriptions_url($subscription_id);
 	}
-	
+
 	function get_create_subscription_url($item_id)
 	{
 		return $this->get_parent()->get_create_subscription_url($item_id);
 	}
-	
+
 	function get_delete_subscription_url($subscription_id, $item_id = 0)
 	{
 		return $this->get_parent()->get_delete_subscription_url($subscription_id, $item_id);
 	}
-	
+
 	function get_browse_quotas_url()
 	{
 		return $this->get_parent()->get_browse_quotas_url();
 	}
-	
+
 	function get_create_quota_url()
 	{
 		return $this->get_parent()->get_create_quota_url();
 	}
-	
+
 	function get_update_quota_url($quota_id)
 	{
 		return $this->get_parent()->get_update_quota_url($quota_id);
 	}
-	
+
 	function get_delete_quota_url($quota_id)
 	{
 		return $this->get_parent()->get_delete_quota_url($quota_id);
 	}
-	
+
 	function get_browse_ref_quotas_url($ref_id, $group)
 	{
 		return $this->get_parent()->get_browse_ref_quotas_url($ref_id, $group);
 	}
-	
+
 	function get_create_ref_quota_url($ref_id, $group)
 	{
 		return $this->get_parent()->get_create_ref_quota_url($ref_id, $group);
 	}
-	
+
 	function get_delete_ref_quota_url($quota_id, $ref_id, $group)
 	{
 		return $this->get_parent()->get_delete_ref_quota_url($quota_id, $ref_id, $group);
 	}
-	
+
 	function get_admin_browse_subscription_url($reservation_id)
 	{
 		return $this->get_parent()->get_admin_browse_subscription_url($reservation_id);
 	}
-	
+
 	function get_approve_subscription_url($subscription_id)
 	{
 		return $this->get_parent()->get_approve_subscription_url($subscription_id);
 	}
-	
+
 	function get_subscription_user_browser_url($subscription_id)
 	{
 		return $this->get_parent()->get_subscription_user_browser_url($subscription_id);
 	}
-	
+
 	function get_subscription_user_updater_url($subscription_id)
 	{
 		return $this->get_parent()->get_subscription_user_updater_url($subscription_id);
 	}
-	
+
 	function get_modify_rights_url($type, $id)
 	{
 		return $this->get_parent()->get_modify_rights_url($type, $id);
 	}
-	
+
 	function get_browse_quota_boxes_url()
 	{
 		return $this->get_parent()->get_browse_quota_boxes_url();
 	}
-	
+
 	function get_create_quota_box_url()
 	{
 		return $this->get_parent()->get_create_quota_box_url();
 	}
-	
+
 	function get_update_quota_box_url($quota_box_id)
 	{
 		return $this->get_parent()->get_update_quota_box_url($quota_box_id);
 	}
-	
+
 	function get_delete_quota_box_url($quota_box_id)
 	{
 		return $this->get_parent()->get_delete_quota_box_url($quota_box_id);
 	}
-	
+
 	function get_browse_category_quota_boxes_url($category_id)
 	{
 		return $this->get_parent()->get_browse_category_quota_boxes_url($category_id);
 	}
-	
+
 	function get_create_category_quota_box_url($category_id)
 	{
 		return $this->get_parent()->get_create_category_quota_box_url($category_id);
 	}
-	
+
 	function get_update_category_quota_box_url($category_quota_box_id)
 	{
 		return $this->get_parent()->get_update_category_quota_box_url($category_quota_box_id);
 	}
-	
+
 	function get_delete_category_quota_box_url($category_quota_box_id, $category_id)
 	{
 		return $this->get_parent()->get_delete_category_quota_box_url($category_quota_box_id, $category_id);
 	}
-	
+
 	function get_manage_overview_url()
 	{
 		return $this->get_parent()->get_manage_overview_url();

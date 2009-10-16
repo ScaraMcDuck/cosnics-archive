@@ -24,9 +24,9 @@ abstract class LaikaManagerComponent extends WebApplicationComponent
         return $this->get_parent()->retrieve_laika_question($id);
     }
 
-    function retrieve_laika_questions($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_laika_questions($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->get_parent()->retrieve_laika_questions($condition, $offset, $count, $order_property, $order_direction);
+        return $this->get_parent()->retrieve_laika_questions($condition, $offset, $count, $order_property);
     }
 
     function has_taken_laika($user)
@@ -39,9 +39,9 @@ abstract class LaikaManagerComponent extends WebApplicationComponent
         return $this->get_parent()->retrieve_laika_scale($id);
     }
 
-    function retrieve_laika_scales($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_laika_scales($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->get_parent()->retrieve_laika_scales($condition, $offset, $count, $order_property, $order_direction);
+        return $this->get_parent()->retrieve_laika_scales($condition, $offset, $count, $order_property);
     }
 
     function retrieve_laika_cluster($id)
@@ -49,9 +49,9 @@ abstract class LaikaManagerComponent extends WebApplicationComponent
         return $this->get_parent()->retrieve_laika_cluster($id);
     }
 
-    function retrieve_laika_clusters($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_laika_clusters($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->get_parent()->retrieve_laika_clusters($condition, $offset, $count, $order_property, $order_direction);
+        return $this->get_parent()->retrieve_laika_clusters($condition, $offset, $count, $order_property);
     }
 
     function retrieve_laika_result($id)
@@ -59,9 +59,9 @@ abstract class LaikaManagerComponent extends WebApplicationComponent
         return $this->get_parent()->retrieve_laika_result($id);
     }
 
-    function retrieve_laika_results($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_laika_results($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->get_parent()->retrieve_laika_results($condition, $offset, $count, $order_property, $order_direction);
+        return $this->get_parent()->retrieve_laika_results($condition, $offset, $count, $order_property);
     }
 
     function retrieve_laika_calculated_result($id)
@@ -69,14 +69,14 @@ abstract class LaikaManagerComponent extends WebApplicationComponent
         return $this->get_parent()->retrieve_laika_calculated_result($id);
     }
 
-    function retrieve_laika_calculated_results($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_laika_calculated_results($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->get_parent()->retrieve_laika_calculated_results($condition, $offset, $count, $order_property, $order_direction);
+        return $this->get_parent()->retrieve_laika_calculated_results($condition, $offset, $count, $order_property);
     }
 
-    function retrieve_laika_table_calculated_results($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+    function retrieve_laika_table_calculated_results($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->get_parent()->retrieve_laika_table_calculated_results($condition, $offset, $max_objects, $order_by, $order_dir);
+        return $this->get_parent()->retrieve_laika_table_calculated_results($condition, $offset, $max_objects, $order_by);
     }
 
     function retrieve_laika_answer($id)
@@ -84,9 +84,9 @@ abstract class LaikaManagerComponent extends WebApplicationComponent
         return $this->get_parent()->retrieve_laika_answer($id);
     }
 
-    function retrieve_laika_answers($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_laika_answers($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->get_parent()->retrieve_laika_answers($condition, $offset, $count, $order_property, $order_direction);
+        return $this->get_parent()->retrieve_laika_answers($condition, $offset, $count, $order_property);
     }
 
     function retrieve_laika_attempt($id)
@@ -94,9 +94,9 @@ abstract class LaikaManagerComponent extends WebApplicationComponent
         return $this->get_parent()->retrieve_laika_attempt($id);
     }
 
-    function retrieve_laika_attempts($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_laika_attempts($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->get_parent()->retrieve_laika_attempts($condition, $offset, $count, $order_property, $order_direction);
+        return $this->get_parent()->retrieve_laika_attempts($condition, $offset, $count, $order_property);
     }
 
     function count_laika_attempts($condition = null)
@@ -134,9 +134,9 @@ abstract class LaikaManagerComponent extends WebApplicationComponent
         return $this->get_parent()->get_group_statistics_viewing_url($group);
     }
 
-    function retrieve_laika_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_laika_users($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->get_parent()->retrieve_laika_users($condition, $offset, $count, $order_property, $order_direction);
+        return $this->get_parent()->retrieve_laika_users($condition, $offset, $count, $order_property);
     }
 
     function count_laika_users($condition = null)

@@ -120,24 +120,24 @@ class HomeManager extends CoreApplication
         return HomeDataManager :: get_instance()->count_home_blocks($condition);
     }
 
-    function retrieve_home_rows($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_home_rows($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return HomeDataManager :: get_instance()->retrieve_home_rows($condition, $offset, $count, $order_property, $order_direction);
+        return HomeDataManager :: get_instance()->retrieve_home_rows($condition, $offset, $count, $order_property);
     }
 
-    function retrieve_home_tabs($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_home_tabs($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return HomeDataManager :: get_instance()->retrieve_home_tabs($condition, $offset, $count, $order_property, $order_direction);
+        return HomeDataManager :: get_instance()->retrieve_home_tabs($condition, $offset, $count, $order_property);
     }
 
-    function retrieve_home_columns($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_home_columns($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return HomeDataManager :: get_instance()->retrieve_home_columns($condition, $offset, $count, $order_property, $order_direction);
+        return HomeDataManager :: get_instance()->retrieve_home_columns($condition, $offset, $count, $order_property);
     }
 
-    function retrieve_home_blocks($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_home_blocks($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return HomeDataManager :: get_instance()->retrieve_home_blocks($condition, $offset, $count, $order_property, $order_direction);
+        return HomeDataManager :: get_instance()->retrieve_home_blocks($condition, $offset, $count, $order_property);
     }
 
     function retrieve_home_block($id)
@@ -165,9 +165,9 @@ class HomeManager extends CoreApplication
         return HomeDataManager :: get_instance()->truncate_home($user_id);
     }
 
-    function retrieve_home_block_config($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_home_block_config($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return HomeDataManager :: get_instance()->retrieve_home_block_config($condition, $offset, $count, $order_property, $order_direction);
+        return HomeDataManager :: get_instance()->retrieve_home_block_config($condition, $offset, $count, $order_property);
     }
 
     public function get_application_platform_admin_links()
@@ -180,7 +180,7 @@ class HomeManager extends CoreApplication
 
         return $info;
     }
-    
+
     function get_home_tab_creation_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_HOME, self :: PARAM_HOME_TYPE => self :: TYPE_TAB));
@@ -200,7 +200,7 @@ class HomeManager extends CoreApplication
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_HOME, self :: PARAM_HOME_TYPE => self :: TYPE_COLUMN));
     }
-    
+
     function get_home_tab_editing_url($home_tab)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_HOME, self :: PARAM_HOME_TYPE => self :: TYPE_TAB, self :: PARAM_HOME_ID => $home_tab->get_id()));
@@ -230,7 +230,7 @@ class HomeManager extends CoreApplication
     {
         return $this->get_url(array(self :: PARAM_TAB_ID => $home_tab->get_id()));
     }
-    
+
     function get_home_tab_deleting_url($home_tab)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_HOME, self :: PARAM_HOME_TYPE => self :: TYPE_TAB, self :: PARAM_HOME_ID => $home_tab->get_id()));
@@ -260,7 +260,7 @@ class HomeManager extends CoreApplication
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_HOME, self :: PARAM_HOME_TYPE => self :: TYPE_BLOCK, self :: PARAM_HOME_ID => $home_block->get_id(), self :: PARAM_DIRECTION => $direction));
     }
-    
+
     function get_home_tab_moving_url($home_tab, $direction)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_HOME, self :: PARAM_HOME_TYPE => self :: TYPE_TAB, self :: PARAM_HOME_ID => $home_tab->get_id(), self :: PARAM_DIRECTION => $direction));

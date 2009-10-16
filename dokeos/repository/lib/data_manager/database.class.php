@@ -74,7 +74,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
     {
         return $this->database;
     }
-    
+
     function get_alias($name)
     {
     	return $this->database->get_alias($name);
@@ -132,7 +132,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 	// Inherited.
 	// TODO: Extract methods.
-	function retrieve_content_objects($type = null, $condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1, $state = ContentObject :: STATE_NORMAL, $different_parent_state = false)
+	function retrieve_content_objects($type = null, $condition = null, $order_by = array (), $offset = 0, $max_objects = -1, $state = ContentObject :: STATE_NORMAL, $different_parent_state = false)
 	{
 		$query = 'SELECT * FROM ';
 		if ($different_parent_state)
@@ -190,16 +190,6 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		 * Always respect display order as a last resort.
 		 */
 		$order_by[] = new ObjectTableOrder(ContentObject :: PROPERTY_DISPLAY_ORDER_INDEX);
-		$order_dir[] = SORT_ASC;
-		$order = array ();
-		/*
-		 * Categories always come first. Does not matter if we're dealing with
-		 * a single type.
-		 */
-		if (!isset($type))
-		{
-			//$order[] = '('.$this->escape_column_name(ContentObject :: PROPERTY_TYPE, true).' = "category") DESC';
-		}
 
 	    $orders = array();
         foreach($order_by as $order)
@@ -421,7 +411,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			return false;
 		}
 		// Delete children
-		
+
 		// Delete all attachments (only the links, not the actual objects)
 		$query = 'DELETE FROM '.$this->escape_table_name('content_object_attachment').' WHERE '.$this->escape_column_name('content_object_id').'=? OR '.$this->escape_column_name('attachment_id').'=?';
 		$sth = $this->connection->prepare($query);
@@ -669,12 +659,12 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$res->free();
 		return $includes;
 	}
-	
+
 	function is_content_object_included($object)
 	{
 		$condition = new EqualityCondition('include_id', $object->get_id());
 		$count = $this->database->count_objects('content_object_include', $condition);
-		return ($count > 0); 
+		return ($count > 0);
 	}
 
 	function retrieve_content_object_versions ($object)
@@ -1268,7 +1258,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		return true;
 
 	}
-	
+
 	function delete_complex_content_object_items($condition)
 	{
 		return $this->database->delete('complex_content_object_item', $condition);
@@ -1411,10 +1401,10 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 * Retrieves the complex learning object items with the given condition
 	 * @param Condition
 	 */
-	function retrieve_complex_content_object_items($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1, $type = null)
+	function retrieve_complex_content_object_items($condition = null, $order_by = array (), $offset = 0, $max_objects = -1, $type = null)
 	{
 		$alias = self :: ALIAS_COMPLEX_CONTENT_OBJECT_ITEM_TABLE;
-		
+
 		$query = 'SELECT ' . $alias . '.* FROM ' . $this->escape_table_name('complex_content_object_item') . ' AS ' . $alias;
         $params = array ();
 
@@ -1427,10 +1417,10 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
             }
 		}
 		$lo_alias = $this->get_database()->get_alias('content_object');
-		
-		
+
+
 		$query .= ' JOIN ' . $this->escape_table_name('content_object') . ' AS ' . $lo_alias . ' ON ' . $alias . '.ref_id=' . $lo_alias . '.id';
-		
+
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this->database, $params, null);
@@ -1439,8 +1429,6 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 
 		$order_by[] = new ObjectTableOrder(ComplexContentObjectItem :: PROPERTY_DISPLAY_ORDER, SORT_ASC, $alias);
-		//$order_dir[] = SORT_ASC;
-		$order = array ();
 
 	    $orders = array();
         foreach($order_by as $order)
@@ -1456,14 +1444,14 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if ($max_objects < 0)
 		{
 			$max_objects = null;
-		} 
+		}
 		$this->connection->setLimit(intval($max_objects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		$statement->free();
 
 		return new DatabaseComplexContentObjectItemResultSet($this, $res, true);
-		//return $this->database->retrieve_objects('complex_content_object_item', $condition, $offset, $max_objects, $order_by, $order_dir, 'DatabaseComplexContentObjectItemResultSet');
+		//return $this->database->retrieve_objects('complex_content_object_item', $condition, $offset, $max_objects, $order_by, 'DatabaseComplexContentObjectItemResultSet');
 	}
 
 	function select_next_display_order($parent_id)
@@ -1539,16 +1527,16 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		return $this->database->count_objects('repository_category', $conditions);
 	}
 
-	function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null)
 	{
 		if (is_a($order_property, 'ObjectTableOrder'))
 		{
 			$order_property = array($order_property);
 		}
-		
+
 		$order_property[] = new ObjectTableOrder('parent_id');
 		$order_property[] = new ObjectTableOrder('display_order');
-		return $this->database->retrieve_objects('repository_category', $condition, $offset, $count, $order_property, $order_direction);
+		return $this->database->retrieve_objects('repository_category', $condition, $offset, $count, $order_property);
 	}
 
 	function select_next_category_display_order($parent_category_id, $user_id)
@@ -1609,9 +1597,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		return $this->database->count_objects('user_view', $conditions);
 	}
 
-	function retrieve_user_views($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_user_views($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->database->retrieve_objects('user_view', $condition, $offset, $count, $order_property, $order_direction);
+		return $this->database->retrieve_objects('user_view', $condition, $offset, $count, $order_property);
 	}
 
 	function update_user_view_rel_content_object($user_view_rel_content_object)
@@ -1645,14 +1633,14 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		return $this->database->create($content_object_pub_feedback);
 	}
 
-	function retrieve_user_view_rel_content_objects($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_user_view_rel_content_objects($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->database->retrieve_objects('user_view_rel_content_object', $condition, $offset, $count, $order_property, $order_direction);
+		return $this->database->retrieve_objects('user_view_rel_content_object', $condition, $offset, $count, $order_property);
 	}
 
-    function retrieve_content_object_pub_feedback($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_content_object_pub_feedback($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->database->retrieve_objects('content_object_pub_feedback', $condition, $offset, $count, $order_property, $order_direction);
+		return $this->database->retrieve_objects('content_object_pub_feedback', $condition, $offset, $count, $order_property);
 	}
 
     function delete_content_object_pub_feedback($content_object_pub_feedback)
@@ -1681,17 +1669,17 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
     function retrieve_last_post($forum_id)
     {
         $alias = $this->database->get_alias('complex_content_object_item');
-    	$query = 'SELECT ' . $alias . '.* , fo.last_post_id, fot.last_post_id, cloi2.add_date from '.$this->database->escape_table_name('complex_content_object_item') . ' AS ' . $alias . 
+    	$query = 'SELECT ' . $alias . '.* , fo.last_post_id, fot.last_post_id, cloi2.add_date from '.$this->database->escape_table_name('complex_content_object_item') . ' AS ' . $alias .
                  ' LEFT JOIN ' . $this->database->escape_table_name('forum') . ' AS fo ON fo.id=' . $alias . '.ref_id' .
     			 ' LEFT JOIN ' . $this->database->escape_table_name('forum_topic') . ' AS fot ON fot.id=' . $alias . '.ref_id' .
-    			 ' LEFT JOIN ' . $this->database->escape_table_name('complex_content_object_item') . ' AS cloi2 ON cloi2.id=fo.last_post_id OR cloi2.id=fot.last_post_id' . 
+    			 ' LEFT JOIN ' . $this->database->escape_table_name('complex_content_object_item') . ' AS cloi2 ON cloi2.id=fo.last_post_id OR cloi2.id=fot.last_post_id' .
                  ' WHERE ' . $alias . '.parent_id=? ORDER BY '.$this->database->escape_column_name('cloi2.add_date').' DESC LIMIT 1';
-        $statement = $this->database->get_connection()->prepare($query); 
+        $statement = $this->database->get_connection()->prepare($query);
         $res = $statement->execute($forum_id);
         $statement->free();
         return new DatabaseComplexContentObjectItemResultSet($this, $res, true);
     }
-    
+
     function create_content_object_metadata($content_object_metadata)
 	{
 	    $created = $content_object_metadata->get_creation_date();
@@ -1699,10 +1687,10 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	    {
 	        $content_object_metadata->set_creation_date(self :: to_db_date($content_object_metadata->get_creation_date()));
 	    }
-	    
+
 		return $this->database->create($content_object_metadata);
 	}
-	
+
 	function update_content_object_metadata($content_object_metadata)
 	{
 	    $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_ID, $content_object_metadata->get_id());
@@ -1712,36 +1700,36 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	    {
 	        $content_object_metadata->set_modification_date(self :: to_db_date($content_object_metadata->get_modification_date()));
 	    }
-	    
+
 		return $this->database->update($content_object_metadata, $condition);
 	}
-	
+
 	function delete_content_object_metadata($content_object_metadata)
 	{
 	    $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_ID, $content_object_metadata->get_id());
 		return $this->database->delete($content_object_metadata->get_table_name(), $condition);
 	}
-	
-	function retrieve_content_object_metadata($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+
+	function retrieve_content_object_metadata($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->database->retrieve_objects(ContentObjectMetadata :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+		return $this->database->retrieve_objects(ContentObjectMetadata :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
-	
+
 	function get_next_content_object_metadata_id()
 	{
 	    return $this->connection->nextID($this->get_table_name('content_object_metadata'));
 	}
-	
-//	function retrieve_content_object_metadata_catalog($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+
+//	function retrieve_content_object_metadata_catalog($condition = null, $offset = null, $max_objects = null, $order_by = null)
 //	{
-//		return $this->database->retrieve_objects(ContentObjectMetadataCatalog :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+//		return $this->database->retrieve_objects(ContentObjectMetadataCatalog :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 //	}
-	
+
 	function get_next_content_object_metadata_catalog_id()
 	{
 	    return $this->connection->nextID($this->get_table_name('content_object_metadata_catalog'));
 	}
-	
+
 	function create_content_object_metadata_catalog($content_object_metadata_catalog)
 	{
 	    $created = $content_object_metadata_catalog->get_creation_date();
@@ -1749,10 +1737,10 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	    {
 	        $content_object_metadata_catalog->set_creation_date(self :: to_db_date($content_object_metadata_catalog->get_creation_date()));
 	    }
-	    
+
 		return $this->database->create($content_object_metadata_catalog);
 	}
-	
+
 	function update_content_object_metadata_catalog($content_object_metadata_catalog)
 	{
 	    $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_ID, $content_object_metadata_catalog->get_id());
@@ -1762,16 +1750,16 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	    {
 	        $content_object_metadata_catalog->set_modification_date(self :: to_db_date($content_object_metadata_catalog->get_modification_date()));
 	    }
-	    
+
 		return $this->database->update($content_object_metadata_catalog, $condition);
 	}
-	
+
 	function delete_content_object_metadata_catalog($content_object_metadata_catalog)
 	{
 	    $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_ID, $content_object_metadata_catalog->get_id());
 		return $this->database->delete($content_object_metadata_catalog->get_table_name(), $condition);
 	}
-	
+
 	function set_new_clo_version($lo_id, $new_lo_id)
 	{
 		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $lo_id, ComplexContentObjectItem :: get_table_name());
@@ -1780,25 +1768,25 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$this->connection->loadModule('Extended');
         return $this->connection->extended->autoExecute($this->get_table_name(ComplexContentObjectItem :: get_table_name()), $props, MDB2_AUTOQUERY_UPDATE, $condition);
 	}
-	
-	function retrieve_external_export($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+
+	function retrieve_external_export($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->database->retrieve_objects(ExternalExport :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+		return $this->database->retrieve_objects(ExternalExport :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
-	
-	function retrieve_external_export_fedora($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+
+	function retrieve_external_export_fedora($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->database->retrieve_objects(ExternalExportFedora :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+		return $this->database->retrieve_objects(ExternalExportFedora :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
-	
+
 	function retrieve_catalog($query, $table_name, $condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
 	    /*
-	     * Get 'catalog' alias and add it to the query in order to support WHERE and ORDER BY clause 
+	     * Get 'catalog' alias and add it to the query in order to support WHERE and ORDER BY clause
 	     */
 	    $after_from_position = stripos($query, 'from') + 4;
-	    $sub_query = trim(substr($query, $after_from_position)); 
-	    
+	    $sub_query = trim(substr($query, $after_from_position));
+
 	    if(stripos($sub_query, ' ') !== false)
 	    {
 	        $real_table_name = trim(substr($sub_query, 0, stripos($query, ' ')));
@@ -1807,27 +1795,27 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	    {
 	        $real_table_name = $sub_query;
 	    }
-	    
+
 	    $after_table_position = stripos($query, $real_table_name) + strlen($real_table_name);
-	    
+
 	    $alias = $this->database->get_alias('Catalog');
-	    
+
 	    $query = substr($query, 0, $after_table_position) . ' AS ' . $alias . ' ' . substr($query, $after_table_position);
-	    
+
 	    //debug($query);
-	    
+
 	    if(isset($condition))
 	    {
 	        $condition->set_storage_unit($alias);
 	    }
-	    
+
 	    if(isset($order_by))
 	    {
 	        $order_by->set_alias($alias);
 	    }
-	    
+
 	    return $this->database->retrieve_result_set($query, $table_name, $condition, $offset, $max_objects, $order_by);
 	}
-	
+
 }
 ?>

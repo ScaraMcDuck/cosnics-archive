@@ -71,9 +71,9 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 		return LinkerDataManager :: get_instance()->count_links($condition);
 	}
 
-	function retrieve_links($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_links($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return LinkerDataManager :: get_instance()->retrieve_links($condition, $offset, $count, $order_property, $order_direction);
+		return LinkerDataManager :: get_instance()->retrieve_links($condition, $offset, $count, $order_property);
 	}
 
  	function retrieve_link($id)
@@ -109,7 +109,7 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 	{
 	}
 
-	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
 	{
 	}
 

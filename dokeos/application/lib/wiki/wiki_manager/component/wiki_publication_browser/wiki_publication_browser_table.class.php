@@ -27,16 +27,16 @@ class WikiPublicationBrowserTable extends ObjectTable
 		parent :: __construct($data_provider, self :: DEFAULT_NAME, $model, $renderer);
 		$this->set_additional_parameters($parameters);
 		$actions = array();
-		
+
 		$actions[] = new ObjectTableFormAction(WikiManager :: PARAM_DELETE_SELECTED_WIKI_PUBLICATIONS, Translation :: get('RemoveSelected'));
-		
+
 		$this->set_form_actions($actions);
 		$this->set_default_row_count(20);
 	}
 
-    function get_objects($offset, $count, $order_property = null, $order_direction = null)
+    function get_objects($offset, $count, $order_property = null)
 	{
-		$objects = $this->get_data_provider()->get_objects($offset, $count, $order_property, $order_direction);
+		$objects = $this->get_data_provider()->get_objects($offset, $count, $order_property);
 		$table_data = array ();
 		$column_count = $this->get_column_model()->get_column_count();
 		foreach($objects as $object)

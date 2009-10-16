@@ -17,19 +17,19 @@ require_once Path :: get_user_path() . 'lib/user_data_manager.class.php';
 class TrackingManager extends CoreApplication
 {
     const APPLICATION_NAME = 'tracking';
-    
+
     const PARAM_EVENT_ID = 'event_id';
     const PARAM_TRACKER_ID = 'track_id';
     const PARAM_REF_ID = 'ref_id';
     const PARAM_TYPE = 'type';
     const PARAM_EXTRA = 'extra';
-    
+
     const ACTION_BROWSE_EVENTS = 'browse_events';
     const ACTION_VIEW_EVENT = 'view_event';
     const ACTION_CHANGE_ACTIVE = 'changeactive';
     const ACTION_EMPTY_TRACKER = 'empty_tracker';
     const ACTION_ARCHIVE = 'archive';
-    
+
     private $tdm;
 
     /**
@@ -75,7 +75,7 @@ class TrackingManager extends CoreApplication
                 $component = TrackingManagerComponent :: factory('Archiver', $this);
                 break;
         }
-        
+
         if ($component)
             $component->run();
     }
@@ -88,10 +88,10 @@ class TrackingManager extends CoreApplication
         $links = array();
         $links[] = array('name' => Translation :: get('List'), 'description' => Translation :: get('ListDescription'), 'action' => 'list', 'url' => $this->get_link(array(Application :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS)));
         $links[] = array('name' => Translation :: get('Archive'), 'description' => Translation :: get('ArchiveDescription'), 'action' => 'archive', 'url' => $this->get_link(array(Application :: PARAM_ACTION => TrackingManager :: ACTION_ARCHIVE)));
-        
+
         $info = parent :: get_application_platform_admin_links();
         $info['links'] = $links;
-        
+
         return $info;
     }
 
@@ -118,7 +118,7 @@ class TrackingManager extends CoreApplication
         $parameters[self :: PARAM_EVENT_ID] = $event_id;
         if ($tracker_id)
             $parameters[self :: PARAM_TRACKER_ID] = $tracker_id;
-        
+
         return $this->get_url($parameters);
     }
 
@@ -155,11 +155,10 @@ class TrackingManager extends CoreApplication
      * @param int $offset
      * @param int $count
      * @param String $order_property
-     * @param String $order_direction
      */
-    function retrieve_events($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_events($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->tdm->retrieve_events($condition, $offset, $count, $order_property, $order_direction);
+        return $this->tdm->retrieve_events($condition, $offset, $count, $order_property);
     }
 
     /**
@@ -227,9 +226,9 @@ class TrackingManager extends CoreApplication
         if (isset($_POST['action']))
         {
             $action = $_POST['action'];
-            
+
             $selected_ids = $_POST[EventTable :: DEFAULT_NAME . EventTable :: CHECKBOX_NAME_SUFFIX];
-            
+
             if (empty($selected_ids))
             {
                 $selected_ids = array();

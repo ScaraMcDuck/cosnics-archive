@@ -49,7 +49,7 @@ abstract class {APPLICATION_NAME}DataManager
 	abstract function delete_{OBJECTS.L_OBJECT_CLASS}(${OBJECTS.L_OBJECT_CLASS});
 	abstract function count_{OBJECTS.L_OBJECT_CLASSES}($conditions = null);
 	abstract function retrieve_{OBJECTS.L_OBJECT_CLASS}($id);
-	abstract function retrieve_{OBJECTS.L_OBJECT_CLASSES}($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_{OBJECTS.L_OBJECT_CLASSES}($condition = null, $offset = null, $count = null, $order_property = null);
 	
 	<!-- END OBJECTS -->
 }

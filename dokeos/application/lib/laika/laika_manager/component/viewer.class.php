@@ -87,24 +87,24 @@ class LaikaManagerViewerComponent extends LaikaManagerComponent
 			if (isset($attempt_id))
 			{
 				$attempt_condition = new EqualityCondition(LaikaAttempt :: PROPERTY_ID, $attempt_id);
-				$attempt = $this->retrieve_laika_attempts($attempt_condition, 0, 1, new ObjectTableOrder(LaikaAttempt :: PROPERTY_DATE, SORT_DESC), array(SORT_DESC))->next_result();
+				$attempt = $this->retrieve_laika_attempts($attempt_condition, 0, 1, new ObjectTableOrder(LaikaAttempt :: PROPERTY_DATE, SORT_DESC))->next_result();
 
 				$attempt_user = $attempt->get_user_id();
 				if ($attempt_user != $user->get_id() && !$is_admin)
 				{
 					$attempt_condition = new EqualityCondition(LaikaAttempt :: PROPERTY_USER_ID, $user->get_id());
-					$attempt = $this->retrieve_laika_attempts($attempt_condition, 0, 1, new ObjectTableOrder(LaikaAttempt :: PROPERTY_DATE, SORT_DESC), array(SORT_DESC))->next_result();
+					$attempt = $this->retrieve_laika_attempts($attempt_condition, 0, 1, new ObjectTableOrder(LaikaAttempt :: PROPERTY_DATE, SORT_DESC))->next_result();
 				}
 			}
 			elseif(isset($user_id) && $is_admin)
 			{
 				$attempt_condition = new EqualityCondition(LaikaAttempt :: PROPERTY_USER_ID, $user_id);
-				$attempt = $this->retrieve_laika_attempts($attempt_condition, 0, 1, new ObjectTableOrder(LaikaAttempt :: PROPERTY_DATE, SORT_DESC), array(SORT_DESC))->next_result();
+				$attempt = $this->retrieve_laika_attempts($attempt_condition, 0, 1, new ObjectTableOrder(LaikaAttempt :: PROPERTY_DATE, SORT_DESC))->next_result();
 			}
 			else
 			{
 				$attempt_condition = new EqualityCondition(LaikaAttempt :: PROPERTY_USER_ID, $user->get_id());
-				$attempt = $this->retrieve_laika_attempts($attempt_condition, 0, 1, new ObjectTableOrder(LaikaAttempt :: PROPERTY_DATE, SORT_DESC), array(SORT_DESC))->next_result();
+				$attempt = $this->retrieve_laika_attempts($attempt_condition, 0, 1, new ObjectTableOrder(LaikaAttempt :: PROPERTY_DATE, SORT_DESC))->next_result();
 			}
 
 			$this->attempt = $attempt;

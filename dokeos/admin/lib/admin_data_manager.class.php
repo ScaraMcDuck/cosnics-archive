@@ -61,19 +61,19 @@ abstract class AdminDataManager
 
     abstract function create_system_announcement_publication($system_announcement_publication);
 
-    abstract function retrieve_languages($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1);
-    
+    abstract function retrieve_languages($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
+
     abstract function count_settings($condition = null);
 
-    abstract function retrieve_settings($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1);
+    abstract function retrieve_settings($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
 
-    abstract function retrieve_remote_packages($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1);
+    abstract function retrieve_remote_packages($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
 
     abstract function retrieve_registration($id);
 
     abstract function retrieve_remote_package($id);
 
-    abstract function retrieve_registrations($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1);
+    abstract function retrieve_registrations($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
 
     abstract function count_remote_packages($condition = null);
 
@@ -134,12 +134,11 @@ abstract class AdminDataManager
      * Retrieve a series of system announcements
      * @param Condition $condition
      * @param array $order_by
-     * @param array $order_dir
      * @param int $offset
      * @param int $max_objects
      * @return SystemAnnouncementPublicationResultSet
      */
-    abstract function retrieve_system_announcement_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1);
+    abstract function retrieve_system_announcement_publications($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
 
     abstract function retrieve_system_announcement_publication_target_groups($system_announcement_publication);
 
@@ -157,9 +156,9 @@ abstract class AdminDataManager
 
     abstract function count_categories($conditions = null);
 
-    abstract function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+    abstract function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null);
 
-    abstract function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+    abstract function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null);
 
     abstract function get_content_object_publication_attribute($publication_id);
 
@@ -183,7 +182,7 @@ abstract class AdminDataManager
 
     abstract function create_feedback_publication($feedback_publication);
 
-    abstract function retrieve_validations($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1);
+    abstract function retrieve_validations($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
 
     abstract function count_validations($condition =null);
 }

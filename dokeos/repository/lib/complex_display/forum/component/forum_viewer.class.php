@@ -97,7 +97,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
         $order_property[]=new ObjectTableOrder('add_date');
         $children = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $current_forum->get_id(), ComplexContentObjectItem :: get_table_name()), $order_property);
         while($child = $children->next_result())
-        { 
+        {
             $lo = $rdm->retrieve_content_object($child->get_ref());
             $child->set_ref($lo);
             if($lo->get_type() == 'forum_topic')
@@ -109,7 +109,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
                 $this->forums[] = $child;
             }
         }
-        
+
         $this->sort_topics();
     }
 
@@ -183,7 +183,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
             $title = '<a href="' . $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay::ACTION_VIEW_TOPIC,'pid' => $this->pid, 'cid' => $topic->get_id())) . '">' . $topic->get_ref()->get_title() . '</a>';
 
             $count = $rdm->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $topic->get_ref()->get_id(), ComplexContentObjectItem :: get_table_name()));
-            $last_post = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $topic->get_ref()->get_id(), ComplexContentObjectItem :: get_table_name()), array(new ObjectTableOrder(ComplexContentObjectItem :: PROPERTY_ADD_DATE, SORT_DESC)), array(), 0, 1 )->next_result();
+            $last_post = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $topic->get_ref()->get_id(), ComplexContentObjectItem :: get_table_name()), array(new ObjectTableOrder(ComplexContentObjectItem :: PROPERTY_ADD_DATE, SORT_DESC)), 0, 1 )->next_result();
 
             $src = 'forum/topic_read.png';
             $hover = 'NoNewPosts';
@@ -319,7 +319,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('NewTopic'), /*Theme :: get_image_path() . 'forum/buttons/button_topic_new.gif'*/ Theme :: get_common_image_path().'action_add.png',
                 $this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, ComplexDisplay::PARAM_DISPLAY_ACTION => ForumDisplay::ACTION_CREATE_TOPIC)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-                
+
         if($this->get_parent()->get_parent()->is_allowed(ADD_RIGHT))
         {
         	$action_bar->add_common_action(new ToolbarItem(Translation :: get('NewSubForum'), /*Theme :: get_image_path() . 'forum/buttons/button_topic_new.gif'*/ Theme :: get_common_image_path().'action_add.png',

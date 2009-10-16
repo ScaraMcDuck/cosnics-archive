@@ -31,7 +31,7 @@ class PackageManagerInstallerComponent extends PackageManagerComponent
         }
 
         $installer = new PackageInstaller();
-        $result = $installer->run();
+        $installer->run();
 
         $this->display_header($trail);
         echo $installer->retrieve_result();

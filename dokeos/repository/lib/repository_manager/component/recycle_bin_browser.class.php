@@ -23,13 +23,13 @@ class RepositoryManagerRecycleBinBrowserComponent extends RepositoryManagerCompo
 		$trail->add_help('repository recyclebin');
 
 		$this->display_header($trail, false, true);
-		
+
 		if (Request :: get(RepositoryManager :: PARAM_EMPTY_RECYCLE_BIN))
 		{
 			$this->empty_recycle_bin();
 			$this->display_message(htmlentities(Translation :: get('RecycleBinEmptied')));
 		}
-		
+
 		echo $this->get_action_bar()->as_html();
 		$this->display_content_objects();
 		$this->display_footer();
@@ -53,7 +53,7 @@ class RepositoryManagerRecycleBinBrowserComponent extends RepositoryManagerCompo
 	 */
 	private function empty_recycle_bin()
 	{
-		$trashed_objects = $this->retrieve_content_objects(null, new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id()), array(), array(), 0, -1, ContentObject :: STATE_RECYCLED);
+		$trashed_objects = $this->retrieve_content_objects(null, new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id()), array(), 0, -1, ContentObject :: STATE_RECYCLED);
 		$count = 0;
 		while ($object = $trashed_objects->next_result())
 		{
@@ -62,7 +62,7 @@ class RepositoryManagerRecycleBinBrowserComponent extends RepositoryManagerCompo
 		}
 		return $count;
 	}
-	
+
 	function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);

@@ -25,10 +25,10 @@ class AssessmentPublicationCategoryManager extends CategoryManager
         return $adm->count_assessment_publication_categories($condition);
     }
 
-    function retrieve_categories($condition, $offset, $count, $order_property, $order_direction)
+    function retrieve_categories($condition, $offset, $count, $order_property)
     {
         $adm = AssessmentDataManager :: get_instance();
-        return $adm->retrieve_assessment_publication_categories($condition, $offset, $count, $order_property, $order_direction);
+        return $adm->retrieve_assessment_publication_categories($condition, $offset, $count, $order_property);
     }
 
     function get_next_category_display_order($parent_id)

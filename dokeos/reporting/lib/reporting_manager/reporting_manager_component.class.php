@@ -28,9 +28,9 @@ abstract class ReportingManagerComponent extends CoreApplicationComponent
         return $this->get_parent()->count_reporting_template_registrations($condition);
     }
 
-    function retrieve_reporting_template_registrations($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_reporting_template_registrations($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->get_parent()->retrieve_reporting_template_registrations($condition, $offset, $count, $order_property, $order_direction);
+        return $this->get_parent()->retrieve_reporting_template_registrations($condition, $offset, $count, $order_property);
     }
 
     function retrieve_reporting_template_registration($reporting_template_registration_id)

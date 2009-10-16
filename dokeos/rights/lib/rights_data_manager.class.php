@@ -79,11 +79,11 @@ abstract class RightsDataManager
 
     abstract function retrieve_rights_template($id);
 
-    abstract function retrieve_rights_templates($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+    abstract function retrieve_rights_templates($condition = null, $offset = null, $count = null, $order_property = null);
 
-    abstract function retrieve_rights($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+    abstract function retrieve_rights($condition = null, $offset = null, $count = null, $order_property = null);
 
-    abstract function retrieve_locations($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+    abstract function retrieve_locations($condition = null, $offset = null, $count = null, $order_property = null);
 
     abstract function add_nested_values($location, $previous_visited, $number_of_elements = 1);
 

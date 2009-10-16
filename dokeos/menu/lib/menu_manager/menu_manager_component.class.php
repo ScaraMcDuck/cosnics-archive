@@ -37,14 +37,14 @@ abstract class MenuManagerComponent extends CoreApplicationComponent
         $this->get_parent()->display_popup_form($form_html);
     }
 
-    function retrieve_menu_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_menu_categories($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->get_parent()->retrieve_menu_categories($condition, $offset, $count, $order_property, $order_direction);
+        return $this->get_parent()->retrieve_menu_categories($condition, $offset, $count, $order_property);
     }
 
-    function retrieve_navigation_items($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_navigation_items($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->get_parent()->retrieve_navigation_items($condition, $offset, $count, $order_property, $order_direction);
+        return $this->get_parent()->retrieve_navigation_items($condition, $offset, $count, $order_property);
     }
 
     function retrieve_navigation_item($id)
@@ -66,7 +66,7 @@ abstract class MenuManagerComponent extends CoreApplicationComponent
     {
         return $this->get_parent()->get_navigation_item_creation_url();
     }
-    
+
 	function get_category_navigation_item_creation_url()
     {
          return $this->get_parent()->get_category_navigation_item_creation_url();

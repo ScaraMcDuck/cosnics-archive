@@ -27,10 +27,10 @@ class ProfilerCategoryManager extends CategoryManager
         return $wdm->count_categories($condition);
     }
 
-    function retrieve_categories($condition, $offset, $count, $order_property, $order_direction)
+    function retrieve_categories($condition, $offset, $count, $order_property)
     {
         $wdm = ProfilerDataManager :: get_instance();
-        return $wdm->retrieve_categories($condition, $offset, $count, $order_property, $order_direction);
+        return $wdm->retrieve_categories($condition, $offset, $count, $order_property);
     }
 
     function get_next_category_display_order($parent_id)

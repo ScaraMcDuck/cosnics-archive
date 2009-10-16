@@ -13,7 +13,7 @@ require_once dirname(__FILE__).'/../../help_manager.class.php';
 class HelpItemBrowserTable extends ObjectTable
 {
 	const DEFAULT_NAME = 'help_item_browser_table';
-	
+
 	/**
 	 * Constructor
 	 * @see ContentObjectTable::ContentObjectTable()
@@ -27,10 +27,10 @@ class HelpItemBrowserTable extends ObjectTable
 		$this->set_additional_parameters($parameters);
 		$this->set_default_row_count(20);
 	}
-	
-	function get_objects($offset, $count, $order_column, $order_direction)
+
+	function get_objects($offset, $count, $order_column)
 	{
-		$help_items = $this->get_data_provider()->get_objects($offset, $count, $this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0)), $order_direction);
+		$help_items = $this->get_data_provider()->get_objects($offset, $count, $this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0)));
 		$table_data = array ();
 		$column_count = $this->get_column_model()->get_column_count();
 		while ($help_item = $help_items->next_result())

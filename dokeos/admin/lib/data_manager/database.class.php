@@ -30,19 +30,19 @@ class DatabaseAdminDataManager extends AdminDataManager
         return $this->database;
     }
 
-    function retrieve_languages($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
+    function retrieve_languages($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
-        return $this->database->retrieve_objects(Language :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+        return $this->database->retrieve_objects(Language :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
-    
+
     function count_settings($condition = null)
     {
         return $this->database->count_objects(Setting :: get_table_name(), $condition);
     }
 
-    function retrieve_settings($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
+    function retrieve_settings($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
-        return $this->database->retrieve_objects(Setting :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+        return $this->database->retrieve_objects(Setting :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
     function delete_settings($condition = null)
@@ -62,9 +62,9 @@ class DatabaseAdminDataManager extends AdminDataManager
 
     }
 
-    function retrieve_registrations($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
+    function retrieve_registrations($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
-        return $this->database->retrieve_objects(Registration :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+        return $this->database->retrieve_objects(Registration :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
     function retrieve_language_from_english_name($english_name)
@@ -242,9 +242,9 @@ class DatabaseAdminDataManager extends AdminDataManager
         return $this->database->retrieve_object(SystemAnnouncementPublication :: get_table_name(), $condition);
     }
 
-    function retrieve_system_announcement_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
+    function retrieve_system_announcement_publications($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
-        return $this->database->retrieve_objects(SystemAnnouncementPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+        return $this->database->retrieve_objects(SystemAnnouncementPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
     function retrieve_system_announcement_publication_target_groups($system_announcement_publication)
@@ -319,9 +319,9 @@ class DatabaseAdminDataManager extends AdminDataManager
         return $this->database->count_objects('feedback_publication', $condition);
     }
 
-    function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->database->retrieve_objects('admin_category', $condition, $offset, $count, $order_property, $order_direction);
+        return $this->database->retrieve_objects('admin_category', $condition, $offset, $count, $order_property);
     }
 
     function select_next_display_order($parent_category_id)
@@ -347,7 +347,7 @@ class DatabaseAdminDataManager extends AdminDataManager
         return $record[0] + 1;
     }
 
-    public function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    public function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
     {
         if (isset($type))
         {
@@ -475,22 +475,20 @@ class DatabaseAdminDataManager extends AdminDataManager
         return $this->database->retrieve_object(RemotePackage :: get_table_name(), $condition);
     }
 
-    function retrieve_remote_packages($condition = null, $order_by = array(), $order_dir = array(), $offset = null, $max_objects = null)
+    function retrieve_remote_packages($condition = null, $order_by = array(), $offset = null, $max_objects = null)
     {
-        return $this->database->retrieve_objects(RemotePackage :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir);
+        return $this->database->retrieve_objects(RemotePackage :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
     function retrieve_feedback_publications($pid,$cid,$application)
     {
-
         $conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_PID, $pid);
         $conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_CID, $cid);
         $conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_APPLICATION, $application);
         $condition = new AndCondition($conditions);
         $order_by[] = new ObjectTableOrder(FeedbackPublication::PROPERTY_ID,SORT_DESC);
 
-
-        return $this->database->retrieve_objects(FeedbackPublication :: get_table_name(),$condition,null,null,$order_by);
+        return $this->database->retrieve_objects(FeedbackPublication :: get_table_name(), $condition, null, null, $order_by);
     }
 
    /* function retrieve_validations($pid,$cid,$application)
@@ -507,18 +505,14 @@ class DatabaseAdminDataManager extends AdminDataManager
 
     function retrieve_feedback_publication($id)
     {
-
         $condition = new EqualityCondition(FeedbackPublication :: PROPERTY_ID, $id);
-        return $this->database->retrieve_object(FeedbackPublication :: get_table_name(),$condition);
-
+        return $this->database->retrieve_object(FeedbackPublication :: get_table_name(), $condition);
     }
 
     function retrieve_validation($id)
     {
-
         $condition = new EqualityCondition(Validation :: PROPERTY_ID, $id);
-        return $this->database->retrieve_object(Validation :: get_table_name(),$condition);
-
+        return $this->database->retrieve_object(Validation :: get_table_name(), $condition);
     }
 
     function update_feedback_publication($feedback_publication)
@@ -556,14 +550,14 @@ class DatabaseAdminDataManager extends AdminDataManager
         return $this->database->create($validation);
     }
 
-    function retrieve_validations($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1){
+    function retrieve_validations($condition = null, $order_by = array (), $offset = 0, $max_objects = -1){
 
-        return $this->database->retrieve_objects(Validation :: get_table_name(),$condition, $order_by, $order_dir, $offset, $max_objects);
+        return $this->database->retrieve_objects(Validation :: get_table_name(),$condition, $order_by, $offset, $max_objects);
 
     }
 
     function count_validations($condition =null){
-    
+
         return $this->database->count_objects(Validation :: get_table_name(), $condition);
     }
 

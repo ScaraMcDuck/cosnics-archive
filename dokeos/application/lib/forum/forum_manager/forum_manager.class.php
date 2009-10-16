@@ -95,9 +95,9 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 		return ForumDataManager :: get_instance()->count_forum_publications($condition);
 	}
 
-	function retrieve_forum_publications($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_forum_publications($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return ForumDataManager :: get_instance()->retrieve_forum_publications($condition, $offset, $count, $order_property, $order_direction);
+		return ForumDataManager :: get_instance()->retrieve_forum_publications($condition, $offset, $count, $order_property);
 	}
 
  	function retrieve_forum_publication($id)
@@ -143,7 +143,7 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 	{
 	}
 
-	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
 	{
 	}
 

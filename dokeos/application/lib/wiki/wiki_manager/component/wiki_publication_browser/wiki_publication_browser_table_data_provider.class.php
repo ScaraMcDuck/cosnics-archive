@@ -23,15 +23,13 @@ class WikiPublicationBrowserTableDataProvider extends ObjectTableDataProvider
    * @param int $offset
    * @param int $count
    * @param string $order_property
-   * @param int $order_direction (SORT_ASC or SORT_DESC)
    * @return ResultSet A set of objects
    */
-    function get_objects($offset, $count, $order_property = null, $order_direction = null)
+    function get_objects($offset, $count, $order_property = null)
     {
 		$order_property = $this->get_order_property($order_property);
-		$order_direction = $this->get_order_direction($order_direction);
 
-     	$publications = $this->get_browser()->retrieve_wiki_publications($this->get_condition(), $offset, $count, null, null)->as_array();
+     	$publications = $this->get_browser()->retrieve_wiki_publications($this->get_condition(), $offset, $count)->as_array();
         foreach($publications as &$publication)
         {
             $publication->set_content_object(RepositoryDataManager :: get_instance()->retrieve_content_object($publication->get_content_object()));

@@ -122,10 +122,10 @@ class AlexiaManager extends WebApplication
         return $adm->retrieve_alexia_publication($id);
     }
 
-    function retrieve_alexia_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
+    function retrieve_alexia_publications($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
         $adm = AlexiaDataManager :: get_instance();
-        return $adm->retrieve_alexia_publications($condition, $offset, $max_objects, $order_by, $order_dir);
+        return $adm->retrieve_alexia_publications($condition, $offset, $max_objects, $order_by);
     }
 
 	/**

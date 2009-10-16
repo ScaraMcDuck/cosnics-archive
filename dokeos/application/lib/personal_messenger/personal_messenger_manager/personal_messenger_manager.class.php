@@ -191,22 +191,16 @@ class PersonalMessengerManager extends WebApplication
 	 * @param int $offset
 	 * @param int $count
 	 * @param int $order_property
-	 * @param int $order_direction
 	 * @return array An array of Learing Object Publication Attributes
 	 */
-	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
 	{
-		return PersonalMessengerDataManager :: get_instance()->get_content_object_publication_attributes($this->get_user(), $object_id, $type, $offset, $count, $order_property, $order_direction);
+		return PersonalMessengerDataManager :: get_instance()->get_content_object_publication_attributes($this->get_user(), $object_id, $type, $offset, $count, $order_property);
 	}
 
 	/**
 	 * Gets the publication attributes of a given learning object id
 	 * @param int $object_id The object id
-	 * @param string $type Type of retrieval
-	 * @param int $offset
-	 * @param int $count
-	 * @param int $order_property
-	 * @param int $order_direction
 	 * @return ContentObjectPublicationAttribute
 	 */
 	function get_content_object_publication_attribute($object_id)
@@ -282,15 +276,14 @@ class PersonalMessengerManager extends WebApplication
 	 * Retrieve a series of personal message publications
 	 * @param Condition $condition
 	 * @param array $order_by
-	 * @param array $order_dir
 	 * @param int $offset
 	 * @param int $max_objects
 	 * @return PersonalMessagePublicationResultSet
 	 */
-	function retrieve_personal_message_publications($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
+	function retrieve_personal_message_publications($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
 	{
 		$pmdm = PersonalMessengerDataManager :: get_instance();
-		return $pmdm->retrieve_personal_message_publications($condition, $order_by, $order_dir, $offset, $max_objects);
+		return $pmdm->retrieve_personal_message_publications($condition, $order_by, $offset, $max_objects);
 	}
 
 	/**

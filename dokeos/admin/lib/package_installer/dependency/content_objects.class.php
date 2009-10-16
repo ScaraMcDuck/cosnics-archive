@@ -7,14 +7,14 @@ class PackageInstallerContentObjectsDependency extends PackageInstallerDependenc
     function check($dependency)
     {
         $message = Translation :: get('DependencyCheckContentObject') . ': ' . Translation :: get(DokeosUtilities :: underscores_to_camelcase($dependency['id']) . 'TypeName') . ', ' . Translation :: get('Version') . ': ' . $dependency['version']['_content'] . ' ' . Translation :: get('Found') . ': ';
-        
+
         $conditions = array();
         $conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, $dependency['id']);
         $conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_CONTENT_OBJECT);
         $condition = new AndCondition($conditions);
-        
-        $registrations = AdminDataManager :: get_instance()->retrieve_registrations($condition, array(), array(), 0, 1);
-        
+
+        $registrations = AdminDataManager :: get_instance()->retrieve_registrations($condition, array(), 0, 1);
+
         if ($registrations->size() === 0)
         {
             $message .= '--' . Translation :: get('Nothing') . '--';
@@ -24,7 +24,7 @@ class PackageInstallerContentObjectsDependency extends PackageInstallerDependenc
         else
         {
             $registration = $registrations->next_result();
-            
+
             $content_object_version = $this->version_compare($dependency['version']['type'], $dependency['version']['_content'], $registration->get_version());
             if (! $content_object_version)
             {
@@ -46,7 +46,7 @@ class PackageInstallerContentObjectsDependency extends PackageInstallerDependenc
                     $message .= $registration->get_version();
                     $this->add_message($message);
                 }
-                
+
                 return true;
             }
         }

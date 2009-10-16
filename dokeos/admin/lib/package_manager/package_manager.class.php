@@ -17,7 +17,7 @@ class PackageManager extends SubManager
     const PARAM_PACKAGE = 'package';
     const PARAM_INSTALL_TYPE = 'type';
     const PARAM_SECTION = 'section';
-    
+
     const ACTION_BROWSE_PACKAGES = 'browse';
     const ACTION_ACTIVATE_PACKAGE = 'activate';
     const ACTION_DEACTIVATE_PACKAGE = 'deactivate';
@@ -26,7 +26,7 @@ class PackageManager extends SubManager
     const ACTION_SYNCHRONISE_REMOTE_PACKAGES = 'synchronise';
     const ACTION_INSTALL_PACKAGE = 'install';
     const ACTION_REMOVE_PACKAGE = 'remove';
-    
+
     const INSTALL_REMOTE = 'remote';
     const INSTALL_ARCHIVE = 'archive';
     const INSTALL_LOCAL = 'local';
@@ -34,7 +34,7 @@ class PackageManager extends SubManager
     function PackageManager($admin_manager)
     {
         parent :: __construct($admin_manager);
-        
+
         $package_action = Request :: get(self :: PARAM_PACKAGE_ACTION);
         if ($package_action)
         {
@@ -45,7 +45,7 @@ class PackageManager extends SubManager
     function run()
     {
         $package_action = $this->get_parameter(self :: PARAM_PACKAGE_ACTION);
-        
+
         switch ($package_action)
         {
             case self :: ACTION_BROWSE_PACKAGES :
@@ -76,7 +76,7 @@ class PackageManager extends SubManager
                 $component = PackageManagerComponent :: factory('Browser', $this);
                 break;
         }
-        
+
         $component->run();
     }
 
@@ -90,9 +90,9 @@ class PackageManager extends SubManager
         return $this->get_parent()->retrieve_registration($id);
     }
 
-    function retrieve_registrations($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
+    function retrieve_registrations($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
-        return $this->get_parent()->retrieve_registrations($condition, $order_by, $order_dir, $offset, $max_objects);
+        return $this->get_parent()->retrieve_registrations($condition, $order_by, $offset, $max_objects);
     }
 
     function count_registrations($condition = null)
@@ -139,9 +139,9 @@ class PackageManager extends SubManager
     /**
      * @see AdminManager :: retrieve_remote_packages()
      */
-    function retrieve_remote_packages($condition = null, $order_by = array (), $order_dir = array (), $offset = 0, $max_objects = -1)
+    function retrieve_remote_packages($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
-        return $this->get_parent()->retrieve_remote_packages($condition, $order_by, $order_dir, $offset, $max_objects);
+        return $this->get_parent()->retrieve_remote_packages($condition, $order_by, $offset, $max_objects);
     }
 }
 ?>

@@ -11,7 +11,7 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
  * A assessment manager
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author
  */
  class AssessmentManager extends WebApplication
  {
@@ -35,7 +35,7 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 	const ACTION_EXPORT_RESULTS = 'export_results';
 	const ACTION_DOWNLOAD_DOCUMENTS = 'download_documents';
 	const ACTION_PUBLISH_SURVEY = 'publish_survey';
-	
+
 	/**
 	 * Constructor
 	 * @param User $user The current user
@@ -144,9 +144,9 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 		return AssessmentDataManager :: get_instance()->count_assessment_publications($condition);
 	}
 
-	function retrieve_assessment_publications($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_assessment_publications($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return AssessmentDataManager :: get_instance()->retrieve_assessment_publications($condition, $offset, $count, $order_property, $order_direction);
+		return AssessmentDataManager :: get_instance()->retrieve_assessment_publications($condition, $offset, $count, $order_property);
 	}
 
  	function retrieve_assessment_publication($id)
@@ -159,9 +159,9 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 		return AssessmentDataManager :: get_instance()->count_assessment_publication_groups($condition);
 	}
 
-	function retrieve_assessment_publication_groups($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_assessment_publication_groups($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return AssessmentDataManager :: get_instance()->retrieve_assessment_publication_groups($condition, $offset, $count, $order_property, $order_direction);
+		return AssessmentDataManager :: get_instance()->retrieve_assessment_publication_groups($condition, $offset, $count, $order_property);
 	}
 
  	function retrieve_assessment_publication_group($id)
@@ -174,9 +174,9 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 		return AssessmentDataManager :: get_instance()->count_assessment_publication_users($condition);
 	}
 
-	function retrieve_assessment_publication_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_assessment_publication_users($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return AssessmentDataManager :: get_instance()->retrieve_assessment_publication_users($condition, $offset, $count, $order_property, $order_direction);
+		return AssessmentDataManager :: get_instance()->retrieve_assessment_publication_users($condition, $offset, $count, $order_property);
 	}
 
  	function retrieve_assessment_publication_user($id)
@@ -212,61 +212,61 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_ASSESSMENT_PUBLICATION_CATEGORIES));
 	}
-	
+
 	function get_assessment_publication_viewer_url($assessment_publication)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_ASSESSMENT_PUBLICATION,
 								    self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
 	}
-	
+
 	function get_assessment_results_viewer_url($assessment_publication)
 	{
 		$id = $assessment_publication ? $assessment_publication->get_id() : null;
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_ASSESSMENT_PUBLICATION_RESULTS,
 								    self :: PARAM_ASSESSMENT_PUBLICATION => $id));
 	}
-	
+
  	function get_import_qti_url()
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_QTI));
 	}
-	
+
  	function get_export_qti_url($assessment_publication)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXPORT_QTI,
 								    self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
 	}
-	
+
  	function get_change_assessment_publication_visibility_url($assessment_publication)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CHANGE_ASSESSMENT_PUBLICATION_VISIBILITY,
 								    self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
 	}
-	
+
  	function get_move_assessment_publication_url($assessment_publication)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_ASSESSMENT_PUBLICATION,
 								    self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
 	}
-	
+
 	function get_results_exporter_url($tracker_id)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXPORT_RESULTS,
 								    'tid' => $tracker_id));
 	}
-	
+
  	function get_download_documents_url($assessment_publication)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DOWNLOAD_DOCUMENTS,
 								    self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
 	}
-	
+
  	function get_publish_survey_url($assessment_publication)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_PUBLISH_SURVEY,
 								    self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
 	}
-	
+
 	function content_object_is_published($object_id)
 	{
 		return AssessmentDataManager :: get_instance()->content_object_is_published($object_id);
@@ -277,9 +277,9 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 		return AssessmentDataManager :: get_instance()->any_content_object_is_published($object_ids);
 	}
 
-	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
 	{
-		return AssessmentDataManager :: get_instance()->get_content_object_publication_attributes($object_id, $type, $offset, $count, $order_property, $order_direction);
+		return AssessmentDataManager :: get_instance()->get_content_object_publication_attributes($object_id, $type, $offset, $count, $order_property);
 	}
 
 	function get_content_object_publication_attribute($publication_id)
@@ -305,14 +305,14 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
 	function get_content_object_publication_locations($content_object)
 	{
 		$allowed_types = array('assessment', 'survey', 'hotpotatoes');
-        
+
         $type = $content_object->get_type();
         if (in_array($type, $allowed_types))
         {
             $locations = array(Translation :: get('Assessments'));
             return $locations;
         }
-        
+
         return array();
 	}
 
@@ -325,7 +325,7 @@ require_once dirname(__FILE__).'/component/assessment_publication_browser/assess
         $publication->set_hidden(0);
         $publication->set_from_date(0);
         $publication->set_to_date(0);
-        
+
         $publication->create();
         return Translation :: get('PublicationCreated');
 	}

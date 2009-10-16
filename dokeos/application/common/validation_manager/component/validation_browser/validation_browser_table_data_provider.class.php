@@ -25,15 +25,12 @@ class ValidationBrowserTableDataProvid extends ObjectTableDataProvider
      * @param int $offset
      * @param int $count
      * @param string $order_property
-     * @param int $order_direction (SORT_ASC or SORT_DESC)
      * @return ResultSet A set of matching validation objects.
      */
-    function get_objects($offset, $count, $order_property = null, $order_direction = null)
+    function get_objects($offset, $count, $order_property = null)
     {
         $order_property = $this->get_order_property($order_property);
-        $order_direction = $this->get_order_direction($order_direction);
-        
-        return $this->get_browser()->retrieve_validations($this->get_condition(), $order_property, $order_direction, $offset, $count);
+        return $this->get_browser()->retrieve_validations($this->get_condition(), $order_property, $offset, $count);
     }
 
     /**
@@ -42,7 +39,7 @@ class ValidationBrowserTableDataProvid extends ObjectTableDataProvider
      */
     function get_object_count()
     {
-      
+
         return $this->get_browser()->count_validations($this->get_condition());
     }
 }

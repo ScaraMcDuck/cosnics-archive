@@ -29,9 +29,9 @@ abstract class {APPLICATION_NAME}ManagerComponent extends WebApplicationComponen
 		return $this->get_parent()->count_{OBJECTS.L_OBJECT_CLASSES}($condition);
 	}
 	
-	function retrieve_{OBJECTS.L_OBJECT_CLASSES}($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_{OBJECTS.L_OBJECT_CLASSES}($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->get_parent()->retrieve_{OBJECTS.L_OBJECT_CLASSES}($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_{OBJECTS.L_OBJECT_CLASSES}($condition, $offset, $count, $order_property);
 	}
 	
  	function retrieve_{OBJECTS.L_OBJECT_CLASS}($id)

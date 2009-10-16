@@ -47,7 +47,7 @@ abstract class WikiDataManager
 	abstract function delete_wiki_publication($wiki_publication);
 	abstract function count_wiki_publications($conditions = null);
 	abstract function retrieve_wiki_publication($id);
-	abstract function retrieve_wiki_publications($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_wiki_publications($condition = null, $offset = null, $count = null, $order_property = null);
 
 }
 ?>

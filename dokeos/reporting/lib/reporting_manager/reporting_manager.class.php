@@ -87,9 +87,9 @@ class ReportingManager extends CoreApplication
         return ReportingDataManager :: get_instance()->count_reporting_template_registrations($condition);
     }
 
-    function retrieve_reporting_template_registrations($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_reporting_template_registrations($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return ReportingDataManager :: get_instance()->retrieve_reporting_template_registrations($condition, $offset, $count, $order_property, $order_direction);
+        return ReportingDataManager :: get_instance()->retrieve_reporting_template_registrations($condition, $offset, $count, $order_property);
     }
 
     function retrieve_reporting_template_registration($reporting_template_registration_id)

@@ -15,7 +15,7 @@ require_once 'MDB2.php';
  *	for MySQL, but should be compatible with most SQL flavors.
  *
  *  @author Sven Vanpoucke
- *  @author 
+ *  @author
  */
 
 class DatabaseAssessmentDataManager extends AssessmentDataManager
@@ -32,7 +32,7 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
 		$this->database = new Database($aliases);
 		$this->database->set_prefix('assessment_');
 	}
-	
+
     function get_database()
     {
         return $this->database;
@@ -103,40 +103,40 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
 	{
 		return $this->database->get_next_id(AssessmentPublicationCategory :: get_table_name());
 	}
-	
+
 	function create_assessment_publication_category($assessment_category)
 	{
 		return $this->database->create($assessment_category);
 	}
-	
+
 	function update_assessment_publication_category($assessment_category)
 	{
 		$condition = new EqualityCondition(AssessmentPublicationCategory :: PROPERTY_ID, $assessment_category->get_id());
 		return $this->database->update($assessment_category, $condition);
 	}
-	
+
 	function delete_assessment_publication_category($assessment_category)
 	{
 		$condition = new EqualityCondition(AssessmentPublicationCategory :: PROPERTY_ID, $assessment_category->get_id());
 		return $this->database->delete($assessment_category->get_table_name(), $condition);
 	}
-	
+
 	function count_assessment_publication_categories($condition = null)
 	{
 		return $this->database->count_objects(AssessmentPublicationCategory :: get_table_name(), $condition);
 	}
-	
+
 	function retrieve_assessment_publication_category($id)
 	{
 		$condition = new EqualityCondition(AssessmentPublicationCategory :: PROPERTY_ID, $id);
 		return $this->database->retrieve_object(AssessmentPublicationCategory :: get_table_name(), $condition);
 	}
-	
-	function retrieve_assessment_publication_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+
+	function retrieve_assessment_publication_categories($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->database->retrieve_objects(AssessmentPublicationCategory :: get_table_name(), $condition, $offset, $count, $order_property, $order_direction);
+		return $this->database->retrieve_objects(AssessmentPublicationCategory :: get_table_name(), $condition, $offset, $count, $order_property);
 	}
-	
+
 	function select_next_assessment_publication_category_display_order($parent)
 	{
 		$query = 'SELECT MAX(' . AssessmentPublicationCategory :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . $this->database->escape_table_name('assessment_publication_category');
@@ -159,14 +159,14 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
 
         return $record[0] + 1;
 	}
-	
+
 	function retrieve_assessment_publication($id)
 	{
 		$condition = new EqualityCondition(AssessmentPublication :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(AssessmentPublication :: get_table_name(), $condition, array(), array(), AssessmentPublication :: CLASS_NAME);
+		return $this->database->retrieve_object(AssessmentPublication :: get_table_name(), $condition, array(), AssessmentPublication :: CLASS_NAME);
 	}
 
-	function retrieve_assessment_publications($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+	function retrieve_assessment_publications($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
         $rdm = RepositoryDataManager :: get_instance();
         $publication_alias = $this->database->get_alias(AssessmentPublication :: get_table_name());
@@ -178,7 +178,7 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
         $query .= ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->database->escape_column_name(AssessmentPublication :: PROPERTY_CONTENT_OBJECT, $publication_alias) . ' = ' . $rdm->get_database()->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
         $query .= ' LEFT JOIN ' . $this->database->escape_table_name(AssessmentPublicationUser :: get_table_name()) . ' AS ' . $publication_user_alias . ' ON ' . $this->database->escape_column_name(AssessmentPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->database->escape_column_name(AssessmentPublicationUser :: PROPERTY_ASSESSMENT_PUBLICATION, $publication_user_alias);
         $query .= ' LEFT JOIN ' . $this->database->escape_table_name(AssessmentPublicationGroup :: get_table_name()) . ' AS ' . $publication_group_alias . ' ON ' . $this->database->escape_column_name(AssessmentPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->database->escape_column_name(AssessmentPublicationGroup :: PROPERTY_ASSESSMENT_PUBLICATION, $publication_group_alias);
-		
+
 		return $this->database->retrieve_result_set($query, AssessmentPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, AssessmentPublication :: CLASS_NAME);
 	}
 
@@ -212,12 +212,12 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
 	function retrieve_assessment_publication_group($id)
 	{
 		$condition = new EqualityCondition(AssessmentPublicationGroup :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(AssessmentPublicationGroup :: get_table_name(), $condition, array(), array(), AssessmentPublicationGroup :: CLASS_NAME);
+		return $this->database->retrieve_object(AssessmentPublicationGroup :: get_table_name(), $condition, array(), AssessmentPublicationGroup :: CLASS_NAME);
 	}
 
-	function retrieve_assessment_publication_groups($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+	function retrieve_assessment_publication_groups($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->database->retrieve_objects(AssessmentPublicationGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, AssessmentPublicationGroup :: CLASS_NAME);
+		return $this->database->retrieve_objects(AssessmentPublicationGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by, AssessmentPublicationGroup :: CLASS_NAME);
 	}
 
 	function get_next_assessment_publication_user_id()
@@ -250,52 +250,52 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
 	function retrieve_assessment_publication_user($id)
 	{
 		$condition = new EqualityCondition(AssessmentPublicationUser :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(AssessmentPublicationUser :: get_table_name(), $condition, array(), array(), AssessmentPublicationUser :: CLASS_NAME);
+		return $this->database->retrieve_object(AssessmentPublicationUser :: get_table_name(), $condition, array(), AssessmentPublicationUser :: CLASS_NAME);
 	}
 
-	function retrieve_assessment_publication_users($condition = null, $offset = null, $max_objects = null, $order_by = null, $order_dir = null)
+	function retrieve_assessment_publication_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->database->retrieve_objects(AssessmentPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, $order_dir, AssessmentPublicationUser :: CLASS_NAME);
+		return $this->database->retrieve_objects(AssessmentPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, AssessmentPublicationUser :: CLASS_NAME);
 	}
-	
+
 	function get_next_survey_invitation_id()
 	{
 		return $this->database->get_next_id(SurveyInvitation :: get_table_name());
 	}
-	
+
 	function create_survey_invitation($survey_invitation)
 	{
 		return $this->database->create($survey_invitation);
 	}
-	
+
 	function update_survey_invitation($survey_invitation)
 	{
 		$condition = new EqualityCondition(SurveyInvitation :: PROPERTY_ID, $survey_invitation->get_id());
 		return $this->database->update($survey_invitation, $condition);
 	}
-	
+
 	function delete_survey_invitation($survey_invitation)
 	{
 		$condition = new EqualityCondition(SurveyInvitation :: PROPERTY_ID, $survey_invitation->get_id());
 		return $this->database->delete($survey_invitation->get_table_name(), $condition);
 	}
-	
+
 	function count_survey_invitations($condition = null)
 	{
 		return $this->database->count_objects(SurveyInvitation :: get_table_name(), $condition);
 	}
-	
+
 	function retrieve_survey_invitation($id)
 	{
 		$condition = new EqualityCondition(SurveyInvitation :: PROPERTY_ID, $id);
 		return $this->database->retrieve_object(SurveyInvitation :: get_table_name(), $condition);
 	}
-	
-	function retrieve_survey_invitations($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+
+	function retrieve_survey_invitations($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->database->retrieve_objects(SurveyInvitation :: get_table_name(), $condition, $offset, $count, $order_property, $order_direction);
+		return $this->database->retrieve_objects(SurveyInvitation :: get_table_name(), $condition, $offset, $count, $order_property);
 	}
-	
+
 	function content_object_is_published($object_id)
 	{
 		return $this->any_content_object_is_published(array($object_id));
@@ -307,7 +307,7 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
         return $this->database->count_objects(AssessmentPublication :: get_table_name(), $condition) >= 1;
 	}
 
-	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
 	{
 		if (isset($type))
         {
@@ -405,14 +405,14 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
 	{
 		$condition = new EqualityCondition(AssessmentPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
         $publications = $this->retrieve_assessment_publications($condition);
-        
+
         $succes = true;
-        
+
         while($publication = $publications->next_result())
         {
         	$succes &= $publication->delete();
         }
-        
+
         return $succes;
 	}
 
