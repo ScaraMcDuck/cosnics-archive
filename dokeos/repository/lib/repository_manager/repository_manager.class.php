@@ -112,7 +112,6 @@ class RepositoryManager extends CoreApplication
     const ACTION_VIEW_ATTACHMENT = 'view_attachment';
     const ACTION_BUILD_COMPLEX_CONTENT_OBJECT = 'build_complex';
     const ACTION_VIEW_REPO = 'repo_viewer';
-    const ACTION_REUSE_CONTENT_OBJECT = 'reuse_content_object';
     const ACTION_DOWNLOAD_DOCUMENT = 'document_downloader';
     const ACTION_EXTERNAL_REPOSITORY_BROWSE          = 'ext_rep_browse';
     const ACTION_EXTERNAL_REPOSITORY_EXPORT          = 'ext_rep_export';
@@ -287,9 +286,6 @@ class RepositoryManager extends CoreApplication
                 break;
             case self :: ACTION_BROWSE_SHARED_CONTENT_OBJECTS :
                 $component = RepositoryManagerComponent :: factory('SharedContentObjectsBrowser', $this);
-                break;
-            case self :: ACTION_REUSE_CONTENT_OBJECT :
-                $component = RepositoryManagerComponent :: factory('ReuseContentObject', $this);
                 break;
             case self :: ACTION_EXTERNAL_REPOSITORY_BROWSE :
                 $component = RepositoryManagerComponent :: factory('ExternalRepositoryExportBrowser', $this);
@@ -1243,11 +1239,6 @@ class RepositoryManager extends CoreApplication
  	function get_delete_template_url($template_id)
     {
     	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_TEMPLATE, self :: PARAM_CONTENT_OBJECT_ID => $template_id));
-    }
-
-    function get_reuse_content_object_url($content_object)
-    {
-        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_REUSE_CONTENT_OBJECT, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
     }
 
     /**
