@@ -27,6 +27,8 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
 	private function create_document_archive()
 	{
 		$parent = $this->get_parent();
+		$count = 0;
+		
 		$category_id = $parent->get_parameter(WeblcmsManager :: PARAM_CATEGORY);
 		if(!isset($category_id) || is_null($category_id) || strlen($category_id) == 0)
 		{
@@ -69,6 +71,7 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
 			$condition = new AndCondition($conditions);
 			
 			$publications = $datamanager->retrieve_content_object_publications_new($condition);
+			$count += $publications->size();
 			while($publication = $publications->next_result())
 			{
 				$document = $publication->get_content_object();
@@ -77,6 +80,15 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
 				Filesystem::copy_file($document_path,$archive_file_location);
 			}
 		}
+		
+		if($count == 0)
+		{
+			$this->display_header(new BreadcrumbTrail());
+			$this->get_parent()->display_warning_message(Translation :: get('NoDocumentsPublished'));
+			$this->display_footer();
+			exit;
+		}
+		
 		$compression = FileCompression::factory();
 		$archive_file = $compression->create_archive($target_path);
 		Filesystem::remove($target_path);
@@ -102,7 +114,7 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
 			$course = $parent->get_course_id();
 			$tool = $parent->get_parameter(WeblcmsManager :: PARAM_TOOL);
 
-			$conditions[] = new EqualityCondition('course',$course);
+			$conditions[] = new EqualityCondition('course_id',$course);
 			$conditions[] = new EqualityCondition('tool',$tool);
 			$conditions[] = new EqualityCondition('parent_id',$parent_cat);
 			$condition = new AndCondition($conditions); //dump($condition);
