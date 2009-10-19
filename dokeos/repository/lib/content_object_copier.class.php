@@ -115,6 +115,9 @@ class ContentObjectCopier
    		// Process the physical files
 		$this->copy_files($co, $old_user_id);
    		
+		// Process additional stuff that has not bee processed yet
+		$this->process_extra_parameters($co);
+		
    		return $co->get_id();
 	}
 	
@@ -126,22 +129,27 @@ class ContentObjectCopier
 	 */
 	private function copy_complex_children($old_parent_id, $new_parent_id)
 	{
+		$item_references = array();
+		
 		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $old_parent_id, ComplexContentObjectItem :: get_table_name());
 		$items = $this->rdm->retrieve_complex_content_object_items($condition);
 		while($item = $items->next_result())
 		{
 			$co = $this->rdm->retrieve_content_object($item->get_ref());
 			$co_id = $this->create_content_object($co);
+			$old_id = $item->get_id();
 			
-			$nitem = new ComplexContentObjectItem();
-			$nitem->set_user_id($this->target_repository);
-			$nitem->set_display_order($item->get_display_order());
-			$nitem->set_parent($new_parent_id);
-			$nitem->set_ref($co_id);
-			$nitem->create();
+			$item->set_user_id($this->target_repository);
+			$item->set_parent($new_parent_id);
+			$item->set_ref($co_id);
+			$item->create();
 			
-			$this->copy_complex_children($item->get_ref(), $co_id);
-			
+			$item_references[$old_id] = $item;
+		}
+		
+		foreach($item_references as $item)
+		{
+			$this->process_extra_parameters_wrapper($item, $item_references);
 		}
 	}
 	
@@ -257,6 +265,95 @@ class ContentObjectCopier
 		
 		$co->set_path($new_folder);
 		$co->update();
+	}
+	
+	/**
+	 * Process extra parameters (references from learning path item or portfolio item)
+	 *
+	 * @param ContentObject $co
+	 */
+	private function process_extra_parameters($co)
+	{
+		$type = $co->get_type();
+		switch($type)
+		{
+			case 'learning_path_item': 
+				$this->fix_references($co);
+				return;
+			case 'portfolio_item': 
+				return $this->fix_references($co);
+			default:
+				return;
+		}
+	}
+	
+	/**
+	 * Fix references from learning path item or portfolio item
+	 *
+	 * @param ContentObject $co
+	 */
+	private function fix_references($co)
+	{
+		$reference = $co->get_reference();
+		$lo = $this->rdm->retrieve_content_object($reference);
+		$newid = $this->create_content_object($lo);
+		
+		$co->set_reference($newid);
+		$co->update();
+	}
+	
+	/**
+	 * Process extra parameters for the wrapper of a content object (prerequisites)
+	 *
+	 * @param ComplexContentObjectItem $wrapper
+	 */
+	private function process_extra_parameters_wrapper($wrapper, $item_references)
+	{
+		$co = $this->rdm->retrieve_content_object($wrapper->get_ref());
+		switch($co->get_type())
+		{
+			case 'learning_path_item': 
+				$co = $this->rdm->retrieve_content_object($co->get_reference());
+				if($co->get_type() != 'scorm_item')
+				{
+					return $this->fix_prerequisites($wrapper, $item_references);
+				}
+			default:
+				return;
+		}
+	}
+	
+	/**
+	 * Fix the prerequisites of the complex learning path item
+	 *
+	 * @param ComplexLearningPathItem $wrapper
+	 */
+	private function fix_prerequisites($wrapper, $item_references)
+	{
+		$this->item_references = $item_references;
+		$prerequisites = $wrapper->get_prerequisites();
+		$pattern = '/[^()&|~]+/';
+		$prerequisites = preg_replace_callback($pattern, array($this, 'handle_matches'), $prerequisites);
+		$wrapper->set_prerequisites($prerequisites);
+		$wrapper->update();
+	}
+	
+	/**
+	 * Pushed item references to global variable because it's not possible to hand over to callback function
+	 *
+	 * @var ComplexContentObjectItem[]
+	 */
+	private $item_references;
+	
+	/**
+	 * Handle the matches for the prerequisites preg replace function
+	 *
+	 * @param String[] $matches
+	 * @return Id of the new prerequisite
+	 */
+	private function handle_matches($matches)
+	{ 
+		return $this->item_references[$matches[0]]->get_id();
 	}
 }
 
