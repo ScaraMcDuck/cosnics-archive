@@ -6,9 +6,9 @@
 require_once dirname(__FILE__) . '/../../content_object.class.php';
 /**
  * This class represents a topic in a discussion forum.
- */
+ */ 
 class ForumTopic extends ContentObject
-{
+{ 
 	const PROPERTY_LOCKED = 'locked';
 	const PROPERTY_TOTAL_POSTS = 'total_posts';
 	const PROPERTY_LAST_POST = 'last_post_id';
@@ -17,9 +17,7 @@ class ForumTopic extends ContentObject
 	{
 		$succes = parent :: create();
 		$children = RepositoryDataManager :: get_instance()->count_complex_content_object_items(new EqualityCondition('parent_id', $this->get_id()));
-		//Get the forum id
-		$forum = Request :: get('forum');
-		
+
 		if($children == 0)
 		{
 			$content_object = new AbstractContentObject('forum_post', $this->get_owner_id());
@@ -44,17 +42,6 @@ class ForumTopic extends ContentObject
 			$cloi->create();
 		}
 
-		//Allow to publish the forum topic into current forum
-		if (isset($forum) && $forum == strval(intval($forum))) 
-		{
-		    $cloi = ComplexContentObjectItem :: factory('forum_topic');
-		    $cloi->set_parent($forum);
-		    $cloi->set_ref($this->get_id());
-		    $cloi->set_user_id($this->get_owner_id());
-		    $cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($forum));
-		    $cloi->create();
-		}
-	
 		return $succes;
 	}
 
