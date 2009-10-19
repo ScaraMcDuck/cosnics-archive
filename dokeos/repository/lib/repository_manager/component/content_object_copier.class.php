@@ -7,6 +7,7 @@
  */
 require_once dirname(__FILE__).'/../repository_manager.class.php';
 require_once dirname(__FILE__).'/../repository_manager_component.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_copier.class.php';
 
 class RepositoryManagerContentObjectCopierComponent extends RepositoryManagerComponent
 {
@@ -17,6 +18,8 @@ class RepositoryManagerContentObjectCopierComponent extends RepositoryManagerCom
     {
     	$lo_ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
     	$target_user = Request :: get(RepositoryManager :: PARAM_TARGET_USER);
+    	
+    	$content_object_copier = new ContentObjectCopier();
     	
     	if(!is_array($lo_ids))
     	{
@@ -35,17 +38,7 @@ class RepositoryManagerContentObjectCopierComponent extends RepositoryManagerCom
     	foreach($lo_ids as $lo_id)
     	{
     		$lo = $this->retrieve_content_object($lo_id);
-    		$lo->set_owner_id($target_user);
-    		$lo->set_parent_id(0);
-    		if(!$lo->create())
-    		{
-    			$failed++;
-    		}
-    		
-    		if($lo->is_complex_content_object())
-    		{
-    			$this->copy_complex_children($lo_id, $lo->get_id(), $target_user);
-    		}
+    		$content_object_copier->copy_content_object($lo);
     	}
     	
     	if(count($lo_ids) > 0)
@@ -66,32 +59,9 @@ class RepositoryManagerContentObjectCopierComponent extends RepositoryManagerCom
     	}
     	
     	$this->redirect($message, ($failed > 0), array(RepositoryManager :: PARAM_ACTION => null));
-    	
+
     	
     }
-    
-	function copy_complex_children($old_parent_id, $new_parent_id, $target_user)
-	{
-		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $old_parent_id, ComplexContentObjectItem :: get_table_name());
-		$items = $this->retrieve_complex_content_object_items($condition);
-		while($item = $items->next_result())
-		{
-			$lo = $this->retrieve_content_object($item->get_ref());
-			$lo->set_owner_id($target_user);
-			$lo->set_parent_id(0);
-			$lo->create();
-			
-			$nitem = new ComplexContentObjectItem();
-			$nitem->set_user_id($item->get_user_id());
-			$nitem->set_display_order($item->get_display_order());
-			$nitem->set_parent($new_parent_id);
-			$nitem->set_ref($lo->get_id());
-			$nitem->create();
-			
-			$this->copy_complex_children($item->get_ref(), $lo->get_id(), $target_user);
-			
-		}
-	}
 
 }
 ?>
