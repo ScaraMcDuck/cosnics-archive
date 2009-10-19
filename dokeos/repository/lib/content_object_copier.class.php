@@ -80,6 +80,7 @@ class ContentObjectCopier
 	private function create_content_object($co)
 	{
 		$old_co_id = $co->get_id();
+		$old_user_id = $co->get_owner_id();
 
 		if(array_key_exists($old_co_id, $this->created_content_objects))
 			return $this->created_content_objects[$old_co_id]->get_id();
@@ -110,6 +111,9 @@ class ContentObjectCopier
    		// Process the included items and the attachments
    		$this->copy_includes($co, $includes);
    		$this->copy_attachments($co, $attachments);
+   		
+   		// Process the physical files
+		$this->copy_files($co, $old_user_id);
    		
    		return $co->get_id();
 	}
@@ -169,6 +173,90 @@ class ContentObjectCopier
 			$new_attachment_id = $this->create_content_object($attachment);
 			$co->attach_content_object($new_attachment_id);
 		}
+	}
+	
+	/**
+	 * Copy the physical files
+	 * @param ContentObject $co;
+	 */
+	private function copy_files($co, $old_user_id)
+	{
+		$type = $co->get_type();
+		switch($type)
+		{
+			case 'document': 
+				return $this->copy_document_files($co);
+			case 'hotpotatoes': 
+				return $this->copy_hotpotatoes_files($co, $old_user_id);
+			case 'learning_path':
+				if($co->get_version() == 'SCORM1.2' || $co->get_version() == 'SCORM2004')
+				{
+					return $this->copy_scorm_files($co, $old_user_id);
+				}
+			default:
+				return;
+		}
+	}
+	
+	/**
+	 * Copy the files from the content object type document
+	 *
+	 * @param Document $co
+	 */
+	private function copy_document_files($co)
+	{
+		$base_path = Path :: get(SYS_REPO_PATH);
+		$new_path = $this->target_repository . '/' . Text :: char_at($co->get_hash(), 0);
+		$new_full_path = $base_path . $new_path;
+		Filesystem :: create_dir($new_full_path);
+		
+		$new_hash = Filesystem :: create_unique_name($new_full_path, $co->get_hash()); 
+		$new_full_path .= '/' . $new_hash;
+		
+		Filesystem :: copy_file($co->get_full_path(), $new_full_path);
+		
+		$co->set_hash($new_hash);
+		$co->set_path($new_path . '/' . $new_hash);
+		$co->update();
+	}
+	
+	/**
+	 * Copy the files from the content object type hotpotatoes
+	 *
+	 * @param Hotpotatoes $co
+	 */
+	private function copy_hotpotatoes_files($co, $old_user_id)
+	{
+		$filename = basename($co->get_path());
+		$base_path = Path :: get(SYS_HOTPOTATOES_PATH) . $this->target_repository . '/';
+		
+		$new_path = Filesystem :: create_unique_name($base_path, dirname($co->get_path()));
+		$new_full_path = $base_path . $new_path;
+		Filesystem :: create_dir($new_full_path);
+
+		Filesystem :: recurse_copy(Path :: get(SYS_HOTPOTATOES_PATH) . $old_user_id . '/' . dirname($co->get_path()), $new_full_path, false);
+		
+		$co->set_path($new_path . '/' . $filename);
+		$co->update();
+	}
+	
+	/**
+	 * Copy the files from the content object type learning path
+	 *
+	 * @param LearningPath $co
+	 */
+	private function copy_scorm_files($co, $old_user_id)
+	{
+		$base_path = Path :: get(SYS_SCORM_PATH) . $this->target_repository . '/';
+		
+		$new_folder = Filesystem :: create_unique_name($base_path, $co->get_path());
+		$new_full_path = $base_path . $new_folder;
+		Filesystem :: create_dir($new_full_path);
+
+		Filesystem :: recurse_copy(Path :: get(SYS_SCORM_PATH) . $old_user_id . '/' . $co->get_path(), $new_full_path, false);
+		
+		$co->set_path($new_folder);
+		$co->update();
 	}
 }
 
