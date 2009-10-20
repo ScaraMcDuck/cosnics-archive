@@ -10,7 +10,7 @@ class IncludeImageParser extends ContentObjectIncludeParser
 		$values = $form->exportValues();
 		$content_object = $form->get_content_object();
 					
-		$base_path = Path :: get(REL_REPO_PATH);
+		$base_path = Path :: get(WEB_REPO_PATH);
 		$html_editors = $form->get_html_editors();
 		
 		foreach($html_editors as $html_editor)
