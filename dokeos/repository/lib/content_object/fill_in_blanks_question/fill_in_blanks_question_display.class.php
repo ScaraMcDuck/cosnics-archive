@@ -42,7 +42,8 @@ class FillInBlanksQuestionDisplay extends ContentObjectDisplay
         {
 	        foreach($answers as $answer)
 	        {
-	            $replacement = str_repeat('_', strlen($answer->get_value()));
+	            $repeat = $answer->get_size() == 0 ? strlen($answer->get_value()) : $answer->get_size();
+	        	$replacement = str_repeat('_', $repeat);
 	            $answer_text = substr_replace($answer_text, $replacement, strpos($answer_text, $answer->get_value(), $answer->get_position()), strlen($answer->get_value()));
 	        }	
         }
