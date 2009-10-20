@@ -45,8 +45,8 @@ class AdminManagerSystemAnnouncementEditorComponent extends AdminManagerComponen
                 $form->update_content_object();
                 if ($form->is_version())
                 {
-                    $publication->set_content_object($content_object->get_latest_version());
-                    $publication->update();
+                    $system_announcement_publication->set_content_object_id($content_object->get_latest_version_id());
+                    $system_announcement_publication->update();
                 }
                 
                 $publication_form = new SystemAnnouncementPublicationForm(SystemAnnouncementPublicationForm :: TYPE_SINGLE, $system_announcement_publication->get_publication_object(), $this->get_user(), $this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_EDIT_SYSTEM_ANNOUNCEMENT, AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $system_announcement_publication->get_id(), 'validated' => '1')));
