@@ -1076,6 +1076,15 @@ class ContentObject extends DataClass implements AccessibleContentObject
 	{
 		return false;
 	}
+	
+	function get_html_editors()
+	{
+		/*require_once dirname(__FILE__) . '/content_object_form.class.php';
+		$form = ContentObjectForm :: factory($this->get_type(), $this, $this->get_type());
+		return $form->get_html_editors();*/
+		
+		return array(self :: PROPERTY_DESCRIPTION);
+	}
 
 	static function get_table_name()
 	{

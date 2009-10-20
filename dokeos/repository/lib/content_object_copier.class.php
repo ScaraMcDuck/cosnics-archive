@@ -44,6 +44,13 @@ class ContentObjectCopier
 	private $created_content_objects;
 	
 	/**
+	 * Array of file references, we need the paths for processing the fixed links in (f)ckeditor fields
+	 *
+	 * @var String[]
+	 */
+	private $file_references;
+	
+	/**
 	 * Constructor 
 	 * Initialize the repository data manager
 	 * Set the target repository
@@ -67,7 +74,7 @@ class ContentObjectCopier
 		$this->failed = 0;
 		
 		$this->create_content_object($co);
-   		exit();
+   
    		return $this->failed;
 	}
 	
@@ -223,9 +230,13 @@ class ContentObjectCopier
 		
 		Filesystem :: copy_file($co->get_full_path(), $new_full_path);
 		
+		$old_url = $co->get_url();
+		
 		$co->set_hash($new_hash);
 		$co->set_path($new_path . '/' . $new_hash);
 		$co->update();
+		
+		$this->file_references[$old_url] = $co->get_url();
 	}
 	
 	/**
@@ -275,6 +286,9 @@ class ContentObjectCopier
 	private function process_extra_parameters($co)
 	{
 		$type = $co->get_type();
+		
+		$this->fix_links($co);
+		
 		switch($type)
 		{
 			case 'learning_path_item': 
@@ -285,6 +299,34 @@ class ContentObjectCopier
 			default:
 				return;
 		}
+	}
+	
+	/**
+	 * Method to fix the embedded links in fckeditor fields
+	 *
+	 * @param ContentObject $co
+	 */
+	private function fix_links($co)
+	{
+		if(count($co->get_included_content_objects()) == 0) 
+			return;
+		
+		$fields = $co->get_html_editors();
+			
+		$pattern = '/http:\/\/.*\/files\/repository\/[1-9]*\/[^\"]*/';
+		foreach($fields as $field)
+		{
+			$value = $co->get_default_property($field);
+			$value = preg_replace_callback($pattern, array($this, 'fix_link_matches'), $value);
+			$co->set_default_property($field, $value);
+		}
+		
+		$co->update();
+	}
+	
+	private function fix_link_matches($matches)
+	{
+		return $this->file_references[$matches[0]];
 	}
 	
 	/**
