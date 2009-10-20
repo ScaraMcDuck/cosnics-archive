@@ -346,6 +346,10 @@ class DlofImport extends ContentObjectImport
 			// Includes
 			$includes = $content_object->getElementsByTagName('includes')->item(0);
 			$children = $includes->childNodes;
+			
+			if($children->length > 0)
+				$this->fix_links($lo);
+				
 			for($i = 0; $i < $children->length; $i++)
 			{
 				$include = $children->item($i);
@@ -357,6 +361,39 @@ class DlofImport extends ContentObjectImport
 			}
 		}
 	}
+	
+	/**
+	 * Method to fix the embedded links in html editor fields
+	 *
+	 * @param ContentObject $co
+	 */
+	private function fix_links($co)
+	{
+		$fields = $co->get_html_editors();
+			
+		$pattern = '/http:\/\/.*\/files\/repository\/[1-9]*\/[^\"]*/';
+		foreach($fields as $field)
+		{
+			$value = $co->get_default_property($field);
+			$value = preg_replace_callback($pattern, array($this, 'fix_link_matches'), $value);
+			$co->set_default_property($field, $value);
+		}
+		
+		$co->update();
+	}
+	
+	private function fix_link_matches($matches)
+	{
+		$base_path = Path :: get(WEB_REPO_PATH);
+		
+		foreach($this->files as $hash => $file)
+		{
+			if(strpos($matches[0], $hash) !== false)
+			{
+				return $base_path . $file['path'];
+			}
+		}
+	} 
 	
 	function create_complex_wrappers()
 	{
