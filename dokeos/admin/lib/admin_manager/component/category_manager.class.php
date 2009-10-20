@@ -18,7 +18,7 @@ class AdminManagerCategoryManagerComponent extends AdminManagerComponent
     function run()
     {
         $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb('index_admin.php', Translation :: get('Administration')));
+        $trail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_ACTION => null)), Translation :: get('Administration')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ManageCategories')));
         $category_manager = new AdminCategoryManager($this, $trail);
         $category_manager->run();
