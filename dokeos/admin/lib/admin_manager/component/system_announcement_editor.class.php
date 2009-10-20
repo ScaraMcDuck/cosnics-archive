@@ -15,8 +15,12 @@ class AdminManagerSystemAnnouncementEditorComponent extends AdminManagerComponen
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('EditSystemAnnouncementPublication')));
+        $id = Request :: get(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID);
+    	$trail = new BreadcrumbTrail();
+         
+        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
+        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)), Translation :: get('SystemAnnouncements')));
+        $trail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $id)), Translation :: get('EditSystemAnnouncementPublication')));
         $trail->add_help('administration system announcements');
         
         $user = $this->get_user();
@@ -27,7 +31,7 @@ class AdminManagerSystemAnnouncementEditorComponent extends AdminManagerComponen
             exit();
         }
         
-        $id = Request :: get(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID);
+        
         
         if ($id)
         {
