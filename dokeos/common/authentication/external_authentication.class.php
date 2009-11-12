@@ -443,21 +443,39 @@ abstract class ExternalAuthentication extends Authentication
      * @param User $user
      * @param bool $redirect_to_homepage Indicates if the user must be redirected to the homepage
      */
-    protected function login($user, $redirect_to_homepage = true)
+    protected function login($user, $redirect = true)
     {
         if (is_a($user, self :: USER_OBJECT_CLASSNAME))
         {
             Session :: register('_uid', $user->get_id());
             
-            if ($redirect_to_homepage)
+            if ($redirect)
             {
-                $this->redirect_to_home_page();
+                $this->redirected_logged_user();
             }
         }
     }
 
-    /*
+    /**
+     * Redirect to the last requested page if it exists, or to the application homepage
+     * @return void
+     */
+    protected function redirected_logged_user()
+    {
+        if(isset($_SESSION['request_uri']) && strlen($_SESSION['request_uri']) > 0)
+        {
+            header('Location: ' . $_SESSION['request_uri']);
+            exit();
+        }
+        else
+        {
+            $this->redirect_to_home_page();
+        }
+    }
+    
+    /**
      * Redirects to the Dokeos homepage 
+     * @return void
      */
     protected function redirect_to_home_page()
     {
